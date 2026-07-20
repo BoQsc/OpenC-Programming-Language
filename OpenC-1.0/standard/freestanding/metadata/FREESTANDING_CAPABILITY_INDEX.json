@@ -1,0 +1,12 @@
+{
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "optional": [
+    "diagnostic_bytes",
+    "dynamic_allocation",
+    "target_exit"
+  ],
+  "required": [
+    "openc.core"
+  ],
+  "schema": "openc.freestanding.capability_index.v1"
+}

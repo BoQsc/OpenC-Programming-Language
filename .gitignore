@@ -1,0 +1,20 @@
+# Original handoff archive; the extracted source tree is canonical here.
+/OpenC_1.0_Source_Final.zip
+
+# Local verification evidence and generated fixture driver.
+/OpenC-1.0/build-output/
+/OpenC-1.0/build/fixture_main.d
+/OpenC-1.0/programs/*/build/
+
+# DUB state and compiler/linker products.
+**/.dub/
+*.exe
+*.pdb
+*.lib
+*.obj
+*.dll
+*.exp
+
+# Python caches.
+**/__pycache__/
+*.py[cod]

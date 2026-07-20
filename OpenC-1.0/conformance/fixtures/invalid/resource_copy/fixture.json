@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-RESOURCE-NOCOPY-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-RESOURCE-NOCOPY-001"
+    },
+    "fixture_kind": "source",
+    "name": "resource_copy",
+    "profile": "standard",
+    "rules": [
+      "OPENC-RESOURCE-NOCOPY-001"
+    ]
+  },
+  "id": "invalid/resource_copy",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/resource_copy",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/resource_copy/main"
+  ]
+}

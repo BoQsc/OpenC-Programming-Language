@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-BORROW-NOMOVE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-BORROW-NOMOVE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "borrow_prevents_move",
+    "profile": "standard",
+    "rules": [
+      "OPENC-BORROW-NOMOVE-001"
+    ]
+  },
+  "id": "invalid/borrow_prevents_move",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/borrow_prevents_move",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/borrow_prevents_move/main"
+  ]
+}

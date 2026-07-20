@@ -1,0 +1,12 @@
+{
+  "schema": "openc.target.v1",
+  "name": "freestanding-x86_64",
+  "os": "freestanding",
+  "arch": "x86_64",
+  "pointer_width": 64,
+  "endian": "little",
+  "abi": "target",
+  "hosted": false,
+  "runtime_provider": "runtime/freestanding",
+  "evidence_state": "AUTHORED_TARGET_INTEGRATION_PENDING"
+}

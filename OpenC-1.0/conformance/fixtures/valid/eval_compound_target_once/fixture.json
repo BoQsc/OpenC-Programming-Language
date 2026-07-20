@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-EVAL-COMPOUND-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "eval_compound_target_once",
+    "profile": "standard",
+    "rules": [
+      "OPENC-EVAL-COMPOUND-001"
+    ]
+  },
+  "id": "valid/eval_compound_target_once",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/eval_compound_target_once",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/eval_compound_target_once/main"
+  ]
+}

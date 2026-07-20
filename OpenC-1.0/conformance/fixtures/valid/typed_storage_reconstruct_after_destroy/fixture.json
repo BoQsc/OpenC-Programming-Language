@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-DESTROY-001",
+    "OPENC-STORAGE-RECONSTRUCT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "typed_storage_reconstruct_after_destroy",
+    "profile": "standard",
+    "rules": [
+      "OPENC-STORAGE-RECONSTRUCT-001",
+      "OPENC-DESTROY-001"
+    ]
+  },
+  "id": "valid/typed_storage_reconstruct_after_destroy",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/typed_storage_reconstruct_after_destroy",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/typed_storage_reconstruct_after_destroy/main"
+  ]
+}

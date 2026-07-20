@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-CLEANUP-RETURN-001",
+    "OPENC-CLEANUP-STRUCTURED-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "cleanup_on_return",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CLEANUP-RETURN-001",
+      "OPENC-CLEANUP-STRUCTURED-001"
+    ]
+  },
+  "id": "runtime/cleanup_on_return",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/cleanup_on_return",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/cleanup_on_return/main"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-STRUCT-INIT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-STRUCT-INIT-001"
+    },
+    "fixture_kind": "source",
+    "name": "positional_struct",
+    "profile": "standard",
+    "rules": [
+      "OPENC-STRUCT-INIT-001"
+    ]
+  },
+  "id": "invalid/positional_struct",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/positional_struct",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/positional_struct/main"
+  ]
+}

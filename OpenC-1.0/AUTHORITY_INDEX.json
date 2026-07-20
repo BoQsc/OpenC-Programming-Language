@@ -1,0 +1,72 @@
+{
+  "authoritative": [
+    {
+      "bytes": 175400,
+      "path": "standard/core/OpenC_Core_Current.md",
+      "sha256": "8854f790b9168f530a14f83cbe3f21bee0cf99ba72b7bf46d9a2f2ed97be398b"
+    },
+    {
+      "bytes": 14814,
+      "path": "standard/core/grammar/OpenC_Core_Grammar.ebnf",
+      "sha256": "58a475bcb1006565488955064ab99c593dc20468fb3fdf0f07d1121ca3830dfc"
+    },
+    {
+      "bytes": 158006,
+      "path": "standard/core/metadata/OpenC_Core_Rule_Index.json",
+      "sha256": "80b3b31523121f0d806dc1f49832238cff42bc2da3baba5aec14949713a3455e"
+    },
+    {
+      "bytes": 107439,
+      "path": "standard/core/metadata/OpenC_Core_Diagnostic_Catalog.json",
+      "sha256": "d7423ab263d96d8b1ad8d5637e1db829c2c656a40c4e7d35775d1ce9ec082439"
+    },
+    {
+      "bytes": 5863,
+      "path": "standard/core/metadata/OpenC_Core_Term_Index.json",
+      "sha256": "dbf61a93b260ce1516dabd2923a4bf179177b1375f0f12844f5298a08a3d2209"
+    },
+    {
+      "bytes": 3699,
+      "path": "standard/core/security/OpenC_Core_Security_Model.md",
+      "sha256": "210724c7c1023470deed9d8f99cb7ba6493b281093549754d52b581a8e4aff83"
+    },
+    {
+      "bytes": 6233,
+      "path": "standard/hosted/OpenC_Hosted_Current.md",
+      "sha256": "fad07b876b0cafa99e7c76e4a934f01b88fb11a23db179ecbd3e08a028a35869"
+    },
+    {
+      "bytes": 3226,
+      "path": "standard/freestanding/OpenC_Freestanding_Current.md",
+      "sha256": "b19a5ca0174f87267a2869b028a3b945d5a14056bd0f2382810938840b43db39"
+    },
+    {
+      "bytes": 3665,
+      "path": "standard/native/OpenC_Native_Current.md",
+      "sha256": "141617231dfeba230b4a0f33468cdc6d6be63dc59f39e18e7e302ad66a46005d"
+    },
+    {
+      "bytes": 3283,
+      "path": "standard/tooling/OpenC_Tooling_Current.md",
+      "sha256": "bead3df609c4422fee6ee177bd4da6ef2315f6c5482153b7d805ba6130fd7be9"
+    }
+  ],
+  "evidence_state": "AUTHORED_LOCALLY_BUILT_TESTED_NONCONFORMING",
+  "implementation_authority": {
+    "canonical": "compiler/source",
+    "informative_bootstrap": "compiler/bootstrap/python"
+  },
+  "implementation_guidance": [
+    "compiler/design",
+    "tools/specs",
+    "schemas"
+  ],
+  "non_authoritative": [
+    "proposals",
+    "changes",
+    "history",
+    "examples"
+  ],
+  "schema": "openc.authority_index.v2",
+  "version": "1.0-dev.3-verification"
+}

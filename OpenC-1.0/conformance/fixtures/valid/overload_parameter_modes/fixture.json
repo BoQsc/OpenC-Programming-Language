@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-OVERLOAD-MODE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "overload_parameter_modes",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OVERLOAD-MODE-001"
+    ]
+  },
+  "id": "valid/overload_parameter_modes",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/overload_parameter_modes",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/overload_parameter_modes/main"
+  ]
+}

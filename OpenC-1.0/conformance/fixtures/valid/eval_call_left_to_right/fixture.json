@@ -1,0 +1,34 @@
+{
+  "active_rules": [
+    "OPENC-EVAL-CALL-001",
+    "OPENC-EXPR-ORDER-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept",
+      "stdout": [
+        "first",
+        "second"
+      ]
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "eval_call_left_to_right",
+    "profile": "standard",
+    "rules": [
+      "OPENC-EVAL-CALL-001",
+      "OPENC-EXPR-ORDER-001"
+    ]
+  },
+  "id": "valid/eval_call_left_to_right",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/eval_call_left_to_right",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/eval_call_left_to_right/main"
+  ]
+}

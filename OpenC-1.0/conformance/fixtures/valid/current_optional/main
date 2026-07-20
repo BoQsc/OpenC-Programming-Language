@@ -1,0 +1,2 @@
+optional i32 value = none;
+i32 main() { return value.present ? 1 : 0; }

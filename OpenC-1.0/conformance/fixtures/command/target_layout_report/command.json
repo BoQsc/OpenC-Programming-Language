@@ -1,0 +1,14 @@
+{
+  "invocations": [
+    [
+      "openc",
+      "info",
+      "--layout=Point"
+    ]
+  ],
+  "required": [
+    "array_stride",
+    "struct_offsets",
+    "padding"
+  ]
+}

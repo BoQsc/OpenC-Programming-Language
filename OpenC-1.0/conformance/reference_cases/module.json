@@ -1,0 +1,59 @@
+{
+  "cases": [
+    {
+      "edges": [
+        [
+          "app",
+          "math"
+        ],
+        [
+          "app",
+          "io"
+        ]
+      ],
+      "expected": "accept",
+      "id": "acyclic"
+    },
+    {
+      "edges": [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "b",
+          "a"
+        ]
+      ],
+      "expected": "reject",
+      "id": "cycle"
+    },
+    {
+      "edges": [
+        [
+          "a",
+          "a"
+        ]
+      ],
+      "expected": "reject",
+      "id": "self_cycle"
+    },
+    {
+      "declarations": [
+        "f:i32(i32)",
+        "g:i32()"
+      ],
+      "expected": "accept",
+      "id": "multi_source_unique"
+    },
+    {
+      "declarations": [
+        "f:i32(i32)",
+        "f:i32(i32)"
+      ],
+      "expected": "reject",
+      "id": "multi_source_duplicate"
+    }
+  ],
+  "group": "module"
+}

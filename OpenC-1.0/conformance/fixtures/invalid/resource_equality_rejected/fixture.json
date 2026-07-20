@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-EQUALITY-RESOURCE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-EQUALITY-RESOURCE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "resource_equality_rejected",
+    "profile": "standard",
+    "rules": [
+      "OPENC-EQUALITY-RESOURCE-001"
+    ]
+  },
+  "id": "invalid/resource_equality_rejected",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/resource_equality_rejected",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/resource_equality_rejected/main"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "active_rules": [
+    "OPENC-MODULE-EXPORT-001",
+    "OPENC-MODULE-PRIVATE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-MODULE-PRIVATE-001"
+    },
+    "fixture_kind": "multi-source",
+    "mode": "module",
+    "modules": {
+      "app": [
+        "main"
+      ],
+      "math.basic": [
+        "math"
+      ]
+    },
+    "name": "module_private_access",
+    "profile": "standard",
+    "rules": [
+      "OPENC-MODULE-PRIVATE-001",
+      "OPENC-MODULE-EXPORT-001"
+    ]
+  },
+  "id": "invalid/module_private_access",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/module_private_access",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/module_private_access/sources/main",
+    "conformance/fixtures/invalid/module_private_access/sources/math"
+  ]
+}

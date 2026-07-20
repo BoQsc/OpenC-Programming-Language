@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-OWN-RETURN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "resource_return_transfers",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OWN-RETURN-001"
+    ]
+  },
+  "id": "valid/resource_return_transfers",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/resource_return_transfers",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/resource_return_transfers/main"
+  ]
+}

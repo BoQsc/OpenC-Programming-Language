@@ -1,0 +1,16 @@
+{
+  "invocations": [
+    [
+      "openc",
+      "info",
+      "--target"
+    ]
+  ],
+  "required": [
+    "pointer_bits",
+    "endianness",
+    "alignment",
+    "floating_mode",
+    "unsafe_fault_model"
+  ]
+}

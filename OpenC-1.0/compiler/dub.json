@@ -1,0 +1,39 @@
+{
+  "name": "openc",
+  "description": "OpenC 1.0 reference compiler and Core tools",
+  "copyright": "OpenC contributors",
+  "license": "proprietary-pending-governance",
+  "targetType": "executable",
+  "targetName": "openc",
+  "sourcePaths": [
+    "source",
+    "../tools/source"
+  ],
+  "excludedSourceFiles": [
+    "../tools/source/apps/*.d"
+  ],
+  "dependencies": {
+    "openc-runtime": {
+      "path": "../runtime"
+    },
+    "openc-stdlib": {
+      "path": "../standard_library"
+    }
+  },
+  "configurations": [
+    {
+      "name": "compiler",
+      "targetType": "executable",
+      "targetName": "openc",
+      "mainSourceFile": "source/app/main.d"
+    },
+    {
+      "name": "library",
+      "targetType": "library",
+      "targetName": "openc-compiler",
+      "excludedSourceFiles": [
+        "source/app/main.d"
+      ]
+    }
+  ]
+}

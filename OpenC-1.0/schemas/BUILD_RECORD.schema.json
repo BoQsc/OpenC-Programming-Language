@@ -1,0 +1,79 @@
+{
+  "$id": "openc://schema/build-record/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate": {
+      "type": "string"
+    },
+    "commands": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "context_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "diagnostics": {
+      "items": {
+        "$ref": "DIAGNOSTIC.schema.json"
+      },
+      "type": "array"
+    },
+    "duration_ms": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "finished_utc": {
+      "type": "string"
+    },
+    "implementation": {
+      "type": "object"
+    },
+    "inputs": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "outputs": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "result": {
+      "enum": [
+        "success",
+        "language_failure",
+        "implementation_failure",
+        "infrastructure_failure"
+      ]
+    },
+    "schema": {
+      "const": "openc.build_record.v1"
+    },
+    "started_utc": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "candidate",
+    "implementation",
+    "context_sha256",
+    "target",
+    "commands",
+    "inputs",
+    "outputs",
+    "diagnostics",
+    "result"
+  ],
+  "title": "OpenC build record",
+  "type": "object"
+}

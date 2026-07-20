@@ -1,0 +1,36 @@
+{
+  "active_rules": [
+    "OPENC-NUM-TWOS-001",
+    "OPENC-NUM-UNSIGNED-001",
+    "OPENC-TYPE-WIDTH-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept",
+      "stdout": [
+        "-128",
+        "255"
+      ]
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "fixed_width_values",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TYPE-WIDTH-001",
+      "OPENC-NUM-TWOS-001",
+      "OPENC-NUM-UNSIGNED-001"
+    ]
+  },
+  "id": "runtime/fixed_width_values",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/fixed_width_values",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/fixed_width_values/main"
+  ]
+}

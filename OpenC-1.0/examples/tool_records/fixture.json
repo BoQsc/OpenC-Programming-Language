@@ -1,0 +1,21 @@
+{
+  "candidate": "OpenC Core Candidate 2 — Implementation Readiness Revision 1",
+  "expected": {
+    "outcome": "accepted",
+    "phase": "type"
+  },
+  "id": "syntax/direct_main",
+  "kind": "source-valid",
+  "rules": [
+    "OPENC-FUNCTION-DIRECT-001"
+  ],
+  "schema": "openc.fixture.v1",
+  "sources": [
+    {
+      "content": "i32 main(){return 0;}\n",
+      "encoding": "utf-8",
+      "module": "main",
+      "name": "main"
+    }
+  ]
+}

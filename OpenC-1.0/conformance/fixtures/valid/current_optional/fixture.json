@@ -1,0 +1,15 @@
+{
+  "active_rules": [],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "result": "accept",
+    "rules": []
+  },
+  "id": "valid/current_optional",
+  "kind": "valid",
+  "origin": "OpenC canonical mainline",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/current_optional/main"
+  ]
+}

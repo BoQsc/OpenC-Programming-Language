@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-NAME-UNKNOWN-001",
+    "OPENC-SCOPE-LOCAL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-SCOPE-LOCAL-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "block_local_escape",
+    "profile": "standard",
+    "rules": [
+      "OPENC-SCOPE-LOCAL-001",
+      "OPENC-NAME-UNKNOWN-001"
+    ]
+  },
+  "id": "invalid/block_local_escape",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/block_local_escape",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/block_local_escape/main"
+  ]
+}

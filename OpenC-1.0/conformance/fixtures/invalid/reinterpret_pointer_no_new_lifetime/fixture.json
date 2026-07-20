@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-REINTERPRET-NOLIFETIME-001",
+    "OPENC-REINTERPRET-PTR-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "target_fault",
+      "rule": "OPENC-REINTERPRET-NOLIFETIME-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "reinterpret_pointer_no_new_lifetime",
+    "profile": "standard",
+    "rules": [
+      "OPENC-REINTERPRET-PTR-001",
+      "OPENC-REINTERPRET-NOLIFETIME-001"
+    ]
+  },
+  "id": "invalid/reinterpret_pointer_no_new_lifetime",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/reinterpret_pointer_no_new_lifetime",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/reinterpret_pointer_no_new_lifetime/main"
+  ]
+}

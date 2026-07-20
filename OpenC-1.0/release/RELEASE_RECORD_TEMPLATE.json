@@ -1,0 +1,56 @@
+{
+  "artifacts": [],
+  "authority": [],
+  "authorization": {
+    "authorized_by": null,
+    "status": "PENDING_HD_012"
+  },
+  "checksums": [],
+  "component": "Core",
+  "gates": [
+    {
+      "id": "G1",
+      "status": "PENDING"
+    },
+    {
+      "id": "G2",
+      "status": "PENDING"
+    },
+    {
+      "id": "G3",
+      "status": "PENDING"
+    },
+    {
+      "id": "G4",
+      "status": "PENDING"
+    },
+    {
+      "id": "G5",
+      "status": "PENDING"
+    },
+    {
+      "id": "G6",
+      "status": "PENDING"
+    },
+    {
+      "id": "G7",
+      "status": "PENDING"
+    },
+    {
+      "id": "G8",
+      "status": "PENDING"
+    },
+    {
+      "id": "G9",
+      "status": "PENDING"
+    },
+    {
+      "id": "G10",
+      "status": "PENDING"
+    }
+  ],
+  "published_utc": null,
+  "schema": "openc.release_record.v1",
+  "signatures": [],
+  "version": "1.0.0"
+}

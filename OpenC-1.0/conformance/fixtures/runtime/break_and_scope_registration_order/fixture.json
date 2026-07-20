@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-EVAL-BREAK-001",
+    "OPENC-EVAL-SCOPE-REGISTER-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "break_and_scope_registration_order",
+    "profile": "standard",
+    "rules": [
+      "OPENC-EVAL-BREAK-001",
+      "OPENC-EVAL-SCOPE-REGISTER-001"
+    ]
+  },
+  "id": "runtime/break_and_scope_registration_order",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/break_and_scope_registration_order",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/break_and_scope_registration_order/main"
+  ]
+}

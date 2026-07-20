@@ -1,0 +1,3754 @@
+{
+  "phases": [
+    "source",
+    "lexical",
+    "syntax",
+    "declaration",
+    "name",
+    "type",
+    "constant",
+    "flow",
+    "ownership",
+    "borrow",
+    "unsafe",
+    "target",
+    "runtime"
+  ],
+  "rules": [
+    {
+      "category": "safety.noub.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SAFETY-NOUB-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "safety.unsafe.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SAFETY-UNSAFE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "term.checkfail.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TERM-CHECKFAIL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "safety.outcome.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SAFETY-OUTCOME-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "safety.optimize.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SAFETY-OPTIMIZE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "safety.implimit.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SAFETY-IMPLIMIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "source.utf8.001",
+      "default_severity": "error",
+      "phase": "source",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SOURCE-UTF8-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "source.invalid.001",
+      "default_severity": "error",
+      "phase": "source",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SOURCE-INVALID-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "source.bom.001",
+      "default_severity": "error",
+      "phase": "source",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SOURCE-BOM-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "lex.comment.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LEX-COMMENT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "translate.nopreprocessor.001",
+      "default_severity": "error",
+      "phase": "source",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TRANSLATE-NOPREPROCESSOR-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "translate.noinclude.001",
+      "default_severity": "error",
+      "phase": "source",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TRANSLATE-NOINCLUDE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "when.context.001",
+      "default_severity": "error",
+      "phase": "source",
+      "primary_identity_stable": true,
+      "rule": "OPENC-WHEN-CONTEXT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "when.expr.001",
+      "default_severity": "error",
+      "phase": "source",
+      "primary_identity_stable": true,
+      "rule": "OPENC-WHEN-EXPR-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "when.structured.001",
+      "default_severity": "error",
+      "phase": "source",
+      "primary_identity_stable": true,
+      "rule": "OPENC-WHEN-STRUCTURED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "lex.ident.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LEX-IDENT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "lex.typeword.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LEX-TYPEWORD-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "lex.typequalifier.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LEX-TYPEQUALIFIER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "lex.maximal.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LEX-MAXIMAL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "lex.wordclass.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LEX-WORDCLASS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "literal.integer.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LITERAL-INTEGER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "literal.range.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LITERAL-RANGE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "literal.text.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LITERAL-TEXT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "literal.separator.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LITERAL-SEPARATOR-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "literal.floatdefault.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LITERAL-FLOATDEFAULT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "literal.nosuffix.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LITERAL-NOSUFFIX-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "literal.unicode.001",
+      "default_severity": "error",
+      "phase": "lexical",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LITERAL-UNICODE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.identity.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-IDENTITY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.import.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-IMPORT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.short.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-SHORT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.ambiguous.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-AMBIGUOUS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.private.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-PRIVATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.export.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-EXPORT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.cycle.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-CYCLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.multisource.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-MULTISOURCE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.duplicate.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-DUPLICATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.importlocal.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-IMPORTLOCAL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.fullimport.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-FULLIMPORT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.importidempotent.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-IMPORTIDEMPOTENT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.order.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-ORDER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.noreexport.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-NOREEXPORT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.mapping.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-MAPPING-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.constcycle.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-CONSTCYCLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "module.api.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MODULE-API-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.width.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-WIDTH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.machine.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-MACHINE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.historical.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-HISTORICAL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.voidobject.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-VOIDOBJECT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.bool.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-BOOL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.byte.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-BYTE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.float.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-FLOAT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.float.fixed.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-FLOAT-FIXED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.text.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-TEXT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.const.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-CONST-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ref.type.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REF-TYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ref.read.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REF-READ-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ref.symbol.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REF-SYMBOL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ref.init.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REF-INIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ref.norebind.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REF-NOREBIND-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ref.assign.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REF-ASSIGN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ref.resourceassign.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REF-RESOURCEASSIGN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.type.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-TYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.symbol.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-SYMBOL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ref.constview.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REF-CONSTVIEW-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.constview.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-CONSTVIEW-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.explicit.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-EXPLICIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.check.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-CHECK-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.noshorthand.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-NOSHORTHAND-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.noborrow.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-NOBORROW-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "array.type.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ARRAY-TYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.type.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-TYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.constview.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-CONSTVIEW-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "storage.type.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STORAGE-TYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "convert.implicit.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONVERT-IMPLICIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "convert.lossy.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONVERT-LOSSY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "convert.cast.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONVERT-CAST-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "convert.reinterpret.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONVERT-REINTERPRET-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.resourcearray.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-RESOURCEARRAY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.resourceoptional.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-RESOURCEOPTIONAL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.prefixorder.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-PREFIXORDER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.constructors.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-CONSTRUCTORS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "type.suffix.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TYPE-SUFFIX-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "decl.typefirst.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DECL-TYPEFIRST-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "decl.assign.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DECL-ASSIGN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "init.beforeuse.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-INIT-BEFOREUSE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "init.path.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-INIT-PATH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "init.nozero.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-INIT-NOZERO-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "const.init.001",
+      "default_severity": "error",
+      "phase": "constant",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONST-INIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "const.assign.001",
+      "default_severity": "error",
+      "phase": "constant",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONST-ASSIGN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "scope.local.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SCOPE-LOCAL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "scope.duplicate.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SCOPE-DUPLICATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "scope.shadow.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SCOPE-SHADOW-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "global.const.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-GLOBAL-CONST-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "global.mutable.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-GLOBAL-MUTABLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "param.outtype.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PARAM-OUTTYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "param.owntype.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PARAM-OWNTYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "param.out.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PARAM-OUT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "param.own.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PARAM-OWN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "param.ref.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PARAM-REF-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.mode.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-MODE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.mode.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-MODE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "name.unknown.001",
+      "default_severity": "error",
+      "phase": "name",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NAME-UNKNOWN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "init.loop.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-INIT-LOOP-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.target.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-TARGET-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.alias.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-ALIAS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.noread.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-NOREAD-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.reassign.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-REASSIGN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "const.expr.001",
+      "default_severity": "error",
+      "phase": "constant",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONST-EXPR-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "const.checkfail.001",
+      "default_severity": "error",
+      "phase": "constant",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONST-CHECKFAIL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "expr.order.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EXPR-ORDER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "call.count.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CALL-COUNT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "call.type.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CALL-TYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "member.unknown.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-MEMBER-UNKNOWN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "index.safe.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-INDEX-SAFE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.range.check.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-RANGE-CHECK-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "arith.type.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ARITH-TYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "arith.minus.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ARITH-MINUS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "equality.resource.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EQUALITY-RESOURCE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "bool.short.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-BOOL-SHORT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "assign.target.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ASSIGN-TARGET-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "assign.convert.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ASSIGN-CONVERT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.address.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-ADDRESS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.addressable.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-ADDRESSABLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.deref.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-DEREF-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.arith.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-ARITH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.null.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-NULL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cast.exact.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CAST-EXACT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.compare.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-COMPARE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "block.braces.001",
+      "default_severity": "error",
+      "phase": "syntax",
+      "primary_identity_stable": true,
+      "rule": "OPENC-BLOCK-BRACES-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "stmt.semicolon.001",
+      "default_severity": "error",
+      "phase": "syntax",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STMT-SEMICOLON-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cond.bool.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-COND-BOOL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "for.scope.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FOR-SCOPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "switch.nofall.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SWITCH-NOFALL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "switch.enum.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SWITCH-ENUM-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "switch.domain.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SWITCH-DOMAIN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "switch.case.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SWITCH-CASE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "switch.duplicate.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SWITCH-DUPLICATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "switch.execute.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SWITCH-EXECUTE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "loop.context.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LOOP-CONTEXT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "if.execute.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-IF-EXECUTE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "while.execute.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-WHILE-EXECUTE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "for.execute.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FOR-EXECUTE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "return.type.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RETURN-TYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "return.lifetime.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RETURN-LIFETIME-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "stmt.unreachable.001",
+      "default_severity": "warning",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STMT-UNREACHABLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "function.direct.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FUNCTION-DIRECT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "function.param.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FUNCTION-PARAM-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "overload.ambiguous.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OVERLOAD-AMBIGUOUS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "overload.exact.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OVERLOAD-EXACT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "overload.norank.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OVERLOAD-NORANK-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "overload.return.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OVERLOAD-RETURN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "overload.mode.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OVERLOAD-MODE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "function.path.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FUNCTION-PATH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.own.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-OWN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.call.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-CALL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.resultbind.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-RESULTBIND-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.call.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-CALL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "function.unsafe.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FUNCTION-UNSAFE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "function.outsuccess.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FUNCTION-OUTSUCCESS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "function.outfail.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FUNCTION-OUTFAIL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "function.outreturn.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FUNCTION-OUTRETURN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.forward.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-FORWARD-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "function.argorder.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FUNCTION-ARGORDER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "overload.conversions.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OVERLOAD-CONVERSIONS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "function.recursion.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FUNCTION-RECURSION-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.decl.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-DECL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.trailing.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-TRAILING-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.decl.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-DECL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.trailing.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-TRAILING-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.field.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-FIELD-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.constfield.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-CONSTFIELD-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "field.type.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FIELD-TYPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.default.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-DEFAULT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.init.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-INIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.init.field.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-INIT-FIELD-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.init.missing.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-INIT-MISSING-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.empty.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-EMPTY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.copy.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-COPY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.equality.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-EQUALITY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "enum.distinct.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ENUM-DISTINCT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "enum.underlying.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ENUM-UNDERLYING-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "enum.duplicate.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ENUM-DUPLICATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.nocopy.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-NOCOPY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.move.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-MOVE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.copy.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-COPY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.destroy.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-DESTROY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.obligation.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-OBLIGATION-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.noconstowner.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-NOCONSTOWNER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.init.order.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-INIT-ORDER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.noresource.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-NORESOURCE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.field.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-FIELD-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.field.ownptr.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-FIELD-OWNPTR-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.field.default.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-FIELD-DEFAULT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.init.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-INIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.init.required.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-INIT-REQUIRED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.init.owner.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-INIT-OWNER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.init.reserve.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-INIT-RESERVE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.init.commit.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-INIT-COMMIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.init.rollback.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-INIT-ROLLBACK-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.init.placement.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-INIT-PLACEMENT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.reinit.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-REINIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.field.view.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-FIELD-VIEW-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.field.assign.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-FIELD-ASSIGN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.field.consume.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-FIELD-CONSUME-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.dismantle.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-DISMANTLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.field.once.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-FIELD-ONCE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.consumer.return.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-CONSUMER-RETURN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "resource.opaque.discharge.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-RESOURCE-OPAQUE-DISCHARGE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.default.nodep.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-DEFAULT-NODEP-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "struct.init.commit.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STRUCT-INIT-COMMIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "enum.implicit.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ENUM-IMPLICIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "array.decl.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ARRAY-DECL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "array.init.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ARRAY-INIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "array.index.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ARRAY-INDEX-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "array.length.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ARRAY-LENGTH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "array.copy.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ARRAY-COPY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.bounded.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-BOUNDED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.length.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-LENGTH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.fromarray.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-FROMARRAY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.mutate.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-MUTATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.range.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-RANGE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.alias.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-ALIAS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "array.nodecay.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ARRAY-NODECAY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "byte.arith.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-BYTE-ARITH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "text.length.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TEXT-LENGTH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "text.noindex.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TEXT-NOINDEX-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "text.convert.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TEXT-CONVERT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.range.empty.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-RANGE-EMPTY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.range.default.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-RANGE-DEFAULT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.disjoint.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-DISJOINT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "text.equality.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TEXT-EQUALITY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "text.copy.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TEXT-COPY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "byte.distinct.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-BYTE-DISTINCT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.copy.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-COPY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "slice.escape.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SLICE-ESCAPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.none.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-NONE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.present.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-PRESENT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.value.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-VALUE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "status.musthandle.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STATUS-MUSTHANDLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "status.overwrite.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STATUS-OVERWRITE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "status.code.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STATUS-CODE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "status.invariant.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STATUS-INVARIANT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "status.initializer.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STATUS-INITIALIZER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "status.message.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STATUS-MESSAGE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.ownflow.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-OWNFLOW-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.statusonly.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-STATUSONLY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "error.nohidden.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ERROR-NOHIDDEN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "error.fatal.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-ERROR-FATAL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "status.readonly.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STATUS-READONLY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "status.proof.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STATUS-PROOF-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "status.copy.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STATUS-COPY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.nopartial.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-NOPARTIAL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.commit.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-COMMIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.owncommit.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-OWNCOMMIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.owntail.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-OWNTAIL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.ownfail.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-OWNFAIL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.copy.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-COPY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.present.readonly.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-PRESENT-READONLY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.assign.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-ASSIGN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "optional.nested.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OPTIONAL-NESTED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "lifetime.active.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LIFETIME-ACTIVE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "copy.plain.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-COPY-PLAIN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.useafter.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-USEAFTER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "borrow.manyread.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-BORROW-MANYREAD-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "borrow.onewrite.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-BORROW-ONEWRITE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "borrow.lastuse.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-BORROW-LASTUSE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "borrow.nomove.001",
+      "default_severity": "error",
+      "phase": "borrow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-BORROW-NOMOVE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "lifetime.returnlocal.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LIFETIME-RETURNLOCAL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "lifetime.slice.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-LIFETIME-SLICE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.scope.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-SCOPE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.return.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-RETURN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.produce.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-PRODUCE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.consume.arg.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-CONSUME-ARG-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.checkedge.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-CHECKEDGE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.exit.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-EXIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.producer.placement.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-PRODUCER-PLACEMENT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.owncopy.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-OWNCOPY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.owncontain.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-OWNCONTAIN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.scope.reserve.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-SCOPE-RESERVE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "own.scope.borrow.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OWN-SCOPE-BORROW-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "storage.novalue.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STORAGE-NOVALUE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "storage.noresource.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STORAGE-NORESOURCE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "construct.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONSTRUCT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "construct.value.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONSTRUCT-VALUE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "construct.placement.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONSTRUCT-PLACEMENT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "construct.double.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CONSTRUCT-DOUBLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "destroy.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DESTROY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "destroy.borrow.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DESTROY-BORROW-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "destroy.useafter.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DESTROY-USEAFTER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "storage.liveexit.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STORAGE-LIVEEXIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "storage.reconstruct.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STORAGE-RECONSTRUCT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "storage.refinvalid.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STORAGE-REFINVALID-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.nolength.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-NOLENGTH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.align.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-ALIGN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.lifetime.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-LIFETIME-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.byte.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-BYTE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.bytewrite.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-BYTEWRITE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.derived.nonowning.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-DERIVED-NONOWNING-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.onepast.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-ONEPAST-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.crossalloc.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-CROSSALLOC-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.const.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-CONST-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.binding.mutable.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-BINDING-MUTABLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.provenance.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-PROVENANCE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.base.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-BASE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.deref.range.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-DEREF-RANGE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.invalidate.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-INVALIDATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "ptr.subtract.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PTR-SUBTRACT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "storage.empty.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STORAGE-EMPTY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "storage.commit.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-STORAGE-COMMIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "unsafe.boundary.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-UNSAFE-BOUNDARY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "unsafe.local.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-UNSAFE-LOCAL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "unsafe.call.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-UNSAFE-CALL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "unsafe.contract.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-UNSAFE-CONTRACT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cast.unchecked.int.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CAST-UNCHECKED-INT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cast.unchecked.limit.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CAST-UNCHECKED-LIMIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "reinterpret.value.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REINTERPRET-VALUE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "reinterpret.size.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REINTERPRET-SIZE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "reinterpret.ptr.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REINTERPRET-PTR-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "reinterpret.nolifetime.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-REINTERPRET-NOLIFETIME-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "unsafe.wrapper.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-UNSAFE-WRAPPER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "unsafe.fault.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-UNSAFE-FAULT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "unsafe.noassume.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-UNSAFE-NOASSUME-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "unsafe.provenance.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-UNSAFE-PROVENANCE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "unsafe.history.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-UNSAFE-HISTORY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "unsafe.precondition.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-UNSAFE-PRECONDITION-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "safe.guarantee.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SAFE-GUARANTEE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "safe.wrapper.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-SAFE-WRAPPER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "extension.safety.001",
+      "default_severity": "error",
+      "phase": "unsafe",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EXTENSION-SAFETY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "diag.structure.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DIAG-STRUCTURE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "diag.quality.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DIAG-QUALITY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "diag.machine.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DIAG-MACHINE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "diag.trace.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DIAG-TRACE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "diag.span.001",
+      "default_severity": "error",
+      "phase": "source",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DIAG-SPAN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "diag.phase.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DIAG-PHASE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "diag.severity.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DIAG-SEVERITY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "diag.primary.001",
+      "default_severity": "error",
+      "phase": "declaration",
+      "primary_identity_stable": true,
+      "rule": "OPENC-DIAG-PRIMARY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "grammar.authority.001",
+      "default_severity": "error",
+      "phase": "syntax",
+      "primary_identity_stable": true,
+      "rule": "OPENC-GRAMMAR-AUTHORITY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "grammar.coverage.001",
+      "default_severity": "error",
+      "phase": "syntax",
+      "primary_identity_stable": true,
+      "rule": "OPENC-GRAMMAR-COVERAGE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.full.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-FULL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.nounspec.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-NOUNSPEC-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.call.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-CALL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.callee.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-CALLEE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.argmode.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-ARGMODE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.binary.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-BINARY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.short.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-SHORT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.unary.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-UNARY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.assign.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-ASSIGN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.compound.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-COMPOUND-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.arrayinit.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-ARRAYINIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.structinit.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-STRUCTINIT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.default.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-DEFAULT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.construct.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-CONSTRUCT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.return.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-RETURN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.break.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-BREAK-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.scope.register.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-SCOPE-REGISTER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.scope.nested.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-SCOPE-NESTED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "eval.observable.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EVAL-OBSERVABLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.state.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-STATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.reachable.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-REACHABLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.if.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-IF-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.if.noelse.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-IF-NOELSE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.switch.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-SWITCH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.while.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-WHILE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.for.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-FOR-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.continue.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-CONTINUE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.break.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-BREAK-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.out.token.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-OUT-TOKEN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.out.predicate.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-OUT-PREDICATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.pendinguse.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-PENDINGUSE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.out.success.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-OUT-SUCCESS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.out.failure.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-OUT-FAILURE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.out.merge.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-OUT-MERGE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.out.loop.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-OUT-LOOP-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "out.proof.lost.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-OUT-PROOF-LOST-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.out.copy.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-OUT-COPY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.optional.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-OPTIONAL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.optional.else.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-OPTIONAL-ELSE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.optional.invalidate.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-OPTIONAL-INVALIDATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.moved.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-MOVED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.borrow.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-BORROW-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.destroyed.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-DESTROYED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "flow.diag.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-FLOW-DIAG-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.twos.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-TWOS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.unsigned.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-UNSIGNED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.byte8.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-BYTE8-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.machine.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-MACHINE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.literal.context.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-LITERAL-CONTEXT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.literal.default.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-LITERAL-DEFAULT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.literal.negative.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-LITERAL-NEGATIVE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.add.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-ADD-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.div.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-DIV-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.rem.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-REM-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.div.min.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-DIV-MIN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.divzero.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-DIVZERO-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.bitwise.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-BITWISE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.shift.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-SHIFT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.shiftright.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-SHIFTRIGHT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.shiftleft.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-SHIFTLEFT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.wrap.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-WRAP-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.saturate.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-SATURATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.intrinsic.001",
+      "default_severity": "error",
+      "phase": "type",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-INTRINSIC-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.cast.int.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-CAST-INT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.cast.floatint.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-CAST-FLOATINT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.cast.intfloat.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-CAST-INTFLOAT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.cast.float.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-CAST-FLOAT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.uncheckedcast.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-UNCHECKEDCAST-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.float.format.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-FLOAT-FORMAT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.float.round.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-FLOAT-ROUND-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.float.nonfinite.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-FLOAT-NONFINITE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.float.divzero.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-FLOAT-DIVZERO-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.float.order.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-FLOAT-ORDER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.const.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-CONST-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.authority.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-AUTHORITY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.compound.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-COMPOUND-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "num.float.const.001",
+      "default_severity": "error",
+      "phase": "runtime",
+      "primary_identity_stable": true,
+      "rule": "OPENC-NUM-FLOAT-CONST-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.register.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-REGISTER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.callee.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-CALLEE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.value.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-VALUE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.ref.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-REF-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.own.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-OWN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.out.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-OUT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.arg.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-ARG-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.destroy.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-DESTROY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.destroy.reserve.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-DESTROY-RESERVE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.destroy.storage.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-DESTROY-STORAGE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.lifo.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-LIFO-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.nested.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-NESTED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.once.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-ONCE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.structured.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-STRUCTURED-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.return.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-RETURN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.checkfail.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-CHECKFAIL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.unsafefault.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-UNSAFEFAULT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.nofallible.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-NOFALLIBLE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.failure.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-FAILURE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.nocancel.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-NOCANCEL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.void.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-VOID-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.safewrapper.001",
+      "default_severity": "error",
+      "phase": "flow",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-SAFEWRAPPER-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.all.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-ALL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.primary.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-PRIMARY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.finish.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-FINISH-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "cleanup.state.001",
+      "default_severity": "error",
+      "phase": "ownership",
+      "primary_identity_stable": true,
+      "rule": "OPENC-CLEANUP-STATE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.context.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-CONTEXT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.byte.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-BYTE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.endian.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-ENDIAN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.align.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-ALIGN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.arraylayout.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-ARRAYLAYOUT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.structlayout.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-STRUCTLAYOUT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.padding.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-PADDING-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.sizeof.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-SIZEOF-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.alignof.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-ALIGNOF-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.querydomain.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-QUERYDOMAIN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.storagesize.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-STORAGESIZE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.arraysize.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-ARRAYSIZE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.query.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-QUERY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.ptrprov.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-PTRPROV-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.ptroffset.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-PTROFFSET-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.ptrcross.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-PTRCROSS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.ptrcompare.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-PTRCOMPARE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.ptrint.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-PTRINT-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.faultmodel.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-FAULTMODEL-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.noarbitrary.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-NOARBITRARY-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.sanitize.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-SANITIZE-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "portability.plain.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-PORTABILITY-PLAIN-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.schema.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-SCHEMA-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "target.cross.001",
+      "default_severity": "error",
+      "phase": "target",
+      "primary_identity_stable": true,
+      "rule": "OPENC-TARGET-CROSS-001",
+      "stable_human_wording": false
+    },
+    {
+      "category": "expr.precedence.001",
+      "default_severity": "error",
+      "phase": "syntax",
+      "primary_identity_stable": true,
+      "rule": "OPENC-EXPR-PRECEDENCE-001",
+      "stable_human_wording": false
+    }
+  ],
+  "schema": "openc.core.diagnostic_catalog.v3",
+  "severities": [
+    "error",
+    "warning",
+    "note",
+    "help"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-TRANSLATE-NOINCLUDE-001",
+    "OPENC-TRANSLATE-NOPREPROCESSOR-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-TRANSLATE-NOINCLUDE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "textual_include_rejected",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TRANSLATE-NOPREPROCESSOR-001",
+      "OPENC-TRANSLATE-NOINCLUDE-001"
+    ]
+  },
+  "id": "invalid/textual_include_rejected",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/textual_include_rejected",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/textual_include_rejected/main"
+  ]
+}

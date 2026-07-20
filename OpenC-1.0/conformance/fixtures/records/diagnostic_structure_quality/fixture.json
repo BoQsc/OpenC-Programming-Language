@@ -1,0 +1,33 @@
+{
+  "active_rules": [
+    "OPENC-DIAG-MACHINE-001",
+    "OPENC-DIAG-QUALITY-001",
+    "OPENC-DIAG-STRUCTURE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "record",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept",
+      "schema_valid": true
+    },
+    "fixture_kind": "record",
+    "mode": "module",
+    "name": "diagnostic_structure_quality",
+    "profile": "standard",
+    "rules": [
+      "OPENC-DIAG-STRUCTURE-001",
+      "OPENC-DIAG-QUALITY-001",
+      "OPENC-DIAG-MACHINE-001"
+    ]
+  },
+  "id": "records/diagnostic_structure_quality",
+  "kind": "records",
+  "origin": "OpenC Standard Draft 0.10 validation/record/diagnostic_structure_quality",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/records/diagnostic_structure_quality/record.json"
+  ]
+}

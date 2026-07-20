@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-NUM-CAST-INT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "checked_failure",
+      "rule": "OPENC-NUM-CAST-INT-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "runtime_cast_integer_range",
+    "profile": "standard",
+    "rules": [
+      "OPENC-NUM-CAST-INT-001"
+    ]
+  },
+  "id": "runtime/runtime_cast_integer_range",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/runtime_cast_integer_range",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/runtime_cast_integer_range/main"
+  ]
+}

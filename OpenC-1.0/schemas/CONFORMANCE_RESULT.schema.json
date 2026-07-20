@@ -1,0 +1,83 @@
+{
+  "$id": "openc://schema/conformance-result/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate": {
+      "type": "string"
+    },
+    "fixtures": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "actual": {},
+          "diagnostics": {
+            "type": "array"
+          },
+          "expected": {},
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "passed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "expected",
+          "actual",
+          "passed"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "implementation": {
+      "type": "string"
+    },
+    "schema": {
+      "const": "openc.conformance_result.v1"
+    },
+    "summary": {
+      "additionalProperties": false,
+      "properties": {
+        "failed": {
+          "type": "integer"
+        },
+        "infrastructure_failures": {
+          "type": "integer"
+        },
+        "passed": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "total",
+        "passed",
+        "failed",
+        "infrastructure_failures"
+      ],
+      "type": "object"
+    },
+    "target": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "candidate",
+    "implementation",
+    "target",
+    "fixtures",
+    "summary"
+  ],
+  "title": "OpenC conformance result",
+  "type": "object"
+}

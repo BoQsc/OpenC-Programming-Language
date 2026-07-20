@@ -1,0 +1,13 @@
+{
+  "invocations": [
+    [
+      "openc",
+      "info",
+      "--limits"
+    ]
+  ],
+  "required": [
+    "usize_bits",
+    "isize_bits"
+  ]
+}

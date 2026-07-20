@@ -1,0 +1,256 @@
+source_unit          = { import_decl } { top_decl } ;
+
+import_decl          = "import" module_name ";" ;
+module_name          = identifier { "." identifier } ;
+qualified_name       = identifier { "." identifier } ;
+
+top_decl            = [ "export" ]
+                       ( function_decl
+                       | struct_decl
+                       | enum_decl
+                       | resource_decl
+                       | module_const_decl
+                       | when_decl ) ;
+
+module_const_decl    = "const" module_const_type identifier
+                       "=" constant_expression ";" ;
+module_const_type    = module_const_value_type | optional_core_type ;
+module_const_value_type = type_atom [ fixed_array_suffix ] ;
+
+struct_decl          = "struct" identifier "{" { struct_field_decl } "}" ;
+resource_decl        = "resource" identifier "{" { resource_field_decl } "}" ;
+struct_field_decl    = struct_field_type identifier
+                       [ "=" constant_expression ] ";" ;
+resource_field_decl  = resource_value_field_decl
+                     | resource_owned_pointer_field_decl ;
+resource_value_field_decl = struct_field_type identifier
+                            [ "=" constant_expression ] ";" ;
+resource_owned_pointer_field_decl = "own" ptr_type identifier ";" ;
+struct_field_type    = field_value_type | ptr_type | optional_type ;
+field_value_type     = [ "const" ] type_atom [ fixed_array_suffix ] ;
+
+enum_decl            = "enum" [ unsigned_integer_type ] identifier
+                       "{" enum_item { "," enum_item } [ "," ] "}" ;
+enum_item            = identifier [ "=" constant_integer_expression ] ;
+
+function_decl        = [ "unsafe" ] function_result identifier
+                       "(" [ parameter { "," parameter } ] ")" block ;
+function_result      = "void" | ordinary_result_type | owning_pointer_result ;
+ordinary_result_type = value_type | ref_type | ptr_type | optional_type ;
+owning_pointer_result = "own" ptr_type ;
+
+parameter            = out_own_pointer_parameter | out_parameter
+                     | own_parameter | ordinary_parameter ;
+ordinary_parameter   = parameter_type identifier ;
+parameter_type       = value_type | ref_type | ptr_type | optional_type ;
+own_parameter        = "own" own_parameter_target identifier ;
+own_parameter_target = ptr_type | qualified_name ;
+out_parameter        = "out" output_parameter_type identifier ;
+output_parameter_type = output_value_type | ptr_type | optional_core_type ;
+output_value_type    = type_atom [ fixed_array_suffix ] ;
+out_own_pointer_parameter = "out" "own" ptr_type identifier ;
+
+when_decl            = "when" when_expression "{" { top_decl } "}" ;
+
+block                 = "{" { block_item } "}" ;
+block_item            = local_decl | statement ;
+local_decl            = local_type identifier [ "=" expression ] ";" ;
+local_type            = type ;
+
+type                  = value_type | ref_type | ptr_type
+                       | optional_type | storage_type ;
+value_type            = [ "const" ] type_atom [ value_suffix ] ;
+value_suffix          = fixed_array_suffix | slice_suffix_type ;
+ref_type              = "ref" [ "const" ] ref_target ;
+ptr_type              = "ptr" [ "const" ] ptr_target ;
+optional_type         = [ "const" ] optional_core_type ;
+optional_core_type    = "optional" optional_target ;
+storage_type          = "storage" storage_target ;
+ref_target            = type_atom [ fixed_array_suffix ] ;
+ptr_target            = type_atom ;
+optional_target       = type_atom [ fixed_array_suffix ] ;
+storage_target        = type_atom [ fixed_array_suffix ] ;
+type_atom             = primitive_object_type | qualified_name ;
+fixed_array_suffix    = "[" constant_integer_expression "]" ;
+slice_suffix_type     = "[" "]" ;
+
+primitive_object_type = signed_integer_type | unsigned_integer_type
+                      | "isize" | "usize" | "bool" | "byte"
+                      | "f32" | "f64" | "text" | "status" ;
+signed_integer_type   = "i8" | "i16" | "i32" | "i64" ;
+unsigned_integer_type = "u8" | "u16" | "u32" | "u64" ;
+
+statement             = block | expression_stmt | if_stmt | while_stmt
+                      | for_stmt | switch_stmt | break_stmt | continue_stmt
+                      | return_stmt | scope_stmt | unsafe_stmt | when_stmt ;
+expression_stmt       = expression ";" ;
+if_stmt               = "if" expression block [ "else" ( block | if_stmt ) ] ;
+while_stmt            = "while" expression block ;
+for_stmt              = "for" [ for_init ] ";" [ expression ] ";"
+                       [ expression ] block ;
+for_init              = local_type identifier [ "=" expression ] | expression ;
+switch_stmt           = "switch" expression "{" { switch_case }
+                       [ default_case ] "}" ;
+switch_case           = "case" constant_expression block ;
+default_case          = "default" block ;
+break_stmt            = "break" ";" ;
+continue_stmt         = "continue" ";" ;
+return_stmt           = "return" [ expression ] ";" ;
+scope_stmt            = "scope" scope_action ";" ;
+scope_action          = scope_call | destroy_expr ;
+scope_call            = qualified_name "(" [ scope_argument
+                       { "," scope_argument } ] ")" ;
+scope_argument        = literal | qualified_name ;
+unsafe_stmt           = "unsafe" block ;
+when_stmt             = "when" when_expression block ;
+
+expression            = assignment_expr ;
+assignment_expr       = logical_or_expr [ assignment_op assignment_expr ] ;
+assignment_op         = "=" | "+=" | "-=" | "*=" | "/=" | "%="
+                      | "&=" | "|=" | "^=" | "<<=" | ">>=" ;
+logical_or_expr       = logical_and_expr { "||" logical_and_expr } ;
+logical_and_expr      = bitwise_or_expr { "&&" bitwise_or_expr } ;
+bitwise_or_expr       = bitwise_xor_expr { "|" bitwise_xor_expr } ;
+bitwise_xor_expr      = bitwise_and_expr { "^" bitwise_and_expr } ;
+bitwise_and_expr      = equality_expr { "&" equality_expr } ;
+equality_expr         = relational_expr { ( "==" | "!=" ) relational_expr } ;
+relational_expr       = shift_expr { ( "<" | "<=" | ">" | ">=" ) shift_expr } ;
+shift_expr            = additive_expr { ( "<<" | ">>" ) additive_expr } ;
+additive_expr         = multiplicative_expr { ( "+" | "-" ) multiplicative_expr } ;
+multiplicative_expr   = unary_expr { ( "*" | "/" | "%" ) unary_expr } ;
+unary_expr            = ( "!" | "~" | "+" | "-" | "&" | "*" ) unary_expr
+                      | cast_expr | cast_unchecked_expr | reinterpret_expr
+                      | construct_expr | destroy_expr | type_query_expr
+                      | postfix_expr ;
+cast_expr             = "cast" "(" type "," expression ")" ;
+cast_unchecked_expr   = "cast_unchecked" "(" type "," expression ")" ;
+reinterpret_expr      = "reinterpret" "(" type "," expression ")" ;
+construct_expr        = "construct" "(" identifier "," expression ")" ;
+destroy_expr          = "destroy" "(" ownership_source ")" ;
+type_query_expr       = ( "size_of" | "align_of" ) "(" type ")" ;
+postfix_expr          = primary_expr { postfix_suffix } ;
+postfix_suffix        = call_suffix | member_suffix | index_suffix | range_suffix ;
+call_suffix           = "(" [ call_argument { "," call_argument } ] ")" ;
+call_argument         = out_argument | expression ;
+out_argument          = "out" identifier ;
+member_suffix         = "." identifier ;
+index_suffix          = "[" expression "]" ;
+range_suffix          = "[" [ expression ] ".." [ expression ] "]" ;
+primary_expr          = literal | qualified_name | "(" expression ")"
+                      | status_initializer | aggregate_initializer
+                      | array_initializer ;
+
+status_initializer    = "status" "{" status_code_init
+                       [ "," status_message_init ] [ "," ] "}"
+                      | "status" "{" status_message_init ","
+                       status_code_init [ "," ] "}" ;
+status_code_init      = "code" "=" expression ;
+status_message_init   = "message" "=" expression ;
+aggregate_initializer = qualified_name "{" [ aggregate_field_init
+                       { "," aggregate_field_init } [ "," ] ] "}" ;
+aggregate_field_init  = ordinary_field_init | ownership_field_init ;
+ordinary_field_init   = identifier "=" expression ;
+ownership_field_init = "own" identifier "=" ownership_source ;
+ownership_source     = identifier { "." identifier } ;
+array_initializer    = "{" [ expression { "," expression } [ "," ] ] "}" ;
+literal              = integer_literal | float_literal | text_literal
+                     | "true" | "false" | "null" | "none" ;
+
+constant_expression          = constant_or_expression ;
+constant_or_expression       = constant_and_expression
+                               { "||" constant_and_expression } ;
+constant_and_expression      = constant_bitwise_or_expression
+                               { "&&" constant_bitwise_or_expression } ;
+constant_bitwise_or_expression = constant_bitwise_xor_expression
+                               { "|" constant_bitwise_xor_expression } ;
+constant_bitwise_xor_expression = constant_bitwise_and_expression
+                               { "^" constant_bitwise_and_expression } ;
+constant_bitwise_and_expression = constant_equality_expression
+                               { "&" constant_equality_expression } ;
+constant_equality_expression = constant_relational_expression
+                               { ( "==" | "!=" ) constant_relational_expression } ;
+constant_relational_expression = constant_shift_expression
+                               { ( "<" | "<=" | ">" | ">=" ) constant_shift_expression } ;
+constant_shift_expression    = constant_additive_expression
+                               { ( "<<" | ">>" ) constant_additive_expression } ;
+constant_additive_expression = constant_multiplicative_expression
+                               { ( "+" | "-" ) constant_multiplicative_expression } ;
+constant_multiplicative_expression = constant_unary_expression
+                               { ( "*" | "/" | "%" ) constant_unary_expression } ;
+constant_unary_expression    = ( "!" | "~" | "+" | "-" ) constant_unary_expression
+                             | constant_primary_expression ;
+constant_primary_expression  = constant_literal | qualified_name
+                             | constant_type_query
+                             | constant_array_initializer
+                             | constant_aggregate_initializer
+                             | "(" constant_expression ")" ;
+constant_literal             = integer_literal | float_literal | text_literal
+                             | "true" | "false" | "none" ;
+constant_type_query          = ( "size_of" | "align_of" ) "(" type ")" ;
+constant_array_initializer   = "{" [ constant_expression
+                             { "," constant_expression } [ "," ] ] "}" ;
+constant_aggregate_initializer = qualified_name "{"
+                             [ constant_field_init { "," constant_field_init } [ "," ] ] "}" ;
+constant_field_init          = identifier "=" constant_expression ;
+
+constant_integer_expression = constant_expression ;
+
+when_expression             = when_or_expression ;
+when_or_expression          = when_and_expression { "||" when_and_expression } ;
+when_and_expression         = when_equality_expression { "&&" when_equality_expression } ;
+when_equality_expression    = when_relational_expression
+                              [ ( "==" | "!=" ) when_relational_expression ] ;
+when_relational_expression  = when_unary_expression
+                              [ ( "<" | "<=" | ">" | ">=" ) when_unary_expression ] ;
+when_unary_expression       = "!" when_unary_expression | when_primary_expression ;
+when_primary_expression     = when_literal | when_context_name
+                            | "(" when_expression ")" ;
+when_literal                = when_integer_literal | text_literal | "true" | "false" ;
+when_integer_literal        = [ "+" | "-" ] integer_literal ;
+when_context_name           = identifier "." identifier { "." identifier } ;
+
+(* Lexical productions. Ignored elements separate tokens and never carry project semantics. *)
+ignored_element       = whitespace | line_comment | block_comment ;
+space_character       = ? U+0020 SPACE ? ;
+horizontal_tab_character = ? U+0009 CHARACTER TABULATION ? ;
+line_feed_character   = ? U+000A LINE FEED ? ;
+carriage_return_character = ? U+000D CARRIAGE RETURN ? ;
+backslash_character   = ? U+005C REVERSE SOLIDUS ? ;
+double_quote_character = ? U+0022 QUOTATION MARK ? ;
+whitespace            = space_character | horizontal_tab_character | line_terminator ;
+line_terminator       = line_feed_character
+                      | carriage_return_character [ line_feed_character ] ;
+line_comment          = "/" "/" { line_comment_character } [ line_terminator ] ;
+line_comment_character = ? any Unicode scalar value except U+000D or U+000A ? ;
+block_comment         = "/" "*" block_comment_body "*" "/" ;
+block_comment_body    = ? shortest Unicode scalar sequence containing no U+002A U+002F closing pair; comments do not nest ? ;
+
+identifier            = identifier_start { identifier_continue } ;
+identifier_start      = ascii_letter | "_" ;
+identifier_continue   = ascii_letter | decimal_digit | "_" ;
+ascii_letter          = "A".."Z" | "a".."z" ;
+predeclared_type_word = "i8" | "i16" | "i32" | "i64"
+                      | "u8" | "u16" | "u32" | "u64"
+                      | "isize" | "usize" | "bool" | "byte"
+                      | "f32" | "f64" | "text" | "status" ;
+decimal_digit         = "0".."9" ;
+hex_digit             = decimal_digit | "A".."F" | "a".."f" ;
+binary_digit          = "0" | "1" ;
+digit_separator       = "_" ;
+integer_literal       = decimal_integer | hexadecimal_integer | binary_integer ;
+decimal_integer       = decimal_digit { [ digit_separator ] decimal_digit } ;
+hexadecimal_integer   = "0" ( "x" | "X" ) hex_digit { [ digit_separator ] hex_digit } ;
+binary_integer        = "0" ( "b" | "B" ) binary_digit { [ digit_separator ] binary_digit } ;
+float_literal         = decimal_digits "." decimal_digits [ exponent_part ]
+                      | decimal_digits exponent_part ;
+decimal_digits        = decimal_digit { [ digit_separator ] decimal_digit } ;
+exponent_part         = ( "e" | "E" ) [ "+" | "-" ] decimal_digits ;
+text_literal          = double_quote_character { text_character | escape_sequence }
+                        double_quote_character ;
+text_character        = ? any Unicode scalar value except U+0022, U+005C, U+000D, or U+000A ? ;
+escape_sequence       = backslash_character escape_code ;
+escape_code           = backslash_character | double_quote_character
+                      | "n" | "r" | "t" | "0" | unicode_escape_tail ;
+unicode_escape_tail   = "u" "{" hex_digit
+                        [ hex_digit [ hex_digit [ hex_digit [ hex_digit [ hex_digit ] ] ] ] ] ]
+                        "}" ;

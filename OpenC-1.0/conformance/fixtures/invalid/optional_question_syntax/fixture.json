@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-OPTIONAL-NOSHORTHAND-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-OPTIONAL-NOSHORTHAND-001"
+    },
+    "fixture_kind": "source",
+    "name": "optional_question_syntax",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OPTIONAL-NOSHORTHAND-001"
+    ]
+  },
+  "id": "invalid/optional_question_syntax",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/optional_question_syntax",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/optional_question_syntax/main"
+  ]
+}

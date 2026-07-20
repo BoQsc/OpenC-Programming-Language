@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-FUNCTION-OUTSUCCESS-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-FUNCTION-OUTSUCCESS-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "out_success_without_init",
+    "profile": "standard",
+    "rules": [
+      "OPENC-FUNCTION-OUTSUCCESS-001"
+    ]
+  },
+  "id": "invalid/out_success_without_init",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/out_success_without_init",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/out_success_without_init/main"
+  ]
+}

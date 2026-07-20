@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-REINTERPRET-SIZE-001",
+    "OPENC-REINTERPRET-VALUE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "reinterpret_u32_f32",
+    "profile": "standard",
+    "rules": [
+      "OPENC-REINTERPRET-VALUE-001",
+      "OPENC-REINTERPRET-SIZE-001"
+    ]
+  },
+  "id": "valid/reinterpret_u32_f32",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/reinterpret_u32_f32",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/reinterpret_u32_f32/main"
+  ]
+}

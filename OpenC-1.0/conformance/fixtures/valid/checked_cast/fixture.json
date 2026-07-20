@@ -1,0 +1,27 @@
+{
+  "active_rules": [
+    "OPENC-CONVERT-CAST-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "checked_cast",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CONVERT-CAST-001"
+    ]
+  },
+  "id": "valid/checked_cast",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/checked_cast",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/checked_cast/main"
+  ]
+}

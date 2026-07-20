@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-LEX-IDENT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "identifier_case_sensitive",
+    "profile": "standard",
+    "rules": [
+      "OPENC-LEX-IDENT-001"
+    ]
+  },
+  "id": "valid/identifier_case_sensitive",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/identifier_case_sensitive",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/identifier_case_sensitive/main"
+  ]
+}

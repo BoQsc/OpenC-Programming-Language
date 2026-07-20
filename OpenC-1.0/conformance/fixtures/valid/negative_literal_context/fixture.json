@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-NUM-LITERAL-NEGATIVE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "negative_literal_context",
+    "profile": "standard",
+    "rules": [
+      "OPENC-NUM-LITERAL-NEGATIVE-001"
+    ]
+  },
+  "id": "valid/negative_literal_context",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/negative_literal_context",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/negative_literal_context/main"
+  ]
+}

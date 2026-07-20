@@ -1,0 +1,12 @@
+{
+  "schema": "openc.target.v1",
+  "name": "linux-x86_64",
+  "os": "linux",
+  "arch": "x86_64",
+  "pointer_width": 64,
+  "endian": "little",
+  "abi": "sysv",
+  "hosted": true,
+  "runtime_provider": "runtime/linux",
+  "evidence_state": "AUTHORED_EXECUTION_PENDING"
+}

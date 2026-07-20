@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-EVAL-UNARY-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "unary_operand_once",
+    "profile": "standard",
+    "rules": [
+      "OPENC-EVAL-UNARY-001"
+    ]
+  },
+  "id": "runtime/unary_operand_once",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/unary_operand_once",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/unary_operand_once/main"
+  ]
+}

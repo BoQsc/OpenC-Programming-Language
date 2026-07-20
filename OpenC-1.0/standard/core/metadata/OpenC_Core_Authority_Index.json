@@ -1,0 +1,92 @@
+{
+  "candidate": "OpenC Core Candidate 2 — Implementation Readiness Revision 1",
+  "entries": [
+    {
+      "authority": "normative",
+      "bytes": 174994,
+      "evidence_state": "INTERNALLY_REVIEWED_STRUCTURALLY_CHECKED",
+      "path": "standard/OpenC_Core_Candidate_2.md",
+      "sha256": "d8f9758e94f9766f395c50258c9bee0fecc416c88f6600bf992b83bfa50ce6e1"
+    },
+    {
+      "authority": "normative",
+      "bytes": 14814,
+      "evidence_state": "INTERNALLY_REVIEWED_STRUCTURALLY_CHECKED",
+      "path": "grammar/OpenC_Core_Grammar_CC2.ebnf",
+      "sha256": "58a475bcb1006565488955064ab99c593dc20468fb3fdf0f07d1121ca3830dfc"
+    },
+    {
+      "authority": "normative_identity",
+      "bytes": 158006,
+      "evidence_state": "INTERNALLY_REVIEWED_STRUCTURALLY_CHECKED",
+      "path": "metadata/OpenC_Core_Rule_Index_IR1.json",
+      "sha256": "80b3b31523121f0d806dc1f49832238cff42bc2da3baba5aec14949713a3455e"
+    },
+    {
+      "authority": "normative_identity",
+      "bytes": 102798,
+      "evidence_state": "INTERNALLY_REVIEWED_STRUCTURALLY_CHECKED",
+      "path": "metadata/OpenC_Core_Rule_Disposition_IR1.json",
+      "sha256": "1415b61c1b25ec95dc0327bbcd4dd22b9380176ce914bfea5044ad0ceb078dee"
+    },
+    {
+      "authority": "normative_identity",
+      "bytes": 107439,
+      "evidence_state": "INTERNALLY_REVIEWED_STRUCTURALLY_CHECKED",
+      "path": "metadata/OpenC_Core_Diagnostic_Catalog_IR1.json",
+      "sha256": "d7423ab263d96d8b1ad8d5637e1db829c2c656a40c4e7d35775d1ce9ec082439"
+    },
+    {
+      "authority": "normative_terms",
+      "bytes": 5863,
+      "evidence_state": "INTERNALLY_REVIEWED_STRUCTURALLY_CHECKED",
+      "path": "metadata/OpenC_Core_Term_Index_IR1.json",
+      "sha256": "dbf61a93b260ce1516dabd2923a4bf179177b1375f0f12844f5298a08a3d2209"
+    },
+    {
+      "authority": "normative_security",
+      "bytes": 3699,
+      "evidence_state": "INTERNALLY_REVIEWED_STRUCTURALLY_CHECKED",
+      "path": "security/OpenC_Core_Security_Model_CC2.md",
+      "sha256": "210724c7c1023470deed9d8f99cb7ba6493b281093549754d52b581a8e4aff83"
+    },
+    {
+      "authority": "informative",
+      "bytes": 10797,
+      "evidence_state": "AUTHORED",
+      "path": "rationale/OpenC_Core_Rationale_CC2.md",
+      "sha256": "33d22a35aa6c45de1893a5756cc642b26d002f7b05a3928487d01627d866f6bf"
+    },
+    {
+      "authority": "informative_implementation",
+      "bytes": 3009,
+      "evidence_state": "AUTHORED",
+      "path": "implementation/OpenC_Core_Implementation_Notes_CC2.md",
+      "sha256": "e095e23aa6c9b5c104aa0e4b8e34d79e34473545d12e49e6654da8f5c3efb327"
+    },
+    {
+      "authority": "normative_conformance_plan",
+      "bytes": 1252,
+      "evidence_state": "INTERNALLY_REVIEWED_STRUCTURALLY_CHECKED",
+      "path": "conformance/OpenC_Core_Conformance_Plan_CC2.md",
+      "sha256": "b3a8ab967be3bac825506e18eda80a14875e00a5a516576434a0f82d1ea5eaad"
+    },
+    {
+      "authority": "conformance_obligation",
+      "bytes": 32756,
+      "evidence_state": "AUTHORED",
+      "path": "conformance/OpenC_Core_Grammar_Coverage_IR1.json",
+      "sha256": "8988b4f26171c3d2e33c74f27f08151af45b73bb1c06c5297dd7cb741f7be724"
+    },
+    {
+      "authority": "conformance_obligation",
+      "bytes": 95765,
+      "evidence_state": "AUTHORED",
+      "path": "conformance/OpenC_Core_Rule_Coverage_IR1.json",
+      "sha256": "754569258334ff0480b3b8c23cedb6d3548dce3a3a18294c947efb3703050e0d"
+    }
+  ],
+  "entry_count": 12,
+  "generated_by": "IR1 patch finalizer",
+  "schema": "openc.core.authority_index.v3"
+}

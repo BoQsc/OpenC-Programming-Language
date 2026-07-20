@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-PARAM-OUTTYPE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-PARAM-OUTTYPE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "out_reference_parameter",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PARAM-OUTTYPE-001"
+    ]
+  },
+  "id": "invalid/out_reference_parameter",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/out_reference_parameter",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/out_reference_parameter/main"
+  ]
+}

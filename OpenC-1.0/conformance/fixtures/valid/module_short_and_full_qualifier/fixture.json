@@ -1,0 +1,35 @@
+{
+  "active_rules": [
+    "OPENC-MODULE-FULLIMPORT-001",
+    "OPENC-MODULE-SHORT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "multi-source",
+    "mode": "module",
+    "modules": {
+      "app": [
+        "main"
+      ]
+    },
+    "name": "module_short_and_full_qualifier",
+    "profile": "standard",
+    "rules": [
+      "OPENC-MODULE-SHORT-001",
+      "OPENC-MODULE-FULLIMPORT-001"
+    ]
+  },
+  "id": "valid/module_short_and_full_qualifier",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/module_short_and_full_qualifier",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/module_short_and_full_qualifier/sources/main"
+  ]
+}

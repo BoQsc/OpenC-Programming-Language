@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-PTR-ONEPAST-001",
+    "OPENC-TARGET-PTROFFSET-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-PTR-ONEPAST-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "pointer_deref_one_past",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-ONEPAST-001",
+      "OPENC-TARGET-PTROFFSET-001"
+    ]
+  },
+  "id": "invalid/pointer_deref_one_past",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/pointer_deref_one_past",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/pointer_deref_one_past/main"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "diagnostic.schema.json",
+  "document": {
+    "severity": "error",
+    "rule": "OPENC-INIT-BEFOREUSE-001",
+    "category": "safety.init",
+    "message": "read before init",
+    "primary": {
+      "source": "main",
+      "line": 2,
+      "column": 1
+    },
+    "related": [
+      {
+        "severity": "note",
+        "message": "declared here",
+        "location": {
+          "source": "main",
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "help": [
+      "initialize value"
+    ],
+    "trace": [],
+    "context": {
+      "edition": "OpenC 0.3 Draft",
+      "standard_version": "0.3.0-draft.1",
+      "profile": "standard",
+      "environment": "hosted",
+      "extensions": [],
+      "target": "test",
+      "target_properties": {},
+      "capabilities": []
+    }
+  }
+}

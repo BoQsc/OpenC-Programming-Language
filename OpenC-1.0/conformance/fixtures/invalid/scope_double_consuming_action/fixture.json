@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-OWN-SCOPE-RESERVE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-OWN-SCOPE-RESERVE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "scope_double_consuming_action",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OWN-SCOPE-RESERVE-001"
+    ]
+  },
+  "id": "invalid/scope_double_consuming_action",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/scope_double_consuming_action",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/scope_double_consuming_action/main"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "openc.runtime_provider_index.v1",
+  "providers": [
+    {
+      "id": "openc.runtime.linux-x86_64",
+      "source": [
+        "runtime/source/openc/runtime",
+        "runtime/linux/startup.d",
+        "runtime/linux/source/openc_platform_linux.c"
+      ],
+      "status": "AUTHORED_EXECUTION_PENDING"
+    },
+    {
+      "id": "openc.runtime.windows-x86_64",
+      "source": [
+        "runtime/source/openc/runtime",
+        "runtime/windows/startup.d",
+        "runtime/windows/source/openc_platform_windows.c"
+      ],
+      "status": "AUTHORED_EXECUTION_PENDING"
+    },
+    {
+      "id": "openc.runtime.freestanding",
+      "source": [
+        "runtime/source/openc/runtime",
+        "runtime/freestanding/startup.d",
+        "runtime/freestanding/source/openc_platform_freestanding.c"
+      ],
+      "status": "AUTHORED_TARGET_INTEGRATION_PENDING"
+    }
+  ]
+}

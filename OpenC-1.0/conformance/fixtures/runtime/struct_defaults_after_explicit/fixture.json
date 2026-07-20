@@ -1,0 +1,32 @@
+{
+  "active_rules": [
+    "OPENC-EVAL-DEFAULT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept",
+      "stdout": [
+        "1",
+        "2"
+      ]
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "struct_defaults_after_explicit",
+    "profile": "standard",
+    "rules": [
+      "OPENC-EVAL-DEFAULT-001"
+    ]
+  },
+  "id": "runtime/struct_defaults_after_explicit",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/struct_defaults_after_explicit",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/struct_defaults_after_explicit/main"
+  ]
+}

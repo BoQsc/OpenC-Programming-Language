@@ -1,0 +1,59 @@
+{
+  "name": "openc-tools",
+  "description": "OpenC 1.0 first-party tool implementations",
+  "license": "proprietary-pending-governance",
+  "sourcePaths": ["source"],
+  "dependencies": {
+    "openc": { "path": "../compiler" }
+  },
+  "configurations": [
+    {
+      "name": "library",
+      "targetType": "library",
+      "targetName": "openc-tools",
+      "excludedSourceFiles": ["source/apps/*.d"]
+    },
+    {
+      "name": "formatter",
+      "targetType": "executable",
+      "targetName": "openc-fmt",
+      "mainSourceFile": "source/apps/fmt_main.d",
+      "excludedSourceFiles": ["source/apps/lsp_main.d", "source/apps/explain_main.d", "source/apps/validate_main.d", "source/apps/info_main.d", "source/apps/run_main.d"]
+    },
+    {
+      "name": "language-server",
+      "targetType": "executable",
+      "targetName": "openc-lsp",
+      "mainSourceFile": "source/apps/lsp_main.d",
+      "excludedSourceFiles": ["source/apps/fmt_main.d", "source/apps/explain_main.d", "source/apps/validate_main.d", "source/apps/info_main.d", "source/apps/run_main.d"]
+    },
+    {
+      "name": "explain",
+      "targetType": "executable",
+      "targetName": "openc-explain",
+      "mainSourceFile": "source/apps/explain_main.d",
+      "excludedSourceFiles": ["source/apps/fmt_main.d", "source/apps/lsp_main.d", "source/apps/validate_main.d", "source/apps/info_main.d", "source/apps/run_main.d"]
+    },
+    {
+      "name": "validate",
+      "targetType": "executable",
+      "targetName": "openc-validate",
+      "mainSourceFile": "source/apps/validate_main.d",
+      "excludedSourceFiles": ["source/apps/fmt_main.d", "source/apps/lsp_main.d", "source/apps/explain_main.d", "source/apps/info_main.d", "source/apps/run_main.d"]
+    },
+    {
+      "name": "info",
+      "targetType": "executable",
+      "targetName": "openc-info",
+      "mainSourceFile": "source/apps/info_main.d",
+      "excludedSourceFiles": ["source/apps/fmt_main.d", "source/apps/lsp_main.d", "source/apps/explain_main.d", "source/apps/validate_main.d", "source/apps/run_main.d"]
+    },
+    {
+      "name": "runner",
+      "targetType": "executable",
+      "targetName": "openc-run",
+      "mainSourceFile": "source/apps/run_main.d",
+      "excludedSourceFiles": ["source/apps/fmt_main.d", "source/apps/lsp_main.d", "source/apps/explain_main.d", "source/apps/validate_main.d", "source/apps/info_main.d"]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "active_rules": [
+    "OPENC-INIT-BEFOREUSE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "initialized_local",
+    "profile": "standard",
+    "rules": [
+      "OPENC-INIT-BEFOREUSE-001"
+    ]
+  },
+  "id": "valid/initialized_local",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/initialized_local",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/initialized_local/main"
+  ]
+}

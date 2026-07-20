@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-FLOW-STATE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "flow_state_branch_merge",
+    "profile": "standard",
+    "rules": [
+      "OPENC-FLOW-STATE-001"
+    ]
+  },
+  "id": "valid/flow_state_branch_merge",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/flow_state_branch_merge",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/flow_state_branch_merge/main"
+  ]
+}

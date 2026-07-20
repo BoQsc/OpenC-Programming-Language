@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-FIELD-TYPE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-FIELD-TYPE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "ref_field",
+    "profile": "standard",
+    "rules": [
+      "OPENC-FIELD-TYPE-001"
+    ]
+  },
+  "id": "invalid/ref_field",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/ref_field",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/ref_field/main"
+  ]
+}

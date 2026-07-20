@@ -1,0 +1,75 @@
+{
+  "$id": "openc://schema/release-record/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "authority": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "authorization": {
+      "type": "object"
+    },
+    "checksums": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "component": {
+      "enum": [
+        "Core",
+        "Hosted",
+        "Freestanding",
+        "Native",
+        "Tooling",
+        "Concurrent"
+      ]
+    },
+    "gates": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "published_utc": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "schema": {
+      "const": "openc.release_record.v1"
+    },
+    "signatures": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "component",
+    "version",
+    "authority",
+    "gates",
+    "artifacts",
+    "checksums",
+    "signatures",
+    "authorization"
+  ],
+  "title": "OpenC release record",
+  "type": "object"
+}

@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-SLICE-RANGE-DEFAULT-001",
+    "OPENC-SLICE-RANGE-EMPTY-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "slice_empty_and_default_ranges",
+    "profile": "standard",
+    "rules": [
+      "OPENC-SLICE-RANGE-EMPTY-001",
+      "OPENC-SLICE-RANGE-DEFAULT-001"
+    ]
+  },
+  "id": "valid/slice_empty_and_default_ranges",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/slice_empty_and_default_ranges",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/slice_empty_and_default_ranges/main"
+  ]
+}

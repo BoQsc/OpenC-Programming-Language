@@ -1,0 +1,91 @@
+{
+  "cases": [
+    {
+      "eligible": true,
+      "exit": "normal",
+      "expected_order": [
+        "c",
+        "b",
+        "a"
+      ],
+      "expected_primary": null,
+      "id": "normal_lifo",
+      "registrations": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "eligible": true,
+      "exit": "return",
+      "expected_order": [
+        "unlock",
+        "release"
+      ],
+      "expected_primary": null,
+      "id": "return_lifo",
+      "registrations": [
+        "release",
+        "unlock"
+      ]
+    },
+    {
+      "eligible": true,
+      "exit": "checked:original",
+      "expected_order": [
+        "b",
+        "a"
+      ],
+      "expected_primary": "original",
+      "id": "checked_failure_lifo",
+      "registrations": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "eligible": true,
+      "exit": "break",
+      "expected_order": [
+        "inner",
+        "outer"
+      ],
+      "expected_primary": null,
+      "id": "break_lifo",
+      "registrations": [
+        "outer",
+        "inner"
+      ]
+    },
+    {
+      "eligible": false,
+      "exit": "return",
+      "expected": "reject",
+      "id": "fallible_cleanup_ineligible",
+      "registrations": [
+        "finish"
+      ]
+    },
+    {
+      "eligible": false,
+      "exit": "return",
+      "expected": "reject",
+      "id": "unsafe_cleanup_ineligible",
+      "registrations": [
+        "unsafe_release"
+      ]
+    },
+    {
+      "eligible": true,
+      "exit": "target_fault",
+      "expected_order": null,
+      "expected_primary": "target_fault",
+      "id": "target_fault_no_guarantee",
+      "registrations": [
+        "a"
+      ]
+    }
+  ],
+  "group": "scope"
+}

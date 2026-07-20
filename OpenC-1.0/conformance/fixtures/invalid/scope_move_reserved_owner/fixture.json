@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-CLEANUP-OWN-001",
+    "OPENC-OWN-SCOPE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-CLEANUP-OWN-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "scope_move_reserved_owner",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CLEANUP-OWN-001",
+      "OPENC-OWN-SCOPE-001"
+    ]
+  },
+  "id": "invalid/scope_move_reserved_owner",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/scope_move_reserved_owner",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/scope_move_reserved_owner/main"
+  ]
+}

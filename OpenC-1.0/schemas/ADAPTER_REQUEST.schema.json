@@ -1,0 +1,45 @@
+{
+  "$id": "openc://schema/adapter-request/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "evidence_channels": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "fixture": {
+      "$ref": "FIXTURE.schema.json"
+    },
+    "implementation_stage": {
+      "enum": [
+        "I0",
+        "I1",
+        "I2",
+        "I3",
+        "I4",
+        "I5"
+      ]
+    },
+    "memory_limit_bytes": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "schema": {
+      "const": "openc.adapter_request.v1"
+    },
+    "timeout_ms": {
+      "minimum": 1,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema",
+    "fixture",
+    "implementation_stage",
+    "evidence_channels"
+  ],
+  "title": "OpenC adapter request",
+  "type": "object"
+}

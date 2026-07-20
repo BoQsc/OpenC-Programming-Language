@@ -1,0 +1,37 @@
+{
+  "active_rules": [
+    "OPENC-MODULE-DUPLICATE-001",
+    "OPENC-OVERLOAD-EXACT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "multi-source",
+    "mode": "module",
+    "modules": {
+      "app": [
+        "a",
+        "b"
+      ]
+    },
+    "name": "module_multi_source_overload",
+    "profile": "standard",
+    "rules": [
+      "OPENC-MODULE-DUPLICATE-001",
+      "OPENC-OVERLOAD-EXACT-001"
+    ]
+  },
+  "id": "valid/module_multi_source_overload",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/module_multi_source_overload",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/module_multi_source_overload/sources/a",
+    "conformance/fixtures/valid/module_multi_source_overload/sources/b"
+  ]
+}

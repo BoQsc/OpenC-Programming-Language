@@ -1,0 +1,84 @@
+{
+  "$id": "openc://schema/project/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "build_context": {
+      "additionalProperties": {
+        "type": [
+          "boolean",
+          "integer",
+          "string"
+        ]
+      },
+      "type": "object"
+    },
+    "candidate": {
+      "type": "string"
+    },
+    "extensions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "generated_sources": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "implementation_limits": {
+      "type": "string"
+    },
+    "module_map": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "type": "array",
+        "uniqueItems": true
+      },
+      "type": "object"
+    },
+    "output_root": {
+      "type": "string"
+    },
+    "profile": {
+      "enum": [
+        "standard",
+        "strict",
+        "critical"
+      ]
+    },
+    "schema": {
+      "const": "openc.project.v1"
+    },
+    "source_roots": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "target_record": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "candidate",
+    "source_roots",
+    "module_map",
+    "build_context",
+    "target_record",
+    "profile",
+    "output_root",
+    "extensions"
+  ],
+  "title": "OpenC project context",
+  "type": "object"
+}

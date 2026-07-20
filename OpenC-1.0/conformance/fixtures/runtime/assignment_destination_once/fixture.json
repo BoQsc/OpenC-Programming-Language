@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-EVAL-ASSIGN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept",
+      "stdout": [
+        "1"
+      ]
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "assignment_destination_once",
+    "profile": "standard",
+    "rules": [
+      "OPENC-EVAL-ASSIGN-001"
+    ]
+  },
+  "id": "runtime/assignment_destination_once",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/assignment_destination_once",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/assignment_destination_once/main"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "build_context": {
+    "project.feature.logging": false,
+    "target.os": "linux",
+    "target.pointer_width": 64
+  },
+  "candidate": "OpenC Core Candidate 2 — Implementation Readiness Revision 1",
+  "extensions": [],
+  "module_map": {
+    "main": [
+      "source/main"
+    ]
+  },
+  "output_root": "build",
+  "profile": "standard",
+  "schema": "openc.project.v1",
+  "source_roots": [
+    "source"
+  ],
+  "target_record": "targets/linux-x86_64.json"
+}

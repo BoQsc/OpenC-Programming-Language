@@ -1,0 +1,101 @@
+{
+  "cases": [
+    {
+      "align": 4,
+      "expected": "defined",
+      "extent": 16,
+      "id": "base_deref",
+      "live": true,
+      "offset": 0,
+      "op": "deref",
+      "prov": "A",
+      "size": 4
+    },
+    {
+      "align": 4,
+      "expected": "target_fault",
+      "extent": 16,
+      "id": "onepast_no_deref",
+      "live": true,
+      "offset": 16,
+      "op": "deref",
+      "prov": "A",
+      "size": 4
+    },
+    {
+      "align": 4,
+      "expected": "target_fault",
+      "extent": 16,
+      "id": "misaligned",
+      "live": true,
+      "offset": 2,
+      "op": "deref",
+      "prov": "A",
+      "size": 4
+    },
+    {
+      "align": 4,
+      "expected": "target_fault",
+      "extent": 16,
+      "id": "dead_lifetime",
+      "live": false,
+      "offset": 0,
+      "op": "deref",
+      "prov": "A",
+      "size": 4
+    },
+    {
+      "expected": "defined",
+      "id": "same_provenance_order",
+      "left": [
+        "A",
+        0
+      ],
+      "op": "order",
+      "right": [
+        "A",
+        8
+      ]
+    },
+    {
+      "expected": "target_fault",
+      "id": "cross_provenance_order",
+      "left": [
+        "A",
+        0
+      ],
+      "op": "order",
+      "right": [
+        "B",
+        0
+      ]
+    },
+    {
+      "expected": false,
+      "id": "cross_provenance_equality",
+      "left": [
+        "A",
+        0
+      ],
+      "op": "equal",
+      "right": [
+        "B",
+        0
+      ]
+    },
+    {
+      "expected": true,
+      "id": "same_pointer_equality",
+      "left": [
+        "A",
+        4
+      ],
+      "op": "equal",
+      "right": [
+        "A",
+        4
+      ]
+    }
+  ],
+  "group": "pointer"
+}

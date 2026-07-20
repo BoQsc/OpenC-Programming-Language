@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-TEXT-CONVERT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-TEXT-CONVERT-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "text_byte_conversion_explicit",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TEXT-CONVERT-001"
+    ]
+  },
+  "id": "invalid/text_byte_conversion_explicit",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/text_byte_conversion_explicit",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/text_byte_conversion_explicit/main"
+  ]
+}

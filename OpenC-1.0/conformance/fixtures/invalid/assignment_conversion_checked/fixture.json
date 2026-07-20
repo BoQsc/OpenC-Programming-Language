@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-ASSIGN-CONVERT-001",
+    "OPENC-CONVERT-LOSSY-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-ASSIGN-CONVERT-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "assignment_conversion_checked",
+    "profile": "standard",
+    "rules": [
+      "OPENC-ASSIGN-CONVERT-001",
+      "OPENC-CONVERT-LOSSY-001"
+    ]
+  },
+  "id": "invalid/assignment_conversion_checked",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/assignment_conversion_checked",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/assignment_conversion_checked/main"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "cases": [
+    {
+      "a": null,
+      "b": null,
+      "expected_equal": true,
+      "id": "none_equal_none"
+    },
+    {
+      "a": null,
+      "b": 3,
+      "expected_equal": false,
+      "id": "none_vs_value"
+    },
+    {
+      "a": 3,
+      "b": 3,
+      "expected_equal": true,
+      "id": "value_equal"
+    },
+    {
+      "expected": "defined",
+      "id": "presence_access",
+      "present": true,
+      "proven": true
+    },
+    {
+      "expected": "checked_failure",
+      "id": "unproven_access",
+      "present": true,
+      "proven": false
+    },
+    {
+      "expected": "checked_failure",
+      "id": "absent_access",
+      "present": false,
+      "proven": false
+    }
+  ],
+  "group": "optional"
+}

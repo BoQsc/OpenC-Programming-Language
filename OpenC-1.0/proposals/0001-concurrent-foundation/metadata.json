@@ -1,0 +1,14 @@
+{
+  "affected_components": [
+    "concurrent"
+  ],
+  "compatibility_class": "additive_or_separate_component",
+  "evidence_state": "HISTORICAL_RESEARCH",
+  "grammar_productions": [],
+  "id": "OP-PROP-0001",
+  "rule_ids": [],
+  "schema": "openc.proposal.v1",
+  "status": "research_preserved_not_integrated",
+  "target_version": null,
+  "title": "Concurrent systems facilities"
+}

@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-SWITCH-NOFALL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-SWITCH-NOFALL-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "switch_implicit_fallthrough",
+    "profile": "standard",
+    "rules": [
+      "OPENC-SWITCH-NOFALL-001"
+    ]
+  },
+  "id": "invalid/switch_implicit_fallthrough",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/switch_implicit_fallthrough",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/switch_implicit_fallthrough/main"
+  ]
+}

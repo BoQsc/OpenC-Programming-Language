@@ -1,0 +1,13 @@
+[build-system]
+requires = []
+build-backend = ""
+
+[project]
+name = "openc-bootstrap"
+version = "1.0.dev1"
+description = "Informative standard-library-only Python bootstrap compiler for OpenC"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+openc-bootstrap = "openc.cli:main"

@@ -1,0 +1,52 @@
+{
+  "cases": [
+    {
+      "expected_length": 2,
+      "id": "text_scalar_length",
+      "scalars": [
+        65,
+        128512
+      ]
+    },
+    {
+      "a": [
+        101,
+        769
+      ],
+      "b": [
+        233
+      ],
+      "expected_equal": false,
+      "id": "text_exact_equality"
+    },
+    {
+      "end": 4,
+      "expected_length": 3,
+      "id": "slice_range",
+      "length": 5,
+      "start": 1
+    },
+    {
+      "end": 2,
+      "expected_length": 0,
+      "id": "slice_empty",
+      "length": 5,
+      "start": 2
+    },
+    {
+      "end": 2,
+      "expected": "checked_failure",
+      "id": "slice_bad_order",
+      "length": 5,
+      "start": 4
+    },
+    {
+      "end": 6,
+      "expected": "checked_failure",
+      "id": "slice_bad_end",
+      "length": 5,
+      "start": 0
+    }
+  ],
+  "group": "collections"
+}

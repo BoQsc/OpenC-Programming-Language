@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-NUM-MACHINE-001",
+    "OPENC-TYPE-MACHINE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "tooling",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "command",
+    "mode": "module",
+    "name": "machine_integer_width_reported",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TYPE-MACHINE-001",
+      "OPENC-NUM-MACHINE-001"
+    ]
+  },
+  "id": "command/machine_integer_width_reported",
+  "kind": "command",
+  "origin": "OpenC Standard Draft 0.10 validation/tooling/machine_integer_width_reported",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/command/machine_integer_width_reported/command.json"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "$id": "openc://schema/diagnostic/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "category": {
+      "type": "string"
+    },
+    "help": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "message": {
+      "type": "string"
+    },
+    "phase": {
+      "enum": [
+        "source",
+        "lexical",
+        "syntax",
+        "declaration",
+        "name",
+        "type",
+        "constant",
+        "flow",
+        "ownership",
+        "borrow",
+        "unsafe",
+        "target",
+        "runtime"
+      ]
+    },
+    "primary": {
+      "$ref": "SOURCE_SPAN.schema.json"
+    },
+    "related": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "span": {
+            "$ref": "SOURCE_SPAN.schema.json"
+          }
+        },
+        "required": [
+          "message",
+          "span"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "rule": {
+      "pattern": "^OPENC-[A-Z0-9-]+$",
+      "type": "string"
+    },
+    "schema": {
+      "const": "openc.diagnostic.v1"
+    },
+    "severity": {
+      "enum": [
+        "error",
+        "warning",
+        "note",
+        "help"
+      ]
+    },
+    "trace": {
+      "items": {
+        "$ref": "SOURCE_SPAN.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "rule",
+    "phase",
+    "category",
+    "severity",
+    "message",
+    "primary"
+  ],
+  "title": "OpenC diagnostic",
+  "type": "object"
+}

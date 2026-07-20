@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-CAST-UNCHECKED-INT-001",
+    "OPENC-NUM-UNCHECKEDCAST-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "unchecked_integer_cast",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CAST-UNCHECKED-INT-001",
+      "OPENC-NUM-UNCHECKEDCAST-001"
+    ]
+  },
+  "id": "valid/unchecked_integer_cast",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/unchecked_integer_cast",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/unchecked_integer_cast/main"
+  ]
+}

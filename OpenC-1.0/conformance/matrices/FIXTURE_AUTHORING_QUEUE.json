@@ -1,0 +1,4303 @@
+{
+  "authored_rule_count": 330,
+  "candidate": "OpenC Core Candidate 2 \u2014 Implementation Readiness Revision 1",
+  "entries": [
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SAFETY-NOUB-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SAFETY-UNSAFE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TERM-CHECKFAIL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SAFETY-OUTCOME-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SAFETY-OPTIMIZE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SAFETY-IMPLIMIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SOURCE-UTF8-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SOURCE-INVALID-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SOURCE-BOM-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LEX-COMMENT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TRANSLATE-NOPREPROCESSOR-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TRANSLATE-NOINCLUDE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-WHEN-CONTEXT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-WHEN-EXPR-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-WHEN-STRUCTURED-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LEX-IDENT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LEX-TYPEWORD-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LEX-TYPEQUALIFIER-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LEX-MAXIMAL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LEX-WORDCLASS-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LITERAL-INTEGER-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LITERAL-RANGE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LITERAL-TEXT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LITERAL-SEPARATOR-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LITERAL-FLOATDEFAULT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LITERAL-NOSUFFIX-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LITERAL-UNICODE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-IDENTITY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-IMPORT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-SHORT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-AMBIGUOUS-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-PRIVATE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-EXPORT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-CYCLE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-MULTISOURCE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-DUPLICATE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-IMPORTLOCAL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-FULLIMPORT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-IMPORTIDEMPOTENT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-ORDER-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-NOREEXPORT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-MAPPING-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-CONSTCYCLE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "multi-source",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MODULE-API-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-WIDTH-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-MACHINE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-HISTORICAL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-VOIDOBJECT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-BOOL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-BYTE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-FLOAT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-FLOAT-FIXED-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-TEXT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-CONST-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REF-TYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REF-READ-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REF-SYMBOL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REF-INIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REF-NOREBIND-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REF-ASSIGN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REF-RESOURCEASSIGN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-TYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-SYMBOL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REF-CONSTVIEW-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-CONSTVIEW-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-EXPLICIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-CHECK-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-NOSHORTHAND-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-NOBORROW-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ARRAY-TYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-TYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-CONSTVIEW-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STORAGE-TYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONVERT-IMPLICIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONVERT-LOSSY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONVERT-CAST-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONVERT-REINTERPRET-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-RESOURCEARRAY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-RESOURCEOPTIONAL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-PREFIXORDER-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-CONSTRUCTORS-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TYPE-SUFFIX-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DECL-TYPEFIRST-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DECL-ASSIGN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-INIT-BEFOREUSE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-INIT-PATH-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-INIT-NOZERO-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONST-INIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONST-ASSIGN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SCOPE-LOCAL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SCOPE-DUPLICATE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SCOPE-SHADOW-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-GLOBAL-CONST-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-GLOBAL-MUTABLE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PARAM-OUTTYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PARAM-OWNTYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PARAM-OUT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PARAM-OWN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PARAM-REF-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-MODE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-MODE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NAME-UNKNOWN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-INIT-LOOP-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-OUT-TARGET-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-ALIAS-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-NOREAD-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-REASSIGN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONST-EXPR-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONST-CHECKFAIL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EXPR-ORDER-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CALL-COUNT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CALL-TYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-MEMBER-UNKNOWN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-INDEX-SAFE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-RANGE-CHECK-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ARITH-TYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ARITH-MINUS-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EQUALITY-RESOURCE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-BOOL-SHORT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-ASSIGN-TARGET-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ASSIGN-CONVERT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-ADDRESS-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-ADDRESSABLE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-DEREF-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-ARITH-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-NULL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CAST-EXACT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-COMPARE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-BLOCK-BRACES-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STMT-SEMICOLON-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-COND-BOOL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FOR-SCOPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SWITCH-NOFALL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SWITCH-ENUM-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SWITCH-DOMAIN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SWITCH-CASE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SWITCH-DUPLICATE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SWITCH-EXECUTE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LOOP-CONTEXT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-IF-EXECUTE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-WHILE-EXECUTE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FOR-EXECUTE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RETURN-TYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RETURN-LIFETIME-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STMT-UNREACHABLE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FUNCTION-DIRECT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FUNCTION-PARAM-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OVERLOAD-AMBIGUOUS-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OVERLOAD-EXACT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OVERLOAD-NORANK-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OVERLOAD-RETURN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OVERLOAD-MODE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FUNCTION-PATH-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-OWN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-CALL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-RESULTBIND-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-CALL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FUNCTION-UNSAFE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FUNCTION-OUTSUCCESS-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FUNCTION-OUTFAIL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FUNCTION-OUTRETURN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-FORWARD-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FUNCTION-ARGORDER-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OVERLOAD-CONVERSIONS-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FUNCTION-RECURSION-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-DECL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-TRAILING-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-DECL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-TRAILING-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-FIELD-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-CONSTFIELD-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FIELD-TYPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-DEFAULT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-INIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-INIT-FIELD-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-INIT-MISSING-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-EMPTY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-COPY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-EQUALITY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ENUM-DISTINCT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ENUM-UNDERLYING-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ENUM-DUPLICATE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-NOCOPY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-MOVE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-COPY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-DESTROY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-OBLIGATION-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-NOCONSTOWNER-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-INIT-ORDER-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-NORESOURCE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-FIELD-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-FIELD-OWNPTR-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-FIELD-DEFAULT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-INIT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-INIT-REQUIRED-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-INIT-OWNER-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-INIT-RESERVE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-INIT-COMMIT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-INIT-ROLLBACK-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-INIT-PLACEMENT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-REINIT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-FIELD-VIEW-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-FIELD-ASSIGN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-FIELD-CONSUME-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-DISMANTLE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-FIELD-ONCE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-CONSUMER-RETURN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-RESOURCE-OPAQUE-DISCHARGE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-DEFAULT-NODEP-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STRUCT-INIT-COMMIT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ENUM-IMPLICIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ARRAY-DECL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ARRAY-INIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ARRAY-INDEX-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ARRAY-LENGTH-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ARRAY-COPY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-BOUNDED-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-LENGTH-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-FROMARRAY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-MUTATE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-RANGE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-ALIAS-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ARRAY-NODECAY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-BYTE-ARITH-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TEXT-LENGTH-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TEXT-NOINDEX-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TEXT-CONVERT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-RANGE-EMPTY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-RANGE-DEFAULT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-DISJOINT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TEXT-EQUALITY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-TEXT-COPY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-BYTE-DISTINCT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-COPY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SLICE-ESCAPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-NONE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-PRESENT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-VALUE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STATUS-MUSTHANDLE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STATUS-OVERWRITE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STATUS-CODE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STATUS-INVARIANT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STATUS-INITIALIZER-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STATUS-MESSAGE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-OWNFLOW-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-STATUSONLY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ERROR-NOHIDDEN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-ERROR-FATAL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STATUS-READONLY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STATUS-PROOF-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STATUS-COPY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-NOPARTIAL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-COMMIT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-OWNCOMMIT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-OWNTAIL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-OWNFAIL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-COPY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-PRESENT-READONLY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-ASSIGN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OPTIONAL-NESTED-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LIFETIME-ACTIVE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-COPY-PLAIN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-USEAFTER-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-BORROW-MANYREAD-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-BORROW-ONEWRITE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-BORROW-LASTUSE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-BORROW-NOMOVE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LIFETIME-RETURNLOCAL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-LIFETIME-SLICE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-SCOPE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-RETURN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-PRODUCE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-CONSUME-ARG-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-CHECKEDGE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-EXIT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-PRODUCER-PLACEMENT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-OWNCOPY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-OWNCONTAIN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-SCOPE-RESERVE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OWN-SCOPE-BORROW-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STORAGE-NOVALUE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STORAGE-NORESOURCE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONSTRUCT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONSTRUCT-VALUE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONSTRUCT-PLACEMENT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CONSTRUCT-DOUBLE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DESTROY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DESTROY-BORROW-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DESTROY-USEAFTER-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STORAGE-LIVEEXIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STORAGE-RECONSTRUCT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STORAGE-REFINVALID-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-NOLENGTH-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-ALIGN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-LIFETIME-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-BYTE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-BYTEWRITE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-DERIVED-NONOWNING-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-ONEPAST-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-CROSSALLOC-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-CONST-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-BINDING-MUTABLE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-PROVENANCE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-BASE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-DEREF-RANGE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-INVALIDATE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-PTR-SUBTRACT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STORAGE-EMPTY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-STORAGE-COMMIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-UNSAFE-BOUNDARY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "human-review"
+      ],
+      "rule": "OPENC-UNSAFE-LOCAL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-UNSAFE-CALL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-UNSAFE-CONTRACT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CAST-UNCHECKED-INT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CAST-UNCHECKED-LIMIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REINTERPRET-VALUE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REINTERPRET-SIZE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REINTERPRET-PTR-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-REINTERPRET-NOLIFETIME-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-UNSAFE-WRAPPER-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-UNSAFE-FAULT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-UNSAFE-NOASSUME-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-UNSAFE-PROVENANCE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-UNSAFE-HISTORY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-UNSAFE-PRECONDITION-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SAFE-GUARANTEE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-SAFE-WRAPPER-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EXTENSION-SAFETY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DIAG-STRUCTURE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "human-review"
+      ],
+      "rule": "OPENC-DIAG-QUALITY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DIAG-MACHINE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DIAG-TRACE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DIAG-SPAN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DIAG-PHASE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DIAG-SEVERITY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-DIAG-PRIMARY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-GRAMMAR-AUTHORITY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-GRAMMAR-COVERAGE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-FULL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-NOUNSPEC-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-CALL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-CALLEE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-ARGMODE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-BINARY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-SHORT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-UNARY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-ASSIGN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-COMPOUND-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-ARRAYINIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-STRUCTINIT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-DEFAULT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-CONSTRUCT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-RETURN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-BREAK-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-SCOPE-REGISTER-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-SCOPE-NESTED-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EVAL-OBSERVABLE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-STATE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-REACHABLE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-IF-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-IF-NOELSE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-SWITCH-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-WHILE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-FOR-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-CONTINUE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-BREAK-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-OUT-TOKEN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-OUT-PREDICATE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-PENDINGUSE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-OUT-SUCCESS-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-OUT-FAILURE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-OUT-MERGE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-OUT-LOOP-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-OUT-PROOF-LOST-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-OUT-COPY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-OPTIONAL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-OPTIONAL-ELSE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-OPTIONAL-INVALIDATE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-MOVED-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-BORROW-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-DESTROYED-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-FLOW-DIAG-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-TWOS-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-UNSIGNED-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-BYTE8-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-MACHINE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-LITERAL-CONTEXT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-LITERAL-DEFAULT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-LITERAL-NEGATIVE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-ADD-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-DIV-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-REM-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-DIV-MIN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-DIVZERO-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-BITWISE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-SHIFT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-SHIFTRIGHT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-SHIFTLEFT-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-WRAP-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-SATURATE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-INTRINSIC-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-CAST-INT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-CAST-FLOATINT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-CAST-INTFLOAT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-CAST-FLOAT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-UNCHECKEDCAST-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-FLOAT-FORMAT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-FLOAT-ROUND-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-FLOAT-NONFINITE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-FLOAT-DIVZERO-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-FLOAT-ORDER-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-CONST-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-AUTHORITY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-COMPOUND-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "runtime-checked-failure",
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-NUM-FLOAT-CONST-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-REGISTER-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-CALLEE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-VALUE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-REF-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-OWN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-OUT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-ARG-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-DESTROY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-DESTROY-RESERVE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-DESTROY-STORAGE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-LIFO-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-NESTED-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-ONCE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-STRUCTURED-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-RETURN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-CHECKFAIL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-UNSAFEFAULT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-NOFALLIBLE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-FAILURE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-NOCANCEL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-VOID-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-SAFEWRAPPER-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-ALL-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-PRIMARY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-FINISH-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-CLEANUP-STATE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-CONTEXT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-BYTE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-ENDIAN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-ALIGN-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-ARRAYLAYOUT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-STRUCTLAYOUT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-PADDING-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-SIZEOF-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-ALIGNOF-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-QUERYDOMAIN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-STORAGESIZE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-ARRAYSIZE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-QUERY-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-PTRPROV-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-PTROFFSET-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-PTRCROSS-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-PTRCOMPARE-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-PTRINT-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-FAULTMODEL-001"
+    },
+    {
+      "authoring_status": "AUTHORED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-NOARBITRARY-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-SANITIZE-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-PORTABILITY-PLAIN-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-SCHEMA-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid",
+        "target-record"
+      ],
+      "rule": "OPENC-TARGET-CROSS-001"
+    },
+    {
+      "authoring_status": "REQUIRED",
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "required_fixture_kinds": [
+        "source-invalid",
+        "source-valid"
+      ],
+      "rule": "OPENC-EXPR-PRECEDENCE-001"
+    }
+  ],
+  "fixture_count": 268,
+  "required_rule_count": 136,
+  "schema": "openc.conformance.fixture_queue.v1"
+}

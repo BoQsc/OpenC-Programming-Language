@@ -1,0 +1,32 @@
+{
+  "active_rules": [
+    "OPENC-TARGET-ARRAYLAYOUT-001",
+    "OPENC-TARGET-PADDING-001",
+    "OPENC-TARGET-STRUCTLAYOUT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "tooling",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "command",
+    "mode": "module",
+    "name": "target_layout_report",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TARGET-ARRAYLAYOUT-001",
+      "OPENC-TARGET-STRUCTLAYOUT-001",
+      "OPENC-TARGET-PADDING-001"
+    ]
+  },
+  "id": "command/target_layout_report",
+  "kind": "command",
+  "origin": "OpenC Standard Draft 0.10 validation/tooling/target_layout_report",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/command/target_layout_report/command.json"
+  ]
+}

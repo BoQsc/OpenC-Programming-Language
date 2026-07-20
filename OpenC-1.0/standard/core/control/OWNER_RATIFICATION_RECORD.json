@@ -1,0 +1,295 @@
+{
+  "basis": "Explicit approvals throughout the OpenC design record and the project-owner instruction to proceed after CC2 completion.",
+  "candidate": "OpenC Core Candidate 2",
+  "candidate_manifest_sha256": "dea88cd7991b85914c34f56071f8772fb1f74199d79b50845a7901aac027b9dc",
+  "candidate_zip_sha256": null,
+  "date": "2026-07-20",
+  "decisions": [
+    {
+      "constraints": [
+        "A failed status initializes no associated out value.",
+        "A successful status proof initializes exactly its associated outputs.",
+        "Alias and merge behavior must be locally implementable.",
+        "Fallible calls cannot be silently ignored."
+      ],
+      "decision_effect": [
+        "OI-003",
+        "OI-005",
+        "Hosted API design"
+      ],
+      "id": "HD-001",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "Yes. Retain and simplify status/out. It fits the established OpenC identity: no hidden exceptions, no Result<T,E> wrapper burden, no special unwrap keyword, ordinary successful values remain ordinary values.",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "Recoverable failure model"
+    },
+    {
+      "constraints": [
+        "Presence is explicit in the type.",
+        "Value access requires proof.",
+        "No implicit optional-to-bool conversion in normal modules."
+      ],
+      "decision_effect": [
+        "OI-013"
+      ],
+      "id": "HD-002",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "Use optional T. Keep ordinary references non-null. Keep T? and nullable T rejected. Direct optional resource containment remains outside 1.0 unless a complete ownership model is added.",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "Absence type spelling and semantics"
+    },
+    {
+      "constraints": [
+        "Deterministic from declared build/target context.",
+        "Parser-visible structured branches.",
+        "No token rewriting or invalid token streams."
+      ],
+      "decision_effect": [
+        "OI-001"
+      ],
+      "id": "HD-003",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "Adopt a narrow, side-effect-free context-expression subset. Do not permit arbitrary user function execution, allocation, mutation, I/O, pointers, or runtime values.",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "Compile-time condition power"
+    },
+    {
+      "constraints": [
+        "Resource values are non-copyable.",
+        "Ordinary struct remains plain/copyable and cannot hide resource fields.",
+        "Movement invalidates the source.",
+        "Destruction discharges obligations exactly once."
+      ],
+      "decision_effect": [
+        "OI-004"
+      ],
+      "id": "HD-004",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "Retain resource Name declarations, own T parameter/return modes where ownership is transferred, out own ptr T for unique raw-pointer outputs, and domain-specific move/destroy functions. Do not introduce generic move(value).",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "Resource and ownership syntax"
+    },
+    {
+      "constraints": [
+        "Reverse registration order.",
+        "Registration-time capture.",
+        "Complete execution on every structured exit.",
+        "No recoverable or checked-failure outcome from cleanup.",
+        "Unsafe target faults remain outside the structured guarantee."
+      ],
+      "decision_effect": [
+        "OI-005",
+        "Hosted file/memory APIs"
+      ],
+      "id": "HD-005",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "Require every registered scope cleanup target to be statically no-fail. Handle finish/flush/commit explicitly through status, then register a separate no-fail release/discard operation.",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "Fallible cleanup policy"
+    },
+    {
+      "constraints": [
+        "Explicit unsafe foreign boundary.",
+        "Declared calling convention and symbol identity.",
+        "No implicit C source compatibility.",
+        "Layout and allocator obligations are visible."
+      ],
+      "decision_effect": [
+        "OI-022"
+      ],
+      "id": "HD-006",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "No. Keep Native as a separate candidate set. The capability is required for a practical toolchain, but exact syntax should freeze only after real Windows and Linux bindings exercise it.",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "Native boundary syntax status"
+    },
+    {
+      "constraints": [
+        "Exact signatures.",
+        "Explicit status and ownership.",
+        "Defined Windows/Linux provider obligations.",
+        "No hidden global host state."
+      ],
+      "decision_effect": [
+        "OI-020",
+        "OI-021"
+      ],
+      "id": "HD-007",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "Require only system.io, system.memory, system.file, system.path, system.process, and system.text. Keep concurrency modules separate.",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "Minimum Hosted 1.0 library"
+    },
+    {
+      "constraints": [
+        "Commands accept explicit paths.",
+        "Project context maps source units.",
+        "Diagnostics report source identity independent of extension."
+      ],
+      "decision_effect": [
+        "OI-029"
+      ],
+      "id": "HD-008",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "No. Keep extension mapping outside language semantics. An official toolchain may later choose a short extension after real usage, but source validity and module identity must never depend on it.",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "Source-file extension policy"
+    },
+    {
+      "constraints": [
+        "Every claim names edition, set, profile, target, extensions, and evidence.",
+        "Partial implementations remain honest."
+      ],
+      "decision_effect": [
+        "SCOPE_1_0",
+        "PROFILE_MATRIX",
+        "OI-027",
+        "OI-028"
+      ],
+      "id": "HD-009",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "Publish separate claims for Core, Hosted, Freestanding, Native, and Tooling/Diagnostics. Treat Standard/Strict/Critical as validation overlays, not language forks. Keep Concurrent provisional outside the blocking path.",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "1.0 conformance-set boundary"
+    },
+    {
+      "constraints": [
+        "No second assignment language.",
+        "No hidden uninspectable helpers.",
+        "Every shortcut expands deterministically.",
+        "Critical mode may disable shortcuts."
+      ],
+      "decision_effect": [
+        "OI-026"
+      ],
+      "id": "HD-010",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "No. Define them later as tooling/execution modes with canonical expansions into Core/Hosted code. Preserve the same semantics and safety rules.",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "Script and live mode status"
+    },
+    {
+      "constraints": [
+        "No loss of research history.",
+        "No Core grammar contamination.",
+        "Separate conformance and versioning."
+      ],
+      "decision_effect": [
+        "OI-028"
+      ],
+      "id": "HD-011",
+      "ratification": "ratified",
+      "release_blocking": false,
+      "reopen_conditions": [
+        "independent review identifies contradiction or unsoundness",
+        "implementation evidence demonstrates impracticality or ambiguity",
+        "conformance evidence exposes inconsistent required outcomes",
+        "security review invalidates a safe-code guarantee"
+      ],
+      "selection": "No. Preserve it as OpenC Concurrent Provisional and re-audit after Core ownership and Hosted runtime have real implementations.",
+      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "title": "Concurrency publication status"
+    },
+    {
+      "constraints": [
+        "Terms travel inside every release package.",
+        "Historical drafts retain provenance.",
+        "Trademark/patent questions are not silently implied by copyright license."
+      ],
+      "decision_effect": [
+        "OI-030",
+        "Public release readiness"
+      ],
+      "id": "HD-012",
+      "ratification": "not_ratified",
+      "release_blocking": true,
+      "reopen_conditions": [
+        "local license files are selected and included",
+        "project decision authority and contribution terms are defined",
+        "errata and security-reporting authority are defined"
+      ],
+      "selection": "Select and include explicit local licenses separately for specification text and software/tests if appropriate; define the maintainer decision authority, contribution terms, errata process, and security contact. Do not rely on a remote repository page as the only authority.",
+      "status": "PENDING_LEGAL_AND_GOVERNANCE_SELECTION",
+      "title": "Licensing and project authority"
+    }
+  ],
+  "schema": "openc.core.owner_ratification.cc2.r1",
+  "scope": "Semantic, grammar, conformance-set, and project-direction selections only. This is not legal authorization, release authorization, semantic freeze, or conformance evidence.",
+  "summary": {
+    "legal_and_governance_ratified": false,
+    "pending": 1,
+    "ratified": 11,
+    "release_authorized": false,
+    "semantic_baseline_ratified": true
+  }
+}

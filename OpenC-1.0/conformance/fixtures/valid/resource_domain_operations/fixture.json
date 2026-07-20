@@ -1,0 +1,32 @@
+{
+  "active_rules": [
+    "OPENC-RESOURCE-COPY-001",
+    "OPENC-RESOURCE-DESTROY-001",
+    "OPENC-RESOURCE-MOVE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "resource_domain_operations",
+    "profile": "standard",
+    "rules": [
+      "OPENC-RESOURCE-MOVE-001",
+      "OPENC-RESOURCE-COPY-001",
+      "OPENC-RESOURCE-DESTROY-001"
+    ]
+  },
+  "id": "valid/resource_domain_operations",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/resource_domain_operations",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/resource_domain_operations/main"
+  ]
+}

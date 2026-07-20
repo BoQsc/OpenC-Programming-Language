@@ -1,0 +1,12 @@
+{
+  "affected_components": [],
+  "compatibility_class": null,
+  "evidence_state": "AUTHORED",
+  "grammar_productions": [],
+  "id": "OP-PROP-XXXX",
+  "rule_ids": [],
+  "schema": "openc.proposal.v1",
+  "status": "draft",
+  "target_version": null,
+  "title": ""
+}

@@ -1,0 +1,132 @@
+{
+  "candidate": "OpenC Core Candidate 2",
+  "issues": [
+    {
+      "id": "OI-001",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B01",
+      "status": "candidate_resolved",
+      "title": "Compile-time condition subset"
+    },
+    {
+      "id": "OI-002",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B01-B12",
+      "status": "candidate_resolved",
+      "title": "Grammar/prose synchronization"
+    },
+    {
+      "id": "OI-003",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B03",
+      "status": "candidate_resolved",
+      "title": "Status/out proof model"
+    },
+    {
+      "id": "OI-004",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B04",
+      "status": "candidate_resolved",
+      "title": "Resource ownership"
+    },
+    {
+      "id": "OI-005",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B05",
+      "status": "candidate_resolved",
+      "title": "Scope cleanup and failure"
+    },
+    {
+      "id": "OI-006",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B06",
+      "status": "candidate_resolved",
+      "title": "Pointer provenance and target faults"
+    },
+    {
+      "id": "OI-007",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B08",
+      "status": "candidate_resolved",
+      "title": "Logical modules and multi-source composition"
+    },
+    {
+      "id": "OI-008",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B09",
+      "status": "candidate_resolved",
+      "title": "Text and byte boundary"
+    },
+    {
+      "id": "OI-009",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B07",
+      "status": "candidate_resolved",
+      "title": "Numeric consolidation"
+    },
+    {
+      "id": "OI-010",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B07+B13",
+      "status": "candidate_resolved",
+      "title": "No-UB outcome taxonomy"
+    },
+    {
+      "id": "OI-011",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B12",
+      "status": "candidate_resolved",
+      "title": "Diagnostic phases and identity"
+    },
+    {
+      "id": "OI-012",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B13",
+      "status": "candidate_resolved",
+      "title": "Core rule disposition"
+    },
+    {
+      "id": "OI-013",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B10",
+      "status": "candidate_resolved",
+      "title": "Optional values"
+    },
+    {
+      "id": "OI-014",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B09",
+      "status": "candidate_resolved",
+      "title": "Arrays and slices"
+    },
+    {
+      "id": "OI-015",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B10",
+      "status": "candidate_resolved",
+      "title": "Aggregates"
+    },
+    {
+      "id": "OI-016",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B11",
+      "status": "candidate_resolved",
+      "title": "Overload resolution"
+    },
+    {
+      "id": "OI-017",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B08+B11",
+      "status": "candidate_resolved",
+      "title": "Module constants"
+    },
+    {
+      "id": "OI-018",
+      "remaining_gate": "independent review and complete implementation exercise",
+      "resolution_batch": "B11",
+      "status": "candidate_resolved",
+      "title": "Target portability"
+    }
+  ],
+  "schema": "openc.core.issue_closure.cc2.v1"
+}

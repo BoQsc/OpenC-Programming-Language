@@ -1,0 +1,15 @@
+{
+  "candidate": "OpenC Core Candidate 2",
+  "corrections": [
+    {
+      "class": "correction",
+      "compatibility_impact": "none",
+      "corrected_production_count": 166,
+      "id": "CC2-CORRECTION-001",
+      "normative_grammar_change": false,
+      "semantic_change": false,
+      "title": "Include ASCII_letter in grammar production coverage"
+    }
+  ],
+  "schema": "openc.core.corrections.cc2.v1"
+}

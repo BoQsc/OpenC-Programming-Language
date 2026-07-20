@@ -1,0 +1,3376 @@
+{
+  "active_rules": 466,
+  "candidate": "OpenC Core Candidate 2 — Implementation Readiness Revision 1",
+  "inherited_active_rules": 446,
+  "records": [
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-ARITH-CHECKED-001",
+      "source_chapter": "8. Expressions",
+      "status": "retired",
+      "successor": "OPENC-NUM-ADD-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-ARITH-DIVZERO-001",
+      "source_chapter": "8. Expressions",
+      "status": "retired",
+      "successor": "OPENC-NUM-DIVZERO-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ARITH-MINUS-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-ARITH-MINUS-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ARITH-TYPE-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-ARITH-TYPE-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-ARITH-UNCHECKED-001",
+      "source_chapter": "8. Expressions",
+      "status": "retired",
+      "successor": "OPENC-NUM-UNCHECKED-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-ARITH-WRAP-001",
+      "source_chapter": "8. Expressions",
+      "status": "retired",
+      "successor": "OPENC-NUM-WRAP-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ARRAY-COPY-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-ARRAY-COPY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ARRAY-DECL-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-ARRAY-DECL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ARRAY-INDEX-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-ARRAY-INDEX-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-ARRAY-INIT-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-ARRAY-INIT-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-ARRAY-INIT-ORDER-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "retired",
+      "successor": "OPENC-EVAL-ARRAYINIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ARRAY-LENGTH-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-ARRAY-LENGTH-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ARRAY-NODECAY-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-ARRAY-NODECAY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ARRAY-TYPE-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-ARRAY-TYPE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ASSIGN-CONVERT-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-ASSIGN-CONVERT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ASSIGN-TARGET-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-ASSIGN-TARGET-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-BLOCK-BRACES-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-BLOCK-BRACES-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-BOOL-SHORT-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-BOOL-SHORT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-BORROW-LASTUSE-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-BORROW-LASTUSE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-BORROW-MANYREAD-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-BORROW-MANYREAD-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-BORROW-NOMOVE-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-BORROW-NOMOVE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-BORROW-ONEWRITE-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-BORROW-ONEWRITE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-BYTE-ARITH-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-BYTE-ARITH-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-BYTE-DISTINCT-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-BYTE-DISTINCT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CALL-COUNT-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-CALL-COUNT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CALL-TYPE-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-CALL-TYPE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CAST-EXACT-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-CAST-EXACT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CAST-UNCHECKED-INT-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-CAST-UNCHECKED-INT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CAST-UNCHECKED-LIMIT-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-CAST-UNCHECKED-LIMIT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-ALL-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-ALL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CLEANUP-ARG-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-ARG-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-CALLEE-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-CALLEE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-CHECKFAIL-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-CHECKFAIL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CLEANUP-DESTROY-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-DESTROY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CLEANUP-DESTROY-RESERVE-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-DESTROY-RESERVE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CLEANUP-DESTROY-STORAGE-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-DESTROY-STORAGE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-FAILURE-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-FAILURE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-FINISH-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-FINISH-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CLEANUP-LIFO-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-LIFO-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CLEANUP-NESTED-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-NESTED-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-NOCANCEL-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-NOCANCEL-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-NOFALLIBLE-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-NOFALLIBLE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CLEANUP-ONCE-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-ONCE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CLEANUP-OUT-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-OUT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-OWN-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-OWN-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-PRIMARY-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-PRIMARY-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-REF-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-REF-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-REGISTER-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-REGISTER-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-RETURN-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-RETURN-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-CLEANUP-SAFEWRAPPER-001",
+      "source_chapter": "20. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-SAFEWRAPPER-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-CLEANUP-STATE-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-STATE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-STRUCTURED-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-STRUCTURED-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-UNSAFEFAULT-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-UNSAFEFAULT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-VALUE-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-VALUE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CLEANUP-VOID-001",
+      "source_chapter": "27. Scope actions, cleanup, and termination",
+      "status": "active",
+      "successor": "OPENC-CLEANUP-VOID-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-COND-BOOL-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-COND-BOOL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CONST-ASSIGN-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-CONST-ASSIGN-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-CONST-CHECKFAIL-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-CONST-CHECKFAIL-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-CONST-EXPR-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-CONST-EXPR-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CONST-INIT-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-CONST-INIT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-CONSTRUCT-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-CONSTRUCT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CONSTRUCT-DOUBLE-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-CONSTRUCT-DOUBLE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-CONSTRUCT-PLACEMENT-001",
+      "source_chapter": "14. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-CONSTRUCT-PLACEMENT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-CONSTRUCT-VALUE-001",
+      "source_chapter": "14. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-CONSTRUCT-VALUE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CONVERT-CAST-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-CONVERT-CAST-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CONVERT-IMPLICIT-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-CONVERT-IMPLICIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CONVERT-LOSSY-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-CONVERT-LOSSY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-CONVERT-REINTERPRET-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-CONVERT-REINTERPRET-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-COPY-PLAIN-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-COPY-PLAIN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-DECL-ASSIGN-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-DECL-ASSIGN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-DECL-TYPEFIRST-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-DECL-TYPEFIRST-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-DESTROY-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-DESTROY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-DESTROY-BORROW-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-DESTROY-BORROW-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-DESTROY-USEAFTER-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-DESTROY-USEAFTER-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-DIAG-MACHINE-001",
+      "source_chapter": "21. Diagnostics, rules, and validation",
+      "status": "active",
+      "successor": "OPENC-DIAG-MACHINE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-DIAG-PHASE-001",
+      "source_chapter": "21. Diagnostics, rules, and validation",
+      "status": "active",
+      "successor": "OPENC-DIAG-PHASE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-DIAG-PRIMARY-001",
+      "source_chapter": "21. Diagnostics, rules, and validation",
+      "status": "active",
+      "successor": "OPENC-DIAG-PRIMARY-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-DIAG-QUALITY-001",
+      "source_chapter": "21. Diagnostics, rules, and validation",
+      "status": "active",
+      "successor": "OPENC-DIAG-QUALITY-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-DIAG-SEVERITY-001",
+      "source_chapter": "21. Diagnostics, rules, and validation",
+      "status": "active",
+      "successor": "OPENC-DIAG-SEVERITY-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-DIAG-SPAN-001",
+      "source_chapter": "16. Diagnostics, rule identity, and validation",
+      "status": "active",
+      "successor": "OPENC-DIAG-SPAN-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-DIAG-STRUCTURE-001",
+      "source_chapter": "21. Diagnostics, rules, and validation",
+      "status": "active",
+      "successor": "OPENC-DIAG-STRUCTURE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-DIAG-TRACE-001",
+      "source_chapter": "21. Diagnostics, rules, and validation",
+      "status": "active",
+      "successor": "OPENC-DIAG-TRACE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ENUM-DISTINCT-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-ENUM-DISTINCT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-ENUM-DUPLICATE-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-ENUM-DUPLICATE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-ENUM-IMPLICIT-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-ENUM-IMPLICIT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-ENUM-UNDERLYING-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-ENUM-UNDERLYING-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EQUALITY-RESOURCE-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-EQUALITY-RESOURCE-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-EQUALITY-STRUCT-001",
+      "source_chapter": "8. Expressions",
+      "status": "retired",
+      "successor": "OPENC-STRUCT-EQUALITY-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-ERROR-FATAL-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-ERROR-FATAL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-ERROR-NOHIDDEN-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-ERROR-NOHIDDEN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-ARGMODE-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-ARGMODE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-ARRAYINIT-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-ARRAYINIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-ASSIGN-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-ASSIGN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-BINARY-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-BINARY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-BREAK-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-BREAK-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-CALL-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-CALL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-CALLEE-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-CALLEE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-COMPOUND-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-COMPOUND-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-CONSTRUCT-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-CONSTRUCT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-DEFAULT-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-DEFAULT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-FULL-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-FULL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-NOUNSPEC-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-NOUNSPEC-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-OBSERVABLE-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-OBSERVABLE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-RETURN-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-RETURN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-SCOPE-NESTED-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-SCOPE-NESTED-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-SCOPE-REGISTER-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-SCOPE-REGISTER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-SHORT-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-SHORT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-STRUCTINIT-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-STRUCTINIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EVAL-UNARY-001",
+      "source_chapter": "24. Deterministic evaluation and sequencing",
+      "status": "active",
+      "successor": "OPENC-EVAL-UNARY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EXPR-ORDER-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-EXPR-ORDER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-EXPR-PRECEDENCE-001",
+      "source_chapter": "Appendix A. Operator precedence",
+      "status": "active",
+      "successor": "OPENC-EXPR-PRECEDENCE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-EXTENSION-SAFETY-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-EXTENSION-SAFETY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FIELD-TYPE-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-FIELD-TYPE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-BORROW-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-BORROW-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-BREAK-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-BREAK-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-CONTINUE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-CONTINUE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-DESTROYED-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-DESTROYED-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-DIAG-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-DIAG-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-FOR-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-FOR-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-IF-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-IF-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-IF-NOELSE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-IF-NOELSE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-MOVED-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-MOVED-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-OPTIONAL-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-OPTIONAL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-OPTIONAL-ELSE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-OPTIONAL-ELSE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-OPTIONAL-INVALIDATE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-OPTIONAL-INVALIDATE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-OUT-COPY-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-OUT-COPY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-OUT-FAILURE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-OUT-FAILURE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-OUT-LOOP-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-OUT-LOOP-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-OUT-MERGE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-OUT-MERGE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-OUT-PREDICATE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-OUT-PREDICATE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-OUT-SUCCESS-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-OUT-SUCCESS-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-OUT-TOKEN-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-OUT-TOKEN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-REACHABLE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-REACHABLE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-STATE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-STATE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-SWITCH-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-SWITCH-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FLOW-WHILE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-FLOW-WHILE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-FOR-EXECUTE-001",
+      "source_chapter": "8. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-FOR-EXECUTE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FOR-SCOPE-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-FOR-SCOPE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FUNCTION-ARGORDER-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-FUNCTION-ARGORDER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FUNCTION-DIRECT-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-FUNCTION-DIRECT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FUNCTION-OUTFAIL-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-FUNCTION-OUTFAIL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FUNCTION-OUTRETURN-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-FUNCTION-OUTRETURN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FUNCTION-OUTSUCCESS-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-FUNCTION-OUTSUCCESS-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FUNCTION-PARAM-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-FUNCTION-PARAM-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-FUNCTION-PATH-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-FUNCTION-PATH-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-FUNCTION-RECURSION-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-FUNCTION-RECURSION-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-FUNCTION-UNSAFE-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-FUNCTION-UNSAFE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-GLOBAL-CONST-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-GLOBAL-CONST-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-GLOBAL-MUTABLE-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-GLOBAL-MUTABLE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-GRAMMAR-AUTHORITY-001",
+      "source_chapter": "21. Diagnostics, rules, and validation",
+      "status": "active",
+      "successor": "OPENC-GRAMMAR-AUTHORITY-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-GRAMMAR-COVERAGE-001",
+      "source_chapter": "21. Diagnostics, rules, and validation",
+      "status": "active",
+      "successor": "OPENC-GRAMMAR-COVERAGE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-IF-EXECUTE-001",
+      "source_chapter": "8. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-IF-EXECUTE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-INDEX-SAFE-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-INDEX-SAFE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-INIT-BEFOREUSE-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-INIT-BEFOREUSE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-INIT-LOOP-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-INIT-LOOP-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-INIT-NOZERO-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-INIT-NOZERO-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-INIT-PATH-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-INIT-PATH-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LEX-COMMENT-001",
+      "source_chapter": "3. Source, translation, and build context",
+      "status": "active",
+      "successor": "OPENC-LEX-COMMENT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LEX-IDENT-001",
+      "source_chapter": "4. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LEX-IDENT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-LEX-MAXIMAL-001",
+      "source_chapter": "3. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LEX-MAXIMAL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LEX-TYPEQUALIFIER-001",
+      "source_chapter": "4. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LEX-TYPEQUALIFIER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LEX-TYPEWORD-001",
+      "source_chapter": "4. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LEX-TYPEWORD-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-LEX-WORDCLASS-001",
+      "source_chapter": "3. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LEX-WORDCLASS-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LIFETIME-ACTIVE-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-LIFETIME-ACTIVE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LIFETIME-RETURNLOCAL-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-LIFETIME-RETURNLOCAL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LIFETIME-SLICE-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-LIFETIME-SLICE-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-LITERAL-DEFAULT-001",
+      "source_chapter": "8. Expressions",
+      "status": "retired",
+      "successor": "OPENC-NUM-LITERAL-DEFAULT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LITERAL-FLOATDEFAULT-001",
+      "source_chapter": "4. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LITERAL-FLOATDEFAULT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LITERAL-INTEGER-001",
+      "source_chapter": "4. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LITERAL-INTEGER-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-LITERAL-NOSUFFIX-001",
+      "source_chapter": "4. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LITERAL-NOSUFFIX-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LITERAL-RANGE-001",
+      "source_chapter": "4. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LITERAL-RANGE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LITERAL-SEPARATOR-001",
+      "source_chapter": "4. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LITERAL-SEPARATOR-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-LITERAL-TEXT-001",
+      "source_chapter": "4. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LITERAL-TEXT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LITERAL-UNICODE-001",
+      "source_chapter": "4. Lexical grammar",
+      "status": "active",
+      "successor": "OPENC-LITERAL-UNICODE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-LOOP-CONTEXT-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-LOOP-CONTEXT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-MEMBER-UNKNOWN-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-MEMBER-UNKNOWN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-MODULE-AMBIGUOUS-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-AMBIGUOUS-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-MODULE-API-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-API-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-MODULE-CONSTCYCLE-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-CONSTCYCLE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-MODULE-CYCLE-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-CYCLE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-MODULE-DUPLICATE-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-DUPLICATE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-MODULE-EXPORT-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-EXPORT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-MODULE-FULLIMPORT-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-FULLIMPORT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-MODULE-IDENTITY-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-IDENTITY-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-MODULE-IMPORT-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-IMPORT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-MODULE-IMPORTIDEMPOTENT-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-IMPORTIDEMPOTENT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-MODULE-IMPORTLOCAL-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-IMPORTLOCAL-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-MODULE-MAPPING-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-MAPPING-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-MODULE-MULTISOURCE-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-MULTISOURCE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-MODULE-NOREEXPORT-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-NOREEXPORT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-MODULE-ORDER-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-ORDER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-MODULE-PRIVATE-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-PRIVATE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-MODULE-SHORT-001",
+      "source_chapter": "5. Modules, imports, and visibility",
+      "status": "active",
+      "successor": "OPENC-MODULE-SHORT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NAME-UNKNOWN-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-NAME-UNKNOWN-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-NUM-ADD-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-ADD-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-NUM-AUTHORITY-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-AUTHORITY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-BITWISE-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-BITWISE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-BYTE8-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-BYTE8-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-CAST-FLOAT-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-CAST-FLOAT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-CAST-FLOATINT-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-CAST-FLOATINT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-CAST-INT-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-CAST-INT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-CAST-INTFLOAT-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-CAST-INTFLOAT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-NUM-COMPOUND-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-COMPOUND-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-CONST-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-CONST-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-DIV-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-DIV-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-DIV-MIN-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-DIV-MIN-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-NUM-DIVZERO-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-DIVZERO-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-NUM-FLOAT-CONST-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-FLOAT-CONST-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-FLOAT-DIVZERO-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-FLOAT-DIVZERO-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-FLOAT-FORMAT-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-FLOAT-FORMAT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-FLOAT-NONFINITE-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-FLOAT-NONFINITE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-FLOAT-ORDER-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-FLOAT-ORDER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-FLOAT-ROUND-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-FLOAT-ROUND-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-NUM-INTRINSIC-001",
+      "source_chapter": "19. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-INTRINSIC-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-LITERAL-CONTEXT-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-LITERAL-CONTEXT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-LITERAL-DEFAULT-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-LITERAL-DEFAULT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-LITERAL-NEGATIVE-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-LITERAL-NEGATIVE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-MACHINE-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-MACHINE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-REM-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-REM-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-SATURATE-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-SATURATE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-NUM-SHIFT-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-SHIFT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-SHIFTLEFT-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-SHIFTLEFT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-SHIFTRIGHT-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-SHIFTRIGHT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-TWOS-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-TWOS-001"
+    },
+    {
+      "cc2_action": "retire",
+      "id": "OPENC-NUM-UNCHECKED-001",
+      "reason": "Deterministic modulo arithmetic is already expressed by the safe wrapping intrinsic set; a second unsafe spelling had no distinct observable contract.",
+      "source_chapter": "19. Exact numeric execution",
+      "status": "retired",
+      "successor": "OPENC-NUM-WRAP-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-UNCHECKEDCAST-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-UNCHECKEDCAST-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-UNSIGNED-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-UNSIGNED-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-NUM-WRAP-001",
+      "source_chapter": "26. Exact numeric execution",
+      "status": "active",
+      "successor": "OPENC-NUM-WRAP-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-OPTIONAL-ASSIGN-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-ASSIGN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OPTIONAL-CHECK-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-CHECK-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-OPTIONAL-COPY-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-COPY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OPTIONAL-EXPLICIT-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-EXPLICIT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-OPTIONAL-NESTED-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-NESTED-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-OPTIONAL-NOBORROW-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-NOBORROW-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OPTIONAL-NONE-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-NONE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-OPTIONAL-NOSHORTHAND-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-NOSHORTHAND-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-OPTIONAL-PRESENT-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-PRESENT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-OPTIONAL-PRESENT-READONLY-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-PRESENT-READONLY-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-OPTIONAL-VALUE-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OPTIONAL-VALUE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-ALIAS-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-OUT-ALIAS-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-CALL-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OUT-CALL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-COMMIT-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OUT-COMMIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-FORWARD-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OUT-FORWARD-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-MODE-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-OUT-MODE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-NOPARTIAL-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OUT-NOPARTIAL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-NOREAD-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-OUT-NOREAD-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-OWN-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OUT-OWN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-OWNCOMMIT-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OUT-OWNCOMMIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-OWNFAIL-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OUT-OWNFAIL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-OWNFLOW-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OUT-OWNFLOW-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-OWNTAIL-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OUT-OWNTAIL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-PENDINGUSE-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-OUT-PENDINGUSE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-PROOF-LOST-001",
+      "source_chapter": "25. Flow-sensitive state analysis",
+      "status": "active",
+      "successor": "OPENC-OUT-PROOF-LOST-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-REASSIGN-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-OUT-REASSIGN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-RESULTBIND-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OUT-RESULTBIND-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-STATUSONLY-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-OUT-STATUSONLY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OUT-TARGET-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-OUT-TARGET-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OVERLOAD-AMBIGUOUS-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OVERLOAD-AMBIGUOUS-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-OVERLOAD-CONVERSIONS-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OVERLOAD-CONVERSIONS-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-OVERLOAD-EXACT-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OVERLOAD-EXACT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-OVERLOAD-MODE-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OVERLOAD-MODE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-OVERLOAD-NORANK-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OVERLOAD-NORANK-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OVERLOAD-RETURN-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OVERLOAD-RETURN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-CALL-001",
+      "source_chapter": "10. Functions",
+      "status": "active",
+      "successor": "OPENC-OWN-CALL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-CHECKEDGE-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-OWN-CHECKEDGE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-CONSUME-ARG-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-OWN-CONSUME-ARG-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-EXIT-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-OWN-EXIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-MODE-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-OWN-MODE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-PRODUCE-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-OWN-PRODUCE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-PRODUCER-PLACEMENT-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-OWN-PRODUCER-PLACEMENT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-RETURN-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-OWN-RETURN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-SCOPE-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-OWN-SCOPE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-SCOPE-BORROW-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-OWN-SCOPE-BORROW-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-SCOPE-RESERVE-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-OWN-SCOPE-RESERVE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-OWN-USEAFTER-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-OWN-USEAFTER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PARAM-OUT-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-PARAM-OUT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PARAM-OUTTYPE-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-PARAM-OUTTYPE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PARAM-OWN-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-PARAM-OWN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PARAM-OWNTYPE-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-PARAM-OWNTYPE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PARAM-REF-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-PARAM-REF-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PORTABILITY-PLAIN-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-PORTABILITY-PLAIN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-ADDRESS-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-PTR-ADDRESS-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-PTR-ADDRESSABLE-001",
+      "source_chapter": "7. Expressions and conversions",
+      "status": "active",
+      "successor": "OPENC-PTR-ADDRESSABLE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-PTR-ALIGN-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-ALIGN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-ARITH-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-PTR-ARITH-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-PTR-BASE-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-BASE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-PTR-BINDING-MUTABLE-001",
+      "source_chapter": "14. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-BINDING-MUTABLE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-BYTE-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-BYTE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-PTR-BYTEWRITE-001",
+      "source_chapter": "14. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-BYTEWRITE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-PTR-COMPARE-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-PTR-COMPARE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-CONST-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-CONST-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-CONSTVIEW-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-PTR-CONSTVIEW-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-PTR-CROSSALLOC-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-CROSSALLOC-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-DEREF-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-PTR-DEREF-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-PTR-DEREF-RANGE-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-DEREF-RANGE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-DERIVED-NONOWNING-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-DERIVED-NONOWNING-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-PTR-INVALIDATE-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-INVALIDATE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-PTR-LIFETIME-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-LIFETIME-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-NOLENGTH-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-NOLENGTH-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-NULL-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-PTR-NULL-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-PTR-ONEPAST-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-ONEPAST-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-OWNCONTAIN-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-PTR-OWNCONTAIN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-OWNCOPY-001",
+      "source_chapter": "14. Ownership, borrowing, and lifetimes",
+      "status": "active",
+      "successor": "OPENC-PTR-OWNCOPY-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-PTR-PROVENANCE-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-PROVENANCE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-PTR-SUBTRACT-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-PTR-SUBTRACT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-SYMBOL-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-PTR-SYMBOL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-PTR-TYPE-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-PTR-TYPE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REF-ASSIGN-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-REF-ASSIGN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REF-CONSTVIEW-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-REF-CONSTVIEW-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REF-INIT-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-REF-INIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REF-NOREBIND-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-REF-NOREBIND-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REF-READ-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-REF-READ-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REF-RESOURCEASSIGN-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-REF-RESOURCEASSIGN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REF-SYMBOL-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-REF-SYMBOL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REF-TYPE-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-REF-TYPE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REINTERPRET-NOLIFETIME-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-REINTERPRET-NOLIFETIME-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REINTERPRET-PTR-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-REINTERPRET-PTR-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REINTERPRET-SIZE-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-REINTERPRET-SIZE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-REINTERPRET-VALUE-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-REINTERPRET-VALUE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-CONSUMER-RETURN-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-CONSUMER-RETURN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-COPY-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-COPY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-DECL-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-DECL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-DESTROY-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-DESTROY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-DISMANTLE-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-DISMANTLE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-FIELD-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-FIELD-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-FIELD-ASSIGN-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-FIELD-ASSIGN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-FIELD-CONSUME-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-FIELD-CONSUME-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-FIELD-DEFAULT-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-FIELD-DEFAULT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-FIELD-ONCE-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-FIELD-ONCE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-FIELD-OWNPTR-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-FIELD-OWNPTR-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-FIELD-VIEW-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-FIELD-VIEW-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-INIT-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-INIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-INIT-COMMIT-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-INIT-COMMIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-INIT-OWNER-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-INIT-OWNER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-INIT-PLACEMENT-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-INIT-PLACEMENT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-INIT-REQUIRED-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-INIT-REQUIRED-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-INIT-RESERVE-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-INIT-RESERVE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-INIT-ROLLBACK-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-INIT-ROLLBACK-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-MOVE-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-MOVE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-NOCONSTOWNER-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-NOCONSTOWNER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-NOCOPY-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-NOCOPY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-OBLIGATION-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-OBLIGATION-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-OPAQUE-DISCHARGE-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-OPAQUE-DISCHARGE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-REINIT-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-REINIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RESOURCE-TRAILING-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-RESOURCE-TRAILING-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RETURN-LIFETIME-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-RETURN-LIFETIME-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-RETURN-TYPE-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-RETURN-TYPE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SAFE-GUARANTEE-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-SAFE-GUARANTEE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SAFE-WRAPPER-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-SAFE-WRAPPER-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SAFETY-IMPLIMIT-001",
+      "source_chapter": "2. Terms and conventions",
+      "status": "active",
+      "successor": "OPENC-SAFETY-IMPLIMIT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-SAFETY-NOUB-001",
+      "source_chapter": "2. Terms and conventions",
+      "status": "active",
+      "successor": "OPENC-SAFETY-NOUB-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SAFETY-OPTIMIZE-001",
+      "source_chapter": "2. Terms and conventions",
+      "status": "active",
+      "successor": "OPENC-SAFETY-OPTIMIZE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SAFETY-OUTCOME-001",
+      "source_chapter": "2. Terms and conventions",
+      "status": "active",
+      "successor": "OPENC-SAFETY-OUTCOME-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-SAFETY-UNSAFE-001",
+      "source_chapter": "2. Terms and conventions",
+      "status": "active",
+      "successor": "OPENC-SAFETY-UNSAFE-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-SCOPE-ACTION-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "retired",
+      "successor": "OPENC-CLEANUP-REGISTER-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-SCOPE-BIND-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "retired",
+      "successor": "OPENC-CLEANUP-REGISTER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SCOPE-DUPLICATE-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-SCOPE-DUPLICATE-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-SCOPE-LIFO-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "retired",
+      "successor": "OPENC-CLEANUP-LIFO-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SCOPE-LOCAL-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-SCOPE-LOCAL-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-SCOPE-SHADOW-001",
+      "source_chapter": "7. Declarations, initialization, and scope",
+      "status": "active",
+      "successor": "OPENC-SCOPE-SHADOW-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-SCOPE-TRAP-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "retired",
+      "successor": "OPENC-CLEANUP-CHECKFAIL-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-SHIFT-OVERFLOW-001",
+      "source_chapter": "8. Expressions",
+      "status": "retired",
+      "successor": "OPENC-NUM-SHIFTLEFT-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-SHIFT-RANGE-001",
+      "source_chapter": "8. Expressions",
+      "status": "retired",
+      "successor": "OPENC-NUM-SHIFT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-SLICE-ALIAS-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-ALIAS-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-SLICE-BOUNDED-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-BOUNDED-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SLICE-CONSTVIEW-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-SLICE-CONSTVIEW-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SLICE-COPY-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-COPY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SLICE-DISJOINT-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-DISJOINT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SLICE-ESCAPE-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-ESCAPE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-SLICE-FROMARRAY-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-FROMARRAY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SLICE-LENGTH-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-LENGTH-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-SLICE-MUTATE-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-MUTATE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-SLICE-RANGE-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-RANGE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SLICE-RANGE-CHECK-001",
+      "source_chapter": "8. Expressions",
+      "status": "active",
+      "successor": "OPENC-SLICE-RANGE-CHECK-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-SLICE-RANGE-DEFAULT-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-RANGE-DEFAULT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SLICE-RANGE-EMPTY-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-SLICE-RANGE-EMPTY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SLICE-TYPE-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-SLICE-TYPE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SOURCE-BOM-001",
+      "source_chapter": "2. Source, translation, and build context",
+      "status": "active",
+      "successor": "OPENC-SOURCE-BOM-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SOURCE-INVALID-001",
+      "source_chapter": "3. Source, translation, and build context",
+      "status": "active",
+      "successor": "OPENC-SOURCE-INVALID-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SOURCE-UTF8-001",
+      "source_chapter": "3. Source, translation, and build context",
+      "status": "active",
+      "successor": "OPENC-SOURCE-UTF8-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STATUS-CODE-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-STATUS-CODE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STATUS-COPY-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-STATUS-COPY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STATUS-INITIALIZER-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-STATUS-INITIALIZER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STATUS-INVARIANT-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-STATUS-INVARIANT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STATUS-MESSAGE-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-STATUS-MESSAGE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STATUS-MUSTHANDLE-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-STATUS-MUSTHANDLE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STATUS-OVERWRITE-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-STATUS-OVERWRITE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STATUS-PROOF-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-STATUS-PROOF-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STATUS-READONLY-001",
+      "source_chapter": "13. Optional values, status, and recoverable failure",
+      "status": "active",
+      "successor": "OPENC-STATUS-READONLY-001"
+    },
+    {
+      "cc2_action": "merge",
+      "id": "OPENC-STMT-CLEANUP-ORDER-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "retired",
+      "successor": "OPENC-CLEANUP-STRUCTURED-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STMT-SEMICOLON-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-STMT-SEMICOLON-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-STMT-UNREACHABLE-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-STMT-UNREACHABLE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-STORAGE-COMMIT-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-STORAGE-COMMIT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-STORAGE-EMPTY-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-STORAGE-EMPTY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STORAGE-LIVEEXIT-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-STORAGE-LIVEEXIT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-STORAGE-NORESOURCE-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-STORAGE-NORESOURCE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STORAGE-NOVALUE-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-STORAGE-NOVALUE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STORAGE-RECONSTRUCT-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-STORAGE-RECONSTRUCT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STORAGE-REFINVALID-001",
+      "source_chapter": "15. Typed storage, raw pointers, and memory",
+      "status": "active",
+      "successor": "OPENC-STORAGE-REFINVALID-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-STORAGE-TYPE-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-STORAGE-TYPE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-STRUCT-CONSTFIELD-001",
+      "source_chapter": "10. Structs, enums, and resources",
+      "status": "active",
+      "successor": "OPENC-STRUCT-CONSTFIELD-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-STRUCT-COPY-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-COPY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STRUCT-DECL-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-DECL-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-STRUCT-DEFAULT-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-DEFAULT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-STRUCT-DEFAULT-NODEP-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-DEFAULT-NODEP-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STRUCT-EMPTY-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-EMPTY-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-STRUCT-EQUALITY-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-EQUALITY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STRUCT-FIELD-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-FIELD-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STRUCT-INIT-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-INIT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-STRUCT-INIT-COMMIT-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-INIT-COMMIT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STRUCT-INIT-FIELD-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-INIT-FIELD-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STRUCT-INIT-MISSING-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-INIT-MISSING-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-STRUCT-INIT-ORDER-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-INIT-ORDER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STRUCT-NORESOURCE-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-NORESOURCE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-STRUCT-TRAILING-001",
+      "source_chapter": "11. Structs, enums, and resource types",
+      "status": "active",
+      "successor": "OPENC-STRUCT-TRAILING-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SWITCH-CASE-001",
+      "source_chapter": "8. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-SWITCH-CASE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SWITCH-DOMAIN-001",
+      "source_chapter": "8. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-SWITCH-DOMAIN-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SWITCH-DUPLICATE-001",
+      "source_chapter": "8. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-SWITCH-DUPLICATE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SWITCH-ENUM-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-SWITCH-ENUM-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-SWITCH-EXECUTE-001",
+      "source_chapter": "8. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-SWITCH-EXECUTE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-SWITCH-NOFALL-001",
+      "source_chapter": "9. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-SWITCH-NOFALL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-ALIGN-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-ALIGN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-ALIGNOF-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-ALIGNOF-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-ARRAYLAYOUT-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-ARRAYLAYOUT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-ARRAYSIZE-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-ARRAYSIZE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-BYTE-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-BYTE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TARGET-CONTEXT-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-CONTEXT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-TARGET-CROSS-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-CROSS-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TARGET-ENDIAN-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-ENDIAN-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TARGET-FAULTMODEL-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-FAULTMODEL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-NOARBITRARY-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-NOARBITRARY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-PADDING-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-PADDING-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TARGET-PTRCOMPARE-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-PTRCOMPARE-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TARGET-PTRCROSS-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-PTRCROSS-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TARGET-PTRINT-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-PTRINT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TARGET-PTROFFSET-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-PTROFFSET-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TARGET-PTRPROV-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-PTRPROV-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-QUERY-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-QUERY-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-TARGET-QUERYDOMAIN-001",
+      "source_chapter": "21. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-QUERYDOMAIN-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-SANITIZE-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-SANITIZE-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-TARGET-SCHEMA-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-SCHEMA-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-SIZEOF-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-SIZEOF-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-TARGET-STORAGESIZE-001",
+      "source_chapter": "21. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-STORAGESIZE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TARGET-STRUCTLAYOUT-001",
+      "source_chapter": "28. Target model and portability",
+      "status": "active",
+      "successor": "OPENC-TARGET-STRUCTLAYOUT-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TERM-CHECKFAIL-001",
+      "source_chapter": "2. Terms and conventions",
+      "status": "active",
+      "successor": "OPENC-TERM-CHECKFAIL-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TEXT-CONVERT-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-TEXT-CONVERT-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-TEXT-COPY-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-TEXT-COPY-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-TEXT-EQUALITY-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-TEXT-EQUALITY-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TEXT-LENGTH-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-TEXT-LENGTH-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TEXT-NOINDEX-001",
+      "source_chapter": "12. Arrays, slices, bytes, and text",
+      "status": "active",
+      "successor": "OPENC-TEXT-NOINDEX-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TRANSLATE-NOINCLUDE-001",
+      "source_chapter": "3. Source, translation, and build context",
+      "status": "active",
+      "successor": "OPENC-TRANSLATE-NOINCLUDE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TRANSLATE-NOPREPROCESSOR-001",
+      "source_chapter": "3. Source, translation, and build context",
+      "status": "active",
+      "successor": "OPENC-TRANSLATE-NOPREPROCESSOR-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-BOOL-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-BOOL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-BYTE-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-BYTE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-CONST-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-CONST-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-CONSTRUCTORS-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-CONSTRUCTORS-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-FLOAT-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-FLOAT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-FLOAT-FIXED-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-FLOAT-FIXED-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-HISTORICAL-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-HISTORICAL-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TYPE-MACHINE-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-MACHINE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-PREFIXORDER-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-PREFIXORDER-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TYPE-RESOURCEARRAY-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-RESOURCEARRAY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-RESOURCEOPTIONAL-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-RESOURCEOPTIONAL-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TYPE-SUFFIX-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-SUFFIX-001"
+    },
+    {
+      "cc2_action": "rewrite",
+      "id": "OPENC-TYPE-TEXT-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-TEXT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-VOIDOBJECT-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-VOIDOBJECT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-TYPE-WIDTH-001",
+      "source_chapter": "6. Type system",
+      "status": "active",
+      "successor": "OPENC-TYPE-WIDTH-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-UNSAFE-BOUNDARY-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-UNSAFE-BOUNDARY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-UNSAFE-CALL-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-UNSAFE-CALL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-UNSAFE-CONTRACT-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-UNSAFE-CONTRACT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-UNSAFE-FAULT-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-UNSAFE-FAULT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-UNSAFE-HISTORY-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-UNSAFE-HISTORY-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-UNSAFE-LOCAL-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-UNSAFE-LOCAL-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-UNSAFE-NOASSUME-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-UNSAFE-NOASSUME-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-UNSAFE-PRECONDITION-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-UNSAFE-PRECONDITION-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-UNSAFE-PROVENANCE-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-UNSAFE-PROVENANCE-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-UNSAFE-WRAPPER-001",
+      "source_chapter": "16. Unsafe code",
+      "status": "active",
+      "successor": "OPENC-UNSAFE-WRAPPER-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-WHEN-CONTEXT-001",
+      "source_chapter": "3. Source, translation, and build context",
+      "status": "active",
+      "successor": "OPENC-WHEN-CONTEXT-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-WHEN-EXPR-001",
+      "source_chapter": "3. Source, translation, and build context",
+      "status": "active",
+      "successor": "OPENC-WHEN-EXPR-001"
+    },
+    {
+      "cc2_action": "keep",
+      "id": "OPENC-WHEN-STRUCTURED-001",
+      "source_chapter": "3. Source, translation, and build context",
+      "status": "active",
+      "successor": "OPENC-WHEN-STRUCTURED-001"
+    },
+    {
+      "cc2_action": "add",
+      "id": "OPENC-WHILE-EXECUTE-001",
+      "source_chapter": "8. Statements and control flow",
+      "status": "active",
+      "successor": "OPENC-WHILE-EXECUTE-001"
+    }
+  ],
+  "schema": "openc.core.rule_disposition.v3"
+}

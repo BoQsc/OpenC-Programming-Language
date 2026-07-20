@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-BORROW-LASTUSE-001",
+    "OPENC-BORROW-MANYREAD-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "many_read_borrows_last_use",
+    "profile": "standard",
+    "rules": [
+      "OPENC-BORROW-MANYREAD-001",
+      "OPENC-BORROW-LASTUSE-001"
+    ]
+  },
+  "id": "valid/many_read_borrows_last_use",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/many_read_borrows_last_use",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/many_read_borrows_last_use/main"
+  ]
+}

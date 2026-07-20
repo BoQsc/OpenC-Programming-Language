@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-STORAGE-NORESOURCE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-STORAGE-NORESOURCE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "storage_resource_type",
+    "profile": "standard",
+    "rules": [
+      "OPENC-STORAGE-NORESOURCE-001"
+    ]
+  },
+  "id": "invalid/storage_resource_type",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/storage_resource_type",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/storage_resource_type/main"
+  ]
+}

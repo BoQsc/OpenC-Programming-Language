@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-OPTIONAL-COPY-001",
+    "OPENC-OPTIONAL-NONE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "optional_none_and_copy",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OPTIONAL-NONE-001",
+      "OPENC-OPTIONAL-COPY-001"
+    ]
+  },
+  "id": "valid/optional_none_and_copy",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/optional_none_and_copy",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/optional_none_and_copy/main"
+  ]
+}

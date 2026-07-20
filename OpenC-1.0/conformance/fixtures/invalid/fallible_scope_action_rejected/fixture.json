@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-CLEANUP-FAILURE-001",
+    "OPENC-CLEANUP-NOFALLIBLE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-CLEANUP-NOFALLIBLE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "fallible_scope_action_rejected",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CLEANUP-NOFALLIBLE-001",
+      "OPENC-CLEANUP-FAILURE-001"
+    ]
+  },
+  "id": "invalid/fallible_scope_action_rejected",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/fallible_scope_action_rejected",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/fallible_scope_action_rejected/main"
+  ]
+}

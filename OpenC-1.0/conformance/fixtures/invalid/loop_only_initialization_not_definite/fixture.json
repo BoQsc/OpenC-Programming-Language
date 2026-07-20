@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-INIT-LOOP-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-INIT-LOOP-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "loop_only_initialization_not_definite",
+    "profile": "standard",
+    "rules": [
+      "OPENC-INIT-LOOP-001"
+    ]
+  },
+  "id": "invalid/loop_only_initialization_not_definite",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/loop_only_initialization_not_definite",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/loop_only_initialization_not_definite/main"
+  ]
+}

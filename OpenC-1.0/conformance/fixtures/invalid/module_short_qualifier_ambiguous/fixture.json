@@ -1,0 +1,42 @@
+{
+  "active_rules": [
+    "OPENC-MODULE-AMBIGUOUS-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-MODULE-AMBIGUOUS-001"
+    },
+    "fixture_kind": "multi-source",
+    "mode": "module",
+    "modules": {
+      "app": [
+        "main"
+      ],
+      "debug.io": [
+        "dbg"
+      ],
+      "system.io": [
+        "sys"
+      ]
+    },
+    "name": "module_short_qualifier_ambiguous",
+    "profile": "standard",
+    "rules": [
+      "OPENC-MODULE-AMBIGUOUS-001"
+    ]
+  },
+  "id": "invalid/module_short_qualifier_ambiguous",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/module_short_qualifier_ambiguous",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/dbg",
+    "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/main",
+    "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/sys"
+  ]
+}

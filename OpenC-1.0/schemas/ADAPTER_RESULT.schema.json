@@ -1,0 +1,78 @@
+{
+  "$id": "openc://schema/adapter-result/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cleanup_trace": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "diagnostics": {
+      "items": {
+        "$ref": "DIAGNOSTIC.schema.json"
+      },
+      "type": "array"
+    },
+    "duration_ms": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "evidence": {
+      "type": "object"
+    },
+    "fixture_id": {
+      "type": "string"
+    },
+    "implementation": {
+      "type": "object"
+    },
+    "outcome": {
+      "enum": [
+        "accepted",
+        "rejected",
+        "runtime_success",
+        "checked_failure",
+        "target_fault",
+        "unsupported",
+        "implementation_crash",
+        "infrastructure_failure",
+        "timeout"
+      ]
+    },
+    "runtime": {
+      "type": "object"
+    },
+    "schema": {
+      "const": "openc.adapter_result.v1"
+    },
+    "stage": {
+      "enum": [
+        "I0",
+        "I1",
+        "I2",
+        "I3",
+        "I4",
+        "I5"
+      ]
+    },
+    "unsupported": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "fixture_id",
+    "implementation",
+    "stage",
+    "outcome",
+    "diagnostics",
+    "duration_ms"
+  ],
+  "title": "OpenC adapter result",
+  "type": "object"
+}

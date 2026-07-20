@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-DESTROY-BORROW-001",
+    "OPENC-DESTROY-USEAFTER-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-DESTROY-BORROW-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "destroy_with_active_borrow",
+    "profile": "standard",
+    "rules": [
+      "OPENC-DESTROY-BORROW-001",
+      "OPENC-DESTROY-USEAFTER-001"
+    ]
+  },
+  "id": "invalid/destroy_with_active_borrow",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/destroy_with_active_borrow",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/destroy_with_active_borrow/main"
+  ]
+}

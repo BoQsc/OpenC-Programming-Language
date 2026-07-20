@@ -1,0 +1,39 @@
+{
+  "active_rules": [
+    "OPENC-MODULE-IDENTITY-001",
+    "OPENC-MODULE-IMPORTIDEMPOTENT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "multi-source",
+    "mode": "module",
+    "modules": {
+      "app": [
+        "main"
+      ],
+      "math": [
+        "math"
+      ]
+    },
+    "name": "module_repeated_import_idempotent",
+    "profile": "standard",
+    "rules": [
+      "OPENC-MODULE-IMPORTIDEMPOTENT-001",
+      "OPENC-MODULE-IDENTITY-001"
+    ]
+  },
+  "id": "valid/module_repeated_import_idempotent",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/module_repeated_import_idempotent",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/module_repeated_import_idempotent/sources/main",
+    "conformance/fixtures/valid/module_repeated_import_idempotent/sources/math"
+  ]
+}

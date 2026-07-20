@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-OUT-TARGET-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-OUT-TARGET-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "out_initialized_target",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OUT-TARGET-001"
+    ]
+  },
+  "id": "invalid/out_initialized_target",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/out_initialized_target",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/out_initialized_target/main"
+  ]
+}

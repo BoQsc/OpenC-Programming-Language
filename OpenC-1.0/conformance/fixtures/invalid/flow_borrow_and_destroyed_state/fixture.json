@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-FLOW-BORROW-001",
+    "OPENC-FLOW-DESTROYED-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-FLOW-DESTROYED-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "flow_borrow_and_destroyed_state",
+    "profile": "standard",
+    "rules": [
+      "OPENC-FLOW-BORROW-001",
+      "OPENC-FLOW-DESTROYED-001"
+    ]
+  },
+  "id": "invalid/flow_borrow_and_destroyed_state",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/flow_borrow_and_destroyed_state",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/flow_borrow_and_destroyed_state/main"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-ERROR-FATAL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "checked_failure",
+      "rule": "OPENC-ERROR-FATAL-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "fatal_allocation_defined",
+    "profile": "standard",
+    "rules": [
+      "OPENC-ERROR-FATAL-001"
+    ]
+  },
+  "id": "runtime/fatal_allocation_defined",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/fatal_allocation_defined",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/fatal_allocation_defined/main"
+  ]
+}

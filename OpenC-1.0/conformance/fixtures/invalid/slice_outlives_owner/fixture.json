@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-LIFETIME-SLICE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-LIFETIME-SLICE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "slice_outlives_owner",
+    "profile": "standard",
+    "rules": [
+      "OPENC-LIFETIME-SLICE-001"
+    ]
+  },
+  "id": "invalid/slice_outlives_owner",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/slice_outlives_owner",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/slice_outlives_owner/main"
+  ]
+}

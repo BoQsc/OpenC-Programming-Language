@@ -1,0 +1,73 @@
+{
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "modules": {
+    "system.file": {
+      "exports": [
+        "resource File",
+        "open_read(text,out File)",
+        "open_write(text,bool,out File)",
+        "read_all(ref File,out memory.Bytes)",
+        "write_all(ref File,text)",
+        "flush(ref File)",
+        "close(own File)"
+      ],
+      "source": "standard_library/system.file/source/file"
+    },
+    "system.io": {
+      "exports": [
+        "print(text)",
+        "println(text)",
+        "print(i8)",
+        "print(i16)",
+        "print(i32)",
+        "print(i64)",
+        "print(u8)",
+        "print(u16)",
+        "print(u32)",
+        "print(u64)",
+        "print(isize)",
+        "print(usize)",
+        "print(bool)",
+        "error(text)"
+      ],
+      "source": "standard_library/system.io/source/io"
+    },
+    "system.memory": {
+      "exports": [
+        "resource Bytes",
+        "allocate(usize,out Bytes)",
+        "bytes_destroy(own Bytes)",
+        "copy(ref Bytes,ref const Bytes,usize)",
+        "move(ref Bytes,ref const Bytes,usize)",
+        "clear(ref Bytes)"
+      ],
+      "source": "standard_library/system.memory/source/memory"
+    },
+    "system.path": {
+      "exports": [
+        "join(text,text,out memory.Bytes)",
+        "is_absolute(text)"
+      ],
+      "source": "standard_library/system.path/source/path"
+    },
+    "system.process": {
+      "exports": [
+        "argument_count()",
+        "argument(usize)",
+        "current_directory()"
+      ],
+      "source": "standard_library/system.process/source/process"
+    },
+    "system.text": {
+      "exports": [
+        "decode_utf8(ref const memory.Bytes,out text)",
+        "encode_utf8(text,out memory.Bytes)",
+        "length(text)",
+        "equal(text,text)",
+        "compare(text,text)"
+      ],
+      "source": "standard_library/system.text/source/text"
+    }
+  },
+  "schema": "openc.standard_library_api_index.v1"
+}

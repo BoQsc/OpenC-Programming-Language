@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-CONSTRUCT-001",
+    "OPENC-DESTROY-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "typed_storage",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CONSTRUCT-001",
+      "OPENC-DESTROY-001"
+    ]
+  },
+  "id": "valid/typed_storage",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/typed_storage",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/typed_storage/main"
+  ]
+}

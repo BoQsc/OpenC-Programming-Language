@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-OPTIONAL-NOBORROW-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-OPTIONAL-NOBORROW-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "optional_slice",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OPTIONAL-NOBORROW-001"
+    ]
+  },
+  "id": "invalid/optional_slice",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/optional_slice",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/optional_slice/main"
+  ]
+}

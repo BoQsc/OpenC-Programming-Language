@@ -1,0 +1,19 @@
+# Core 1.0 Release Artifact Layout
+
+```text
+OpenC-Core-1.0-standard.zip
+OpenC-Core-1.0-standard.md
+OpenC-Core-1.0-grammar.ebnf
+OpenC-Core-1.0-rule-index.json
+OpenC-Core-1.0-diagnostics.json
+OpenC-Core-1.0-rationale.md
+OpenC-Core-1.0-security.md
+OpenC-Core-1.0-conformance.zip
+OpenC-Core-1.0-reference-source.zip
+OpenC-Core-1.0-implementation-evidence.json
+OpenC-Core-1.0-conformance-report.json
+OpenC-Core-1.0-SHA256SUMS.txt
+signatures/
+```
+
+Hosted, Freestanding, Native, Tooling, and Concurrent artifacts use separate names and claims.

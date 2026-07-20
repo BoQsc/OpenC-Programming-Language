@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-CAST-EXACT-001",
+    "OPENC-NUM-CAST-FLOAT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "checked_failure",
+      "rule": "OPENC-CAST-EXACT-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "checked_cast_requires_exact_value",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CAST-EXACT-001",
+      "OPENC-NUM-CAST-FLOAT-001"
+    ]
+  },
+  "id": "invalid/checked_cast_requires_exact_value",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/checked_cast_requires_exact_value",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/checked_cast_requires_exact_value/main"
+  ]
+}

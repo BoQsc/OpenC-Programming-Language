@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-PTR-LIFETIME-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "target_fault",
+      "rule": "OPENC-PTR-LIFETIME-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "pointer_typed_deref_requires_lifetime",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-LIFETIME-001"
+    ]
+  },
+  "id": "invalid/pointer_typed_deref_requires_lifetime",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/pointer_typed_deref_requires_lifetime",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/pointer_typed_deref_requires_lifetime/main"
+  ]
+}

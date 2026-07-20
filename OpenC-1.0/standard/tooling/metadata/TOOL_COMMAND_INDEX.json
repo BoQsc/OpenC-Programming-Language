@@ -1,0 +1,19 @@
+{
+  "core_commands": [
+    "check",
+    "build",
+    "fmt",
+    "info",
+    "explain",
+    "validate",
+    "lsp"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "hosted_commands": [
+    "run",
+    "test",
+    "eval",
+    "live"
+  ],
+  "schema": "openc.tool.command_index.v1"
+}

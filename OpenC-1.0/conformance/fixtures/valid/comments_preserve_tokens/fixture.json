@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-LEX-COMMENT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "comments_preserve_tokens",
+    "profile": "standard",
+    "rules": [
+      "OPENC-LEX-COMMENT-001"
+    ]
+  },
+  "id": "valid/comments_preserve_tokens",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/comments_preserve_tokens",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/comments_preserve_tokens/main"
+  ]
+}

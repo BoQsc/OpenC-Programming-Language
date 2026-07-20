@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-CLEANUP-ONCE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-CLEANUP-ONCE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "cleanup_owner_registered_once",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CLEANUP-ONCE-001"
+    ]
+  },
+  "id": "invalid/cleanup_owner_registered_once",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/cleanup_owner_registered_once",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/cleanup_owner_registered_once/main"
+  ]
+}

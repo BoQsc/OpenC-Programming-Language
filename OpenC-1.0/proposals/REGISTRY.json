@@ -1,0 +1,13 @@
+{
+  "development_version": "1.0-dev.0",
+  "proposals": [
+    {
+      "blocks_core_1_0": false,
+      "id": "OP-PROP-0001",
+      "path": "0001-concurrent-foundation",
+      "status": "research_preserved_not_integrated",
+      "title": "Concurrent systems facilities"
+    }
+  ],
+  "schema": "openc.proposal.registry.v1"
+}

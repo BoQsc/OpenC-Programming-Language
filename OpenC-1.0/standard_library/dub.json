@@ -1,0 +1,11 @@
+{
+  "name": "openc-stdlib",
+  "description": "OpenC 1.0 minimum Hosted standard library source",
+  "license": "proprietary-pending-governance",
+  "targetType": "library",
+  "targetName": "openc-stdlib",
+  "sourcePaths": ["source"],
+  "dependencies": {
+    "openc-runtime": { "path": "../runtime" }
+  }
+}

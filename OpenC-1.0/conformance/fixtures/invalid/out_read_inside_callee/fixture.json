@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-OUT-NOREAD-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-OUT-NOREAD-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "out_read_inside_callee",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OUT-NOREAD-001"
+    ]
+  },
+  "id": "invalid/out_read_inside_callee",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/out_read_inside_callee",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/out_read_inside_callee/main"
+  ]
+}

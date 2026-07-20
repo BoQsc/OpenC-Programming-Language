@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-NUM-CAST-INTFLOAT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-NUM-CAST-INTFLOAT-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "numeric_cast_int_float_inexact_static",
+    "profile": "standard",
+    "rules": [
+      "OPENC-NUM-CAST-INTFLOAT-001"
+    ]
+  },
+  "id": "invalid/numeric_cast_int_float_inexact_static",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/numeric_cast_int_float_inexact_static",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/numeric_cast_int_float_inexact_static/main"
+  ]
+}

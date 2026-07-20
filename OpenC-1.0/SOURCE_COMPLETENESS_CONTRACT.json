@@ -1,0 +1,262 @@
+{
+  "capabilities": [
+    {
+      "description": "UTF-8 source, lexer, parser, AST, diagnostics",
+      "groups": [
+        "compiler_d",
+        "compiler_python_bootstrap"
+      ],
+      "id": "compiler.frontend"
+    },
+    {
+      "description": "modules, names, types, constants, overloads, flow, status/out",
+      "groups": [
+        "compiler_d",
+        "compiler_python_bootstrap"
+      ],
+      "id": "compiler.semantic"
+    },
+    {
+      "description": "resources, ownership, borrowing, cleanup, pointers, unsafe",
+      "groups": [
+        "compiler_d",
+        "compiler_python_bootstrap"
+      ],
+      "id": "compiler.safety"
+    },
+    {
+      "description": "Core IR, D bootstrap backend, JSON IR, C11 bootstrap backend",
+      "groups": [
+        "compiler_d",
+        "compiler_python_bootstrap"
+      ],
+      "id": "compiler.backend"
+    },
+    {
+      "description": "checked failures, memory, console, files, process",
+      "groups": [
+        "runtime_d",
+        "runtime_c"
+      ],
+      "id": "runtime.hosted"
+    },
+    {
+      "description": "freestanding hooks and startup",
+      "groups": [
+        "runtime_d",
+        "runtime_c"
+      ],
+      "id": "runtime.freestanding"
+    },
+    {
+      "description": "system.io, memory, file, path, process, text",
+      "groups": [
+        "standard_library_d",
+        "standard_library_openc"
+      ],
+      "id": "standard_library.minimum_hosted"
+    },
+    {
+      "description": "driver, formatter, LSP, explain, info, validate, package tools",
+      "groups": [
+        "tools_d",
+        "tools_python",
+        "compiler_d"
+      ],
+      "id": "tools.core"
+    },
+    {
+      "description": "unit/integration source and authored fixtures",
+      "groups": [
+        "tests_d",
+        "tests_python"
+      ],
+      "id": "tests.and.conformance"
+    },
+    {
+      "description": "local build, test, manifest, archive, and verification source",
+      "groups": [
+        "build_release_source"
+      ],
+      "id": "build.and.release"
+    }
+  ],
+  "claim": "SOURCE_COMPLETE_BY_AUTHORED_INVENTORY",
+  "claim_excludes": [
+    "compilation",
+    "linking",
+    "execution",
+    "test pass",
+    "platform verification",
+    "independent review",
+    "release readiness"
+  ],
+  "groups": {
+    "build_release_source": [
+      "bin/openc-bootstrap",
+      "bin/openc-bootstrap.cmd",
+      "bin/openc-bootstrap.ps1",
+      "build/build_all.cmd",
+      "build/build_all.ps1",
+      "build/build_all.py",
+      "build/build_all.sh",
+      "build/build_freestanding.sh",
+      "build/build_linux.sh",
+      "build/build_windows.ps1",
+      "build/clean.sh",
+      "build/clean_windows.ps1",
+      "release/build_source_archive.py",
+      "release/verify_source_archive.py",
+      "scripts/generate_manifest.py",
+      "scripts/source_completeness.py",
+      "scripts/source_inventory.py",
+      "scripts/validate_structure.py"
+    ],
+    "compiler_d": [
+      "compiler/source/app/main.d",
+      "compiler/source/openc/ast.d",
+      "compiler/source/openc/ast_util.d",
+      "compiler/source/openc/backend.d",
+      "compiler/source/openc/backend_d.d",
+      "compiler/source/openc/backend_ir.d",
+      "compiler/source/openc/borrow.d",
+      "compiler/source/openc/cfg.d",
+      "compiler/source/openc/cleanup.d",
+      "compiler/source/openc/command.d",
+      "compiler/source/openc/common.d",
+      "compiler/source/openc/compiler.d",
+      "compiler/source/openc/conformance.d",
+      "compiler/source/openc/constant.d",
+      "compiler/source/openc/declarations.d",
+      "compiler/source/openc/diagnostic.d",
+      "compiler/source/openc/flow.d",
+      "compiler/source/openc/ir.d",
+      "compiler/source/openc/lexer.d",
+      "compiler/source/openc/lowerer.d",
+      "compiler/source/openc/module_system.d",
+      "compiler/source/openc/names.d",
+      "compiler/source/openc/native.d",
+      "compiler/source/openc/overload.d",
+      "compiler/source/openc/ownership.d",
+      "compiler/source/openc/parser.d",
+      "compiler/source/openc/pointer.d",
+      "compiler/source/openc/project.d",
+      "compiler/source/openc/semantic_model.d",
+      "compiler/source/openc/semantic_pipeline.d",
+      "compiler/source/openc/source.d",
+      "compiler/source/openc/status_out.d",
+      "compiler/source/openc/symbol.d",
+      "compiler/source/openc/token.d",
+      "compiler/source/openc/toolchain.d",
+      "compiler/source/openc/type_check.d",
+      "compiler/source/openc/types.d",
+      "compiler/source/openc/unsafe_checker.d"
+    ],
+    "compiler_python_bootstrap": [
+      "compiler/bootstrap/python/openc/__init__.py",
+      "compiler/bootstrap/python/openc/__main__.py",
+      "compiler/bootstrap/python/openc/backend_c.py",
+      "compiler/bootstrap/python/openc/cli.py",
+      "compiler/bootstrap/python/openc/commands.py",
+      "compiler/bootstrap/python/openc/compiler.py",
+      "compiler/bootstrap/python/openc/conformance.py",
+      "compiler/bootstrap/python/openc/consteval.py",
+      "compiler/bootstrap/python/openc/diagnostics.py",
+      "compiler/bootstrap/python/openc/explain.py",
+      "compiler/bootstrap/python/openc/flow.py",
+      "compiler/bootstrap/python/openc/formatter.py",
+      "compiler/bootstrap/python/openc/ir.py",
+      "compiler/bootstrap/python/openc/lexer.py",
+      "compiler/bootstrap/python/openc/lower.py",
+      "compiler/bootstrap/python/openc/lsp.py",
+      "compiler/bootstrap/python/openc/model.py",
+      "compiler/bootstrap/python/openc/ownership.py",
+      "compiler/bootstrap/python/openc/parser.py",
+      "compiler/bootstrap/python/openc/project.py",
+      "compiler/bootstrap/python/openc/semantic.py",
+      "compiler/bootstrap/python/openc/source.py",
+      "compiler/bootstrap/python/openc/symbols.py",
+      "compiler/bootstrap/python/openc/typesys.py"
+    ],
+    "runtime_c": [
+      "runtime/common/source/openc_runtime.c",
+      "runtime/common/source/openc_runtime.h",
+      "runtime/freestanding/source/openc_platform_freestanding.c",
+      "runtime/linux/source/openc_platform_linux.c",
+      "runtime/windows/source/openc_platform_windows.c"
+    ],
+    "runtime_d": [
+      "runtime/freestanding/startup.d",
+      "runtime/linux/startup.d",
+      "runtime/source/openc/runtime/checked.d",
+      "runtime/source/openc/runtime/console.d",
+      "runtime/source/openc/runtime/file.d",
+      "runtime/source/openc/runtime/freestanding.d",
+      "runtime/source/openc/runtime/memory.d",
+      "runtime/source/openc/runtime/platform.d",
+      "runtime/source/openc/runtime/process.d",
+      "runtime/source/openc/runtime/types.d",
+      "runtime/windows/startup.d"
+    ],
+    "standard_library_d": [
+      "standard_library/source/openc/std/system_file.d",
+      "standard_library/source/openc/std/system_io.d",
+      "standard_library/source/openc/std/system_memory.d",
+      "standard_library/source/openc/std/system_path.d",
+      "standard_library/source/openc/std/system_process.d",
+      "standard_library/source/openc/std/system_text.d"
+    ],
+    "standard_library_openc": [
+      "standard_library/system.file/source/file",
+      "standard_library/system.io/source/io",
+      "standard_library/system.memory/source/memory",
+      "standard_library/system.path/source/path",
+      "standard_library/system.process/source/process",
+      "standard_library/system.text/source/text"
+    ],
+    "tests_d": [
+      "tests/source/compiler_frontend_tests.d",
+      "tests/source/main.d",
+      "tests/source/project_tests.d",
+      "tests/source/runtime_tests.d",
+      "tests/source/tool_tests.d"
+    ],
+    "tests_python": [
+      "tests/python/test_bootstrap_source.py",
+      "tests/run_all.py"
+    ],
+    "tools_d": [
+      "tools/source/apps/explain_main.d",
+      "tools/source/apps/fmt_main.d",
+      "tools/source/apps/info_main.d",
+      "tools/source/apps/lsp_main.d",
+      "tools/source/apps/run_main.d",
+      "tools/source/apps/validate_main.d",
+      "tools/source/openc/tools/explain.d",
+      "tools/source/openc/tools/formatter.d",
+      "tools/source/openc/tools/info.d",
+      "tools/source/openc/tools/live.d",
+      "tools/source/openc/tools/lsp.d",
+      "tools/source/openc/tools/runner.d",
+      "tools/source/openc/tools/validator.d"
+    ],
+    "tools_python": [
+      "tools/source/package_tools/manifest.py",
+      "tools/source/package_tools/source_archive.py",
+      "tools/source/package_tools/verify_archive.py"
+    ]
+  },
+  "required_non_source": [
+    "standard/core/OpenC_Core_Current.md",
+    "standard/core/grammar/OpenC_Core_Grammar.ebnf",
+    "standard/hosted/OpenC_Hosted_Current.md",
+    "standard/freestanding/OpenC_Freestanding_Current.md",
+    "standard/native/OpenC_Native_Current.md",
+    "standard/tooling/OpenC_Tooling_Current.md",
+    "conformance/fixtures/MANIFEST.json",
+    "schemas/PROJECT.schema.json",
+    "schemas/DIAGNOSTIC.schema.json"
+  ],
+  "schema": "openc.source_completeness_contract.v2",
+  "version": "1.0-dev.3-verification"
+}

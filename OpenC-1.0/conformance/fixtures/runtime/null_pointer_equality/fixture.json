@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-PTR-NULL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept",
+      "stdout": [
+        "true"
+      ]
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "null_pointer_equality",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-NULL-001"
+    ]
+  },
+  "id": "runtime/null_pointer_equality",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/null_pointer_equality",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/null_pointer_equality/main"
+  ]
+}

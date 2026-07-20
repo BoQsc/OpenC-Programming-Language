@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-CALL-TYPE-001",
+    "OPENC-FUNCTION-PARAM-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "function_add",
+    "profile": "standard",
+    "rules": [
+      "OPENC-FUNCTION-PARAM-001",
+      "OPENC-CALL-TYPE-001"
+    ]
+  },
+  "id": "valid/function_add",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/function_add",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/function_add/main"
+  ]
+}

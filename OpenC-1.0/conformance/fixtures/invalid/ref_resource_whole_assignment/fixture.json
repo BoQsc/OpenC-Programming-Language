@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-REF-RESOURCEASSIGN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-REF-RESOURCEASSIGN-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "ref_resource_whole_assignment",
+    "profile": "standard",
+    "rules": [
+      "OPENC-REF-RESOURCEASSIGN-001"
+    ]
+  },
+  "id": "invalid/ref_resource_whole_assignment",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/ref_resource_whole_assignment",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/ref_resource_whole_assignment/main"
+  ]
+}

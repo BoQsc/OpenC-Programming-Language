@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-UNSAFE-FAULT-001",
+    "OPENC-UNSAFE-NOASSUME-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "target_fault",
+      "rule": "OPENC-UNSAFE-FAULT-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "unsafe_fault_target_bounded",
+    "profile": "standard",
+    "rules": [
+      "OPENC-UNSAFE-FAULT-001",
+      "OPENC-UNSAFE-NOASSUME-001"
+    ]
+  },
+  "id": "runtime/unsafe_fault_target_bounded",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/unsafe_fault_target_bounded",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/unsafe_fault_target_bounded/main"
+  ]
+}

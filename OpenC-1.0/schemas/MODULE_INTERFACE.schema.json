@@ -1,0 +1,48 @@
+{
+  "$id": "openc://schema/module-interface/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate": {
+      "type": "string"
+    },
+    "effects": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "exports": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "imports": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "module": {
+      "type": "string"
+    },
+    "schema": {
+      "const": "openc.module_interface.v1"
+    }
+  },
+  "required": [
+    "schema",
+    "candidate",
+    "module",
+    "imports",
+    "exports",
+    "hash"
+  ],
+  "title": "OpenC module interface",
+  "type": "object"
+}

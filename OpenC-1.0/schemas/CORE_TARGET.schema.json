@@ -1,0 +1,95 @@
+{
+  "$id": "openc://schema/core-target/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "architecture": {
+      "type": "string"
+    },
+    "endianness": {
+      "enum": [
+        "little",
+        "big"
+      ]
+    },
+    "fault_outcomes": {
+      "items": {
+        "enum": [
+          "synchronous_trap",
+          "os_fault",
+          "hardware_fault",
+          "implementation_termination"
+        ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "float_formats": {
+      "additionalProperties": false,
+      "properties": {
+        "f32": {
+          "const": "ieee754-binary32"
+        },
+        "f64": {
+          "const": "ieee754-binary64"
+        }
+      },
+      "required": [
+        "f32",
+        "f64"
+      ],
+      "type": "object"
+    },
+    "integer_widths": {
+      "items": {
+        "enum": [
+          8,
+          16,
+          32,
+          64
+        ]
+      },
+      "minItems": 4,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "max_object_size": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "pointer_width": {
+      "enum": [
+        32,
+        64
+      ]
+    },
+    "primitive_alignments": {
+      "additionalProperties": {
+        "minimum": 1,
+        "type": "integer"
+      },
+      "type": "object"
+    },
+    "schema": {
+      "const": "openc.core_target.v1"
+    }
+  },
+  "required": [
+    "schema",
+    "name",
+    "architecture",
+    "pointer_width",
+    "endianness",
+    "max_object_size",
+    "integer_widths",
+    "primitive_alignments",
+    "float_formats",
+    "fault_outcomes"
+  ],
+  "title": "OpenC Core target record",
+  "type": "object"
+}

@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-LIFETIME-RETURNLOCAL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-LIFETIME-RETURNLOCAL-001"
+    },
+    "fixture_kind": "source",
+    "name": "return_local_ref",
+    "profile": "standard",
+    "rules": [
+      "OPENC-LIFETIME-RETURNLOCAL-001"
+    ]
+  },
+  "id": "invalid/return_local_ref",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/return_local_ref",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/return_local_ref/main"
+  ]
+}

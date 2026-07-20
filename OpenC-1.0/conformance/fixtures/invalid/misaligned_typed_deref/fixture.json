@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-PTR-ALIGN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "target_fault",
+      "rule": "OPENC-PTR-ALIGN-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "misaligned_typed_deref",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-ALIGN-001"
+    ]
+  },
+  "id": "invalid/misaligned_typed_deref",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/misaligned_typed_deref",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/misaligned_typed_deref/main"
+  ]
+}

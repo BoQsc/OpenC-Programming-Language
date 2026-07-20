@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-BYTE-ARITH-001",
+    "OPENC-TYPE-BYTE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-TYPE-BYTE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "byte_not_text_or_arithmetic",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TYPE-BYTE-001",
+      "OPENC-BYTE-ARITH-001"
+    ]
+  },
+  "id": "invalid/byte_not_text_or_arithmetic",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/byte_not_text_or_arithmetic",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/byte_not_text_or_arithmetic/main"
+  ]
+}

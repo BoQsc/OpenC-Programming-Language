@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-CAST-UNCHECKED-LIMIT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-CAST-UNCHECKED-LIMIT-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "unchecked_float_to_integer",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CAST-UNCHECKED-LIMIT-001"
+    ]
+  },
+  "id": "invalid/unchecked_float_to_integer",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/unchecked_float_to_integer",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/unchecked_float_to_integer/main"
+  ]
+}

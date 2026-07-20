@@ -1,0 +1,15 @@
+{
+  "invocations": [
+    [
+      "openc",
+      "check",
+      "source",
+      "--profile=critical"
+    ]
+  ],
+  "required_trace": [
+    "unsafe origin",
+    "wrapper",
+    "caller"
+  ]
+}

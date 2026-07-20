@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-DIAG-TRACE-001",
+    "OPENC-UNSAFE-HISTORY-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "tooling",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "command",
+    "mode": "module",
+    "name": "unsafe_history_in_diagnostic",
+    "profile": "critical",
+    "rules": [
+      "OPENC-UNSAFE-HISTORY-001",
+      "OPENC-DIAG-TRACE-001"
+    ]
+  },
+  "id": "command/unsafe_history_in_diagnostic",
+  "kind": "command",
+  "origin": "OpenC Standard Draft 0.10 validation/tooling/unsafe_history_in_diagnostic",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/command/unsafe_history_in_diagnostic/command.json"
+  ]
+}

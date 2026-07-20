@@ -1,0 +1,33 @@
+{
+  "name": "openc-source-tests",
+  "description": "Authored unit and integration tests for the OpenC source tree",
+  "license": "proprietary-pending-governance",
+  "targetType": "library",
+  "targetName": "openc-source-tests",
+  "sourcePaths": ["source"],
+  "excludedSourceFiles": ["source/main.d"],
+  "dependencies": {
+    "openc": { "path": "../compiler" },
+    "openc-tools": { "path": "../tools" },
+    "openc-runtime": { "path": "../runtime" },
+    "openc-stdlib": { "path": "../standard_library" }
+  },
+  "configurations": [
+    {
+      "name": "compiler-frontend",
+      "excludedSourceFiles": ["source/project_tests.d", "source/runtime_tests.d", "source/tool_tests.d"]
+    },
+    {
+      "name": "project",
+      "excludedSourceFiles": ["source/compiler_frontend_tests.d", "source/runtime_tests.d", "source/tool_tests.d"]
+    },
+    {
+      "name": "runtime",
+      "excludedSourceFiles": ["source/compiler_frontend_tests.d", "source/project_tests.d", "source/tool_tests.d"]
+    },
+    {
+      "name": "tools",
+      "excludedSourceFiles": ["source/compiler_frontend_tests.d", "source/project_tests.d", "source/runtime_tests.d"]
+    }
+  ]
+}

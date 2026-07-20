@@ -1,0 +1,34 @@
+{
+  "active_rules": [
+    "OPENC-FLOW-DIAG-001",
+    "OPENC-INIT-BEFOREUSE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "diagnostic-message",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "notes": [
+        "diagnostic identifies declaration and missing initialization path"
+      ],
+      "result": "reject",
+      "rule": "OPENC-FLOW-DIAG-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "diagnostic_flow_path_locations",
+    "profile": "standard",
+    "rules": [
+      "OPENC-FLOW-DIAG-001",
+      "OPENC-INIT-BEFOREUSE-001"
+    ]
+  },
+  "id": "diagnostic/diagnostic_flow_path_locations",
+  "kind": "diagnostic",
+  "origin": "OpenC Standard Draft 0.10 validation/diagnostic-message/diagnostic_flow_path_locations",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/diagnostic/diagnostic_flow_path_locations/main"
+  ]
+}

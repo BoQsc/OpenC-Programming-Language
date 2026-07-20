@@ -1,0 +1,35 @@
+{
+  "modules": {
+    "system.file": {
+      "capability": "openc.library.system.file",
+      "source": "standard_library/system.file/source/file",
+      "status": "authored_execution_pending"
+    },
+    "system.io": {
+      "capability": "openc.library.system.io",
+      "source": "standard_library/system.io/source/io",
+      "status": "authored_execution_pending"
+    },
+    "system.memory": {
+      "capability": "openc.library.system.memory",
+      "source": "standard_library/system.memory/source/memory",
+      "status": "authored_execution_pending"
+    },
+    "system.path": {
+      "capability": "openc.library.system.path",
+      "source": "standard_library/system.path/source/path",
+      "status": "authored_execution_pending"
+    },
+    "system.process": {
+      "capability": "openc.library.system.process",
+      "source": "standard_library/system.process/source/process",
+      "status": "authored_execution_pending"
+    },
+    "system.text": {
+      "capability": "openc.library.system.text",
+      "source": "standard_library/system.text/source/text",
+      "status": "authored_execution_pending"
+    }
+  },
+  "schema": "openc.hosted.module_index.v1"
+}

@@ -1,0 +1,115 @@
+{
+  "$defs": {
+    "node": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "type": "object"
+        },
+        "children": {
+          "items": {
+            "$ref": "#/$defs/node"
+          },
+          "type": "array"
+        },
+        "id": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "source_unit",
+            "import_decl",
+            "module_const_decl",
+            "function_decl",
+            "parameter",
+            "struct_decl",
+            "resource_decl",
+            "enum_decl",
+            "enum_item",
+            "when_decl",
+            "block",
+            "local_decl",
+            "expression_stmt",
+            "if_stmt",
+            "while_stmt",
+            "for_stmt",
+            "switch_stmt",
+            "switch_case",
+            "break_stmt",
+            "continue_stmt",
+            "return_stmt",
+            "scope_stmt",
+            "unsafe_stmt",
+            "when_stmt",
+            "assignment_expr",
+            "binary_expr",
+            "unary_expr",
+            "call_expr",
+            "member_expr",
+            "index_expr",
+            "range_expr",
+            "cast_expr",
+            "reinterpret_expr",
+            "construct_expr",
+            "destroy_expr",
+            "type_query_expr",
+            "name_expr",
+            "literal_expr",
+            "status_initializer",
+            "aggregate_initializer",
+            "array_initializer",
+            "type",
+            "field_decl"
+          ]
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "span": {
+          "$ref": "SOURCE_SPAN.schema.json"
+        },
+        "type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {}
+      },
+      "required": [
+        "id",
+        "kind",
+        "span"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "openc://schema/ast/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate": {
+      "type": "string"
+    },
+    "schema": {
+      "const": "openc.ast.v1"
+    },
+    "source_units": {
+      "items": {
+        "$ref": "#/$defs/node"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "candidate",
+    "source_units"
+  ],
+  "title": "OpenC typed AST exchange form",
+  "type": "object"
+}

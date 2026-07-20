@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-SLICE-RANGE-CHECK-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-SLICE-RANGE-CHECK-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "slice_range_checked",
+    "profile": "standard",
+    "rules": [
+      "OPENC-SLICE-RANGE-CHECK-001"
+    ]
+  },
+  "id": "invalid/slice_range_checked",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/slice_range_checked",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/slice_range_checked/main"
+  ]
+}

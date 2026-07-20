@@ -1,0 +1,33 @@
+{
+  "active_rules": [
+    "OPENC-DECL-ASSIGN-001",
+    "OPENC-DECL-TYPEFIRST-001",
+    "OPENC-NAME-UNKNOWN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-DECL-TYPEFIRST-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "declaration_requires_type",
+    "profile": "standard",
+    "rules": [
+      "OPENC-DECL-TYPEFIRST-001",
+      "OPENC-DECL-ASSIGN-001",
+      "OPENC-NAME-UNKNOWN-001"
+    ]
+  },
+  "id": "invalid/declaration_requires_type",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/declaration_requires_type",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/declaration_requires_type/main"
+  ]
+}

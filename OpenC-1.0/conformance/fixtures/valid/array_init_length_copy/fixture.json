@@ -1,0 +1,32 @@
+{
+  "active_rules": [
+    "OPENC-ARRAY-COPY-001",
+    "OPENC-ARRAY-INIT-001",
+    "OPENC-ARRAY-LENGTH-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "array_init_length_copy",
+    "profile": "standard",
+    "rules": [
+      "OPENC-ARRAY-INIT-001",
+      "OPENC-ARRAY-LENGTH-001",
+      "OPENC-ARRAY-COPY-001"
+    ]
+  },
+  "id": "valid/array_init_length_copy",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/array_init_length_copy",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/array_init_length_copy/main"
+  ]
+}

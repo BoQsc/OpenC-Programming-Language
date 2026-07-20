@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-TARGET-NOARBITRARY-001",
+    "OPENC-TARGET-PTRPROV-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "target_fault",
+      "rule": "OPENC-TARGET-PTRPROV-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "pointer_provenance_target_fault",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TARGET-PTRPROV-001",
+      "OPENC-TARGET-NOARBITRARY-001"
+    ]
+  },
+  "id": "runtime/pointer_provenance_target_fault",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/pointer_provenance_target_fault",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/pointer_provenance_target_fault/main"
+  ]
+}

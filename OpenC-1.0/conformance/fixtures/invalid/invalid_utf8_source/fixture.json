@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-SOURCE-INVALID-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-SOURCE-INVALID-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "invalid_utf8_source",
+    "profile": "standard",
+    "rules": [
+      "OPENC-SOURCE-INVALID-001"
+    ]
+  },
+  "id": "invalid/invalid_utf8_source",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/invalid_utf8_source",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/invalid_utf8_source/main"
+  ]
+}

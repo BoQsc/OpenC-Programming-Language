@@ -1,0 +1,38 @@
+{
+  "active_rules": [
+    "OPENC-EVAL-BINARY-001",
+    "OPENC-EVAL-FULL-001",
+    "OPENC-EVAL-NOUNSPEC-001",
+    "OPENC-EVAL-OBSERVABLE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept",
+      "stdout": [
+        "1",
+        "2"
+      ]
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "evaluation_binary_left_to_right",
+    "profile": "standard",
+    "rules": [
+      "OPENC-EVAL-FULL-001",
+      "OPENC-EVAL-NOUNSPEC-001",
+      "OPENC-EVAL-BINARY-001",
+      "OPENC-EVAL-OBSERVABLE-001"
+    ]
+  },
+  "id": "runtime/evaluation_binary_left_to_right",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/evaluation_binary_left_to_right",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/evaluation_binary_left_to_right/main"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "active_rules": [
+    "OPENC-SYNTAX-OPTIONAL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "result": "reject",
+    "rules": [
+      "OPENC-SYNTAX-OPTIONAL-001"
+    ]
+  },
+  "id": "invalid/current_question_optional",
+  "kind": "invalid",
+  "origin": "OpenC canonical mainline",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/current_question_optional/main"
+  ]
+}

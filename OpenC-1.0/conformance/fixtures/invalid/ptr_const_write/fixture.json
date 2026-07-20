@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-PTR-CONST-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-PTR-CONST-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "ptr_const_write",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-CONST-001"
+    ]
+  },
+  "id": "invalid/ptr_const_write",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/ptr_const_write",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/ptr_const_write/main"
+  ]
+}

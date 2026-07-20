@@ -1,0 +1,154 @@
+{
+  "$defs": {
+    "block": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "instructions": {
+          "items": {
+            "$ref": "#/$defs/instruction"
+          },
+          "type": "array"
+        },
+        "terminator": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "instructions",
+        "terminator"
+      ],
+      "type": "object"
+    },
+    "function": {
+      "additionalProperties": false,
+      "properties": {
+        "blocks": {
+          "items": {
+            "$ref": "#/$defs/block"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "parameters": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "result_type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "result_type",
+        "parameters",
+        "blocks"
+      ],
+      "type": "object"
+    },
+    "instruction": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "type": "object"
+        },
+        "op": {
+          "enum": [
+            "const",
+            "copy",
+            "unary",
+            "binary_checked",
+            "binary_wrap",
+            "binary_saturating",
+            "compare",
+            "cast_checked",
+            "reinterpret",
+            "load_local",
+            "store_local",
+            "load_field",
+            "store_field",
+            "load_index_checked",
+            "store_index_checked",
+            "call",
+            "call_out",
+            "out_commit",
+            "optional_test",
+            "optional_extract_checked",
+            "resource_construct",
+            "owner_move",
+            "cleanup_register",
+            "cleanup_run",
+            "borrow_begin",
+            "borrow_end",
+            "storage_construct",
+            "storage_destroy",
+            "ptr_address",
+            "ptr_offset",
+            "ptr_load",
+            "ptr_store",
+            "checked_fail",
+            "target_fault"
+          ]
+        },
+        "operands": {
+          "type": "array"
+        },
+        "result": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "span": {
+          "$ref": "SOURCE_SPAN.schema.json"
+        },
+        "type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "op",
+        "span"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "openc://schema/core-ir/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate": {
+      "type": "string"
+    },
+    "functions": {
+      "items": {
+        "$ref": "#/$defs/function"
+      },
+      "type": "array"
+    },
+    "schema": {
+      "const": "openc.core_ir.v1"
+    },
+    "target": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "candidate",
+    "target",
+    "functions"
+  ],
+  "title": "OpenC reference Core IR",
+  "type": "object"
+}

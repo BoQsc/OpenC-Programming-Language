@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-ENUM-DISTINCT-001",
+    "OPENC-SWITCH-ENUM-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "enum_switch",
+    "profile": "standard",
+    "rules": [
+      "OPENC-ENUM-DISTINCT-001",
+      "OPENC-SWITCH-ENUM-001"
+    ]
+  },
+  "id": "valid/enum_switch",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/enum_switch",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/enum_switch/main"
+  ]
+}

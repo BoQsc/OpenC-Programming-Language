@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-TARGET-FAULTMODEL-001",
+    "OPENC-TARGET-PTRCROSS-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "target_fault",
+      "rule": "OPENC-TARGET-PTRCROSS-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "runtime_pointer_cross_extent_fault",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TARGET-PTRCROSS-001",
+      "OPENC-TARGET-FAULTMODEL-001"
+    ]
+  },
+  "id": "runtime/runtime_pointer_cross_extent_fault",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/runtime_pointer_cross_extent_fault",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/runtime_pointer_cross_extent_fault/main"
+  ]
+}

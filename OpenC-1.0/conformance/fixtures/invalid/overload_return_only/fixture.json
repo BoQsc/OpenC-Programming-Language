@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-OVERLOAD-RETURN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-OVERLOAD-RETURN-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "overload_return_only",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OVERLOAD-RETURN-001"
+    ]
+  },
+  "id": "invalid/overload_return_only",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/overload_return_only",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/overload_return_only/main"
+  ]
+}

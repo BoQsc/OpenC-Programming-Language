@@ -1,0 +1,12 @@
+{
+  "schema": "openc.target.v1",
+  "name": "windows-x86_64",
+  "os": "windows",
+  "arch": "x86_64",
+  "pointer_width": 64,
+  "endian": "little",
+  "abi": "win64",
+  "hosted": true,
+  "runtime_provider": "runtime/windows",
+  "evidence_state": "AUTHORED_EXECUTION_PENDING"
+}

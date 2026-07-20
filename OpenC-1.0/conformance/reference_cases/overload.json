@@ -1,0 +1,65 @@
+{
+  "cases": [
+    {
+      "args": [
+        "i32"
+      ],
+      "candidates": [
+        [
+          "i32"
+        ],
+        [
+          "i64"
+        ]
+      ],
+      "expected": 0,
+      "id": "exact"
+    },
+    {
+      "args": [
+        "i8"
+      ],
+      "candidates": [
+        [
+          "i32"
+        ],
+        [
+          "u32"
+        ]
+      ],
+      "expected": 0,
+      "id": "unique_widen"
+    },
+    {
+      "args": [
+        "i8"
+      ],
+      "candidates": [
+        [
+          "i16"
+        ],
+        [
+          "i32"
+        ]
+      ],
+      "expected": "ambiguous",
+      "id": "ambiguous_widen"
+    },
+    {
+      "args": [
+        "out:i32"
+      ],
+      "candidates": [
+        [
+          "i32"
+        ],
+        [
+          "out:i32"
+        ]
+      ],
+      "expected": 1,
+      "id": "mode_exact"
+    }
+  ],
+  "group": "overload"
+}

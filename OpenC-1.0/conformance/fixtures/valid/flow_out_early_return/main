@@ -1,0 +1,10 @@
+status make(out i32 value) {
+    value = 7;
+    return status{ ok = true, code = 0, message = "" };
+}
+i32 main() {
+    i32 value;
+    status result = make(out value);
+    if !result.ok { return result.code; }
+    return value;
+}

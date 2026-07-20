@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-CONVERT-LOSSY-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-CONVERT-LOSSY-001"
+    },
+    "fixture_kind": "source",
+    "name": "implicit_narrow",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CONVERT-LOSSY-001"
+    ]
+  },
+  "id": "invalid/implicit_narrow",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/implicit_narrow",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/implicit_narrow/main"
+  ]
+}

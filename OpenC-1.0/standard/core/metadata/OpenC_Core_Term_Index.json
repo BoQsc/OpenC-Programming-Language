@@ -1,0 +1,135 @@
+{
+  "candidate": "OpenC Core Candidate 2 — Implementation Readiness Revision 1",
+  "schema": "openc.core.term_index.v2",
+  "term_count": 32,
+  "terms": [
+    {
+      "definition": "one UTF-8 OpenC source sequence assigned to one logical module by declared project context.",
+      "term": "source unit"
+    },
+    {
+      "definition": "the order-independent declaration set formed by all source units assigned the same module identity.",
+      "term": "logical module"
+    },
+    {
+      "definition": "initialized storage with a complete type and active lifetime.",
+      "term": "object"
+    },
+    {
+      "definition": "memory capable of containing an object; storage alone is not a value.",
+      "term": "storage"
+    },
+    {
+      "definition": "the abstract typed result represented by an expression or object.",
+      "term": "value"
+    },
+    {
+      "definition": "a copyable non-resource value whose type carries no unique ownership obligation.",
+      "term": "plain value"
+    },
+    {
+      "definition": "the binding responsible for exactly one resource or owning-pointer obligation.",
+      "term": "owner"
+    },
+    {
+      "definition": "temporary non-owning access through `ref` or a slice.",
+      "term": "borrow"
+    },
+    {
+      "definition": "a low-level address value of type `ptr T` with abstract provenance and offset.",
+      "term": "raw pointer"
+    },
+    {
+      "definition": "code outside an unsafe region or unsafe function body.",
+      "term": "safe code"
+    },
+    {
+      "definition": "an operation whose validity depends on explicit caller-provided low-level preconditions.",
+      "term": "unsafe operation"
+    },
+    {
+      "definition": "a visible nonzero `status.code` result handled by ordinary control flow.",
+      "term": "recoverable failure"
+    },
+    {
+      "definition": "a defined structured non-recoverable failure that runs required cleanup.",
+      "term": "checked failure"
+    },
+    {
+      "definition": "one bounded target-declared consequence of violating an unsafe precondition.",
+      "term": "target fault"
+    },
+    {
+      "definition": "a non-copyable value with one exactly-once outer ownership obligation and zero or more visible nested ownership slots.",
+      "term": "resource"
+    },
+    {
+      "definition": "compiler-only local evidence connecting one fallible call result to the conditional initialization of exactly its `out` targets.",
+      "term": "proof lineage"
+    },
+    {
+      "definition": "normal scope completion, `return`, `break`, `continue`, recoverable return, or language-generated checked failure.",
+      "term": "structured exit"
+    },
+    {
+      "definition": "the finite side-effect-free expression subset used for module constants, switch cases, and plain field defaults.",
+      "term": "Core constant expression"
+    },
+    {
+      "definition": "the smaller context-only expression subset used by `when`.",
+      "term": "build-context expression"
+    },
+    {
+      "definition": "a source name associated with one declared value, reference, pointer, owner, output slot, function, type, module, or constant according to its declaration kind.",
+      "term": "binding"
+    },
+    {
+      "definition": "a type whose size, alignment, value rules, and required fields or members are known in the current translation context.",
+      "term": "complete type"
+    },
+    {
+      "definition": "an expression whose evaluation is completed before the next enclosing sequencing boundary defined by the grammar.",
+      "term": "full expression"
+    },
+    {
+      "definition": "a value result, mutation, ownership transition, cleanup action, diagnostic, checked failure, target fault, or externally visible target action whose order or presence is defined by Core.",
+      "term": "observable effect"
+    },
+    {
+      "definition": "an operation whose valid-input contract admits neither recoverable failure, checked failure, nor target fault; internal unsafe work is permitted only when a safe wrapper proves all preconditions for every valid input.",
+      "term": "no-fail operation"
+    },
+    {
+      "definition": "abstract identity connecting a raw pointer to one active object, array, typed-storage lifetime, allocation, or declared target region.",
+      "term": "provenance"
+    },
+    {
+      "definition": "one specific activation of an object lifetime in storage; reconstruction creates a new generation and does not revive pointers or borrows from an earlier generation.",
+      "term": "lifetime generation"
+    },
+    {
+      "definition": "a declared finite capacity of an implementation whose exhaustion produces a structured diagnostic rather than altered language meaning.",
+      "term": "implementation limit"
+    },
+    {
+      "definition": "a half-open region identified by 1-based logical line and Unicode-scalar column coordinates plus 0-based UTF-8 byte offset and byte length.",
+      "term": "source span"
+    },
+    {
+      "definition": "a named owner binding, return slot, ownership-bearing aggregate field at commit, or proven owning output slot that can carry exactly one ownership obligation without an unnamed temporary.",
+      "term": "stable owner destination"
+    },
+    {
+      "definition": "a stable live object, eligible field, or element location for which Core defines an address-of result type and lifetime bound.",
+      "term": "addressable location"
+    },
+    {
+      "definition": "a word spelling that the lexical phase classifies for fixed language syntax and that cannot be introduced as an ordinary identifier.",
+      "term": "reserved word"
+    },
+    {
+      "definition": "a primitive type spelling recognized by type grammar; it cannot be rebound, but may occur as an imported module segment under the explicit module-name rules.",
+      "term": "predeclared type word"
+    }
+  ]
+}

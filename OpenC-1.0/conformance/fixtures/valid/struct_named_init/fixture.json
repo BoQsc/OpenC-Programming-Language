@@ -1,0 +1,27 @@
+{
+  "active_rules": [
+    "OPENC-STRUCT-INIT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "struct_named_init",
+    "profile": "standard",
+    "rules": [
+      "OPENC-STRUCT-INIT-001"
+    ]
+  },
+  "id": "valid/struct_named_init",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/struct_named_init",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/struct_named_init/main"
+  ]
+}

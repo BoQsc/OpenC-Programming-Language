@@ -1,0 +1,1063 @@
+{
+  "empty": [],
+  "evidence_state": "STRUCTURAL_SOURCE_INVENTORY",
+  "files": [
+    {
+      "bytes": 210,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "bin/openc-bootstrap",
+      "present": true,
+      "sha256": "b743d32666d1b9df8b8b38028d4998ad2eab4bd8f421d4d4925a33b2f043272c"
+    },
+    {
+      "bytes": 183,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "bin/openc-bootstrap.cmd",
+      "present": true,
+      "sha256": "1b7ab6f4593a20ac003a6ebfac8d465056fe122269b2d0c3bae2ed88e04519d3"
+    },
+    {
+      "bytes": 307,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "bin/openc-bootstrap.ps1",
+      "present": true,
+      "sha256": "8fd7762311c7e1e0c8b3ff182971e7cd2f5ea28ee546df82fb9a50c3142143ef"
+    },
+    {
+      "bytes": 147,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "build/build_all.cmd",
+      "present": true,
+      "sha256": "9e57d29cffbcfe11a63ffe549fb712db546cf79b986be80cf730e105e34f1442"
+    },
+    {
+      "bytes": 215,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "build/build_all.ps1",
+      "present": true,
+      "sha256": "c4ade3678116d4e2fca577554cd356c5f651a7542e4f162a9d0a68df5b3b70cd"
+    },
+    {
+      "bytes": 2321,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "build/build_all.py",
+      "present": true,
+      "sha256": "51958eeeedaf75e8adcf290222e560f386ea72d6e1376c6ae681da51e0ed9a99"
+    },
+    {
+      "bytes": 143,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "build/build_all.sh",
+      "present": true,
+      "sha256": "2e633b0ce2ad042907b3f42c87e8b3bd18ec2fee0b3a907b1da3a82dd733bf5c"
+    },
+    {
+      "bytes": 323,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "build/build_freestanding.sh",
+      "present": true,
+      "sha256": "82bf11b4ac46fb0a0956793ce014055dc3a6cdc1393cae4b2c77d52e6e68c167"
+    },
+    {
+      "bytes": 334,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "build/build_linux.sh",
+      "present": true,
+      "sha256": "9ba99a046f3b19d4eebd06267f9bf687ede047aaa04f2f4706511d5b498312ee"
+    },
+    {
+      "bytes": 364,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "build/build_windows.ps1",
+      "present": true,
+      "sha256": "b96e3b1028dcdc5b7f14825ace93021add578709915680a9bdbc8f2a188ee588"
+    },
+    {
+      "bytes": 315,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "build/clean.sh",
+      "present": true,
+      "sha256": "3397ed2332aabada79eb28b0cebc44ee9cac62b2f8d75d58d43a9a6d2d02155f"
+    },
+    {
+      "bytes": 282,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "build/clean_windows.ps1",
+      "present": true,
+      "sha256": "287734fda2920a6a6f6c3766cf5e0ed4014bf6e8c33968211265b27cba79d6de"
+    },
+    {
+      "bytes": 2250,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "release/build_source_archive.py",
+      "present": true,
+      "sha256": "ae926c1edadde95cebc1c633015596fe65786e446339ac2b8cfad5445f195d8f"
+    },
+    {
+      "bytes": 1759,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "release/verify_source_archive.py",
+      "present": true,
+      "sha256": "dda44428375a06085136d20b96410f66a10443419ec54f7ca43bb00b7151ced2"
+    },
+    {
+      "bytes": 1135,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "scripts/generate_manifest.py",
+      "present": true,
+      "sha256": "12506341b982e0525e09b633795c69b5bac1ebc43d03f453285f63e3a968c510"
+    },
+    {
+      "bytes": 2081,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "scripts/source_completeness.py",
+      "present": true,
+      "sha256": "176a0f65cf3c66ece72be47381d248d10f5cb179794a4a5db5f3ab8c75cdd028"
+    },
+    {
+      "bytes": 2373,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "scripts/source_inventory.py",
+      "present": true,
+      "sha256": "bc205544eedb05b57c599a73593a01c7d55cc71f8806189a448e02dc1124c113"
+    },
+    {
+      "bytes": 1428,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "scripts/validate_structure.py",
+      "present": true,
+      "sha256": "2d7dc8536e59c484e4b927207511acf39de73d5cc8f45691c0eec36f8f3289d1"
+    },
+    {
+      "bytes": 11917,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/app/main.d",
+      "present": true,
+      "sha256": "09748c57c56dbf2022175fff6fc9d9d409915bbf2e5d316860c51d5cf43c380c"
+    },
+    {
+      "bytes": 3511,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/ast.d",
+      "present": true,
+      "sha256": "f06c6f35bc25a10c341eca7c3453793607de306eeada7b811613064152064883"
+    },
+    {
+      "bytes": 811,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/ast_util.d",
+      "present": true,
+      "sha256": "50ec907f711e3da3356b7274c37d6d79e8183574c435778e9fee75e5d0884926"
+    },
+    {
+      "bytes": 496,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/backend.d",
+      "present": true,
+      "sha256": "cabb9fae1d4359f508aad4ecd0217dd21be85df45a3019f030165adca7fe6b2f"
+    },
+    {
+      "bytes": 8903,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/backend_d.d",
+      "present": true,
+      "sha256": "c80878c599dbd45f484773d77bc63f8d481f7dcec23cea1a12096b15808cae07"
+    },
+    {
+      "bytes": 1117,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/backend_ir.d",
+      "present": true,
+      "sha256": "054e145e43304c1905705f171202782341a4064b4a78e81f3d2d545eaaa8009e"
+    },
+    {
+      "bytes": 5698,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/borrow.d",
+      "present": true,
+      "sha256": "53cf6ff4b67ba8ae6e183e8b5d5996e6422ee4d77b5eeea41bf2e44782c10753"
+    },
+    {
+      "bytes": 7846,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/cfg.d",
+      "present": true,
+      "sha256": "1d5d186b05e4d667af0d1ecfadaab12b7d4fe97761d8c14f0b05badfb9271ff1"
+    },
+    {
+      "bytes": 3669,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/cleanup.d",
+      "present": true,
+      "sha256": "1e774b1953fbc18fe83faf9dc8e6c51a76424c301bf44c7cf32365c5172084cb"
+    },
+    {
+      "bytes": 3489,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/command.d",
+      "present": true,
+      "sha256": "4b8839037010b27ca36c1c1a1a1105a7e4f7ff404a6582b2994f011b01b97c5a"
+    },
+    {
+      "bytes": 2535,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/common.d",
+      "present": true,
+      "sha256": "f04018986f9e9dcef39c6b27824f511965a7cf3b3dc42ca783d0fbf9eb64046d"
+    },
+    {
+      "bytes": 6187,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/compiler.d",
+      "present": true,
+      "sha256": "dfbe94ea2801dfbdb9c8671381b01a31dd6d49c0ad03c59b46e9c5645a59ab58"
+    },
+    {
+      "bytes": 3928,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/conformance.d",
+      "present": true,
+      "sha256": "8f3a3c0cafb1cc252876fcffc8bd772a8b1467e534fa2681561af45f848f99fa"
+    },
+    {
+      "bytes": 11880,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/constant.d",
+      "present": true,
+      "sha256": "baa17e4f2d1235a336bcd824a3e9bee09cb25fe6e79af7ba2029ec52d7bf0e11"
+    },
+    {
+      "bytes": 6950,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/declarations.d",
+      "present": true,
+      "sha256": "e252de4de459c89cd9cbc22d80cb322b4fbc80ca7dcbf30328f0eea5de4906a2"
+    },
+    {
+      "bytes": 5353,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/diagnostic.d",
+      "present": true,
+      "sha256": "adba8dabdacffd6ccd16bce6dd1f724987a11595e0f9966d64269a707cd9d2fc"
+    },
+    {
+      "bytes": 11476,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/flow.d",
+      "present": true,
+      "sha256": "dadb61989db26ccd15131cfe5919f3f4ba2e3cae7380de083200f7ece905d17d"
+    },
+    {
+      "bytes": 4430,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/ir.d",
+      "present": true,
+      "sha256": "63f8d6b54940ce4570a825684f4ec76b17d0e143a7fc6a403e044f9e090d04fe"
+    },
+    {
+      "bytes": 10501,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/lexer.d",
+      "present": true,
+      "sha256": "0e180e3678f6a7f3272a25b16d109c5db6fc138090cb473f903dd7a4b157abab"
+    },
+    {
+      "bytes": 15756,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/lowerer.d",
+      "present": true,
+      "sha256": "4ec1b73d602e00b6a78dfc13701dd39ecec994f488291ba0441788617303a89c"
+    },
+    {
+      "bytes": 3950,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/module_system.d",
+      "present": true,
+      "sha256": "61544d9c0933197ee4479752804a1e58f7af94f99a4d236007e69b8f802cdbf0"
+    },
+    {
+      "bytes": 9212,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/names.d",
+      "present": true,
+      "sha256": "50afa62a2c9e72eb01f81f0614c6c252ca95f11c8a3a9c8aacce2e8d15ed62bd"
+    },
+    {
+      "bytes": 5150,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/native.d",
+      "present": true,
+      "sha256": "8914bb1f6efd3abe4409751eb0b1f9c751162a84c2c3e1f24fe6f6c900001551"
+    },
+    {
+      "bytes": 1803,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/overload.d",
+      "present": true,
+      "sha256": "cbecae2f5db757cdc73b7549561586bd12b23bf19c0ab130e9ad9968de210969"
+    },
+    {
+      "bytes": 10657,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/ownership.d",
+      "present": true,
+      "sha256": "2cb43bdf2c06cdabb9b0e88dacd1bd4d113f98a148e92f48765f2cd6b77a7566"
+    },
+    {
+      "bytes": 32768,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/parser.d",
+      "present": true,
+      "sha256": "bcb5ed70d9b3d5707423b0f661d0583b3e7b6f142fe6cd985fa425dc12b3abc1"
+    },
+    {
+      "bytes": 4507,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/pointer.d",
+      "present": true,
+      "sha256": "daee65751c8c914cf632bc84af60d9318bf8441ea1f225f7464f558fc92cb934"
+    },
+    {
+      "bytes": 5502,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/project.d",
+      "present": true,
+      "sha256": "3ac4444b47d97152f353e084e09ba0de1deac55cfb2fa7d8c1105542d78123a3"
+    },
+    {
+      "bytes": 1205,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/semantic_model.d",
+      "present": true,
+      "sha256": "55e6723bc41eea7b2c05ce6ff01ddda8bd1e90f0a64b093512c76fc04f4d6d01"
+    },
+    {
+      "bytes": 2399,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/semantic_pipeline.d",
+      "present": true,
+      "sha256": "5cd24b7ccb711b566f339c7ee3e9cd4ffdbd553d802f2f61ab53f8cbc464fc90"
+    },
+    {
+      "bytes": 4046,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/source.d",
+      "present": true,
+      "sha256": "b038b30b91889af88b9220d628ce1ce00a29d5cc8e07d409cf184ebb2dcb172a"
+    },
+    {
+      "bytes": 3771,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/status_out.d",
+      "present": true,
+      "sha256": "72fc29cbdac785b2aaa0e7e5e0e1d6922397b66a1f6cce579e5be97d2076b082"
+    },
+    {
+      "bytes": 2796,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/symbol.d",
+      "present": true,
+      "sha256": "0dbc69ee04415ef3400bffe2ad72ce32b02e176b11bb1a03a2499460dd3ac9c0"
+    },
+    {
+      "bytes": 420,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/token.d",
+      "present": true,
+      "sha256": "a6c676440feb53f6a7ed08fb985a73f6c3e4bb3a6e4cf98d16956faec5b10fdc"
+    },
+    {
+      "bytes": 5145,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/toolchain.d",
+      "present": true,
+      "sha256": "9dec5d96f31adb989c5139fb60fda983065c458b925da99deb5f535593825f72"
+    },
+    {
+      "bytes": 27823,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/type_check.d",
+      "present": true,
+      "sha256": "6e0ac1ff58de49cf84857c1da8a3aa5eb1b5a7fa9782286a674f93bb5b2f5eb5"
+    },
+    {
+      "bytes": 7956,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/types.d",
+      "present": true,
+      "sha256": "2cfbf65c6c8cd7fe8414b2b9956f45579da4776623dbd88db6241fd1c44dfaab"
+    },
+    {
+      "bytes": 2634,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/unsafe_checker.d",
+      "present": true,
+      "sha256": "c3b9b09d8c60ce0661b45bed250b37d9174c7ee92b7f6c43732a3ae3afa40012"
+    },
+    {
+      "bytes": 106,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/__init__.py",
+      "present": true,
+      "sha256": "864ef1f914e11c0ff9cf065f089fc44d25abd5c76b64158696c1f2c93eb22846"
+    },
+    {
+      "bytes": 48,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/__main__.py",
+      "present": true,
+      "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
+    },
+    {
+      "bytes": 32335,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/backend_c.py",
+      "present": true,
+      "sha256": "02794f45056ba4032976ae870111d56a82a939cd9af7f6a65d0f63ed363411c9"
+    },
+    {
+      "bytes": 6662,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/cli.py",
+      "present": true,
+      "sha256": "08937e3101209e1c509d30f795da3d6168b6308e725673e3e2b5d88bbc3c4fc8"
+    },
+    {
+      "bytes": 2030,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/commands.py",
+      "present": true,
+      "sha256": "5c2998929005ac87e64b76b37917d00389aca39ec744e16099cd94fb2e1a8ca4"
+    },
+    {
+      "bytes": 11401,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/compiler.py",
+      "present": true,
+      "sha256": "cad10b5ee360966999e83345f564539dffae479e212cf2b4d489cccb93ad92f1"
+    },
+    {
+      "bytes": 10180,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/conformance.py",
+      "present": true,
+      "sha256": "25c69c890ee82610dd3bd76314663fa6f007a649cb2274f88ef2c17260701346"
+    },
+    {
+      "bytes": 14493,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/consteval.py",
+      "present": true,
+      "sha256": "1fbde90b65640cc8fb0a144432d28087c3341684e397d8812073b08bf074bb01"
+    },
+    {
+      "bytes": 3437,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/diagnostics.py",
+      "present": true,
+      "sha256": "2338ac11b25d4ffe6a8deab038bca85350bc0bdbb1cbb031992eec238748790d"
+    },
+    {
+      "bytes": 2302,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/explain.py",
+      "present": true,
+      "sha256": "44e0d56b8621c234ea6f9a9b7320188be6cb167ede034c84e4fa82e906b2b5af"
+    },
+    {
+      "bytes": 11902,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/flow.py",
+      "present": true,
+      "sha256": "4f35cd276aa2f9f2f61d84573cdb8b0398da0099e0822dd033f0095b74be191b"
+    },
+    {
+      "bytes": 4422,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/formatter.py",
+      "present": true,
+      "sha256": "5d7902ca9819bd9c0f4a6d6204388b851896d2140bcb7c77dec79955f06d91aa"
+    },
+    {
+      "bytes": 3922,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/ir.py",
+      "present": true,
+      "sha256": "cc580028f5c65120ff435c5bda77e606160a7315e4e6fd79125412b32aade6f8"
+    },
+    {
+      "bytes": 12268,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/lexer.py",
+      "present": true,
+      "sha256": "4328b72a9862ff3ac04e2cdbda24cac22436e175c51a0785958b383c24933ec3"
+    },
+    {
+      "bytes": 14956,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/lower.py",
+      "present": true,
+      "sha256": "3ef525c6187adba8b03078beb812de627196d51522b248647036de953a6a3bdc"
+    },
+    {
+      "bytes": 13409,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/lsp.py",
+      "present": true,
+      "sha256": "50a67d551405c3e53ddbaf08b15d15d48f36b3a72b5a4957bcb073d4eb35d0cb"
+    },
+    {
+      "bytes": 17048,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/model.py",
+      "present": true,
+      "sha256": "6a022384959e7bfe3029ef5aed6d163f5a891a7a07f7a1f9c0d2c3f501bec128"
+    },
+    {
+      "bytes": 9549,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/ownership.py",
+      "present": true,
+      "sha256": "39c941da7c205e5e8e37fccdd47ceea05973b929a82f6e70308d7ff7ae28592c"
+    },
+    {
+      "bytes": 40014,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/parser.py",
+      "present": true,
+      "sha256": "f7413a6ee153e2912bb3b482dfffc15f4a9f5cb5ab445a5c23b0665a7d4257a2"
+    },
+    {
+      "bytes": 8050,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/project.py",
+      "present": true,
+      "sha256": "0379019339337ecf11df738fb16ee9a7589942bd61359c8ed723dcee2f97fa0f"
+    },
+    {
+      "bytes": 80663,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/semantic.py",
+      "present": true,
+      "sha256": "4132389be20985831ebdd2ea22cc12758657d979059713060b97eded5a5c8d5f"
+    },
+    {
+      "bytes": 3163,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/source.py",
+      "present": true,
+      "sha256": "bed3617252764a1e3f53c1e522dcb529fc9e67dcac12cb0443c9148ef8355b3d"
+    },
+    {
+      "bytes": 5244,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/symbols.py",
+      "present": true,
+      "sha256": "a0b3c5fb29c326783fb13ca6d65b69e0a38d3d20be2923b0916afb1674910354"
+    },
+    {
+      "bytes": 11660,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_python_bootstrap",
+      "path": "compiler/bootstrap/python/openc/typesys.py",
+      "present": true,
+      "sha256": "0c475d811c8372e2568e512e8fd9874f8501b1ab65e6968884e46ec894f6147b"
+    },
+    {
+      "bytes": 20775,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_c",
+      "path": "runtime/common/source/openc_runtime.c",
+      "present": true,
+      "sha256": "00f28cdc26f6decfbe4fee6d79421c53100f216a46cc440ec4363440146b6ba0"
+    },
+    {
+      "bytes": 5971,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_c",
+      "path": "runtime/common/source/openc_runtime.h",
+      "present": true,
+      "sha256": "33e6e8760adcca071bfdc3891e630f11e305798887276fd1a1c16624eca7c5d2"
+    },
+    {
+      "bytes": 1629,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_c",
+      "path": "runtime/freestanding/source/openc_platform_freestanding.c",
+      "present": true,
+      "sha256": "5c91429a3daa1b6b1a6543ee9de45e1478b11b6b21ccb7fa49db8fd1d5944aa2"
+    },
+    {
+      "bytes": 1841,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_c",
+      "path": "runtime/linux/source/openc_platform_linux.c",
+      "present": true,
+      "sha256": "f4d032014659211aa8c6540a160edc53ce0003d8f21e06a701534a6b5a3b264e"
+    },
+    {
+      "bytes": 4609,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_c",
+      "path": "runtime/windows/source/openc_platform_windows.c",
+      "present": true,
+      "sha256": "c22641897aa1c42b717febf0f6b3836cad19b625e72c074f862b6555128a2fea"
+    },
+    {
+      "bytes": 278,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/freestanding/startup.d",
+      "present": true,
+      "sha256": "9da0313d73dc57adcd9e42a90b8607ab8887d25cf8cff45fa8a33787b4f628c7"
+    },
+    {
+      "bytes": 220,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/linux/startup.d",
+      "present": true,
+      "sha256": "92344961333d540f08a2cb26bcb4d81746d27522205f40ddd0410cae059cd482"
+    },
+    {
+      "bytes": 2331,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/source/openc/runtime/checked.d",
+      "present": true,
+      "sha256": "1124cee6f44bc3941259898c4f34374da1e1ba2cc06b076bc11ac7666f9a8d7c"
+    },
+    {
+      "bytes": 712,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/source/openc/runtime/console.d",
+      "present": true,
+      "sha256": "d0f8158568f926ea2b1de19d60bc70b0e719f38cd61a990cf2a8d09c27bf14fa"
+    },
+    {
+      "bytes": 2363,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/source/openc/runtime/file.d",
+      "present": true,
+      "sha256": "cf1a40a42f6e9e05587fc918c3135d198b4598147476b239b2632b689e398cda"
+    },
+    {
+      "bytes": 625,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/source/openc/runtime/freestanding.d",
+      "present": true,
+      "sha256": "428a5fdabaa632c4a142785002b14583807b814f17d303d8903faf3312f1688e"
+    },
+    {
+      "bytes": 1731,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/source/openc/runtime/memory.d",
+      "present": true,
+      "sha256": "d267590ff58a03c9bacef2907301bca2330ba30a642f1a4cc9be0d1bb2a656ae"
+    },
+    {
+      "bytes": 352,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/source/openc/runtime/platform.d",
+      "present": true,
+      "sha256": "e5b0840e1882c944acf46d9187430f9cdc87213bff321873f20fea8b6aa45282"
+    },
+    {
+      "bytes": 426,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/source/openc/runtime/process.d",
+      "present": true,
+      "sha256": "8d87c94d411f7905d34a3b2d9e7724e1240ed670e20584b27069a373bb399137"
+    },
+    {
+      "bytes": 3153,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/source/openc/runtime/types.d",
+      "present": true,
+      "sha256": "4c910deb3efdf6e162e895328cfcfbf5595598f89d441d581834b4d166e9cf1d"
+    },
+    {
+      "bytes": 222,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "runtime_d",
+      "path": "runtime/windows/startup.d",
+      "present": true,
+      "sha256": "670df7ad956f2a72bac91b34a8f57f8ea7b476de9df8c672562df94452f118aa"
+    },
+    {
+      "bytes": 2145,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_d",
+      "path": "standard_library/source/openc/std/system_file.d",
+      "present": true,
+      "sha256": "ceaf025c46f542a1e72875caabdd14f6bc6d63e9eecb2ad5656950bb0b782642"
+    },
+    {
+      "bytes": 1313,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_d",
+      "path": "standard_library/source/openc/std/system_io.d",
+      "present": true,
+      "sha256": "5e7c0d477baec7482827f3928d7bef0673f0aa81e678ffd240aea5f7101ab5c6"
+    },
+    {
+      "bytes": 756,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_d",
+      "path": "standard_library/source/openc/std/system_memory.d",
+      "present": true,
+      "sha256": "e9942fd290b7bb50ca15aa0b02ed054679eeb873049ccf57d7776e9c1ba07301"
+    },
+    {
+      "bytes": 784,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_d",
+      "path": "standard_library/source/openc/std/system_path.d",
+      "present": true,
+      "sha256": "e91ddae5e46ce05269a154bd458c8ec9732ea5e7656123d167fd9ab4b77584b1"
+    },
+    {
+      "bytes": 234,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_d",
+      "path": "standard_library/source/openc/std/system_process.d",
+      "present": true,
+      "sha256": "01f7c2398404271dfe94cc7fe0d0e8f1d9549d5d3a3c936ff34566ba55c3d1a6"
+    },
+    {
+      "bytes": 1923,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_d",
+      "path": "standard_library/source/openc/std/system_text.d",
+      "present": true,
+      "sha256": "f6826b26a57aec9c918b58ba383ab1e569a920377f28b93cc83c2af1de7385e2"
+    },
+    {
+      "bytes": 1160,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_openc",
+      "path": "standard_library/system.file/source/file",
+      "present": true,
+      "sha256": "3bad85f1c254ccff95e1497e88e2bc1fe436f83d274fd52d0e9132a7a68dcd73"
+    },
+    {
+      "bytes": 1268,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_openc",
+      "path": "standard_library/system.io/source/io",
+      "present": true,
+      "sha256": "134d96408bac60b39c4ac56ec0690b50f44c5c499fb72b04a5e7e038055ac419"
+    },
+    {
+      "bytes": 1440,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_openc",
+      "path": "standard_library/system.memory/source/memory",
+      "present": true,
+      "sha256": "1fc69c00a8a5ba10e42f8aace2539acd5aa34296943f5a661e8b765a44940433"
+    },
+    {
+      "bytes": 391,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_openc",
+      "path": "standard_library/system.path/source/path",
+      "present": true,
+      "sha256": "04bbb94a5a6c00573bc714459c154a25216f98d8894e3dea5dc12be5a629100e"
+    },
+    {
+      "bytes": 462,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_openc",
+      "path": "standard_library/system.process/source/process",
+      "present": true,
+      "sha256": "00a0444e37a912f98676a9bb78f132f75a33e11707be58fc48beb191687b64ee"
+    },
+    {
+      "bytes": 968,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_openc",
+      "path": "standard_library/system.text/source/text",
+      "present": true,
+      "sha256": "dc10e95d077c15f7a28124a83277ad263e3dc5d4bb7fea116ac9bdabeccbf37a"
+    },
+    {
+      "bytes": 1262,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tests_d",
+      "path": "tests/source/compiler_frontend_tests.d",
+      "present": true,
+      "sha256": "29d173bd4816062587df1fc8bd8b8d57858c0d88bf8cbeb4b9e035324f363637"
+    },
+    {
+      "bytes": 172,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tests_d",
+      "path": "tests/source/main.d",
+      "present": true,
+      "sha256": "ef9d9e42c471c35517c378bf31253a926c27d294b19cdf8085997cd0f499765d"
+    },
+    {
+      "bytes": 783,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tests_d",
+      "path": "tests/source/project_tests.d",
+      "present": true,
+      "sha256": "b85d9b8168751f32c28f0a08549807fe9c9afc0aa46435b92533c152270398e6"
+    },
+    {
+      "bytes": 793,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tests_d",
+      "path": "tests/source/runtime_tests.d",
+      "present": true,
+      "sha256": "b91ac7ad33b3e5915c69f620b6a3b94a19c12e95f8cca38c2bb0fac0fb223e96"
+    },
+    {
+      "bytes": 937,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tests_d",
+      "path": "tests/source/tool_tests.d",
+      "present": true,
+      "sha256": "c7d74b689ef35865432d7c0b93b95ceb4e1436a15a9ec024a15c07aeb4e5adea"
+    },
+    {
+      "bytes": 2217,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tests_python",
+      "path": "tests/python/test_bootstrap_source.py",
+      "present": true,
+      "sha256": "27eea8684eee7e157a37c1048aff664d28fddbf6763fa0ec46cce2c6ea7e3511"
+    },
+    {
+      "bytes": 1971,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tests_python",
+      "path": "tests/run_all.py",
+      "present": true,
+      "sha256": "9809368031a965bf7e0732a82c46a2a49ff7c635288a2ca7119ead017a9d40e3"
+    },
+    {
+      "bytes": 690,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/apps/explain_main.d",
+      "present": true,
+      "sha256": "9351472ede7ad51683ad9a50c108ac458476da6253293da44c4708a5590c796d"
+    },
+    {
+      "bytes": 1410,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/apps/fmt_main.d",
+      "present": true,
+      "sha256": "12b3a5190261f90e4f29802974163b0773fd28eeb6884c6d046eedec4b92953b"
+    },
+    {
+      "bytes": 517,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/apps/info_main.d",
+      "present": true,
+      "sha256": "a3543da8966414c606d88b796ce70da9ea9d9e29733ac6d549507d945025605f"
+    },
+    {
+      "bytes": 180,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/apps/lsp_main.d",
+      "present": true,
+      "sha256": "05c3307114a4ebb8157488f7cbcd337671ef89c780113ac54215508e0bd4a0d7"
+    },
+    {
+      "bytes": 469,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/apps/run_main.d",
+      "present": true,
+      "sha256": "7a6cb08ee93dd1f6be44c11b3ae1ffc042d09448e378b81d6862b87bb8562c85"
+    },
+    {
+      "bytes": 890,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/apps/validate_main.d",
+      "present": true,
+      "sha256": "6f9f42d2ffcf311ccf8b2535d229a2f4b25f587a71e07553cfd093f7bae2b5d8"
+    },
+    {
+      "bytes": 2480,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/openc/tools/explain.d",
+      "present": true,
+      "sha256": "e277ec2b02f00001884c34fee5229788e48e8dd597518389f29c8e243246307d"
+    },
+    {
+      "bytes": 6948,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/openc/tools/formatter.d",
+      "present": true,
+      "sha256": "27fd5632869657439627842f0b3fcd08bd350a0388e63382475485c4717cbe2d"
+    },
+    {
+      "bytes": 1000,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/openc/tools/info.d",
+      "present": true,
+      "sha256": "04a502577a49cb42812167b7af5312f87f17d7abc7cb34541694fd1fa49fad11"
+    },
+    {
+      "bytes": 3065,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/openc/tools/live.d",
+      "present": true,
+      "sha256": "0d42bd06e768b19a5ad69e5ec8bf077d9a3e5df4c3ad6e7aedd96004b89a217f"
+    },
+    {
+      "bytes": 18167,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/openc/tools/lsp.d",
+      "present": true,
+      "sha256": "e7529a664e79d594c559ff22cc1635156048352aa0c41b5b4df745b3137dee9b"
+    },
+    {
+      "bytes": 541,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/openc/tools/runner.d",
+      "present": true,
+      "sha256": "e6c4c00fccf3990ee5d42f6ad8c72a9197af8e3afb1557f672131691d0ae4de3"
+    },
+    {
+      "bytes": 7422,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_d",
+      "path": "tools/source/openc/tools/validator.d",
+      "present": true,
+      "sha256": "6880429ef64453c4656062aac62fd73af8b28318287c3c577724a88e38c50548"
+    },
+    {
+      "bytes": 1571,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_python",
+      "path": "tools/source/package_tools/manifest.py",
+      "present": true,
+      "sha256": "524232114dda495a39318d2ac95e630159cd8b674727e7cd1b75c63c98778bd8"
+    },
+    {
+      "bytes": 1916,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_python",
+      "path": "tools/source/package_tools/source_archive.py",
+      "present": true,
+      "sha256": "4f2544b09f28d10bfcdda86a22541f47f2077be803e745f7cb45eb5071f345b2"
+    },
+    {
+      "bytes": 1619,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tools_python",
+      "path": "tools/source/package_tools/verify_archive.py",
+      "present": true,
+      "sha256": "75d5f2fc453ad8725728384ec257c86540f334d2c20d3022f30884b847ab06ac"
+    }
+  ],
+  "missing": [],
+  "schema": "openc.source_inventory.v2",
+  "totals": {
+    "bytes": 710733,
+    "empty": 0,
+    "files": 131,
+    "missing": 0
+  },
+  "version": "1.0-dev.3-verification"
+}

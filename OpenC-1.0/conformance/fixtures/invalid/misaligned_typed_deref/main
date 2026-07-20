@@ -1,0 +1,1 @@
+unsafe i32 bad(ptr byte p){ptr i32 q=reinterpret(ptr i32,p+1);return *q;}

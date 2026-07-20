@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-FLOW-WHILE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "flow_loop_preinitialized",
+    "profile": "standard",
+    "rules": [
+      "OPENC-FLOW-WHILE-001"
+    ]
+  },
+  "id": "valid/flow_loop_preinitialized",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/flow_loop_preinitialized",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/flow_loop_preinitialized/main"
+  ]
+}

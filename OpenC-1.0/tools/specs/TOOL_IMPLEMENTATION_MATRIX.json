@@ -1,0 +1,136 @@
+{
+  "compiled": false,
+  "executed": false,
+  "schema": "openc.tooling.work_matrix.v1",
+  "source_authoring_state": "SOURCE_AUTHORED_REVIEW_PENDING",
+  "tools": [
+    {
+      "contracts": [
+        "compiler_driver",
+        "diagnostics",
+        "context_reporting"
+      ],
+      "evidence_status": "EXECUTION_PENDING",
+      "required_for": "I0",
+      "source_paths": [
+        "compiler/source/app/main.d",
+        "compiler/source/openc/compiler.d"
+      ],
+      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "tool": "openc check"
+    },
+    {
+      "contracts": [
+        "project_context",
+        "target_backend",
+        "build_record"
+      ],
+      "evidence_status": "EXECUTION_PENDING",
+      "required_for": "I5",
+      "source_paths": [
+        "compiler/source/app/main.d",
+        "compiler/source/openc/toolchain.d"
+      ],
+      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "tool": "openc build"
+    },
+    {
+      "contracts": [
+        "build",
+        "target_execution"
+      ],
+      "evidence_status": "EXECUTION_PENDING",
+      "required_for": "I5",
+      "source_paths": [
+        "compiler/source/app/main.d",
+        "tools/source/openc/tools/runner.d"
+      ],
+      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "tool": "openc run"
+    },
+    {
+      "contracts": [
+        "test_discovery",
+        "runtime_results"
+      ],
+      "evidence_status": "EXECUTION_PENDING",
+      "required_for": "Core_1.0_RC",
+      "source_paths": [
+        "compiler/source/app/main.d",
+        "tools/source/openc/tools/validator.d"
+      ],
+      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "tool": "openc test"
+    },
+    {
+      "contracts": [
+        "formatter"
+      ],
+      "evidence_status": "EXECUTION_PENDING",
+      "required_for": "Tooling_1.0",
+      "source_paths": [
+        "compiler/source/app/main.d",
+        "tools/source/openc/tools/formatter.d"
+      ],
+      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "tool": "openc fmt"
+    },
+    {
+      "contracts": [
+        "active_context",
+        "limits",
+        "resolution"
+      ],
+      "evidence_status": "EXECUTION_PENDING",
+      "required_for": "I0",
+      "source_paths": [
+        "compiler/source/app/main.d",
+        "tools/source/openc/tools/info.d"
+      ],
+      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "tool": "openc info"
+    },
+    {
+      "contracts": [
+        "rule_index",
+        "explanations"
+      ],
+      "evidence_status": "EXECUTION_PENDING",
+      "required_for": "Tooling_1.0",
+      "source_paths": [
+        "compiler/source/app/main.d",
+        "tools/source/openc/tools/explain.d"
+      ],
+      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "tool": "openc explain"
+    },
+    {
+      "contracts": [
+        "adapter",
+        "conformance_results"
+      ],
+      "evidence_status": "EXECUTION_PENDING",
+      "required_for": "I0",
+      "source_paths": [
+        "compiler/source/app/main.d",
+        "tools/source/openc/tools/validator.d",
+        "compiler/source/openc/conformance.d"
+      ],
+      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "tool": "openc validate"
+    },
+    {
+      "contracts": [
+        "language_server"
+      ],
+      "evidence_status": "EXECUTION_PENDING",
+      "required_for": "Tooling_1.0",
+      "source_paths": [
+        "compiler/source/app/main.d",
+        "tools/source/openc/tools/lsp.d"
+      ],
+      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "tool": "openc lsp"
+    }
+  ]
+}

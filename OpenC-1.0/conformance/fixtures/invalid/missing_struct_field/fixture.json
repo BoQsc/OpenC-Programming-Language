@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-STRUCT-INIT-MISSING-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-STRUCT-INIT-MISSING-001"
+    },
+    "fixture_kind": "source",
+    "name": "missing_struct_field",
+    "profile": "standard",
+    "rules": [
+      "OPENC-STRUCT-INIT-MISSING-001"
+    ]
+  },
+  "id": "invalid/missing_struct_field",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/missing_struct_field",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/missing_struct_field/main"
+  ]
+}

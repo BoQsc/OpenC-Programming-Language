@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-BORROW-ONEWRITE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-BORROW-ONEWRITE-001"
+    },
+    "fixture_kind": "source",
+    "name": "two_write_borrows",
+    "profile": "standard",
+    "rules": [
+      "OPENC-BORROW-ONEWRITE-001"
+    ]
+  },
+  "id": "invalid/two_write_borrows",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/two_write_borrows",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/two_write_borrows/main"
+  ]
+}

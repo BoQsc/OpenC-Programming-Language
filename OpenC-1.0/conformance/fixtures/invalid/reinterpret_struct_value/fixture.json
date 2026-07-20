@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-REINTERPRET-VALUE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-REINTERPRET-VALUE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "reinterpret_struct_value",
+    "profile": "standard",
+    "rules": [
+      "OPENC-REINTERPRET-VALUE-001"
+    ]
+  },
+  "id": "invalid/reinterpret_struct_value",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/reinterpret_struct_value",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/reinterpret_struct_value/main"
+  ]
+}

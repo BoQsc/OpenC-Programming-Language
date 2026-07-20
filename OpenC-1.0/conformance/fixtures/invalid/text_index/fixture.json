@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-TEXT-NOINDEX-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-TEXT-NOINDEX-001"
+    },
+    "fixture_kind": "source",
+    "name": "text_index",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TEXT-NOINDEX-001"
+    ]
+  },
+  "id": "invalid/text_index",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/text_index",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/text_index/main"
+  ]
+}

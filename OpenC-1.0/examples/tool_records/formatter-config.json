@@ -1,0 +1,8 @@
+{
+  "indent_spaces": 4,
+  "line_ending": "lf",
+  "line_width": 100,
+  "preserve_blank_lines": 1,
+  "schema": "openc.formatter_config.v1",
+  "trailing_comma_multiline": true
+}

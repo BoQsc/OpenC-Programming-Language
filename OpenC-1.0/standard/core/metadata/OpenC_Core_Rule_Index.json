@@ -1,0 +1,4669 @@
+{
+  "active_rule_count": 466,
+  "candidate": "OpenC Core Candidate 2 — Implementation Readiness Revision 1",
+  "date": "2026-07-20",
+  "retired_rule_count": 15,
+  "rules": [
+    {
+      "automatable": true,
+      "chapter": "1. Conformance, terms, and safety outcomes",
+      "disposition": "rewrite",
+      "id": "OPENC-SAFETY-NOUB-001",
+      "order": 1,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "OpenC has no arbitrary undefined-behavior category"
+    },
+    {
+      "automatable": true,
+      "chapter": "1. Conformance, terms, and safety outcomes",
+      "disposition": "rewrite",
+      "id": "OPENC-SAFETY-UNSAFE-001",
+      "order": 2,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unsafe selects explicit precondition responsibility"
+    },
+    {
+      "automatable": true,
+      "chapter": "1. Conformance, terms, and safety outcomes",
+      "disposition": "rewrite",
+      "id": "OPENC-TERM-CHECKFAIL-001",
+      "order": 3,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Checked failure is structured non-recoverable failure"
+    },
+    {
+      "automatable": true,
+      "chapter": "1. Conformance, terms, and safety outcomes",
+      "disposition": "add",
+      "id": "OPENC-SAFETY-OUTCOME-001",
+      "order": 4,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every Core operation has one finite outcome category"
+    },
+    {
+      "automatable": true,
+      "chapter": "1. Conformance, terms, and safety outcomes",
+      "disposition": "add",
+      "id": "OPENC-SAFETY-OPTIMIZE-001",
+      "order": 5,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Optimization preserves all defined and recorded effects"
+    },
+    {
+      "automatable": true,
+      "chapter": "1. Conformance, terms, and safety outcomes",
+      "disposition": "add",
+      "id": "OPENC-SAFETY-IMPLIMIT-001",
+      "order": 6,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Implementation limits fail visibly"
+    },
+    {
+      "automatable": true,
+      "chapter": "2. Source, translation, and build context",
+      "disposition": "keep",
+      "id": "OPENC-SOURCE-UTF8-001",
+      "order": 7,
+      "phase": "source",
+      "status": "active_implementation_readiness_candidate",
+      "title": "UTF-8 is the canonical source encoding"
+    },
+    {
+      "automatable": true,
+      "chapter": "2. Source, translation, and build context",
+      "disposition": "keep",
+      "id": "OPENC-SOURCE-INVALID-001",
+      "order": 8,
+      "phase": "source",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Invalid source encoding is diagnosed"
+    },
+    {
+      "automatable": true,
+      "chapter": "2. Source, translation, and build context",
+      "disposition": "add",
+      "id": "OPENC-SOURCE-BOM-001",
+      "order": 9,
+      "phase": "source",
+      "status": "active_implementation_readiness_candidate",
+      "title": "One initial UTF-8 byte-order mark is ignored"
+    },
+    {
+      "automatable": true,
+      "chapter": "2. Source, translation, and build context",
+      "disposition": "keep",
+      "id": "OPENC-LEX-COMMENT-001",
+      "order": 10,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Comments do not affect token meaning"
+    },
+    {
+      "automatable": true,
+      "chapter": "2. Source, translation, and build context",
+      "disposition": "keep",
+      "id": "OPENC-TRANSLATE-NOPREPROCESSOR-001",
+      "order": 11,
+      "phase": "source",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Parsing does not require textual preprocessing"
+    },
+    {
+      "automatable": true,
+      "chapter": "2. Source, translation, and build context",
+      "disposition": "keep",
+      "id": "OPENC-TRANSLATE-NOINCLUDE-001",
+      "order": 12,
+      "phase": "source",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Textual includes are not part of OpenC"
+    },
+    {
+      "automatable": true,
+      "chapter": "2. Source, translation, and build context",
+      "disposition": "keep",
+      "id": "OPENC-WHEN-CONTEXT-001",
+      "order": 13,
+      "phase": "source",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Conditional compilation reads only declared build context"
+    },
+    {
+      "automatable": true,
+      "chapter": "2. Source, translation, and build context",
+      "disposition": "keep",
+      "id": "OPENC-WHEN-EXPR-001",
+      "order": 14,
+      "phase": "source",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Conditional compilation uses a finite boolean/comparison grammar"
+    },
+    {
+      "automatable": true,
+      "chapter": "2. Source, translation, and build context",
+      "disposition": "keep",
+      "id": "OPENC-WHEN-STRUCTURED-001",
+      "order": 15,
+      "phase": "source",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Conditional compilation selects complete parsed bodies"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "keep",
+      "id": "OPENC-LEX-IDENT-001",
+      "order": 16,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Identifier spelling and token selection are stable"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "keep",
+      "id": "OPENC-LEX-TYPEWORD-001",
+      "order": 17,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Reserved and predeclared words cannot be rebound"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "keep",
+      "id": "OPENC-LEX-TYPEQUALIFIER-001",
+      "order": 18,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Predeclared type words may be explicit module segments"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "add",
+      "id": "OPENC-LEX-MAXIMAL-001",
+      "order": 19,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Tokenization uses deterministic maximal munch"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "add",
+      "id": "OPENC-LEX-WORDCLASS-001",
+      "order": 20,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Word spellings have one closed classification"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "keep",
+      "id": "OPENC-LITERAL-INTEGER-001",
+      "order": 21,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Integer literals are exact mathematical integers"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "keep",
+      "id": "OPENC-LITERAL-RANGE-001",
+      "order": 22,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Destination range is checked"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "rewrite",
+      "id": "OPENC-LITERAL-TEXT-001",
+      "order": 23,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Text literals create exact scalar sequences"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "keep",
+      "id": "OPENC-LITERAL-SEPARATOR-001",
+      "order": 24,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Numeric separators occur only between digits"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "keep",
+      "id": "OPENC-LITERAL-FLOATDEFAULT-001",
+      "order": 25,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "An unconstrained floating literal has type `f64`"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "keep",
+      "id": "OPENC-LITERAL-NOSUFFIX-001",
+      "order": 26,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Numeric literals have no type suffixes"
+    },
+    {
+      "automatable": true,
+      "chapter": "3. Lexical grammar",
+      "disposition": "keep",
+      "id": "OPENC-LITERAL-UNICODE-001",
+      "order": 27,
+      "phase": "lexical",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unicode escapes denote valid scalar values"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "rewrite",
+      "id": "OPENC-MODULE-IDENTITY-001",
+      "order": 28,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Logical module identity comes from declared project context"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "rewrite",
+      "id": "OPENC-MODULE-IMPORT-001",
+      "order": 29,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Imports name one declared logical module"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "keep",
+      "id": "OPENC-MODULE-SHORT-001",
+      "order": 30,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Short qualifiers are canonical when unambiguous"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "keep",
+      "id": "OPENC-MODULE-AMBIGUOUS-001",
+      "order": 31,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ambiguous short qualifiers are rejected"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "keep",
+      "id": "OPENC-MODULE-PRIVATE-001",
+      "order": 32,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Declarations are private by default"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "keep",
+      "id": "OPENC-MODULE-EXPORT-001",
+      "order": 33,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Public API is explicit"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "rewrite",
+      "id": "OPENC-MODULE-CYCLE-001",
+      "order": 34,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "The Core 1.0 candidate rejects module import cycles"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "rewrite",
+      "id": "OPENC-MODULE-MULTISOURCE-001",
+      "order": 35,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Source units assigned to one module form one declaration set"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "rewrite",
+      "id": "OPENC-MODULE-DUPLICATE-001",
+      "order": 36,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Duplicate declarations are checked across the complete module"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "rewrite",
+      "id": "OPENC-MODULE-IMPORTLOCAL-001",
+      "order": 37,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Imports remain local to their source unit"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "keep",
+      "id": "OPENC-MODULE-FULLIMPORT-001",
+      "order": 38,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Full qualification still requires an import"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "keep",
+      "id": "OPENC-MODULE-IMPORTIDEMPOTENT-001",
+      "order": 39,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Duplicate identical imports have no added effect"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "add",
+      "id": "OPENC-MODULE-ORDER-001",
+      "order": 40,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Top-level declaration meaning is source-order independent"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "add",
+      "id": "OPENC-MODULE-NOREEXPORT-001",
+      "order": 41,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Imports do not re-export names"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "add",
+      "id": "OPENC-MODULE-MAPPING-001",
+      "order": 42,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Filesystem mapping is outside source-language semantics"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "add",
+      "id": "OPENC-MODULE-CONSTCYCLE-001",
+      "order": 43,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Module constant cycles are rejected"
+    },
+    {
+      "automatable": true,
+      "chapter": "4. Modules, imports, and visibility",
+      "disposition": "add",
+      "id": "OPENC-MODULE-API-001",
+      "order": 44,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Exported signatures expose only accessible complete types"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-WIDTH-001",
+      "order": 45,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Fixed-width integer names have fixed widths"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "rewrite",
+      "id": "OPENC-TYPE-MACHINE-001",
+      "order": 46,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Machine-sized integers use the declared target pointer width"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-HISTORICAL-001",
+      "order": 47,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Historical C integer names are not primitive OpenC types"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-VOIDOBJECT-001",
+      "order": 48,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`void` is only a function result"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-BOOL-001",
+      "order": 49,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Boolean meaning is explicit"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-BYTE-001",
+      "order": 50,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Bytes are raw data, not text"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-FLOAT-001",
+      "order": 51,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Integer and floating-point types do not mix implicitly"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-FLOAT-FIXED-001",
+      "order": 52,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Floating types have fixed value formats"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "rewrite",
+      "id": "OPENC-TYPE-TEXT-001",
+      "order": 53,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Text is an immutable sequence of Unicode scalar values"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-CONST-001",
+      "order": 54,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Const values are not assignable"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-REF-TYPE-001",
+      "order": 55,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`ref T` is a safe non-owning borrow"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-REF-READ-001",
+      "order": 56,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`ref const T` is read-only"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-REF-SYMBOL-001",
+      "order": 57,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Symbols do not spell reference declarations"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-REF-INIT-001",
+      "order": 58,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A local safe reference is initialized at declaration"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-REF-NOREBIND-001",
+      "order": 59,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A safe reference binding is not rebound"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-REF-ASSIGN-001",
+      "order": 60,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Assignment through a mutable reference assigns the referred plain value"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-REF-RESOURCEASSIGN-001",
+      "order": 61,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A borrow does not replace a resource owner"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-PTR-TYPE-001",
+      "order": 62,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`ptr T` is a raw pointer type"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-PTR-SYMBOL-001",
+      "order": 63,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Symbols do not spell pointer declarations"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-REF-CONSTVIEW-001",
+      "order": 64,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Mutable safe references convert to read-only safe references"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-PTR-CONSTVIEW-001",
+      "order": 65,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Mutable raw pointers convert to read-only raw pointers"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-OPTIONAL-EXPLICIT-001",
+      "order": 66,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Absence uses the word-shaped `optional T` type"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-OPTIONAL-CHECK-001",
+      "order": 67,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Optional value access is checked"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-OPTIONAL-NOSHORTHAND-001",
+      "order": 68,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`T?` is not Core syntax"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "rewrite",
+      "id": "OPENC-OPTIONAL-NOBORROW-001",
+      "order": 69,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Optional targets are copyable plain value types"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-ARRAY-TYPE-001",
+      "order": 70,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Fixed array length is part of the type"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-SLICE-TYPE-001",
+      "order": 71,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A slice is a bounded non-owning view"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-SLICE-CONSTVIEW-001",
+      "order": 72,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Mutable slices convert to read-only slices"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "rewrite",
+      "id": "OPENC-STORAGE-TYPE-001",
+      "order": 73,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Typed storage targets one complete plain object type"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-CONVERT-IMPLICIT-001",
+      "order": 74,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Implicit conversion preserves every source value"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-CONVERT-LOSSY-001",
+      "order": 75,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Lossy conversion is never implicit"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-CONVERT-CAST-001",
+      "order": 76,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`cast` is checked"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-CONVERT-REINTERPRET-001",
+      "order": 77,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Reinterpretation is unsafe"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-RESOURCEARRAY-001",
+      "order": 78,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Fixed arrays do not own resource elements"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-RESOURCEOPTIONAL-001",
+      "order": 79,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Optional resource containment is reserved"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-PREFIXORDER-001",
+      "order": 80,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Type constructors and modes have one canonical order"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "keep",
+      "id": "OPENC-TYPE-CONSTRUCTORS-001",
+      "order": 81,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core type constructors are a closed word-shaped set"
+    },
+    {
+      "automatable": true,
+      "chapter": "5. Type system",
+      "disposition": "rewrite",
+      "id": "OPENC-TYPE-SUFFIX-001",
+      "order": 82,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core value types use at most one array or slice suffix"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-DECL-TYPEFIRST-001",
+      "order": 83,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ordinary declarations are type-first"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-DECL-ASSIGN-001",
+      "order": 84,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Declaration and reassignment are distinct"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-INIT-BEFOREUSE-001",
+      "order": 85,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A value is initialized before read"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-INIT-PATH-001",
+      "order": 86,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Definite initialization is path-sensitive"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-INIT-NOZERO-001",
+      "order": 87,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Storage is not silently zeroed into a value"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-CONST-INIT-001",
+      "order": 88,
+      "phase": "constant",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Constants are initialized at declaration"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-CONST-ASSIGN-001",
+      "order": 89,
+      "phase": "constant",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Constants are not reassigned"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-SCOPE-LOCAL-001",
+      "order": 90,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Block-local names do not escape by name"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-SCOPE-DUPLICATE-001",
+      "order": 91,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Duplicate declarations are rejected"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "rewrite",
+      "id": "OPENC-SCOPE-SHADOW-001",
+      "order": 92,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core Candidate 2 rejects local shadowing"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "rewrite",
+      "id": "OPENC-GLOBAL-CONST-001",
+      "order": 93,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Module constants are compile-time values in an acyclic dependency graph"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "rewrite",
+      "id": "OPENC-GLOBAL-MUTABLE-001",
+      "order": 94,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core contains no ordinary mutable module object"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-PARAM-OUTTYPE-001",
+      "order": 95,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`out` parameters name initializable caller values"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-PARAM-OWNTYPE-001",
+      "order": 96,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`own` parameters consume only resources or owning raw pointers"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-PARAM-OUT-001",
+      "order": 97,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`out` is a provisional initialization slot"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-PARAM-OWN-001",
+      "order": 98,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`own` transfers responsibility to the callee"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-PARAM-REF-001",
+      "order": 99,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`ref` does not transfer ownership"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-OWN-MODE-001",
+      "order": 100,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`own` is a boundary ownership mode, not a local type"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-OUT-MODE-001",
+      "order": 101,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`out` is a parameter and call-site mode"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-NAME-UNKNOWN-001",
+      "order": 102,
+      "phase": "name",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unknown names are diagnosed"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-INIT-LOOP-001",
+      "order": 103,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Loop-only assignment does not prove later initialization"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-OUT-TARGET-001",
+      "order": 104,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "An out target is one simple local binding without a live value"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-OUT-ALIAS-001",
+      "order": 105,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Out targets are exclusive for the complete call"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-OUT-NOREAD-001",
+      "order": 106,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A callee cannot use an out slot before initialization"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "keep",
+      "id": "OPENC-OUT-REASSIGN-001",
+      "order": 107,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "An out slot is initialized at most once on one path"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "add",
+      "id": "OPENC-CONST-EXPR-001",
+      "order": 108,
+      "phase": "constant",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Module constants use a closed side-effect-free expression subset"
+    },
+    {
+      "automatable": true,
+      "chapter": "6. Declarations, constants, initialization, and scope",
+      "disposition": "add",
+      "id": "OPENC-CONST-CHECKFAIL-001",
+      "order": 109,
+      "phase": "constant",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A constant expression cannot defer a checked failure to runtime"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-EXPR-ORDER-001",
+      "order": 110,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Operand evaluation is left-to-right"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-CALL-COUNT-001",
+      "order": 111,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Argument count matches"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-CALL-TYPE-001",
+      "order": 112,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Argument types match parameter modes"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-MEMBER-UNKNOWN-001",
+      "order": 113,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unknown members are rejected"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-INDEX-SAFE-001",
+      "order": 114,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Safe indexing checks bounds"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-SLICE-RANGE-CHECK-001",
+      "order": 115,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Slice ranges are checked"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-ARITH-TYPE-001",
+      "order": 116,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Numeric operands have matching types"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-ARITH-MINUS-001",
+      "order": 117,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unary minus is range-checked"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-EQUALITY-RESOURCE-001",
+      "order": 118,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Resource equality is not implicit"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-BOOL-SHORT-001",
+      "order": 119,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Boolean operators short-circuit"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-ASSIGN-TARGET-001",
+      "order": 120,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Assignment targets are mutable locations"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-ASSIGN-CONVERT-001",
+      "order": 121,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Assignment does not perform lossy conversion"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-PTR-ADDRESS-001",
+      "order": 122,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Raw address acquisition is unsafe and location-bounded"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "add",
+      "id": "OPENC-PTR-ADDRESSABLE-001",
+      "order": 123,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Addressable locations have one stable lifetime and representable pointed-to type"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-PTR-DEREF-001",
+      "order": 124,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Raw dereference is unsafe"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-PTR-ARITH-001",
+      "order": 125,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Raw pointer arithmetic is unsafe"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-PTR-NULL-001",
+      "order": 126,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Null dereference is invalid"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "keep",
+      "id": "OPENC-CAST-EXACT-001",
+      "order": 127,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Checked cast means value-preserving cast"
+    },
+    {
+      "automatable": true,
+      "chapter": "7. Expressions and conversions",
+      "disposition": "rewrite",
+      "id": "OPENC-PTR-COMPARE-001",
+      "order": 128,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Pointer equality is universal; ordering and subtraction require common provenance"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "keep",
+      "id": "OPENC-BLOCK-BRACES-001",
+      "order": 129,
+      "phase": "syntax",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Control-flow bodies use braces"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "keep",
+      "id": "OPENC-STMT-SEMICOLON-001",
+      "order": 130,
+      "phase": "syntax",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Statement boundaries are explicit"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "keep",
+      "id": "OPENC-COND-BOOL-001",
+      "order": 131,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ordinary conditions are `bool`"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "keep",
+      "id": "OPENC-FOR-SCOPE-001",
+      "order": 132,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "For-loop declarations are loop-local"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "keep",
+      "id": "OPENC-SWITCH-NOFALL-001",
+      "order": 133,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Switch cases execute one body without fallthrough"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "keep",
+      "id": "OPENC-SWITCH-ENUM-001",
+      "order": 134,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Enum and boolean switches are exhaustiveness-checkable"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "add",
+      "id": "OPENC-SWITCH-DOMAIN-001",
+      "order": 135,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Switch subjects use one finite scalar domain"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "add",
+      "id": "OPENC-SWITCH-CASE-001",
+      "order": 136,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Switch cases are unique representable constants of the subject type"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "add",
+      "id": "OPENC-SWITCH-DUPLICATE-001",
+      "order": 137,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Duplicate switch case values are rejected"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "add",
+      "id": "OPENC-SWITCH-EXECUTE-001",
+      "order": 138,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Switch selects one equal case, default, or no body"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "keep",
+      "id": "OPENC-LOOP-CONTEXT-001",
+      "order": 139,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Break and continue target the nearest eligible construct"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "add",
+      "id": "OPENC-IF-EXECUTE-001",
+      "order": 140,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "If evaluates one boolean condition and one selected branch"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "add",
+      "id": "OPENC-WHILE-EXECUTE-001",
+      "order": 141,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "While checks before every iteration"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "add",
+      "id": "OPENC-FOR-EXECUTE-001",
+      "order": 142,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "For has fixed initializer, condition, iteration, and body order"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "keep",
+      "id": "OPENC-RETURN-TYPE-001",
+      "order": 143,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Return matches the function result type"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "keep",
+      "id": "OPENC-RETURN-LIFETIME-001",
+      "order": 144,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Returned borrows remain valid"
+    },
+    {
+      "automatable": true,
+      "chapter": "8. Statements and control flow",
+      "disposition": "rewrite",
+      "id": "OPENC-STMT-UNREACHABLE-001",
+      "order": 145,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unreachable ordinary code produces a warning diagnostic"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-FUNCTION-DIRECT-001",
+      "order": 146,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Functions use return-type-first declarations"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-FUNCTION-PARAM-001",
+      "order": 147,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Parameters are explicit and type-first"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-OVERLOAD-AMBIGUOUS-001",
+      "order": 148,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ambiguous overloads are rejected"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "rewrite",
+      "id": "OPENC-OVERLOAD-EXACT-001",
+      "order": 149,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Overload selection prefers one exact type-and-mode match"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "rewrite",
+      "id": "OPENC-OVERLOAD-NORANK-001",
+      "order": 150,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Lossless-conversion candidates have no hidden distance ranking"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-OVERLOAD-RETURN-001",
+      "order": 151,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Return type alone does not form an overload"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "rewrite",
+      "id": "OPENC-OVERLOAD-MODE-001",
+      "order": 152,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Parameter modes are exact parts of overload identity"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "rewrite",
+      "id": "OPENC-FUNCTION-PATH-001",
+      "order": 153,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every reachable completed path satisfies the result contract"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-OUT-OWN-001",
+      "order": 154,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Owning raw-pointer output uses exactly `out own ptr T`"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-OUT-CALL-001",
+      "order": 155,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Output mutation and its proof carrier are visible"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-OUT-RESULTBIND-001",
+      "order": 156,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Out-call proof requires a stable local result binding"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-OWN-CALL-001",
+      "order": 157,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Consuming calls use domain-specific names"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-FUNCTION-UNSAFE-001",
+      "order": 158,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Calling an unsafe function requires unsafe context"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-FUNCTION-OUTSUCCESS-001",
+      "order": 159,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every successful return commits every output"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-FUNCTION-OUTFAIL-001",
+      "order": 160,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Failure returns expose no output value or ownership obligation"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-FUNCTION-OUTRETURN-001",
+      "order": 161,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every out-function return has a provable status relation"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-OUT-FORWARD-001",
+      "order": 162,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Exact out forwarding preserves the function contract"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "keep",
+      "id": "OPENC-FUNCTION-ARGORDER-001",
+      "order": 163,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Function calls use deterministic argument order"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "add",
+      "id": "OPENC-OVERLOAD-CONVERSIONS-001",
+      "order": 164,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "The viable implicit conversion set is finite"
+    },
+    {
+      "automatable": true,
+      "chapter": "9. Functions and overload resolution",
+      "disposition": "add",
+      "id": "OPENC-FUNCTION-RECURSION-001",
+      "order": 165,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Functions may call themselves through ordinary name resolution"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-STRUCT-DECL-001",
+      "order": 166,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Structs use a direct brace form"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-STRUCT-TRAILING-001",
+      "order": 167,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Struct declarations have no trailing semicolon"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-DECL-001",
+      "order": 168,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Resources use a direct brace declaration"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-TRAILING-001",
+      "order": 169,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Resource declarations have no trailing semicolon"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-STRUCT-FIELD-001",
+      "order": 170,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Field access uses dot syntax"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "add",
+      "id": "OPENC-STRUCT-CONSTFIELD-001",
+      "order": 171,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Const fields are non-assignable through every containing path"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-FIELD-TYPE-001",
+      "order": 172,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Stored fields use bounded non-borrowed forms"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "rewrite",
+      "id": "OPENC-STRUCT-DEFAULT-001",
+      "order": 173,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Plain struct field defaults are compile-time expressions"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-STRUCT-INIT-001",
+      "order": 174,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Struct initialization is named"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-STRUCT-INIT-FIELD-001",
+      "order": 175,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Initializer fields are unique and known"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-STRUCT-INIT-MISSING-001",
+      "order": 176,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Required fields are initialized"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-STRUCT-EMPTY-001",
+      "order": 177,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Empty initialization requires complete defaults"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "rewrite",
+      "id": "OPENC-STRUCT-COPY-001",
+      "order": 178,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Plain structs copy recursively by value"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "rewrite",
+      "id": "OPENC-STRUCT-EQUALITY-001",
+      "order": 179,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Plain struct equality is recursive field equality"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-ENUM-DISTINCT-001",
+      "order": 180,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Enums are distinct types"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "rewrite",
+      "id": "OPENC-ENUM-UNDERLYING-001",
+      "order": 181,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Enums have a deterministic unsigned underlying type"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "rewrite",
+      "id": "OPENC-ENUM-DUPLICATE-001",
+      "order": 182,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Enum names and values are unique and range-checked"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-NOCOPY-001",
+      "order": 183,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Resource owners are never copied by ordinary value syntax"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-MOVE-001",
+      "order": 184,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Whole-resource transfer crosses one explicit ownership boundary"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-COPY-001",
+      "order": 185,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Explicit duplication uses a domain function"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-DESTROY-001",
+      "order": 186,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Resource release is a domain-specific consuming operation"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-OBLIGATION-001",
+      "order": 187,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every resource lifetime carries one exactly-once outer obligation"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-NOCONSTOWNER-001",
+      "order": 188,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Resource owner bindings are not declared `const`"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "rewrite",
+      "id": "OPENC-STRUCT-INIT-ORDER-001",
+      "order": 189,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Explicit fields evaluate in source order; defaults follow declaration order"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-STRUCT-NORESOURCE-001",
+      "order": 190,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ordinary structs cannot hide ownership obligations"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-FIELD-001",
+      "order": 191,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A resource has one outer obligation and explicit nested obligation slots"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-FIELD-OWNPTR-001",
+      "order": 192,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unique raw-pointer fields use exactly `own ptr T`"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-FIELD-DEFAULT-001",
+      "order": 193,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ownership-bearing resource fields are explicit construction inputs"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-INIT-001",
+      "order": 194,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A named resource initializer creates one ownership-producing value"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-INIT-REQUIRED-001",
+      "order": 195,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every ownership-bearing field is supplied exactly once"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-INIT-OWNER-001",
+      "order": 196,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ownership clauses are explicit and require stable live owner sources"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-INIT-RESERVE-001",
+      "order": 197,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Construction reserves ownership sources before commit"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-INIT-COMMIT-001",
+      "order": 198,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Resource construction commits all ownership slots atomically"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-INIT-ROLLBACK-001",
+      "order": 199,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Pre-commit checked failure preserves every source owner"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-INIT-PLACEMENT-001",
+      "order": 200,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ownership-producing expressions require a stable owner destination"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-REINIT-001",
+      "order": 201,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Only an owner-empty binding may receive a new resource"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-FIELD-VIEW-001",
+      "order": 202,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ordinary field access never extracts ownership"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-FIELD-ASSIGN-001",
+      "order": 203,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ownership-bearing fields are not replaced by assignment"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-FIELD-CONSUME-001",
+      "order": 204,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Field-level ownership transfer requires a consuming parameter"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-DISMANTLE-001",
+      "order": 205,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Consuming one field makes the resource incomplete"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-FIELD-ONCE-001",
+      "order": 206,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every compiler-visible nested slot is discharged exactly once"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-CONSUMER-RETURN-001",
+      "order": 207,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A consuming resource parameter has two valid terminal forms"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "keep",
+      "id": "OPENC-RESOURCE-OPAQUE-DISCHARGE-001",
+      "order": 208,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A slot-free resource relies on its consuming domain contract"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "add",
+      "id": "OPENC-STRUCT-DEFAULT-NODEP-001",
+      "order": 209,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A field default cannot depend on another field"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "add",
+      "id": "OPENC-STRUCT-INIT-COMMIT-001",
+      "order": 210,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Plain aggregate construction publishes one complete value"
+    },
+    {
+      "automatable": true,
+      "chapter": "10. Structs, enums, and resources",
+      "disposition": "add",
+      "id": "OPENC-ENUM-IMPLICIT-001",
+      "order": 211,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Implicit enum values advance by one"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "keep",
+      "id": "OPENC-ARRAY-DECL-001",
+      "order": 212,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Array length is attached to the type"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "rewrite",
+      "id": "OPENC-ARRAY-INIT-001",
+      "order": 213,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Fixed array initialization supplies exactly its positive length"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "keep",
+      "id": "OPENC-ARRAY-INDEX-001",
+      "order": 214,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Fixed array indexing is checked"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "keep",
+      "id": "OPENC-ARRAY-LENGTH-001",
+      "order": 215,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Arrays expose `.length`"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "keep",
+      "id": "OPENC-ARRAY-COPY-001",
+      "order": 216,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Copyability follows the element type"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "rewrite",
+      "id": "OPENC-SLICE-BOUNDED-001",
+      "order": 217,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A slice carries start, length, provenance, lifetime, and mutability"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "keep",
+      "id": "OPENC-SLICE-LENGTH-001",
+      "order": 218,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Slices expose `.length`"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "rewrite",
+      "id": "OPENC-SLICE-FROMARRAY-001",
+      "order": 219,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Array-to-slice conversion creates a checked borrow"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "rewrite",
+      "id": "OPENC-SLICE-MUTATE-001",
+      "order": 220,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Only a mutable slice may assign elements"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "rewrite",
+      "id": "OPENC-SLICE-RANGE-001",
+      "order": 221,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Slice ranges are inclusive-exclusive and borrow the selected extent"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "rewrite",
+      "id": "OPENC-SLICE-ALIAS-001",
+      "order": 222,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Slice aliases obey the ordinary borrow exclusivity model"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "keep",
+      "id": "OPENC-ARRAY-NODECAY-001",
+      "order": 223,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Arrays and slices do not become raw pointers implicitly"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "keep",
+      "id": "OPENC-BYTE-ARITH-001",
+      "order": 224,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Byte arithmetic is explicit"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "rewrite",
+      "id": "OPENC-TEXT-LENGTH-001",
+      "order": 225,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Text `.length` counts Unicode scalar values"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "rewrite",
+      "id": "OPENC-TEXT-NOINDEX-001",
+      "order": 226,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core text has no direct numeric indexing or slicing"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "rewrite",
+      "id": "OPENC-TEXT-CONVERT-001",
+      "order": 227,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Text and bytes cross only through explicit encoding operations"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "keep",
+      "id": "OPENC-SLICE-RANGE-EMPTY-001",
+      "order": 228,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Empty ranges are valid"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "rewrite",
+      "id": "OPENC-SLICE-RANGE-DEFAULT-001",
+      "order": 229,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Omitted slice endpoints have fixed meanings"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "keep",
+      "id": "OPENC-SLICE-DISJOINT-001",
+      "order": 230,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Proven disjoint mutable slices may coexist"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "add",
+      "id": "OPENC-TEXT-EQUALITY-001",
+      "order": 231,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Text equality compares exact scalar sequences"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "add",
+      "id": "OPENC-TEXT-COPY-001",
+      "order": 232,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Text is an ordinary immutable value"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "add",
+      "id": "OPENC-BYTE-DISTINCT-001",
+      "order": 233,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Byte is a distinct eight-bit raw-data type"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "add",
+      "id": "OPENC-SLICE-COPY-001",
+      "order": 234,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Copying a slice creates another borrow view"
+    },
+    {
+      "automatable": true,
+      "chapter": "11. Arrays, slices, bytes, and text",
+      "disposition": "add",
+      "id": "OPENC-SLICE-ESCAPE-001",
+      "order": 235,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A slice cannot outlive its owner"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-OPTIONAL-NONE-001",
+      "order": 236,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`none` belongs to optional types"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "rewrite",
+      "id": "OPENC-OPTIONAL-PRESENT-001",
+      "order": 237,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Optional presence is observed through read-only `.present`"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "rewrite",
+      "id": "OPENC-OPTIONAL-VALUE-001",
+      "order": 238,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Optional `.value` requires proven presence"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-STATUS-MUSTHANDLE-001",
+      "order": 239,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A fallible result shall not die unobserved"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-STATUS-OVERWRITE-001",
+      "order": 240,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Pending status lineage cannot be silently erased"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-STATUS-CODE-001",
+      "order": 241,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Status code zero is success"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-STATUS-INVARIANT-001",
+      "order": 242,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Inconsistent status states are unrepresentable"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-STATUS-INITIALIZER-001",
+      "order": 243,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Status initialization has one nonredundant form"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-STATUS-MESSAGE-001",
+      "order": 244,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Status message is descriptive, not proof-bearing"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-OUT-OWNFLOW-001",
+      "order": 245,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Owning outputs create conditional owner obligations"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-OUT-STATUSONLY-001",
+      "order": 246,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Functions with `out` parameters return `status`"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-ERROR-NOHIDDEN-001",
+      "order": 247,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Recoverable control flow is visible"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "rewrite",
+      "id": "OPENC-ERROR-FATAL-001",
+      "order": 248,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Fatal language failure uses the checked-failure model"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-STATUS-READONLY-001",
+      "order": 249,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`status` fields are immutable and `ok` is derived"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-STATUS-PROOF-001",
+      "order": 250,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "An out call creates one local proof lineage"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-STATUS-COPY-001",
+      "order": 251,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Status copy shares handling and proof lineage"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-OUT-NOPARTIAL-001",
+      "order": 252,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Output publication is all-success or none"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-OUT-COMMIT-001",
+      "order": 253,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Multiple outputs commit as one result"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-OUT-OWNCOMMIT-001",
+      "order": 254,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Successful owning output publication creates one caller owner"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-OUT-OWNTAIL-001",
+      "order": 255,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Owning output assignment is a final non-failing commit step"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "keep",
+      "id": "OPENC-OUT-OWNFAIL-001",
+      "order": 256,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Failure and checked failure occur before owning output commit"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "rewrite",
+      "id": "OPENC-OPTIONAL-COPY-001",
+      "order": 257,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Optional copy and equality follow the contained plain type"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "rewrite",
+      "id": "OPENC-OPTIONAL-PRESENT-READONLY-001",
+      "order": 258,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Whole-optional assignment changes presence and invalidates proof"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "add",
+      "id": "OPENC-OPTIONAL-ASSIGN-001",
+      "order": 259,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A plain value may initialize or replace a matching optional"
+    },
+    {
+      "automatable": true,
+      "chapter": "12. Optional values, status, and recoverable failure",
+      "disposition": "add",
+      "id": "OPENC-OPTIONAL-NESTED-001",
+      "order": 260,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Nested optional types are outside Core Candidate 2"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-LIFETIME-ACTIVE-001",
+      "order": 261,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Safe access requires an active object lifetime"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-COPY-PLAIN-001",
+      "order": 262,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Plain copy creates an independent value"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-OWN-USEAFTER-001",
+      "order": 263,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Moved or discharged owners are unusable until reinitialized"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-BORROW-MANYREAD-001",
+      "order": 264,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Multiple read borrows may coexist"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-BORROW-ONEWRITE-001",
+      "order": 265,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A write borrow is exclusive"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-BORROW-LASTUSE-001",
+      "order": 266,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Local borrows end at last use when provable"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-BORROW-NOMOVE-001",
+      "order": 267,
+      "phase": "borrow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Borrowed owners are not moved or destroyed"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-LIFETIME-RETURNLOCAL-001",
+      "order": 268,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "References to local storage do not escape"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-LIFETIME-SLICE-001",
+      "order": 269,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Slices do not outlive viewed storage"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-OWN-SCOPE-001",
+      "order": 270,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Cleanup-reserved owners remain usable but cannot change ownership state"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-OWN-RETURN-001",
+      "order": 271,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Returning an ownership-producing value transfers its obligation"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-OWN-PRODUCE-001",
+      "order": 272,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ownership begins only at a defined production event"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-OWN-CONSUME-ARG-001",
+      "order": 273,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "An `own` argument moves after argument evaluation and before callee entry"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-OWN-CHECKEDGE-001",
+      "order": 274,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every structured checked-failure edge preserves exactly-once discharge"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-OWN-EXIT-001",
+      "order": 275,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every structured exit has a terminal owner state"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-OWN-PRODUCER-PLACEMENT-001",
+      "order": 276,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core has no unnamed ownership-producing temporaries"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-PTR-OWNCOPY-001",
+      "order": 277,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A unique raw-pointer obligation never copies"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-PTR-OWNCONTAIN-001",
+      "order": 278,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unique raw-pointer obligations appear only in explicit owner positions"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-OWN-SCOPE-RESERVE-001",
+      "order": 279,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A consuming scope action reserves one live owner obligation"
+    },
+    {
+      "automatable": true,
+      "chapter": "13. Ownership, borrowing, and lifetimes",
+      "disposition": "keep",
+      "id": "OPENC-OWN-SCOPE-BORROW-001",
+      "order": 280,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Temporary borrows may coexist with a pending consuming cleanup"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-STORAGE-NOVALUE-001",
+      "order": 281,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Storage cannot be read as a value"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-STORAGE-NORESOURCE-001",
+      "order": 282,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Typed storage does not contain resource types"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "rewrite",
+      "id": "OPENC-CONSTRUCT-001",
+      "order": 283,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Construct transactionally begins one object lifetime"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-CONSTRUCT-VALUE-001",
+      "order": 284,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Construct accepts every legal storage target through an exact typed value"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-CONSTRUCT-PLACEMENT-001",
+      "order": 285,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A constructed lifetime begins only through one stable reference binding"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-CONSTRUCT-DOUBLE-001",
+      "order": 286,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Live storage is not constructed twice"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "rewrite",
+      "id": "OPENC-DESTROY-001",
+      "order": 287,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Destroy ends one constructed non-resource lifetime"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-DESTROY-BORROW-001",
+      "order": 288,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Active conflicting borrows prevent destruction"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-DESTROY-USEAFTER-001",
+      "order": 289,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Access after destruction is invalid"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-STORAGE-LIVEEXIT-001",
+      "order": 290,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Constructed storage is destroyed before its storage lifetime ends"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-STORAGE-RECONSTRUCT-001",
+      "order": 291,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Storage may be reconstructed only after destruction"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-STORAGE-REFINVALID-001",
+      "order": 292,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Destruction invalidates references to the former object"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-PTR-NOLENGTH-001",
+      "order": 293,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Raw pointers carry no general `.length`"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "rewrite",
+      "id": "OPENC-PTR-ALIGN-001",
+      "order": 294,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Typed pointer access requires target alignment"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "rewrite",
+      "id": "OPENC-PTR-LIFETIME-001",
+      "order": 295,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Typed dereference requires one active compatible object lifetime"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-PTR-BYTE-001",
+      "order": 296,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Byte pointers distinguish representation reads from writes"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-PTR-BYTEWRITE-001",
+      "order": 297,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Byte writes do not leave an invalid live typed representation"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-PTR-DERIVED-NONOWNING-001",
+      "order": 298,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Derived raw pointers do not duplicate allocation ownership"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "rewrite",
+      "id": "OPENC-PTR-ONEPAST-001",
+      "order": 299,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "One-past pointers may be formed but not accessed"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "rewrite",
+      "id": "OPENC-PTR-CROSSALLOC-001",
+      "order": 300,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Pointer arithmetic cannot leave its provenance extent"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "keep",
+      "id": "OPENC-PTR-CONST-001",
+      "order": 301,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Pointer constness controls pointed-to mutation"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-PTR-BINDING-MUTABLE-001",
+      "order": 302,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Pointer constness applies to the pointed-to object, not the binding"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-PTR-PROVENANCE-001",
+      "order": 303,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Raw pointers retain origin and extent metadata abstractly"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-PTR-BASE-001",
+      "order": 304,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Only the owning base pointer can release an allocation"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-PTR-DEREF-RANGE-001",
+      "order": 305,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Dereference requires a complete in-range object representation"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-PTR-INVALIDATE-001",
+      "order": 306,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Lifetime end invalidates typed use of dependent pointers"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-PTR-SUBTRACT-001",
+      "order": 307,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Pointer subtraction returns an element distance"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-STORAGE-EMPTY-001",
+      "order": 308,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Typed storage has an explicit empty/live state"
+    },
+    {
+      "automatable": true,
+      "chapter": "14. Typed storage, raw pointers, and memory",
+      "disposition": "add",
+      "id": "OPENC-STORAGE-COMMIT-001",
+      "order": 309,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Construction publishes no partial object"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-UNSAFE-BOUNDARY-001",
+      "order": 310,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unsafe operations are lexically visible"
+    },
+    {
+      "automatable": false,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-UNSAFE-LOCAL-001",
+      "order": 311,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unsafe regions are no larger than necessary"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-UNSAFE-CALL-001",
+      "order": 312,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unsafe calls require unsafe context"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-UNSAFE-CONTRACT-001",
+      "order": 313,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unsafe preconditions are documented and testable"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-CAST-UNCHECKED-INT-001",
+      "order": 314,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`cast_unchecked` is a deterministic integer conversion"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-CAST-UNCHECKED-LIMIT-001",
+      "order": 315,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unchecked casts do not cover floating, pointer, enum, or aggregate conversion"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-REINTERPRET-VALUE-001",
+      "order": 316,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Value reinterpretation is limited to equal-size bit-complete scalars"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-REINTERPRET-SIZE-001",
+      "order": 317,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Value reinterpretation requires equal size"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-REINTERPRET-PTR-001",
+      "order": 318,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Raw-pointer reinterpretation preserves address and provenance"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-REINTERPRET-NOLIFETIME-001",
+      "order": 319,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Reinterpretation does not create an object lifetime"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-UNSAFE-WRAPPER-001",
+      "order": 320,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Safe wrappers enforce all caller-independent safety conditions"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-UNSAFE-FAULT-001",
+      "order": 321,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unsafe faults are target-bounded, not arbitrary compiler behavior"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-UNSAFE-NOASSUME-001",
+      "order": 322,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Assertions and assumptions are distinct"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-UNSAFE-PROVENANCE-001",
+      "order": 323,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unsafe pointer use obeys target provenance rules"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "keep",
+      "id": "OPENC-UNSAFE-HISTORY-001",
+      "order": 324,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Defined effects before an unsafe fault remain defined"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "add",
+      "id": "OPENC-UNSAFE-PRECONDITION-001",
+      "order": 325,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every unsafe operation has a finite caller obligation"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "add",
+      "id": "OPENC-SAFE-GUARANTEE-001",
+      "order": 326,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Safe Core preserves memory, lifetime, type, and bounds safety"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "add",
+      "id": "OPENC-SAFE-WRAPPER-001",
+      "order": 327,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A safe wrapper owns every caller-independent proof obligation"
+    },
+    {
+      "automatable": true,
+      "chapter": "15. Unsafe code and safe-wrapper obligations",
+      "disposition": "add",
+      "id": "OPENC-EXTENSION-SAFETY-001",
+      "order": 328,
+      "phase": "unsafe",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Extensions cannot silently weaken Core safety"
+    },
+    {
+      "automatable": true,
+      "chapter": "16. Diagnostics, rule identity, and validation",
+      "disposition": "rewrite",
+      "id": "OPENC-DIAG-STRUCTURE-001",
+      "order": 329,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every diagnostic has stable structured identity"
+    },
+    {
+      "automatable": false,
+      "chapter": "16. Diagnostics, rule identity, and validation",
+      "disposition": "rewrite",
+      "id": "OPENC-DIAG-QUALITY-001",
+      "order": 330,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A diagnostic explains the violated contract and relevant state"
+    },
+    {
+      "automatable": true,
+      "chapter": "16. Diagnostics, rule identity, and validation",
+      "disposition": "rewrite",
+      "id": "OPENC-DIAG-MACHINE-001",
+      "order": 331,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Machine-readable diagnostics are a required interface"
+    },
+    {
+      "automatable": true,
+      "chapter": "16. Diagnostics, rule identity, and validation",
+      "disposition": "rewrite",
+      "id": "OPENC-DIAG-TRACE-001",
+      "order": 332,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Diagnostics preserve original and transformed source traceability"
+    },
+    {
+      "automatable": true,
+      "chapter": "16. Diagnostics, rule identity, and validation",
+      "disposition": "add",
+      "id": "OPENC-DIAG-SPAN-001",
+      "order": 333,
+      "phase": "source",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Machine-readable source spans use portable coordinates"
+    },
+    {
+      "automatable": true,
+      "chapter": "16. Diagnostics, rule identity, and validation",
+      "disposition": "add",
+      "id": "OPENC-DIAG-PHASE-001",
+      "order": 334,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core diagnostics use one stable phase taxonomy"
+    },
+    {
+      "automatable": true,
+      "chapter": "16. Diagnostics, rule identity, and validation",
+      "disposition": "add",
+      "id": "OPENC-DIAG-SEVERITY-001",
+      "order": 335,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core distinguishes errors, warnings, notes, and help"
+    },
+    {
+      "automatable": true,
+      "chapter": "16. Diagnostics, rule identity, and validation",
+      "disposition": "add",
+      "id": "OPENC-DIAG-PRIMARY-001",
+      "order": 336,
+      "phase": "declaration",
+      "status": "active_implementation_readiness_candidate",
+      "title": "One primary rule identifies each rejection"
+    },
+    {
+      "automatable": true,
+      "chapter": "16. Diagnostics, rule identity, and validation",
+      "disposition": "add",
+      "id": "OPENC-GRAMMAR-AUTHORITY-001",
+      "order": 337,
+      "phase": "syntax",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Normative EBNF is the only source-structure authority"
+    },
+    {
+      "automatable": true,
+      "chapter": "16. Diagnostics, rule identity, and validation",
+      "disposition": "add",
+      "id": "OPENC-GRAMMAR-COVERAGE-001",
+      "order": 338,
+      "phase": "syntax",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every grammar production has conformance coverage"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-FULL-001",
+      "order": 339,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Full expressions complete before the next full expression"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-NOUNSPEC-001",
+      "order": 340,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "OpenC has no unspecified operand order"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-CALL-001",
+      "order": 341,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Call arguments evaluate left-to-right"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-CALLEE-001",
+      "order": 342,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "The called declaration is fixed before argument evaluation"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-ARGMODE-001",
+      "order": 343,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Parameter-mode transitions occur at the call boundary"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-BINARY-001",
+      "order": 344,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Binary operands evaluate left-to-right"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-SHORT-001",
+      "order": 345,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Short-circuit operators skip the right operand when required"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-UNARY-001",
+      "order": 346,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A unary operand evaluates before the unary operation"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-ASSIGN-001",
+      "order": 347,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Assignment evaluates the destination once"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-COMPOUND-001",
+      "order": 348,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Compound assignment evaluates its destination once"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-ARRAYINIT-001",
+      "order": 349,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Array initializer expressions evaluate left-to-right"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-STRUCTINIT-001",
+      "order": 350,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Named struct initializer expressions evaluate in source order"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-DEFAULT-001",
+      "order": 351,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A field default is evaluated for each construction that uses it"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-CONSTRUCT-001",
+      "order": 352,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`construct` begins lifetime only after complete initialization"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-RETURN-001",
+      "order": 353,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Return values are prepared before scope actions run"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-BREAK-001",
+      "order": 354,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Loop exit state is prepared before exited-scope cleanup"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-SCOPE-REGISTER-001",
+      "order": 355,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A `scope` statement registers; it does not call immediately"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-SCOPE-NESTED-001",
+      "order": 356,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Scope arguments cannot hide deferred nested calls"
+    },
+    {
+      "automatable": true,
+      "chapter": "17. Deterministic evaluation and sequencing",
+      "disposition": "keep",
+      "id": "OPENC-EVAL-OBSERVABLE-001",
+      "order": 357,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Optimization preserves defined observable order"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-STATE-001",
+      "order": 358,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Each reachable path has a binding state"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-REACHABLE-001",
+      "order": 359,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unreachable paths do not create false initialization obligations"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-IF-001",
+      "order": 360,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "An `if` merge keeps only facts true on every continuing branch"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-IF-NOELSE-001",
+      "order": 361,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "An `if` without `else` preserves the pre-branch state"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-SWITCH-001",
+      "order": 362,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Exhaustive switches merge all continuing cases"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-WHILE-001",
+      "order": 363,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A `while` body may execute zero times"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-FOR-001",
+      "order": 364,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A `for` body may execute zero times"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-CONTINUE-001",
+      "order": 365,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`continue` participates in the next-iteration merge"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-BREAK-001",
+      "order": 366,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Loop-exit state merges all reachable breaks and condition exits"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-OUT-TOKEN-001",
+      "order": 367,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Out targets are conditional until the status lineage is refined"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-OUT-PREDICATE-001",
+      "order": 368,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Only explicit status predicates refine output proof"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-OUT-PENDINGUSE-001",
+      "order": 369,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Conditional outputs are unusable before proof"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-OUT-SUCCESS-001",
+      "order": 370,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Proven success initializes associated outputs"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-OUT-FAILURE-001",
+      "order": 371,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Proven failure restores associated targets to uninitialized state"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-OUT-MERGE-001",
+      "order": 372,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Merges retain only common output facts"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-OUT-LOOP-001",
+      "order": 373,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unresolved output proof does not cross a loop back-edge"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-OUT-PROOF-LOST-001",
+      "order": 374,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Losing proof never guesses output state"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-OUT-COPY-001",
+      "order": 375,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Direct status copies preserve one proof lineage"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-OPTIONAL-001",
+      "order": 376,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Presence checks refine optional access"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-OPTIONAL-ELSE-001",
+      "order": 377,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A terminating absence branch proves later presence"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-OPTIONAL-INVALIDATE-001",
+      "order": 378,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Mutation invalidates optional presence proof"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-MOVED-001",
+      "order": 379,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Resource and owning-pointer move state is path-sensitive"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-BORROW-001",
+      "order": 380,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Borrow activity is tracked to last provable use"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-DESTROYED-001",
+      "order": 381,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Destruction state is path-sensitive"
+    },
+    {
+      "automatable": true,
+      "chapter": "18. Flow-sensitive state analysis",
+      "disposition": "keep",
+      "id": "OPENC-FLOW-DIAG-001",
+      "order": 382,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "State diagnostics show the path-defining locations"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-TWOS-001",
+      "order": 383,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Signed fixed-width integers are two's complement"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-UNSIGNED-001",
+      "order": 384,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unsigned fixed-width integers have range zero through 2^N minus one"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-BYTE8-001",
+      "order": 385,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A byte contains exactly eight bits"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-MACHINE-001",
+      "order": 386,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Machine integers use the target pointer width"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-LITERAL-CONTEXT-001",
+      "order": 387,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Integer literals are context-typed when possible"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-LITERAL-DEFAULT-001",
+      "order": 388,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unconstrained integer literals have one default across all bases"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-LITERAL-NEGATIVE-001",
+      "order": 389,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A negative literal is unary minus applied to a positive literal"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "rewrite",
+      "id": "OPENC-NUM-ADD-001",
+      "order": 390,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ordinary integer add, subtract, multiply, and unary minus are checked"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-DIV-001",
+      "order": 391,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Signed integer division truncates toward zero"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-REM-001",
+      "order": 392,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Integer remainder follows the dividend sign"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-DIV-MIN-001",
+      "order": 393,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Minimum divided by negative one is checked overflow"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "rewrite",
+      "id": "OPENC-NUM-DIVZERO-001",
+      "order": 394,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Integer division and remainder by zero are checked failures"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-BITWISE-001",
+      "order": 395,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ordinary bitwise operations use unsigned integers or byte"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "rewrite",
+      "id": "OPENC-NUM-SHIFT-001",
+      "order": 396,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Shift counts are checked before shifting"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-SHIFTRIGHT-001",
+      "order": 397,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Right shift of unsigned values is logical"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-SHIFTLEFT-001",
+      "order": 398,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ordinary left shift is checked"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-WRAP-001",
+      "order": 399,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Wrapping intrinsics compute modulo 2^N"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-SATURATE-001",
+      "order": 400,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Saturating intrinsics clamp to the destination range"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "add",
+      "id": "OPENC-NUM-INTRINSIC-001",
+      "order": 401,
+      "phase": "type",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core arithmetic variants are a closed intrinsic set"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-CAST-INT-001",
+      "order": 402,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Integer-to-integer `cast` succeeds only when the value is representable"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-CAST-FLOATINT-001",
+      "order": 403,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Float-to-integer `cast` requires a finite integral value in range"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-CAST-INTFLOAT-001",
+      "order": 404,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Integer-to-float `cast` requires exact representation"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-CAST-FLOAT-001",
+      "order": 405,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Floating narrowing `cast` requires exact representation"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-UNCHECKEDCAST-001",
+      "order": 406,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unchecked integer conversion uses low-bit modulo semantics"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-FLOAT-FORMAT-001",
+      "order": 407,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Floating formats are fixed"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-FLOAT-ROUND-001",
+      "order": 408,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ordinary floating arithmetic uses round-to-nearest, ties-to-even"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-FLOAT-NONFINITE-001",
+      "order": 409,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Infinity and NaN are defined values"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-FLOAT-DIVZERO-001",
+      "order": 410,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Floating division by zero follows IEEE behavior"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-FLOAT-ORDER-001",
+      "order": 411,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Floating comparisons are ordered except for NaN"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "keep",
+      "id": "OPENC-NUM-CONST-001",
+      "order": 412,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Compile-time numeric evaluation matches runtime semantics"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "add",
+      "id": "OPENC-NUM-AUTHORITY-001",
+      "order": 413,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "The numeric execution chapter is authoritative"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "add",
+      "id": "OPENC-NUM-COMPOUND-001",
+      "order": 414,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Compound assignment uses one checked arithmetic operation"
+    },
+    {
+      "automatable": true,
+      "chapter": "19. Exact numeric execution",
+      "disposition": "add",
+      "id": "OPENC-NUM-FLOAT-CONST-001",
+      "order": 415,
+      "phase": "runtime",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Compile-time floating evaluation matches runtime format and rounding"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-REGISTER-001",
+      "order": 416,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`scope` registers one statically no-fail cleanup call"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-CALLEE-001",
+      "order": 417,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Cleanup declaration and parameter modes are fixed at registration"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-VALUE-001",
+      "order": 418,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "By-value cleanup arguments are captured at registration"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-REF-001",
+      "order": 419,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Borrowed cleanup arguments keep one borrow until execution"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-OWN-001",
+      "order": 420,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Consuming cleanup reserves exactly one owner obligation"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "keep",
+      "id": "OPENC-CLEANUP-OUT-001",
+      "order": 421,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Scope actions cannot contain `out` arguments"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "keep",
+      "id": "OPENC-CLEANUP-ARG-001",
+      "order": 422,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Cleanup arguments are literals or stable name paths"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "keep",
+      "id": "OPENC-CLEANUP-DESTROY-001",
+      "order": 423,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "`scope destroy(reference)` reserves the object lifetime endpoint"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "keep",
+      "id": "OPENC-CLEANUP-DESTROY-RESERVE-001",
+      "order": 424,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A destruction-bound object is not ended or reconstructed early"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "keep",
+      "id": "OPENC-CLEANUP-DESTROY-STORAGE-001",
+      "order": 425,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Scope destruction discharges typed-storage lifetime obligation"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "keep",
+      "id": "OPENC-CLEANUP-LIFO-001",
+      "order": 426,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Cleanup runs in reverse registration order"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "keep",
+      "id": "OPENC-CLEANUP-NESTED-001",
+      "order": 427,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Inner scopes clean before outer scopes"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "keep",
+      "id": "OPENC-CLEANUP-ONCE-001",
+      "order": 428,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A registered scope action executes at most once"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-STRUCTURED-001",
+      "order": 429,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every defined structured exit runs all registered cleanups"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-RETURN-001",
+      "order": 430,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Return state is prepared before complete no-fail cleanup"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-CHECKFAIL-001",
+      "order": 431,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A pending checked failure runs complete no-fail cleanup before termination"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-UNSAFEFAULT-001",
+      "order": 432,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Target faults do not promise structured cleanup"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-NOFALLIBLE-001",
+      "order": 433,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Fallible finalization is explicit before no-fail cleanup registration"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-FAILURE-001",
+      "order": 434,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A cleanup action with a possible checked failure is ineligible"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "keep",
+      "id": "OPENC-CLEANUP-NOCANCEL-001",
+      "order": 435,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core has no implicit scope-action cancellation"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-VOID-001",
+      "order": 436,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "A cleanup target returns void and exports a no-fail contract"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "add",
+      "id": "OPENC-CLEANUP-SAFEWRAPPER-001",
+      "order": 437,
+      "phase": "flow",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Proven safe release wrappers remain cleanup-eligible"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-ALL-001",
+      "order": 438,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every registered cleanup completes on every structured exit"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-PRIMARY-001",
+      "order": 439,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "The initiating return or checked failure remains the sole terminal outcome"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "rewrite",
+      "id": "OPENC-CLEANUP-FINISH-001",
+      "order": 440,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Resource APIs separate fallible protocol completion from no-fail obligation release"
+    },
+    {
+      "automatable": true,
+      "chapter": "20. Scope actions, cleanup, and termination",
+      "disposition": "add",
+      "id": "OPENC-CLEANUP-STATE-001",
+      "order": 441,
+      "phase": "ownership",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Cleanup reservation is part of flow state"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "rewrite",
+      "id": "OPENC-TARGET-CONTEXT-001",
+      "order": 442,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "One declared target record supplies every Core target fact"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-BYTE-001",
+      "order": 443,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Addressable bytes are eight bits"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "rewrite",
+      "id": "OPENC-TARGET-ENDIAN-001",
+      "order": 444,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Endianness is declared but does not change value semantics"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-ALIGN-001",
+      "order": 445,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every complete object type has a reported alignment"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-ARRAYLAYOUT-001",
+      "order": 446,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Arrays are contiguous without inter-element padding"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-STRUCTLAYOUT-001",
+      "order": 447,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ordinary struct layout is not a portable wire format"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-PADDING-001",
+      "order": 448,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Padding is not part of value semantics"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-SIZEOF-001",
+      "order": 449,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "size_of reports one positive complete object size"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-ALIGNOF-001",
+      "order": 450,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "align_of reports one positive complete object alignment"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "add",
+      "id": "OPENC-TARGET-QUERYDOMAIN-001",
+      "order": 451,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Type-query operands form one closed complete-object domain"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "add",
+      "id": "OPENC-TARGET-STORAGESIZE-001",
+      "order": 452,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Typed storage has the target size and alignment of its target"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-ARRAYSIZE-001",
+      "order": 453,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Fixed-array size is element size multiplied by length"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-QUERY-001",
+      "order": 454,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Type queries do not evaluate runtime expressions"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "rewrite",
+      "id": "OPENC-TARGET-PTRPROV-001",
+      "order": 455,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Every usable raw pointer carries declared provenance"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "rewrite",
+      "id": "OPENC-TARGET-PTROFFSET-001",
+      "order": 456,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Pointer offsets are bounded by provenance and element size"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "rewrite",
+      "id": "OPENC-TARGET-PTRCROSS-001",
+      "order": 457,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Pointer derivation never changes provenance by arithmetic"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "rewrite",
+      "id": "OPENC-TARGET-PTRCOMPARE-001",
+      "order": 458,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Ordered pointer comparison uses one common provenance"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "rewrite",
+      "id": "OPENC-TARGET-PTRINT-001",
+      "order": 459,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Pointer/integer conversion is unsafe and target-contract bound"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "rewrite",
+      "id": "OPENC-TARGET-FAULTMODEL-001",
+      "order": 460,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unsafe precondition violations produce bounded target faults"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-NOARBITRARY-001",
+      "order": 461,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Unsafe invalidity does not authorize unrelated compiler invention"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-TARGET-SANITIZE-001",
+      "order": 462,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Sanitizing targets may trap earlier"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-PORTABILITY-PLAIN-001",
+      "order": 463,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Plain OpenC excludes undeclared ABI assumptions"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "add",
+      "id": "OPENC-TARGET-SCHEMA-001",
+      "order": 464,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Core target records have a minimum portable schema"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "add",
+      "id": "OPENC-TARGET-CROSS-001",
+      "order": 465,
+      "phase": "target",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Cross-compilation uses target context exclusively"
+    },
+    {
+      "automatable": true,
+      "chapter": "21. Target model and portability",
+      "disposition": "keep",
+      "id": "OPENC-EXPR-PRECEDENCE-001",
+      "order": 466,
+      "phase": "syntax",
+      "status": "active_implementation_readiness_candidate",
+      "title": "Precedence and associativity are fixed by this table"
+    }
+  ],
+  "schema": "openc.core.rule_index.v3"
+}

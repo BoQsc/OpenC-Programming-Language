@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-PARAM-OWNTYPE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-PARAM-OWNTYPE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "own_plain_integer",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PARAM-OWNTYPE-001"
+    ]
+  },
+  "id": "invalid/own_plain_integer",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/own_plain_integer",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/own_plain_integer/main"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-CONSTRUCT-DOUBLE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-CONSTRUCT-DOUBLE-001"
+    },
+    "fixture_kind": "source",
+    "name": "construct_twice",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CONSTRUCT-DOUBLE-001"
+    ]
+  },
+  "id": "invalid/construct_twice",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/construct_twice",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/construct_twice/main"
+  ]
+}

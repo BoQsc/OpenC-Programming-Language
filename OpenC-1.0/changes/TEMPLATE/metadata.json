@@ -1,0 +1,9 @@
+{
+  "affected_components": [],
+  "compatibility_class": null,
+  "id": "OP-CHANGE-XXXX",
+  "proposal_id": "OP-PROP-XXXX",
+  "schema": "openc.accepted_change.v1",
+  "status": "accepted_pending_integration",
+  "target_version": null
+}

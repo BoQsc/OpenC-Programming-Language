@@ -1,0 +1,32 @@
+{
+  "active_rules": [
+    "OPENC-TARGET-ALIGNOF-001",
+    "OPENC-TARGET-ARRAYSIZE-001",
+    "OPENC-TARGET-SIZEOF-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "type_size_alignment",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TARGET-SIZEOF-001",
+      "OPENC-TARGET-ALIGNOF-001",
+      "OPENC-TARGET-ARRAYSIZE-001"
+    ]
+  },
+  "id": "valid/type_size_alignment",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/type_size_alignment",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/type_size_alignment/main"
+  ]
+}

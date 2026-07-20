@@ -1,0 +1,24 @@
+{
+  "group": "lexical",
+  "cases": [
+    {"id":"identifier_ascii","kind":"identifier","source":"player_2","expected":"accept"},
+    {"id":"identifier_non_ascii","kind":"identifier","source":"pláyer","expected":"reject"},
+    {"id":"decimal_separator","kind":"number","source":"1_000","expected":"accept"},
+    {"id":"decimal_double_separator","kind":"number","source":"1__000","expected":"reject"},
+    {"id":"decimal_trailing_separator","kind":"number","source":"100_","expected":"reject"},
+    {"id":"hex_separator","kind":"number","source":"0xFE_DC","expected":"accept"},
+    {"id":"hex_prefix_separator","kind":"number","source":"0x_FF","expected":"reject"},
+    {"id":"binary_separator","kind":"number","source":"0b1010_0101","expected":"accept"},
+    {"id":"float_separator","kind":"number","source":"1_000.25_0e+1_0","expected":"accept"},
+    {"id":"float_point_adjacent_separator","kind":"number","source":"1._0","expected":"reject"},
+    {"id":"unicode_escape_one_digit","kind":"text","source":"\"\\u{A}\"","expected":"accept"},
+    {"id":"unicode_escape_six_digits","kind":"text","source":"\"\\u{10FFFF}\"","expected":"accept"},
+    {"id":"unicode_escape_too_long","kind":"text","source":"\"\\u{0010FFFF}\"","expected":"reject"},
+    {"id":"unicode_escape_surrogate","kind":"text","source":"\"\\u{D800}\"","expected":"reject"},
+    {"id":"text_raw_newline","kind":"text","source":"\"a\nb\"","expected":"reject"},
+    {"id":"line_comment","kind":"comment","source":"// hello\n","expected":"accept"},
+    {"id":"block_comment","kind":"comment","source":"/* hello */","expected":"accept"},
+    {"id":"unterminated_block_comment","kind":"comment","source":"/* hello","expected":"reject"},
+    {"id":"nested_block_comment_not_nested","kind":"comment","source":"/* outer /* inner */ tail */","expected":"reject"}
+  ]
+}

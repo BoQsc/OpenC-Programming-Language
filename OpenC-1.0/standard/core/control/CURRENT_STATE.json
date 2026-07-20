@@ -1,0 +1,17 @@
+{
+  "active_rules": 466,
+  "candidate": "OpenC Core Candidate 2 — Implementation Readiness Revision 1",
+  "conformance_execution": "PENDING",
+  "core_1_0_rc_ready": false,
+  "date": "2026-07-20",
+  "evidence_state": "INTERNALLY_REVIEWED_STRUCTURALLY_CHECKED",
+  "grammar_productions": 174,
+  "implementation": "PENDING",
+  "implementation_readiness": true,
+  "independent_review": "PENDING",
+  "internal_adversarial_review": "INTEGRATED",
+  "legal_governance": "PENDING_HD_012",
+  "release_ready": false,
+  "schema": "openc.implementation_readiness.state.v1",
+  "semantic_decisions": "RATIFIED_HD_001_THROUGH_HD_011"
+}

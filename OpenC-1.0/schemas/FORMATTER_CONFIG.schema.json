@@ -1,0 +1,40 @@
+{
+  "$id": "openc://schema/formatter-config/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "indent_spaces": {
+      "const": 4
+    },
+    "line_ending": {
+      "const": "lf"
+    },
+    "line_width": {
+      "default": 100,
+      "maximum": 160,
+      "minimum": 60,
+      "type": "integer"
+    },
+    "preserve_blank_lines": {
+      "default": 1,
+      "maximum": 2,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "schema": {
+      "const": "openc.formatter_config.v1"
+    },
+    "trailing_comma_multiline": {
+      "const": true
+    }
+  },
+  "required": [
+    "schema",
+    "indent_spaces",
+    "line_width",
+    "line_ending",
+    "trailing_comma_multiline"
+  ],
+  "title": "OpenC formatter configuration",
+  "type": "object"
+}

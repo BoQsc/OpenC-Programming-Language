@@ -1,0 +1,36 @@
+{
+  "active_rules": [
+    "OPENC-MODULE-IMPORTLOCAL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-MODULE-IMPORTLOCAL-001"
+    },
+    "fixture_kind": "multi-source",
+    "mode": "module",
+    "modules": {
+      "app.main": [
+        "a",
+        "b"
+      ]
+    },
+    "name": "module_import_not_shared",
+    "profile": "standard",
+    "rules": [
+      "OPENC-MODULE-IMPORTLOCAL-001"
+    ]
+  },
+  "id": "invalid/module_import_not_shared",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/module_import_not_shared",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/module_import_not_shared/sources/a",
+    "conformance/fixtures/invalid/module_import_not_shared/sources/b"
+  ]
+}

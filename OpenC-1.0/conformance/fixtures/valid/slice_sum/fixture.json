@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-SLICE-BOUNDED-001",
+    "OPENC-SLICE-FROMARRAY-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "slice_sum",
+    "profile": "standard",
+    "rules": [
+      "OPENC-SLICE-BOUNDED-001",
+      "OPENC-SLICE-FROMARRAY-001"
+    ]
+  },
+  "id": "valid/slice_sum",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/slice_sum",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/slice_sum/main"
+  ]
+}

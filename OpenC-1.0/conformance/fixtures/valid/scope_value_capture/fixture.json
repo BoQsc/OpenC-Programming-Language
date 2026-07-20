@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-CLEANUP-VALUE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept",
+      "stdout": [
+        "1"
+      ]
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "scope_value_capture",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CLEANUP-VALUE-001"
+    ]
+  },
+  "id": "valid/scope_value_capture",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/scope_value_capture",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/scope_value_capture/main"
+  ]
+}

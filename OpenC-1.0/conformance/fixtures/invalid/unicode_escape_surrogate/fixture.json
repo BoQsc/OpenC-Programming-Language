@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-LITERAL-UNICODE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-LITERAL-UNICODE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "unicode_escape_surrogate",
+    "profile": "standard",
+    "rules": [
+      "OPENC-LITERAL-UNICODE-001"
+    ]
+  },
+  "id": "invalid/unicode_escape_surrogate",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/unicode_escape_surrogate",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/unicode_escape_surrogate/main"
+  ]
+}

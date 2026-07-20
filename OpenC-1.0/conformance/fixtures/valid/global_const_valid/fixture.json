@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-GLOBAL-CONST-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "global_const_valid",
+    "profile": "standard",
+    "rules": [
+      "OPENC-GLOBAL-CONST-001"
+    ]
+  },
+  "id": "valid/global_const_valid",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/global_const_valid",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/global_const_valid/main"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-ARITH-MINUS-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "unary_minus_signed_only",
+    "profile": "standard",
+    "rules": [
+      "OPENC-ARITH-MINUS-001"
+    ]
+  },
+  "id": "valid/unary_minus_signed_only",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/unary_minus_signed_only",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/unary_minus_signed_only/main"
+  ]
+}

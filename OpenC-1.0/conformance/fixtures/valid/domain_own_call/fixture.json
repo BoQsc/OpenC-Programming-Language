@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-OWN-CALL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "domain_own_call",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OWN-CALL-001"
+    ]
+  },
+  "id": "valid/domain_own_call",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/domain_own_call",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/domain_own_call/main"
+  ]
+}

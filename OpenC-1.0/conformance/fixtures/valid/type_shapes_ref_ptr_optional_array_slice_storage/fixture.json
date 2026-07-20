@@ -1,0 +1,38 @@
+{
+  "active_rules": [
+    "OPENC-ARRAY-TYPE-001",
+    "OPENC-OPTIONAL-EXPLICIT-001",
+    "OPENC-PTR-TYPE-001",
+    "OPENC-SLICE-TYPE-001",
+    "OPENC-STORAGE-TYPE-001",
+    "OPENC-TYPE-PREFIXORDER-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "type_shapes_ref_ptr_optional_array_slice_storage",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-TYPE-001",
+      "OPENC-OPTIONAL-EXPLICIT-001",
+      "OPENC-ARRAY-TYPE-001",
+      "OPENC-SLICE-TYPE-001",
+      "OPENC-STORAGE-TYPE-001",
+      "OPENC-TYPE-PREFIXORDER-001"
+    ]
+  },
+  "id": "valid/type_shapes_ref_ptr_optional_array_slice_storage",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/type_shapes_ref_ptr_optional_array_slice_storage",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/type_shapes_ref_ptr_optional_array_slice_storage/main"
+  ]
+}

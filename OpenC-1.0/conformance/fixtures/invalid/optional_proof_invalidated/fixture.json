@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-FLOW-OPTIONAL-INVALIDATE-001",
+    "OPENC-OPTIONAL-CHECK-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-FLOW-OPTIONAL-INVALIDATE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "optional_proof_invalidated",
+    "profile": "standard",
+    "rules": [
+      "OPENC-FLOW-OPTIONAL-INVALIDATE-001",
+      "OPENC-OPTIONAL-CHECK-001"
+    ]
+  },
+  "id": "invalid/optional_proof_invalidated",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/optional_proof_invalidated",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/optional_proof_invalidated/main"
+  ]
+}

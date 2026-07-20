@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-LEX-TYPEQUALIFIER-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "text_module_typeword_qualifier",
+    "profile": "standard",
+    "rules": [
+      "OPENC-LEX-TYPEQUALIFIER-001"
+    ]
+  },
+  "id": "valid/text_module_typeword_qualifier",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/text_module_typeword_qualifier",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/text_module_typeword_qualifier/main"
+  ]
+}

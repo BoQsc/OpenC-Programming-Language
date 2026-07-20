@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-PTR-OWNCONTAIN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-PTR-OWNCONTAIN-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "plain_struct_hides_owning_pointer",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-OWNCONTAIN-001"
+    ]
+  },
+  "id": "invalid/plain_struct_hides_owning_pointer",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/plain_struct_hides_owning_pointer",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/plain_struct_hides_owning_pointer/main"
+  ]
+}

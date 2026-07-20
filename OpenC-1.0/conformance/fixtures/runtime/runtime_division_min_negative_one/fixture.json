@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-NUM-DIV-MIN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "checked_failure",
+      "rule": "OPENC-NUM-DIV-MIN-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "runtime_division_min_negative_one",
+    "profile": "standard",
+    "rules": [
+      "OPENC-NUM-DIV-MIN-001"
+    ]
+  },
+  "id": "runtime/runtime_division_min_negative_one",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/runtime_division_min_negative_one",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/runtime_division_min_negative_one/main"
+  ]
+}

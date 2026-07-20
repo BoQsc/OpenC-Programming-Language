@@ -1,0 +1,34 @@
+{
+  "active_rules": [
+    "OPENC-TARGET-ALIGN-001",
+    "OPENC-TARGET-BYTE-001",
+    "OPENC-TARGET-CONTEXT-001",
+    "OPENC-TARGET-ENDIAN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "tooling",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "command",
+    "mode": "module",
+    "name": "target_context_complete",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TARGET-CONTEXT-001",
+      "OPENC-TARGET-BYTE-001",
+      "OPENC-TARGET-ENDIAN-001",
+      "OPENC-TARGET-ALIGN-001"
+    ]
+  },
+  "id": "command/target_context_complete",
+  "kind": "command",
+  "origin": "OpenC Standard Draft 0.10 validation/tooling/target_context_complete",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/command/target_context_complete/command.json"
+  ]
+}

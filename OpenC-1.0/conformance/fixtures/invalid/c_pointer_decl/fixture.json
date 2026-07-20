@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-PTR-SYMBOL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-PTR-SYMBOL-001"
+    },
+    "fixture_kind": "source",
+    "name": "c_pointer_decl",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-SYMBOL-001"
+    ]
+  },
+  "id": "invalid/c_pointer_decl",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/c_pointer_decl",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/c_pointer_decl/main"
+  ]
+}

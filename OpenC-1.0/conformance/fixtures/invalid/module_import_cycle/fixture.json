@@ -1,0 +1,38 @@
+{
+  "active_rules": [
+    "OPENC-MODULE-CYCLE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-MODULE-CYCLE-001"
+    },
+    "fixture_kind": "multi-source",
+    "mode": "module",
+    "modules": {
+      "a": [
+        "a"
+      ],
+      "b": [
+        "b"
+      ]
+    },
+    "name": "module_import_cycle",
+    "profile": "standard",
+    "rules": [
+      "OPENC-MODULE-CYCLE-001"
+    ]
+  },
+  "id": "invalid/module_import_cycle",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/module_import_cycle",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/module_import_cycle/sources/a",
+    "conformance/fixtures/invalid/module_import_cycle/sources/b"
+  ]
+}

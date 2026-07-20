@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-ARRAY-INDEX-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-ARRAY-INDEX-001"
+    },
+    "fixture_kind": "source",
+    "name": "array_out_of_bounds",
+    "profile": "standard",
+    "rules": [
+      "OPENC-ARRAY-INDEX-001"
+    ]
+  },
+  "id": "invalid/array_out_of_bounds",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/array_out_of_bounds",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/array_out_of_bounds/main"
+  ]
+}

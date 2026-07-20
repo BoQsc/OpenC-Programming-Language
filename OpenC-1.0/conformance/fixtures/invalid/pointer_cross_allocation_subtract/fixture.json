@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-PTR-CROSSALLOC-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "target_fault",
+      "rule": "OPENC-PTR-CROSSALLOC-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "pointer_cross_allocation_subtract",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-CROSSALLOC-001"
+    ]
+  },
+  "id": "invalid/pointer_cross_allocation_subtract",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/pointer_cross_allocation_subtract",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/pointer_cross_allocation_subtract/main"
+  ]
+}

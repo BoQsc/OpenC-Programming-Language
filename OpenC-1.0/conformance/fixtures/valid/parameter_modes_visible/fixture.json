@@ -1,0 +1,32 @@
+{
+  "active_rules": [
+    "OPENC-PARAM-OUT-001",
+    "OPENC-PARAM-OWN-001",
+    "OPENC-PARAM-REF-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "parameter_modes_visible",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PARAM-OUT-001",
+      "OPENC-PARAM-OWN-001",
+      "OPENC-PARAM-REF-001"
+    ]
+  },
+  "id": "valid/parameter_modes_visible",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/parameter_modes_visible",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/parameter_modes_visible/main"
+  ]
+}

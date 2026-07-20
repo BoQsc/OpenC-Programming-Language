@@ -1,0 +1,9 @@
+{
+  "name": "c-unsafe-boundary",
+  "version": "1.0.0",
+  "edition": "OpenC 1.0",
+  "profile": "standard",
+  "target": "linux-x86_64",
+  "modules": { "app.main": ["main"] },
+  "output_directory": "build"
+}

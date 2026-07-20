@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-REF-INIT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-REF-INIT-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "ref_local_without_initializer",
+    "profile": "standard",
+    "rules": [
+      "OPENC-REF-INIT-001"
+    ]
+  },
+  "id": "invalid/ref_local_without_initializer",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/ref_local_without_initializer",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/ref_local_without_initializer/main"
+  ]
+}

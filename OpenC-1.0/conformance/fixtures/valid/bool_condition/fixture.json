@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-COND-BOOL-001",
+    "OPENC-TYPE-BOOL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "bool_condition",
+    "profile": "standard",
+    "rules": [
+      "OPENC-COND-BOOL-001",
+      "OPENC-TYPE-BOOL-001"
+    ]
+  },
+  "id": "valid/bool_condition",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/bool_condition",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/bool_condition/main"
+  ]
+}

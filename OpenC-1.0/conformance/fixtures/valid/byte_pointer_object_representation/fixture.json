@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-PTR-BYTE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "byte_pointer_object_representation",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-BYTE-001"
+    ]
+  },
+  "id": "valid/byte_pointer_object_representation",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/byte_pointer_object_representation",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/byte_pointer_object_representation/main"
+  ]
+}

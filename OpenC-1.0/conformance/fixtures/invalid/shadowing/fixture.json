@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-SCOPE-SHADOW-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-SCOPE-SHADOW-001"
+    },
+    "fixture_kind": "source",
+    "name": "shadowing",
+    "profile": "standard",
+    "rules": [
+      "OPENC-SCOPE-SHADOW-001"
+    ]
+  },
+  "id": "invalid/shadowing",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/shadowing",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/shadowing/main"
+  ]
+}

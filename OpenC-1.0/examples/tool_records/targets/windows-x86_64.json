@@ -1,0 +1,42 @@
+{
+  "architecture": "x86_64",
+  "endianness": "little",
+  "fault_outcomes": [
+    "synchronous_trap",
+    "os_fault",
+    "implementation_termination"
+  ],
+  "float_formats": {
+    "f32": "ieee754-binary32",
+    "f64": "ieee754-binary64"
+  },
+  "integer_widths": [
+    8,
+    16,
+    32,
+    64
+  ],
+  "max_object_size": 9223372036854775807,
+  "name": "windows-x86_64",
+  "pointer_width": 64,
+  "primitive_alignments": {
+    "bool": 1,
+    "byte": 1,
+    "f32": 4,
+    "f64": 8,
+    "i16": 2,
+    "i32": 4,
+    "i64": 8,
+    "i8": 1,
+    "isize": 8,
+    "ptr": 8,
+    "ref": 8,
+    "slice": 8,
+    "u16": 2,
+    "u32": 4,
+    "u64": 8,
+    "u8": 1,
+    "usize": 8
+  },
+  "schema": "openc.core_target.v1"
+}

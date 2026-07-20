@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-INDEX-SAFE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "checked_failure",
+      "rule": "OPENC-INDEX-SAFE-001"
+    },
+    "fixture_kind": "runtime",
+    "name": "bounds_trap",
+    "profile": "standard",
+    "rules": [
+      "OPENC-INDEX-SAFE-001"
+    ]
+  },
+  "id": "runtime/bounds_trap",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/bounds_trap",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/bounds_trap/main"
+  ]
+}

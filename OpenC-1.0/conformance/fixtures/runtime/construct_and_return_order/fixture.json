@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-EVAL-CONSTRUCT-001",
+    "OPENC-EVAL-RETURN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "construct_and_return_order",
+    "profile": "standard",
+    "rules": [
+      "OPENC-EVAL-CONSTRUCT-001",
+      "OPENC-EVAL-RETURN-001"
+    ]
+  },
+  "id": "runtime/construct_and_return_order",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/construct_and_return_order",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/construct_and_return_order/main"
+  ]
+}

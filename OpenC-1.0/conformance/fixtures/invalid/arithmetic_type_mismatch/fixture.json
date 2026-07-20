@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-ARITH-TYPE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-ARITH-TYPE-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "arithmetic_type_mismatch",
+    "profile": "standard",
+    "rules": [
+      "OPENC-ARITH-TYPE-001"
+    ]
+  },
+  "id": "invalid/arithmetic_type_mismatch",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/arithmetic_type_mismatch",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/arithmetic_type_mismatch/main"
+  ]
+}

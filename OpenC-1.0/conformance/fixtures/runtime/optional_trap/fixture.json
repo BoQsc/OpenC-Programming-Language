@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-OPTIONAL-VALUE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "checked_failure",
+      "rule": "OPENC-OPTIONAL-VALUE-001"
+    },
+    "fixture_kind": "runtime",
+    "name": "optional_trap",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OPTIONAL-VALUE-001"
+    ]
+  },
+  "id": "runtime/optional_trap",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/optional_trap",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/optional_trap/main"
+  ]
+}

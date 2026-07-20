@@ -1,0 +1,98 @@
+{
+  "$id": "openc://schema/tool-context/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate": {
+      "type": "string"
+    },
+    "command": {
+      "type": "string"
+    },
+    "effective_options": {
+      "type": "object"
+    },
+    "environment_inputs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "extensions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "implementation": {
+      "type": "object"
+    },
+    "module_map": {
+      "type": "object"
+    },
+    "overrides": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "profile": {
+      "enum": [
+        "standard",
+        "strict",
+        "critical"
+      ]
+    },
+    "project": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "schema": {
+      "const": "openc.tool_context.v1"
+    },
+    "source_units": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "module": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "sha256",
+          "module"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "target": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema",
+    "candidate",
+    "implementation",
+    "command",
+    "project",
+    "target",
+    "profile",
+    "extensions",
+    "source_units",
+    "module_map",
+    "effective_options"
+  ],
+  "title": "OpenC active tool context",
+  "type": "object"
+}

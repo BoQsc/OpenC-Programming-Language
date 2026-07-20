@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-MEMBER-UNKNOWN-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-MEMBER-UNKNOWN-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "unknown_member",
+    "profile": "standard",
+    "rules": [
+      "OPENC-MEMBER-UNKNOWN-001"
+    ]
+  },
+  "id": "invalid/unknown_member",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/unknown_member",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/unknown_member/main"
+  ]
+}

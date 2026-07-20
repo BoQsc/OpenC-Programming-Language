@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-CLEANUP-ARG-001",
+    "OPENC-EVAL-SCOPE-NESTED-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-EVAL-SCOPE-NESTED-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "scope_nested_fallible_argument",
+    "profile": "standard",
+    "rules": [
+      "OPENC-EVAL-SCOPE-NESTED-001",
+      "OPENC-CLEANUP-ARG-001"
+    ]
+  },
+  "id": "invalid/scope_nested_fallible_argument",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/scope_nested_fallible_argument",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/scope_nested_fallible_argument/main"
+  ]
+}

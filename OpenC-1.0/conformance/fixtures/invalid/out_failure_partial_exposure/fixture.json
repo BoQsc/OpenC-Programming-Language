@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-FUNCTION-OUTFAIL-001",
+    "OPENC-OUT-NOPARTIAL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-FUNCTION-OUTFAIL-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "out_failure_partial_exposure",
+    "profile": "standard",
+    "rules": [
+      "OPENC-FUNCTION-OUTFAIL-001",
+      "OPENC-OUT-NOPARTIAL-001"
+    ]
+  },
+  "id": "invalid/out_failure_partial_exposure",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/out_failure_partial_exposure",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/out_failure_partial_exposure/main"
+  ]
+}

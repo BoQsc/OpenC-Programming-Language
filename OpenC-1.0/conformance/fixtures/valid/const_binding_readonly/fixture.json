@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-CONST-INIT-001",
+    "OPENC-TYPE-CONST-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "const_binding_readonly",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TYPE-CONST-001",
+      "OPENC-CONST-INIT-001"
+    ]
+  },
+  "id": "valid/const_binding_readonly",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/const_binding_readonly",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/const_binding_readonly/main"
+  ]
+}

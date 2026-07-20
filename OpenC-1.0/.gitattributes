@@ -1,0 +1,9 @@
+# Keep source-manifest hashes stable across platforms.
+* text=auto eol=lf
+
+*.dll binary
+*.exe binary
+*.lib binary
+*.obj binary
+*.pdb binary
+*.zip binary

@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-NUM-CONST-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "constant_expression_same_numeric_rules",
+    "profile": "standard",
+    "rules": [
+      "OPENC-NUM-CONST-001"
+    ]
+  },
+  "id": "valid/constant_expression_same_numeric_rules",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/constant_expression_same_numeric_rules",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/constant_expression_same_numeric_rules/main"
+  ]
+}

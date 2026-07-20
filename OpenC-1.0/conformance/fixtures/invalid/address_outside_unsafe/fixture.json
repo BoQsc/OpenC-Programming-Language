@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-PTR-ADDRESS-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-PTR-ADDRESS-001"
+    },
+    "fixture_kind": "source",
+    "name": "address_outside_unsafe",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-ADDRESS-001"
+    ]
+  },
+  "id": "invalid/address_outside_unsafe",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/address_outside_unsafe",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/address_outside_unsafe/main"
+  ]
+}

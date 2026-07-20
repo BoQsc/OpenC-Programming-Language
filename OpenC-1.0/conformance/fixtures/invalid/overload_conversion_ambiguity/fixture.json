@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-OVERLOAD-AMBIGUOUS-001",
+    "OPENC-OVERLOAD-NORANK-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-OVERLOAD-AMBIGUOUS-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "overload_conversion_ambiguity",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OVERLOAD-AMBIGUOUS-001",
+      "OPENC-OVERLOAD-NORANK-001"
+    ]
+  },
+  "id": "invalid/overload_conversion_ambiguity",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/overload_conversion_ambiguity",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/overload_conversion_ambiguity/main"
+  ]
+}

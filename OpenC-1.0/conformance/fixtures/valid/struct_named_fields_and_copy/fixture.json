@@ -1,0 +1,34 @@
+{
+  "active_rules": [
+    "OPENC-STRUCT-COPY-001",
+    "OPENC-STRUCT-DECL-001",
+    "OPENC-STRUCT-FIELD-001",
+    "OPENC-STRUCT-INIT-FIELD-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "struct_named_fields_and_copy",
+    "profile": "standard",
+    "rules": [
+      "OPENC-STRUCT-DECL-001",
+      "OPENC-STRUCT-FIELD-001",
+      "OPENC-STRUCT-INIT-FIELD-001",
+      "OPENC-STRUCT-COPY-001"
+    ]
+  },
+  "id": "valid/struct_named_fields_and_copy",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/struct_named_fields_and_copy",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/struct_named_fields_and_copy/main"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-PTR-NOLENGTH-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-PTR-NOLENGTH-001"
+    },
+    "fixture_kind": "source",
+    "name": "ptr_length",
+    "profile": "standard",
+    "rules": [
+      "OPENC-PTR-NOLENGTH-001"
+    ]
+  },
+  "id": "invalid/ptr_length",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/ptr_length",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/ptr_length/main"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-STRUCT-DEFAULT-001",
+    "OPENC-STRUCT-EMPTY-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "struct_defaults",
+    "profile": "standard",
+    "rules": [
+      "OPENC-STRUCT-DEFAULT-001",
+      "OPENC-STRUCT-EMPTY-001"
+    ]
+  },
+  "id": "valid/struct_defaults",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/struct_defaults",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/struct_defaults/main"
+  ]
+}

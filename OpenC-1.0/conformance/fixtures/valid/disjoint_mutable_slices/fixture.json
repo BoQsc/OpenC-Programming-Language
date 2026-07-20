@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-SLICE-DISJOINT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "disjoint_mutable_slices",
+    "profile": "standard",
+    "rules": [
+      "OPENC-SLICE-DISJOINT-001"
+    ]
+  },
+  "id": "valid/disjoint_mutable_slices",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/disjoint_mutable_slices",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/disjoint_mutable_slices/main"
+  ]
+}

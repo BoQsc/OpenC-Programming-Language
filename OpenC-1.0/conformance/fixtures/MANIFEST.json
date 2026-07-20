@@ -1,0 +1,3754 @@
+{
+  "active_rule_count": 466,
+  "candidate": "OpenC 1.0 canonical development mainline",
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "fixture_count": 268,
+  "fixtures": [
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "command/machine_integer_width_reported",
+      "kind": "command",
+      "path": "conformance/fixtures/command/machine_integer_width_reported",
+      "provenance": "OpenC Standard Draft 0.10 validation/tooling/machine_integer_width_reported",
+      "rules": [
+        "OPENC-NUM-MACHINE-001",
+        "OPENC-TYPE-MACHINE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/command/machine_integer_width_reported/command.json"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "command/target_context_complete",
+      "kind": "command",
+      "path": "conformance/fixtures/command/target_context_complete",
+      "provenance": "OpenC Standard Draft 0.10 validation/tooling/target_context_complete",
+      "rules": [
+        "OPENC-TARGET-ALIGN-001",
+        "OPENC-TARGET-BYTE-001",
+        "OPENC-TARGET-CONTEXT-001",
+        "OPENC-TARGET-ENDIAN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/command/target_context_complete/command.json"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "command/target_layout_report",
+      "kind": "command",
+      "path": "conformance/fixtures/command/target_layout_report",
+      "provenance": "OpenC Standard Draft 0.10 validation/tooling/target_layout_report",
+      "rules": [
+        "OPENC-TARGET-ARRAYLAYOUT-001",
+        "OPENC-TARGET-PADDING-001",
+        "OPENC-TARGET-STRUCTLAYOUT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/command/target_layout_report/command.json"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "command/unsafe_history_in_diagnostic",
+      "kind": "command",
+      "path": "conformance/fixtures/command/unsafe_history_in_diagnostic",
+      "provenance": "OpenC Standard Draft 0.10 validation/tooling/unsafe_history_in_diagnostic",
+      "rules": [
+        "OPENC-DIAG-TRACE-001",
+        "OPENC-UNSAFE-HISTORY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/command/unsafe_history_in_diagnostic/command.json"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "diagnostic/critical_unreachable_statement",
+      "kind": "diagnostic",
+      "path": "conformance/fixtures/diagnostic/critical_unreachable_statement",
+      "provenance": "OpenC Standard Draft 0.10 validation/critical/critical_unreachable_statement",
+      "rules": [
+        "OPENC-STMT-UNREACHABLE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/diagnostic/critical_unreachable_statement/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "diagnostic/diagnostic_flow_path_locations",
+      "kind": "diagnostic",
+      "path": "conformance/fixtures/diagnostic/diagnostic_flow_path_locations",
+      "provenance": "OpenC Standard Draft 0.10 validation/diagnostic-message/diagnostic_flow_path_locations",
+      "rules": [
+        "OPENC-FLOW-DIAG-001",
+        "OPENC-INIT-BEFOREUSE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/diagnostic/diagnostic_flow_path_locations/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "diagnostic/diagnostic_status_out_failure",
+      "kind": "diagnostic",
+      "path": "conformance/fixtures/diagnostic/diagnostic_status_out_failure",
+      "provenance": "OpenC Standard Draft 0.10 validation/diagnostic-message/diagnostic_status_out_failure",
+      "rules": [
+        "OPENC-FLOW-DIAG-001",
+        "OPENC-FLOW-OUT-FAILURE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/diagnostic/diagnostic_status_out_failure/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/address_outside_unsafe",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/address_outside_unsafe",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/address_outside_unsafe",
+      "rules": [
+        "OPENC-PTR-ADDRESS-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/address_outside_unsafe/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/arithmetic_type_mismatch",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/arithmetic_type_mismatch",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/arithmetic_type_mismatch",
+      "rules": [
+        "OPENC-ARITH-TYPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/arithmetic_type_mismatch/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/array_no_pointer_decay",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/array_no_pointer_decay",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/array_no_pointer_decay",
+      "rules": [
+        "OPENC-ARRAY-NODECAY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/array_no_pointer_decay/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/array_out_of_bounds",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/array_out_of_bounds",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/array_out_of_bounds",
+      "rules": [
+        "OPENC-ARRAY-INDEX-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/array_out_of_bounds/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/arrow_function",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/arrow_function",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/arrow_function",
+      "rules": [
+        "OPENC-FUNCTION-DIRECT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/arrow_function/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/assignment_conversion_checked",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/assignment_conversion_checked",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/assignment_conversion_checked",
+      "rules": [
+        "OPENC-ASSIGN-CONVERT-001",
+        "OPENC-CONVERT-LOSSY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/assignment_conversion_checked/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/assignment_target_required",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/assignment_target_required",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/assignment_target_required",
+      "rules": [
+        "OPENC-ASSIGN-TARGET-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/assignment_target_required/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/block_local_escape",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/block_local_escape",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/block_local_escape",
+      "rules": [
+        "OPENC-NAME-UNKNOWN-001",
+        "OPENC-SCOPE-LOCAL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/block_local_escape/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/borrow_prevents_move",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/borrow_prevents_move",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/borrow_prevents_move",
+      "rules": [
+        "OPENC-BORROW-NOMOVE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/borrow_prevents_move/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/break_outside_loop",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/break_outside_loop",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/break_outside_loop",
+      "rules": [
+        "OPENC-LOOP-CONTEXT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/break_outside_loop/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/byte_not_text_or_arithmetic",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/byte_not_text_or_arithmetic",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/byte_not_text_or_arithmetic",
+      "rules": [
+        "OPENC-BYTE-ARITH-001",
+        "OPENC-TYPE-BYTE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/byte_not_text_or_arithmetic/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/c_array_decl",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/c_array_decl",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/c_array_decl",
+      "rules": [
+        "OPENC-ARRAY-DECL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/c_array_decl/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/c_pointer_decl",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/c_pointer_decl",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/c_pointer_decl",
+      "rules": [
+        "OPENC-PTR-SYMBOL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/c_pointer_decl/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/c_reference_decl",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/c_reference_decl",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/c_reference_decl",
+      "rules": [
+        "OPENC-REF-SYMBOL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/c_reference_decl/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/call_argument_count",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/call_argument_count",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/call_argument_count",
+      "rules": [
+        "OPENC-CALL-COUNT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/call_argument_count/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/checked_cast_requires_exact_value",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/checked_cast_requires_exact_value",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/checked_cast_requires_exact_value",
+      "rules": [
+        "OPENC-CAST-EXACT-001",
+        "OPENC-NUM-CAST-FLOAT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/checked_cast_requires_exact_value/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/cleanup_owner_registered_once",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/cleanup_owner_registered_once",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/cleanup_owner_registered_once",
+      "rules": [
+        "OPENC-CLEANUP-ONCE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/cleanup_owner_registered_once/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/cleanup_reference_must_live",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/cleanup_reference_must_live",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/cleanup_reference_must_live",
+      "rules": [
+        "OPENC-CLEANUP-REF-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/cleanup_reference_must_live/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/const_reassignment_rejected",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/const_reassignment_rejected",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/const_reassignment_rejected",
+      "rules": [
+        "OPENC-CONST-ASSIGN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/const_reassignment_rejected/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/const_resource_owner",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/const_resource_owner",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/const_resource_owner",
+      "rules": [
+        "OPENC-RESOURCE-NOCONSTOWNER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/const_resource_owner/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/construct_twice",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/construct_twice",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/construct_twice",
+      "rules": [
+        "OPENC-CONSTRUCT-DOUBLE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/construct_twice/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/current_question_optional",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/current_question_optional",
+      "provenance": "OpenC canonical mainline",
+      "rules": [
+        "OPENC-SYNTAX-OPTIONAL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/current_question_optional/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/declaration_requires_type",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/declaration_requires_type",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/declaration_requires_type",
+      "rules": [
+        "OPENC-DECL-ASSIGN-001",
+        "OPENC-DECL-TYPEFIRST-001",
+        "OPENC-NAME-UNKNOWN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/declaration_requires_type/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/deref_outside_unsafe",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/deref_outside_unsafe",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/deref_outside_unsafe",
+      "rules": [
+        "OPENC-PTR-DEREF-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/deref_outside_unsafe/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/destroy_with_active_borrow",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/destroy_with_active_borrow",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/destroy_with_active_borrow",
+      "rules": [
+        "OPENC-DESTROY-BORROW-001",
+        "OPENC-DESTROY-USEAFTER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/destroy_with_active_borrow/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/enum_duplicate_value",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/enum_duplicate_value",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/enum_duplicate_value",
+      "rules": [
+        "OPENC-ENUM-DUPLICATE-001",
+        "OPENC-ENUM-UNDERLYING-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/enum_duplicate_value/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/fallible_scope_action_rejected",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/fallible_scope_action_rejected",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/fallible_scope_action_rejected",
+      "rules": [
+        "OPENC-CLEANUP-FAILURE-001",
+        "OPENC-CLEANUP-NOFALLIBLE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/fallible_scope_action_rejected/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/float_integer_no_implicit",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/float_integer_no_implicit",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/float_integer_no_implicit",
+      "rules": [
+        "OPENC-CONVERT-IMPLICIT-001",
+        "OPENC-TYPE-FLOAT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/float_integer_no_implicit/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/flow_borrow_and_destroyed_state",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/flow_borrow_and_destroyed_state",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/flow_borrow_and_destroyed_state",
+      "rules": [
+        "OPENC-FLOW-BORROW-001",
+        "OPENC-FLOW-DESTROYED-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/flow_borrow_and_destroyed_state/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/flow_break_path_merge",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/flow_break_path_merge",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/flow_break_path_merge",
+      "rules": [
+        "OPENC-FLOW-BREAK-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/flow_break_path_merge/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/flow_continue_skips_init",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/flow_continue_skips_init",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/flow_continue_skips_init",
+      "rules": [
+        "OPENC-FLOW-CONTINUE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/flow_continue_skips_init/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/flow_for_not_guaranteed",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/flow_for_not_guaranteed",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/flow_for_not_guaranteed",
+      "rules": [
+        "OPENC-FLOW-FOR-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/flow_for_not_guaranteed/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/flow_if_missing_else",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/flow_if_missing_else",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/flow_if_missing_else",
+      "rules": [
+        "OPENC-FLOW-IF-NOELSE-001",
+        "OPENC-INIT-BEFOREUSE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/flow_if_missing_else/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/flow_move_one_branch",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/flow_move_one_branch",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/flow_move_one_branch",
+      "rules": [
+        "OPENC-FLOW-MOVED-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/flow_move_one_branch/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/flow_optional_proof_invalidated",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/flow_optional_proof_invalidated",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/flow_optional_proof_invalidated",
+      "rules": [
+        "OPENC-FLOW-OPTIONAL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/flow_optional_proof_invalidated/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/flow_unreachable_after_return",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/flow_unreachable_after_return",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/flow_unreachable_after_return",
+      "rules": [
+        "OPENC-FLOW-REACHABLE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/flow_unreachable_after_return/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/flow_while_only_initialization",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/flow_while_only_initialization",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/flow_while_only_initialization",
+      "rules": [
+        "OPENC-FLOW-WHILE-001",
+        "OPENC-INIT-BEFOREUSE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/flow_while_only_initialization/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/for_variable_scope",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/for_variable_scope",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/for_variable_scope",
+      "rules": [
+        "OPENC-FOR-SCOPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/for_variable_scope/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/historical_int_type_rejected",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/historical_int_type_rejected",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/historical_int_type_rejected",
+      "rules": [
+        "OPENC-TYPE-HISTORICAL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/historical_int_type_rejected/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/ignored_status",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/ignored_status",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/ignored_status",
+      "rules": [
+        "OPENC-STATUS-MUSTHANDLE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/ignored_status/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/implicit_narrow",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/implicit_narrow",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/implicit_narrow",
+      "rules": [
+        "OPENC-CONVERT-LOSSY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/implicit_narrow/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/integer_condition",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/integer_condition",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/integer_condition",
+      "rules": [
+        "OPENC-COND-BOOL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/integer_condition/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/integer_literal_destination_range",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/integer_literal_destination_range",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/integer_literal_destination_range",
+      "rules": [
+        "OPENC-LITERAL-RANGE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/integer_literal_destination_range/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/invalid_utf8_source",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/invalid_utf8_source",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/invalid_utf8_source",
+      "rules": [
+        "OPENC-SOURCE-INVALID-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/invalid_utf8_source/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/local_not_zero_initialized",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/local_not_zero_initialized",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/local_not_zero_initialized",
+      "rules": [
+        "OPENC-INIT-BEFOREUSE-001",
+        "OPENC-INIT-NOZERO-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/local_not_zero_initialized/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/loop_only_initialization_not_definite",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/loop_only_initialization_not_definite",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/loop_only_initialization_not_definite",
+      "rules": [
+        "OPENC-INIT-LOOP-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/loop_only_initialization_not_definite/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/misaligned_typed_deref",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/misaligned_typed_deref",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/misaligned_typed_deref",
+      "rules": [
+        "OPENC-PTR-ALIGN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/misaligned_typed_deref/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/missing_braces",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/missing_braces",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/missing_braces",
+      "rules": [
+        "OPENC-BLOCK-BRACES-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/missing_braces/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/missing_semicolon",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/missing_semicolon",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/missing_semicolon",
+      "rules": [
+        "OPENC-STMT-SEMICOLON-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/missing_semicolon/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/missing_struct_field",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/missing_struct_field",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/missing_struct_field",
+      "rules": [
+        "OPENC-STRUCT-INIT-MISSING-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/missing_struct_field/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/module_duplicate_top_level",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/module_duplicate_top_level",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/module_duplicate_top_level",
+      "rules": [
+        "OPENC-MODULE-DUPLICATE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/module_duplicate_top_level/sources/a",
+        "conformance/fixtures/invalid/module_duplicate_top_level/sources/b"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/module_import_cycle",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/module_import_cycle",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/module_import_cycle",
+      "rules": [
+        "OPENC-MODULE-CYCLE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/module_import_cycle/sources/a",
+        "conformance/fixtures/invalid/module_import_cycle/sources/b"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/module_import_not_shared",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/module_import_not_shared",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/module_import_not_shared",
+      "rules": [
+        "OPENC-MODULE-IMPORTLOCAL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/module_import_not_shared/sources/a",
+        "conformance/fixtures/invalid/module_import_not_shared/sources/b"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/module_private_access",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/module_private_access",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/module_private_access",
+      "rules": [
+        "OPENC-MODULE-EXPORT-001",
+        "OPENC-MODULE-PRIVATE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/module_private_access/sources/main",
+        "conformance/fixtures/invalid/module_private_access/sources/math"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/module_short_qualifier_ambiguous",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/module_short_qualifier_ambiguous",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/module_short_qualifier_ambiguous",
+      "rules": [
+        "OPENC-MODULE-AMBIGUOUS-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/dbg",
+        "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/main",
+        "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/sys"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/mutable_global_rejected",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/mutable_global_rejected",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/mutable_global_rejected",
+      "rules": [
+        "OPENC-GLOBAL-MUTABLE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/mutable_global_rejected/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/nonvoid_missing_path",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/nonvoid_missing_path",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/nonvoid_missing_path",
+      "rules": [
+        "OPENC-FUNCTION-PATH-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/nonvoid_missing_path/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/numeric_cast_float_fraction",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/numeric_cast_float_fraction",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/numeric_cast_float_fraction",
+      "rules": [
+        "OPENC-NUM-CAST-FLOATINT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/numeric_cast_float_fraction/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/numeric_cast_int_float_inexact_static",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/numeric_cast_int_float_inexact_static",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/numeric_cast_int_float_inexact_static",
+      "rules": [
+        "OPENC-NUM-CAST-INTFLOAT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/numeric_cast_int_float_inexact_static/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/numeric_div_min_negative_one_static",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/numeric_div_min_negative_one_static",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/numeric_div_min_negative_one_static",
+      "rules": [
+        "OPENC-NUM-DIV-MIN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/numeric_div_min_negative_one_static/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/numeric_literal_suffix",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/numeric_literal_suffix",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/numeric_literal_suffix",
+      "rules": [
+        "OPENC-LITERAL-NOSUFFIX-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/numeric_literal_suffix/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/numeric_separator_doubled",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/numeric_separator_doubled",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/numeric_separator_doubled",
+      "rules": [
+        "OPENC-LITERAL-SEPARATOR-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/numeric_separator_doubled/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/numeric_shift_width",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/numeric_shift_width",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/numeric_shift_width",
+      "rules": [
+        "OPENC-NUM-SHIFT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/numeric_shift_width/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/numeric_signed_bitwise",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/numeric_signed_bitwise",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/numeric_signed_bitwise",
+      "rules": [
+        "OPENC-NUM-BITWISE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/numeric_signed_bitwise/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/numeric_unconstrained_too_large",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/numeric_unconstrained_too_large",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/numeric_unconstrained_too_large",
+      "rules": [
+        "OPENC-NUM-LITERAL-DEFAULT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/numeric_unconstrained_too_large/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/optional_contains_resource",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/optional_contains_resource",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/optional_contains_resource",
+      "rules": [
+        "OPENC-TYPE-RESOURCEOPTIONAL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/optional_contains_resource/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/optional_present_readonly",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/optional_present_readonly",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/optional_present_readonly",
+      "rules": [
+        "OPENC-OPTIONAL-PRESENT-READONLY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/optional_present_readonly/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/optional_proof_invalidated",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/optional_proof_invalidated",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/optional_proof_invalidated",
+      "rules": [
+        "OPENC-FLOW-OPTIONAL-INVALIDATE-001",
+        "OPENC-OPTIONAL-CHECK-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/optional_proof_invalidated/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/optional_question_syntax",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/optional_question_syntax",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/optional_question_syntax",
+      "rules": [
+        "OPENC-OPTIONAL-NOSHORTHAND-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/optional_question_syntax/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/optional_slice",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/optional_slice",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/optional_slice",
+      "rules": [
+        "OPENC-OPTIONAL-NOBORROW-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/optional_slice/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/out_failure_partial_exposure",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/out_failure_partial_exposure",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_failure_partial_exposure",
+      "rules": [
+        "OPENC-FUNCTION-OUTFAIL-001",
+        "OPENC-OUT-NOPARTIAL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/out_failure_partial_exposure/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/out_field_target",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/out_field_target",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_field_target",
+      "rules": [
+        "OPENC-OUT-TARGET-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/out_field_target/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/out_initialized_target",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/out_initialized_target",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_initialized_target",
+      "rules": [
+        "OPENC-OUT-TARGET-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/out_initialized_target/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/out_nonstatus_function",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/out_nonstatus_function",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_nonstatus_function",
+      "rules": [
+        "OPENC-OUT-STATUSONLY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/out_nonstatus_function/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/out_own_pointer_missing_contract",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/out_own_pointer_missing_contract",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_own_pointer_missing_contract",
+      "rules": [
+        "OPENC-OUT-OWN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/out_own_pointer_missing_contract/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/out_read_inside_callee",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/out_read_inside_callee",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_read_inside_callee",
+      "rules": [
+        "OPENC-OUT-NOREAD-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/out_read_inside_callee/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/out_reference_parameter",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/out_reference_parameter",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_reference_parameter",
+      "rules": [
+        "OPENC-PARAM-OUTTYPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/out_reference_parameter/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/out_success_without_init",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/out_success_without_init",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_success_without_init",
+      "rules": [
+        "OPENC-FUNCTION-OUTSUCCESS-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/out_success_without_init/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/overload_conversion_ambiguity",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/overload_conversion_ambiguity",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/overload_conversion_ambiguity",
+      "rules": [
+        "OPENC-OVERLOAD-AMBIGUOUS-001",
+        "OPENC-OVERLOAD-NORANK-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/overload_conversion_ambiguity/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/overload_lossless_ambiguous",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/overload_lossless_ambiguous",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/overload_lossless_ambiguous",
+      "rules": [
+        "OPENC-OVERLOAD-NORANK-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/overload_lossless_ambiguous/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/overload_return_only",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/overload_return_only",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/overload_return_only",
+      "rules": [
+        "OPENC-OVERLOAD-RETURN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/overload_return_only/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/own_plain_integer",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/own_plain_integer",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/own_plain_integer",
+      "rules": [
+        "OPENC-PARAM-OWNTYPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/own_plain_integer/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/owning_pointer_copy",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/owning_pointer_copy",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/owning_pointer_copy",
+      "rules": [
+        "OPENC-PTR-OWNCOPY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/owning_pointer_copy/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/plain_struct_hides_owning_pointer",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/plain_struct_hides_owning_pointer",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/plain_struct_hides_owning_pointer",
+      "rules": [
+        "OPENC-PTR-OWNCONTAIN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/plain_struct_hides_owning_pointer/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/pointer_arithmetic_outside_unsafe",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/pointer_arithmetic_outside_unsafe",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/pointer_arithmetic_outside_unsafe",
+      "rules": [
+        "OPENC-PTR-ARITH-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/pointer_arithmetic_outside_unsafe/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/pointer_cross_allocation_subtract",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/pointer_cross_allocation_subtract",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/pointer_cross_allocation_subtract",
+      "rules": [
+        "OPENC-PTR-CROSSALLOC-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/pointer_cross_allocation_subtract/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/pointer_deref_one_past",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/pointer_deref_one_past",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/pointer_deref_one_past",
+      "rules": [
+        "OPENC-PTR-ONEPAST-001",
+        "OPENC-TARGET-PTROFFSET-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/pointer_deref_one_past/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/pointer_integer_conversion_not_plain",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/pointer_integer_conversion_not_plain",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/pointer_integer_conversion_not_plain",
+      "rules": [
+        "OPENC-TARGET-PTRINT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/pointer_integer_conversion_not_plain/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/pointer_order_cross_allocation",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/pointer_order_cross_allocation",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/pointer_order_cross_allocation",
+      "rules": [
+        "OPENC-PTR-COMPARE-001",
+        "OPENC-TARGET-PTRCOMPARE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/pointer_order_cross_allocation/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/pointer_typed_deref_requires_lifetime",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/pointer_typed_deref_requires_lifetime",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/pointer_typed_deref_requires_lifetime",
+      "rules": [
+        "OPENC-PTR-LIFETIME-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/pointer_typed_deref_requires_lifetime/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/positional_struct",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/positional_struct",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/positional_struct",
+      "rules": [
+        "OPENC-STRUCT-INIT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/positional_struct/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/predeclared_typeword_binding",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/predeclared_typeword_binding",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/predeclared_typeword_binding",
+      "rules": [
+        "OPENC-LEX-TYPEWORD-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/predeclared_typeword_binding/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/ptr_const_to_mutable",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/ptr_const_to_mutable",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/ptr_const_to_mutable",
+      "rules": [
+        "OPENC-PTR-CONSTVIEW-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/ptr_const_to_mutable/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/ptr_const_write",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/ptr_const_write",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/ptr_const_write",
+      "rules": [
+        "OPENC-PTR-CONST-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/ptr_const_write/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/ptr_length",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/ptr_length",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/ptr_length",
+      "rules": [
+        "OPENC-PTR-NOLENGTH-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/ptr_length/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/read_uninitialized",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/read_uninitialized",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/read_uninitialized",
+      "rules": [
+        "OPENC-INIT-BEFOREUSE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/read_uninitialized/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/ref_const_to_mutable",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/ref_const_to_mutable",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/ref_const_to_mutable",
+      "rules": [
+        "OPENC-REF-CONSTVIEW-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/ref_const_to_mutable/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/ref_const_whole_assignment",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/ref_const_whole_assignment",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/ref_const_whole_assignment",
+      "rules": [
+        "OPENC-REF-ASSIGN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/ref_const_whole_assignment/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/ref_field",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/ref_field",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/ref_field",
+      "rules": [
+        "OPENC-FIELD-TYPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/ref_field/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/ref_local_without_initializer",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/ref_local_without_initializer",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/ref_local_without_initializer",
+      "rules": [
+        "OPENC-REF-INIT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/ref_local_without_initializer/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/ref_resource_whole_assignment",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/ref_resource_whole_assignment",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/ref_resource_whole_assignment",
+      "rules": [
+        "OPENC-REF-RESOURCEASSIGN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/ref_resource_whole_assignment/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/reinterpret_pointer_no_new_lifetime",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/reinterpret_pointer_no_new_lifetime",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/reinterpret_pointer_no_new_lifetime",
+      "rules": [
+        "OPENC-REINTERPRET-NOLIFETIME-001",
+        "OPENC-REINTERPRET-PTR-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/reinterpret_pointer_no_new_lifetime/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/reinterpret_size_mismatch",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/reinterpret_size_mismatch",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/reinterpret_size_mismatch",
+      "rules": [
+        "OPENC-REINTERPRET-SIZE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/reinterpret_size_mismatch/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/reinterpret_struct_value",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/reinterpret_struct_value",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/reinterpret_struct_value",
+      "rules": [
+        "OPENC-REINTERPRET-VALUE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/reinterpret_struct_value/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/reinterpret_unrelated_layout_rejected",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/reinterpret_unrelated_layout_rejected",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/reinterpret_unrelated_layout_rejected",
+      "rules": [
+        "OPENC-CONVERT-REINTERPRET-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/reinterpret_unrelated_layout_rejected/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/resource_copy",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/resource_copy",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/resource_copy",
+      "rules": [
+        "OPENC-RESOURCE-NOCOPY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/resource_copy/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/resource_equality_rejected",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/resource_equality_rejected",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/resource_equality_rejected",
+      "rules": [
+        "OPENC-EQUALITY-RESOURCE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/resource_equality_rejected/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/resource_obligation_not_discharged",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/resource_obligation_not_discharged",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/resource_obligation_not_discharged",
+      "rules": [
+        "OPENC-RESOURCE-OBLIGATION-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/resource_obligation_not_discharged/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/return_local_ref",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/return_local_ref",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/return_local_ref",
+      "rules": [
+        "OPENC-LIFETIME-RETURNLOCAL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/return_local_ref/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/return_local_reference",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/return_local_reference",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/return_local_reference",
+      "rules": [
+        "OPENC-LIFETIME-RETURNLOCAL-001",
+        "OPENC-RETURN-LIFETIME-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/return_local_reference/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/return_type_mismatch",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/return_type_mismatch",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/return_type_mismatch",
+      "rules": [
+        "OPENC-RETURN-TYPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/return_type_mismatch/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/safe_wrapper_missing_check",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/safe_wrapper_missing_check",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/safe_wrapper_missing_check",
+      "rules": [
+        "OPENC-UNSAFE-WRAPPER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/safe_wrapper_missing_check/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/same_scope_duplicate",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/same_scope_duplicate",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/same_scope_duplicate",
+      "rules": [
+        "OPENC-SCOPE-DUPLICATE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/same_scope_duplicate/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/scope_cancel_not_supported",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/scope_cancel_not_supported",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/scope_cancel_not_supported",
+      "rules": [
+        "OPENC-CLEANUP-NOCANCEL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/scope_cancel_not_supported/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/scope_destroy_early",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/scope_destroy_early",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/scope_destroy_early",
+      "rules": [
+        "OPENC-CLEANUP-DESTROY-RESERVE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/scope_destroy_early/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/scope_double_consuming_action",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/scope_double_consuming_action",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/scope_double_consuming_action",
+      "rules": [
+        "OPENC-OWN-SCOPE-RESERVE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/scope_double_consuming_action/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/scope_move_reserved_owner",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/scope_move_reserved_owner",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/scope_move_reserved_owner",
+      "rules": [
+        "OPENC-CLEANUP-OWN-001",
+        "OPENC-OWN-SCOPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/scope_move_reserved_owner/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/scope_nested_fallible_argument",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/scope_nested_fallible_argument",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/scope_nested_fallible_argument",
+      "rules": [
+        "OPENC-CLEANUP-ARG-001",
+        "OPENC-EVAL-SCOPE-NESTED-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/scope_nested_fallible_argument/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/scope_out_argument",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/scope_out_argument",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/scope_out_argument",
+      "rules": [
+        "OPENC-CLEANUP-OUT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/scope_out_argument/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/scope_reassign_reserved_owner",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/scope_reassign_reserved_owner",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/scope_reassign_reserved_owner",
+      "rules": [
+        "OPENC-CLEANUP-OWN-001",
+        "OPENC-OWN-SCOPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/scope_reassign_reserved_owner/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/shadowing",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/shadowing",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/shadowing",
+      "rules": [
+        "OPENC-SCOPE-SHADOW-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/shadowing/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/size_of_expression",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/size_of_expression",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/size_of_expression",
+      "rules": [
+        "OPENC-TARGET-QUERY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/size_of_expression/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/size_of_void",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/size_of_void",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/size_of_void",
+      "rules": [
+        "OPENC-TARGET-SIZEOF-001",
+        "OPENC-TYPE-VOIDOBJECT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/size_of_void/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/slice_alias_mutation_conflict",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/slice_alias_mutation_conflict",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/slice_alias_mutation_conflict",
+      "rules": [
+        "OPENC-SLICE-ALIAS-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/slice_alias_mutation_conflict/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/slice_const_to_mutable",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/slice_const_to_mutable",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/slice_const_to_mutable",
+      "rules": [
+        "OPENC-SLICE-CONSTVIEW-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/slice_const_to_mutable/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/slice_field",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/slice_field",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/slice_field",
+      "rules": [
+        "OPENC-FIELD-TYPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/slice_field/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/slice_outlives_owner",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/slice_outlives_owner",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/slice_outlives_owner",
+      "rules": [
+        "OPENC-LIFETIME-SLICE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/slice_outlives_owner/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/slice_range_checked",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/slice_range_checked",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/slice_range_checked",
+      "rules": [
+        "OPENC-SLICE-RANGE-CHECK-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/slice_range_checked/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/status_failure_zero_code",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/status_failure_zero_code",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/status_failure_zero_code",
+      "rules": [
+        "OPENC-STATUS-INVARIANT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/status_failure_zero_code/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/status_success_nonzero_code",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/status_success_nonzero_code",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/status_success_nonzero_code",
+      "rules": [
+        "OPENC-STATUS-INVARIANT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/status_success_nonzero_code/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/storage_field",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/storage_field",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/storage_field",
+      "rules": [
+        "OPENC-FIELD-TYPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/storage_field/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/storage_read_before_construct",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/storage_read_before_construct",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/storage_read_before_construct",
+      "rules": [
+        "OPENC-LIFETIME-ACTIVE-001",
+        "OPENC-STORAGE-NOVALUE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/storage_read_before_construct/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/storage_resource_type",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/storage_resource_type",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/storage_resource_type",
+      "rules": [
+        "OPENC-STORAGE-NORESOURCE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/storage_resource_type/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/struct_trailing_semicolon",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/struct_trailing_semicolon",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/struct_trailing_semicolon",
+      "rules": [
+        "OPENC-STRUCT-TRAILING-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/struct_trailing_semicolon/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/switch_implicit_fallthrough",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/switch_implicit_fallthrough",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/switch_implicit_fallthrough",
+      "rules": [
+        "OPENC-SWITCH-NOFALL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/switch_implicit_fallthrough/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/text_byte_conversion_explicit",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/text_byte_conversion_explicit",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/text_byte_conversion_explicit",
+      "rules": [
+        "OPENC-TEXT-CONVERT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/text_byte_conversion_explicit/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/text_index",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/text_index",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/text_index",
+      "rules": [
+        "OPENC-TEXT-NOINDEX-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/text_index/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/textual_include_rejected",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/textual_include_rejected",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/textual_include_rejected",
+      "rules": [
+        "OPENC-TRANSLATE-NOINCLUDE-001",
+        "OPENC-TRANSLATE-NOPREPROCESSOR-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/textual_include_rejected/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/two_write_borrows",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/two_write_borrows",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/two_write_borrows",
+      "rules": [
+        "OPENC-BORROW-ONEWRITE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/two_write_borrows/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/typed_storage_live_exit",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/typed_storage_live_exit",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/typed_storage_live_exit",
+      "rules": [
+        "OPENC-STORAGE-LIVEEXIT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/typed_storage_live_exit/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/typed_storage_old_ref_after_reconstruct",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/typed_storage_old_ref_after_reconstruct",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/typed_storage_old_ref_after_reconstruct",
+      "rules": [
+        "OPENC-STORAGE-REFINVALID-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/typed_storage_old_ref_after_reconstruct/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/unchecked_float_to_integer",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/unchecked_float_to_integer",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/unchecked_float_to_integer",
+      "rules": [
+        "OPENC-CAST-UNCHECKED-LIMIT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/unchecked_float_to_integer/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/unicode_escape_surrogate",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/unicode_escape_surrogate",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/unicode_escape_surrogate",
+      "rules": [
+        "OPENC-LITERAL-UNICODE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/unicode_escape_surrogate/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/unknown_member",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/unknown_member",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/unknown_member",
+      "rules": [
+        "OPENC-MEMBER-UNKNOWN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/unknown_member/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/unsafe_call_requires_boundary",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/unsafe_call_requires_boundary",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/unsafe_call_requires_boundary",
+      "rules": [
+        "OPENC-UNSAFE-CALL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/unsafe_call_requires_boundary/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/unsafe_contract_caller_responsibility",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/unsafe_contract_caller_responsibility",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/unsafe_contract_caller_responsibility",
+      "rules": [
+        "OPENC-UNSAFE-CONTRACT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/unsafe_contract_caller_responsibility/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/unsafe_function_call_outside_unsafe",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/unsafe_function_call_outside_unsafe",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/unsafe_function_call_outside_unsafe",
+      "rules": [
+        "OPENC-FUNCTION-UNSAFE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/unsafe_function_call_outside_unsafe/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/unsafe_provenance_not_forged",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/unsafe_provenance_not_forged",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/unsafe_provenance_not_forged",
+      "rules": [
+        "OPENC-UNSAFE-PROVENANCE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/unsafe_provenance_not_forged/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/use_after_move",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/use_after_move",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/use_after_move",
+      "rules": [
+        "OPENC-OWN-USEAFTER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/use_after_move/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/void_local_object",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/void_local_object",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/void_local_object",
+      "rules": [
+        "OPENC-TYPE-VOIDOBJECT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/void_local_object/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "invalid/when_token_fragment_rejected",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/when_token_fragment_rejected",
+      "provenance": "OpenC Standard Draft 0.10 validation/invalid/when_token_fragment_rejected",
+      "rules": [
+        "OPENC-WHEN-STRUCTURED-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/when_token_fragment_rejected/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "records/diagnostic_structure_quality",
+      "kind": "records",
+      "path": "conformance/fixtures/records/diagnostic_structure_quality",
+      "provenance": "OpenC Standard Draft 0.10 validation/record/diagnostic_structure_quality",
+      "rules": [
+        "OPENC-DIAG-MACHINE-001",
+        "OPENC-DIAG-QUALITY-001",
+        "OPENC-DIAG-STRUCTURE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/records/diagnostic_structure_quality/record.json"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/assignment_destination_once",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/assignment_destination_once",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/assignment_destination_once",
+      "rules": [
+        "OPENC-EVAL-ASSIGN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/assignment_destination_once/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/boolean_short_circuit",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/boolean_short_circuit",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/boolean_short_circuit",
+      "rules": [
+        "OPENC-BOOL-SHORT-001",
+        "OPENC-EVAL-SHORT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/boolean_short_circuit/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/bounds_trap",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/bounds_trap",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/bounds_trap",
+      "rules": [
+        "OPENC-INDEX-SAFE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/bounds_trap/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/break_and_scope_registration_order",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/break_and_scope_registration_order",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/break_and_scope_registration_order",
+      "rules": [
+        "OPENC-EVAL-BREAK-001",
+        "OPENC-EVAL-SCOPE-REGISTER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/break_and_scope_registration_order/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/callee_then_arguments_order",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/callee_then_arguments_order",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/callee_then_arguments_order",
+      "rules": [
+        "OPENC-EVAL-ARGMODE-001",
+        "OPENC-EVAL-CALLEE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/callee_then_arguments_order/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/checked_addition",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/checked_addition",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/checked_addition",
+      "rules": [
+        "OPENC-NUM-ADD-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/checked_addition/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/cleanup_on_return",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/cleanup_on_return",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/cleanup_on_return",
+      "rules": [
+        "OPENC-CLEANUP-RETURN-001",
+        "OPENC-CLEANUP-STRUCTURED-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/cleanup_on_return/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/cleanup_registration_capture",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/cleanup_registration_capture",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/cleanup_registration_capture",
+      "rules": [
+        "OPENC-CLEANUP-CALLEE-001",
+        "OPENC-CLEANUP-REGISTER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/cleanup_registration_capture/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/construct_and_return_order",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/construct_and_return_order",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/construct_and_return_order",
+      "rules": [
+        "OPENC-EVAL-CONSTRUCT-001",
+        "OPENC-EVAL-RETURN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/construct_and_return_order/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/evaluation_binary_left_to_right",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/evaluation_binary_left_to_right",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/evaluation_binary_left_to_right",
+      "rules": [
+        "OPENC-EVAL-BINARY-001",
+        "OPENC-EVAL-FULL-001",
+        "OPENC-EVAL-NOUNSPEC-001",
+        "OPENC-EVAL-OBSERVABLE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/evaluation_binary_left_to_right/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/fatal_allocation_defined",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/fatal_allocation_defined",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/fatal_allocation_defined",
+      "rules": [
+        "OPENC-ERROR-FATAL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/fatal_allocation_defined/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/fixed_width_values",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/fixed_width_values",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/fixed_width_values",
+      "rules": [
+        "OPENC-NUM-TWOS-001",
+        "OPENC-NUM-UNSIGNED-001",
+        "OPENC-TYPE-WIDTH-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/fixed_width_values/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/function_arguments_left_to_right",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/function_arguments_left_to_right",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/function_arguments_left_to_right",
+      "rules": [
+        "OPENC-EVAL-ARGMODE-001",
+        "OPENC-FUNCTION-ARGORDER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/function_arguments_left_to_right/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/left_shift_checked",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/left_shift_checked",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/left_shift_checked",
+      "rules": [
+        "OPENC-NUM-SHIFTLEFT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/left_shift_checked/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/null_pointer_equality",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/null_pointer_equality",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/null_pointer_equality",
+      "rules": [
+        "OPENC-PTR-NULL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/null_pointer_equality/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/optional_trap",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/optional_trap",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/optional_trap",
+      "rules": [
+        "OPENC-OPTIONAL-VALUE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/optional_trap/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/pointer_provenance_target_fault",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/pointer_provenance_target_fault",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/pointer_provenance_target_fault",
+      "rules": [
+        "OPENC-TARGET-NOARBITRARY-001",
+        "OPENC-TARGET-PTRPROV-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/pointer_provenance_target_fault/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/runtime_cast_float_fraction",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/runtime_cast_float_fraction",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/runtime_cast_float_fraction",
+      "rules": [
+        "OPENC-NUM-CAST-FLOATINT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/runtime_cast_float_fraction/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/runtime_cast_integer_range",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/runtime_cast_integer_range",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/runtime_cast_integer_range",
+      "rules": [
+        "OPENC-NUM-CAST-INT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/runtime_cast_integer_range/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/runtime_checked_failure_runs_cleanup",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/runtime_checked_failure_runs_cleanup",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/runtime_checked_failure_runs_cleanup",
+      "rules": [
+        "OPENC-CLEANUP-CHECKFAIL-001",
+        "OPENC-INDEX-SAFE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/runtime_checked_failure_runs_cleanup/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/runtime_division_min_negative_one",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/runtime_division_min_negative_one",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/runtime_division_min_negative_one",
+      "rules": [
+        "OPENC-NUM-DIV-MIN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/runtime_division_min_negative_one/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/runtime_division_zero",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/runtime_division_zero",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/runtime_division_zero",
+      "rules": [
+        "OPENC-NUM-DIVZERO-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/runtime_division_zero/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/runtime_float_nan_comparison",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/runtime_float_nan_comparison",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/runtime_float_nan_comparison",
+      "rules": [
+        "OPENC-NUM-FLOAT-DIVZERO-001",
+        "OPENC-NUM-FLOAT-NONFINITE-001",
+        "OPENC-NUM-FLOAT-ORDER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/runtime_float_nan_comparison/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/runtime_pointer_cross_extent_fault",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/runtime_pointer_cross_extent_fault",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/runtime_pointer_cross_extent_fault",
+      "rules": [
+        "OPENC-TARGET-FAULTMODEL-001",
+        "OPENC-TARGET-PTRCROSS-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/runtime_pointer_cross_extent_fault/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/runtime_scope_lifo",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/runtime_scope_lifo",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/runtime_scope_lifo",
+      "rules": [
+        "OPENC-CLEANUP-LIFO-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/runtime_scope_lifo/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/signed_right_shift_defined",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/signed_right_shift_defined",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/signed_right_shift_defined",
+      "rules": [
+        "OPENC-NUM-SHIFTRIGHT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/signed_right_shift_defined/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/struct_defaults_after_explicit",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/struct_defaults_after_explicit",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/struct_defaults_after_explicit",
+      "rules": [
+        "OPENC-EVAL-DEFAULT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/struct_defaults_after_explicit/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/unary_operand_once",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/unary_operand_once",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/unary_operand_once",
+      "rules": [
+        "OPENC-EVAL-UNARY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/unary_operand_once/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/unsafe_fault_target_bounded",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/unsafe_fault_target_bounded",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/unsafe_fault_target_bounded",
+      "rules": [
+        "OPENC-UNSAFE-FAULT-001",
+        "OPENC-UNSAFE-NOASSUME-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/unsafe_fault_target_bounded/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "runtime/unsigned_modulo_exact",
+      "kind": "runtime",
+      "path": "conformance/fixtures/runtime/unsigned_modulo_exact",
+      "provenance": "OpenC Standard Draft 0.10 validation/runtime/unsigned_modulo_exact",
+      "rules": [
+        "OPENC-NUM-BYTE8-001",
+        "OPENC-NUM-UNSIGNED-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/runtime/unsigned_modulo_exact/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/array_init_length_copy",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/array_init_length_copy",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/array_init_length_copy",
+      "rules": [
+        "OPENC-ARRAY-COPY-001",
+        "OPENC-ARRAY-INIT-001",
+        "OPENC-ARRAY-LENGTH-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/array_init_length_copy/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/bool_condition",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/bool_condition",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/bool_condition",
+      "rules": [
+        "OPENC-COND-BOOL-001",
+        "OPENC-TYPE-BOOL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/bool_condition/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/byte_pointer_object_representation",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/byte_pointer_object_representation",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/byte_pointer_object_representation",
+      "rules": [
+        "OPENC-PTR-BYTE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/byte_pointer_object_representation/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/checked_cast",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/checked_cast",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/checked_cast",
+      "rules": [
+        "OPENC-CONVERT-CAST-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/checked_cast/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/comments_preserve_tokens",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/comments_preserve_tokens",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/comments_preserve_tokens",
+      "rules": [
+        "OPENC-LEX-COMMENT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/comments_preserve_tokens/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/const_binding_readonly",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/const_binding_readonly",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/const_binding_readonly",
+      "rules": [
+        "OPENC-CONST-INIT-001",
+        "OPENC-TYPE-CONST-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/const_binding_readonly/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/const_view_conversions",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/const_view_conversions",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/const_view_conversions",
+      "rules": [
+        "OPENC-PTR-CONSTVIEW-001",
+        "OPENC-REF-CONSTVIEW-001",
+        "OPENC-SLICE-CONSTVIEW-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/const_view_conversions/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/constant_expression_same_numeric_rules",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/constant_expression_same_numeric_rules",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/constant_expression_same_numeric_rules",
+      "rules": [
+        "OPENC-NUM-CONST-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/constant_expression_same_numeric_rules/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/current_optional",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/current_optional",
+      "provenance": "OpenC canonical mainline",
+      "rules": [],
+      "source_files": [
+        "conformance/fixtures/valid/current_optional/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/current_resource",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/current_resource",
+      "provenance": "OpenC canonical mainline",
+      "rules": [],
+      "source_files": [
+        "conformance/fixtures/valid/current_resource/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/disjoint_mutable_slices",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/disjoint_mutable_slices",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/disjoint_mutable_slices",
+      "rules": [
+        "OPENC-SLICE-DISJOINT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/disjoint_mutable_slices/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/domain_own_call",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/domain_own_call",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/domain_own_call",
+      "rules": [
+        "OPENC-OWN-CALL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/domain_own_call/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/enum_switch",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/enum_switch",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/enum_switch",
+      "rules": [
+        "OPENC-ENUM-DISTINCT-001",
+        "OPENC-SWITCH-ENUM-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/enum_switch/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/eval_call_left_to_right",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/eval_call_left_to_right",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/eval_call_left_to_right",
+      "rules": [
+        "OPENC-EVAL-CALL-001",
+        "OPENC-EXPR-ORDER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/eval_call_left_to_right/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/eval_compound_target_once",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/eval_compound_target_once",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/eval_compound_target_once",
+      "rules": [
+        "OPENC-EVAL-COMPOUND-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/eval_compound_target_once/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/eval_struct_initializer_order",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/eval_struct_initializer_order",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/eval_struct_initializer_order",
+      "rules": [
+        "OPENC-EVAL-STRUCTINIT-001",
+        "OPENC-STRUCT-INIT-ORDER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/eval_struct_initializer_order/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/first_program",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/first_program",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/first_program",
+      "rules": [
+        "OPENC-FUNCTION-DIRECT-001",
+        "OPENC-MODULE-IMPORT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/first_program/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/fixed_array",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/fixed_array",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/fixed_array",
+      "rules": [
+        "OPENC-ARRAY-DECL-001",
+        "OPENC-ARRAY-INDEX-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/fixed_array/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/float_binary_types",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/float_binary_types",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/float_binary_types",
+      "rules": [
+        "OPENC-NUM-FLOAT-FORMAT-001",
+        "OPENC-NUM-FLOAT-ROUND-001",
+        "OPENC-TYPE-FLOAT-FIXED-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/float_binary_types/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/floating_literal_default_f64",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/floating_literal_default_f64",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/floating_literal_default_f64",
+      "rules": [
+        "OPENC-LITERAL-FLOATDEFAULT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/floating_literal_default_f64/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/flow_if_all_paths",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/flow_if_all_paths",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/flow_if_all_paths",
+      "rules": [
+        "OPENC-FLOW-IF-001",
+        "OPENC-INIT-PATH-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/flow_if_all_paths/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/flow_loop_preinitialized",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/flow_loop_preinitialized",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/flow_loop_preinitialized",
+      "rules": [
+        "OPENC-FLOW-WHILE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/flow_loop_preinitialized/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/flow_optional_early_return",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/flow_optional_early_return",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/flow_optional_early_return",
+      "rules": [
+        "OPENC-FLOW-OPTIONAL-ELSE-001",
+        "OPENC-OPTIONAL-CHECK-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/flow_optional_early_return/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/flow_out_early_return",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/flow_out_early_return",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/flow_out_early_return",
+      "rules": [
+        "OPENC-FLOW-OUT-MERGE-001",
+        "OPENC-FUNCTION-OUTSUCCESS-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/flow_out_early_return/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/flow_state_branch_merge",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/flow_state_branch_merge",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/flow_state_branch_merge",
+      "rules": [
+        "OPENC-FLOW-STATE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/flow_state_branch_merge/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/flow_status_copy_proof",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/flow_status_copy_proof",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/flow_status_copy_proof",
+      "rules": [
+        "OPENC-FLOW-OUT-COPY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/flow_status_copy_proof/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/flow_switch_exhaustive",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/flow_switch_exhaustive",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/flow_switch_exhaustive",
+      "rules": [
+        "OPENC-FLOW-SWITCH-001",
+        "OPENC-SWITCH-ENUM-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/flow_switch_exhaustive/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/function_add",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/function_add",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/function_add",
+      "rules": [
+        "OPENC-CALL-TYPE-001",
+        "OPENC-FUNCTION-PARAM-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/function_add/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/global_const_valid",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/global_const_valid",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/global_const_valid",
+      "rules": [
+        "OPENC-GLOBAL-CONST-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/global_const_valid/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/identifier_case_sensitive",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/identifier_case_sensitive",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/identifier_case_sensitive",
+      "rules": [
+        "OPENC-LEX-IDENT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/identifier_case_sensitive/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/initialized_local",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/initialized_local",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/initialized_local",
+      "rules": [
+        "OPENC-INIT-BEFOREUSE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/initialized_local/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/integer_literal_exact_context",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/integer_literal_exact_context",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/integer_literal_exact_context",
+      "rules": [
+        "OPENC-LITERAL-INTEGER-001",
+        "OPENC-LITERAL-RANGE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/integer_literal_exact_context/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/many_read_borrows_last_use",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/many_read_borrows_last_use",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/many_read_borrows_last_use",
+      "rules": [
+        "OPENC-BORROW-LASTUSE-001",
+        "OPENC-BORROW-MANYREAD-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/many_read_borrows_last_use/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/module_multi_source_overload",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/module_multi_source_overload",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/module_multi_source_overload",
+      "rules": [
+        "OPENC-MODULE-DUPLICATE-001",
+        "OPENC-OVERLOAD-EXACT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/module_multi_source_overload/sources/a",
+        "conformance/fixtures/valid/module_multi_source_overload/sources/b"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/module_repeated_import_idempotent",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/module_repeated_import_idempotent",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/module_repeated_import_idempotent",
+      "rules": [
+        "OPENC-MODULE-IDENTITY-001",
+        "OPENC-MODULE-IMPORTIDEMPOTENT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/module_repeated_import_idempotent/sources/main",
+        "conformance/fixtures/valid/module_repeated_import_idempotent/sources/math"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/module_short_and_full_qualifier",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/module_short_and_full_qualifier",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/module_short_and_full_qualifier",
+      "rules": [
+        "OPENC-MODULE-FULLIMPORT-001",
+        "OPENC-MODULE-SHORT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/module_short_and_full_qualifier/sources/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/negative_literal_context",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/negative_literal_context",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/negative_literal_context",
+      "rules": [
+        "OPENC-NUM-LITERAL-NEGATIVE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/negative_literal_context/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/numeric_division_toward_zero",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/numeric_division_toward_zero",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/numeric_division_toward_zero",
+      "rules": [
+        "OPENC-NUM-DIV-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/numeric_division_toward_zero/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/numeric_remainder_dividend_sign",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/numeric_remainder_dividend_sign",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/numeric_remainder_dividend_sign",
+      "rules": [
+        "OPENC-NUM-REM-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/numeric_remainder_dividend_sign/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/numeric_saturating_add",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/numeric_saturating_add",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/numeric_saturating_add",
+      "rules": [
+        "OPENC-NUM-SATURATE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/numeric_saturating_add/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/numeric_separator_valid",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/numeric_separator_valid",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/numeric_separator_valid",
+      "rules": [
+        "OPENC-LITERAL-SEPARATOR-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/numeric_separator_valid/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/optional_checked",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/optional_checked",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/optional_checked",
+      "rules": [
+        "OPENC-OPTIONAL-PRESENT-001",
+        "OPENC-OPTIONAL-VALUE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/optional_checked/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/optional_none_and_copy",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/optional_none_and_copy",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/optional_none_and_copy",
+      "rules": [
+        "OPENC-OPTIONAL-COPY-001",
+        "OPENC-OPTIONAL-NONE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/optional_none_and_copy/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/overload_exact_preferred",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/overload_exact_preferred",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/overload_exact_preferred",
+      "rules": [
+        "OPENC-OVERLOAD-EXACT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/overload_exact_preferred/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/overload_parameter_modes",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/overload_parameter_modes",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/overload_parameter_modes",
+      "rules": [
+        "OPENC-OVERLOAD-MODE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/overload_parameter_modes/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/parameter_modes_visible",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/parameter_modes_visible",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/parameter_modes_visible",
+      "rules": [
+        "OPENC-PARAM-OUT-001",
+        "OPENC-PARAM-OWN-001",
+        "OPENC-PARAM-REF-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/parameter_modes_visible/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/plain_copy_independent",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/plain_copy_independent",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/plain_copy_independent",
+      "rules": [
+        "OPENC-COPY-PLAIN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/plain_copy_independent/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/pointer_one_past_compare",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/pointer_one_past_compare",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/pointer_one_past_compare",
+      "rules": [
+        "OPENC-PTR-ONEPAST-001",
+        "OPENC-TARGET-PTROFFSET-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/pointer_one_past_compare/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/read_borrow",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/read_borrow",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/read_borrow",
+      "rules": [
+        "OPENC-REF-READ-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/read_borrow/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/ref_assigns_referent",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/ref_assigns_referent",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/ref_assigns_referent",
+      "rules": [
+        "OPENC-REF-ASSIGN-001",
+        "OPENC-REF-INIT-001",
+        "OPENC-REF-NOREBIND-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/ref_assigns_referent/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/reinterpret_u32_f32",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/reinterpret_u32_f32",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/reinterpret_u32_f32",
+      "rules": [
+        "OPENC-REINTERPRET-SIZE-001",
+        "OPENC-REINTERPRET-VALUE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/reinterpret_u32_f32/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/resource_contains_resource",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/resource_contains_resource",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/resource_contains_resource",
+      "rules": [
+        "OPENC-RESOURCE-FIELD-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/resource_contains_resource/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/resource_domain_operations",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/resource_domain_operations",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/resource_domain_operations",
+      "rules": [
+        "OPENC-RESOURCE-COPY-001",
+        "OPENC-RESOURCE-DESTROY-001",
+        "OPENC-RESOURCE-MOVE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/resource_domain_operations/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/resource_return_transfers",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/resource_return_transfers",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/resource_return_transfers",
+      "rules": [
+        "OPENC-OWN-RETURN-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/resource_return_transfers/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/scope_bound_owner_borrow",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/scope_bound_owner_borrow",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/scope_bound_owner_borrow",
+      "rules": [
+        "OPENC-OWN-SCOPE-BORROW-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/scope_bound_owner_borrow/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/scope_nested_lifo",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/scope_nested_lifo",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/scope_nested_lifo",
+      "rules": [
+        "OPENC-CLEANUP-LIFO-001",
+        "OPENC-CLEANUP-NESTED-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/scope_nested_lifo/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/scope_value_capture",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/scope_value_capture",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/scope_value_capture",
+      "rules": [
+        "OPENC-CLEANUP-VALUE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/scope_value_capture/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/slice_empty_and_default_ranges",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/slice_empty_and_default_ranges",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/slice_empty_and_default_ranges",
+      "rules": [
+        "OPENC-SLICE-RANGE-DEFAULT-001",
+        "OPENC-SLICE-RANGE-EMPTY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/slice_empty_and_default_ranges/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/slice_length_and_mutation",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/slice_length_and_mutation",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/slice_length_and_mutation",
+      "rules": [
+        "OPENC-SLICE-LENGTH-001",
+        "OPENC-SLICE-MUTATE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/slice_length_and_mutation/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/slice_sum",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/slice_sum",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/slice_sum",
+      "rules": [
+        "OPENC-SLICE-BOUNDED-001",
+        "OPENC-SLICE-FROMARRAY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/slice_sum/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/small_local_unsafe_block",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/small_local_unsafe_block",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/small_local_unsafe_block",
+      "rules": [
+        "OPENC-UNSAFE-LOCAL-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/small_local_unsafe_block/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/status_invariant_success",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/status_invariant_success",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/status_invariant_success",
+      "rules": [
+        "OPENC-STATUS-CODE-001",
+        "OPENC-STATUS-INVARIANT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/status_invariant_success/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/status_message_not_control_flow",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/status_message_not_control_flow",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/status_message_not_control_flow",
+      "rules": [
+        "OPENC-ERROR-NOHIDDEN-001",
+        "OPENC-STATUS-MESSAGE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/status_message_not_control_flow/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/status_proof_initializes_out",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/status_proof_initializes_out",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/status_proof_initializes_out",
+      "rules": [
+        "OPENC-OUT-NOPARTIAL-001",
+        "OPENC-STATUS-PROOF-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/status_proof_initializes_out/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/struct_defaults",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/struct_defaults",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/struct_defaults",
+      "rules": [
+        "OPENC-STRUCT-DEFAULT-001",
+        "OPENC-STRUCT-EMPTY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/struct_defaults/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/struct_named_fields_and_copy",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/struct_named_fields_and_copy",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/struct_named_fields_and_copy",
+      "rules": [
+        "OPENC-STRUCT-COPY-001",
+        "OPENC-STRUCT-DECL-001",
+        "OPENC-STRUCT-FIELD-001",
+        "OPENC-STRUCT-INIT-FIELD-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/struct_named_fields_and_copy/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/struct_named_init",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/struct_named_init",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/struct_named_init",
+      "rules": [
+        "OPENC-STRUCT-INIT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/struct_named_init/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/subslice",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/subslice",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/subslice",
+      "rules": [
+        "OPENC-SLICE-RANGE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/subslice/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/text_module_typeword_qualifier",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/text_module_typeword_qualifier",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/text_module_typeword_qualifier",
+      "rules": [
+        "OPENC-LEX-TYPEQUALIFIER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/text_module_typeword_qualifier/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/type_shapes_ref_ptr_optional_array_slice_storage",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/type_shapes_ref_ptr_optional_array_slice_storage",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/type_shapes_ref_ptr_optional_array_slice_storage",
+      "rules": [
+        "OPENC-ARRAY-TYPE-001",
+        "OPENC-OPTIONAL-EXPLICIT-001",
+        "OPENC-PTR-TYPE-001",
+        "OPENC-SLICE-TYPE-001",
+        "OPENC-STORAGE-TYPE-001",
+        "OPENC-TYPE-PREFIXORDER-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/type_shapes_ref_ptr_optional_array_slice_storage/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/type_size_alignment",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/type_size_alignment",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/type_size_alignment",
+      "rules": [
+        "OPENC-TARGET-ALIGNOF-001",
+        "OPENC-TARGET-ARRAYSIZE-001",
+        "OPENC-TARGET-SIZEOF-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/type_size_alignment/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/typed_storage",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/typed_storage",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/typed_storage",
+      "rules": [
+        "OPENC-CONSTRUCT-001",
+        "OPENC-DESTROY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/typed_storage/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/typed_storage_reconstruct_after_destroy",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/typed_storage_reconstruct_after_destroy",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/typed_storage_reconstruct_after_destroy",
+      "rules": [
+        "OPENC-DESTROY-001",
+        "OPENC-STORAGE-RECONSTRUCT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/typed_storage_reconstruct_after_destroy/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/typed_storage_scope_destroy_use",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/typed_storage_scope_destroy_use",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/typed_storage_scope_destroy_use",
+      "rules": [
+        "OPENC-CLEANUP-DESTROY-001",
+        "OPENC-CLEANUP-DESTROY-STORAGE-001",
+        "OPENC-STORAGE-LIVEEXIT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/typed_storage_scope_destroy_use/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/unary_minus_signed_only",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/unary_minus_signed_only",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/unary_minus_signed_only",
+      "rules": [
+        "OPENC-ARITH-MINUS-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/unary_minus_signed_only/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/unchecked_integer_cast",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/unchecked_integer_cast",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/unchecked_integer_cast",
+      "rules": [
+        "OPENC-CAST-UNCHECKED-INT-001",
+        "OPENC-NUM-UNCHECKEDCAST-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/unchecked_integer_cast/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/unsafe_pointer",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/unsafe_pointer",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/unsafe_pointer",
+      "rules": [
+        "OPENC-PTR-DEREF-001",
+        "OPENC-UNSAFE-BOUNDARY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/unsafe_pointer/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/utf8_source_valid",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/utf8_source_valid",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/utf8_source_valid",
+      "rules": [
+        "OPENC-LITERAL-TEXT-001",
+        "OPENC-SOURCE-UTF8-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/utf8_source_valid/main"
+      ]
+    },
+    {
+      "execution_status": "PENDING_IMPLEMENTATION",
+      "id": "valid/write_borrow",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/write_borrow",
+      "provenance": "OpenC Standard Draft 0.10 validation/valid/write_borrow",
+      "rules": [
+        "OPENC-BORROW-ONEWRITE-001",
+        "OPENC-REF-TYPE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/write_borrow/main"
+      ]
+    }
+  ],
+  "rules_with_imported_fixtures": 330,
+  "rules_without_imported_fixtures": [
+    "OPENC-BYTE-DISTINCT-001",
+    "OPENC-CLEANUP-ALL-001",
+    "OPENC-CLEANUP-FINISH-001",
+    "OPENC-CLEANUP-PRIMARY-001",
+    "OPENC-CLEANUP-SAFEWRAPPER-001",
+    "OPENC-CLEANUP-STATE-001",
+    "OPENC-CLEANUP-UNSAFEFAULT-001",
+    "OPENC-CLEANUP-VOID-001",
+    "OPENC-CONST-CHECKFAIL-001",
+    "OPENC-CONST-EXPR-001",
+    "OPENC-CONSTRUCT-PLACEMENT-001",
+    "OPENC-CONSTRUCT-VALUE-001",
+    "OPENC-DIAG-PHASE-001",
+    "OPENC-DIAG-PRIMARY-001",
+    "OPENC-DIAG-SEVERITY-001",
+    "OPENC-DIAG-SPAN-001",
+    "OPENC-ENUM-IMPLICIT-001",
+    "OPENC-EVAL-ARRAYINIT-001",
+    "OPENC-EXPR-PRECEDENCE-001",
+    "OPENC-EXTENSION-SAFETY-001",
+    "OPENC-FLOW-OUT-LOOP-001",
+    "OPENC-FLOW-OUT-PREDICATE-001",
+    "OPENC-FLOW-OUT-SUCCESS-001",
+    "OPENC-FLOW-OUT-TOKEN-001",
+    "OPENC-FOR-EXECUTE-001",
+    "OPENC-FUNCTION-OUTRETURN-001",
+    "OPENC-FUNCTION-RECURSION-001",
+    "OPENC-GRAMMAR-AUTHORITY-001",
+    "OPENC-GRAMMAR-COVERAGE-001",
+    "OPENC-IF-EXECUTE-001",
+    "OPENC-LEX-MAXIMAL-001",
+    "OPENC-LEX-WORDCLASS-001",
+    "OPENC-MODULE-API-001",
+    "OPENC-MODULE-CONSTCYCLE-001",
+    "OPENC-MODULE-MAPPING-001",
+    "OPENC-MODULE-MULTISOURCE-001",
+    "OPENC-MODULE-NOREEXPORT-001",
+    "OPENC-MODULE-ORDER-001",
+    "OPENC-NUM-AUTHORITY-001",
+    "OPENC-NUM-COMPOUND-001",
+    "OPENC-NUM-FLOAT-CONST-001",
+    "OPENC-NUM-INTRINSIC-001",
+    "OPENC-NUM-LITERAL-CONTEXT-001",
+    "OPENC-NUM-WRAP-001",
+    "OPENC-OPTIONAL-ASSIGN-001",
+    "OPENC-OPTIONAL-NESTED-001",
+    "OPENC-OUT-ALIAS-001",
+    "OPENC-OUT-CALL-001",
+    "OPENC-OUT-COMMIT-001",
+    "OPENC-OUT-FORWARD-001",
+    "OPENC-OUT-MODE-001",
+    "OPENC-OUT-OWNCOMMIT-001",
+    "OPENC-OUT-OWNFAIL-001",
+    "OPENC-OUT-OWNFLOW-001",
+    "OPENC-OUT-OWNTAIL-001",
+    "OPENC-OUT-PENDINGUSE-001",
+    "OPENC-OUT-PROOF-LOST-001",
+    "OPENC-OUT-REASSIGN-001",
+    "OPENC-OUT-RESULTBIND-001",
+    "OPENC-OVERLOAD-CONVERSIONS-001",
+    "OPENC-OWN-CHECKEDGE-001",
+    "OPENC-OWN-CONSUME-ARG-001",
+    "OPENC-OWN-EXIT-001",
+    "OPENC-OWN-MODE-001",
+    "OPENC-OWN-PRODUCE-001",
+    "OPENC-OWN-PRODUCER-PLACEMENT-001",
+    "OPENC-PORTABILITY-PLAIN-001",
+    "OPENC-PTR-ADDRESSABLE-001",
+    "OPENC-PTR-BASE-001",
+    "OPENC-PTR-BINDING-MUTABLE-001",
+    "OPENC-PTR-BYTEWRITE-001",
+    "OPENC-PTR-DEREF-RANGE-001",
+    "OPENC-PTR-DERIVED-NONOWNING-001",
+    "OPENC-PTR-INVALIDATE-001",
+    "OPENC-PTR-PROVENANCE-001",
+    "OPENC-PTR-SUBTRACT-001",
+    "OPENC-RESOURCE-CONSUMER-RETURN-001",
+    "OPENC-RESOURCE-DECL-001",
+    "OPENC-RESOURCE-DISMANTLE-001",
+    "OPENC-RESOURCE-FIELD-ASSIGN-001",
+    "OPENC-RESOURCE-FIELD-CONSUME-001",
+    "OPENC-RESOURCE-FIELD-DEFAULT-001",
+    "OPENC-RESOURCE-FIELD-ONCE-001",
+    "OPENC-RESOURCE-FIELD-OWNPTR-001",
+    "OPENC-RESOURCE-FIELD-VIEW-001",
+    "OPENC-RESOURCE-INIT-001",
+    "OPENC-RESOURCE-INIT-COMMIT-001",
+    "OPENC-RESOURCE-INIT-OWNER-001",
+    "OPENC-RESOURCE-INIT-PLACEMENT-001",
+    "OPENC-RESOURCE-INIT-REQUIRED-001",
+    "OPENC-RESOURCE-INIT-RESERVE-001",
+    "OPENC-RESOURCE-INIT-ROLLBACK-001",
+    "OPENC-RESOURCE-OPAQUE-DISCHARGE-001",
+    "OPENC-RESOURCE-REINIT-001",
+    "OPENC-RESOURCE-TRAILING-001",
+    "OPENC-SAFE-GUARANTEE-001",
+    "OPENC-SAFE-WRAPPER-001",
+    "OPENC-SAFETY-IMPLIMIT-001",
+    "OPENC-SAFETY-NOUB-001",
+    "OPENC-SAFETY-OPTIMIZE-001",
+    "OPENC-SAFETY-OUTCOME-001",
+    "OPENC-SAFETY-UNSAFE-001",
+    "OPENC-SLICE-COPY-001",
+    "OPENC-SLICE-ESCAPE-001",
+    "OPENC-SOURCE-BOM-001",
+    "OPENC-STATUS-COPY-001",
+    "OPENC-STATUS-INITIALIZER-001",
+    "OPENC-STATUS-OVERWRITE-001",
+    "OPENC-STATUS-READONLY-001",
+    "OPENC-STORAGE-COMMIT-001",
+    "OPENC-STORAGE-EMPTY-001",
+    "OPENC-STRUCT-CONSTFIELD-001",
+    "OPENC-STRUCT-DEFAULT-NODEP-001",
+    "OPENC-STRUCT-EQUALITY-001",
+    "OPENC-STRUCT-INIT-COMMIT-001",
+    "OPENC-STRUCT-NORESOURCE-001",
+    "OPENC-SWITCH-CASE-001",
+    "OPENC-SWITCH-DOMAIN-001",
+    "OPENC-SWITCH-DUPLICATE-001",
+    "OPENC-SWITCH-EXECUTE-001",
+    "OPENC-TARGET-CROSS-001",
+    "OPENC-TARGET-QUERYDOMAIN-001",
+    "OPENC-TARGET-SANITIZE-001",
+    "OPENC-TARGET-SCHEMA-001",
+    "OPENC-TARGET-STORAGESIZE-001",
+    "OPENC-TERM-CHECKFAIL-001",
+    "OPENC-TEXT-COPY-001",
+    "OPENC-TEXT-EQUALITY-001",
+    "OPENC-TEXT-LENGTH-001",
+    "OPENC-TYPE-CONSTRUCTORS-001",
+    "OPENC-TYPE-RESOURCEARRAY-001",
+    "OPENC-TYPE-SUFFIX-001",
+    "OPENC-TYPE-TEXT-001",
+    "OPENC-UNSAFE-PRECONDITION-001",
+    "OPENC-WHEN-CONTEXT-001",
+    "OPENC-WHEN-EXPR-001",
+    "OPENC-WHILE-EXECUTE-001"
+  ],
+  "schema": "openc.fixture_manifest.v2"
+}

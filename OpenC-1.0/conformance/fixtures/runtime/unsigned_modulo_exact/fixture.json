@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-NUM-BYTE8-001",
+    "OPENC-NUM-UNSIGNED-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "unsigned_modulo_exact",
+    "profile": "standard",
+    "rules": [
+      "OPENC-NUM-UNSIGNED-001",
+      "OPENC-NUM-BYTE8-001"
+    ]
+  },
+  "id": "runtime/unsigned_modulo_exact",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/unsigned_modulo_exact",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/unsigned_modulo_exact/main"
+  ]
+}

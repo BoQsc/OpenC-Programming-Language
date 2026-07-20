@@ -1,0 +1,35 @@
+{
+  "$id": "openc://schema/source-span/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "byte_length": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "byte_offset": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "column": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "line": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "source": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "source",
+    "line",
+    "column",
+    "byte_offset",
+    "byte_length"
+  ],
+  "title": "OpenC source span",
+  "type": "object"
+}

@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-ARRAY-DECL-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-ARRAY-DECL-001"
+    },
+    "fixture_kind": "source",
+    "name": "c_array_decl",
+    "profile": "standard",
+    "rules": [
+      "OPENC-ARRAY-DECL-001"
+    ]
+  },
+  "id": "invalid/c_array_decl",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/c_array_decl",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/c_array_decl/main"
+  ]
+}

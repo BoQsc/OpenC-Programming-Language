@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-RESOURCE-NOCONSTOWNER-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-RESOURCE-NOCONSTOWNER-001"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "const_resource_owner",
+    "profile": "standard",
+    "rules": [
+      "OPENC-RESOURCE-NOCONSTOWNER-001"
+    ]
+  },
+  "id": "invalid/const_resource_owner",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/const_resource_owner",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/const_resource_owner/main"
+  ]
+}

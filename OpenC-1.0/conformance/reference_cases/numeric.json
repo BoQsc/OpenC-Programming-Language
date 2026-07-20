@@ -1,0 +1,68 @@
+{
+  "cases": [
+    {
+      "a": 100,
+      "b": 20,
+      "bits": 8,
+      "expected": 120,
+      "id": "i8_add_ok",
+      "op": "add",
+      "signed": true
+    },
+    {
+      "a": 127,
+      "b": 1,
+      "bits": 8,
+      "expected": "checked_failure",
+      "id": "i8_add_overflow",
+      "op": "add",
+      "signed": true
+    },
+    {
+      "a": 255,
+      "b": 1,
+      "bits": 8,
+      "expected": 0,
+      "id": "u8_wrap",
+      "op": "wrap_add",
+      "signed": false
+    },
+    {
+      "a": -7,
+      "b": 3,
+      "bits": 32,
+      "expected": -2,
+      "id": "i32_div",
+      "op": "div",
+      "signed": true
+    },
+    {
+      "a": -7,
+      "b": 3,
+      "bits": 32,
+      "expected": -1,
+      "id": "i32_rem",
+      "op": "rem",
+      "signed": true
+    },
+    {
+      "a": 1,
+      "b": 0,
+      "bits": 32,
+      "expected": "checked_failure",
+      "id": "div_zero",
+      "op": "div",
+      "signed": true
+    },
+    {
+      "a": 1,
+      "b": 8,
+      "bits": 8,
+      "expected": "checked_failure",
+      "id": "shift_bad",
+      "op": "shl",
+      "signed": false
+    }
+  ],
+  "group": "numeric"
+}

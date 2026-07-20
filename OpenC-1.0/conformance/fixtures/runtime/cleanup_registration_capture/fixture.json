@@ -1,0 +1,33 @@
+{
+  "active_rules": [
+    "OPENC-CLEANUP-CALLEE-001",
+    "OPENC-CLEANUP-REGISTER-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "cleanup": [
+        "1"
+      ],
+      "result": "accept"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "cleanup_registration_capture",
+    "profile": "standard",
+    "rules": [
+      "OPENC-CLEANUP-REGISTER-001",
+      "OPENC-CLEANUP-CALLEE-001"
+    ]
+  },
+  "id": "runtime/cleanup_registration_capture",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/cleanup_registration_capture",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/cleanup_registration_capture/main"
+  ]
+}

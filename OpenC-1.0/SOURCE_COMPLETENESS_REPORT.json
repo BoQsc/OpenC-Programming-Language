@@ -1,0 +1,12 @@
+{
+  "claim": "SOURCE_COMPLETE_BY_AUTHORED_INVENTORY",
+  "empty": [],
+  "evidence_state": "STRUCTURAL_SOURCE_CHECK_ONLY",
+  "missing": [],
+  "required_files": 140,
+  "required_non_source_files": 9,
+  "required_source_files": 131,
+  "schema": "openc.source_completeness_result.v2",
+  "source_complete_by_inventory": true,
+  "version": "1.0-dev.3-verification"
+}

@@ -1,0 +1,33 @@
+{
+  "active_rules": [
+    "OPENC-NUM-FLOAT-DIVZERO-001",
+    "OPENC-NUM-FLOAT-NONFINITE-001",
+    "OPENC-NUM-FLOAT-ORDER-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "runtime",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept",
+      "rule": "OPENC-NUM-FLOAT-NONFINITE-001"
+    },
+    "fixture_kind": "runtime",
+    "mode": "module",
+    "name": "runtime_float_nan_comparison",
+    "profile": "standard",
+    "rules": [
+      "OPENC-NUM-FLOAT-NONFINITE-001",
+      "OPENC-NUM-FLOAT-ORDER-001",
+      "OPENC-NUM-FLOAT-DIVZERO-001"
+    ]
+  },
+  "id": "runtime/runtime_float_nan_comparison",
+  "kind": "runtime",
+  "origin": "OpenC Standard Draft 0.10 validation/runtime/runtime_float_nan_comparison",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/runtime/runtime_float_nan_comparison/main"
+  ]
+}

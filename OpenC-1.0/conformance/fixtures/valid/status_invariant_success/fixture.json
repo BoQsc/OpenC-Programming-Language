@@ -1,0 +1,30 @@
+{
+  "active_rules": [
+    "OPENC-STATUS-CODE-001",
+    "OPENC-STATUS-INVARIANT-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "status_invariant_success",
+    "profile": "standard",
+    "rules": [
+      "OPENC-STATUS-INVARIANT-001",
+      "OPENC-STATUS-CODE-001"
+    ]
+  },
+  "id": "valid/status_invariant_success",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/status_invariant_success",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/status_invariant_success/main"
+  ]
+}

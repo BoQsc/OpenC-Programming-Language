@@ -1,0 +1,32 @@
+{
+  "active_rules": [
+    "OPENC-NUM-FLOAT-FORMAT-001",
+    "OPENC-NUM-FLOAT-ROUND-001",
+    "OPENC-TYPE-FLOAT-FIXED-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "float_binary_types",
+    "profile": "standard",
+    "rules": [
+      "OPENC-NUM-FLOAT-FORMAT-001",
+      "OPENC-NUM-FLOAT-ROUND-001",
+      "OPENC-TYPE-FLOAT-FIXED-001"
+    ]
+  },
+  "id": "valid/float_binary_types",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/float_binary_types",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/float_binary_types/main"
+  ]
+}

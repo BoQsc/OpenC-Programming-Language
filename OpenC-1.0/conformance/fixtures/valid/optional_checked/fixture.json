@@ -1,0 +1,29 @@
+{
+  "active_rules": [
+    "OPENC-OPTIONAL-PRESENT-001",
+    "OPENC-OPTIONAL-VALUE-001"
+  ],
+  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC 0.10 Draft",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "optional_checked",
+    "profile": "standard",
+    "rules": [
+      "OPENC-OPTIONAL-PRESENT-001",
+      "OPENC-OPTIONAL-VALUE-001"
+    ]
+  },
+  "id": "valid/optional_checked",
+  "kind": "valid",
+  "origin": "OpenC Standard Draft 0.10 validation/valid/optional_checked",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/optional_checked/main"
+  ]
+}
