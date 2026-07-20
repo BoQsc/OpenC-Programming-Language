@@ -3,8 +3,10 @@
 This directory begins the self-hosting implementation in canonical `.p`
 source. The stage-0 D compiler builds `source/main.p` into a native Windows
 executable. That executable implements the stage-0 byte-exact lexer and source
-encoding rejection in OpenC. Its versioned observation stream matches stage 0
-on every canonical `.p` source and focused lexical probes.
+encoding rejection in OpenC. It performs one lexical pass, stores tokens and
+diagnostics in OpenC-owned buffers, and attaches byte-accurate source
+positions. Its versioned observation stream matches stage 0 on every
+canonical `.p` source and focused lexical probe.
 
 This is executable self-hosting evidence, not a completed self-hosted compiler.
 It does not yet parse declarations, build semantic state or IR, emit objects,
@@ -19,4 +21,5 @@ python compiler/selfhost/bootstrap.py
 ```
 
 That command builds stage 1, makes it lex its own source, and executes the
-299-case SH-2A parity gate.
+300-case SH-2A/SH-2B parity gate. The next milestone is SH-2C: parser syntax
+types, declarations, types, expressions, statements, and recovery.

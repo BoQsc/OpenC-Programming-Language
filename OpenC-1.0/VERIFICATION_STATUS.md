@@ -1,4 +1,4 @@
-# OpenC 1.0.0-rc.3 verification status
+# OpenC 1.0.0-rc.4 verification status
 
 Date: 2026-07-21
 Host: Windows 10.0.19045, x86-64
@@ -31,10 +31,11 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
   migrated fixture corpus retains 268/268 passes and zero infrastructure
   failures.
 - The compiler-in-OpenC frontend builds through stage 0 and passes SH-2A exact
-  lexer parity: 284 canonical `.p` sources plus 15 focused probes, 299/299.
-  Outcomes, token kinds and byte spans, diagnostic rules and byte spans,
-  source-encoding rejection, and totals match exactly; all 12 source/lexical
-  diagnostic rules are observed.
+  lexer parity plus SH-2B owned single-pass lexer state: 284 canonical `.p`
+  sources plus 16 focused probes, 300/300. Outcomes, token kinds, byte spans,
+  line/byte-column positions, diagnostic rules, source-encoding rejection,
+  and totals match exactly; all 12 source/lexical diagnostic rules are
+  observed.
 - Structure, source-completeness, manifest, and archive verification pass.
 
 Fixture execution now distinguishes normative rules from implementation
@@ -72,6 +73,6 @@ HD-012 is ratified, the declared platform gate passes, and independent external
 review is a recommended post-release assurance activity rather than an initial
 owner-certified release prerequisite. The candidate is `RELEASE_READY` for its
 declared Windows x86-64 Hosted scope. It remains unpublished and therefore is
-not `RELEASED`. SH-2A is an executed self-hosting milestone; it does not claim
-that full SH-2 or the pending SH-3 through SH-6 compiler and standalone-backend
-gates pass.
+not `RELEASED`. SH-2A and SH-2B are executed self-hosting milestones; SH-2C
+parser work is next. They do not claim that full SH-2 or the pending SH-3
+through SH-6 compiler and standalone-backend gates pass.

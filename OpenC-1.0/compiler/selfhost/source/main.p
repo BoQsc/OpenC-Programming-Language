@@ -1,17 +1,72 @@
 import system.file;
 import system.io;
+import system.memory;
 import system.process;
 import system.text;
 
-struct LexResult {
-    usize tokens;
-    usize errors;
-}
-
 struct LexerState {
     usize cursor;
-    usize tokens;
-    usize errors;
+}
+
+struct PackedBuffer {
+    usize length;
+    usize capacity;
+}
+
+struct SourcePosition {
+    usize line;
+    usize column;
+}
+
+usize record_stride() {
+    return size_of(usize) * cast(usize, 5);
+}
+
+unsafe void write_usize(ptr byte data, usize offset, usize value) {
+    usize index = 0;
+    while index < size_of(usize) {
+        *(data + offset + index) = cast(byte, value % 256);
+        value = value / 256;
+        index = index + 1;
+    }
+}
+
+unsafe usize read_usize(ptr byte data, usize offset) {
+    usize result = 0;
+    usize multiplier = 1;
+    usize index = 0;
+    while index < size_of(usize) {
+        result = result + cast(usize, *(data + offset + index)) * multiplier;
+        index = index + 1;
+        if index < size_of(usize) {
+            multiplier = multiplier * 256;
+        }
+    }
+    return result;
+}
+
+unsafe void write_record_field(
+    ptr byte data,
+    usize record,
+    usize field,
+    usize value
+) {
+    write_usize(
+        data,
+        record * record_stride() + field * size_of(usize),
+        value
+    );
+}
+
+unsafe usize read_record_field(
+    ptr byte data,
+    usize record,
+    usize field
+) {
+    return read_usize(
+        data,
+        record * record_stride() + field * size_of(usize)
+    );
 }
 
 u8 byte_at_or_zero(text source, usize index) {
@@ -149,41 +204,155 @@ bool is_keyword(text source, usize start, usize length) {
     return false;
 }
 
-void emit_token(bool enabled, i32 kind, usize start, usize length) {
-    if !enabled {
-        return;
-    }
-    io.print("TOKEN ");
-    io.print(kind);
-    io.print(" ");
-    io.print(start);
-    io.print(" ");
-    io.println(length);
-}
-
-void report_error(
-    bool enabled,
-    text rule,
+unsafe void record_token(
+    ptr byte data,
+    ref PackedBuffer tokens,
+    i32 kind,
     usize start,
-    usize length,
-    ref LexerState state
+    usize length
 ) {
-    state.errors = state.errors + 1;
-    if !enabled {
-        return;
-    }
-    io.print("ERROR ");
-    io.print(rule);
-    io.print(" ");
-    io.print(start);
-    io.print(" ");
-    io.println(length);
+    usize record = tokens.length;
+    write_record_field(data, record, 0, cast(usize, kind));
+    write_record_field(data, record, 1, start);
+    write_record_field(data, record, 2, length);
+    write_record_field(data, record, 3, 0);
+    write_record_field(data, record, 4, 0);
+    tokens.length = tokens.length + 1;
 }
 
-void skip_ignored(
+unsafe void report_error(
+    ptr byte data,
+    ref PackedBuffer diagnostics,
+    usize rule,
+    usize start,
+    usize length
+) {
+    usize record = diagnostics.length;
+    write_record_field(data, record, 0, rule);
+    write_record_field(data, record, 1, start);
+    write_record_field(data, record, 2, length);
+    write_record_field(data, record, 3, 0);
+    write_record_field(data, record, 4, 0);
+    diagnostics.length = diagnostics.length + 1;
+}
+
+text diagnostic_rule(usize code) {
+    if code == 1 { return "OPENC-LEX-COMMENT-001"; }
+    if code == 2 { return "OPENC-LEX-NUMBER-SEPARATOR-001"; }
+    if code == 3 { return "OPENC-LEX-NUMBER-001"; }
+    if code == 4 { return "OPENC-LEX-NUMBER-SUFFIX-001"; }
+    if code == 5 { return "OPENC-LEX-TEXT-LINE-001"; }
+    if code == 6 { return "OPENC-LEX-TEXT-ESCAPE-001"; }
+    if code == 7 { return "OPENC-LEX-TEXT-UNICODE-001"; }
+    if code == 8 { return "OPENC-LITERAL-UNICODE-001"; }
+    if code == 9 { return "OPENC-LEX-TEXT-001"; }
+    if code == 10 { return "OPENC-SYNTAX-OPTIONAL-001"; }
+    return "OPENC-LEX-TOKEN-001";
+}
+
+SourcePosition position_at(text source, usize target) {
+    usize source_length = text.byte_length(source);
+    usize cursor = 0;
+    usize line = 1;
+    usize line_start = 0;
+    while cursor < target {
+        u8 current = byte_at_or_zero(source, cursor);
+        if current == 10 {
+            line = line + 1;
+            line_start = cursor + 1;
+        } else if current == 13 &&
+            (cursor + 1 >= source_length ||
+             byte_at_or_zero(source, cursor + 1) != 10) {
+            line = line + 1;
+            line_start = cursor + 1;
+        }
+        cursor = cursor + 1;
+    }
+    return SourcePosition{
+        line = line,
+        column = target - line_start + 1
+    };
+}
+
+unsafe void assign_token_positions(
+    text source,
+    ptr byte data,
+    ref PackedBuffer tokens
+) {
+    usize source_length = text.byte_length(source);
+    usize cursor = 0;
+    usize line = 1;
+    usize line_start = 0;
+    usize record = 0;
+    while record < tokens.length {
+        usize target = read_record_field(data, record, 1);
+        while cursor < target {
+            u8 current = byte_at_or_zero(source, cursor);
+            if current == 10 {
+                line = line + 1;
+                line_start = cursor + 1;
+            } else if current == 13 &&
+                (cursor + 1 >= source_length ||
+                 byte_at_or_zero(source, cursor + 1) != 10) {
+                line = line + 1;
+                line_start = cursor + 1;
+            }
+            cursor = cursor + 1;
+        }
+        write_record_field(data, record, 3, line);
+        write_record_field(data, record, 4, target - line_start + 1);
+        record = record + 1;
+    }
+}
+
+unsafe void assign_diagnostic_positions(
+    text source,
+    ptr byte data,
+    ref PackedBuffer diagnostics
+) {
+    usize record = 0;
+    while record < diagnostics.length {
+        SourcePosition position = position_at(
+            source,
+            read_record_field(data, record, 1)
+        );
+        write_record_field(data, record, 3, position.line);
+        write_record_field(data, record, 4, position.column);
+        record = record + 1;
+    }
+}
+
+unsafe void emit_observation_records(
+    ptr byte data,
+    ref PackedBuffer records,
+    bool diagnostics
+) {
+    usize record = 0;
+    while record < records.length {
+        if diagnostics {
+            io.print("ERROR ");
+            io.print(diagnostic_rule(read_record_field(data, record, 0)));
+        } else {
+            io.print("TOKEN ");
+            io.print(cast(i32, read_record_field(data, record, 0)));
+        }
+        io.print(" ");
+        io.print(read_record_field(data, record, 1));
+        io.print(" ");
+        io.print(read_record_field(data, record, 2));
+        io.print(" ");
+        io.print(read_record_field(data, record, 3));
+        io.print(" ");
+        io.println(read_record_field(data, record, 4));
+        record = record + 1;
+    }
+}
+
+unsafe void skip_ignored(
     text source,
     usize source_length,
-    bool emit_errors,
+    ptr byte diagnostic_data,
+    ref PackedBuffer diagnostics,
     ref LexerState state
 ) {
     while state.cursor < source_length {
@@ -216,11 +385,11 @@ void skip_ignored(
             }
             if !closed {
                 report_error(
-                    emit_errors,
-                    "OPENC-LEX-COMMENT-001",
+                    diagnostic_data,
+                    diagnostics,
+                    1,
                     start,
-                    state.cursor - start,
-                    state
+                    state.cursor - start
                 );
             }
             continue;
@@ -229,13 +398,14 @@ void skip_ignored(
     }
 }
 
-void lex_digits(
+unsafe void lex_digits(
     text source,
     usize source_length,
     usize literal_start,
     bool hexadecimal,
     bool binary,
-    bool emit_errors,
+    ptr byte diagnostic_data,
+    ref PackedBuffer diagnostics,
     ref LexerState state
 ) {
     bool saw_digit = false;
@@ -257,11 +427,11 @@ void lex_digits(
         } else if current == 95 {
             if !saw_digit || last_separator {
                 report_error(
-                    emit_errors,
-                    "OPENC-LEX-NUMBER-SEPARATOR-001",
+                    diagnostic_data,
+                    diagnostics,
+                    2,
                     state.cursor,
-                    1,
-                    state
+                    1
                 );
             }
             last_separator = true;
@@ -272,21 +442,23 @@ void lex_digits(
     }
     if !saw_digit || last_separator {
         report_error(
-            emit_errors,
-            "OPENC-LEX-NUMBER-001",
+            diagnostic_data,
+            diagnostics,
+            3,
             literal_start,
-            state.cursor - literal_start,
-            state
+            state.cursor - literal_start
         );
     }
 }
 
-void lex_number(
+unsafe void lex_number(
     text source,
     usize source_length,
     usize start,
-    bool emit_tokens,
-    bool emit_errors,
+    ptr byte token_data,
+    ref PackedBuffer tokens,
+    ptr byte diagnostic_data,
+    ref PackedBuffer diagnostics,
     ref LexerState state
 ) {
     bool floating = false;
@@ -296,7 +468,7 @@ void lex_number(
         state.cursor = state.cursor + 2;
         lex_digits(
             source, source_length, start, true, false,
-            emit_errors, state
+            diagnostic_data, diagnostics, state
         );
     } else if byte_at_or_zero(source, state.cursor) == 48 &&
         (peek_byte(source, state.cursor, 1) == 98 ||
@@ -304,12 +476,12 @@ void lex_number(
         state.cursor = state.cursor + 2;
         lex_digits(
             source, source_length, start, false, true,
-            emit_errors, state
+            diagnostic_data, diagnostics, state
         );
     } else {
         lex_digits(
             source, source_length, start, false, false,
-            emit_errors, state
+            diagnostic_data, diagnostics, state
         );
         if state.cursor < source_length &&
             byte_at_or_zero(source, state.cursor) == 46 &&
@@ -318,7 +490,7 @@ void lex_number(
             state.cursor = state.cursor + 1;
             lex_digits(
                 source, source_length, start, false, false,
-                emit_errors, state
+                diagnostic_data, diagnostics, state
             );
         }
         if state.cursor < source_length &&
@@ -333,7 +505,7 @@ void lex_number(
             }
             lex_digits(
                 source, source_length, start, false, false,
-                emit_errors, state
+                diagnostic_data, diagnostics, state
             );
         }
     }
@@ -346,18 +518,18 @@ void lex_number(
             state.cursor = state.cursor + 1;
         }
         report_error(
-            emit_errors,
-            "OPENC-LEX-NUMBER-SUFFIX-001",
+            diagnostic_data,
+            diagnostics,
+            4,
             suffix_start,
-            state.cursor - suffix_start,
-            state
+            state.cursor - suffix_start
         );
     }
 
     if floating {
-        emit_token(emit_tokens, 3, start, state.cursor - start);
+        record_token(token_data, tokens, 3, start, state.cursor - start);
     } else {
-        emit_token(emit_tokens, 2, start, state.cursor - start);
+        record_token(token_data, tokens, 2, start, state.cursor - start);
     }
 }
 
@@ -366,12 +538,14 @@ bool is_standard_escape(u8 value) {
         value == 114 || value == 116 || value == 48;
 }
 
-void lex_text(
+unsafe void lex_text(
     text source,
     usize source_length,
     usize start,
-    bool emit_tokens,
-    bool emit_errors,
+    ptr byte token_data,
+    ref PackedBuffer tokens,
+    ptr byte diagnostic_data,
+    ref PackedBuffer diagnostics,
     ref LexerState state
 ) {
     state.cursor = state.cursor + 1;
@@ -385,11 +559,11 @@ void lex_text(
         }
         if current == 10 || current == 13 {
             report_error(
-                emit_errors,
-                "OPENC-LEX-TEXT-LINE-001",
+                diagnostic_data,
+                diagnostics,
+                5,
                 start,
-                state.cursor - start,
-                state
+                state.cursor - start
             );
             break;
         }
@@ -405,11 +579,11 @@ void lex_text(
                 if state.cursor >= source_length ||
                     byte_at_or_zero(source, state.cursor) != 123 {
                     report_error(
-                        emit_errors,
-                        "OPENC-LEX-TEXT-ESCAPE-001",
+                        diagnostic_data,
+                        diagnostics,
+                        6,
                         escape_start,
-                        state.cursor - escape_start,
-                        state
+                        state.cursor - escape_start
                     );
                 } else {
                     state.cursor = state.cursor + 1;
@@ -427,21 +601,21 @@ void lex_text(
                         state.cursor >= source_length ||
                         byte_at_or_zero(source, state.cursor) != 125 {
                         report_error(
-                            emit_errors,
-                            "OPENC-LEX-TEXT-UNICODE-001",
+                            diagnostic_data,
+                            diagnostics,
+                            7,
                             escape_start,
-                            state.cursor - escape_start,
-                            state
+                            state.cursor - escape_start
                         );
                     } else {
                         if (scalar >= 55296 && scalar <= 57343) ||
                             scalar > 1114111 {
                             report_error(
-                                emit_errors,
-                                "OPENC-LITERAL-UNICODE-001",
+                                diagnostic_data,
+                                diagnostics,
+                                8,
                                 escape_start,
-                                state.cursor - escape_start + 1,
-                                state
+                                state.cursor - escape_start + 1
                             );
                         }
                         state.cursor = state.cursor + 1;
@@ -450,11 +624,11 @@ void lex_text(
             } else {
                 if !is_standard_escape(escape) {
                     report_error(
-                        emit_errors,
-                        "OPENC-LEX-TEXT-ESCAPE-001",
+                        diagnostic_data,
+                        diagnostics,
+                        6,
                         escape_start,
-                        2,
-                        state
+                        2
                     );
                 }
                 state.cursor = state.cursor + 1;
@@ -465,14 +639,14 @@ void lex_text(
     }
     if !closed {
         report_error(
-            emit_errors,
-            "OPENC-LEX-TEXT-001",
+            diagnostic_data,
+            diagnostics,
+            9,
             start,
-            state.cursor - start,
-            state
+            state.cursor - start
         );
     }
-    emit_token(emit_tokens, 4, start, state.cursor - start);
+    record_token(token_data, tokens, 4, start, state.cursor - start);
 }
 
 bool is_single_symbol(u8 value) {
@@ -509,17 +683,19 @@ usize symbol_length(text source, usize start) {
     return 0;
 }
 
-void lex_symbol(
+unsafe void lex_symbol(
     text source,
     usize start,
-    bool emit_tokens,
-    bool emit_errors,
+    ptr byte token_data,
+    ref PackedBuffer tokens,
+    ptr byte diagnostic_data,
+    ref PackedBuffer diagnostics,
     ref LexerState state
 ) {
     usize length = symbol_length(source, start);
     if length != 0 {
         state.cursor = state.cursor + length;
-        emit_token(emit_tokens, 6, start, length);
+        record_token(token_data, tokens, 6, start, length);
         return;
     }
     u8 current = byte_at_or_zero(source, state.cursor);
@@ -527,36 +703,41 @@ void lex_symbol(
     if !is_single_symbol(current) {
         if current == 63 {
             report_error(
-                emit_errors,
-                "OPENC-SYNTAX-OPTIONAL-001",
+                diagnostic_data,
+                diagnostics,
+                10,
                 start,
-                1,
-                state
+                1
             );
         } else {
             report_error(
-                emit_errors,
-                "OPENC-LEX-TOKEN-001",
+                diagnostic_data,
+                diagnostics,
+                11,
                 start,
-                1,
-                state
+                1
             );
         }
     }
-    emit_token(emit_tokens, 6, start, 1);
+    record_token(token_data, tokens, 6, start, 1);
 }
 
-LexResult lex_source(text source, bool emit_tokens, bool emit_errors) {
+unsafe void lex_source(
+    text source,
+    ptr byte token_data,
+    ref PackedBuffer tokens,
+    ptr byte diagnostic_data,
+    ref PackedBuffer diagnostics
+) {
     LexerState state = LexerState{
-        cursor = 0,
-        tokens = 0,
-        errors = 0
+        cursor = 0
     };
     usize source_length = text.byte_length(source);
 
     while state.cursor < source_length {
         skip_ignored(
-            source, source_length, emit_errors, state
+            source, source_length,
+            diagnostic_data, diagnostics, state
         );
         if state.cursor >= source_length {
             break;
@@ -574,35 +755,34 @@ LexResult lex_source(text source, bool emit_tokens, bool emit_errors) {
             if is_keyword(source, start, state.cursor - start) {
                 kind = 5;
             }
-            emit_token(emit_tokens, kind, start, state.cursor - start);
+            record_token(
+                token_data, tokens, kind, start, state.cursor - start
+            );
         } else if is_digit(current) {
             lex_number(
                 source, source_length, start,
-                emit_tokens, emit_errors, state
+                token_data, tokens,
+                diagnostic_data, diagnostics, state
             );
         } else if current == 34 {
             lex_text(
                 source, source_length, start,
-                emit_tokens, emit_errors, state
+                token_data, tokens,
+                diagnostic_data, diagnostics, state
             );
         } else {
             lex_symbol(
                 source, start,
-                emit_tokens, emit_errors, state
+                token_data, tokens,
+                diagnostic_data, diagnostics, state
             );
         }
-        state.tokens = state.tokens + 1;
     }
 
-    emit_token(emit_tokens, 0, state.cursor, 0);
-    state.tokens = state.tokens + 1;
-    return LexResult{
-        tokens = state.tokens,
-        errors = state.errors
-    };
+    record_token(token_data, tokens, 0, state.cursor, 0);
 }
 
-i32 main() {
+unsafe i32 main() {
     if process.argument_count() != 1 {
         io.error("usage: openc-selfhost-lexer SOURCE.p\n");
         return 64;
@@ -612,21 +792,45 @@ i32 main() {
     text source;
     status loaded = file.read_text(path, out source);
     if !loaded.ok {
-        io.println("OPENC-LEX-OBSERVATION 1");
-        io.println("SOURCE_ERROR OPENC-SOURCE-INVALID-001 0 0");
+        io.println("OPENC-LEX-OBSERVATION 2");
+        io.println("SOURCE_ERROR OPENC-SOURCE-INVALID-001 0 0 1 1");
         io.println("SUMMARY 0 1");
         return 1;
     }
 
-    io.println("OPENC-LEX-OBSERVATION 1");
-    LexResult tokens = lex_source(source, true, false);
-    LexResult errors = lex_source(source, false, true);
-    io.print("SUMMARY ");
-    io.print(tokens.tokens);
-    io.print(" ");
-    io.println(errors.errors);
+    usize source_length = text.byte_length(source);
+    PackedBuffer tokens = PackedBuffer{
+        length = 0,
+        capacity = source_length + 1
+    };
+    PackedBuffer diagnostics = PackedBuffer{
+        length = 0,
+        capacity = source_length * 2 + 2
+    };
+    ptr byte token_data = memory.alloc(tokens.capacity * record_stride());
+    scope memory.free(token_data);
+    ptr byte diagnostic_data = memory.alloc(
+        diagnostics.capacity * record_stride()
+    );
+    scope memory.free(diagnostic_data);
 
-    if errors.errors != 0 {
+    lex_source(
+        source,
+        token_data, tokens,
+        diagnostic_data, diagnostics
+    );
+    assign_token_positions(source, token_data, tokens);
+    assign_diagnostic_positions(source, diagnostic_data, diagnostics);
+
+    io.println("OPENC-LEX-OBSERVATION 2");
+    emit_observation_records(token_data, tokens, false);
+    emit_observation_records(diagnostic_data, diagnostics, true);
+    io.print("SUMMARY ");
+    io.print(tokens.length);
+    io.print(" ");
+    io.println(diagnostics.length);
+
+    if diagnostics.length != 0 {
         return 1;
     }
     return 0;

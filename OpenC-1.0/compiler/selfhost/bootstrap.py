@@ -39,7 +39,7 @@ def main() -> int:
         f"--build_record={output / 'stage1-build-record.json'}",
     ])
     executed = run([str(stage1), str(source)])
-    if not executed.stdout.startswith("OPENC-LEX-OBSERVATION 1\n"):
+    if not executed.stdout.startswith("OPENC-LEX-OBSERVATION 2\n"):
         raise SystemExit("stage-1 lexer did not emit its versioned observation protocol")
     run([
         sys.executable,
@@ -52,7 +52,7 @@ def main() -> int:
 
     record = {
         "schema": "openc.self_host_stage_result.v1",
-        "stage": "SH-2A_LEXER_PARITY",
+        "stage": "SH-2B_OWNED_LEXER_STATE",
         "status": "PASS",
         "stage0": str(stage0),
         "source": "compiler/selfhost/source/main.p",
@@ -64,6 +64,10 @@ def main() -> int:
             "stage0_builds_stage1": True,
             "stage1_lexes_own_source": True,
             "stage1_exact_lexer_parity": True,
+            "stage1_single_lexical_pass": True,
+            "stage1_owned_token_storage": True,
+            "stage1_owned_diagnostic_storage": True,
+            "stage1_byte_accurate_source_positions": True,
             "canonical_sources_compared": parity["canonical_sources"],
             "focused_lexer_probes": parity["focused_probes"],
             "stage1_compiles_openc": False,
@@ -75,7 +79,7 @@ def main() -> int:
         json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     print(
-        "self-host lexer: PASS; "
+        "self-host owned lexer state: PASS; "
         f"canonical={parity['canonical_sources']} probes={parity['focused_probes']} "
         f"artifact={stage1}"
     )

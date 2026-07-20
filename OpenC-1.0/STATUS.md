@@ -1,7 +1,7 @@
 # OpenC canonical mainline status
 
 ```text
-version:                            1.0.0-rc.3
+version:                            1.0.0-rc.4
 canonical development tree:         YES
 release scope:                      WINDOWS X86-64 HOSTED
 
@@ -12,7 +12,8 @@ Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 canonical D compiler source:         SOURCE-COMPLETE; BUILT AND TESTED
 informative Python bootstrap source: SOURCE-COMPLETE; TESTED
 official OpenC source extension:      .p; 281 MIGRATED, 284 TOTAL `.p` SOURCES
-compiler-in-OpenC lexer:              SH-2A PASS; 299/299 EXACT PARITY
+compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 300/300 EXACT PARITY
+self-hosting next milestone:           SH-2C PARSER IN OPENC
 self-hosted compiler:                 NO; FULL SH-2 THROUGH SH-4 PENDING
 DMD-independent standalone compiler: NO; SH-5 THROUGH SH-6 PENDING
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED

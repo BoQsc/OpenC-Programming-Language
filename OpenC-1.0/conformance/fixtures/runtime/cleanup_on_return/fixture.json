@@ -3,7 +3,7 @@
     "OPENC-CLEANUP-RETURN-001",
     "OPENC-CLEANUP-STRUCTURED-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC3",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC4",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",

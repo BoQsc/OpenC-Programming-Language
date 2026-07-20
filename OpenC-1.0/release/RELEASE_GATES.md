@@ -31,7 +31,8 @@ The normative rules remain binding regardless of dedicated-fixture presence.
 Likewise, the parser and grammar validators pass even though dedicated
 positive/rejection pairs are not complete for every one of the 174 productions.
 
-The `.p` source-convention gate, executable SH-1 compiler-in-OpenC seed, and
-SH-2A exact lexer-parity subgate pass. Full SH-2 through SH-6 track the future
+The `.p` source-convention gate, executable SH-1 compiler-in-OpenC seed, SH-2A
+exact lexer-parity subgate, and SH-2B owned single-pass lexer-state subgate
+pass. SH-2C parser work is next. Full SH-2 through SH-6 track the future
 self-hosted, DMD-independent compiler and do not alter the stated D-bootstrap
 1.0 release boundary.

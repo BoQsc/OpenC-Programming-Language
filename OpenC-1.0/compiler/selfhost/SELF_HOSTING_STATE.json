@@ -26,9 +26,22 @@
       "command": "python compiler/selfhost/bootstrap.py",
       "evidence": "build-output/selfhost/lexer-parity-result.json",
       "canonical_sources": 284,
-      "focused_probes": 15,
-      "comparisons": 299,
+      "focused_probes": 16,
+      "comparisons": 300,
       "diagnostic_rules": 12
+    },
+    {
+      "id": "SH-2B",
+      "name": "owned_single_pass_lexer_state",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap.py",
+      "evidence": "build-output/selfhost/lexer-parity-result.json",
+      "protocol": "OPENC-LEX-OBSERVATION 2",
+      "single_lexical_pass": true,
+      "owned_token_storage": true,
+      "owned_diagnostic_storage": true,
+      "byte_accurate_source_positions": true,
+      "comparisons": 300
     },
     {
       "id": "SH-2",
@@ -60,6 +73,8 @@
     "compiler_in_openc_source_exists": true,
     "stage1_seed_executed": true,
     "stage1_exact_lexer_parity": true,
+    "stage1_owned_single_pass_lexer_state": true,
+    "stage1_byte_accurate_source_positions": true,
     "full_frontend_parity": false,
     "self_hosted": false,
     "dmd_independent": false,

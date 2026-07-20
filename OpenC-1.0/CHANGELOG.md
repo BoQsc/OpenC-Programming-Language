@@ -1,5 +1,20 @@
 # OpenC development changelog
 
+## 1.0.0-rc.4 — owned single-pass compiler-in-OpenC lexer state
+
+- replaced the stage-1 lexer's two observation passes with one lexical pass
+  and separate OpenC-owned token and diagnostic buffers;
+- added ownership-checked scoped cleanup for both buffers and packed record
+  access that does not fabricate typed lifetimes over raw allocation storage;
+- attached one-based source line and byte-column positions to every stored
+  token and diagnostic;
+- upgraded the lexical observation protocol so stage 0 and stage 1 compare
+  positions as well as outcomes, kinds, rules, byte spans, and totals;
+- expanded focused coverage with CRLF and lone-CR positioning and passed all
+  284 canonical `.p` sources plus 16 probes (300/300);
+- promoted SH-2B and made SH-2C parser implementation the explicit next
+  self-hosting milestone.
+
 ## 1.0.0-rc.3 — exact compiler-in-OpenC lexer parity
 
 - replaced the structural self-host scanner with the complete stage-0 lexer in

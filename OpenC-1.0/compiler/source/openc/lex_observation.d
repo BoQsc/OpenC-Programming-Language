@@ -12,8 +12,8 @@ int observeLexing(string path) {
     auto loaded = sources.load(path, path);
     if (!loaded.ok) {
         if (loaded.error.startsWith("source file is not valid UTF-8:")) {
-            stdout.writeln("OPENC-LEX-OBSERVATION 1");
-            stdout.writeln("SOURCE_ERROR OPENC-SOURCE-INVALID-001 0 0");
+            stdout.writeln("OPENC-LEX-OBSERVATION 2");
+            stdout.writeln("SOURCE_ERROR OPENC-SOURCE-INVALID-001 0 0 1 1");
             stdout.writeln("SUMMARY 0 1");
             return 1;
         }
@@ -25,12 +25,22 @@ int observeLexing(string path) {
     auto diagnostics = new DiagnosticEngine();
     auto tokens = new Lexer(source, diagnostics).lex();
 
-    stdout.writeln("OPENC-LEX-OBSERVATION 1");
+    stdout.writeln("OPENC-LEX-OBSERVATION 2");
     foreach (token; tokens) {
-        stdout.writeln("TOKEN ", kindCode(token.kind), " ", token.span.start, " ", token.span.length);
+        const position = source.position(token.span.start);
+        stdout.writeln(
+            "TOKEN ", kindCode(token.kind), " ",
+            token.span.start, " ", token.span.length, " ",
+            position.line, " ", position.column,
+        );
     }
     foreach (diagnostic; diagnostics.all()) {
-        stdout.writeln("ERROR ", diagnostic.rule, " ", diagnostic.span.start, " ", diagnostic.span.length);
+        const position = source.position(diagnostic.span.start);
+        stdout.writeln(
+            "ERROR ", diagnostic.rule, " ",
+            diagnostic.span.start, " ", diagnostic.span.length, " ",
+            position.line, " ", position.column,
+        );
     }
     stdout.writeln("SUMMARY ", tokens.length, " ", diagnostics.errors());
     return diagnostics.hasErrors() ? 1 : 0;

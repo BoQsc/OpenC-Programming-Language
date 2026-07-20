@@ -1,6 +1,6 @@
 {
   "schema": "openc.release_record.v2",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "component": "Core_and_Hosted_reference_distribution",
   "release_scope": "windows_x86_64_hosted",
   "authority": ["OpenC project owner"],

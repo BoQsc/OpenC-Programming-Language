@@ -26,6 +26,7 @@ PROBES = {
         "; , . ( ) { } [ ] : + - * / % & | ^ ! ~ = < >\n"
     ),
     "valid_unicode_payloads.p": '// π 😀\ntext value = "π 😀";\n',
+    "position_line_endings.p": "i32 a;\r\ni32 b;\ri32 c;\n",
     "unterminated_comment.p": "/*",
     "numeric_suffix.p": "123u32",
     "numeric_separator_repeat.p": "1__2",
@@ -155,10 +156,10 @@ def main() -> int:
         })
 
     result = {
-        "schema": "openc.self_host_lexer_parity.v1",
-        "stage": "SH-2A_LEXER_PARITY",
+        "schema": "openc.self_host_lexer_parity.v2",
+        "stage": "SH-2B_OWNED_LEXER_STATE",
         "status": "PASS" if not failures else "FAIL",
-        "protocol": "OPENC-LEX-OBSERVATION 1",
+        "protocol": "OPENC-LEX-OBSERVATION 2",
         "stage0": str(stage0),
         "stage1": str(stage1),
         "canonical_sources": len(canonical),
@@ -174,9 +175,13 @@ def main() -> int:
             "token_kind",
             "token_byte_offset",
             "token_byte_length",
+            "token_line",
+            "token_byte_column",
             "diagnostic_rule",
             "diagnostic_byte_offset",
             "diagnostic_byte_length",
+            "diagnostic_line",
+            "diagnostic_byte_column",
             "source_encoding_rule",
             "token_count",
             "error_count",

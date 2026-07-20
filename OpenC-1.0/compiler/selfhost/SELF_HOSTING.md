@@ -36,18 +36,31 @@ This is not a self-hosting claim: the seed does not yet compile source.
   text literals, comments, symbols, UTF-8 source rejection, and all lexical
   diagnostics.
 - Stage 0 and stage 1 match process outcome, token kind and byte span,
-  diagnostic rule and byte span, and token/error totals.
-- The parity harness covers all 284 canonical `.p` sources plus 15 focused
-  probes: 299 of 299 comparisons pass and all 12 source/lexical diagnostic
-  rules are observed.
+  diagnostic rule and byte span, source line and byte column, and token/error
+  totals.
+- The parity harness covers all 284 canonical `.p` sources plus 16 focused
+  probes: 300 of 300 comparisons pass and all 12 source/lexical diagnostic
+  rules are observed. The focused set includes CRLF and lone-CR positions.
 - Evidence is produced by `python compiler/selfhost/bootstrap.py` and recorded
   in `build-output/selfhost/lexer-parity-result.json`.
 
 Status: **PASS**
 
+### SH-2B — owned single-pass lexer state
+
+- Stage 1 performs one lexical pass and stores tokens and diagnostics in
+  separate OpenC-owned packed buffers.
+- Both allocations are released by ownership-checked scoped cleanup.
+- Every stored token and diagnostic carries a byte offset, byte length,
+  one-based line, and one-based byte column.
+- Observation protocol 2 compares all stored fields against stage 0 across
+  the complete 300-case SH-2A corpus.
+
+Status: **PASS**
+
 ### SH-2 — full frontend parity
 
-- Retain SH-2A lexer parity while porting source management, parser, diagnostic
+- Retain SH-2A/SH-2B lexer parity while porting parser, diagnostic
   rendering/collections, module composition, and project loading to `.p`.
 - Run every accepted/rejected frontend fixture through both implementations.
 - Require matching acceptance and exact diagnostic rule IDs.
@@ -93,10 +106,11 @@ Status: **PENDING**
 
 ## Required enabling libraries
 
-The compiler-in-OpenC implementation next needs purpose-built owned vectors,
-byte and text builders, stable string tables/maps, JSON parsing and writing,
-diagnostic collections, deterministic sorting, project-file access, and
-eventually process invocation and Windows object/link support. These may be
+The compiler-in-OpenC implementation next needs parser-facing token and syntax
+types, declaration/type/expression/statement parsing, recovery, and structured
+diagnostic collections. Later stages need byte and text builders, stable string
+tables/maps, JSON parsing and writing, deterministic sorting, project-file
+access, process invocation, and Windows object/link support. These may be
 specialized compiler libraries; generics are not required to begin.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
