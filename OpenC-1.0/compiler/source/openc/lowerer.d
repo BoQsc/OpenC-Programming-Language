@@ -31,13 +31,18 @@ public:
             foreach (_, importName; logical.shortImports) moduleValue.imports ~= importName;
             foreach (unit; logical.units) {
                 foreach (node; unit.root.children) {
-                    if (node.kind == NodeKind.functionDecl) moduleValue.functions ~= lowerFunction(node);
+                    if (node.kind == NodeKind.functionDecl) {
+                        auto functionValue = lowerFunction(node);
+                        moduleValue.functions ~= functionValue;
+                        if (functionValue.name == logical.name ~ ".main") {
+                            program.entryModule = logical.name;
+                            program.entryFunction = "main";
+                        }
+                    }
                 }
             }
             program.modules ~= moduleValue;
         }
-        program.entryModule = "app.main";
-        program.entryFunction = "main";
         return program;
     }
 
@@ -210,6 +215,13 @@ private:
                 if (symbol !is null && *symbol in locals) return emit(IrOpcode.load, model.typeOf(node), node.span, "", [IrOperand(locals[*symbol], "")]);
                 return emit(IrOpcode.nop, model.typeOf(node), node.span, node.text);
             case NodeKind.unaryExpr:
+                if (node.text == "-" && node.children[0].kind == NodeKind.integerLiteral) {
+                    return emit(
+                        IrOpcode.constantInteger,
+                        model.typeOf(node),
+                        node.span,
+                        "-" ~ node.children[0].text);
+                }
                 auto operand = lowerExpression(node.children[0]);
                 auto opcode = node.text == "&" ? IrOpcode.addressOf : IrOpcode.unary;
                 return emit(opcode, model.typeOf(node), node.span, node.text, [IrOperand(operand, "")]);

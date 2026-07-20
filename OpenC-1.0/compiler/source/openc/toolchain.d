@@ -9,7 +9,7 @@ import std.array : array;
 import std.datetime.systime : Clock;
 import std.file : dirEntries, exists, isFile, mkdirRecurse, SpanMode, write;
 import std.json : JSONValue;
-import std.path : absolutePath, baseName, buildPath;
+import std.path : absolutePath, baseName, buildPath, dirName;
 import std.process : environment, escapeShellCommand, execute, executeShell;
 import std.string : join, splitLines, strip;
 
@@ -57,7 +57,7 @@ final class DToolchain {
         sources = unique(sources);
 
         auto outputDirectory = outputPath.length ? outputPath : buildPath(project.outputDirectory, defaultExecutableName(project));
-        try mkdirRecurse(buildPath(outputDirectory, ".."));
+        try mkdirRecurse(dirName(outputDirectory));
         catch (Exception) {}
 
         string[] args;

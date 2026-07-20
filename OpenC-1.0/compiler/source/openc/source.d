@@ -110,6 +110,8 @@ public:
         string text;
         try {
             text = readText(normalized);
+        } catch (UTFException) {
+            return Result!SourceId.failure("source file is not valid UTF-8: " ~ normalized);
         } catch (Exception error) {
             return Result!SourceId.failure("cannot read source file '" ~ normalized ~ "': " ~ error.msg);
         }

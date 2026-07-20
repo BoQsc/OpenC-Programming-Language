@@ -5,7 +5,8 @@
 - corrected D language compatibility, packaging, imports, reserved identifiers, parser progress, control-condition parsing, and validator report handling;
 - compiled and linked all nine canonical D targets in debug and release modes on Windows;
 - executed all eight authored D test commands successfully;
-- executed all 268 conformance fixtures, recording 29 passes, 203 failures, and 36 infrastructure failures;
+- integrated runtime fixture build-and-run execution and modeled invalid UTF-8 as a source diagnostic;
+- executed all 268 conformance fixtures, recording 41 passes, 227 implementation failures, and zero infrastructure failures;
 - checked all four maintained projects and recorded that none are accepted, built, or run yet;
 - retained explicit non-conforming, platform-unverified, independently unreviewed, and non-release status.
 

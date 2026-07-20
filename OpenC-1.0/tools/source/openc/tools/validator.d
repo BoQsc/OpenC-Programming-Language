@@ -1,11 +1,14 @@
 module openc.tools.validator;
 
-import openc.compiler : CompilationOptions, Compiler;
+import openc.compiler : CompilationOptions, CompilationResult, Compiler;
 import openc.project : ProjectConfig, ProjectModule;
+import openc.toolchain : DToolchain;
 import std.algorithm : sort;
 import std.file : exists, readText;
 import std.json : JSONType, JSONValue, parseJSON;
 import std.path : absolutePath, baseName, buildNormalizedPath, buildPath, dirName;
+import std.process : execute;
+import std.string : indexOf, replace;
 
 final class FixtureRunner {
 private:
@@ -81,6 +84,7 @@ private:
         auto project = projectForFixture(fixture, fixtureRoot);
         CompilationOptions options;
         options.stopAfterCheck = fixtureKind != "runtime";
+        options.outputDirectory = project.outputDirectory;
         auto compiled = compiler.compile(project, options);
 
         JSONValue result;
@@ -106,12 +110,83 @@ private:
         result["rule_matched"] = ruleMatched;
         result["passed"] = outcome && ruleMatched;
         result["diagnostics"] = compilation.diagnostics.toJson(compilation.sources);
-        if (fixtureKind == "runtime") {
-            result["runtime_execution"] = "PENDING_TOOLCHAIN_EXECUTION";
-            result["passed"] = false;
-            result["infrastructure_error"] = "runtime fixture requires build-and-run provider integration";
-        }
+        if (fixtureKind == "runtime") runRuntime(
+            result, object, nestedExpected, project, compilation, accepted, expected);
         return result;
+    }
+
+    void runRuntime(
+        ref JSONValue result,
+        JSONValue[string] fixture,
+        JSONValue expectedRecord,
+        ProjectConfig project,
+        CompilationResult compilation,
+        bool accepted,
+        string expected
+    ) {
+        if (!accepted) {
+            result["runtime_execution"] = "NOT_BUILT_SOURCE_REJECTED";
+            result["passed"] = false;
+            return;
+        }
+
+        auto fixtureId = fixture.get("id", JSONValue("fixture")).str;
+        auto outputDirectory = buildPath(
+            repositoryRoot, "build-output", "conformance", fixtureId.replace("/", "_"));
+        version (Windows) auto executable = buildPath(outputDirectory, "program.exe");
+        else auto executable = buildPath(outputDirectory, "program");
+        auto built = new DToolchain().build(
+            compilation.backendOutput,
+            project,
+            buildPath(repositoryRoot, "runtime", "source"),
+            buildPath(repositoryRoot, "standard_library", "source"),
+            executable);
+        if (!built.ok) {
+            result["runtime_execution"] = "BUILD_FAILED";
+            result["build_error"] = built.error;
+            result["passed"] = false;
+            return;
+        }
+        result["toolchain"] = built.value.toJson();
+
+        string output;
+        int exitCode;
+        try {
+            auto executed = execute([built.value.executable]);
+            output = executed.output.replace("\r\n", "\n");
+            exitCode = executed.status;
+        } catch (Exception error) {
+            result["runtime_execution"] = "LAUNCH_FAILED";
+            result["infrastructure_error"] = error.msg;
+            result["passed"] = false;
+            return;
+        }
+
+        enum checkedMarker = "OpenC checked failure:";
+        enum targetMarker = "OpenC target fault:";
+        auto checkedAt = output.indexOf(checkedMarker);
+        auto targetAt = output.indexOf(targetMarker);
+        string observed = checkedAt >= 0 ? "checked_failure"
+            : targetAt >= 0 ? "target_fault"
+            : "accept";
+        auto markerAt = checkedAt >= 0 ? checkedAt : targetAt;
+        auto programOutput = markerAt >= 0 ? output[0 .. markerAt] : output;
+
+        string expectedOutput;
+        if (expectedRecord.type == JSONType.object) {
+            auto stdoutValue = expectedRecord.object.get("stdout", JSONValue());
+            if (stdoutValue.type == JSONType.array) {
+                foreach (part; stdoutValue.array) expectedOutput ~= part.str;
+            }
+        }
+        auto outputMatched = programOutput == expectedOutput;
+        result["runtime_execution"] = "EXECUTED";
+        result["runtime_exit_code"] = exitCode;
+        result["runtime_output"] = programOutput;
+        result["runtime_observed"] = observed;
+        result["runtime_output_matched"] = outputMatched;
+        result["rule_matched"] = observed == expected;
+        result["passed"] = observed == expected && outputMatched;
     }
 
     ProjectConfig projectForFixture(JSONValue fixture, string fixtureRoot) {
@@ -124,7 +199,9 @@ private:
         if (expected.type == JSONType.object) {
             config.profile = expected.object.get("profile", JSONValue("standard")).str;
         }
-        config.outputDirectory = buildPath(repositoryRoot, "build-output", "conformance");
+        auto fixtureId = object.get("id", JSONValue("fixture")).str;
+        config.outputDirectory = buildPath(
+            repositoryRoot, "build-output", "conformance", fixtureId.replace("/", "_"));
 
         string[string] sourcesByLeaf;
         foreach (source; object.get("source_files", JSONValue(JSONValue[].init)).array) {

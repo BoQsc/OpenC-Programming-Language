@@ -24,11 +24,12 @@ No MSVC, Clang, or GCC C compiler was available on this host, so the standalone 
 - Debug builds: 9 of 9 canonical D targets compiled and linked.
 - Release builds: 9 of 9 canonical D targets compiled and linked.
 - Authored D tests: 8 of 8 commands passed.
-- Conformance fixtures: 268 executed; 29 passed, 203 failed, and 36 had infrastructure failures.
+- Conformance fixtures: 268 executed; 41 passed, 227 failed, and none had infrastructure failures.
+- Runtime fixtures: 11 built and executed successfully; 24 remain rejected before code generation.
 - Maintained programs: 0 of 4 accepted; none built or run.
 - Python bootstrap: modules passed bytecode compilation and the CLI help smoke test; no authored Python test files were present.
 
-The 36 conformance infrastructure failures consist of 35 runtime fixtures without build-and-run provider integration and one invalid-encoding fixture that currently fails during source loading. The remaining failures are implementation findings.
+Runtime fixture build-and-run integration is active. Invalid UTF-8 is now reported through the normative source diagnostic. Every remaining conformance failure is classified as an implementation finding rather than a harness infrastructure failure.
 
 ## Evidence boundary
 

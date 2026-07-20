@@ -1,10 +1,20 @@
 module tests.runtime_tests;
 
+import openc.runtime.checked : checkedAdd, checkedCast, checkedDiv, checkedMul, checkedSub;
 import openc.runtime.types : OpenCOptional, OpenCSlice, OpenCStorage, Status, i32;
 
 unittest {
     assert(Status.success().ok);
     assert(!Status.failure(1, "failure").ok);
+}
+
+unittest {
+    assert(checkedAdd!int(20, 22) == 42);
+    assert(checkedSub!uint(50, 8) == 42);
+    assert(checkedMul!long(6, 7) == 42);
+    assert(checkedDiv!ulong(84, 2) == 42);
+    assert(checkedCast!int(42L) == 42);
+    assert(checkedCast!int(42.0) == 42);
 }
 
 unittest {

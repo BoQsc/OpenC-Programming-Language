@@ -5,7 +5,7 @@ import openc.backend : BackendOutput;
 import openc.backend_d : DSourceBackend;
 import openc.backend_ir : JsonIrBackend;
 import openc.common : CompilerVersion, Result;
-import openc.diagnostic : DiagnosticEngine;
+import openc.diagnostic : DiagnosticEngine, DiagnosticPhase;
 import openc.ir : IrProgram;
 import openc.lexer : Lexer;
 import openc.lowerer : Lowerer;
@@ -13,12 +13,13 @@ import openc.parser : Parser;
 import openc.project : ProjectConfig, ProjectModule;
 import openc.semantic_model : SemanticModel;
 import openc.semantic_pipeline : SemanticPipeline;
-import openc.source : SourceId, SourceManager;
+import openc.source : SourceId, SourceManager, SourceSpan;
 import std.algorithm : sort;
 import std.file : mkdirRecurse, write;
 import std.json : JSONValue;
 import std.path : buildPath;
 import std.file : exists;
+import std.string : startsWith;
 
 struct CompilationOptions {
     string backend = "d-source";
@@ -71,7 +72,19 @@ final class Compiler {
         foreach (moduleConfig; moduleSet.value) {
             foreach (path; moduleConfig.sources) {
                 auto loaded = result.sources.load(path, moduleConfig.name);
-                if (!loaded.ok) return Result!CompilationResult.failure(loaded.error);
+                if (!loaded.ok) {
+                    if (loaded.error.startsWith("source file is not valid UTF-8:")) {
+                        auto source = result.sources.addVirtual(path, "");
+                        result.diagnostics.error(
+                            "OPENC-SOURCE-INVALID-001",
+                            DiagnosticPhase.source,
+                            "source.encoding",
+                            "source file is not valid UTF-8",
+                            SourceSpan(source, 0, 0));
+                        continue;
+                    }
+                    return Result!CompilationResult.failure(loaded.error);
+                }
             }
         }
 

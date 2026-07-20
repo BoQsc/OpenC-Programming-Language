@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Authored build orchestrator for the OpenC source tree.
-
-A future maintainer runs this program in a recorded environment. The OpenC
-source package itself does not claim the commands have been executed.
-"""
+"""Build canonical OpenC D targets and write a machine-readable report."""
 from __future__ import annotations
 import argparse, json, os, platform, shutil, subprocess
 from pathlib import Path

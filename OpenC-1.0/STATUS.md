@@ -21,7 +21,7 @@ canonical D targets compiled:        YES; DEBUG AND RELEASE ON WINDOWS
 canonical D targets linked:          YES; DEBUG AND RELEASE ON WINDOWS
 standalone C providers compiled:     NO; C TOOLCHAIN UNAVAILABLE
 implementation tests executed:      YES; 8 OF 8 D COMMANDS PASSED
-conformance fixtures executed:       YES; 29 PASS, 203 FAIL, 36 INFRASTRUCTURE
+conformance fixtures executed:       YES; 41 PASS, 227 FAIL, 0 INFRASTRUCTURE
 maintained programs accepted:        0 OF 4
 maintained programs built/run:       0 OF 4
 Linux behavior verified:            NO

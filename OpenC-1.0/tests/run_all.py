@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Future execution driver for the authored OpenC source tree.
-
-This script is intentionally shipped unexecuted. It invokes external D tools only
-when a future maintainer runs it in a recorded environment.
-"""
+"""Execute the authored OpenC implementation test commands and record results."""
 from __future__ import annotations
 import argparse
 import json

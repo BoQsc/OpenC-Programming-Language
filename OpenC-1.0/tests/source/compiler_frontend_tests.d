@@ -1,10 +1,16 @@
 module tests.compiler_frontend_tests;
 
 import openc.ast : AstArena, NodeKind;
+import openc.compiler : CompilationOptions, Compiler;
 import openc.diagnostic : DiagnosticEngine;
 import openc.lexer : Lexer;
 import openc.parser : Parser;
+import openc.project : ProjectConfig;
 import openc.source : SourceManager;
+import std.conv : to;
+import std.file : exists, remove, tempDir, write;
+import std.path : buildPath;
+import std.process : thisProcessID;
 import std.typecons : tuple;
 
 private auto parse(string source) {
@@ -38,4 +44,17 @@ unittest {
     auto result = parse("when target.os == \"linux\" { i32 value() { return 1; } }");
     assert(result[0].root !is null);
     assert(!result[1].hasErrors());
+}
+
+unittest {
+    auto path = buildPath(tempDir(), "openc-invalid-utf8-" ~ thisProcessID.to!string);
+    scope (exit) if (exists(path)) remove(path);
+    write(path, cast(ubyte[]) [0xFF, 0xFE, 0x0A]);
+    auto options = CompilationOptions();
+    options.stopAfterCheck = true;
+    auto compiled = new Compiler().compile(ProjectConfig.singleSource(path), options);
+    assert(compiled.ok);
+    assert(!compiled.value.success());
+    assert(compiled.value.diagnostics.all().length == 1);
+    assert(compiled.value.diagnostics.all()[0].rule == "OPENC-SOURCE-INVALID-001");
 }
