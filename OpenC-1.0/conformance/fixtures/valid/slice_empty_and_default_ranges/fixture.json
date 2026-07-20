@@ -3,10 +3,10 @@
     "OPENC-SLICE-RANGE-DEFAULT-001",
     "OPENC-SLICE-RANGE-EMPTY-001"
   ],
-  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
   "expected": {
     "class": "valid",
-    "edition": "OpenC 0.10 Draft",
+    "edition": "OpenC Core 1.0 Current",
     "environment": "hosted",
     "expected": {
       "result": "accept"

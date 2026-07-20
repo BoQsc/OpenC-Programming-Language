@@ -53,7 +53,7 @@ class ConformanceRunner:
             "schema": "openc.conformance_result.v1",
             "implementation": {
                 "name": "openc-bootstrap-python",
-                "version": "1.0-dev.1-source-complete",
+                "version": "1.0.0-rc.1",
                 "evidence_state": "EXECUTED",
             },
             "bundle": str(bundle_path),
@@ -90,7 +90,7 @@ class ConformanceRunner:
         if isinstance(expected, dict) and isinstance(expected.get("expected"), dict):
             nested = expected["expected"]
             result = str(nested.get("result", "accept"))
-            rule = nested.get("rule")
+            rule = nested.get("diagnostic_rule") or nested.get("rule")
             kind = str(expected.get("fixture_kind", fixture.get("kind", "source")))
             return result, str(rule) if rule else None, kind
         result = str(fixture.get("expect", fixture.get("expected_result", expected.get("result", "accept") if isinstance(expected, dict) else "accept")))

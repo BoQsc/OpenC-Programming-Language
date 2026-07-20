@@ -1,6 +1,6 @@
-# OpenC Hosted Environment 1.0 — authored current baseline
+# OpenC Hosted Environment 1.0 — release-candidate baseline
 
-Status: **AUTHOR-FINAL FOR SOURCE HANDOFF; INDEPENDENT REVIEW AND EXECUTION PENDING**
+Status: **OWNER-RATIFIED; WINDOWS X86-64 REFERENCE EXECUTION PASS**
 
 This component defines the minimum Hosted environment supplied alongside OpenC Core. It does not alter Core syntax or Core safety rules. A Hosted implementation provides a process entry point, standard console streams, dynamic byte allocation, files, paths, process arguments, and UTF-8 conversion through the modules listed here.
 
@@ -147,4 +147,7 @@ Cross-compilation uses target providers; it never borrows the build host's conso
 
 ## 10. Evidence boundary
 
-The first-party source implementations live under `standard_library/` and `runtime/`. They are authored but uncompiled and unexecuted in the current package. Hosted conformance requires recorded target execution; source presence alone is not a pass.
+The first-party source implementations live under `standard_library/` and
+`runtime/`. The D implementation builds and passes the Windows x86-64 Hosted
+tests, runtime fixtures, and maintained-program gate. Other target providers
+remain experimental until their own target execution is recorded.

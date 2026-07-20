@@ -1,5 +1,23 @@
 # OpenC development changelog
 
+## 1.0.0-rc.1 — owner-certified Windows Hosted release candidate
+
+- selected 0BSD for software and CC0-1.0 for specifications, documentation,
+  metadata, diagrams, and artwork;
+- ratified HD-012 with owner governance, contribution, security, errata,
+  support, checksum, release, and publication authority;
+- defined Windows x86-64 Hosted as the supported 1.0 implementation scope and
+  moved Linux, freestanding, Native, standalone C providers, script/live, and
+  Concurrent work outside the blocking path;
+- separated normative fixture rules from exact compiler diagnostic
+  expectations, migrated the imported corpus to Current, and removed the
+  93-case edition-compatibility fallback;
+- corrected active dedicated-fixture coverage to 331 of 466 rules and retained
+  the 135-rule backlog as an explicit nonblocking evidence limitation;
+- retained 268/268 conformance, 35/35 runtime fixtures, 4/4 maintained programs,
+  and the complete debug/release build and implementation-test gates;
+- marked the declared candidate `RELEASE_READY` but not published or released.
+
 ## 1.0-dev.4 — executable conformance milestone
 
 - implemented current Core parser, name/type/constant, flow/status, ownership/borrow, storage/pointer/unsafe, diagnostic, IR, and D-backend behavior exercised by the authored suite;

@@ -1,7 +1,7 @@
 {
   "name": "openc-source-tests",
   "description": "Authored unit and integration tests for the OpenC source tree",
-  "license": "proprietary-pending-governance",
+  "license": "0BSD",
   "targetType": "library",
   "targetName": "openc-source-tests",
   "sourcePaths": ["source"],

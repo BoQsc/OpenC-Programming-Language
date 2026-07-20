@@ -1,6 +1,8 @@
 # Conformance Authoring and Execution
 
-Every automatable rule receives at least one direct fixture. Where meaningful it also receives one rejection or boundary fixture. State-machine rules receive branch, merge, loop, early-return, and failure-path cases.
+Every automatable rule should receive at least one direct fixture. Where
+meaningful it also receives one rejection or boundary fixture. State-machine
+rules should receive branch, merge, loop, early-return, and failure-path cases.
 
 Fixture kinds:
 
@@ -15,6 +17,10 @@ target-record
 human-review
 ```
 
-A fixture records candidate revision, source units, project/module context, target record, expected phase, expected primary rule ID, expected runtime outcome, cleanup trace, and required implementation stage.
+A fixture records Current edition, historical origin where applicable, source
+units, project/module context, normative active rules, exact diagnostic
+expectation when rejecting, expected runtime outcome, cleanup trace, and target.
 
-The authored matrices in this package are complete work queues. Actual fixture execution remains pending until a complete implementation exists.
+The 1.0.0-rc.1 corpus contains 268 executed passing fixtures on Windows x86-64.
+It gives dedicated coverage to 331 of 466 active rules; 135 rules remain in the
+explicit authoring queue.

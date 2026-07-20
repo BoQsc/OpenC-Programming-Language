@@ -1,46 +1,38 @@
 # OpenC
 
-OpenC is a new open systems language: C-shaped, not C-compatible; safe by default; explicit about unsafe memory; and designed around referenceable rules, strong diagnostics, deterministic tooling, and executable conformance.
+OpenC is a new open systems language: C-shaped, not C-compatible; safe by
+default; explicit about unsafe memory; and designed around referenceable rules,
+strong diagnostics, deterministic tooling, and executable conformance.
 
-This directory is the **single canonical development tree**.
+This directory is the single canonical development tree for the 1.0 release
+candidate.
 
-## Verified development state
+## 1.0 release scope
 
-Concrete source is authored for:
+The supported reference-implementation target is Windows x86-64 Hosted. Linux,
+freestanding, Native, script/live, and Concurrent sources remain available as
+experimental future work and do not block or enlarge the 1.0 claim. See
+`release/RELEASE_SCOPE_1.0.md`.
 
-```text
-canonical D reference compiler
-informative Python bootstrap compiler and C11 backend
-Core/Hosted runtime
-Linux, Windows, and freestanding providers
-minimum Hosted standard library
-unified compiler/tool driver
-formatter
-language server
-rule explanation and context tools
-conformance adapter and runner
-local build, test, archive, and verification tools
-authored test source and 268 conformance fixtures
-maintained Core and Hosted acceptance programs
-```
+## Verified state
 
-The canonical D targets compile and link in debug and release modes on the recorded Windows host. All authored D tests, Python bootstrap tests, 268 executable conformance fixtures, 35 runtime fixtures, and four maintained programs pass locally.
+- all 9 canonical D targets build and link in debug and release modes;
+- all 8 D test commands and all 4 Python bootstrap tests pass;
+- all 268 authored conformance fixtures pass, including 35 runtime fixtures;
+- all 4 maintained programs check, build, and run successfully;
+- all diagnostic expectations use exact current matches; the historical
+  compatibility fallback has been removed;
+- 331 of 466 active Core rules have dedicated executable fixture coverage;
+  the 135-rule dedicated-fixture backlog remains an explicit quality backlog,
+  not an unimplemented-rule assertion;
+- licensing and governance are resolved: 0BSD for software and CC0-1.0 for
+  specifications, documentation, metadata, diagrams, and artwork.
 
-This is an engineering conformance milestone, not a public release authorization. Ninety-three historical fixtures use an explicit draft-to-current rule-ID compatibility mapping, complete active-rule coverage remains unfinished, Linux and freestanding execution are unverified, independent reviews are pending, and HD-012 licensing/governance/signing authority is unresolved.
+The owner-certified Windows x86-64 Hosted release candidate is `RELEASE_READY`,
+but it is not published or marked `RELEASED`. Independent third-party review
+remains welcome and may produce errata; it is not a prerequisite for the
+owner-maintained initial release.
 
-Start with:
-
-```text
-AUTHORITY.md
-STATUS.md
-SOURCE_COMPLETE_BUT_UNVERIFIED.md
-standard/core/OpenC_Core_Current.md
-compiler/IMPLEMENTATION_AUTHORITY.md
-SOURCE_COMPLETENESS_CONTRACT.json
-build/build_all.py
-tests/run_all.py
-tests/run_maintained.py
-release/LOCAL_BUILD_TEST_RELEASE_RUNBOOK.md
-```
-
-The optional design-history archive never overrides this tree.
+Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
+`LICENSE_POLICY.md`, `standard/core/OpenC_Core_Current.md`, and
+`release/LOCAL_BUILD_TEST_RELEASE_RUNBOOK.md`.

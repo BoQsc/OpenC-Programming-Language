@@ -14,7 +14,7 @@ from .formatter import Formatter
 from .lsp import run_stdio
 
 
-VERSION = "1.0-dev.1-source-complete"
+VERSION = "1.0.0-rc.1"
 
 
 def repository_root() -> Path:

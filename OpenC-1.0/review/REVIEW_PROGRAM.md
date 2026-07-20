@@ -22,6 +22,14 @@ A review is independent only when the reviewer did not author the audited rules 
 
 The grammar reviewer should initially implement from the standalone EBNF without using an existing parser as authority. The security reviewer should not be the sole implementer of the audited safety subsystem.
 
+## OpenC 1.0 gate policy
+
+For the owner-maintained initial Windows x86-64 Hosted release, the internal
+maintainer review and executable gates are required. Independent reviews are
+recommended post-release assurance activities and may produce versioned errata;
+they are not publication prerequisites. No internal review may be relabelled as
+independent.
+
 ## Finding classes
 
 ```text

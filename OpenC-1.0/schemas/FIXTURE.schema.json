@@ -1,89 +1,68 @@
 {
   "$id": "openc://schema/fixture/v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenC canonical conformance fixture",
+  "type": "object",
   "additionalProperties": false,
   "properties": {
-    "candidate": {
-      "type": "string"
+    "schema": {"const": "openc.fixture.v1"},
+    "id": {"type": "string", "minLength": 1},
+    "kind": {
+      "enum": ["command", "diagnostic", "invalid", "records", "runtime", "valid"]
+    },
+    "origin": {"type": "string", "minLength": 1},
+    "evidence_state": {"type": "string", "minLength": 1},
+    "active_rules": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^OPENC-[A-Z0-9-]+$"}
+    },
+    "source_files": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
     },
     "expected": {
-      "type": "object"
-    },
-    "id": {
-      "type": "string"
-    },
-    "kind": {
-      "enum": [
-        "source-valid",
-        "source-invalid",
-        "runtime-success",
-        "runtime-checked-failure",
-        "runtime-target-fault",
-        "multi-source",
-        "target-record",
-        "human-review"
-      ]
-    },
-    "limits": {
-      "type": "object"
-    },
-    "project": {
-      "type": "object"
-    },
-    "review": {
-      "type": "object"
-    },
-    "rules": {
-      "items": {
-        "pattern": "^OPENC-[A-Z0-9-]+$",
-        "type": "string"
-      },
-      "minItems": 1,
-      "type": "array",
-      "uniqueItems": true
-    },
-    "schema": {
-      "const": "openc.fixture.v1"
-    },
-    "sources": {
-      "items": {
-        "additionalProperties": false,
-        "properties": {
-          "content": {
-            "type": "string"
-          },
-          "encoding": {
-            "const": "utf-8"
-          },
-          "module": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "class": {"type": "string"},
+        "diagnostic_rule": {"type": "string", "pattern": "^OPENC-[A-Z0-9-]+$"},
+        "edition": {"type": "string"},
+        "environment": {"type": "string"},
+        "expected": {"type": "object"},
+        "fixture_kind": {"type": "string"},
+        "mode": {"type": "string"},
+        "modules": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
           }
         },
-        "required": [
-          "name",
-          "module",
-          "content"
-        ],
-        "type": "object"
+        "name": {"type": "string"},
+        "profile": {"type": "string"},
+        "result": {"type": "string"},
+        "rules": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^OPENC-[A-Z0-9-]+$"}
+        }
       },
-      "type": "array"
-    },
-    "target": {
-      "type": "object"
+      "additionalProperties": false
     }
   },
   "required": [
     "schema",
     "id",
-    "candidate",
     "kind",
-    "rules",
-    "sources",
+    "origin",
+    "evidence_state",
+    "active_rules",
+    "source_files",
     "expected"
-  ],
-  "title": "OpenC conformance fixture",
-  "type": "object"
+  ]
 }

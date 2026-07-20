@@ -1,7 +1,7 @@
 {
-  "basis": "Explicit approvals throughout the OpenC design record and the project-owner instruction to proceed after CC2 completion.",
-  "candidate": "OpenC Core Candidate 2",
-  "candidate_manifest_sha256": "dea88cd7991b85914c34f56071f8772fb1f74199d79b50845a7901aac027b9dc",
+  "basis": "Project-owner semantic approvals plus the explicit 0BSD/CC0, governance, Windows-only scope, and release-authority instruction recorded for 1.0.0-rc.1.",
+  "candidate": "OpenC 1.0.0-rc.1",
+  "candidate_manifest_sha256": null,
   "candidate_zip_sha256": null,
   "date": "2026-07-20",
   "decisions": [
@@ -27,7 +27,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "Yes. Retain and simplify status/out. It fits the established OpenC identity: no hidden exceptions, no Result<T,E> wrapper burden, no special unwrap keyword, ordinary successful values remain ordinary values.",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Recoverable failure model"
     },
     {
@@ -49,7 +49,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "Use optional T. Keep ordinary references non-null. Keep T? and nullable T rejected. Direct optional resource containment remains outside 1.0 unless a complete ownership model is added.",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Absence type spelling and semantics"
     },
     {
@@ -71,7 +71,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "Adopt a narrow, side-effect-free context-expression subset. Do not permit arbitrary user function execution, allocation, mutation, I/O, pointers, or runtime values.",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Compile-time condition power"
     },
     {
@@ -94,7 +94,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "Retain resource Name declarations, own T parameter/return modes where ownership is transferred, out own ptr T for unique raw-pointer outputs, and domain-specific move/destroy functions. Do not introduce generic move(value).",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Resource and ownership syntax"
     },
     {
@@ -119,7 +119,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "Require every registered scope cleanup target to be statically no-fail. Handle finish/flush/commit explicitly through status, then register a separate no-fail release/discard operation.",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Fallible cleanup policy"
     },
     {
@@ -142,7 +142,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "No. Keep Native as a separate candidate set. The capability is required for a practical toolchain, but exact syntax should freeze only after real Windows and Linux bindings exercise it.",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Native boundary syntax status"
     },
     {
@@ -166,7 +166,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "Require only system.io, system.memory, system.file, system.path, system.process, and system.text. Keep concurrency modules separate.",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Minimum Hosted 1.0 library"
     },
     {
@@ -188,7 +188,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "No. Keep extension mapping outside language semantics. An official toolchain may later choose a short extension after real usage, but source validity and module identity must never depend on it.",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Source-file extension policy"
     },
     {
@@ -212,7 +212,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "Publish separate claims for Core, Hosted, Freestanding, Native, and Tooling/Diagnostics. Treat Standard/Strict/Critical as validation overlays, not language forks. Keep Concurrent provisional outside the blocking path.",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "1.0 conformance-set boundary"
     },
     {
@@ -235,7 +235,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "No. Define them later as tooling/execution modes with canonical expansions into Core/Hosted code. Preserve the same semantics and safety rules.",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Script and live mode status"
     },
     {
@@ -257,7 +257,7 @@
         "security review invalidates a safe-code guarantee"
       ],
       "selection": "No. Preserve it as OpenC Concurrent Provisional and re-audit after Core ownership and Hosted runtime have real implementations.",
-      "status": "RATIFIED_FOR_CC2_BASELINE",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Concurrency publication status"
     },
     {
@@ -271,25 +271,26 @@
         "Public release readiness"
       ],
       "id": "HD-012",
-      "ratification": "not_ratified",
-      "release_blocking": true,
+      "ratification": "ratified",
+      "release_blocking": false,
       "reopen_conditions": [
-        "local license files are selected and included",
-        "project decision authority and contribution terms are defined",
-        "errata and security-reporting authority are defined"
+        "the owner adopts different license terms for future versions",
+        "project authority is delegated through a committed governance record",
+        "a future release changes the supported target scope"
       ],
-      "selection": "Select and include explicit local licenses separately for specification text and software/tests if appropriate; define the maintainer decision authority, contribution terms, errata process, and security contact. Do not rely on a remote repository page as the only authority.",
-      "status": "PENDING_LEGAL_AND_GOVERNANCE_SELECTION",
+      "selection": "Use 0BSD for software and executable code artifacts; use CC0-1.0 for specifications, documentation, metadata, diagrams, and artwork; accept contributions under matching outbound terms without a CLA; assign normative, errata, security, release, checksum, and publication authority to the project owner controlling the canonical tree; require SHA-256 release records while making detached cryptographic signatures optional; provide best-effort support for the declared Windows x86-64 Hosted scope.",
+      "status": "RATIFIED_FOR_1_0",
       "title": "Licensing and project authority"
     }
   ],
-  "schema": "openc.core.owner_ratification.cc2.r1",
-  "scope": "Semantic, grammar, conformance-set, and project-direction selections only. This is not legal authorization, release authorization, semantic freeze, or conformance evidence.",
+  "schema": "openc.core.owner_ratification.1_0.r2",
+  "scope": "Semantic, grammar, conformance-set, licensing, governance, and project-direction selections for the OpenC 1.0 release candidate.",
   "summary": {
-    "legal_and_governance_ratified": false,
-    "pending": 1,
-    "ratified": 11,
+    "legal_and_governance_ratified": true,
+    "pending": 0,
+    "ratified": 12,
     "release_authorized": false,
+    "release_candidate_ready": true,
     "semantic_baseline_ratified": true
   }
 }

@@ -1,7 +1,7 @@
 module app.main;
 
 import openc.command : CommandRequest, normalize;
-import openc.common : Result;
+import openc.common : CompilerVersion, Result;
 import openc.compiler : CompilationOptions, CompilationResult, Compiler;
 import openc.conformance : ConformanceAdapter;
 import openc.project : ProjectConfig;
@@ -237,7 +237,9 @@ string defaultExecutableName() {
 }
 
 void printUsage() {
-    stdout.writeln("OpenC reference compiler and tools (source-authored; build evidence pending)");
+    auto version_ = CompilerVersion();
+    stdout.writeln("OpenC " ~ version_.implementationVersion ~
+        " reference compiler and tools (Windows x86-64 Hosted release candidate)");
     stdout.writeln("  openc check <source> [--diagnostics-format=json]");
     stdout.writeln("  openc build <source> [--output=PROGRAM] [--emit-only]");
     stdout.writeln("  openc run <source> [program arguments]");

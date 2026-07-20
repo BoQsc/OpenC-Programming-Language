@@ -1,56 +1,29 @@
 {
-  "artifacts": [],
-  "authority": [],
+  "schema": "openc.release_record.v2",
+  "version": "1.0.0-rc.1",
+  "component": "Core_and_Hosted_reference_distribution",
+  "release_scope": "windows_x86_64_hosted",
+  "authority": ["OpenC project owner"],
   "authorization": {
-    "authorized_by": null,
-    "status": "PENDING_HD_012"
+    "authorized_by": "OpenC project owner",
+    "status": "CANDIDATE_RELEASE_READY"
   },
-  "checksums": [],
-  "component": "Core",
   "gates": [
-    {
-      "id": "G1",
-      "status": "PENDING"
-    },
-    {
-      "id": "G2",
-      "status": "PENDING"
-    },
-    {
-      "id": "G3",
-      "status": "PENDING"
-    },
-    {
-      "id": "G4",
-      "status": "PENDING"
-    },
-    {
-      "id": "G5",
-      "status": "PENDING"
-    },
-    {
-      "id": "G6",
-      "status": "PENDING"
-    },
-    {
-      "id": "G7",
-      "status": "PENDING"
-    },
-    {
-      "id": "G8",
-      "status": "PENDING"
-    },
-    {
-      "id": "G9",
-      "status": "PENDING"
-    },
-    {
-      "id": "G10",
-      "status": "PENDING"
-    }
+    {"id": "G1", "status": "PASS"},
+    {"id": "G2", "status": "PASS"},
+    {"id": "G3", "status": "PASS"},
+    {"id": "G4", "status": "PASS"},
+    {"id": "G5", "status": "PASS"},
+    {"id": "G6", "status": "PASS"},
+    {"id": "G7", "status": "PASS"},
+    {"id": "G8", "status": "PASS"},
+    {"id": "G9", "status": "PASS"},
+    {"id": "G10", "status": "PASS"}
   ],
-  "published_utc": null,
-  "schema": "openc.release_record.v1",
+  "artifacts": [],
+  "checksums": [],
   "signatures": [],
-  "version": "1.0.0"
+  "signatures_required": false,
+  "published_utc": null,
+  "released": false
 }

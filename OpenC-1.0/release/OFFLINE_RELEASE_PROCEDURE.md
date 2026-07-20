@@ -12,9 +12,11 @@ regenerate books, indexes, reports, and manifests
 build deterministic source/binary archives twice
 compare hashes
 extract each archive and verify its internal manifest
-produce release record and checksums
-authorize and sign through the locally declared authority
+produce release record and mandatory SHA-256 checksums
+authorize through the locally declared owner authority
+optionally add detached signatures when a public key is recorded
 copy immutable artifacts to publication media
 ```
 
-A remote forge may mirror artifacts but is not the authority. The signed release record and immutable artifact hashes are authoritative.
+A remote forge may mirror artifacts but is not the authority. The
+owner-authorized release record and immutable artifact hashes are authoritative.

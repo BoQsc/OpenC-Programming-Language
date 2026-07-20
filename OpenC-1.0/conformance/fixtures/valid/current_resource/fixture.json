@@ -1,9 +1,15 @@
 {
-  "active_rules": [],
-  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "active_rules": [
+    "OPENC-RESOURCE-DECL-001",
+    "OPENC-RESOURCE-FIELD-OWNPTR-001"
+  ],
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
   "expected": {
     "result": "accept",
-    "rules": []
+    "rules": [
+      "OPENC-RESOURCE-DECL-001",
+      "OPENC-RESOURCE-FIELD-OWNPTR-001"
+    ]
   },
   "id": "valid/current_resource",
   "kind": "valid",

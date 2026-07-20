@@ -3,17 +3,18 @@
     "OPENC-FLOW-DIAG-001",
     "OPENC-FLOW-OUT-FAILURE-001"
   ],
-  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
   "expected": {
     "class": "diagnostic-message",
-    "edition": "OpenC 0.10 Draft",
+    "edition": "OpenC Core 1.0 Current",
     "environment": "hosted",
     "expected": {
       "notes": [
         "diagnostic identifies out call and failure branch"
       ],
       "result": "reject",
-      "rule": "OPENC-FLOW-OUT-FAILURE-001"
+      "rule": "OPENC-FLOW-OUT-FAILURE-001",
+      "diagnostic_rule": "OPENC-SAFE-INIT-001"
     },
     "fixture_kind": "source",
     "mode": "module",

@@ -8,12 +8,14 @@
     "validate",
     "lsp"
   ],
-  "evidence_state": "AUTHORED_EXECUTION_PENDING",
-  "hosted_commands": [
-    "run",
-    "test",
+  "evidence_state": "REQUIRED_COMMANDS_BUILT_TESTED_WINDOWS_X86_64_RC1",
+  "experimental_commands": [
     "eval",
     "live"
+  ],
+  "hosted_commands": [
+    "run",
+    "test"
   ],
   "schema": "openc.tool.command_index.v1"
 }

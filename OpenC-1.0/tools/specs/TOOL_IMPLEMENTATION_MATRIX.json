@@ -1,8 +1,8 @@
 {
-  "compiled": false,
-  "executed": false,
+  "compiled": true,
+  "executed": true,
   "schema": "openc.tooling.work_matrix.v1",
-  "source_authoring_state": "SOURCE_AUTHORED_REVIEW_PENDING",
+  "source_authoring_state": "SOURCE_AUTHORED_WINDOWS_X86_64_RC1_VERIFIED",
   "tools": [
     {
       "contracts": [
@@ -10,13 +10,13 @@
         "diagnostics",
         "context_reporting"
       ],
-      "evidence_status": "EXECUTION_PENDING",
+      "evidence_status": "IMPLEMENTATION_TEST_SUITE_PASS",
       "required_for": "I0",
       "source_paths": [
         "compiler/source/app/main.d",
         "compiler/source/openc/compiler.d"
       ],
-      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "status": "BUILT_WINDOWS_X86_64_RC1",
       "tool": "openc check"
     },
     {
@@ -25,13 +25,13 @@
         "target_backend",
         "build_record"
       ],
-      "evidence_status": "EXECUTION_PENDING",
+      "evidence_status": "IMPLEMENTATION_TEST_SUITE_PASS",
       "required_for": "I5",
       "source_paths": [
         "compiler/source/app/main.d",
         "compiler/source/openc/toolchain.d"
       ],
-      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "status": "BUILT_WINDOWS_X86_64_RC1",
       "tool": "openc build"
     },
     {
@@ -39,13 +39,13 @@
         "build",
         "target_execution"
       ],
-      "evidence_status": "EXECUTION_PENDING",
+      "evidence_status": "IMPLEMENTATION_TEST_SUITE_PASS",
       "required_for": "I5",
       "source_paths": [
         "compiler/source/app/main.d",
         "tools/source/openc/tools/runner.d"
       ],
-      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "status": "BUILT_WINDOWS_X86_64_RC1",
       "tool": "openc run"
     },
     {
@@ -53,26 +53,26 @@
         "test_discovery",
         "runtime_results"
       ],
-      "evidence_status": "EXECUTION_PENDING",
+      "evidence_status": "IMPLEMENTATION_TEST_SUITE_PASS",
       "required_for": "Core_1.0_RC",
       "source_paths": [
         "compiler/source/app/main.d",
         "tools/source/openc/tools/validator.d"
       ],
-      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "status": "BUILT_WINDOWS_X86_64_RC1",
       "tool": "openc test"
     },
     {
       "contracts": [
         "formatter"
       ],
-      "evidence_status": "EXECUTION_PENDING",
+      "evidence_status": "IMPLEMENTATION_TEST_SUITE_PASS",
       "required_for": "Tooling_1.0",
       "source_paths": [
         "compiler/source/app/main.d",
         "tools/source/openc/tools/formatter.d"
       ],
-      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "status": "BUILT_WINDOWS_X86_64_RC1",
       "tool": "openc fmt"
     },
     {
@@ -81,13 +81,13 @@
         "limits",
         "resolution"
       ],
-      "evidence_status": "EXECUTION_PENDING",
+      "evidence_status": "IMPLEMENTATION_TEST_SUITE_PASS",
       "required_for": "I0",
       "source_paths": [
         "compiler/source/app/main.d",
         "tools/source/openc/tools/info.d"
       ],
-      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "status": "BUILT_WINDOWS_X86_64_RC1",
       "tool": "openc info"
     },
     {
@@ -95,13 +95,13 @@
         "rule_index",
         "explanations"
       ],
-      "evidence_status": "EXECUTION_PENDING",
+      "evidence_status": "IMPLEMENTATION_TEST_SUITE_PASS",
       "required_for": "Tooling_1.0",
       "source_paths": [
         "compiler/source/app/main.d",
         "tools/source/openc/tools/explain.d"
       ],
-      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "status": "BUILT_WINDOWS_X86_64_RC1",
       "tool": "openc explain"
     },
     {
@@ -109,27 +109,27 @@
         "adapter",
         "conformance_results"
       ],
-      "evidence_status": "EXECUTION_PENDING",
+      "evidence_status": "IMPLEMENTATION_TEST_SUITE_PASS",
       "required_for": "I0",
       "source_paths": [
         "compiler/source/app/main.d",
         "tools/source/openc/tools/validator.d",
         "compiler/source/openc/conformance.d"
       ],
-      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "status": "BUILT_WINDOWS_X86_64_RC1",
       "tool": "openc validate"
     },
     {
       "contracts": [
         "language_server"
       ],
-      "evidence_status": "EXECUTION_PENDING",
+      "evidence_status": "IMPLEMENTATION_TEST_SUITE_PASS",
       "required_for": "Tooling_1.0",
       "source_paths": [
         "compiler/source/app/main.d",
         "tools/source/openc/tools/lsp.d"
       ],
-      "status": "SOURCE_AUTHORED_REVIEW_PENDING",
+      "status": "BUILT_WINDOWS_X86_64_RC1",
       "tool": "openc lsp"
     }
   ]

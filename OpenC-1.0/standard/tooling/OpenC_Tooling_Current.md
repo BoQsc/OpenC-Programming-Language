@@ -1,6 +1,6 @@
-# OpenC Tooling and Diagnostics 1.0 — authored current baseline
+# OpenC Tooling and Diagnostics 1.0 — release-candidate baseline
 
-Status: **AUTHOR-FINAL FOR SOURCE HANDOFF; COMPILATION AND TOOL EXECUTION PENDING**
+Status: **OWNER-RATIFIED; WINDOWS X86-64 BUILD AND TEST PASS**
 
 This component standardizes the interoperable surfaces of OpenC tools. It does not require one implementation architecture, but the first-party implementation reuses one compiler library across all tools.
 
@@ -144,4 +144,7 @@ A source package never upgrades itself to `EXECUTED` merely because build or tes
 
 ## 9. First-party source
 
-The current first-party source lives under `compiler/`, `tools/`, `scripts/`, and `release/`. It is authored but uncompiled and unexecuted.
+The current first-party source lives under `compiler/`, `tools/`, `scripts/`,
+and `release/`. The required 1.0 command implementations build and pass their
+Windows x86-64 test and conformance gates. Optional eval/live modes remain
+experimental and outside the supported 1.0 claim.

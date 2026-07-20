@@ -11,4 +11,7 @@ binary/tool release  compiled artifacts and runtime packages
 design-history archive  optional non-normative historical collection
 ```
 
-No release is authorized until licensing/governance and all selected component gates are satisfied.
+OpenC 1.0 uses the Windows x86-64 Hosted scope in `RELEASE_SCOPE_1.0.md`.
+Licensing/governance is ratified and all required candidate gates pass.
+`RELEASE_READY` authorizes artifact preparation; only a subsequent owner
+publication act marks an immutable artifact `RELEASED`.

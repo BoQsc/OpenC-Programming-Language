@@ -176,7 +176,7 @@ class Compiler:
         }
         return {
             "schema": "openc.build_record.v1",
-            "compiler": {"name": "openc-bootstrap-python", "version": "1.0-dev.1-source-complete"},
+            "compiler": {"name": "openc-bootstrap-python", "version": "1.0.0-rc.1"},
             "project": {"name": project.name, "version": project.version, "file": str(project.project_file)},
             "edition": project.edition,
             "profile": project.profile,

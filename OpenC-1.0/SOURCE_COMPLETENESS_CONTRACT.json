@@ -249,6 +249,19 @@
     ]
   },
   "required_non_source": [
+    "LICENSE",
+    "LICENSES/CC0-1.0.txt",
+    "LICENSE_POLICY.md",
+    "GOVERNANCE.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "TRADEMARKS.md",
+    "release/RELEASE_AUTHORITY.md",
+    "release/RELEASE_SCOPE_1.0.md",
+    "release/ERRATA_POLICY.md",
+    "release/SUPPORT_POLICY.md",
+    "release/LICENSING_GOVERNANCE.md",
+    "review/MAINTAINER_RELEASE_REVIEW.md",
     "standard/core/OpenC_Core_Current.md",
     "standard/core/grammar/OpenC_Core_Grammar.ebnf",
     "standard/hosted/OpenC_Hosted_Current.md",
@@ -257,8 +270,9 @@
     "standard/tooling/OpenC_Tooling_Current.md",
     "conformance/fixtures/MANIFEST.json",
     "schemas/PROJECT.schema.json",
-    "schemas/DIAGNOSTIC.schema.json"
+    "schemas/DIAGNOSTIC.schema.json",
+    "schemas/FIXTURE.schema.json"
   ],
   "schema": "openc.source_completeness_contract.v2",
-  "version": "1.0-dev.4-conformance"
+  "version": "1.0.0-rc.1"
 }

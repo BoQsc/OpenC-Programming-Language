@@ -3,14 +3,15 @@
     "OPENC-FLOW-IF-NOELSE-001",
     "OPENC-INIT-BEFOREUSE-001"
   ],
-  "evidence_state": "AUTHORED_EXECUTION_PENDING",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
   "expected": {
     "class": "invalid",
-    "edition": "OpenC 0.10 Draft",
+    "edition": "OpenC Core 1.0 Current",
     "environment": "hosted",
     "expected": {
       "result": "reject",
-      "rule": "OPENC-FLOW-IF-NOELSE-001"
+      "rule": "OPENC-FLOW-IF-NOELSE-001",
+      "diagnostic_rule": "OPENC-SAFE-INIT-001"
     },
     "fixture_kind": "source",
     "mode": "module",

@@ -2,7 +2,7 @@
   "name": "openc",
   "description": "OpenC 1.0 reference compiler and Core tools",
   "copyright": "OpenC contributors",
-  "license": "proprietary-pending-governance",
+  "license": "0BSD",
   "targetType": "executable",
   "targetName": "openc",
   "sourcePaths": [

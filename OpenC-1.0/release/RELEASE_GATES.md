@@ -1,18 +1,32 @@
-# Core 1.0 Release Gates
+# OpenC 1.0 release gates
+
+Required gates for the declared Windows x86-64 Hosted scope:
 
 ```text
-G1 semantic owner decisions ratified                 PASS except HD-012 legal/governance
-G2 independent grammar review                        PENDING
-G3 independent semantic review                       PENDING
-G4 independent security review                       PENDING
-G5 implementation I0–I5                              PASS on recorded Windows host
-G6 complete authored fixture execution               PASS 268/268; 93 edition-compatibility matches
-G7 maintained real programs                          PASS locally 4/4; native Linux target pending
-G8 documentation/usability review                    PENDING
-G9 deterministic clean rebuilds                      PASS locally; source archive rebuilt twice
-G10 license/governance/signing/publication authority PENDING
+G1  owner semantic decisions HD-001 through HD-012       PASS
+G2  grammar/structure maintainer audit and validators     PASS
+G3  semantic implementation tests and conformance suite  PASS
+G4  safety/security regression suite and boundary review PASS
+G5  implementation I0-I5 debug/release builds            PASS 9/9 + 9/9
+G6  complete authored conformance manifest               PASS 268/268; exact
+G7  maintained programs on claimed target                PASS 4/4 WINDOWS
+G8  maintainer documentation/usability release review    PASS
+G9  deterministic clean source rebuild/archive checks    PASS
+G10 licensing/governance/checksum/publication authority  PASS
 ```
 
-No release candidate is created while G2–G8 contain unresolved P0/P1 findings. No public release is authorized until G10 is complete.
+There are no open P0/P1 findings in the maintainer release review. Independent
+third-party grammar, semantic, security, and usability reviews remain strongly
+recommended, but they are post-release assurance work and not mandatory for the
+owner-maintained initial 1.0 release.
 
-G6 records execution of the complete authored fixture manifest, not complete coverage of every active Current rule. The 93 compatibility matches are explicit translations from historical OpenC 0.10 fixture rule IDs and are not exact Current-taxonomy matches.
+Linux, freestanding, Native, standalone C providers, script/live, and
+Concurrent sources are outside the claimed 1.0 implementation scope. Their
+verification cannot fail a Windows Hosted release gate.
+
+G6 covers the entire authored 268-fixture manifest with zero compatibility
+fallback. Dedicated fixtures cover 331 of 466 active Core rules; the remaining
+135-rule authoring backlog is disclosed and tracked but is not a release gate.
+The normative rules remain binding regardless of dedicated-fixture presence.
+Likewise, the parser and grammar validators pass even though dedicated
+positive/rejection pairs are not complete for every one of the 174 productions.

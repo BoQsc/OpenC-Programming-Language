@@ -1,55 +1,57 @@
-
-# OpenC Core Candidate 2 — Owner Ratification Record R1
+# OpenC Core 1.0 — Owner Ratification Record R2
 
 ## Result
 
-The candidate selections in **HD-001 through HD-011 are ratified for the CC2 semantic baseline**.
-
-HD-012 remains unresolved. No public release, legal authorization, trademark implication, patent implication, contribution authorization, or governance authority is created by this record.
+The project owner ratifies HD-001 through HD-012 for the OpenC 1.0 release
+candidate.
 
 ```text
-semantic candidate decisions ratified: 11
-legal/governance decision pending:       1
-Core 1.0 semantic freeze:               no
-independent review complete:            no
-release authorized:                     no
+semantic and project decisions ratified: 12
+pending owner decisions:                  0
+HD-012 legal/governance status:           RATIFIED
+release-candidate scope:                  WINDOWS X86-64 HOSTED
+release ready:                            YES
+published/released:                       NO
 ```
-
-## Ratification basis
-
-This record captures the project-owner design approvals made throughout the OpenC design process and the instruction to proceed after completion of Core Candidate 2. It changes decision status only. It does not claim that CC2 is correct, implemented, independently reviewed, conformance-executed, or ready for release.
 
 ## Decision status
 
 | ID | Decision | Status |
 |---|---|---|
-| HD-001 | Recoverable failure model | RATIFIED_FOR_CC2_BASELINE |
-| HD-002 | Absence type spelling and semantics | RATIFIED_FOR_CC2_BASELINE |
-| HD-003 | Compile-time condition power | RATIFIED_FOR_CC2_BASELINE |
-| HD-004 | Resource and ownership syntax | RATIFIED_FOR_CC2_BASELINE |
-| HD-005 | Fallible cleanup policy | RATIFIED_FOR_CC2_BASELINE |
-| HD-006 | Native boundary syntax status | RATIFIED_FOR_CC2_BASELINE |
-| HD-007 | Minimum Hosted 1.0 library | RATIFIED_FOR_CC2_BASELINE |
-| HD-008 | Source-file extension policy | RATIFIED_FOR_CC2_BASELINE |
-| HD-009 | 1.0 conformance-set boundary | RATIFIED_FOR_CC2_BASELINE |
-| HD-010 | Script and live mode status | RATIFIED_FOR_CC2_BASELINE |
-| HD-011 | Concurrency publication status | RATIFIED_FOR_CC2_BASELINE |
-| HD-012 | Licensing and project authority | PENDING_LEGAL_AND_GOVERNANCE_SELECTION |
+| HD-001 | Recoverable failure model | RATIFIED_FOR_1_0 |
+| HD-002 | Absence type spelling and semantics | RATIFIED_FOR_1_0 |
+| HD-003 | Compile-time condition power | RATIFIED_FOR_1_0 |
+| HD-004 | Resource and ownership syntax | RATIFIED_FOR_1_0 |
+| HD-005 | Fallible cleanup policy | RATIFIED_FOR_1_0 |
+| HD-006 | Native boundary syntax status | RATIFIED_FOR_1_0 |
+| HD-007 | Minimum Hosted 1.0 library | RATIFIED_FOR_1_0 |
+| HD-008 | Source-file extension policy | RATIFIED_FOR_1_0 |
+| HD-009 | 1.0 conformance-set boundary | RATIFIED_FOR_1_0 |
+| HD-010 | Script and live mode status | RATIFIED_FOR_1_0 |
+| HD-011 | Concurrency publication status | RATIFIED_FOR_1_0 |
+| HD-012 | Licensing and project authority | RATIFIED_FOR_1_0 |
+
+## HD-012 selection
+
+- 0BSD covers software, standalone code, tests, tools, examples, and executable
+  conformance fixture source.
+- CC0-1.0 covers specifications, documentation, schemas, metadata, diagrams,
+  artwork, and other non-code assets.
+- Contributions arrive under the applicable outbound terms without a CLA.
+- The project owner controlling the canonical tree is the normative, errata,
+  security, release, checksum, and publication authority.
+- SHA-256 checksums and an owner-authorized release record are mandatory;
+  detached cryptographic signatures are optional.
+- No exclusive OpenC word or original-artwork trademark claim is asserted and
+  no endorsement is implied.
+- Support is best-effort for the Windows x86-64 Hosted 1.0 scope.
+
+The controlling terms are local to the source package in `LICENSE`,
+`LICENSES/CC0-1.0.txt`, `LICENSE_POLICY.md`, `GOVERNANCE.md`, `SECURITY.md`,
+`TRADEMARKS.md`, and `release/`.
 
 ## Effect
 
-Ratified decisions are the default CC2 direction. They may be reopened only by a recorded contradiction, implementation impracticality, conformance conflict, or security finding. Any reopening must update the rulebook, grammar, fixtures, diagnostic catalog, rationale, security model, and compatibility record together.
-
-## Legal and governance boundary
-
-Before any public release, the project must locally include and ratify:
-
-- license terms for specification text;
-- license terms for software, tests, and tooling;
-- project decision authority;
-- contribution terms;
-- errata authority;
-- security-reporting contact and handling policy;
-- release-signing and publication authority.
-
-Remote repository pages or unwritten assumptions are not sufficient authority.
+Ratified decisions may be changed only through the recorded normative-change
+and errata process. `RELEASE_READY` authorizes candidate artifact preparation;
+publication remains a distinct owner action.

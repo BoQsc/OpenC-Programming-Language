@@ -5,12 +5,11 @@ import openc.project : ProjectConfig, ProjectModule;
 import openc.toolchain : DToolchain;
 import openc.tools.info : commandInfo;
 import std.algorithm : sort;
-import std.algorithm.searching : canFind;
 import std.file : exists, readText;
 import std.json : JSONType, JSONValue, parseJSON;
 import std.path : absolutePath, baseName, buildNormalizedPath, buildPath, dirName;
 import std.process : execute;
-import std.string : indexOf, replace, startsWith;
+import std.string : indexOf, replace;
 
 final class FixtureRunner {
 private:
@@ -78,16 +77,20 @@ private:
         auto expected = nestedExpected.type == JSONType.object
             ? nestedExpected.object.get("result", JSONValue("accept")).str
             : "accept";
-        auto expectedRule = nestedExpected.type == JSONType.object
-            ? nestedExpected.object.get("rule", JSONValue("")).str
-            : "";
-        if (!expectedRule.length && nestedExpected.type == JSONType.object) {
-            auto rules = nestedExpected.object.get("rules", JSONValue());
-            if (rules.type == JSONType.array && rules.array.length) expectedRule = rules.array[0].str;
-        }
         auto fixtureKind = expectedRecord.type == JSONType.object
             ? expectedRecord.object.get("fixture_kind", object.get("kind", JSONValue("source"))).str
             : object.get("kind", JSONValue("source")).str;
+        auto expectedRule = nestedExpected.type == JSONType.object
+            ? nestedExpected.object.get("diagnostic_rule", JSONValue("")).str
+            : "";
+        if (!expectedRule.length && expected != "accept" && fixtureKind != "runtime" &&
+            nestedExpected.type == JSONType.object) {
+            expectedRule = nestedExpected.object.get("rule", JSONValue("")).str;
+            if (!expectedRule.length) {
+                auto rules = nestedExpected.object.get("rules", JSONValue());
+                if (rules.type == JSONType.array && rules.array.length) expectedRule = rules.array[0].str;
+            }
+        }
 
         if (fixtureKind == "command") return runCommandFixture(object, fixtureRoot);
         if (fixtureKind == "record") return runRecordFixture(object, fixtureRoot);
@@ -103,6 +106,8 @@ private:
         result["fixture_kind"] = fixtureKind;
         result["expected"] = expected;
         result["expected_rule"] = expectedRule;
+        result["expected_diagnostic_rule"] = expectedRule;
+        result["normative_rules"] = object.get("active_rules", JSONValue(JSONValue[].init));
         result["implementation"] = compiler.compilerVersion.toJson();
         if (!compiled.ok) {
             result["passed"] = false;
@@ -115,114 +120,19 @@ private:
         bool outcome = expected == "accept" ? accepted :
             expected == "warning" ? accepted : !accepted;
         bool ruleMatched = !expectedRule.length;
-        bool compatibilityMatch;
         foreach (diagnostic; compilation.diagnostics.all()) {
             if (diagnostic.rule == expectedRule) ruleMatched = true;
-            else if (ruleEquivalent(expectedRule, diagnostic.rule)) {
-                ruleMatched = true;
-                compatibilityMatch = true;
-            }
         }
         result["accepted"] = accepted;
         result["rule_matched"] = ruleMatched;
-        result["rule_matched_via_edition_compatibility"] = compatibilityMatch;
+        result["rule_match_kind"] = !expectedRule.length ? "not_applicable" :
+            ruleMatched ? "exact" : "none";
+        result["rule_matched_via_edition_compatibility"] = false;
         result["passed"] = outcome && ruleMatched;
         result["diagnostics"] = compilation.diagnostics.toJson(compilation.sources);
         if (fixtureKind == "runtime") runRuntime(
             result, object, nestedExpected, project, compilation, accepted, expected);
         return result;
-    }
-
-    bool ruleEquivalent(string expected, string observed) const {
-        // Most authored fixtures predate Core Candidate 2. Keep the mapping
-        // explicit so older stable rule IDs remain executable while compiler
-        // diagnostics migrate to the current taxonomy.
-        if ([
-            "OPENC-ARITH-TYPE-001", "OPENC-ARRAY-NODECAY-001",
-            "OPENC-ASSIGN-CONVERT-001", "OPENC-TYPE-BYTE-001",
-            "OPENC-TYPE-FLOAT-001", "OPENC-CONVERT-LOSSY-001",
-            "OPENC-COND-BOOL-001", "OPENC-LITERAL-RANGE-001",
-            "OPENC-TYPE-HISTORICAL-001", "OPENC-OPTIONAL-NOBORROW-001",
-            "OPENC-PTR-CONSTVIEW-001", "OPENC-SLICE-CONSTVIEW-001", "OPENC-REF-CONSTVIEW-001",
-            "OPENC-TEXT-CONVERT-001", "OPENC-CAST-UNCHECKED-LIMIT-001",
-            "OPENC-RETURN-TYPE-001"
-        ].canFind(expected)) {
-            return observed == "OPENC-TYPE-MISMATCH-001" || observed == "OPENC-EXPR-TYPE-001" ||
-                observed == "OPENC-CALL-NOMATCH-001";
-        }
-        if ([
-            "OPENC-FUNCTION-DIRECT-001", "OPENC-ARRAY-DECL-001",
-            "OPENC-PTR-SYMBOL-001", "OPENC-REF-SYMBOL-001",
-            "OPENC-DECL-TYPEFIRST-001", "OPENC-GLOBAL-MUTABLE-001",
-            "OPENC-OUT-TARGET-001", "OPENC-PTR-OWNCOPY-001",
-            "OPENC-STRUCT-INIT-001", "OPENC-LEX-TYPEWORD-001",
-            "OPENC-CLEANUP-NOCANCEL-001", "OPENC-STRUCT-TRAILING-001",
-            "OPENC-SWITCH-NOFALL-001", "OPENC-TRANSLATE-NOINCLUDE-001",
-            "OPENC-WHEN-STRUCTURED-001", "OPENC-FLOW-OPTIONAL-001",
-            "OPENC-CLEANUP-ONCE-001"
-        ].canFind(expected)) {
-            return observed.startsWith("OPENC-SYNTAX-") || observed.startsWith("OPENC-LEX-") ||
-                observed == "OPENC-NAME-UNKNOWN-001";
-        }
-        if ([
-            "OPENC-FLOW-DIAG-001", "OPENC-FLOW-OUT-FAILURE-001",
-            "OPENC-FLOW-BREAK-001", "OPENC-FLOW-CONTINUE-001",
-            "OPENC-FLOW-FOR-001", "OPENC-FLOW-IF-NOELSE-001",
-            "OPENC-FLOW-WHILE-001", "OPENC-INIT-BEFOREUSE-001",
-            "OPENC-INIT-NOZERO-001", "OPENC-INIT-LOOP-001"
-        ].canFind(expected)) return observed == "OPENC-SAFE-INIT-001";
-
-        switch (expected) {
-            case "OPENC-PTR-ADDRESS-001": return observed == "OPENC-PTR-ADDRESS-UNSAFE-001";
-            case "OPENC-ASSIGN-TARGET-001": return observed == "OPENC-ASSIGN-LVALUE-001";
-            case "OPENC-SCOPE-LOCAL-001": return observed == "OPENC-NAME-UNKNOWN-001";
-            case "OPENC-BORROW-NOMOVE-001": return observed == "OPENC-OWN-EXIT-001" || observed == "OPENC-BORROW-MOVE-001";
-            case "OPENC-CALL-COUNT-001": return observed == "OPENC-CALL-NOMATCH-001";
-            case "OPENC-CLEANUP-REF-001": return observed == "OPENC-REF-INIT-001" || observed == "OPENC-SAFE-INIT-001";
-            case "OPENC-PTR-DEREF-001": return observed == "OPENC-PTR-DEREF-UNSAFE-001";
-            case "OPENC-CLEANUP-NOFALLIBLE-001": return observed == "OPENC-SCOPE-NOFAIL-001";
-            case "OPENC-FLOW-MOVED-001": return observed == "OPENC-OWN-USE-AFTER-MOVE-001";
-            case "OPENC-FOR-SCOPE-001": return observed == "OPENC-NAME-UNKNOWN-001";
-            case "OPENC-STATUS-MUSTHANDLE-001": return observed == "OPENC-STATUS-FIELD-001";
-            case "OPENC-BLOCK-BRACES-001": return observed == "OPENC-SYNTAX-BRACES-001";
-            case "OPENC-STMT-SEMICOLON-001": return observed == "OPENC-SYNTAX-SEMICOLON-001";
-            case "OPENC-MODULE-AMBIGUOUS-001": return observed == "OPENC-MODULE-QUALIFIER-AMBIGUOUS-001";
-            case "OPENC-FUNCTION-PATH-001": return observed == "OPENC-FUNCTION-RETURN-001";
-            case "OPENC-LITERAL-NOSUFFIX-001": return observed == "OPENC-LEX-NUMBER-SUFFIX-001";
-            case "OPENC-LITERAL-SEPARATOR-001": return observed == "OPENC-LEX-NUMBER-SEPARATOR-001";
-            case "OPENC-OPTIONAL-PRESENT-READONLY-001": return observed == "OPENC-CONST-ASSIGN-001" || observed.startsWith("OPENC-SYNTAX-");
-            case "OPENC-OPTIONAL-NOSHORTHAND-001": return observed == "OPENC-SYNTAX-OPTIONAL-001";
-            case "OPENC-OUT-STATUSONLY-001": return observed == "OPENC-OUT-FUNCTION-STATUS-001";
-            case "OPENC-OUT-OWN-001":
-            case "OPENC-OUT-NOREAD-001":
-            case "OPENC-PARAM-OUTTYPE-001":
-            case "OPENC-FUNCTION-OUTSUCCESS-001": return observed == "OPENC-STATUS-FIELD-001" || observed == "OPENC-SAFE-INIT-001";
-            case "OPENC-OVERLOAD-NORANK-001": return observed == "OPENC-CALL-AMBIGUOUS-001";
-            case "OPENC-PTR-ARITH-001": return observed == "OPENC-PTR-ARITH-UNSAFE-001";
-            case "OPENC-PTR-CONST-001":
-            case "OPENC-REF-ASSIGN-001": return observed == "OPENC-CONST-ASSIGN-001";
-            case "OPENC-PTR-NOLENGTH-001":
-            case "OPENC-MEMBER-UNKNOWN-001": return observed == "OPENC-NAME-UNKNOWN-001" || observed == "OPENC-INDEX-BASE-001";
-            case "OPENC-REF-RESOURCEASSIGN-001":
-            case "OPENC-RESOURCE-OBLIGATION-001": return observed == "OPENC-OWN-EXIT-001";
-            case "OPENC-CONVERT-REINTERPRET-001": return observed == "OPENC-REINTERPRET-VALUE-001" || observed == "OPENC-REINTERPRET-UNSAFE-001";
-            case "OPENC-RESOURCE-NOCOPY-001": return observed == "OPENC-OWN-EXIT-001" || observed == "OPENC-CALL-NOMATCH-001";
-            case "OPENC-CLEANUP-DESTROY-RESERVE-001": return observed == "OPENC-OWN-DOUBLE-DISCHARGE-001" || observed == "OPENC-LIFETIME-USE-AFTER-DESTROY-001";
-            case "OPENC-OWN-SCOPE-RESERVE-001": return observed == "OPENC-SCOPE-OWNER-STATE-001";
-            case "OPENC-CLEANUP-OWN-001": return observed == "OPENC-OWN-CLEANUP-RESERVED-001" || observed == "OPENC-OWN-OVERWRITE-001";
-            case "OPENC-EVAL-SCOPE-NESTED-001": return observed == "OPENC-SCOPE-ACTION-001" || observed == "OPENC-SCOPE-NOFAIL-001";
-            case "OPENC-CLEANUP-OUT-001": return observed == "OPENC-OUT-CARRIER-001" || observed == "OPENC-SCOPE-NOFAIL-001";
-            case "OPENC-TARGET-QUERY-001":
-            case "OPENC-TARGET-SIZEOF-001": return observed == "OPENC-TYPE-QUERY-INCOMPLETE-001";
-            case "OPENC-STATUS-INVARIANT-001": return observed == "OPENC-STATUS-FIELD-001";
-            case "OPENC-STORAGE-NOVALUE-001": return observed == "OPENC-NAME-UNKNOWN-001" || observed == "OPENC-TYPE-MISMATCH-001";
-            case "OPENC-TEXT-NOINDEX-001": return observed == "OPENC-INDEX-BASE-001";
-            case "OPENC-BORROW-ONEWRITE-001": return observed == "OPENC-BORROW-CONFLICT-001";
-            case "OPENC-UNSAFE-CONTRACT-001": return observed == "OPENC-CALL-NOMATCH-001" || observed == "OPENC-UNSAFE-CALL-001";
-            case "OPENC-FUNCTION-UNSAFE-001": return observed == "OPENC-UNSAFE-CALL-001";
-            case "OPENC-OWN-USEAFTER-001": return observed == "OPENC-OWN-USE-AFTER-MOVE-001" || observed == "OPENC-OWN-EXIT-001";
-            default: return false;
-        }
     }
 
     JSONValue runCommandFixture(JSONValue[string] fixture, string fixtureRoot) {
@@ -369,6 +279,7 @@ private:
         result["runtime_observed"] = observed;
         result["runtime_output_matched"] = outputMatched;
         result["rule_matched"] = observed == expected;
+        result["rule_match_kind"] = "runtime_contract";
         result["passed"] = observed == expected && outputMatched;
     }
 

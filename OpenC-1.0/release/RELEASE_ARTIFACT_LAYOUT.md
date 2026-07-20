@@ -13,7 +13,10 @@ OpenC-Core-1.0-reference-source.zip
 OpenC-Core-1.0-implementation-evidence.json
 OpenC-Core-1.0-conformance-report.json
 OpenC-Core-1.0-SHA256SUMS.txt
-signatures/
+signatures/ (optional)
 ```
 
 Hosted, Freestanding, Native, Tooling, and Concurrent artifacts use separate names and claims.
+
+The initial supported reference-implementation claim is Windows x86-64 Hosted.
+Artifacts for experimental components must not reuse that support claim.

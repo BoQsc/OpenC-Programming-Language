@@ -1,7 +1,7 @@
 {
   "name": "openc-tools",
   "description": "OpenC 1.0 first-party tool implementations",
-  "license": "proprietary-pending-governance",
+  "license": "0BSD",
   "sourcePaths": ["source"],
   "dependencies": {
     "openc": { "path": "../compiler" }

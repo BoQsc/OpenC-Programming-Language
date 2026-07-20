@@ -1,7 +1,7 @@
 {
   "name": "openc-runtime",
   "description": "OpenC 1.0 bootstrap runtime source",
-  "license": "proprietary-pending-governance",
+  "license": "0BSD",
   "targetType": "library",
   "targetName": "openc-runtime",
   "sourcePaths": ["source"]

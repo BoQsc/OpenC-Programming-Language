@@ -1,1048 +1,1048 @@
 {
-  "candidate": "OpenC Core Candidate 2 — Implementation Readiness Revision 1",
-  "coverage_state": "AUTHORED_OBLIGATIONS_EXECUTION_PENDING",
+  "candidate": "OpenC 1.0.0-rc.1",
+  "coverage_state": "PARSER_BUILT_TESTED_DEDICATED_PRODUCTION_EVIDENCE_INCOMPLETE",
   "production_count": 174,
   "productions": [
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "source_unit",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "import_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "module_name",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "qualified_name",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "top_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "module_const_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "module_const_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "module_const_value_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "struct_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "resource_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "struct_field_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "resource_field_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "resource_value_field_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "resource_owned_pointer_field_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "struct_field_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "field_value_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "enum_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "enum_item",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "function_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "function_result",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ordinary_result_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "owning_pointer_result",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "parameter",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ordinary_parameter",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "parameter_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "own_parameter",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "own_parameter_target",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "out_parameter",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "output_parameter_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "output_value_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "out_own_pointer_parameter",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "block",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "block_item",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "local_decl",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "local_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "value_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "value_suffix",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ref_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ptr_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "optional_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "optional_core_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "storage_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ref_target",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ptr_target",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "optional_target",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "storage_target",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "type_atom",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "fixed_array_suffix",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "slice_suffix_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "primitive_object_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "signed_integer_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "unsigned_integer_type",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "statement",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "expression_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "if_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "while_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "for_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "for_init",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "switch_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "switch_case",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "default_case",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "break_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "continue_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "return_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "scope_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "scope_action",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "scope_call",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "scope_argument",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "unsafe_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_stmt",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "assignment_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "assignment_op",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "logical_or_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "logical_and_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "bitwise_or_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "bitwise_xor_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "bitwise_and_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "equality_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "relational_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "shift_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "additive_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "multiplicative_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "unary_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "cast_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "cast_unchecked_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "reinterpret_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "construct_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "destroy_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "type_query_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "postfix_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "postfix_suffix",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "call_suffix",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "call_argument",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "out_argument",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "member_suffix",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "index_suffix",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "range_suffix",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "primary_expr",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "status_initializer",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "status_code_init",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "status_message_init",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "aggregate_initializer",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "aggregate_field_init",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ordinary_field_init",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ownership_field_init",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ownership_source",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "array_initializer",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "literal",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_or_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_and_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_bitwise_or_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_bitwise_xor_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_bitwise_and_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_equality_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_relational_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_shift_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_additive_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_multiplicative_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_unary_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_primary_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_literal",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_type_query",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_array_initializer",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_aggregate_initializer",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_field_init",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "constant_integer_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_or_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_and_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_equality_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_relational_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_unary_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_primary_expression",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_literal",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_integer_literal",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "when_context_name",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ignored_element",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "space_character",
       "rejection_boundary_required": false
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "horizontal_tab_character",
       "rejection_boundary_required": false
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "line_feed_character",
       "rejection_boundary_required": false
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "carriage_return_character",
       "rejection_boundary_required": false
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "backslash_character",
       "rejection_boundary_required": false
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "double_quote_character",
       "rejection_boundary_required": false
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "whitespace",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "line_terminator",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "line_comment",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "line_comment_character",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "block_comment",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "block_comment_body",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "identifier",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "identifier_start",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "identifier_continue",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "ascii_letter",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "predeclared_type_word",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "decimal_digit",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "hex_digit",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "binary_digit",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "digit_separator",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "integer_literal",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "decimal_integer",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "hexadecimal_integer",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "binary_integer",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "float_literal",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "decimal_digits",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "exponent_part",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "text_literal",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "text_character",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "escape_sequence",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "escape_code",
       "rejection_boundary_required": true
     },
     {
-      "execution_state": "PENDING_IMPLEMENTATION",
+      "execution_state": "PARSER_SUITE_PASS_NO_DEDICATED_PRODUCTION_PAIR",
       "positive_fixture_required": true,
       "production": "unicode_escape_tail",
       "rejection_boundary_required": true

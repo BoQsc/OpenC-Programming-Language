@@ -8,7 +8,7 @@
         "runtime/linux/startup.d",
         "runtime/linux/source/openc_platform_linux.c"
       ],
-      "status": "AUTHORED_EXECUTION_PENDING"
+      "status": "EXPERIMENTAL_SOURCE_ONLY_OUT_OF_1_0_SCOPE"
     },
     {
       "id": "openc.runtime.windows-x86_64",
@@ -17,7 +17,7 @@
         "runtime/windows/startup.d",
         "runtime/windows/source/openc_platform_windows.c"
       ],
-      "status": "AUTHORED_EXECUTION_PENDING"
+      "status": "D_PROVIDER_BUILT_TESTED_RUNTIME_EXECUTED_RC1_C_PROVIDER_UNCOMPILED"
     },
     {
       "id": "openc.runtime.freestanding",
@@ -26,7 +26,7 @@
         "runtime/freestanding/startup.d",
         "runtime/freestanding/source/openc_platform_freestanding.c"
       ],
-      "status": "AUTHORED_TARGET_INTEGRATION_PENDING"
+      "status": "EXPERIMENTAL_SOURCE_ONLY_OUT_OF_1_0_SCOPE"
     }
   ]
 }

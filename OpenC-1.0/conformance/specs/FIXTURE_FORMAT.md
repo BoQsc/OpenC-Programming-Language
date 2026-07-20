@@ -1,29 +1,35 @@
-# Fixture Format
+# Fixture format
 
-Fixtures conform to `schemas/FIXTURE.schema.json`.
-
-Example:
+Canonical fixture records conform to `schemas/FIXTURE.schema.json` and are
+listed by `conformance/fixtures/MANIFEST.json`.
 
 ```json
 {
   "schema": "openc.fixture.v1",
-  "id": "type/implicit_lossy_i64_i32",
-  "candidate": "OpenC Core Candidate 2 — Implementation Readiness Revision 1",
-  "kind": "source-invalid",
-  "rules": ["OPENC-CONVERT-LOSSY-001"],
-  "sources": [
-    {
-      "name": "main",
-      "module": "main",
-      "encoding": "utf-8",
-      "content": "i32 main(){i64 a=1;i32 b=a;return b;}\n"
-    }
-  ],
+  "id": "invalid/implicit_narrow",
+  "kind": "invalid",
+  "origin": "OpenC Standard Draft 0.10 validation/invalid/implicit_narrow",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "active_rules": ["OPENC-CONVERT-LOSSY-001"],
+  "source_files": ["conformance/fixtures/invalid/implicit_narrow/main"],
   "expected": {
-    "phase": "type",
-    "primary_rule": "OPENC-CONVERT-LOSSY-001"
+    "edition": "OpenC Core 1.0 Current",
+    "fixture_kind": "source",
+    "rules": ["OPENC-CONVERT-LOSSY-001"],
+    "expected": {
+      "result": "reject",
+      "rule": "OPENC-CONVERT-LOSSY-001",
+      "diagnostic_rule": "OPENC-TYPE-MISMATCH-001"
+    }
   }
 }
 ```
 
-Fixture IDs are stable. A changed expected meaning receives an explicit compatibility event rather than silently rewriting historical evidence.
+`active_rules` and `expected.rules` are normative coverage identities.
+`diagnostic_rule` is the exact implementation diagnostic required from a
+rejecting fixture. `rule` remains the primary normative rule tested. Runtime
+fixtures match their authored runtime outcome contract rather than requiring a
+compile-time diagnostic.
+
+Fixture IDs and `origin` provenance are stable. Adapting a historical source to
+Current changes its execution target but does not erase its origin.

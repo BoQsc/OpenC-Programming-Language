@@ -1,7 +1,7 @@
-# OpenC Core — Current Development Standard
+# OpenC Core — 1.0 Release-Candidate Standard
 
-- Development version: `1.0-dev.0`
-- Authority state: **normative development baseline; not frozen; not released**
+- Release-candidate version: `1.0.0-rc.1`
+- Authority state: **owner-ratified release-candidate baseline; not published**
 - Source lineage: OpenC Core Candidate 2, Correction 001, and Implementation Readiness Revision 1
 - Active normative rules: 466
 - Normative grammar entries: 174

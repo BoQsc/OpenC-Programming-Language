@@ -1,36 +1,46 @@
-# OpenC 1.0 verification status
+# OpenC 1.0.0-rc.1 verification status
 
 Date: 2026-07-20
-Host: Windows 10.0.19045, x86_64
+Host: Windows 10.0.19045, x86-64
 
-## Source receipt
+## Verified scope
 
-- Original source archive SHA-256: `99fbd28310505fbab94d07ad995d38e9781def46e9b3cb31d4bd4f876be2d6a5`.
-- The 897-member archive passed its internal SHA-256 manifest and path-safety checks before extraction.
-- The completeness contract names 142 required files; none are missing or empty.
-- The canonical structure includes 466 active Core rules and 174 grammar productions.
+This evidence supports the owner-certified Windows x86-64 Hosted reference
+implementation. Linux, freestanding, Native, standalone C providers,
+script/live, and Concurrent work are outside the supported 1.0 scope.
 
-## Local toolchain
+## Toolchain
 
 - DMD 2.112.0
 - DUB 1.41.0
 - DMD-bundled `lld-link`
 - Python 3.13.7
 
-No MSVC, Clang, or GCC C compiler was available on this host, so the standalone C runtime and platform-provider sources have not been compiled.
-
 ## Executed evidence
 
-- Debug builds: 9 of 9 canonical D targets compiled and linked.
-- Release builds: 9 of 9 canonical D targets compiled and linked.
-- Authored D tests: 8 of 8 commands passed.
-- Informative Python bootstrap tests: 4 of 4 passed; bytecode compilation and CLI help smoke tests also passed.
-- Conformance fixtures: 268 of 268 passed with zero infrastructure failures.
-- Runtime fixtures: all 35 built and executed to their expected exit/output or checked/target-fault contract.
-- Maintained programs: all 4 checked, built, and executed to their authored exit/output contracts.
-- Structure and source-completeness validators passed.
+- 9 of 9 canonical D targets build and link in debug mode.
+- 9 of 9 canonical D targets build and link in release mode.
+- 8 of 8 authored D test commands pass.
+- 4 of 4 Python bootstrap tests pass; bytecode and CLI smoke checks pass.
+- 268 of 268 conformance fixtures pass with zero infrastructure failures.
+- All 35 runtime fixtures build and execute to their expected output/outcome.
+- All 4 maintained programs check, build, and run to their authored contracts.
+- Structure, source-completeness, manifest, and archive verification pass.
 
-The conformance report identifies 93 successful historical-edition rule-ID compatibility matches and 175 native/exact matches. Compatibility is explicit because these fixtures retain OpenC 0.10 Draft identities while the compiler emits the Current/Core Candidate 2 diagnostic taxonomy.
+Fixture execution now distinguishes normative rules from implementation
+diagnostic codes. All rejection diagnostic expectations match exactly and the
+historical edition-compatibility fallback is removed (zero compatibility
+matches). Imported fixtures retain their origin records while targeting OpenC
+Core 1.0 Current.
+
+Dedicated executable fixtures name 331 of 466 active Core rules. The remaining
+135-rule fixture-authoring backlog is explicit in the manifest and coverage
+matrix. It limits evidence granularity but does not mean those normative rules
+are removed or that untested targets are supported.
+
+The 174-production grammar is structurally validated and the parser is built
+and suite-tested. Dedicated positive/rejection evidence pairs are not complete
+for every individual production and remain nonblocking follow-up work.
 
 ## Reproduction commands
 
@@ -45,8 +55,10 @@ python scripts/validate_structure.py
 python scripts/source_completeness.py
 ```
 
-## Evidence boundary
+## Release conclusion
 
-This is a locally reproducible engineering conformance milestone for the complete authored executable manifest. It is not a claim of complete active-rule coverage, independent validation, native Linux behavior, freestanding behavior, or public release authorization.
-
-Formal `RELEASE_READY` remains blocked by independent grammar, semantic, security, and usability reviews; native target verification selected by the release authority; and HD-012 licensing, governance, signing, and publication authority. Those decisions cannot be inferred from passing implementation tests.
+HD-012 is ratified, the declared platform gate passes, and independent external
+review is a recommended post-release assurance activity rather than an initial
+owner-certified release prerequisite. The candidate is `RELEASE_READY` for its
+declared Windows x86-64 Hosted scope. It remains unpublished and therefore is
+not `RELEASED`.

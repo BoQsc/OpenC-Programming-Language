@@ -1,9 +1,9 @@
 {
   "authoritative": [
     {
-      "bytes": 175400,
+      "bytes": 175409,
       "path": "standard/core/OpenC_Core_Current.md",
-      "sha256": "8854f790b9168f530a14f83cbe3f21bee0cf99ba72b7bf46d9a2f2ed97be398b"
+      "sha256": "bb2d8fb910f557bba04fb1da5ee4be20d811226e6bbc80c444aae91b3d91ec6c"
     },
     {
       "bytes": 14814,
@@ -31,9 +31,9 @@
       "sha256": "210724c7c1023470deed9d8f99cb7ba6493b281093549754d52b581a8e4aff83"
     },
     {
-      "bytes": 6233,
+      "bytes": 6260,
       "path": "standard/hosted/OpenC_Hosted_Current.md",
-      "sha256": "fad07b876b0cafa99e7c76e4a934f01b88fb11a23db179ecbd3e08a028a35869"
+      "sha256": "0eca523e825871def268e0ff153e1ba2d4bb5094748c4edd04322bf5d0d30028"
     },
     {
       "bytes": 3226,
@@ -46,12 +46,12 @@
       "sha256": "141617231dfeba230b4a0f33468cdc6d6be63dc59f39e18e7e302ad66a46005d"
     },
     {
-      "bytes": 3283,
+      "bytes": 3404,
       "path": "standard/tooling/OpenC_Tooling_Current.md",
-      "sha256": "bead3df609c4422fee6ee177bd4da6ef2315f6c5482153b7d805ba6130fd7be9"
+      "sha256": "2378e3f3ca616f262a18d6f08bff9f0ea21c4a618701a96c1d4e1f72544a937d"
     }
   ],
-  "evidence_state": "AUTHORED_LOCALLY_VERIFIED_EXECUTABLE_SUITE_PASSING",
+  "evidence_state": "OWNER_CERTIFIED_WINDOWS_X86_64_RELEASE_READY",
   "implementation_authority": {
     "canonical": "compiler/source",
     "informative_bootstrap": "compiler/bootstrap/python"
@@ -68,5 +68,47 @@
     "examples"
   ],
   "schema": "openc.authority_index.v2",
-  "version": "1.0-dev.4-conformance"
+  "version": "1.0.0-rc.1",
+  "project_authority": [
+    {
+      "bytes": 1411,
+      "path": "GOVERNANCE.md",
+      "sha256": "8cb8d03e63eaac52a3a52f4f67df8b7ff0087866acfa1153dc9823dacd329f4a"
+    },
+    {
+      "bytes": 1352,
+      "path": "LICENSE_POLICY.md",
+      "sha256": "dd5b3a1ce3d9b26c1e6d047f62ab6dad4cb50a3c6a6ad70eeabec21f25561c2c"
+    },
+    {
+      "bytes": 960,
+      "path": "SECURITY.md",
+      "sha256": "dda77d29c47037c2a819a417573644de9af44df85eda13b49480a7ebe4aad029"
+    },
+    {
+      "bytes": 630,
+      "path": "TRADEMARKS.md",
+      "sha256": "5c15b77ae44e385476d3b3ced7f247bc0adb095fb56168d258c44beba892c17f"
+    },
+    {
+      "bytes": 933,
+      "path": "release/RELEASE_AUTHORITY.md",
+      "sha256": "85bb362dedfd94699efe8061d88f9e3d1f9c3ca8679692e9d4eb39ebee6d9610"
+    },
+    {
+      "bytes": 1664,
+      "path": "release/RELEASE_SCOPE_1.0.md",
+      "sha256": "77b624c3d379343e34d1c2d67e57cf59fb3ee66e20e85eb2996895be76bf2f62"
+    },
+    {
+      "bytes": 699,
+      "path": "release/ERRATA_POLICY.md",
+      "sha256": "56e3581d419aa96a6185d16146f6ac21bb6896b34d884fb6d7242ad5ce3526a1"
+    },
+    {
+      "bytes": 630,
+      "path": "release/SUPPORT_POLICY.md",
+      "sha256": "8e61816f71ab4280b98e4aefea8efae0f94ad72ac9831bcf1b26ed14be5c357a"
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 
-# Current OpenC Core development authority
+# Current OpenC Core 1.0 release-candidate authority
 
 Read in this order:
 
@@ -11,4 +11,7 @@ Read in this order:
 6. `security/OpenC_Core_Security_Model.md`
 7. `rationale/OpenC_Core_Rationale.md`
 
-The current baseline contains 466 active normative rules and 174 grammar entries. It is authored and internally reviewed, but independent review, complete implementation, and full conformance execution remain pending.
+The current baseline contains 466 active normative rules and 174 grammar
+entries. The Windows x86-64 Hosted reference implementation builds and passes
+the complete 268-fixture authored manifest. Independent review and additional
+dedicated-rule fixtures remain recommended follow-up work.

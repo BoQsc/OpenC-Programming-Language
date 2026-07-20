@@ -1,7 +1,7 @@
 {
   "name": "openc-stdlib",
   "description": "OpenC 1.0 minimum Hosted standard library source",
-  "license": "proprietary-pending-governance",
+  "license": "0BSD",
   "targetType": "library",
   "targetName": "openc-stdlib",
   "sourcePaths": ["source"],

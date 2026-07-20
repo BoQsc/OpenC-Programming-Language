@@ -33,4 +33,8 @@ compiler/bootstrap/python/  informative bootstrap, not canonical implementation
 
 ## Release authority
 
-A versioned source snapshot is generated from one recorded state of this tree. A source-complete snapshot is not a compiled or released product. Licensing, governance, evidence gates, signing, and publication authorization remain separate.
+A versioned source snapshot is generated from one recorded state of this tree.
+The OpenC project owner controlling the canonical tree is the normative,
+release, checksum, errata, security, and publication authority under
+`GOVERNANCE.md` and `release/RELEASE_AUTHORITY.md`. `RELEASE_READY` remains
+distinct from publication and `RELEASED`.

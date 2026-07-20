@@ -8,5 +8,5 @@
   "abi": "win64",
   "hosted": true,
   "runtime_provider": "runtime/windows",
-  "evidence_state": "AUTHORED_EXECUTION_PENDING"
+  "evidence_state": "BUILT_TESTED_RUNTIME_EXECUTED_RC1"
 }
