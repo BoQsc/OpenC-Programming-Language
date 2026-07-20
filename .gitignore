@@ -4,6 +4,8 @@
 # Local verification evidence and generated fixture driver.
 /OpenC-1.0/build-output/
 /OpenC-1.0/build/fixture_main.d
+/OpenC-1.0/build/generated/
+/OpenC-1.0/build/openc-build-record.json
 /OpenC-1.0/programs/*/build/
 
 # DUB state and compiler/linker products.

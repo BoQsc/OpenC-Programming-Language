@@ -127,6 +127,7 @@
       "compiler/source/openc/compiler.d",
       "compiler/source/openc/conformance.d",
       "compiler/source/openc/constant.d",
+      "compiler/source/openc/core_rules.d",
       "compiler/source/openc/declarations.d",
       "compiler/source/openc/diagnostic.d",
       "compiler/source/openc/flow.d",
@@ -223,7 +224,8 @@
     ],
     "tests_python": [
       "tests/python/test_bootstrap_source.py",
-      "tests/run_all.py"
+      "tests/run_all.py",
+      "tests/run_maintained.py"
     ],
     "tools_d": [
       "tools/source/apps/explain_main.d",
@@ -258,5 +260,5 @@
     "schemas/DIAGNOSTIC.schema.json"
   ],
   "schema": "openc.source_completeness_contract.v2",
-  "version": "1.0-dev.3-verification"
+  "version": "1.0-dev.4-conformance"
 }

@@ -130,20 +130,10 @@ private:
         }
         auto loaded = ProjectConfig.load(libraryProjectPath);
         if (!loaded.ok) return Result!(ProjectModule[]).failure(loaded.error);
-        foreach (candidate; loaded.value.modules) {
-            bool duplicate;
-            foreach (existing; modules) {
-                if (existing.name == candidate.name) {
-                    duplicate = true;
-                    break;
-                }
-            }
-            if (duplicate) {
-                return Result!(ProjectModule[]).failure(
-                    "project module conflicts with standard library module: " ~ candidate.name);
-            }
-            modules ~= candidate;
-        }
+        // Standard-library declarations are compiler-provided logical modules.
+        // The directory identifies their native implementation for the
+        // bootstrap linker; its OpenC sources are not application compilation
+        // units and must not be parsed as if they belonged to this project.
         return Result!(ProjectModule[]).success(modules);
     }
 

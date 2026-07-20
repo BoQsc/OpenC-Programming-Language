@@ -36,10 +36,13 @@ struct ProjectConfig {
         ProjectConfig config;
         config.path = buildNormalizedPath(absolutePath(path));
         config.root = dirName(config.path);
+        config.outputDirectory = buildNormalizedPath(config.root, "build");
         auto object = rootJson.object;
         if (auto value = "edition" in object) config.edition = value.str;
         if (auto value = "profile" in object) config.profile = value.str;
-        if (auto value = "output_directory" in object) config.outputDirectory = value.str;
+        if (auto value = "output_directory" in object) {
+            config.outputDirectory = buildNormalizedPath(config.root, value.str);
+        }
         if (auto value = "runtime_directory" in object) {
             config.runtimeDirectory = buildNormalizedPath(config.root, value.str);
         }
@@ -84,9 +87,16 @@ struct ProjectConfig {
         ProjectConfig config;
         config.root = dirName(buildNormalizedPath(absolutePath(sourcePath)));
         config.path = "<single-source>";
+        config.outputDirectory = buildNormalizedPath(config.root, "build");
         config.modules = [ProjectModule(moduleName, [buildNormalizedPath(absolutePath(sourcePath))])];
         applyHostDefaults(config.target);
         return config;
+    }
+
+    static TargetContext hostTarget() {
+        TargetContext target;
+        applyHostDefaults(target);
+        return target;
     }
 
 private:

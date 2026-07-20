@@ -4,6 +4,7 @@ import openc.ast : AstNode, NodeKind;
 import openc.common : Result, TargetContext, TypeId;
 import openc.diagnostic : DiagnosticEngine, DiagnosticPhase;
 import openc.semantic_model : SemanticModel;
+import openc.symbol : SymbolKind;
 import openc.types : TypeKind;
 import std.algorithm : min, max;
 import std.algorithm.searching : canFind;
@@ -61,7 +62,8 @@ private:
             return ConstantValue(model.types.errorType, false);
         }
         auto type = model.types.find("i32");
-        if (value > long.max) type = model.types.find("u64");
+        if (value > int.max && value <= long.max) type = model.types.find("i64");
+        else if (value > long.max) type = model.types.find("u64");
         ConstantValue result;
         result.type = type;
         result.valid = true;
@@ -119,13 +121,21 @@ private:
             if (value.signedValue == long.min) return overflow(node);
             value.signedValue = -value.signedValue;
             value.unsignedValue = cast(ulong) value.signedValue;
+            model.integerConstants[node.id] = value.signedValue;
+            model.setType(node, value.type);
             return value;
         }
-        if (node.text == "+") return value;
+        if (node.text == "+") {
+            model.integerConstants[node.id] = value.signedValue;
+            model.setType(node, value.type);
+            return value;
+        }
         if (node.text == "~") {
             if (!model.types.get(value.type).integer()) return typeError(node, "bitwise complement requires an integer");
             value.signedValue = ~value.signedValue;
             value.unsignedValue = cast(ulong) value.signedValue;
+            model.integerConstants[node.id] = value.signedValue;
+            model.setType(node, value.type);
             return value;
         }
         return ConstantValue(model.types.errorType, false);
@@ -195,19 +205,79 @@ private:
 
     ConstantValue typeQuery(AstNode node) {
         auto type = model.types.resolve(node.children[0], model.target);
-        auto info = model.types.get(type);
-        size_t size;
-        if (info.bits) size = info.bits / 8;
-        else if (info.kind == TypeKind.pointer || info.kind == TypeKind.reference || info.name == "usize" || info.name == "isize") size = model.target.pointerWidth / 8;
-        else size = 0;
+        auto size = node.text == "align_of" ? alignOf(type) : sizeOf(type);
         ConstantValue result;
         result.type = model.types.find("usize");
         result.valid = size != 0;
         result.unsignedValue = size;
         result.signedValue = cast(long) size;
+        model.integerConstants[node.id] = result.signedValue;
+        model.setType(node, result.type);
         if (!result.valid) diagnostics.error("OPENC-TYPE-QUERY-INCOMPLETE-001", DiagnosticPhase.constant,
             "constant.type_query", "type size or alignment is not known in this context", node.span);
         return result;
+    }
+
+    size_t sizeOf(TypeId type) {
+        auto info = model.types.get(type);
+        if (info.constQualified && info.element != type) return sizeOf(info.element);
+        if (info.bits) return info.bits / 8;
+        if (info.kind == TypeKind.boolean || info.kind == TypeKind.byteType) return 1;
+        if (info.kind == TypeKind.pointer || info.kind == TypeKind.reference ||
+            info.name == "usize" || info.name == "isize") return model.target.pointerWidth / 8;
+        if (info.kind == TypeKind.text || info.kind == TypeKind.slice) return 2 * model.target.pointerWidth / 8;
+        if (info.kind == TypeKind.status) return alignUp(4, model.target.pointerWidth / 8) + 2 * model.target.pointerWidth / 8;
+        if (info.kind == TypeKind.fixedArray) return info.length * sizeOf(info.element);
+        if (info.kind == TypeKind.optional) {
+            auto alignment = alignOf(info.element);
+            return alignUp(1, alignment) + alignUp(sizeOf(info.element), alignment);
+        }
+        if (info.kind == TypeKind.storage) return alignUp(sizeOf(info.element), alignOf(info.element)) + 1;
+        if (info.kind == TypeKind.named) {
+            foreach (symbol; model.symbols.symbols) {
+                if (symbol.type != type || symbol.declaration is null) continue;
+                if (symbol.kind == SymbolKind.enumSymbol) return 4;
+                if (symbol.kind != SymbolKind.structSymbol && symbol.kind != SymbolKind.resourceSymbol) continue;
+                size_t offset;
+                size_t maximumAlignment = 1;
+                foreach (field; symbol.declaration.children) {
+                    auto fieldId = field.id in model.nodeSymbols;
+                    if (fieldId is null) continue;
+                    auto fieldType = model.symbols.get(*fieldId).type;
+                    auto alignment = alignOf(fieldType);
+                    maximumAlignment = max(maximumAlignment, alignment);
+                    offset = alignUp(offset, alignment) + sizeOf(fieldType);
+                }
+                return max(cast(size_t) 1, alignUp(offset, maximumAlignment));
+            }
+        }
+        return 0;
+    }
+
+    size_t alignOf(TypeId type) {
+        auto info = model.types.get(type);
+        if (info.constQualified && info.element != type) return alignOf(info.element);
+        if (info.kind == TypeKind.fixedArray || info.kind == TypeKind.optional ||
+            info.kind == TypeKind.storage) return alignOf(info.element);
+        if (info.kind == TypeKind.named) {
+            size_t result = 1;
+            foreach (symbol; model.symbols.symbols) {
+                if (symbol.type != type || symbol.declaration is null) continue;
+                if (symbol.kind == SymbolKind.enumSymbol) return 4;
+                foreach (field; symbol.declaration.children) {
+                    auto fieldId = field.id in model.nodeSymbols;
+                    if (fieldId !is null) result = max(result, alignOf(model.symbols.get(*fieldId).type));
+                }
+                return result;
+            }
+        }
+        auto size = sizeOf(type);
+        return size ? min(size, model.target.pointerWidth / 8) : 0;
+    }
+
+    size_t alignUp(size_t value, size_t alignment) {
+        if (!alignment) return value;
+        return (value + alignment - 1) / alignment * alignment;
     }
 
     ConstantValue typeError(AstNode node, string message) {

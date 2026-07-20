@@ -234,6 +234,12 @@ private:
             do node.add(parseParameter()); while (match(","));
         }
         expect(")", "OPENC-SYNTAX-PAREN-001", "expected ')' after parameters");
+        if (match(";")) {
+            auto body = arena.make(NodeKind.block, previous().span).set("prototype", "true");
+            node.set("prototype", "true").add(body);
+            node.span = combinedSpan(start, previous().span);
+            return node;
+        }
         ++functionDepth;
         auto body = parseBlock();
         --functionDepth;
@@ -396,7 +402,7 @@ private:
     }
 
     AstNode parseFor(Token begin) {
-        expect("(", "OPENC-SYNTAX-PAREN-001", "expected '(' after for");
+        bool parenthesized = match("(");
         auto node = arena.make(NodeKind.forStmt, begin.span);
         if (!check(";")) {
             if (looksLikeLocalDeclarationWithoutSemicolon()) {
@@ -411,8 +417,8 @@ private:
         expect(";", "OPENC-SYNTAX-SEMICOLON-001", "expected ';' in for header");
         if (!check(";")) node.add(parseExpression()); else node.add(null);
         expect(";", "OPENC-SYNTAX-SEMICOLON-001", "expected second ';' in for header");
-        if (!check(")")) node.add(parseExpression()); else node.add(null);
-        expect(")", "OPENC-SYNTAX-PAREN-001", "expected ')' after for header");
+        if (!(parenthesized && check(")")) && !check("{")) node.add(parseExpression()); else node.add(null);
+        if (parenthesized) expect(")", "OPENC-SYNTAX-PAREN-001", "expected ')' after for header");
         ++loopDepth;
         auto body = parseBlock();
         --loopDepth;
@@ -557,11 +563,12 @@ private:
 
     AstNode parseConstruct(Token begin) {
         expect("(", "OPENC-SYNTAX-PAREN-001", "expected '(' after construct");
-        auto typeName = expectIdentifier();
-        expect(",", "OPENC-SYNTAX-COMMA-001", "expected ',' after constructed type");
         auto storage = parseExpression();
+        expect(",", "OPENC-SYNTAX-COMMA-001", "expected ',' after storage binding");
+        auto value = parseExpression();
         auto end = expect(")", "OPENC-SYNTAX-PAREN-001", "expected ')' after construct");
-        return arena.make(NodeKind.constructExpr, combinedSpan(begin.span, end.span), typeName.text).add(storage);
+        return arena.make(NodeKind.constructExpr, combinedSpan(begin.span, end.span), "construct")
+            .add(storage).add(value);
     }
 
     AstNode parseDestroy(Token begin) {
@@ -695,15 +702,22 @@ private:
     }
 
     AstNode parseQualifiedName() {
-        auto first = expectIdentifier();
+        auto first = expectNamePart();
         string text = first.text;
         auto last = first.span;
         while (match(".")) {
-            auto part = expectIdentifier();
+            auto part = expectNamePart();
             text ~= "." ~ part.text;
             last = part.span;
         }
         return arena.make(NodeKind.qualifiedName, combinedSpan(first.span, last), text);
+    }
+
+    Token expectNamePart() {
+        if (checkKind(TokenKind.identifier) ||
+            (checkKind(TokenKind.keyword) && isBuiltinTypeName(current().text))) return advance();
+        syntaxError("OPENC-SYNTAX-IDENTIFIER-001", "expected identifier", current().span);
+        return Token(TokenKind.identifier, "<missing>", current().span);
     }
 
     bool isUnsignedIntegerType(string text) const {

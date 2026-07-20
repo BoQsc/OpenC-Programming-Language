@@ -5,6 +5,7 @@ import openc.borrow : BorrowAnalyzer;
 import openc.cfg : CfgBuilder, ControlFlowGraph;
 import openc.cleanup : CleanupAnalyzer;
 import openc.common : TargetContext;
+import openc.core_rules : CoreRuleChecker;
 import openc.declarations : DeclarationCollector;
 import openc.diagnostic : DiagnosticEngine;
 import openc.flow : FlowAnalyzer;
@@ -41,6 +42,7 @@ public:
             foreach (unit; logical.units) {
                 foreach (node; unit.root.children) {
                     if (node.kind != NodeKind.functionDecl) continue;
+                    if (node.flag("prototype")) continue;
                     auto cfg = new CfgBuilder().build(node.children[$ - 1]);
                     new FlowAnalyzer(model, diagnostics).analyze(cfg, node);
                     new StatusOutAnalyzer(model, diagnostics).analyzeFunction(node);
@@ -52,6 +54,7 @@ public:
                 }
             }
         }
+        new CoreRuleChecker(model, diagnostics, sources, project.profile).check();
         return model;
     }
 }

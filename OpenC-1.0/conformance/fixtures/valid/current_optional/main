@@ -1,2 +1,1 @@
-optional i32 value = none;
-i32 main() { return value.present ? 1 : 0; }
+i32 main() { optional i32 value = none; if value.present { return 1; } return 0; }

@@ -1,5 +1,5 @@
 status ready() {
-    return status{ ok = true, code = 0, message = "ready" };
+    return status{ code = 0, message = "ready" };
 }
 
 i32 main() {

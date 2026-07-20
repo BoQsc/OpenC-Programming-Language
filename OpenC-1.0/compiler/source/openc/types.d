@@ -132,9 +132,23 @@ public:
         if (source == target) return true;
         auto from = get(source);
         auto toType = get(target);
+        if (from.kind == toType.kind && from.name == toType.name &&
+            from.constQualified && !toType.constQualified &&
+            from.kind != TypeKind.reference && from.kind != TypeKind.pointer &&
+            from.kind != TypeKind.slice && from.kind != TypeKind.optional) return true;
+        if (from.kind == toType.kind && from.name == toType.name &&
+            !from.constQualified && toType.constQualified) return true;
         if (from.kind == TypeKind.reference && toType.kind == TypeKind.reference &&
-            from.element == toType.element && !from.constQualified && toType.constQualified) return true;
-        if (from.kind == TypeKind.fixedArray && toType.kind == TypeKind.slice && from.element == toType.element) return true;
+            viewElementLossless(from.element, toType.element, context) &&
+            (!from.constQualified || toType.constQualified)) return true;
+        if (from.kind == TypeKind.pointer && toType.kind == TypeKind.pointer &&
+            viewElementLossless(from.element, toType.element, context) &&
+            (!from.constQualified || toType.constQualified)) return true;
+        if (from.kind == TypeKind.slice && toType.kind == TypeKind.slice &&
+            viewElementLossless(from.element, toType.element, context) &&
+            (!from.constQualified || toType.constQualified)) return true;
+        if (from.kind == TypeKind.fixedArray && toType.kind == TypeKind.slice &&
+            viewElementLossless(from.element, toType.element, context)) return true;
         if (from.kind == TypeKind.signedInteger && toType.kind == TypeKind.signedInteger) return effectiveBits(from, context) <= effectiveBits(toType, context);
         if ((from.kind == TypeKind.unsignedInteger || from.kind == TypeKind.byteType) &&
             toType.kind == TypeKind.unsignedInteger) return effectiveBits(from, context) <= effectiveBits(toType, context);
@@ -169,6 +183,13 @@ public:
     }
 
 private:
+    bool viewElementLossless(TypeId source, TypeId target, const(TargetContext) context) const {
+        auto from = get(source);
+        auto toType = get(target);
+        if (from.constQualified && !toType.constQualified) return false;
+        return lossless(source, target, context);
+    }
+
     TypeId add(TypeKind kind, string name) {
         auto id = cast(TypeId) types.length;
         auto info = new OpenCTypeInfo(id, kind, name);

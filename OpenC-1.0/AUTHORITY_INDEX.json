@@ -51,7 +51,7 @@
       "sha256": "bead3df609c4422fee6ee177bd4da6ef2315f6c5482153b7d805ba6130fd7be9"
     }
   ],
-  "evidence_state": "AUTHORED_LOCALLY_BUILT_TESTED_NONCONFORMING",
+  "evidence_state": "AUTHORED_LOCALLY_VERIFIED_EXECUTABLE_SUITE_PASSING",
   "implementation_authority": {
     "canonical": "compiler/source",
     "informative_bootstrap": "compiler/bootstrap/python"
@@ -68,5 +68,5 @@
     "examples"
   ],
   "schema": "openc.authority_index.v2",
-  "version": "1.0-dev.3-verification"
+  "version": "1.0-dev.4-conformance"
 }

@@ -12,4 +12,4 @@ usize arithmetic
 while control flow
 ```
 
-Evidence state: `EXECUTION_PENDING`.
+Evidence state: `EXECUTED_PASS_WINDOWS_BOOTSTRAP` with two test arguments and exact expected output.

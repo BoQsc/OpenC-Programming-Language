@@ -1,11 +1,12 @@
 module openc.declarations;
 
 import openc.ast : AstNode, NodeKind;
-import openc.common : ModuleId, ScopeId, SymbolId;
+import openc.common : ModuleId, ScopeId, SymbolId, TypeId;
 import openc.diagnostic : Diagnostic, DiagnosticEngine, DiagnosticPhase, DiagnosticSeverity, RelatedLocation;
 import openc.module_system : LogicalModule, ModuleGraph;
 import openc.semantic_model : SemanticModel;
 import openc.symbol : FunctionSignature, SymbolKind, Visibility;
+import openc.source : SourceSpan;
 import openc.types : TypeKind;
 import std.algorithm.searching : canFind;
 
@@ -21,6 +22,8 @@ public:
     }
 
     void collect() {
+        declareBuiltinModules();
+        declareCoreBuiltins();
         foreach (logical; model.modules.modules) {
             predeclareTypes(logical);
         }
@@ -34,7 +37,84 @@ public:
         }
     }
 
+    void declareCoreBuiltins() {
+        foreach (logical; model.modules.modules) {
+            if (!logical.units.length) continue;
+            foreach (operation; ["saturating_add", "saturating_sub", "saturating_mul"]) {
+                foreach (typeName; [
+                    "i8", "i16", "i32", "i64", "u8", "u16", "u32", "u64", "isize", "usize"
+                ]) {
+                    auto type = model.types.find(typeName);
+                    addBuiltinFunction(logical, operation, type, [type, type]);
+                }
+            }
+        }
+    }
+
 private:
+    void declareBuiltinModules() {
+        foreach (logical; model.modules.modules) {
+            if (logical.name == "system.io") {
+                foreach (typeName; [
+                    "text", "bool", "i8", "i16", "i32", "i64",
+                    "u8", "u16", "u32", "u64", "isize", "usize"
+                ]) {
+                    addBuiltinFunction(logical, "print", model.types.voidType,
+                        [model.types.find(typeName)]);
+                    addBuiltinFunction(logical, "println", model.types.voidType,
+                        [model.types.find(typeName)]);
+                }
+                addBuiltinFunction(logical, "error", model.types.voidType,
+                    [model.types.textType]);
+            } else if (logical.name == "system.memory") {
+                auto bytePointer = model.types.pointer(model.types.byteType, false);
+                addBuiltinFunction(logical, "alloc", bytePointer,
+                    [model.types.find("usize")], true);
+                addBuiltinFunction(logical, "free", model.types.voidType,
+                    [bytePointer]);
+            } else if (logical.name == "system.text") {
+                addBuiltinFunction(logical, "length", model.types.find("usize"),
+                    [model.types.textType]);
+                addBuiltinFunction(logical, "trim", model.types.textType,
+                    [model.types.textType]);
+                addBuiltinFunction(logical, "equal", model.types.boolType,
+                    [model.types.textType, model.types.textType]);
+                addBuiltinFunction(logical, "compare", model.types.find("i32"),
+                    [model.types.textType, model.types.textType]);
+            } else if (logical.name == "system.process") {
+                addBuiltinFunction(logical, "argument_count", model.types.find("usize"), []);
+                addBuiltinFunction(logical, "argument", model.types.textType,
+                    [model.types.find("usize")]);
+                addBuiltinFunction(logical, "current_directory", model.types.textType, []);
+            }
+        }
+    }
+
+    void addBuiltinFunction(
+        LogicalModule logical,
+        string name,
+        TypeId result,
+        TypeId[] parameters,
+        bool owningResult = false
+    ) {
+        auto qualified = logical.name ~ "." ~ name;
+        auto id = model.symbols.add(
+            SymbolKind.functionSymbol, qualified, SourceSpan(), 0);
+        auto symbol = model.symbols.get(id);
+        symbol.name = name;
+        symbol.qualifiedName = qualified;
+        symbol.moduleId = logical.id;
+        symbol.visibility = Visibility.exported;
+        FunctionSignature signature;
+        signature.result = result;
+        signature.parameters = parameters.dup;
+        signature.modes.length = parameters.length;
+        signature.modes[] = "value";
+        signature.owningResult = owningResult;
+        symbol.signature = signature;
+        symbol.type = result;
+    }
+
     void predeclareTypes(LogicalModule logical) {
         foreach (unit; logical.units) {
             foreach (node; unit.root.children) {

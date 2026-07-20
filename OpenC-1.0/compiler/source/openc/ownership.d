@@ -44,14 +44,19 @@ public:
             auto symbol = child.id in model.nodeSymbols;
             if (symbol is null) continue;
             auto info = model.symbols.get(*symbol);
-            if (info.resource || child.get("mode") == "own" || child.get("mode") == "out_own") {
-                state[*symbol] = OwnershipValue(child.get("mode") == "out_own" ? OwnershipState.none : OwnershipState.live, child);
+            auto mode = child.get("mode", "value");
+            if (info.resource || mode == "own" || mode == "out_own") {
+                state[*symbol] = OwnershipValue(
+                    mode == "out" || mode == "out_own" ? OwnershipState.none : OwnershipState.live,
+                    child);
             }
         }
         inspectBlock(functionNode.children[$ - 1]);
         foreach (symbol, value; state) {
             if (value.state == OwnershipState.live || value.state == OwnershipState.dismantling || value.state == OwnershipState.maybeLive) {
                 auto info = model.symbols.get(symbol);
+                if (info.kind == SymbolKind.parameterSymbol && info.declaration !is null &&
+                    ["own", "out", "out_own"].canFind(info.declaration.get("mode"))) continue;
                 diagnostics.error("OPENC-OWN-EXIT-001", DiagnosticPhase.ownership,
                     "ownership.exit", "ownership obligation leaves function without transfer or cleanup: " ~ info.name,
                     info.span);
@@ -140,6 +145,11 @@ private:
                     if (mode == "own") {
                         auto source = argument.id in model.nodeSymbols;
                         if (source !is null) move(argument, *source);
+                    } else if (mode == "out" || mode == "out_own") {
+                        auto destination = argument.id in model.nodeSymbols;
+                        if (destination !is null && *destination in state) {
+                            state[*destination] = OwnershipValue(OwnershipState.live, node);
+                        }
                     } else inspectExpression(argument, false);
                 }
             } else foreach (argument; node.children[1 .. $]) inspectExpression(argument, false);

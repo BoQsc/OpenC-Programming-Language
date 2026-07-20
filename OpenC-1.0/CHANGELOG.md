@@ -1,5 +1,15 @@
 # OpenC development changelog
 
+## 1.0-dev.4 — executable conformance milestone
+
+- implemented current Core parser, name/type/constant, flow/status, ownership/borrow, storage/pointer/unsafe, diagnostic, IR, and D-backend behavior exercised by the authored suite;
+- executed all 268 conformance fixtures successfully with zero infrastructure failures, including all 35 runtime fixtures;
+- retained 93 explicit historical-edition rule-ID compatibility matches rather than presenting them as exact Current taxonomy matches;
+- checked, built, and executed all four maintained programs to their authored exit/output contracts;
+- compiled and linked all nine canonical D targets in debug and release modes and passed all eight D test commands plus four Python bootstrap tests;
+- added reproducible maintained-program execution reporting and deterministic release-archive verification;
+- retained non-release status because active-rule coverage, native Linux/freestanding execution, independent reviews, and HD-012 licensing/governance/signing remain pending.
+
 ## 1.0-dev.3 — local verification baseline
 
 - corrected D language compatibility, packaging, imports, reserved identifiers, parser progress, control-condition parsing, and validator report handling;

@@ -8,6 +8,7 @@ import openc.diagnostic : Diagnostic, DiagnosticEngine, DiagnosticPhase, Diagnos
 import openc.semantic_model : SemanticModel;
 import openc.symbol : SymbolKind;
 import std.algorithm : sort;
+import std.string : endsWith;
 
 enum InitState : string {
     uninitialized = "uninitialized",
@@ -120,8 +121,17 @@ private:
         switch (node.kind) {
             case NodeKind.expressionStmt:
             case NodeKind.returnStmt:
-            case NodeKind.scopeStmt:
                 foreach (child; node.children) inspectExpression(child, state, false);
+                break;
+            case NodeKind.scopeStmt:
+                // A scope action is registered here and executes only when the
+                // enclosing scope exits. Its captures are reads at registration,
+                // but destroy must not end the referent's lifetime immediately.
+                foreach (child; node.children) {
+                    if (child.kind == NodeKind.destroyExpr) {
+                        foreach (capture; child.children) inspectExpression(capture, state, false);
+                    } else inspectExpression(child, state, false);
+                }
                 break;
             default:
                 inspectExpression(node, state, false);
@@ -180,6 +190,14 @@ private:
             }
             return;
         }
+        if (node.kind == NodeKind.constructExpr) {
+            // A storage binding denotes an allocated slot, not a live value.
+            // Constructing into it is therefore a write even before an object
+            // has been initialized in that slot.
+            inspectExpression(node.children[0], state, true);
+            inspectExpression(node.children[1], state, false);
+            return;
+        }
         foreach (child; node.children) inspectExpression(child, state, false);
     }
 
@@ -195,6 +213,9 @@ private:
 
     FlowEnvironment refineForEdge(FlowEnvironment state, EdgeKind kind, AstNode condition) {
         if (condition is null) return state;
+        // Associative arrays have reference semantics. Each CFG edge must refine
+        // an independent snapshot or the first branch will corrupt its sibling.
+        state.values = state.values.dup;
         bool successBranch;
         bool known = extractStatusProof(condition, kind == EdgeKind.trueBranch, successBranch, state);
         if (!known) return state;
@@ -211,14 +232,20 @@ private:
             bool nested;
             if (extractStatusProof(condition.children[0], !branchTruth, nested, state)) { success = nested; return true; }
         }
-        if (condition.kind == NodeKind.memberExpr && condition.text == "ok") {
-            auto type = model.typeOf(condition.children[0]);
-            if (type == model.types.statusType) { success = branchTruth; return true; }
+        if ((condition.kind == NodeKind.memberExpr && condition.text == "ok") ||
+            (condition.kind == NodeKind.qualifiedName && condition.text.endsWith(".ok"))) {
+            auto statusMember = condition.kind == NodeKind.qualifiedName ||
+                model.typeOf(condition.children[0]) == model.types.statusType;
+            if (statusMember) {
+                success = branchTruth; return true;
+            }
         }
         if (condition.kind == NodeKind.binaryExpr && (condition.text == "==" || condition.text == "!=")) {
             auto left = condition.children[0];
             auto right = condition.children[1];
-            if (left.kind == NodeKind.memberExpr && left.text == "code" && right.kind == NodeKind.integerLiteral && right.text == "0") {
+            if (((left.kind == NodeKind.memberExpr && left.text == "code") ||
+                (left.kind == NodeKind.qualifiedName && left.text.endsWith(".code"))) &&
+                right.kind == NodeKind.integerLiteral && right.text == "0") {
                 bool equalsZero = condition.text == "==";
                 success = branchTruth ? equalsZero : !equalsZero;
                 return true;

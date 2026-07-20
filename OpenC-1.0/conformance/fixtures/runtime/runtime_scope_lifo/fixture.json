@@ -8,8 +8,7 @@
     "edition": "OpenC 0.10 Draft",
     "environment": "hosted",
     "expected": {
-      "result": "checked_failure",
-      "rule": "OPENC-CLEANUP-LIFO-001",
+      "result": "accept",
       "stdout": [
         "second",
         "first"

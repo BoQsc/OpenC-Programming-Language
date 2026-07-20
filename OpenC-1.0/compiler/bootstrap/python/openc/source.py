@@ -76,6 +76,10 @@ class SourceManager:
     def add_text(self, source_id: str, text: str, path: Path | None = None) -> SourceFile:
         return self.add_bytes(source_id, text.encode("utf-8"), path)
 
+    def add_virtual(self, source_id: str, text: str) -> SourceFile:
+        """Register an in-memory UTF-8 source with no filesystem path."""
+        return self.add_text(source_id, text)
+
     def load(self, path: Path, source_id: str | None = None) -> SourceFile:
         source = SourceFile.from_path(path, source_id)
         self._sources[source.source_id] = source

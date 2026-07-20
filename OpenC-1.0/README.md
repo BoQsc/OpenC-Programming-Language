@@ -4,7 +4,7 @@ OpenC is a new open systems language: C-shaped, not C-compatible; safe by defaul
 
 This directory is the **single canonical development tree**.
 
-## Source-complete handoff state
+## Verified development state
 
 Concrete source is authored for:
 
@@ -24,7 +24,9 @@ authored test source and 268 conformance fixtures
 maintained Core and Hosted acceptance programs
 ```
 
-Nothing in this package is claimed as compiled, linked, executed, platform-verified, independently reviewed, release-ready, or published.
+The canonical D targets compile and link in debug and release modes on the recorded Windows host. All authored D tests, Python bootstrap tests, 268 executable conformance fixtures, 35 runtime fixtures, and four maintained programs pass locally.
+
+This is an engineering conformance milestone, not a public release authorization. Ninety-three historical fixtures use an explicit draft-to-current rule-ID compatibility mapping, complete active-rule coverage remains unfinished, Linux and freestanding execution are unverified, independent reviews are pending, and HD-012 licensing/governance/signing authority is unresolved.
 
 Start with:
 
@@ -37,6 +39,7 @@ compiler/IMPLEMENTATION_AUTHORITY.md
 SOURCE_COMPLETENESS_CONTRACT.json
 build/build_all.py
 tests/run_all.py
+tests/run_maintained.py
 release/LOCAL_BUILD_TEST_RELEASE_RUNBOOK.md
 ```
 

@@ -45,6 +45,7 @@ public:
 
 private:
     void checkFunction(AstNode node) {
+        if (node.flag("prototype")) return;
         auto symbolId = node.id in model.nodeSymbols;
         if (symbolId is null) return;
         auto symbol = model.symbols.get(*symbolId);
@@ -73,7 +74,9 @@ private:
             if (field.children.length <= 1) continue;
             auto expected = model.types.resolve(field.children[0], model.target);
             auto actual = checkExpression(field.children[1]);
-            if (!model.types.lossless(actual, expected, model.target)) mismatch(field.children[1], actual, expected, "field default");
+            if (!canInitialize(field.children[1], actual, expected)) {
+                mismatch(field.children[1], actual, expected, "field default");
+            } else applyContext(field.children[1], expected);
         }
     }
 
@@ -109,7 +112,14 @@ private:
         model.setType(node, expected);
         if (node.children.length > 1 && node.children[1] !is null) {
             auto actual = checkExpression(node.children[1]);
-            if (!model.types.lossless(actual, expected, model.target)) mismatch(node.children[1], actual, expected, "local initializer");
+            if (node.children[1].kind == NodeKind.callExpr && actual == model.types.statusType) {
+                foreach (argument; node.children[1].children[1 .. $]) {
+                    if (argument.kind == NodeKind.outArgument) node.children[1].set("stable_carrier", node.text);
+                }
+            }
+            if (!canInitialize(node.children[1], actual, expected)) {
+                mismatch(node.children[1], actual, expected, "local initializer");
+            } else applyContext(node.children[1], expected);
         }
     }
 
@@ -160,7 +170,9 @@ private:
                     auto actual = checkExpression(node.children[0]);
                     if (currentReturn == model.types.voidType) diagnostics.error("OPENC-FUNCTION-RETURN-VALUE-001", DiagnosticPhase.type,
                         "function.return", "void function cannot return a value", node.span);
-                    else if (!model.types.lossless(actual, currentReturn, model.target)) mismatch(node.children[0], actual, currentReturn, "return value");
+                    else if (!canInitialize(node.children[0], actual, currentReturn)) {
+                        mismatch(node.children[0], actual, currentReturn, "return value");
+                    } else applyContext(node.children[0], currentReturn);
                 }
                 break;
             case NodeKind.scopeStmt:
@@ -212,7 +224,10 @@ private:
 
     TypeId checkName(AstNode node) {
         auto found = node.id in model.nodeSymbols;
-        if (found is null) return model.types.errorType;
+        if (found is null) {
+            auto resolvedType = node.id in model.nodeTypes;
+            return resolvedType is null ? model.types.errorType : *resolvedType;
+        }
         auto symbol = model.symbols.get(*found);
         model.setType(node, symbol.type);
         ValueCategory category;
@@ -225,6 +240,11 @@ private:
     }
 
     TypeId checkUnary(AstNode node) {
+        if (node.children[0].kind == NodeKind.integerLiteral &&
+            ["+", "-", "~"].canFind(node.text)) {
+            auto constant = constants.evaluate(node);
+            if (constant.valid) return constant.type;
+        }
         auto operand = checkExpression(node.children[0]);
         auto info = model.types.get(operand);
         if (node.text == "!") {
@@ -264,7 +284,19 @@ private:
             model.setType(node, model.types.boolType); return model.types.boolType;
         }
         if (["==", "!=", "<", "<=", ">", ">="].canFind(op)) {
-            if (!compatible(left, right)) mismatch(node, right, left, "comparison");
+            if (integerConstantFits(node.children[0], right)) {
+                applyContext(node.children[0], right);
+                left = right;
+            } else if (integerConstantFits(node.children[1], left)) {
+                applyContext(node.children[1], left);
+                right = left;
+            }
+            bool nullPointerComparison =
+                (node.children[0].kind == NodeKind.nullLiteral && model.types.get(right).kind == TypeKind.pointer) ||
+                (node.children[1].kind == NodeKind.nullLiteral && model.types.get(left).kind == TypeKind.pointer);
+            if (!nullPointerComparison && !compatible(left, right)) {
+                mismatch(node, right, left, "comparison");
+            }
             model.setType(node, model.types.boolType); return model.types.boolType;
         }
         auto l = model.types.get(left); auto r = model.types.get(right);
@@ -273,6 +305,11 @@ private:
                 "unsafe.pointer_arithmetic", "raw pointer arithmetic requires unsafe", node.span);
             if ((op == "+" || op == "-") && l.kind == TypeKind.pointer && r.integer()) {
                 model.setType(node, left); return left;
+            }
+            if (op == "-" && l.kind == TypeKind.pointer && r.kind == TypeKind.pointer &&
+                l.element == r.element) {
+                auto result = model.types.find("isize");
+                model.setType(node, result); return result;
             }
             diagnostics.error("OPENC-PTR-ARITH-TYPE-001", DiagnosticPhase.type,
                 "pointer.arithmetic", "unsupported raw pointer operation", node.span);
@@ -283,20 +320,32 @@ private:
                 "expression.binary", "binary operator requires compatible numeric operands", node.span);
             return model.types.errorType;
         }
-        if (!compatible(left, right)) mismatch(node, right, left, "binary expression");
+        if (integerConstantFits(node.children[0], right)) {
+            applyContext(node.children[0], right);
+            left = right;
+        } else if (integerConstantFits(node.children[1], left)) {
+            applyContext(node.children[1], left);
+            right = left;
+        } else if (!compatible(left, right)) {
+            mismatch(node, right, left, "binary expression");
+        }
         model.setType(node, left); return left;
     }
 
     TypeId checkAssignment(AstNode node) {
         auto left = checkExpression(node.children[0]);
         auto right = checkExpression(node.children[1]);
+        auto assignmentType = model.types.get(left).kind == TypeKind.reference
+            ? model.types.get(left).element : left;
         auto category = model.categories.get(node.children[0].id, ValueCategory());
         if (!category.lvalue) diagnostics.error("OPENC-ASSIGN-LVALUE-001", DiagnosticPhase.type,
             "assignment.lvalue", "assignment destination is not assignable", node.children[0].span);
         if (!category.mutableValue) diagnostics.error("OPENC-CONST-ASSIGN-001", DiagnosticPhase.type,
             "assignment.const", "cannot assign through a const value", node.children[0].span);
-        if (!model.types.lossless(right, left, model.target)) mismatch(node.children[1], right, left, "assignment");
-        model.setType(node, left); return left;
+        if (!canInitialize(node.children[1], right, assignmentType)) {
+            mismatch(node.children[1], right, assignmentType, "assignment");
+        } else applyContext(node.children[1], assignmentType);
+        model.setType(node, assignmentType); return assignmentType;
     }
 
     TypeId checkCall(AstNode node) {
@@ -306,13 +355,15 @@ private:
             auto resolved = callee.id in model.nodeSymbols;
             if (resolved !is null) {
                 auto symbol = model.symbols.get(*resolved);
-                candidates = model.symbols.lookup(symbol.scopeId, symbol.name);
+                candidates = model.symbols.local(symbol.scopeId, symbol.qualifiedName);
                 if (!candidates.length) candidates = [*resolved];
             }
         }
         TypeId[] argumentTypes;
         string[] modes;
+        AstNode[] argumentNodes;
         foreach (argument; node.children[1 .. $]) {
+            argumentNodes ~= argument;
             if (argument.kind == NodeKind.outArgument) {
                 modes ~= "out";
                 argumentTypes ~= checkOutArgument(argument);
@@ -321,10 +372,27 @@ private:
                 argumentTypes ~= checkExpression(argument);
             }
         }
-        auto match = overloads.resolve(candidates, argumentTypes, modes);
+        auto match = overloads.resolve(candidates, argumentTypes, modes, argumentNodes);
         if (!match.found) {
+            string detail = "arguments=";
+            foreach (index, type; argumentTypes) {
+                if (index) detail ~= ",";
+                detail ~= modes[index] ~ " " ~ model.types.get(type).display(model.types);
+            }
+            detail ~= "; candidates=";
+            foreach (index, candidateId; candidates) {
+                if (index) detail ~= ",";
+                auto candidate = model.symbols.get(candidateId);
+                detail ~= candidate.qualifiedName ~ "(";
+                foreach (parameterIndex, parameter; candidate.signature.parameters) {
+                    if (parameterIndex) detail ~= ",";
+                    detail ~= candidate.signature.modes[parameterIndex] ~ " " ~
+                        model.types.get(parameter).display(model.types);
+                }
+                detail ~= ")";
+            }
             diagnostics.error("OPENC-CALL-NOMATCH-001", DiagnosticPhase.type,
-                "call.overload", "no overload matches the argument types and modes", node.span);
+                "call.overload", "no overload matches the argument types and modes: " ~ detail, node.span);
             return model.types.errorType;
         }
         if (match.ambiguous) {
@@ -333,7 +401,11 @@ private:
             return model.types.errorType;
         }
         model.nodeSymbols[node.id] = match.symbol;
-        auto result = model.symbols.get(match.symbol).signature.result;
+        auto matched = model.symbols.get(match.symbol);
+        foreach (index, parameterType; matched.signature.parameters) {
+            applyContext(argumentNodes[index], parameterType);
+        }
+        auto result = matched.signature.result;
         model.setType(node, result); return result;
     }
 
@@ -421,11 +493,15 @@ private:
     }
 
     TypeId checkConstruct(AstNode node) {
-        auto target = model.types.find(node.text);
         auto storage = checkExpression(node.children[0]);
         auto storageInfo = model.types.get(storage);
-        if (storageInfo.kind != TypeKind.storage || storageInfo.element != target) diagnostics.error("OPENC-STORAGE-CONSTRUCT-TYPE-001", DiagnosticPhase.type,
-            "storage.construct", "construct target does not match storage object type", node.span);
+        auto target = storageInfo.kind == TypeKind.storage
+            ? storageInfo.element : model.types.errorType;
+        auto value = checkExpression(node.children[1]);
+        if (storageInfo.kind != TypeKind.storage || !canInitialize(node.children[1], value, target)) {
+            diagnostics.error("OPENC-STORAGE-CONSTRUCT-TYPE-001", DiagnosticPhase.type,
+                "storage.construct", "construct value does not match storage object type", node.span);
+        } else applyContext(node.children[1], target);
         auto result = model.types.reference(target, false); model.setType(node, result); return result;
     }
 
@@ -474,7 +550,9 @@ private:
             }
             auto fieldSymbol = model.symbols.get(symbols[0]);
             auto actual = checkExpression(field.children[0]);
-            if (!model.types.lossless(actual, fieldSymbol.type, model.target)) mismatch(field.children[0], actual, fieldSymbol.type, "aggregate field");
+            if (!canInitialize(field.children[0], actual, fieldSymbol.type)) {
+                mismatch(field.children[0], actual, fieldSymbol.type, "aggregate field");
+            } else applyContext(field.children[0], fieldSymbol.type);
             if (fieldSymbol.resource != field.flag("own")) diagnostics.error("OPENC-RESOURCE-INIT-OWNER-001", DiagnosticPhase.ownership,
                 "aggregate.ownership", "ownership-bearing field requires an explicit own initializer", field.span);
         }
@@ -504,6 +582,46 @@ private:
         return model.types.lossless(a, b, model.target) || model.types.lossless(b, a, model.target);
     }
 
+    bool canInitialize(AstNode node, TypeId actual, TypeId expected) const {
+        if (model.types.lossless(actual, expected, model.target)) return true;
+        if (integerConstantFits(node, expected)) return true;
+        auto target = model.types.get(expected);
+        if (node.kind == NodeKind.nullLiteral && target.kind == TypeKind.pointer) return true;
+        if (node.kind == NodeKind.noneLiteral && target.kind == TypeKind.optional) return true;
+        if (target.kind == TypeKind.optional &&
+            model.types.lossless(actual, target.element, model.target)) return true;
+        if (target.kind == TypeKind.reference &&
+            model.types.lossless(actual, target.element, model.target)) {
+            auto category = model.categories.get(node.id, ValueCategory());
+            return category.lvalue && (target.constQualified || category.mutableValue);
+        }
+        return false;
+    }
+
+    bool integerConstantFits(AstNode node, TypeId target) const {
+        auto value = node.id in model.integerConstants;
+        if (value is null) return false;
+        auto info = model.types.get(target);
+        if (!info.integer()) return false;
+        auto bits = info.bits ? info.bits : model.target.pointerWidth;
+        if (info.kind == TypeKind.signedInteger) {
+            if (bits >= 64) return true;
+            auto minimum = -(1L << (bits - 1));
+            auto maximum = (1L << (bits - 1)) - 1;
+            return *value >= minimum && *value <= maximum;
+        }
+        if (*value < 0) return false;
+        if (bits >= 63) return true;
+        return *value <= (1L << bits) - 1;
+    }
+
+    void applyContext(AstNode node, TypeId expected) {
+        if (node.id in model.integerConstants ||
+            node.kind == NodeKind.nullLiteral || node.kind == NodeKind.noneLiteral) {
+            model.setType(node, expected);
+        }
+    }
+
     void requireBool(AstNode node, TypeId type, string context) {
         if (type != model.types.boolType) mismatch(node, type, model.types.boolType, context);
     }
@@ -530,15 +648,26 @@ private:
             return false;
         }
         if (node.kind == NodeKind.ifStmt && node.children.length > 2) return definitelyReturns(node.children[1]) && definitelyReturns(node.children[2]);
+        if (node.kind == NodeKind.unsafeStmt || node.kind == NodeKind.whenStmt) {
+            foreach (child; node.children) if (child.kind == NodeKind.block) return definitelyReturns(child);
+        }
         if (node.kind == NodeKind.switchStmt) {
             bool hasDefault;
             foreach (child; node.children[1 .. $]) if (child.kind == NodeKind.defaultCase) hasDefault = true;
-            if (!hasDefault) return false;
             foreach (child; node.children[1 .. $]) {
                 auto body = child.kind == NodeKind.switchCase ? child.children[1] : child.children[0];
                 if (!definitelyReturns(body)) return false;
             }
-            return true;
+            if (hasDefault) return true;
+            auto subject = model.types.get(model.typeOf(node.children[0]));
+            foreach (symbol; model.symbols.symbols) {
+                if (symbol.kind == SymbolKind.enumSymbol && symbol.type == subject.id) {
+                    size_t cases;
+                    foreach (child; node.children[1 .. $]) if (child.kind == NodeKind.switchCase) ++cases;
+                    return cases == symbol.declaration.children.length;
+                }
+            }
+            return false;
         }
         return false;
     }

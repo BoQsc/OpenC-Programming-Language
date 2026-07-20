@@ -19,6 +19,7 @@ import std.file : readText, tempDir, write;
 import std.json : JSONValue;
 import std.path : buildPath;
 import std.stdio : stderr, stdout;
+import std.string : replace;
 
 int main(string[] argv) {
     auto normalized = normalize(argv[1 .. $]);
@@ -108,9 +109,12 @@ Result!string buildProgram(Compiler compiler, CommandRequest request) {
 int runProgram(Compiler compiler, CommandRequest request) {
     auto built = buildProgram(compiler, request);
     if (!built.ok) { stderr.writeln(built.error); return 1; }
-    auto result = runExecutable(built.value, request.positionals.length > 1 ? request.positionals[1 .. $] : []);
+    auto programArguments = request.option("project").length
+        ? request.positionals
+        : request.positionals.length > 1 ? request.positionals[1 .. $] : [];
+    auto result = runExecutable(built.value, programArguments);
     if (!result.ok) { stderr.writeln(result.error); return 2; }
-    stdout.write(result.value.output);
+    stdout.write(result.value.output.replace("\r\n", "\n"));
     return result.value.exitCode;
 }
 

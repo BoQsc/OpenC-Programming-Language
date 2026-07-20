@@ -1,13 +1,14 @@
 module openc.names;
 
 import openc.ast : AstNode, NodeKind;
-import openc.common : ScopeId, SymbolId;
+import openc.common : ScopeId, SymbolId, TypeId;
 import openc.diagnostic : Diagnostic, DiagnosticEngine, DiagnosticPhase, DiagnosticSeverity, RelatedLocation;
 import openc.module_system : LogicalModule;
-import openc.semantic_model : SemanticModel;
-import openc.symbol : SymbolKind;
+import openc.semantic_model : SemanticModel, ValueCategory;
+import openc.symbol : Symbol, SymbolKind;
+import openc.types : TypeKind;
 import std.algorithm.searching : canFind;
-import std.string : indexOf, lastIndexOf;
+import std.string : indexOf, lastIndexOf, split;
 
 final class NameResolver {
 private:
@@ -186,6 +187,13 @@ private:
                 return;
             }
         } else {
+            if (resolveValuePath(node, scopeId)) return;
+            if (resolveEnumItem(node)) return;
+            auto direct = model.symbols.local(0, text);
+            if (direct.length) {
+                model.nodeSymbols[node.id] = direct[0];
+                return;
+            }
             auto firstDot = text.indexOf('.');
             auto prefix = text[0 .. firstDot];
             auto rest = text[firstDot + 1 .. $];
@@ -201,5 +209,95 @@ private:
         }
         diagnostics.error("OPENC-NAME-UNKNOWN-001", DiagnosticPhase.name,
             "name.unknown", "unknown name: " ~ text, node.span);
+    }
+
+    bool resolveValuePath(AstNode node, ScopeId scopeId) {
+        auto parts = node.text.split(".");
+        if (parts.length < 2) return false;
+        auto local = model.symbols.lookup(scopeId, parts[0]);
+        if (local.length != 1) return false;
+
+        auto base = model.symbols.get(local[0]);
+        auto currentType = base.type;
+        auto mutableValue = base.mutableValue;
+        SymbolId currentSymbol = local[0];
+        foreach (index; 1 .. parts.length) {
+            auto info = model.types.get(currentType);
+            if (info.kind == TypeKind.reference || info.kind == TypeKind.pointer) {
+                mutableValue = mutableValue && !info.constQualified;
+                currentType = info.element;
+                info = model.types.get(currentType);
+            }
+
+            auto member = parts[index];
+            if ((info.kind == TypeKind.fixedArray || info.kind == TypeKind.slice ||
+                 info.kind == TypeKind.text) && member == "length") {
+                if (index + 1 != parts.length) return false;
+                model.setType(node, model.types.find("usize"));
+                model.categories[node.id] = ValueCategory(false, false, true, false);
+                return true;
+            }
+            if (info.kind == TypeKind.optional && member == "present") {
+                if (index + 1 != parts.length) return false;
+                model.setType(node, model.types.boolType);
+                model.categories[node.id] = ValueCategory(false, false, true, false);
+                return true;
+            }
+            if (info.kind == TypeKind.optional && member == "value") {
+                currentType = info.element;
+                if (index + 1 == parts.length) {
+                    model.setType(node, currentType);
+                    model.categories[node.id] = ValueCategory(true, mutableValue, true, false);
+                    return true;
+                }
+                continue;
+            }
+            if (info.kind == TypeKind.status &&
+                (member == "ok" || member == "code" || member == "message")) {
+                if (index + 1 != parts.length) return false;
+                auto memberType = member == "ok" ? model.types.boolType
+                    : member == "code" ? model.types.find("i32") : model.types.textType;
+                model.setType(node, memberType);
+                model.categories[node.id] = ValueCategory(false, false, true, false);
+                return true;
+            }
+
+            auto aggregate = findAggregate(info.name);
+            if (aggregate is null || aggregate.declaration is null) return false;
+            auto aggregateScope = model.nodeScopes.get(aggregate.declaration.id, 0);
+            auto fields = model.symbols.local(aggregateScope, member);
+            if (fields.length != 1) return false;
+            currentSymbol = fields[0];
+            auto field = model.symbols.get(currentSymbol);
+            currentType = field.type;
+            mutableValue = mutableValue && field.mutableValue;
+        }
+        model.nodeSymbols[node.id] = currentSymbol;
+        return true;
+    }
+
+    bool resolveEnumItem(AstNode node) {
+        auto parts = node.text.split(".");
+        if (parts.length != 2) return false;
+        auto enumSymbols = model.symbols.local(0, currentModule.name ~ "." ~ parts[0]);
+        foreach (symbolId; enumSymbols) {
+            auto symbol = model.symbols.get(symbolId);
+            if (symbol.kind != SymbolKind.enumSymbol || symbol.declaration is null) continue;
+            auto enumScope = model.nodeScopes.get(symbol.declaration.id, 0);
+            auto items = model.symbols.local(enumScope, parts[1]);
+            if (items.length == 1) {
+                model.nodeSymbols[node.id] = items[0];
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Symbol findAggregate(string name) {
+        foreach (symbol; model.symbols.symbols) {
+            if ((symbol.kind == SymbolKind.structSymbol || symbol.kind == SymbolKind.resourceSymbol) &&
+                (symbol.name == name || symbol.qualifiedName == name)) return symbol;
+        }
+        return null;
     }
 }

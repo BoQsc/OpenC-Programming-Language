@@ -1,1 +1,1 @@
-import system.memory;unsafe isize bad(){ptr byte a=memory.alloc(1);ptr byte b=memory.alloc(1);scope memory.free(a);scope memory.free(b);return a-b;}
+import system.memory;unsafe isize bad(){ptr byte a=memory.alloc(1);ptr byte b=memory.alloc(1);scope memory.free(a);scope memory.free(b);return a-b;}unsafe i32 main(){return cast(i32,bad());}

@@ -2,6 +2,7 @@ module openc.std.system_text;
 
 import openc.runtime.types : OpenCByte, OpenCOptional, OpenCText, Status, usize, u32;
 import std.array : appender;
+import std.string : strip;
 import std.utf : UTFException, byDchar, encode, validate;
 
 usize length(OpenCText text) {
@@ -12,6 +13,10 @@ usize length(OpenCText text) {
 
 bool empty(OpenCText text) {
     return text.length == 0;
+}
+
+OpenCText trim(OpenCText text) {
+    return text.strip;
 }
 
 Status scalar_at(OpenCText text, usize index, out u32 scalar) {

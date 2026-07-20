@@ -25,6 +25,7 @@ final class SemanticModel {
     long[NodeId] integerConstants;
     string[NodeId] textConstants;
     bool[NodeId] boolConstants;
+    bool[NodeId] pointerTargetFaults;
     string[] requiredCapabilities;
 
     this(ModuleGraph modules, TargetContext target) {

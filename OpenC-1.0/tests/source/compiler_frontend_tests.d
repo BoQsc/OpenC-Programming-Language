@@ -22,11 +22,45 @@ private auto parse(string source) {
     return tuple(parsed, diagnostics);
 }
 
+private auto compileSource(string source, string suffix) {
+    auto path = buildPath(tempDir(), "openc-frontend-" ~ suffix ~ "-" ~ thisProcessID.to!string);
+    scope (exit) if (exists(path)) remove(path);
+    write(path, source);
+    auto options = CompilationOptions();
+    options.stopAfterCheck = true;
+    return new Compiler().compile(ProjectConfig.singleSource(path), options);
+}
+
 unittest {
     auto result = parse("i32 main() { return 0; }");
     assert(result[0].root !is null);
     assert(result[0].root.kind == NodeKind.sourceUnit);
     assert(!result[1].hasErrors());
+}
+
+unittest {
+    auto compiled = compileSource(
+        "import system.io; struct P{i32 x;} " ~
+        "void set(ref P p){p=P{x=2};} " ~
+        "i32 main(){P p=P{x=1};set(p);optional P value=p;" ~
+        "if value.present {system.io.print(value.value.x);return value.value.x;}return 0;}",
+        "contexts");
+    assert(compiled.ok);
+    assert(compiled.value.success());
+}
+
+unittest {
+    auto compiled = compileSource(
+        "struct P{i32 x;} i32 main(){storage P s;" ~
+        "ref P a=construct(s,P{x=1});ref P b=construct(s,P{x=2});return a.x+b.x;}",
+        "storage-double");
+    assert(compiled.ok);
+    assert(!compiled.value.success());
+    bool found;
+    foreach (diagnostic; compiled.value.diagnostics.all()) {
+        if (diagnostic.rule == "OPENC-CONSTRUCT-DOUBLE-001") found = true;
+    }
+    assert(found);
 }
 
 unittest {

@@ -81,6 +81,16 @@ public:
             }
         }
 
+        foreach (name; [
+            "system.io", "system.memory", "system.text",
+            "system.process", "system.path", "system.file"
+        ]) {
+            if (graph.find(name) !is null) continue;
+            auto id = cast(ModuleId) graph.modules.length;
+            graph.byName[name] = id;
+            graph.modules ~= new LogicalModule(id, name);
+        }
+
         foreach (logical; graph.modules) {
             foreach (unit; logical.units) {
                 foreach (importName; unit.imports) {

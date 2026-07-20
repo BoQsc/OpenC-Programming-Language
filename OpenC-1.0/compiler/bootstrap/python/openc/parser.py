@@ -16,7 +16,7 @@ from .model import (
     DestroyExpr, EnumDecl, EnumItem, Expr, ExprStmt, FieldDecl, FieldInit,
     ForStmt, FunctionDecl, IfStmt, ImportDecl, IndexExpr, LiteralExpr,
     LocalDecl, MemberExpr, NameExpr, ParamDecl, Phase, RangeExpr, ReturnStmt,
-    ScopeStmt, SourceUnit, Span, StatusExpr, StructDecl, SwitchCase, SwitchStmt,
+    OpenCError, ScopeStmt, SourceUnit, Span, StatusExpr, StructDecl, SwitchCase, SwitchStmt,
     Token, TokenKind, TypeQueryExpr, TypeSyntax, UnaryExpr, UnsafeStmt,
     WhenDecl, WhenStmt, WhileStmt,
 )
@@ -64,7 +64,13 @@ class Parser:
         while self.match("import"):
             imports.append(self.parse_import(self.previous()))
         while not self.at_end():
-            declarations.append(self.parse_top_decl())
+            before = self.index
+            try:
+                declarations.append(self.parse_top_decl())
+            except OpenCError:
+                self.synchronize_top()
+            if self.index == before and not self.at_end():
+                self.advance()
         end = self.current().span
         return SourceUnit(start.merge(end), imports, declarations, module_name)
 
@@ -244,6 +250,11 @@ class Parser:
 
     def looks_like_local_decl(self) -> bool:
         token = self.current().text
+        if token in {
+            "if", "else", "while", "for", "switch", "case", "default",
+            "break", "continue", "return", "scope", "unsafe", "when",
+        }:
+            return False
         if token in {"ref", "ptr", "optional", "storage", "const"} | PRIMITIVE_TYPES:
             return True
         if self.current().kind == TokenKind.IDENTIFIER:
@@ -765,3 +776,9 @@ class Parser:
     def syntax_error(self, rule_id: str, message: str, token: Token | None = None) -> None:
         token = token or self.current()
         self.diagnostics.raise_error(rule_id, Phase.SYNTAX, message, token.span, "syntax")
+
+    def synchronize_top(self) -> None:
+        while not self.at_end():
+            token = self.advance()
+            if token.text in {";", "}"}:
+                return

@@ -208,7 +208,14 @@ private:
                     } else {
                         advance();
                         size_t digits;
+                        uint scalar;
                         while (!atEnd() && isHexDigit(current()) && digits < 6) {
+                            auto digit = current() >= '0' && current() <= '9'
+                                ? cast(uint) (current() - '0')
+                                : current() >= 'a' && current() <= 'f'
+                                    ? cast(uint) (current() - 'a' + 10)
+                                    : cast(uint) (current() - 'A' + 10);
+                            scalar = scalar * 16 + digit;
                             ++digits;
                             advance();
                         }
@@ -217,6 +224,11 @@ private:
                                 "lexical.text", "Unicode escape requires one to six hexadecimal digits",
                                 span(escapeStart, cursor - escapeStart));
                         } else {
+                            if ((scalar >= 0xD800 && scalar <= 0xDFFF) || scalar > 0x10FFFF) {
+                                diagnostics.error("OPENC-LITERAL-UNICODE-001", DiagnosticPhase.lexical,
+                                    "literal.unicode", "Unicode escape is not a scalar value",
+                                    span(escapeStart, cursor - escapeStart + 1));
+                            }
                             advance();
                         }
                     }
@@ -262,8 +274,10 @@ private:
             return Token(TokenKind.symbol, source.text[start .. cursor], span(start, 1));
         }
         advance();
-        diagnostics.error("OPENC-LEX-TOKEN-001", DiagnosticPhase.lexical,
-            "lexical.token", "invalid source character", span(start, 1));
+        diagnostics.error(c == '?' ? "OPENC-SYNTAX-OPTIONAL-001" : "OPENC-LEX-TOKEN-001",
+            DiagnosticPhase.lexical, "lexical.token",
+            c == '?' ? "optional types use the word-shaped 'optional T' syntax" :
+                "invalid source character", span(start, 1));
         return Token(TokenKind.symbol, source.text[start .. cursor], span(start, 1));
     }
 

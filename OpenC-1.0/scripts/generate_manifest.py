@@ -15,6 +15,8 @@ def is_generated(path: Path) -> bool:
         any(part in EXCLUDED_PARTS for part in parts)
         or path.suffix.lower() in EXCLUDED_SUFFIXES
         or relative.as_posix() == "build/fixture_main.d"
+        or relative.as_posix() == "build/openc-build-record.json"
+        or relative.as_posix().startswith("build/generated/")
         or (len(parts) >= 3 and parts[0] == "programs" and parts[2] == "build")
     )
 

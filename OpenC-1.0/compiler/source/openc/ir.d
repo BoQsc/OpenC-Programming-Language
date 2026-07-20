@@ -15,6 +15,8 @@ enum IrOpcode : string {
     store = "store",
     unary = "unary",
     binary = "binary",
+    shortCircuitBegin = "short_circuit.begin",
+    shortCircuitEnd = "short_circuit.end",
     compare = "compare",
     castValue = "cast",
     reinterpret = "reinterpret",

@@ -2,6 +2,8 @@ module tests.tool_tests;
 
 import openc.command : normalize;
 import openc.tools.formatter : Formatter;
+import openc.project : ProjectConfig;
+import openc.tools.info : commandInfo;
 import std.algorithm.searching : endsWith;
 
 unittest {
@@ -11,6 +13,14 @@ unittest {
     assert(request.value.positionals == ["main"]);
     assert(request.value.option("profile") == "strict");
     assert(request.value.option("diagnostics_format") == "jsonl");
+}
+
+unittest {
+    auto target = commandInfo("--target", ProjectConfig.hostTarget());
+    assert(target.object["pointer_bits"].integer > 0);
+    assert(target.object["unsafe_fault_model"].str == "bounded-target-fault");
+    auto limits = commandInfo("--limits", ProjectConfig.hostTarget());
+    assert(limits.object["usize_bits"] == limits.object["isize_bits"]);
 }
 
 unittest {

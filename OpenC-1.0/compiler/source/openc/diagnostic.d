@@ -47,35 +47,39 @@ struct Diagnostic {
     SourceSpan span;
     RelatedLocation[] related;
     string[] help;
+    SourceSpan[] trace;
 
     JSONValue toJson(SourceManager sources) const {
         auto source = sources.get(span.source);
         auto pos = source.position(span.start);
         JSONValue result;
+        result["schema"] = "openc.diagnostic.v1";
         result["rule"] = rule;
         result["category"] = category;
         result["severity"] = cast(string) severity;
         result["phase"] = cast(string) phase;
         result["message"] = message;
-        result["file"] = source.path;
-        result["logical_source"] = source.logicalName;
-        result["line"] = pos.line;
-        result["column"] = pos.column;
-        result["offset"] = span.start;
-        result["length"] = span.length;
+        JSONValue primary;
+        primary["source"] = source.logicalName.length ? source.logicalName : source.path;
+        primary["line"] = pos.line;
+        primary["column"] = pos.column;
+        primary["byte_offset"] = span.start;
+        primary["byte_length"] = span.length;
+        result["primary"] = primary;
 
         JSONValue[] relatedJson;
         foreach (item; related) {
             auto relatedSource = sources.get(item.span.source);
             auto relatedPos = relatedSource.position(item.span.start);
             JSONValue node;
-            node["severity"] = cast(string) item.severity;
             node["message"] = item.message;
-            node["file"] = relatedSource.path;
-            node["line"] = relatedPos.line;
-            node["column"] = relatedPos.column;
-            node["offset"] = item.span.start;
-            node["length"] = item.span.length;
+            JSONValue relatedSpan;
+            relatedSpan["source"] = relatedSource.logicalName.length ? relatedSource.logicalName : relatedSource.path;
+            relatedSpan["line"] = relatedPos.line;
+            relatedSpan["column"] = relatedPos.column;
+            relatedSpan["byte_offset"] = item.span.start;
+            relatedSpan["byte_length"] = item.span.length;
+            node["span"] = relatedSpan;
             relatedJson ~= node;
         }
         result["related"] = JSONValue(relatedJson);
@@ -85,6 +89,19 @@ struct Diagnostic {
             helpJson ~= JSONValue(line);
         }
         result["help"] = JSONValue(helpJson);
+        JSONValue[] traceJson;
+        foreach (traceSpan; trace) {
+            auto traceSource = sources.get(traceSpan.source);
+            auto tracePosition = traceSource.position(traceSpan.start);
+            JSONValue item;
+            item["source"] = traceSource.logicalName.length ? traceSource.logicalName : traceSource.path;
+            item["line"] = tracePosition.line;
+            item["column"] = tracePosition.column;
+            item["byte_offset"] = traceSpan.start;
+            item["byte_length"] = traceSpan.length;
+            traceJson ~= item;
+        }
+        result["trace"] = JSONValue(traceJson);
         return result;
     }
 }

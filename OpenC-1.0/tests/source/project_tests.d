@@ -21,4 +21,5 @@ unittest {
     assert(loaded.ok);
     assert(loaded.value.modules.length == 1);
     assert(loaded.value.modules[0].name == "app.main");
+    assert(loaded.value.outputDirectory == buildPath(root, "build"));
 }
