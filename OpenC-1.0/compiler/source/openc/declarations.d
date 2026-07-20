@@ -75,10 +75,15 @@ private:
             } else if (logical.name == "system.text") {
                 addBuiltinFunction(logical, "length", model.types.find("usize"),
                     [model.types.textType]);
+                addBuiltinFunction(logical, "byte_length", model.types.find("usize"),
+                    [model.types.textType]);
                 addBuiltinFunction(logical, "trim", model.types.textType,
                     [model.types.textType]);
                 addBuiltinFunction(logical, "scalar_at", model.types.statusType,
                     [model.types.textType, model.types.find("usize"), model.types.find("u32")],
+                    false, ["value", "value", "out"]);
+                addBuiltinFunction(logical, "byte_at", model.types.statusType,
+                    [model.types.textType, model.types.find("usize"), model.types.find("u8")],
                     false, ["value", "value", "out"]);
                 addBuiltinFunction(logical, "concat", model.types.textType,
                     [model.types.textType, model.types.textType]);

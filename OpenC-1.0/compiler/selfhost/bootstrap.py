@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -20,15 +21,6 @@ def run(command: list[str], cwd: Path = ROOT) -> subprocess.CompletedProcess[str
     return completed
 
 
-def run_rejection(command: list[str], expected_exit: int, cwd: Path = ROOT) -> None:
-    completed = subprocess.run(command, cwd=cwd, text=True, capture_output=True)
-    if completed.returncode != expected_exit:
-        raise SystemExit(
-            f"rejection probe returned {completed.returncode}, expected {expected_exit}: "
-            f"{' '.join(command)}\nstdout:\n{completed.stdout}\nstderr:\n{completed.stderr}"
-        )
-
-
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--stage0", type=Path, default=ROOT / "compiler" / "openc.exe")
@@ -40,35 +32,40 @@ def main() -> int:
     output.mkdir(parents=True, exist_ok=True)
     project = ROOT / "compiler" / "selfhost" / "openc.project.json"
     source = ROOT / "compiler" / "selfhost" / "source" / "main.p"
-    stage1 = output / "openc-selfhost-seed.exe"
+    stage1 = output / "openc-selfhost-lexer.exe"
 
     run([
         str(stage0), "build", f"--project={project}", f"--output={stage1}",
         f"--build_record={output / 'stage1-build-record.json'}",
     ])
     executed = run([str(stage1), str(source)])
-    if "OpenC self-host seed: source accepted" not in executed.stdout:
-        raise SystemExit("stage-1 seed did not report successful self-scan")
-    run_rejection([
-        str(stage1), str(ROOT / "compiler" / "selfhost" / "tests" / "unbalanced.p")
-    ], 31)
-    run_rejection([
-        str(stage1), str(ROOT / "compiler" / "selfhost" / "tests" / "unterminated_string.p")
-    ], 20)
+    if not executed.stdout.startswith("OPENC-LEX-OBSERVATION 1\n"):
+        raise SystemExit("stage-1 lexer did not emit its versioned observation protocol")
+    run([
+        sys.executable,
+        str(ROOT / "compiler" / "selfhost" / "lexer_parity.py"),
+        f"--stage0={stage0}",
+        f"--stage1={stage1}",
+        f"--output={output}",
+    ])
+    parity = json.loads((output / "lexer-parity-result.json").read_text(encoding="utf-8"))
 
     record = {
         "schema": "openc.self_host_stage_result.v1",
-        "stage": "SH-1_FRONTEND_SEED",
+        "stage": "SH-2A_LEXER_PARITY",
         "status": "PASS",
         "stage0": str(stage0),
         "source": "compiler/selfhost/source/main.p",
         "artifact": str(stage1),
-        "self_scan_stdout": executed.stdout.replace("\r\n", "\n"),
+        "self_scan_protocol": executed.stdout.splitlines()[0],
+        "lexer_parity_result": str(output / "lexer-parity-result.json"),
         "claims": {
             "compiler_source_written_in_openc": True,
             "stage0_builds_stage1": True,
-            "stage1_scans_own_source": True,
-            "stage1_rejection_probes": 2,
+            "stage1_lexes_own_source": True,
+            "stage1_exact_lexer_parity": True,
+            "canonical_sources_compared": parity["canonical_sources"],
+            "focused_lexer_probes": parity["focused_probes"],
             "stage1_compiles_openc": False,
             "self_hosted": False,
             "dmd_independent": False,
@@ -77,8 +74,11 @@ def main() -> int:
     (output / "stage1-result.json").write_text(
         json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
-    print(executed.stdout, end="")
-    print(f"self-host seed: PASS; artifact={stage1}")
+    print(
+        "self-host lexer: PASS; "
+        f"canonical={parity['canonical_sources']} probes={parity['focused_probes']} "
+        f"artifact={stage1}"
+    )
     return 0
 
 

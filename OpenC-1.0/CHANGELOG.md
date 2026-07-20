@@ -1,5 +1,19 @@
 # OpenC development changelog
 
+## 1.0.0-rc.3 — exact compiler-in-OpenC lexer parity
+
+- replaced the structural self-host scanner with the complete stage-0 lexer in
+  canonical OpenC `.p` source;
+- added a versioned lexical observation protocol and proved exact outcome,
+  token kind/span, diagnostic rule/span, source-encoding, and total parity
+  across all 284 canonical `.p` sources plus 15 focused probes (299/299);
+- added byte-length and checked byte-access Hosted text primitives needed for
+  byte-exact compiler source spans;
+- corrected the D bootstrap backend so `ref T` function parameters are emitted
+  with reference ABI semantics instead of value copies;
+- promoted SH-2A while keeping full SH-2, semantics/IR, self-compilation, the
+  DMD-independent Windows backend, and standalone release explicitly pending.
+
 ## 1.0.0-rc.2 — `.p` convention and executable self-host seed
 
 - ratified `.p`, derived from the word "open" in OpenC, as the official

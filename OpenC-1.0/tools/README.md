@@ -1,6 +1,6 @@
 # First-party OpenC tool source
 
-Status: **SOURCE-AUTHORED; NOT COMPILED OR EXECUTED**
+Status: **D TOOLS BUILT AND TESTED ON WINDOWS**
 
 Authored implementations now exist for:
 

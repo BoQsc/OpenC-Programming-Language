@@ -114,7 +114,7 @@ private:
             if (index) output.put(", ");
             auto mode = functionValue.parameterModes[index];
             if (mode == "out") output.put("out ");
-            else if (mode == "ref") output.put("ref ");
+            else if (mode == "ref" || model.types.get(type).kind == TypeKind.reference) output.put("ref ");
             else if (mode == "own") output.put("ref ");
             else if (mode == "out_own") output.put("out ");
             output.put(dType(type, model) ~ " " ~ functionValue.parameterNames[index]);

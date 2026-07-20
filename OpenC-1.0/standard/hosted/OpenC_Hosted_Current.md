@@ -124,11 +124,20 @@ export status decode_utf8(ref const memory.Bytes bytes, out text value);
 export status encode_utf8(text value, out memory.Bytes bytes);
 export usize length(text value);
 export status scalar_at(text value, usize index, out u32 scalar);
+export usize byte_length(text value);
+export status byte_at(text value, usize index, out u8 byte_value);
 export bool equal(text left, text right);
 export i32 compare(text left, text right);
 ```
 
-`decode_utf8` validates the complete input. Failure publishes no text value. `encode_utf8` publishes an owned byte buffer containing the exact UTF-8 encoding. `length` counts Unicode scalar values. `scalar_at` publishes the scalar at one checked scalar index and fails without publishing when the index is outside the text. `compare` performs deterministic scalar-value lexicographic ordering and returns a negative, zero, or positive value.
+`decode_utf8` validates the complete input. Failure publishes no text value.
+`encode_utf8` publishes an owned byte buffer containing the exact UTF-8
+encoding. `length` counts Unicode scalar values, while `byte_length` counts
+UTF-8 bytes. `scalar_at` publishes one checked scalar and `byte_at` publishes
+one checked UTF-8 byte; each fails without publishing when its index is outside
+the text. Byte access does not weaken text validity because every `text` value
+remains well-formed UTF-8. `compare` performs deterministic scalar-value
+lexicographic ordering and returns a negative, zero, or positive value.
 
 Hosted 1.0 performs no implicit normalization and no locale-sensitive comparison.
 

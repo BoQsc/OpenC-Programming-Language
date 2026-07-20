@@ -2,4 +2,4 @@
 
 Reusable implementations live in `tools/source/openc/tools/` and standalone application entry points live in `tools/source/apps/`.
 
-Status: **SOURCE-AUTHORED; NOT COMPILED OR EXECUTED**
+Status: **D IMPLEMENTATION BUILT AND TESTED ON WINDOWS**

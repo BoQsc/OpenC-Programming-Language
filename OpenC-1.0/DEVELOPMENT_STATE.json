@@ -1,6 +1,6 @@
 {
   "schema": "openc.development_state.v4",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "authority": "owner_certified_release_candidate",
   "release_scope": "windows_x86_64_hosted",
   "core_baseline": "OpenC Core 1.0 release candidate",
@@ -13,6 +13,7 @@
     "state_record": "compiler/selfhost/SELF_HOSTING_STATE.json",
     "source_convention_gate": "SH-0_PASS",
     "compiler_in_openc_frontend_seed": "SH-1_PASS_BUILT_EXECUTED_SELF_SCAN",
+    "exact_lexer_parity": "SH-2A_PASS_284_CANONICAL_PLUS_15_PROBES",
     "full_frontend_parity": "SH-2_PENDING",
     "semantic_ir_parity": "SH-3_PENDING",
     "bootstrap_self_compilation": "SH-4_PENDING",
@@ -59,7 +60,7 @@
     "dedicated_positive_rejection_pairs_incomplete_for_174_grammar_productions",
     "independent_third_party_reviews",
     "linux_freestanding_native_and_c_provider_verification",
-    "self_hosting_gates_SH_2_through_SH_6"
+    "self_hosting_gates_SH_2_through_SH_6_after_SH_2A_LEXER_PASS"
   ],
   "published": false,
   "released": false,

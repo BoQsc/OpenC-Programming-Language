@@ -1,5 +1,5 @@
 {
-  "evidence_state": "D_LIBRARY_BUILT_TESTED_HOSTED_PROGRAM_EXECUTED_WINDOWS_X86_64_RC2",
+  "evidence_state": "D_LIBRARY_BUILT_TESTED_HOSTED_PROGRAM_EXECUTED_WINDOWS_X86_64_RC3",
   "modules": {
     "system.file": {
       "exports": [
@@ -66,6 +66,8 @@
         "encode_utf8(text,out memory.Bytes)",
         "length(text)",
         "scalar_at(text,usize,out u32)",
+        "byte_length(text)",
+        "byte_at(text,usize,out u8)",
         "equal(text,text)",
         "compare(text,text)"
       ],

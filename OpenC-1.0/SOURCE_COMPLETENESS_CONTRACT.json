@@ -33,11 +33,11 @@
       "id": "compiler.backend"
     },
     {
-      "description": "executable compiler-in-OpenC lexical frontend seed and bootstrap gate",
+      "description": "executable compiler-in-OpenC lexer, parity harness, and bootstrap gates",
       "groups": [
-        "compiler_selfhost_seed"
+        "compiler_selfhost"
       ],
-      "id": "compiler.selfhost_seed"
+      "id": "compiler.selfhost"
     },
     {
       "description": "checked failures, memory, console, files, process",
@@ -140,6 +140,7 @@
       "compiler/source/openc/diagnostic.d",
       "compiler/source/openc/flow.d",
       "compiler/source/openc/ir.d",
+      "compiler/source/openc/lex_observation.d",
       "compiler/source/openc/lexer.d",
       "compiler/source/openc/lowerer.d",
       "compiler/source/openc/module_system.d",
@@ -187,8 +188,9 @@
       "compiler/bootstrap/python/openc/symbols.py",
       "compiler/bootstrap/python/openc/typesys.py"
     ],
-    "compiler_selfhost_seed": [
+    "compiler_selfhost": [
       "compiler/selfhost/bootstrap.py",
+      "compiler/selfhost/lexer_parity.py",
       "compiler/selfhost/source/main.p",
       "compiler/selfhost/tests/unbalanced.p",
       "compiler/selfhost/tests/unterminated_string.p"
@@ -292,5 +294,5 @@
     "compiler/selfhost/SELF_HOSTING_STATE.json"
   ],
   "schema": "openc.source_completeness_contract.v2",
-  "version": "1.0.0-rc.2"
+  "version": "1.0.0-rc.3"
 }

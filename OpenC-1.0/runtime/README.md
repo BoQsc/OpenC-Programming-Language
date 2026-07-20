@@ -1,6 +1,6 @@
 # OpenC runtime source
 
-Status: **SOURCE-AUTHORED; NOT COMPILED OR EXECUTED**
+Status: **D RUNTIME BUILT, TESTED, AND EXECUTED ON WINDOWS; ALTERNATIVE C PROVIDERS UNVERIFIED**
 
 The runtime source includes:
 
@@ -15,4 +15,6 @@ Linux and Windows startup modules
 freestanding hook installation
 ```
 
-Provider behavior still requires compilation, platform execution, and conformance evidence.
+The canonical D runtime is exercised by unit tests, runtime fixtures, and
+maintained programs on Windows. The separate common-C, Linux, Windows-C, and
+freestanding providers remain outside the supported 1.0 verification claim.

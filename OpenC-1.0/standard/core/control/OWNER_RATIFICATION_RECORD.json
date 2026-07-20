@@ -1,6 +1,6 @@
 {
-  "basis": "Project-owner semantic approvals plus the explicit 0BSD/CC0, governance, Windows-only scope, and release-authority instruction recorded for 1.0.0-rc.2.",
-  "candidate": "OpenC 1.0.0-rc.2",
+  "basis": "Project-owner semantic approvals plus the explicit 0BSD/CC0, governance, Windows-only scope, and release-authority instruction recorded for 1.0.0-rc.3.",
+  "candidate": "OpenC 1.0.0-rc.3",
   "candidate_manifest_sha256": null,
   "candidate_zip_sha256": null,
   "date": "2026-07-20",

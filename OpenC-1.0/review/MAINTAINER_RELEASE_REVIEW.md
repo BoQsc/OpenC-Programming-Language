@@ -1,4 +1,4 @@
-# OpenC 1.0.0-rc.2 maintainer release review
+# OpenC 1.0.0-rc.3 maintainer release review
 
 Date: 2026-07-21
 Review class: `INTERNAL_MAINTAINER_REVIEW`

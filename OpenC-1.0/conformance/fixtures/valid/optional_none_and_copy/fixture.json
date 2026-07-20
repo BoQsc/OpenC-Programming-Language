@@ -3,7 +3,7 @@
     "OPENC-OPTIONAL-COPY-001",
     "OPENC-OPTIONAL-NONE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC3",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",

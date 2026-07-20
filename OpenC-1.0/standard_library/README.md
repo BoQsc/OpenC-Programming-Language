@@ -1,6 +1,6 @@
 # OpenC minimum Hosted standard-library source
 
-Status: **SOURCE-AUTHORED; NOT COMPILED OR EXECUTED**
+Status: **D IMPLEMENTATION BUILT, TESTED, AND EXECUTED ON WINDOWS**
 
 The authored D modules implement the minimum Hosted families:
 
@@ -13,4 +13,6 @@ system.process
 system.text
 ```
 
-They depend only on the first-party OpenC runtime and the D standard library. Exact platform behavior remains execution-pending.
+They depend only on the first-party OpenC runtime and the D standard library.
+Windows behavior is exercised by unit tests, runtime fixtures, maintained
+programs, and the compiler-in-OpenC bootstrap.

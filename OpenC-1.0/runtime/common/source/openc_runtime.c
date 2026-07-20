@@ -245,6 +245,16 @@ oc_status oc_text_scalar_at(oc_text value, uintptr_t index, uint32_t *out_scalar
     return (oc_status){OC_STATUS_OUT_OF_BOUNDS, OC_TEXT_LITERAL("text scalar index is outside the text")};
 }
 
+uintptr_t oc_text_byte_length(oc_text value) { return value.length; }
+
+oc_status oc_text_byte_at(oc_text value, uintptr_t index, uint8_t *out_byte) {
+    if (!out_byte) return (oc_status){OC_STATUS_INVALID_ARGUMENT, OC_TEXT_LITERAL("byte output is null")};
+    if (index >= value.length)
+        return (oc_status){OC_STATUS_OUT_OF_BOUNDS, OC_TEXT_LITERAL("text byte index is outside the text")};
+    *out_byte = value.data[index];
+    return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
+}
+
 static uintptr_t oc_text_byte_offset(oc_text value, uintptr_t scalar_index, uint32_t span_id) {
     uintptr_t offset = 0, count = 0;
     uint32_t scalar = 0;

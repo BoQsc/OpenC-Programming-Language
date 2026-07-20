@@ -114,6 +114,8 @@ OC_API double oc_checked_cast_f64(long double value, uint32_t span_id);
 OC_API bool oc_text_is_valid_utf8(oc_text value);
 OC_API uintptr_t oc_text_scalar_length(oc_text value, uint32_t span_id);
 OC_API oc_status oc_text_scalar_at(oc_text value, uintptr_t index, uint32_t *out_scalar);
+OC_API uintptr_t oc_text_byte_length(oc_text value);
+OC_API oc_status oc_text_byte_at(oc_text value, uintptr_t index, uint8_t *out_byte);
 OC_API oc_text oc_text_slice(oc_text value, uintptr_t start, uintptr_t end, uint32_t span_id);
 OC_API oc_status oc_text_from_utf8(oc_text bytes, oc_text *out_value);
 OC_API oc_status oc_text_from_owned_bytes(const oc_owned_bytes *bytes, oc_text *out_value);

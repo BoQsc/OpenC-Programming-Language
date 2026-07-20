@@ -5,6 +5,7 @@ import openc.common : canonicalSourceExtension, CompilerVersion, Result;
 import openc.compiler : CompilationOptions, CompilationResult, Compiler;
 import openc.conformance : ConformanceAdapter;
 import openc.project : ProjectConfig;
+import openc.lex_observation : observeLexing;
 import openc.toolchain : DToolchain;
 import openc.tools.explain : ExplanationDatabase;
 import openc.tools.formatter : Formatter, FormatterConfig;
@@ -46,6 +47,9 @@ int main(string[] argv) {
         case "validate": return runValidate(compiler, request);
         case "lsp": return new LanguageServer(compiler).run();
         case "adapter": return runAdapter(compiler, request);
+        case "lex-observe":
+            if (!request.positionals.length) { stderr.writeln("openc lex-observe requires a source path"); return 2; }
+            return observeLexing(request.positionals[0]);
         case "version":
         case "--version":
             stdout.writeln(compiler.compilerVersion.implementationName ~ " " ~ compiler.compilerVersion.implementationVersion);
@@ -251,5 +255,6 @@ void printUsage() {
     stdout.writeln("  openc explain RULE-ID [--index=rule-index.json]");
     stdout.writeln("  openc validate --manifest=fixtures.json");
     stdout.writeln("  openc lsp --stdio");
+    stdout.writeln("  openc lex-observe <source>  (self-host parity protocol)");
     stdout.writeln("  openc 'check(file=\"source/main.p\", diagnostics_format=\"json\")'");
 }

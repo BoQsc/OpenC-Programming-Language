@@ -1,6 +1,6 @@
 module openc.std.system_text;
 
-import openc.runtime.types : OpenCByte, OpenCOptional, OpenCText, Status, usize, u32;
+import openc.runtime.types : OpenCByte, OpenCOptional, OpenCText, Status, u8, usize, u32;
 import std.array : appender;
 import std.string : strip;
 import std.utf : UTFException, byDchar, encode, validate;
@@ -9,6 +9,10 @@ usize length(OpenCText text) {
     usize count;
     foreach (_; text.byDchar) ++count;
     return count;
+}
+
+usize byte_length(OpenCText text) {
+    return text.length;
 }
 
 bool empty(OpenCText text) {
@@ -29,6 +33,12 @@ Status scalar_at(OpenCText text, usize index, out u32 scalar) {
         ++current;
     }
     return Status.failure(9, "text scalar index out of bounds");
+}
+
+Status byte_at(OpenCText text, usize index, out u8 value) {
+    if (index >= text.length) return Status.failure(9, "text byte index out of bounds");
+    value = cast(u8) text[index];
+    return Status.success();
 }
 
 Status slice(OpenCText text, usize lower, usize upper, out OpenCText result) {
@@ -82,4 +92,8 @@ unittest {
     assert(second.ok && scalar == 0xE9);
     auto missing = scalar_at("Aé", 2, scalar);
     assert(!missing.ok);
+    assert(byte_length("Aé") == 3);
+    u8 value;
+    assert(byte_at("Aé", 1, value).ok && value == 0xC3);
+    assert(!byte_at("Aé", 3, value).ok);
 }

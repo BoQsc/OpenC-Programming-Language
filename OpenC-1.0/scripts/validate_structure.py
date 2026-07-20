@@ -14,6 +14,7 @@ required = [
     "release/ERRATA_POLICY.md", "release/SUPPORT_POLICY.md",
     "compiler/selfhost/SELF_HOSTING.md", "compiler/selfhost/SELF_HOSTING_STATE.json",
     "compiler/selfhost/source/main.p", "compiler/selfhost/bootstrap.py",
+    "compiler/selfhost/lexer_parity.py",
     "standard/core/OpenC_Core_Current.md",
     "standard/core/grammar/OpenC_Core_Grammar.ebnf",
     "standard/core/metadata/OpenC_Core_Rule_Index.json",
@@ -24,6 +25,8 @@ for item in required:
     if not (ROOT / item).is_file():
         errors.append(f"missing: {item}")
 for path in ROOT.rglob("*.json"):
+    if "build-output" in path.relative_to(ROOT).parts:
+        continue
     try:
         json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:
@@ -90,7 +93,7 @@ for entry in fixture_manifest["fixtures"]:
         errors.append(f"fixture ID mismatch: {entry['id']}")
     if set(fixture.get("active_rules", [])) != set(entry["rules"]):
         errors.append(f"fixture rule mismatch: {entry['id']}")
-    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC2":
+    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC3":
         errors.append(f"fixture evidence state is stale: {entry['id']}")
     for source in fixture.get("source_files", []):
         if not (ROOT / source).is_file():
@@ -116,8 +119,11 @@ self_hosting = json.loads((ROOT / "compiler/selfhost/SELF_HOSTING_STATE.json").r
 self_host_gates = {gate["id"]: gate["status"] for gate in self_hosting.get("gates", [])}
 if self_hosting.get("official_source_extension") != ".p":
     errors.append("self-hosting state must record .p as the official source extension")
-if self_host_gates.get("SH-0") != "PASS" or self_host_gates.get("SH-1") != "PASS":
-    errors.append("self-hosting source-convention and frontend-seed gates must pass")
+if (self_host_gates.get("SH-0") != "PASS" or self_host_gates.get("SH-1") != "PASS"
+        or self_host_gates.get("SH-2A") != "PASS"):
+    errors.append("self-hosting source-convention, frontend-seed, and lexer-parity gates must pass")
+if self_hosting.get("claims", {}).get("full_frontend_parity"):
+    errors.append("self-hosting state must keep full frontend parity false until SH-2 passes")
 if self_hosting.get("claims", {}).get("self_hosted") or self_hosting.get("claims", {}).get("dmd_independent"):
     errors.append("self-hosting state must not overclaim pending bootstrap/native-backend gates")
 

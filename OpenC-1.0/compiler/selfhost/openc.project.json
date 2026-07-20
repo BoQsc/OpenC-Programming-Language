@@ -1,6 +1,6 @@
 {
-  "name": "openc-selfhost-seed",
-  "version": "0.1.0",
+  "name": "openc-selfhost-lexer",
+  "version": "0.2.0",
   "edition": "OpenC 1.0",
   "profile": "standard",
   "target": "windows-x86_64",

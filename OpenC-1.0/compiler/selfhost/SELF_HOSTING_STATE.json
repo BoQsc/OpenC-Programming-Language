@@ -20,6 +20,17 @@
       "source": "compiler/selfhost/source/main.p"
     },
     {
+      "id": "SH-2A",
+      "name": "exact_lexer_parity",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap.py",
+      "evidence": "build-output/selfhost/lexer-parity-result.json",
+      "canonical_sources": 284,
+      "focused_probes": 15,
+      "comparisons": 299,
+      "diagnostic_rules": 12
+    },
+    {
       "id": "SH-2",
       "name": "full_frontend_parity",
       "status": "PENDING"
@@ -48,6 +59,8 @@
   "claims": {
     "compiler_in_openc_source_exists": true,
     "stage1_seed_executed": true,
+    "stage1_exact_lexer_parity": true,
+    "full_frontend_parity": false,
     "self_hosted": false,
     "dmd_independent": false,
     "standalone": false
