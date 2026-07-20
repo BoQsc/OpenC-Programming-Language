@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-OWN-SCOPE-BORROW-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -23,6 +23,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/valid/scope_bound_owner_borrow",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/valid/scope_bound_owner_borrow/main"
+    "conformance/fixtures/valid/scope_bound_owner_borrow/main.p"
   ]
 }

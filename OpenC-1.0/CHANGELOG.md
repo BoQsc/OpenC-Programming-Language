@@ -1,5 +1,22 @@
 # OpenC development changelog
 
+## 1.0.0-rc.2 — `.p` convention and executable self-host seed
+
+- ratified `.p`, derived from the word "open" in OpenC, as the official
+  tooling extension while preserving extension-independent explicit paths and
+  module identity;
+- migrated all 281 canonical OpenC library, maintained-program, and
+  conformance source files plus their project/fixture records to `.p`;
+- added whole-file Hosted text I/O and checked Unicode-scalar access needed by
+  compiler implementations;
+- added the first compiler-in-OpenC `.p` source and executable bootstrap gate:
+  stage 0 builds it, it scans its own UTF-8 source, and malformed-source probes
+  are rejected;
+- recorded the remaining frontend, semantic/IR, self-compilation, native
+  backend, and standalone release gates without claiming they already pass;
+- retained 268/268 conformance, 35/35 runtime fixtures, and 4/4 maintained
+  programs after the source migration.
+
 ## 1.0.0-rc.1 — owner-certified Windows Hosted release candidate
 
 - selected 0BSD for software and CC0-1.0 for specifications, documentation,

@@ -4,7 +4,7 @@
     "OPENC-ARRAY-INIT-001",
     "OPENC-ARRAY-LENGTH-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -27,6 +27,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/valid/array_init_length_copy",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/valid/array_init_length_copy/main"
+    "conformance/fixtures/valid/array_init_length_copy/main.p"
   ]
 }

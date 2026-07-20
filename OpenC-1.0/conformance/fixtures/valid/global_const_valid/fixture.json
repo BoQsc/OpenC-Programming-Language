@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-GLOBAL-CONST-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -23,6 +23,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/valid/global_const_valid",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/valid/global_const_valid/main"
+    "conformance/fixtures/valid/global_const_valid/main.p"
   ]
 }

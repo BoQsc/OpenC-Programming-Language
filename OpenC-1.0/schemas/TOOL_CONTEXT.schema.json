@@ -6,6 +6,9 @@
     "candidate": {
       "type": "string"
     },
+    "canonical_source_extension": {
+      "const": ".p"
+    },
     "command": {
       "type": "string"
     },
@@ -83,6 +86,7 @@
   "required": [
     "schema",
     "candidate",
+    "canonical_source_extension",
     "implementation",
     "command",
     "project",

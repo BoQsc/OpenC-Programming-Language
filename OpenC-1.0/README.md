@@ -7,6 +7,10 @@ strong diagnostics, deterministic tooling, and executable conformance.
 This directory is the single canonical development tree for the 1.0 release
 candidate.
 
+Canonical OpenC source files use `.p`, derived from the word "open" in OpenC.
+The extension is an official tooling convention; explicit source paths and
+logical module identity remain extension-independent.
+
 ## 1.0 release scope
 
 The supported reference-implementation target is Windows x86-64 Hosted. Linux,
@@ -20,6 +24,9 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - all 8 D test commands and all 4 Python bootstrap tests pass;
 - all 268 authored conformance fixtures pass, including 35 runtime fixtures;
 - all 4 maintained programs check, build, and run successfully;
+- all 281 canonical OpenC library, program, and fixture sources use `.p`;
+- the compiler-in-OpenC SH-1 seed builds, scans its own `.p` source, and passes
+  its malformed-source rejection probes; full self-hosting remains in progress;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed;
 - 331 of 466 active Core rules have dedicated executable fixture coverage;

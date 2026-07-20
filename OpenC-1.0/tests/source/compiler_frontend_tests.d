@@ -2,6 +2,7 @@ module tests.compiler_frontend_tests;
 
 import openc.ast : AstArena, NodeKind;
 import openc.compiler : CompilationOptions, Compiler;
+import openc.common : canonicalSourceExtension;
 import openc.diagnostic : DiagnosticEngine;
 import openc.lexer : Lexer;
 import openc.parser : Parser;
@@ -29,6 +30,10 @@ private auto compileSource(string source, string suffix) {
     auto options = CompilationOptions();
     options.stopAfterCheck = true;
     return new Compiler().compile(ProjectConfig.singleSource(path), options);
+}
+
+unittest {
+    assert(canonicalSourceExtension == ".p");
 }
 
 unittest {

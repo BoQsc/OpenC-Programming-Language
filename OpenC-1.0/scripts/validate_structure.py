@@ -1,5 +1,6 @@
 
 from __future__ import annotations
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -11,6 +12,8 @@ required = [
     "CONTRIBUTING.md", "SECURITY.md", "TRADEMARKS.md",
     "release/RELEASE_AUTHORITY.md", "release/RELEASE_SCOPE_1.0.md",
     "release/ERRATA_POLICY.md", "release/SUPPORT_POLICY.md",
+    "compiler/selfhost/SELF_HOSTING.md", "compiler/selfhost/SELF_HOSTING_STATE.json",
+    "compiler/selfhost/source/main.p", "compiler/selfhost/bootstrap.py",
     "standard/core/OpenC_Core_Current.md",
     "standard/core/grammar/OpenC_Core_Grammar.ebnf",
     "standard/core/metadata/OpenC_Core_Rule_Index.json",
@@ -40,6 +43,9 @@ for package in ["compiler", "runtime", "standard_library", "tools", "tests"]:
         errors.append(f"{package}/dub.json must declare 0BSD")
 
 owner_record = json.loads((ROOT / "standard/core/control/OWNER_RATIFICATION_RECORD.json").read_text(encoding="utf-8"))
+hd_008 = next((item for item in owner_record["decisions"] if item["id"] == "HD-008"), None)
+if not hd_008 or hd_008.get("status") != "RATIFIED_FOR_1_0" or ".p" not in hd_008.get("selection", ""):
+    errors.append("HD-008 must ratify .p as the official tooling extension")
 hd_012 = next((item for item in owner_record["decisions"] if item["id"] == "HD-012"), None)
 if not hd_012 or hd_012.get("status") != "RATIFIED_FOR_1_0":
     errors.append("HD-012 must be ratified for 1.0")
@@ -47,6 +53,20 @@ if not hd_012 or hd_012.get("status") != "RATIFIED_FOR_1_0":
 development = json.loads((ROOT / "DEVELOPMENT_STATE.json").read_text(encoding="utf-8"))
 if not development.get("release_ready") or development.get("release_blockers"):
     errors.append("development state must record a blocker-free release candidate")
+
+authority_index = json.loads((ROOT / "AUTHORITY_INDEX.json").read_text(encoding="utf-8"))
+if authority_index.get("version") != (ROOT / "VERSION").read_text(encoding="utf-8").strip():
+    errors.append("authority index version is stale")
+for section in ("authoritative", "project_authority"):
+    for record in authority_index.get(section, []):
+        path = ROOT / record["path"]
+        if not path.is_file():
+            errors.append(f"missing authority input: {record['path']}")
+            continue
+        if record.get("bytes") != path.stat().st_size:
+            errors.append(f"authority byte count is stale: {record['path']}")
+        if record.get("sha256") != hashlib.sha256(path.read_bytes()).hexdigest():
+            errors.append(f"authority hash is stale: {record['path']}")
 
 fixture_manifest = json.loads((ROOT / "conformance/fixtures/MANIFEST.json").read_text(encoding="utf-8"))
 active_ids = {item["id"] for item in rules}
@@ -70,11 +90,36 @@ for entry in fixture_manifest["fixtures"]:
         errors.append(f"fixture ID mismatch: {entry['id']}")
     if set(fixture.get("active_rules", [])) != set(entry["rules"]):
         errors.append(f"fixture rule mismatch: {entry['id']}")
-    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC1":
+    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC2":
         errors.append(f"fixture evidence state is stale: {entry['id']}")
     for source in fixture.get("source_files", []):
         if not (ROOT / source).is_file():
             errors.append(f"missing fixture source: {source}")
+        if Path(source).suffix.lower() != ".json" and Path(source).suffix.lower() != ".p":
+            errors.append(f"canonical OpenC fixture source must use .p: {source}")
+
+for project_path in [
+    ROOT / "programs/A_COMPUTATION/openc.project.json",
+    ROOT / "programs/B_FLOW_OWNERSHIP/openc.project.json",
+    ROOT / "programs/C_UNSAFE_BOUNDARY/openc.project.json",
+    ROOT / "programs/D_HOSTED_CLI/openc.project.json",
+    ROOT / "standard_library/openc.project.json",
+    ROOT / "compiler/selfhost/openc.project.json",
+]:
+    project = json.loads(project_path.read_text(encoding="utf-8"))
+    for sources in project.get("modules", {}).values():
+        for source in sources:
+            if Path(source).suffix.lower() != ".p":
+                errors.append(f"canonical project source must use .p: {project_path.relative_to(ROOT)}:{source}")
+
+self_hosting = json.loads((ROOT / "compiler/selfhost/SELF_HOSTING_STATE.json").read_text(encoding="utf-8"))
+self_host_gates = {gate["id"]: gate["status"] for gate in self_hosting.get("gates", [])}
+if self_hosting.get("official_source_extension") != ".p":
+    errors.append("self-hosting state must record .p as the official source extension")
+if self_host_gates.get("SH-0") != "PASS" or self_host_gates.get("SH-1") != "PASS":
+    errors.append("self-hosting source-convention and frontend-seed gates must pass")
+if self_hosting.get("claims", {}).get("self_hosted") or self_hosting.get("claims", {}).get("dmd_independent"):
+    errors.append("self-hosting state must not overclaim pending bootstrap/native-backend gates")
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-MODULE-IMPORTLOCAL-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -15,8 +15,8 @@
     "mode": "module",
     "modules": {
       "app.main": [
-        "a",
-        "b"
+        "a.p",
+        "b.p"
       ]
     },
     "name": "module_import_not_shared",
@@ -30,7 +30,7 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/module_import_not_shared",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/module_import_not_shared/sources/a",
-    "conformance/fixtures/invalid/module_import_not_shared/sources/b"
+    "conformance/fixtures/invalid/module_import_not_shared/sources/a.p",
+    "conformance/fixtures/invalid/module_import_not_shared/sources/b.p"
   ]
 }

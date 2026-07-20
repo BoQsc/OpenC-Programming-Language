@@ -2,15 +2,15 @@
   "active_rules": [
     "OPENC-PTR-OWNCOPY-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
     "environment": "hosted",
     "expected": {
+      "diagnostic_rule": "OPENC-SYNTAX-IDENTIFIER-001",
       "result": "reject",
-      "rule": "OPENC-PTR-OWNCOPY-001",
-      "diagnostic_rule": "OPENC-SYNTAX-IDENTIFIER-001"
+      "rule": "OPENC-PTR-OWNCOPY-001"
     },
     "fixture_kind": "source",
     "mode": "module",
@@ -25,6 +25,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/owning_pointer_copy",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/owning_pointer_copy/main"
+    "conformance/fixtures/invalid/owning_pointer_copy/main.p"
   ]
 }

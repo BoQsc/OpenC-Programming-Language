@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-ERROR-FATAL-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -24,6 +24,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/runtime/fatal_allocation_defined",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/runtime/fatal_allocation_defined/main"
+    "conformance/fixtures/runtime/fatal_allocation_defined/main.p"
   ]
 }

@@ -11,6 +11,11 @@ and Python tests, the complete authored conformance manifest, runtime fixtures,
 maintained programs, structure/source-completeness checks, deterministic source
 archives, and the local licensing/governance authorization.
 
+Canonical OpenC source uses `.p`. The source distribution also contains an
+executed compiler-in-OpenC frontend seed and its SH-1 bootstrap gate. Full
+self-hosting and a DMD-independent backend are separately tracked future gates,
+not prerequisites retroactively added to the D-bootstrap 1.0 claim.
+
 ## Experimental source included without a support claim
 
 Linux, freestanding, standalone C providers, Native interfaces, script/live,

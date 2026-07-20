@@ -30,13 +30,13 @@ openc live
 Classical CLI syntax is primary:
 
 ```text
-openc check source/main --profile=strict --diagnostics-format=jsonl
+openc check source/main.p --profile=strict --diagnostics-format=jsonl
 ```
 
 The OpenC-style alternative is also accepted:
 
 ```text
-openc 'check(file="source/main", profile="strict", diagnostics_format="jsonl")'
+openc 'check(file="source/main.p", profile="strict", diagnostics_format="jsonl")'
 ```
 
 Both normalize to one command-request record before dispatch. Ambiguous or conflicting values are rejected rather than resolved by last-wins guessing.
@@ -106,6 +106,18 @@ openc.lock.json
 ```
 
 They are tooling conventions, not source-language extensions. Project context maps logical modules to explicit source files, target context, profiles, generated source, dependencies, runtime providers, and output roots.
+
+### 6.1 Official source-file convention
+
+The canonical first-party and user-facing OpenC source-file extension is `.p`.
+The letter is taken from the word "open" in OpenC. New source files, generated
+source names, examples, templates, and default source discovery use `.p`.
+
+The extension is a tooling and presentation convention, not a source-language
+semantic. Commands accepting an explicit source path continue to accept the
+path regardless of its extension, and logical module identity never derives
+from the filename or extension. Tools shall preserve the supplied source path
+in diagnostics and reproducibility records.
 
 ## 7. Conformance adapter
 

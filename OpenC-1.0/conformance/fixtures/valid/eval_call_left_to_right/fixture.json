@@ -3,7 +3,7 @@
     "OPENC-EVAL-CALL-001",
     "OPENC-EXPR-ORDER-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -29,6 +29,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/valid/eval_call_left_to_right",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/valid/eval_call_left_to_right/main"
+    "conformance/fixtures/valid/eval_call_left_to_right/main.p"
   ]
 }

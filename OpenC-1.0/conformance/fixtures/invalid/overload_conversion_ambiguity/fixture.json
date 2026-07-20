@@ -3,7 +3,7 @@
     "OPENC-OVERLOAD-AMBIGUOUS-001",
     "OPENC-OVERLOAD-NORANK-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -26,6 +26,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/overload_conversion_ambiguity",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/overload_conversion_ambiguity/main"
+    "conformance/fixtures/invalid/overload_conversion_ambiguity/main.p"
   ]
 }

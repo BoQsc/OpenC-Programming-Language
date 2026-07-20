@@ -1,6 +1,6 @@
 {
-  "basis": "Project-owner semantic approvals plus the explicit 0BSD/CC0, governance, Windows-only scope, and release-authority instruction recorded for 1.0.0-rc.1.",
-  "candidate": "OpenC 1.0.0-rc.1",
+  "basis": "Project-owner semantic approvals plus the explicit 0BSD/CC0, governance, Windows-only scope, and release-authority instruction recorded for 1.0.0-rc.2.",
+  "candidate": "OpenC 1.0.0-rc.2",
   "candidate_manifest_sha256": null,
   "candidate_zip_sha256": null,
   "date": "2026-07-20",
@@ -172,6 +172,7 @@
     {
       "constraints": [
         "Commands accept explicit paths.",
+        "Canonical and discovered OpenC source files use .p.",
         "Project context maps source units.",
         "Diagnostics report source identity independent of extension."
       ],
@@ -187,7 +188,7 @@
         "conformance evidence exposes inconsistent required outcomes",
         "security review invalidates a safe-code guarantee"
       ],
-      "selection": "No. Keep extension mapping outside language semantics. An official toolchain may later choose a short extension after real usage, but source validity and module identity must never depend on it.",
+      "selection": "Use .p as the official tooling extension, derived from the word open in OpenC. Keep extension mapping outside language semantics: explicit paths remain valid independent of extension, and source validity and module identity never depend on it.",
       "status": "RATIFIED_FOR_1_0",
       "title": "Source-file extension policy"
     },

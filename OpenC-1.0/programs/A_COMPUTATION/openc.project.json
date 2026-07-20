@@ -4,6 +4,6 @@
   "edition": "OpenC 1.0",
   "profile": "standard",
   "target": "linux-x86_64",
-  "modules": { "app.main": ["main"] },
+  "modules": { "app.main": ["main.p"] },
   "output_directory": "build"
 }

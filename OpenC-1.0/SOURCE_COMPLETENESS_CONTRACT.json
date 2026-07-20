@@ -33,6 +33,13 @@
       "id": "compiler.backend"
     },
     {
+      "description": "executable compiler-in-OpenC lexical frontend seed and bootstrap gate",
+      "groups": [
+        "compiler_selfhost_seed"
+      ],
+      "id": "compiler.selfhost_seed"
+    },
+    {
       "description": "checked failures, memory, console, files, process",
       "groups": [
         "runtime_d",
@@ -110,6 +117,7 @@
       "scripts/generate_manifest.py",
       "scripts/source_completeness.py",
       "scripts/source_inventory.py",
+      "scripts/update_authority_index.py",
       "scripts/validate_structure.py"
     ],
     "compiler_d": [
@@ -179,6 +187,12 @@
       "compiler/bootstrap/python/openc/symbols.py",
       "compiler/bootstrap/python/openc/typesys.py"
     ],
+    "compiler_selfhost_seed": [
+      "compiler/selfhost/bootstrap.py",
+      "compiler/selfhost/source/main.p",
+      "compiler/selfhost/tests/unbalanced.p",
+      "compiler/selfhost/tests/unterminated_string.p"
+    ],
     "runtime_c": [
       "runtime/common/source/openc_runtime.c",
       "runtime/common/source/openc_runtime.h",
@@ -208,12 +222,12 @@
       "standard_library/source/openc/std/system_text.d"
     ],
     "standard_library_openc": [
-      "standard_library/system.file/source/file",
-      "standard_library/system.io/source/io",
-      "standard_library/system.memory/source/memory",
-      "standard_library/system.path/source/path",
-      "standard_library/system.process/source/process",
-      "standard_library/system.text/source/text"
+      "standard_library/system.file/source/file.p",
+      "standard_library/system.io/source/io.p",
+      "standard_library/system.memory/source/memory.p",
+      "standard_library/system.path/source/path.p",
+      "standard_library/system.process/source/process.p",
+      "standard_library/system.text/source/text.p"
     ],
     "tests_d": [
       "tests/source/compiler_frontend_tests.d",
@@ -271,8 +285,12 @@
     "conformance/fixtures/MANIFEST.json",
     "schemas/PROJECT.schema.json",
     "schemas/DIAGNOSTIC.schema.json",
-    "schemas/FIXTURE.schema.json"
+    "schemas/FIXTURE.schema.json",
+    "compiler/selfhost/openc.project.json",
+    "compiler/selfhost/README.md",
+    "compiler/selfhost/SELF_HOSTING.md",
+    "compiler/selfhost/SELF_HOSTING_STATE.json"
   ],
   "schema": "openc.source_completeness_contract.v2",
-  "version": "1.0.0-rc.1"
+  "version": "1.0.0-rc.2"
 }

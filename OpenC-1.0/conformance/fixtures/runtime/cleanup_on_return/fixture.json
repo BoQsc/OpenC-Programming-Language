@@ -3,7 +3,7 @@
     "OPENC-CLEANUP-RETURN-001",
     "OPENC-CLEANUP-STRUCTURED-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -25,6 +25,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/runtime/cleanup_on_return",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/runtime/cleanup_on_return/main"
+    "conformance/fixtures/runtime/cleanup_on_return/main.p"
   ]
 }

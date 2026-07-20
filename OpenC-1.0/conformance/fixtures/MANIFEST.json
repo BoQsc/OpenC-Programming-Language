@@ -1,11 +1,11 @@
 {
   "active_rule_count": 466,
-  "candidate": "OpenC 1.0.0-rc.1",
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "candidate": "OpenC 1.0.0-rc.2",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "fixture_count": 268,
   "fixtures": [
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "command/machine_integer_width_reported",
       "kind": "command",
       "path": "conformance/fixtures/command/machine_integer_width_reported",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "command/target_context_complete",
       "kind": "command",
       "path": "conformance/fixtures/command/target_context_complete",
@@ -35,7 +35,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "command/target_layout_report",
       "kind": "command",
       "path": "conformance/fixtures/command/target_layout_report",
@@ -50,7 +50,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "command/unsafe_history_in_diagnostic",
       "kind": "command",
       "path": "conformance/fixtures/command/unsafe_history_in_diagnostic",
@@ -64,7 +64,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "diagnostic/critical_unreachable_statement",
       "kind": "diagnostic",
       "path": "conformance/fixtures/diagnostic/critical_unreachable_statement",
@@ -73,11 +73,11 @@
         "OPENC-STMT-UNREACHABLE-001"
       ],
       "source_files": [
-        "conformance/fixtures/diagnostic/critical_unreachable_statement/main"
+        "conformance/fixtures/diagnostic/critical_unreachable_statement/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "diagnostic/diagnostic_flow_path_locations",
       "kind": "diagnostic",
       "path": "conformance/fixtures/diagnostic/diagnostic_flow_path_locations",
@@ -87,11 +87,11 @@
         "OPENC-INIT-BEFOREUSE-001"
       ],
       "source_files": [
-        "conformance/fixtures/diagnostic/diagnostic_flow_path_locations/main"
+        "conformance/fixtures/diagnostic/diagnostic_flow_path_locations/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "diagnostic/diagnostic_status_out_failure",
       "kind": "diagnostic",
       "path": "conformance/fixtures/diagnostic/diagnostic_status_out_failure",
@@ -101,11 +101,11 @@
         "OPENC-FLOW-OUT-FAILURE-001"
       ],
       "source_files": [
-        "conformance/fixtures/diagnostic/diagnostic_status_out_failure/main"
+        "conformance/fixtures/diagnostic/diagnostic_status_out_failure/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/address_outside_unsafe",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/address_outside_unsafe",
@@ -114,11 +114,11 @@
         "OPENC-PTR-ADDRESS-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/address_outside_unsafe/main"
+        "conformance/fixtures/invalid/address_outside_unsafe/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/arithmetic_type_mismatch",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/arithmetic_type_mismatch",
@@ -127,11 +127,11 @@
         "OPENC-ARITH-TYPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/arithmetic_type_mismatch/main"
+        "conformance/fixtures/invalid/arithmetic_type_mismatch/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/array_no_pointer_decay",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/array_no_pointer_decay",
@@ -140,11 +140,11 @@
         "OPENC-ARRAY-NODECAY-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/array_no_pointer_decay/main"
+        "conformance/fixtures/invalid/array_no_pointer_decay/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/array_out_of_bounds",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/array_out_of_bounds",
@@ -153,11 +153,11 @@
         "OPENC-ARRAY-INDEX-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/array_out_of_bounds/main"
+        "conformance/fixtures/invalid/array_out_of_bounds/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/arrow_function",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/arrow_function",
@@ -166,11 +166,11 @@
         "OPENC-FUNCTION-DIRECT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/arrow_function/main"
+        "conformance/fixtures/invalid/arrow_function/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/assignment_conversion_checked",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/assignment_conversion_checked",
@@ -180,11 +180,11 @@
         "OPENC-CONVERT-LOSSY-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/assignment_conversion_checked/main"
+        "conformance/fixtures/invalid/assignment_conversion_checked/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/assignment_target_required",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/assignment_target_required",
@@ -193,11 +193,11 @@
         "OPENC-ASSIGN-TARGET-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/assignment_target_required/main"
+        "conformance/fixtures/invalid/assignment_target_required/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/block_local_escape",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/block_local_escape",
@@ -207,11 +207,11 @@
         "OPENC-SCOPE-LOCAL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/block_local_escape/main"
+        "conformance/fixtures/invalid/block_local_escape/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/borrow_prevents_move",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/borrow_prevents_move",
@@ -220,11 +220,11 @@
         "OPENC-BORROW-NOMOVE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/borrow_prevents_move/main"
+        "conformance/fixtures/invalid/borrow_prevents_move/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/break_outside_loop",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/break_outside_loop",
@@ -233,11 +233,11 @@
         "OPENC-LOOP-CONTEXT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/break_outside_loop/main"
+        "conformance/fixtures/invalid/break_outside_loop/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/byte_not_text_or_arithmetic",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/byte_not_text_or_arithmetic",
@@ -247,11 +247,11 @@
         "OPENC-TYPE-BYTE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/byte_not_text_or_arithmetic/main"
+        "conformance/fixtures/invalid/byte_not_text_or_arithmetic/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/c_array_decl",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/c_array_decl",
@@ -260,11 +260,11 @@
         "OPENC-ARRAY-DECL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/c_array_decl/main"
+        "conformance/fixtures/invalid/c_array_decl/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/c_pointer_decl",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/c_pointer_decl",
@@ -273,11 +273,11 @@
         "OPENC-PTR-SYMBOL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/c_pointer_decl/main"
+        "conformance/fixtures/invalid/c_pointer_decl/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/c_reference_decl",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/c_reference_decl",
@@ -286,11 +286,11 @@
         "OPENC-REF-SYMBOL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/c_reference_decl/main"
+        "conformance/fixtures/invalid/c_reference_decl/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/call_argument_count",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/call_argument_count",
@@ -299,11 +299,11 @@
         "OPENC-CALL-COUNT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/call_argument_count/main"
+        "conformance/fixtures/invalid/call_argument_count/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/checked_cast_requires_exact_value",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/checked_cast_requires_exact_value",
@@ -313,11 +313,11 @@
         "OPENC-NUM-CAST-FLOAT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/checked_cast_requires_exact_value/main"
+        "conformance/fixtures/invalid/checked_cast_requires_exact_value/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/cleanup_owner_registered_once",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/cleanup_owner_registered_once",
@@ -326,11 +326,11 @@
         "OPENC-CLEANUP-ONCE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/cleanup_owner_registered_once/main"
+        "conformance/fixtures/invalid/cleanup_owner_registered_once/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/cleanup_reference_must_live",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/cleanup_reference_must_live",
@@ -339,11 +339,11 @@
         "OPENC-CLEANUP-REF-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/cleanup_reference_must_live/main"
+        "conformance/fixtures/invalid/cleanup_reference_must_live/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/const_reassignment_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/const_reassignment_rejected",
@@ -352,11 +352,11 @@
         "OPENC-CONST-ASSIGN-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/const_reassignment_rejected/main"
+        "conformance/fixtures/invalid/const_reassignment_rejected/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/const_resource_owner",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/const_resource_owner",
@@ -365,11 +365,11 @@
         "OPENC-RESOURCE-NOCONSTOWNER-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/const_resource_owner/main"
+        "conformance/fixtures/invalid/const_resource_owner/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/construct_twice",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/construct_twice",
@@ -378,11 +378,11 @@
         "OPENC-CONSTRUCT-DOUBLE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/construct_twice/main"
+        "conformance/fixtures/invalid/construct_twice/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/current_question_optional",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/current_question_optional",
@@ -391,11 +391,11 @@
         "OPENC-OPTIONAL-NOSHORTHAND-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/current_question_optional/main"
+        "conformance/fixtures/invalid/current_question_optional/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/declaration_requires_type",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/declaration_requires_type",
@@ -406,11 +406,11 @@
         "OPENC-NAME-UNKNOWN-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/declaration_requires_type/main"
+        "conformance/fixtures/invalid/declaration_requires_type/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/deref_outside_unsafe",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/deref_outside_unsafe",
@@ -419,11 +419,11 @@
         "OPENC-PTR-DEREF-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/deref_outside_unsafe/main"
+        "conformance/fixtures/invalid/deref_outside_unsafe/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/destroy_with_active_borrow",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/destroy_with_active_borrow",
@@ -433,11 +433,11 @@
         "OPENC-DESTROY-USEAFTER-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/destroy_with_active_borrow/main"
+        "conformance/fixtures/invalid/destroy_with_active_borrow/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/enum_duplicate_value",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/enum_duplicate_value",
@@ -447,11 +447,11 @@
         "OPENC-ENUM-UNDERLYING-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/enum_duplicate_value/main"
+        "conformance/fixtures/invalid/enum_duplicate_value/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/fallible_scope_action_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/fallible_scope_action_rejected",
@@ -461,11 +461,11 @@
         "OPENC-CLEANUP-NOFALLIBLE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/fallible_scope_action_rejected/main"
+        "conformance/fixtures/invalid/fallible_scope_action_rejected/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/float_integer_no_implicit",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/float_integer_no_implicit",
@@ -475,11 +475,11 @@
         "OPENC-TYPE-FLOAT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/float_integer_no_implicit/main"
+        "conformance/fixtures/invalid/float_integer_no_implicit/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/flow_borrow_and_destroyed_state",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_borrow_and_destroyed_state",
@@ -489,11 +489,11 @@
         "OPENC-FLOW-DESTROYED-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/flow_borrow_and_destroyed_state/main"
+        "conformance/fixtures/invalid/flow_borrow_and_destroyed_state/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/flow_break_path_merge",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_break_path_merge",
@@ -502,11 +502,11 @@
         "OPENC-FLOW-BREAK-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/flow_break_path_merge/main"
+        "conformance/fixtures/invalid/flow_break_path_merge/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/flow_continue_skips_init",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_continue_skips_init",
@@ -515,11 +515,11 @@
         "OPENC-FLOW-CONTINUE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/flow_continue_skips_init/main"
+        "conformance/fixtures/invalid/flow_continue_skips_init/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/flow_for_not_guaranteed",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_for_not_guaranteed",
@@ -528,11 +528,11 @@
         "OPENC-FLOW-FOR-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/flow_for_not_guaranteed/main"
+        "conformance/fixtures/invalid/flow_for_not_guaranteed/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/flow_if_missing_else",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_if_missing_else",
@@ -542,11 +542,11 @@
         "OPENC-INIT-BEFOREUSE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/flow_if_missing_else/main"
+        "conformance/fixtures/invalid/flow_if_missing_else/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/flow_move_one_branch",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_move_one_branch",
@@ -555,11 +555,11 @@
         "OPENC-FLOW-MOVED-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/flow_move_one_branch/main"
+        "conformance/fixtures/invalid/flow_move_one_branch/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/flow_optional_proof_invalidated",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_optional_proof_invalidated",
@@ -568,11 +568,11 @@
         "OPENC-FLOW-OPTIONAL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/flow_optional_proof_invalidated/main"
+        "conformance/fixtures/invalid/flow_optional_proof_invalidated/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/flow_unreachable_after_return",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_unreachable_after_return",
@@ -581,11 +581,11 @@
         "OPENC-FLOW-REACHABLE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/flow_unreachable_after_return/main"
+        "conformance/fixtures/invalid/flow_unreachable_after_return/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/flow_while_only_initialization",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_while_only_initialization",
@@ -595,11 +595,11 @@
         "OPENC-INIT-BEFOREUSE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/flow_while_only_initialization/main"
+        "conformance/fixtures/invalid/flow_while_only_initialization/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/for_variable_scope",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/for_variable_scope",
@@ -608,11 +608,11 @@
         "OPENC-FOR-SCOPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/for_variable_scope/main"
+        "conformance/fixtures/invalid/for_variable_scope/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/historical_int_type_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/historical_int_type_rejected",
@@ -621,11 +621,11 @@
         "OPENC-TYPE-HISTORICAL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/historical_int_type_rejected/main"
+        "conformance/fixtures/invalid/historical_int_type_rejected/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/ignored_status",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ignored_status",
@@ -634,11 +634,11 @@
         "OPENC-STATUS-MUSTHANDLE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/ignored_status/main"
+        "conformance/fixtures/invalid/ignored_status/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/implicit_narrow",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/implicit_narrow",
@@ -647,11 +647,11 @@
         "OPENC-CONVERT-LOSSY-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/implicit_narrow/main"
+        "conformance/fixtures/invalid/implicit_narrow/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/integer_condition",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/integer_condition",
@@ -660,11 +660,11 @@
         "OPENC-COND-BOOL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/integer_condition/main"
+        "conformance/fixtures/invalid/integer_condition/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/integer_literal_destination_range",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/integer_literal_destination_range",
@@ -673,11 +673,11 @@
         "OPENC-LITERAL-RANGE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/integer_literal_destination_range/main"
+        "conformance/fixtures/invalid/integer_literal_destination_range/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/invalid_utf8_source",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/invalid_utf8_source",
@@ -686,11 +686,11 @@
         "OPENC-SOURCE-INVALID-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/invalid_utf8_source/main"
+        "conformance/fixtures/invalid/invalid_utf8_source/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/local_not_zero_initialized",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/local_not_zero_initialized",
@@ -700,11 +700,11 @@
         "OPENC-INIT-NOZERO-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/local_not_zero_initialized/main"
+        "conformance/fixtures/invalid/local_not_zero_initialized/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/loop_only_initialization_not_definite",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/loop_only_initialization_not_definite",
@@ -713,11 +713,11 @@
         "OPENC-INIT-LOOP-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/loop_only_initialization_not_definite/main"
+        "conformance/fixtures/invalid/loop_only_initialization_not_definite/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/misaligned_typed_deref",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/misaligned_typed_deref",
@@ -726,11 +726,11 @@
         "OPENC-PTR-ALIGN-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/misaligned_typed_deref/main"
+        "conformance/fixtures/invalid/misaligned_typed_deref/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/missing_braces",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/missing_braces",
@@ -739,11 +739,11 @@
         "OPENC-BLOCK-BRACES-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/missing_braces/main"
+        "conformance/fixtures/invalid/missing_braces/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/missing_semicolon",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/missing_semicolon",
@@ -752,11 +752,11 @@
         "OPENC-STMT-SEMICOLON-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/missing_semicolon/main"
+        "conformance/fixtures/invalid/missing_semicolon/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/missing_struct_field",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/missing_struct_field",
@@ -765,11 +765,11 @@
         "OPENC-STRUCT-INIT-MISSING-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/missing_struct_field/main"
+        "conformance/fixtures/invalid/missing_struct_field/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/module_duplicate_top_level",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/module_duplicate_top_level",
@@ -778,12 +778,12 @@
         "OPENC-MODULE-DUPLICATE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/module_duplicate_top_level/sources/a",
-        "conformance/fixtures/invalid/module_duplicate_top_level/sources/b"
+        "conformance/fixtures/invalid/module_duplicate_top_level/sources/a.p",
+        "conformance/fixtures/invalid/module_duplicate_top_level/sources/b.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/module_import_cycle",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/module_import_cycle",
@@ -792,12 +792,12 @@
         "OPENC-MODULE-CYCLE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/module_import_cycle/sources/a",
-        "conformance/fixtures/invalid/module_import_cycle/sources/b"
+        "conformance/fixtures/invalid/module_import_cycle/sources/a.p",
+        "conformance/fixtures/invalid/module_import_cycle/sources/b.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/module_import_not_shared",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/module_import_not_shared",
@@ -806,12 +806,12 @@
         "OPENC-MODULE-IMPORTLOCAL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/module_import_not_shared/sources/a",
-        "conformance/fixtures/invalid/module_import_not_shared/sources/b"
+        "conformance/fixtures/invalid/module_import_not_shared/sources/a.p",
+        "conformance/fixtures/invalid/module_import_not_shared/sources/b.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/module_private_access",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/module_private_access",
@@ -821,12 +821,12 @@
         "OPENC-MODULE-PRIVATE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/module_private_access/sources/main",
-        "conformance/fixtures/invalid/module_private_access/sources/math"
+        "conformance/fixtures/invalid/module_private_access/sources/main.p",
+        "conformance/fixtures/invalid/module_private_access/sources/math.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/module_short_qualifier_ambiguous",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/module_short_qualifier_ambiguous",
@@ -835,13 +835,13 @@
         "OPENC-MODULE-AMBIGUOUS-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/dbg",
-        "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/main",
-        "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/sys"
+        "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/dbg.p",
+        "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/main.p",
+        "conformance/fixtures/invalid/module_short_qualifier_ambiguous/sources/sys.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/mutable_global_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/mutable_global_rejected",
@@ -850,11 +850,11 @@
         "OPENC-GLOBAL-MUTABLE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/mutable_global_rejected/main"
+        "conformance/fixtures/invalid/mutable_global_rejected/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/nonvoid_missing_path",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/nonvoid_missing_path",
@@ -863,11 +863,11 @@
         "OPENC-FUNCTION-PATH-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/nonvoid_missing_path/main"
+        "conformance/fixtures/invalid/nonvoid_missing_path/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/numeric_cast_float_fraction",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_cast_float_fraction",
@@ -876,11 +876,11 @@
         "OPENC-NUM-CAST-FLOATINT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/numeric_cast_float_fraction/main"
+        "conformance/fixtures/invalid/numeric_cast_float_fraction/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/numeric_cast_int_float_inexact_static",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_cast_int_float_inexact_static",
@@ -889,11 +889,11 @@
         "OPENC-NUM-CAST-INTFLOAT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/numeric_cast_int_float_inexact_static/main"
+        "conformance/fixtures/invalid/numeric_cast_int_float_inexact_static/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/numeric_div_min_negative_one_static",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_div_min_negative_one_static",
@@ -902,11 +902,11 @@
         "OPENC-NUM-DIV-MIN-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/numeric_div_min_negative_one_static/main"
+        "conformance/fixtures/invalid/numeric_div_min_negative_one_static/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/numeric_literal_suffix",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_literal_suffix",
@@ -915,11 +915,11 @@
         "OPENC-LITERAL-NOSUFFIX-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/numeric_literal_suffix/main"
+        "conformance/fixtures/invalid/numeric_literal_suffix/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/numeric_separator_doubled",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_separator_doubled",
@@ -928,11 +928,11 @@
         "OPENC-LITERAL-SEPARATOR-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/numeric_separator_doubled/main"
+        "conformance/fixtures/invalid/numeric_separator_doubled/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/numeric_shift_width",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_shift_width",
@@ -941,11 +941,11 @@
         "OPENC-NUM-SHIFT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/numeric_shift_width/main"
+        "conformance/fixtures/invalid/numeric_shift_width/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/numeric_signed_bitwise",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_signed_bitwise",
@@ -954,11 +954,11 @@
         "OPENC-NUM-BITWISE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/numeric_signed_bitwise/main"
+        "conformance/fixtures/invalid/numeric_signed_bitwise/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/numeric_unconstrained_too_large",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_unconstrained_too_large",
@@ -967,11 +967,11 @@
         "OPENC-NUM-LITERAL-DEFAULT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/numeric_unconstrained_too_large/main"
+        "conformance/fixtures/invalid/numeric_unconstrained_too_large/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/optional_contains_resource",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/optional_contains_resource",
@@ -980,11 +980,11 @@
         "OPENC-TYPE-RESOURCEOPTIONAL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/optional_contains_resource/main"
+        "conformance/fixtures/invalid/optional_contains_resource/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/optional_present_readonly",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/optional_present_readonly",
@@ -993,11 +993,11 @@
         "OPENC-OPTIONAL-PRESENT-READONLY-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/optional_present_readonly/main"
+        "conformance/fixtures/invalid/optional_present_readonly/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/optional_proof_invalidated",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/optional_proof_invalidated",
@@ -1007,11 +1007,11 @@
         "OPENC-OPTIONAL-CHECK-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/optional_proof_invalidated/main"
+        "conformance/fixtures/invalid/optional_proof_invalidated/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/optional_question_syntax",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/optional_question_syntax",
@@ -1020,11 +1020,11 @@
         "OPENC-OPTIONAL-NOSHORTHAND-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/optional_question_syntax/main"
+        "conformance/fixtures/invalid/optional_question_syntax/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/optional_slice",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/optional_slice",
@@ -1033,11 +1033,11 @@
         "OPENC-OPTIONAL-NOBORROW-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/optional_slice/main"
+        "conformance/fixtures/invalid/optional_slice/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/out_failure_partial_exposure",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_failure_partial_exposure",
@@ -1047,11 +1047,11 @@
         "OPENC-OUT-NOPARTIAL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/out_failure_partial_exposure/main"
+        "conformance/fixtures/invalid/out_failure_partial_exposure/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/out_field_target",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_field_target",
@@ -1060,11 +1060,11 @@
         "OPENC-OUT-TARGET-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/out_field_target/main"
+        "conformance/fixtures/invalid/out_field_target/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/out_initialized_target",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_initialized_target",
@@ -1073,11 +1073,11 @@
         "OPENC-OUT-TARGET-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/out_initialized_target/main"
+        "conformance/fixtures/invalid/out_initialized_target/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/out_nonstatus_function",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_nonstatus_function",
@@ -1086,11 +1086,11 @@
         "OPENC-OUT-STATUSONLY-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/out_nonstatus_function/main"
+        "conformance/fixtures/invalid/out_nonstatus_function/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/out_own_pointer_missing_contract",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_own_pointer_missing_contract",
@@ -1099,11 +1099,11 @@
         "OPENC-OUT-OWN-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/out_own_pointer_missing_contract/main"
+        "conformance/fixtures/invalid/out_own_pointer_missing_contract/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/out_read_inside_callee",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_read_inside_callee",
@@ -1112,11 +1112,11 @@
         "OPENC-OUT-NOREAD-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/out_read_inside_callee/main"
+        "conformance/fixtures/invalid/out_read_inside_callee/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/out_reference_parameter",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_reference_parameter",
@@ -1125,11 +1125,11 @@
         "OPENC-PARAM-OUTTYPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/out_reference_parameter/main"
+        "conformance/fixtures/invalid/out_reference_parameter/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/out_success_without_init",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_success_without_init",
@@ -1138,11 +1138,11 @@
         "OPENC-FUNCTION-OUTSUCCESS-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/out_success_without_init/main"
+        "conformance/fixtures/invalid/out_success_without_init/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/overload_conversion_ambiguity",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/overload_conversion_ambiguity",
@@ -1152,11 +1152,11 @@
         "OPENC-OVERLOAD-NORANK-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/overload_conversion_ambiguity/main"
+        "conformance/fixtures/invalid/overload_conversion_ambiguity/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/overload_lossless_ambiguous",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/overload_lossless_ambiguous",
@@ -1165,11 +1165,11 @@
         "OPENC-OVERLOAD-NORANK-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/overload_lossless_ambiguous/main"
+        "conformance/fixtures/invalid/overload_lossless_ambiguous/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/overload_return_only",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/overload_return_only",
@@ -1178,11 +1178,11 @@
         "OPENC-OVERLOAD-RETURN-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/overload_return_only/main"
+        "conformance/fixtures/invalid/overload_return_only/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/own_plain_integer",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/own_plain_integer",
@@ -1191,11 +1191,11 @@
         "OPENC-PARAM-OWNTYPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/own_plain_integer/main"
+        "conformance/fixtures/invalid/own_plain_integer/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/owning_pointer_copy",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/owning_pointer_copy",
@@ -1204,11 +1204,11 @@
         "OPENC-PTR-OWNCOPY-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/owning_pointer_copy/main"
+        "conformance/fixtures/invalid/owning_pointer_copy/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/plain_struct_hides_owning_pointer",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/plain_struct_hides_owning_pointer",
@@ -1217,11 +1217,11 @@
         "OPENC-PTR-OWNCONTAIN-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/plain_struct_hides_owning_pointer/main"
+        "conformance/fixtures/invalid/plain_struct_hides_owning_pointer/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/pointer_arithmetic_outside_unsafe",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_arithmetic_outside_unsafe",
@@ -1230,11 +1230,11 @@
         "OPENC-PTR-ARITH-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/pointer_arithmetic_outside_unsafe/main"
+        "conformance/fixtures/invalid/pointer_arithmetic_outside_unsafe/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/pointer_cross_allocation_subtract",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_cross_allocation_subtract",
@@ -1243,11 +1243,11 @@
         "OPENC-PTR-CROSSALLOC-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/pointer_cross_allocation_subtract/main"
+        "conformance/fixtures/invalid/pointer_cross_allocation_subtract/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/pointer_deref_one_past",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_deref_one_past",
@@ -1257,11 +1257,11 @@
         "OPENC-TARGET-PTROFFSET-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/pointer_deref_one_past/main"
+        "conformance/fixtures/invalid/pointer_deref_one_past/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/pointer_integer_conversion_not_plain",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_integer_conversion_not_plain",
@@ -1270,11 +1270,11 @@
         "OPENC-TARGET-PTRINT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/pointer_integer_conversion_not_plain/main"
+        "conformance/fixtures/invalid/pointer_integer_conversion_not_plain/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/pointer_order_cross_allocation",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_order_cross_allocation",
@@ -1284,11 +1284,11 @@
         "OPENC-TARGET-PTRCOMPARE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/pointer_order_cross_allocation/main"
+        "conformance/fixtures/invalid/pointer_order_cross_allocation/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/pointer_typed_deref_requires_lifetime",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_typed_deref_requires_lifetime",
@@ -1297,11 +1297,11 @@
         "OPENC-PTR-LIFETIME-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/pointer_typed_deref_requires_lifetime/main"
+        "conformance/fixtures/invalid/pointer_typed_deref_requires_lifetime/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/positional_struct",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/positional_struct",
@@ -1310,11 +1310,11 @@
         "OPENC-STRUCT-INIT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/positional_struct/main"
+        "conformance/fixtures/invalid/positional_struct/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/predeclared_typeword_binding",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/predeclared_typeword_binding",
@@ -1323,11 +1323,11 @@
         "OPENC-LEX-TYPEWORD-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/predeclared_typeword_binding/main"
+        "conformance/fixtures/invalid/predeclared_typeword_binding/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/ptr_const_to_mutable",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ptr_const_to_mutable",
@@ -1336,11 +1336,11 @@
         "OPENC-PTR-CONSTVIEW-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/ptr_const_to_mutable/main"
+        "conformance/fixtures/invalid/ptr_const_to_mutable/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/ptr_const_write",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ptr_const_write",
@@ -1349,11 +1349,11 @@
         "OPENC-PTR-CONST-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/ptr_const_write/main"
+        "conformance/fixtures/invalid/ptr_const_write/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/ptr_length",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ptr_length",
@@ -1362,11 +1362,11 @@
         "OPENC-PTR-NOLENGTH-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/ptr_length/main"
+        "conformance/fixtures/invalid/ptr_length/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/read_uninitialized",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/read_uninitialized",
@@ -1375,11 +1375,11 @@
         "OPENC-INIT-BEFOREUSE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/read_uninitialized/main"
+        "conformance/fixtures/invalid/read_uninitialized/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/ref_const_to_mutable",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ref_const_to_mutable",
@@ -1388,11 +1388,11 @@
         "OPENC-REF-CONSTVIEW-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/ref_const_to_mutable/main"
+        "conformance/fixtures/invalid/ref_const_to_mutable/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/ref_const_whole_assignment",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ref_const_whole_assignment",
@@ -1401,11 +1401,11 @@
         "OPENC-REF-ASSIGN-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/ref_const_whole_assignment/main"
+        "conformance/fixtures/invalid/ref_const_whole_assignment/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/ref_field",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ref_field",
@@ -1414,11 +1414,11 @@
         "OPENC-FIELD-TYPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/ref_field/main"
+        "conformance/fixtures/invalid/ref_field/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/ref_local_without_initializer",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ref_local_without_initializer",
@@ -1427,11 +1427,11 @@
         "OPENC-REF-INIT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/ref_local_without_initializer/main"
+        "conformance/fixtures/invalid/ref_local_without_initializer/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/ref_resource_whole_assignment",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ref_resource_whole_assignment",
@@ -1440,11 +1440,11 @@
         "OPENC-REF-RESOURCEASSIGN-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/ref_resource_whole_assignment/main"
+        "conformance/fixtures/invalid/ref_resource_whole_assignment/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/reinterpret_pointer_no_new_lifetime",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/reinterpret_pointer_no_new_lifetime",
@@ -1454,11 +1454,11 @@
         "OPENC-REINTERPRET-PTR-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/reinterpret_pointer_no_new_lifetime/main"
+        "conformance/fixtures/invalid/reinterpret_pointer_no_new_lifetime/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/reinterpret_size_mismatch",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/reinterpret_size_mismatch",
@@ -1467,11 +1467,11 @@
         "OPENC-REINTERPRET-SIZE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/reinterpret_size_mismatch/main"
+        "conformance/fixtures/invalid/reinterpret_size_mismatch/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/reinterpret_struct_value",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/reinterpret_struct_value",
@@ -1480,11 +1480,11 @@
         "OPENC-REINTERPRET-VALUE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/reinterpret_struct_value/main"
+        "conformance/fixtures/invalid/reinterpret_struct_value/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/reinterpret_unrelated_layout_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/reinterpret_unrelated_layout_rejected",
@@ -1493,11 +1493,11 @@
         "OPENC-CONVERT-REINTERPRET-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/reinterpret_unrelated_layout_rejected/main"
+        "conformance/fixtures/invalid/reinterpret_unrelated_layout_rejected/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/resource_copy",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/resource_copy",
@@ -1506,11 +1506,11 @@
         "OPENC-RESOURCE-NOCOPY-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/resource_copy/main"
+        "conformance/fixtures/invalid/resource_copy/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/resource_equality_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/resource_equality_rejected",
@@ -1519,11 +1519,11 @@
         "OPENC-EQUALITY-RESOURCE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/resource_equality_rejected/main"
+        "conformance/fixtures/invalid/resource_equality_rejected/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/resource_obligation_not_discharged",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/resource_obligation_not_discharged",
@@ -1532,11 +1532,11 @@
         "OPENC-RESOURCE-OBLIGATION-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/resource_obligation_not_discharged/main"
+        "conformance/fixtures/invalid/resource_obligation_not_discharged/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/return_local_ref",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/return_local_ref",
@@ -1545,11 +1545,11 @@
         "OPENC-LIFETIME-RETURNLOCAL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/return_local_ref/main"
+        "conformance/fixtures/invalid/return_local_ref/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/return_local_reference",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/return_local_reference",
@@ -1559,11 +1559,11 @@
         "OPENC-RETURN-LIFETIME-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/return_local_reference/main"
+        "conformance/fixtures/invalid/return_local_reference/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/return_type_mismatch",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/return_type_mismatch",
@@ -1572,11 +1572,11 @@
         "OPENC-RETURN-TYPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/return_type_mismatch/main"
+        "conformance/fixtures/invalid/return_type_mismatch/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/safe_wrapper_missing_check",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/safe_wrapper_missing_check",
@@ -1585,11 +1585,11 @@
         "OPENC-UNSAFE-WRAPPER-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/safe_wrapper_missing_check/main"
+        "conformance/fixtures/invalid/safe_wrapper_missing_check/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/same_scope_duplicate",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/same_scope_duplicate",
@@ -1598,11 +1598,11 @@
         "OPENC-SCOPE-DUPLICATE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/same_scope_duplicate/main"
+        "conformance/fixtures/invalid/same_scope_duplicate/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/scope_cancel_not_supported",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_cancel_not_supported",
@@ -1611,11 +1611,11 @@
         "OPENC-CLEANUP-NOCANCEL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/scope_cancel_not_supported/main"
+        "conformance/fixtures/invalid/scope_cancel_not_supported/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/scope_destroy_early",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_destroy_early",
@@ -1624,11 +1624,11 @@
         "OPENC-CLEANUP-DESTROY-RESERVE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/scope_destroy_early/main"
+        "conformance/fixtures/invalid/scope_destroy_early/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/scope_double_consuming_action",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_double_consuming_action",
@@ -1637,11 +1637,11 @@
         "OPENC-OWN-SCOPE-RESERVE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/scope_double_consuming_action/main"
+        "conformance/fixtures/invalid/scope_double_consuming_action/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/scope_move_reserved_owner",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_move_reserved_owner",
@@ -1651,11 +1651,11 @@
         "OPENC-OWN-SCOPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/scope_move_reserved_owner/main"
+        "conformance/fixtures/invalid/scope_move_reserved_owner/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/scope_nested_fallible_argument",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_nested_fallible_argument",
@@ -1665,11 +1665,11 @@
         "OPENC-EVAL-SCOPE-NESTED-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/scope_nested_fallible_argument/main"
+        "conformance/fixtures/invalid/scope_nested_fallible_argument/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/scope_out_argument",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_out_argument",
@@ -1678,11 +1678,11 @@
         "OPENC-CLEANUP-OUT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/scope_out_argument/main"
+        "conformance/fixtures/invalid/scope_out_argument/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/scope_reassign_reserved_owner",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_reassign_reserved_owner",
@@ -1692,11 +1692,11 @@
         "OPENC-OWN-SCOPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/scope_reassign_reserved_owner/main"
+        "conformance/fixtures/invalid/scope_reassign_reserved_owner/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/shadowing",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/shadowing",
@@ -1705,11 +1705,11 @@
         "OPENC-SCOPE-SHADOW-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/shadowing/main"
+        "conformance/fixtures/invalid/shadowing/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/size_of_expression",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/size_of_expression",
@@ -1718,11 +1718,11 @@
         "OPENC-TARGET-QUERY-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/size_of_expression/main"
+        "conformance/fixtures/invalid/size_of_expression/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/size_of_void",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/size_of_void",
@@ -1732,11 +1732,11 @@
         "OPENC-TYPE-VOIDOBJECT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/size_of_void/main"
+        "conformance/fixtures/invalid/size_of_void/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/slice_alias_mutation_conflict",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/slice_alias_mutation_conflict",
@@ -1745,11 +1745,11 @@
         "OPENC-SLICE-ALIAS-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/slice_alias_mutation_conflict/main"
+        "conformance/fixtures/invalid/slice_alias_mutation_conflict/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/slice_const_to_mutable",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/slice_const_to_mutable",
@@ -1758,11 +1758,11 @@
         "OPENC-SLICE-CONSTVIEW-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/slice_const_to_mutable/main"
+        "conformance/fixtures/invalid/slice_const_to_mutable/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/slice_field",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/slice_field",
@@ -1771,11 +1771,11 @@
         "OPENC-FIELD-TYPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/slice_field/main"
+        "conformance/fixtures/invalid/slice_field/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/slice_outlives_owner",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/slice_outlives_owner",
@@ -1784,11 +1784,11 @@
         "OPENC-LIFETIME-SLICE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/slice_outlives_owner/main"
+        "conformance/fixtures/invalid/slice_outlives_owner/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/slice_range_checked",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/slice_range_checked",
@@ -1797,11 +1797,11 @@
         "OPENC-SLICE-RANGE-CHECK-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/slice_range_checked/main"
+        "conformance/fixtures/invalid/slice_range_checked/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/status_failure_zero_code",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/status_failure_zero_code",
@@ -1810,11 +1810,11 @@
         "OPENC-STATUS-INVARIANT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/status_failure_zero_code/main"
+        "conformance/fixtures/invalid/status_failure_zero_code/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/status_success_nonzero_code",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/status_success_nonzero_code",
@@ -1823,11 +1823,11 @@
         "OPENC-STATUS-INVARIANT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/status_success_nonzero_code/main"
+        "conformance/fixtures/invalid/status_success_nonzero_code/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/storage_field",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/storage_field",
@@ -1836,11 +1836,11 @@
         "OPENC-FIELD-TYPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/storage_field/main"
+        "conformance/fixtures/invalid/storage_field/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/storage_read_before_construct",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/storage_read_before_construct",
@@ -1850,11 +1850,11 @@
         "OPENC-STORAGE-NOVALUE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/storage_read_before_construct/main"
+        "conformance/fixtures/invalid/storage_read_before_construct/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/storage_resource_type",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/storage_resource_type",
@@ -1863,11 +1863,11 @@
         "OPENC-STORAGE-NORESOURCE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/storage_resource_type/main"
+        "conformance/fixtures/invalid/storage_resource_type/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/struct_trailing_semicolon",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/struct_trailing_semicolon",
@@ -1876,11 +1876,11 @@
         "OPENC-STRUCT-TRAILING-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/struct_trailing_semicolon/main"
+        "conformance/fixtures/invalid/struct_trailing_semicolon/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/switch_implicit_fallthrough",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/switch_implicit_fallthrough",
@@ -1889,11 +1889,11 @@
         "OPENC-SWITCH-NOFALL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/switch_implicit_fallthrough/main"
+        "conformance/fixtures/invalid/switch_implicit_fallthrough/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/text_byte_conversion_explicit",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/text_byte_conversion_explicit",
@@ -1902,11 +1902,11 @@
         "OPENC-TEXT-CONVERT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/text_byte_conversion_explicit/main"
+        "conformance/fixtures/invalid/text_byte_conversion_explicit/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/text_index",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/text_index",
@@ -1915,11 +1915,11 @@
         "OPENC-TEXT-NOINDEX-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/text_index/main"
+        "conformance/fixtures/invalid/text_index/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/textual_include_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/textual_include_rejected",
@@ -1929,11 +1929,11 @@
         "OPENC-TRANSLATE-NOPREPROCESSOR-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/textual_include_rejected/main"
+        "conformance/fixtures/invalid/textual_include_rejected/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/two_write_borrows",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/two_write_borrows",
@@ -1942,11 +1942,11 @@
         "OPENC-BORROW-ONEWRITE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/two_write_borrows/main"
+        "conformance/fixtures/invalid/two_write_borrows/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/typed_storage_live_exit",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/typed_storage_live_exit",
@@ -1955,11 +1955,11 @@
         "OPENC-STORAGE-LIVEEXIT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/typed_storage_live_exit/main"
+        "conformance/fixtures/invalid/typed_storage_live_exit/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/typed_storage_old_ref_after_reconstruct",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/typed_storage_old_ref_after_reconstruct",
@@ -1968,11 +1968,11 @@
         "OPENC-STORAGE-REFINVALID-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/typed_storage_old_ref_after_reconstruct/main"
+        "conformance/fixtures/invalid/typed_storage_old_ref_after_reconstruct/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/unchecked_float_to_integer",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unchecked_float_to_integer",
@@ -1981,11 +1981,11 @@
         "OPENC-CAST-UNCHECKED-LIMIT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/unchecked_float_to_integer/main"
+        "conformance/fixtures/invalid/unchecked_float_to_integer/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/unicode_escape_surrogate",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unicode_escape_surrogate",
@@ -1994,11 +1994,11 @@
         "OPENC-LITERAL-UNICODE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/unicode_escape_surrogate/main"
+        "conformance/fixtures/invalid/unicode_escape_surrogate/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/unknown_member",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unknown_member",
@@ -2007,11 +2007,11 @@
         "OPENC-MEMBER-UNKNOWN-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/unknown_member/main"
+        "conformance/fixtures/invalid/unknown_member/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/unsafe_call_requires_boundary",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unsafe_call_requires_boundary",
@@ -2020,11 +2020,11 @@
         "OPENC-UNSAFE-CALL-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/unsafe_call_requires_boundary/main"
+        "conformance/fixtures/invalid/unsafe_call_requires_boundary/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/unsafe_contract_caller_responsibility",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unsafe_contract_caller_responsibility",
@@ -2033,11 +2033,11 @@
         "OPENC-UNSAFE-CONTRACT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/unsafe_contract_caller_responsibility/main"
+        "conformance/fixtures/invalid/unsafe_contract_caller_responsibility/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/unsafe_function_call_outside_unsafe",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unsafe_function_call_outside_unsafe",
@@ -2046,11 +2046,11 @@
         "OPENC-FUNCTION-UNSAFE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/unsafe_function_call_outside_unsafe/main"
+        "conformance/fixtures/invalid/unsafe_function_call_outside_unsafe/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/unsafe_provenance_not_forged",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unsafe_provenance_not_forged",
@@ -2059,11 +2059,11 @@
         "OPENC-UNSAFE-PROVENANCE-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/unsafe_provenance_not_forged/main"
+        "conformance/fixtures/invalid/unsafe_provenance_not_forged/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/use_after_move",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/use_after_move",
@@ -2072,11 +2072,11 @@
         "OPENC-OWN-USEAFTER-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/use_after_move/main"
+        "conformance/fixtures/invalid/use_after_move/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/void_local_object",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/void_local_object",
@@ -2085,11 +2085,11 @@
         "OPENC-TYPE-VOIDOBJECT-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/void_local_object/main"
+        "conformance/fixtures/invalid/void_local_object/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "invalid/when_token_fragment_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/when_token_fragment_rejected",
@@ -2098,11 +2098,11 @@
         "OPENC-WHEN-STRUCTURED-001"
       ],
       "source_files": [
-        "conformance/fixtures/invalid/when_token_fragment_rejected/main"
+        "conformance/fixtures/invalid/when_token_fragment_rejected/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "records/diagnostic_structure_quality",
       "kind": "records",
       "path": "conformance/fixtures/records/diagnostic_structure_quality",
@@ -2117,7 +2117,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/assignment_destination_once",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/assignment_destination_once",
@@ -2126,11 +2126,11 @@
         "OPENC-EVAL-ASSIGN-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/assignment_destination_once/main"
+        "conformance/fixtures/runtime/assignment_destination_once/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/boolean_short_circuit",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/boolean_short_circuit",
@@ -2140,11 +2140,11 @@
         "OPENC-EVAL-SHORT-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/boolean_short_circuit/main"
+        "conformance/fixtures/runtime/boolean_short_circuit/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/bounds_trap",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/bounds_trap",
@@ -2153,11 +2153,11 @@
         "OPENC-INDEX-SAFE-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/bounds_trap/main"
+        "conformance/fixtures/runtime/bounds_trap/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/break_and_scope_registration_order",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/break_and_scope_registration_order",
@@ -2167,11 +2167,11 @@
         "OPENC-EVAL-SCOPE-REGISTER-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/break_and_scope_registration_order/main"
+        "conformance/fixtures/runtime/break_and_scope_registration_order/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/callee_then_arguments_order",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/callee_then_arguments_order",
@@ -2181,11 +2181,11 @@
         "OPENC-EVAL-CALLEE-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/callee_then_arguments_order/main"
+        "conformance/fixtures/runtime/callee_then_arguments_order/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/checked_addition",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/checked_addition",
@@ -2194,11 +2194,11 @@
         "OPENC-NUM-ADD-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/checked_addition/main"
+        "conformance/fixtures/runtime/checked_addition/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/cleanup_on_return",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/cleanup_on_return",
@@ -2208,11 +2208,11 @@
         "OPENC-CLEANUP-STRUCTURED-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/cleanup_on_return/main"
+        "conformance/fixtures/runtime/cleanup_on_return/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/cleanup_registration_capture",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/cleanup_registration_capture",
@@ -2222,11 +2222,11 @@
         "OPENC-CLEANUP-REGISTER-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/cleanup_registration_capture/main"
+        "conformance/fixtures/runtime/cleanup_registration_capture/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/construct_and_return_order",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/construct_and_return_order",
@@ -2236,11 +2236,11 @@
         "OPENC-EVAL-RETURN-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/construct_and_return_order/main"
+        "conformance/fixtures/runtime/construct_and_return_order/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/evaluation_binary_left_to_right",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/evaluation_binary_left_to_right",
@@ -2252,11 +2252,11 @@
         "OPENC-EVAL-OBSERVABLE-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/evaluation_binary_left_to_right/main"
+        "conformance/fixtures/runtime/evaluation_binary_left_to_right/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/fatal_allocation_defined",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/fatal_allocation_defined",
@@ -2265,11 +2265,11 @@
         "OPENC-ERROR-FATAL-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/fatal_allocation_defined/main"
+        "conformance/fixtures/runtime/fatal_allocation_defined/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/fixed_width_values",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/fixed_width_values",
@@ -2280,11 +2280,11 @@
         "OPENC-TYPE-WIDTH-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/fixed_width_values/main"
+        "conformance/fixtures/runtime/fixed_width_values/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/function_arguments_left_to_right",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/function_arguments_left_to_right",
@@ -2294,11 +2294,11 @@
         "OPENC-FUNCTION-ARGORDER-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/function_arguments_left_to_right/main"
+        "conformance/fixtures/runtime/function_arguments_left_to_right/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/left_shift_checked",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/left_shift_checked",
@@ -2307,11 +2307,11 @@
         "OPENC-NUM-SHIFTLEFT-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/left_shift_checked/main"
+        "conformance/fixtures/runtime/left_shift_checked/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/null_pointer_equality",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/null_pointer_equality",
@@ -2320,11 +2320,11 @@
         "OPENC-PTR-NULL-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/null_pointer_equality/main"
+        "conformance/fixtures/runtime/null_pointer_equality/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/optional_trap",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/optional_trap",
@@ -2333,11 +2333,11 @@
         "OPENC-OPTIONAL-VALUE-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/optional_trap/main"
+        "conformance/fixtures/runtime/optional_trap/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/pointer_provenance_target_fault",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/pointer_provenance_target_fault",
@@ -2347,11 +2347,11 @@
         "OPENC-TARGET-PTRPROV-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/pointer_provenance_target_fault/main"
+        "conformance/fixtures/runtime/pointer_provenance_target_fault/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/runtime_cast_float_fraction",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_cast_float_fraction",
@@ -2360,11 +2360,11 @@
         "OPENC-NUM-CAST-FLOATINT-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/runtime_cast_float_fraction/main"
+        "conformance/fixtures/runtime/runtime_cast_float_fraction/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/runtime_cast_integer_range",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_cast_integer_range",
@@ -2373,11 +2373,11 @@
         "OPENC-NUM-CAST-INT-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/runtime_cast_integer_range/main"
+        "conformance/fixtures/runtime/runtime_cast_integer_range/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/runtime_checked_failure_runs_cleanup",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_checked_failure_runs_cleanup",
@@ -2387,11 +2387,11 @@
         "OPENC-INDEX-SAFE-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/runtime_checked_failure_runs_cleanup/main"
+        "conformance/fixtures/runtime/runtime_checked_failure_runs_cleanup/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/runtime_division_min_negative_one",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_division_min_negative_one",
@@ -2400,11 +2400,11 @@
         "OPENC-NUM-DIV-MIN-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/runtime_division_min_negative_one/main"
+        "conformance/fixtures/runtime/runtime_division_min_negative_one/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/runtime_division_zero",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_division_zero",
@@ -2413,11 +2413,11 @@
         "OPENC-NUM-DIVZERO-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/runtime_division_zero/main"
+        "conformance/fixtures/runtime/runtime_division_zero/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/runtime_float_nan_comparison",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_float_nan_comparison",
@@ -2428,11 +2428,11 @@
         "OPENC-NUM-FLOAT-ORDER-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/runtime_float_nan_comparison/main"
+        "conformance/fixtures/runtime/runtime_float_nan_comparison/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/runtime_pointer_cross_extent_fault",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_pointer_cross_extent_fault",
@@ -2442,11 +2442,11 @@
         "OPENC-TARGET-PTRCROSS-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/runtime_pointer_cross_extent_fault/main"
+        "conformance/fixtures/runtime/runtime_pointer_cross_extent_fault/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/runtime_scope_lifo",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_scope_lifo",
@@ -2455,11 +2455,11 @@
         "OPENC-CLEANUP-LIFO-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/runtime_scope_lifo/main"
+        "conformance/fixtures/runtime/runtime_scope_lifo/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/signed_right_shift_defined",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/signed_right_shift_defined",
@@ -2468,11 +2468,11 @@
         "OPENC-NUM-SHIFTRIGHT-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/signed_right_shift_defined/main"
+        "conformance/fixtures/runtime/signed_right_shift_defined/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/struct_defaults_after_explicit",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/struct_defaults_after_explicit",
@@ -2481,11 +2481,11 @@
         "OPENC-EVAL-DEFAULT-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/struct_defaults_after_explicit/main"
+        "conformance/fixtures/runtime/struct_defaults_after_explicit/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/unary_operand_once",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/unary_operand_once",
@@ -2494,11 +2494,11 @@
         "OPENC-EVAL-UNARY-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/unary_operand_once/main"
+        "conformance/fixtures/runtime/unary_operand_once/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/unsafe_fault_target_bounded",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/unsafe_fault_target_bounded",
@@ -2508,11 +2508,11 @@
         "OPENC-UNSAFE-NOASSUME-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/unsafe_fault_target_bounded/main"
+        "conformance/fixtures/runtime/unsafe_fault_target_bounded/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "runtime/unsigned_modulo_exact",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/unsigned_modulo_exact",
@@ -2522,11 +2522,11 @@
         "OPENC-NUM-UNSIGNED-001"
       ],
       "source_files": [
-        "conformance/fixtures/runtime/unsigned_modulo_exact/main"
+        "conformance/fixtures/runtime/unsigned_modulo_exact/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/array_init_length_copy",
       "kind": "valid",
       "path": "conformance/fixtures/valid/array_init_length_copy",
@@ -2537,11 +2537,11 @@
         "OPENC-ARRAY-LENGTH-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/array_init_length_copy/main"
+        "conformance/fixtures/valid/array_init_length_copy/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/bool_condition",
       "kind": "valid",
       "path": "conformance/fixtures/valid/bool_condition",
@@ -2551,11 +2551,11 @@
         "OPENC-TYPE-BOOL-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/bool_condition/main"
+        "conformance/fixtures/valid/bool_condition/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/byte_pointer_object_representation",
       "kind": "valid",
       "path": "conformance/fixtures/valid/byte_pointer_object_representation",
@@ -2564,11 +2564,11 @@
         "OPENC-PTR-BYTE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/byte_pointer_object_representation/main"
+        "conformance/fixtures/valid/byte_pointer_object_representation/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/checked_cast",
       "kind": "valid",
       "path": "conformance/fixtures/valid/checked_cast",
@@ -2577,11 +2577,11 @@
         "OPENC-CONVERT-CAST-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/checked_cast/main"
+        "conformance/fixtures/valid/checked_cast/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/comments_preserve_tokens",
       "kind": "valid",
       "path": "conformance/fixtures/valid/comments_preserve_tokens",
@@ -2590,11 +2590,11 @@
         "OPENC-LEX-COMMENT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/comments_preserve_tokens/main"
+        "conformance/fixtures/valid/comments_preserve_tokens/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/const_binding_readonly",
       "kind": "valid",
       "path": "conformance/fixtures/valid/const_binding_readonly",
@@ -2604,11 +2604,11 @@
         "OPENC-TYPE-CONST-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/const_binding_readonly/main"
+        "conformance/fixtures/valid/const_binding_readonly/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/const_view_conversions",
       "kind": "valid",
       "path": "conformance/fixtures/valid/const_view_conversions",
@@ -2619,11 +2619,11 @@
         "OPENC-SLICE-CONSTVIEW-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/const_view_conversions/main"
+        "conformance/fixtures/valid/const_view_conversions/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/constant_expression_same_numeric_rules",
       "kind": "valid",
       "path": "conformance/fixtures/valid/constant_expression_same_numeric_rules",
@@ -2632,11 +2632,11 @@
         "OPENC-NUM-CONST-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/constant_expression_same_numeric_rules/main"
+        "conformance/fixtures/valid/constant_expression_same_numeric_rules/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/current_optional",
       "kind": "valid",
       "path": "conformance/fixtures/valid/current_optional",
@@ -2645,11 +2645,11 @@
         "OPENC-OPTIONAL-EXPLICIT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/current_optional/main"
+        "conformance/fixtures/valid/current_optional/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/current_resource",
       "kind": "valid",
       "path": "conformance/fixtures/valid/current_resource",
@@ -2659,11 +2659,11 @@
         "OPENC-RESOURCE-FIELD-OWNPTR-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/current_resource/main"
+        "conformance/fixtures/valid/current_resource/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/disjoint_mutable_slices",
       "kind": "valid",
       "path": "conformance/fixtures/valid/disjoint_mutable_slices",
@@ -2672,11 +2672,11 @@
         "OPENC-SLICE-DISJOINT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/disjoint_mutable_slices/main"
+        "conformance/fixtures/valid/disjoint_mutable_slices/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/domain_own_call",
       "kind": "valid",
       "path": "conformance/fixtures/valid/domain_own_call",
@@ -2685,11 +2685,11 @@
         "OPENC-OWN-CALL-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/domain_own_call/main"
+        "conformance/fixtures/valid/domain_own_call/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/enum_switch",
       "kind": "valid",
       "path": "conformance/fixtures/valid/enum_switch",
@@ -2699,11 +2699,11 @@
         "OPENC-SWITCH-ENUM-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/enum_switch/main"
+        "conformance/fixtures/valid/enum_switch/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/eval_call_left_to_right",
       "kind": "valid",
       "path": "conformance/fixtures/valid/eval_call_left_to_right",
@@ -2713,11 +2713,11 @@
         "OPENC-EXPR-ORDER-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/eval_call_left_to_right/main"
+        "conformance/fixtures/valid/eval_call_left_to_right/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/eval_compound_target_once",
       "kind": "valid",
       "path": "conformance/fixtures/valid/eval_compound_target_once",
@@ -2726,11 +2726,11 @@
         "OPENC-EVAL-COMPOUND-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/eval_compound_target_once/main"
+        "conformance/fixtures/valid/eval_compound_target_once/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/eval_struct_initializer_order",
       "kind": "valid",
       "path": "conformance/fixtures/valid/eval_struct_initializer_order",
@@ -2740,11 +2740,11 @@
         "OPENC-STRUCT-INIT-ORDER-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/eval_struct_initializer_order/main"
+        "conformance/fixtures/valid/eval_struct_initializer_order/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/first_program",
       "kind": "valid",
       "path": "conformance/fixtures/valid/first_program",
@@ -2754,11 +2754,11 @@
         "OPENC-MODULE-IMPORT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/first_program/main"
+        "conformance/fixtures/valid/first_program/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/fixed_array",
       "kind": "valid",
       "path": "conformance/fixtures/valid/fixed_array",
@@ -2768,11 +2768,11 @@
         "OPENC-ARRAY-INDEX-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/fixed_array/main"
+        "conformance/fixtures/valid/fixed_array/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/float_binary_types",
       "kind": "valid",
       "path": "conformance/fixtures/valid/float_binary_types",
@@ -2783,11 +2783,11 @@
         "OPENC-TYPE-FLOAT-FIXED-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/float_binary_types/main"
+        "conformance/fixtures/valid/float_binary_types/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/floating_literal_default_f64",
       "kind": "valid",
       "path": "conformance/fixtures/valid/floating_literal_default_f64",
@@ -2796,11 +2796,11 @@
         "OPENC-LITERAL-FLOATDEFAULT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/floating_literal_default_f64/main"
+        "conformance/fixtures/valid/floating_literal_default_f64/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/flow_if_all_paths",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_if_all_paths",
@@ -2810,11 +2810,11 @@
         "OPENC-INIT-PATH-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/flow_if_all_paths/main"
+        "conformance/fixtures/valid/flow_if_all_paths/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/flow_loop_preinitialized",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_loop_preinitialized",
@@ -2823,11 +2823,11 @@
         "OPENC-FLOW-WHILE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/flow_loop_preinitialized/main"
+        "conformance/fixtures/valid/flow_loop_preinitialized/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/flow_optional_early_return",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_optional_early_return",
@@ -2837,11 +2837,11 @@
         "OPENC-OPTIONAL-CHECK-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/flow_optional_early_return/main"
+        "conformance/fixtures/valid/flow_optional_early_return/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/flow_out_early_return",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_out_early_return",
@@ -2851,11 +2851,11 @@
         "OPENC-FUNCTION-OUTSUCCESS-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/flow_out_early_return/main"
+        "conformance/fixtures/valid/flow_out_early_return/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/flow_state_branch_merge",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_state_branch_merge",
@@ -2864,11 +2864,11 @@
         "OPENC-FLOW-STATE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/flow_state_branch_merge/main"
+        "conformance/fixtures/valid/flow_state_branch_merge/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/flow_status_copy_proof",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_status_copy_proof",
@@ -2877,11 +2877,11 @@
         "OPENC-FLOW-OUT-COPY-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/flow_status_copy_proof/main"
+        "conformance/fixtures/valid/flow_status_copy_proof/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/flow_switch_exhaustive",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_switch_exhaustive",
@@ -2891,11 +2891,11 @@
         "OPENC-SWITCH-ENUM-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/flow_switch_exhaustive/main"
+        "conformance/fixtures/valid/flow_switch_exhaustive/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/function_add",
       "kind": "valid",
       "path": "conformance/fixtures/valid/function_add",
@@ -2905,11 +2905,11 @@
         "OPENC-FUNCTION-PARAM-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/function_add/main"
+        "conformance/fixtures/valid/function_add/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/global_const_valid",
       "kind": "valid",
       "path": "conformance/fixtures/valid/global_const_valid",
@@ -2918,11 +2918,11 @@
         "OPENC-GLOBAL-CONST-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/global_const_valid/main"
+        "conformance/fixtures/valid/global_const_valid/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/identifier_case_sensitive",
       "kind": "valid",
       "path": "conformance/fixtures/valid/identifier_case_sensitive",
@@ -2931,11 +2931,11 @@
         "OPENC-LEX-IDENT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/identifier_case_sensitive/main"
+        "conformance/fixtures/valid/identifier_case_sensitive/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/initialized_local",
       "kind": "valid",
       "path": "conformance/fixtures/valid/initialized_local",
@@ -2944,11 +2944,11 @@
         "OPENC-INIT-BEFOREUSE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/initialized_local/main"
+        "conformance/fixtures/valid/initialized_local/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/integer_literal_exact_context",
       "kind": "valid",
       "path": "conformance/fixtures/valid/integer_literal_exact_context",
@@ -2958,11 +2958,11 @@
         "OPENC-LITERAL-RANGE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/integer_literal_exact_context/main"
+        "conformance/fixtures/valid/integer_literal_exact_context/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/many_read_borrows_last_use",
       "kind": "valid",
       "path": "conformance/fixtures/valid/many_read_borrows_last_use",
@@ -2972,11 +2972,11 @@
         "OPENC-BORROW-MANYREAD-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/many_read_borrows_last_use/main"
+        "conformance/fixtures/valid/many_read_borrows_last_use/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/module_multi_source_overload",
       "kind": "valid",
       "path": "conformance/fixtures/valid/module_multi_source_overload",
@@ -2986,12 +2986,12 @@
         "OPENC-OVERLOAD-EXACT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/module_multi_source_overload/sources/a",
-        "conformance/fixtures/valid/module_multi_source_overload/sources/b"
+        "conformance/fixtures/valid/module_multi_source_overload/sources/a.p",
+        "conformance/fixtures/valid/module_multi_source_overload/sources/b.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/module_repeated_import_idempotent",
       "kind": "valid",
       "path": "conformance/fixtures/valid/module_repeated_import_idempotent",
@@ -3001,12 +3001,12 @@
         "OPENC-MODULE-IMPORTIDEMPOTENT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/module_repeated_import_idempotent/sources/main",
-        "conformance/fixtures/valid/module_repeated_import_idempotent/sources/math"
+        "conformance/fixtures/valid/module_repeated_import_idempotent/sources/main.p",
+        "conformance/fixtures/valid/module_repeated_import_idempotent/sources/math.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/module_short_and_full_qualifier",
       "kind": "valid",
       "path": "conformance/fixtures/valid/module_short_and_full_qualifier",
@@ -3016,11 +3016,11 @@
         "OPENC-MODULE-SHORT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/module_short_and_full_qualifier/sources/main"
+        "conformance/fixtures/valid/module_short_and_full_qualifier/sources/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/negative_literal_context",
       "kind": "valid",
       "path": "conformance/fixtures/valid/negative_literal_context",
@@ -3029,11 +3029,11 @@
         "OPENC-NUM-LITERAL-NEGATIVE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/negative_literal_context/main"
+        "conformance/fixtures/valid/negative_literal_context/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/numeric_division_toward_zero",
       "kind": "valid",
       "path": "conformance/fixtures/valid/numeric_division_toward_zero",
@@ -3042,11 +3042,11 @@
         "OPENC-NUM-DIV-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/numeric_division_toward_zero/main"
+        "conformance/fixtures/valid/numeric_division_toward_zero/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/numeric_remainder_dividend_sign",
       "kind": "valid",
       "path": "conformance/fixtures/valid/numeric_remainder_dividend_sign",
@@ -3055,11 +3055,11 @@
         "OPENC-NUM-REM-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/numeric_remainder_dividend_sign/main"
+        "conformance/fixtures/valid/numeric_remainder_dividend_sign/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/numeric_saturating_add",
       "kind": "valid",
       "path": "conformance/fixtures/valid/numeric_saturating_add",
@@ -3068,11 +3068,11 @@
         "OPENC-NUM-SATURATE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/numeric_saturating_add/main"
+        "conformance/fixtures/valid/numeric_saturating_add/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/numeric_separator_valid",
       "kind": "valid",
       "path": "conformance/fixtures/valid/numeric_separator_valid",
@@ -3081,11 +3081,11 @@
         "OPENC-LITERAL-SEPARATOR-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/numeric_separator_valid/main"
+        "conformance/fixtures/valid/numeric_separator_valid/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/optional_checked",
       "kind": "valid",
       "path": "conformance/fixtures/valid/optional_checked",
@@ -3095,11 +3095,11 @@
         "OPENC-OPTIONAL-VALUE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/optional_checked/main"
+        "conformance/fixtures/valid/optional_checked/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/optional_none_and_copy",
       "kind": "valid",
       "path": "conformance/fixtures/valid/optional_none_and_copy",
@@ -3109,11 +3109,11 @@
         "OPENC-OPTIONAL-NONE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/optional_none_and_copy/main"
+        "conformance/fixtures/valid/optional_none_and_copy/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/overload_exact_preferred",
       "kind": "valid",
       "path": "conformance/fixtures/valid/overload_exact_preferred",
@@ -3122,11 +3122,11 @@
         "OPENC-OVERLOAD-EXACT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/overload_exact_preferred/main"
+        "conformance/fixtures/valid/overload_exact_preferred/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/overload_parameter_modes",
       "kind": "valid",
       "path": "conformance/fixtures/valid/overload_parameter_modes",
@@ -3135,11 +3135,11 @@
         "OPENC-OVERLOAD-MODE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/overload_parameter_modes/main"
+        "conformance/fixtures/valid/overload_parameter_modes/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/parameter_modes_visible",
       "kind": "valid",
       "path": "conformance/fixtures/valid/parameter_modes_visible",
@@ -3150,11 +3150,11 @@
         "OPENC-PARAM-REF-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/parameter_modes_visible/main"
+        "conformance/fixtures/valid/parameter_modes_visible/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/plain_copy_independent",
       "kind": "valid",
       "path": "conformance/fixtures/valid/plain_copy_independent",
@@ -3163,11 +3163,11 @@
         "OPENC-COPY-PLAIN-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/plain_copy_independent/main"
+        "conformance/fixtures/valid/plain_copy_independent/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/pointer_one_past_compare",
       "kind": "valid",
       "path": "conformance/fixtures/valid/pointer_one_past_compare",
@@ -3177,11 +3177,11 @@
         "OPENC-TARGET-PTROFFSET-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/pointer_one_past_compare/main"
+        "conformance/fixtures/valid/pointer_one_past_compare/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/read_borrow",
       "kind": "valid",
       "path": "conformance/fixtures/valid/read_borrow",
@@ -3190,11 +3190,11 @@
         "OPENC-REF-READ-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/read_borrow/main"
+        "conformance/fixtures/valid/read_borrow/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/ref_assigns_referent",
       "kind": "valid",
       "path": "conformance/fixtures/valid/ref_assigns_referent",
@@ -3205,11 +3205,11 @@
         "OPENC-REF-NOREBIND-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/ref_assigns_referent/main"
+        "conformance/fixtures/valid/ref_assigns_referent/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/reinterpret_u32_f32",
       "kind": "valid",
       "path": "conformance/fixtures/valid/reinterpret_u32_f32",
@@ -3219,11 +3219,11 @@
         "OPENC-REINTERPRET-VALUE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/reinterpret_u32_f32/main"
+        "conformance/fixtures/valid/reinterpret_u32_f32/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/resource_contains_resource",
       "kind": "valid",
       "path": "conformance/fixtures/valid/resource_contains_resource",
@@ -3232,11 +3232,11 @@
         "OPENC-RESOURCE-FIELD-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/resource_contains_resource/main"
+        "conformance/fixtures/valid/resource_contains_resource/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/resource_domain_operations",
       "kind": "valid",
       "path": "conformance/fixtures/valid/resource_domain_operations",
@@ -3247,11 +3247,11 @@
         "OPENC-RESOURCE-MOVE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/resource_domain_operations/main"
+        "conformance/fixtures/valid/resource_domain_operations/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/resource_return_transfers",
       "kind": "valid",
       "path": "conformance/fixtures/valid/resource_return_transfers",
@@ -3260,11 +3260,11 @@
         "OPENC-OWN-RETURN-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/resource_return_transfers/main"
+        "conformance/fixtures/valid/resource_return_transfers/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/scope_bound_owner_borrow",
       "kind": "valid",
       "path": "conformance/fixtures/valid/scope_bound_owner_borrow",
@@ -3273,11 +3273,11 @@
         "OPENC-OWN-SCOPE-BORROW-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/scope_bound_owner_borrow/main"
+        "conformance/fixtures/valid/scope_bound_owner_borrow/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/scope_nested_lifo",
       "kind": "valid",
       "path": "conformance/fixtures/valid/scope_nested_lifo",
@@ -3287,11 +3287,11 @@
         "OPENC-CLEANUP-NESTED-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/scope_nested_lifo/main"
+        "conformance/fixtures/valid/scope_nested_lifo/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/scope_value_capture",
       "kind": "valid",
       "path": "conformance/fixtures/valid/scope_value_capture",
@@ -3300,11 +3300,11 @@
         "OPENC-CLEANUP-VALUE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/scope_value_capture/main"
+        "conformance/fixtures/valid/scope_value_capture/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/slice_empty_and_default_ranges",
       "kind": "valid",
       "path": "conformance/fixtures/valid/slice_empty_and_default_ranges",
@@ -3314,11 +3314,11 @@
         "OPENC-SLICE-RANGE-EMPTY-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/slice_empty_and_default_ranges/main"
+        "conformance/fixtures/valid/slice_empty_and_default_ranges/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/slice_length_and_mutation",
       "kind": "valid",
       "path": "conformance/fixtures/valid/slice_length_and_mutation",
@@ -3328,11 +3328,11 @@
         "OPENC-SLICE-MUTATE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/slice_length_and_mutation/main"
+        "conformance/fixtures/valid/slice_length_and_mutation/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/slice_sum",
       "kind": "valid",
       "path": "conformance/fixtures/valid/slice_sum",
@@ -3342,11 +3342,11 @@
         "OPENC-SLICE-FROMARRAY-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/slice_sum/main"
+        "conformance/fixtures/valid/slice_sum/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/small_local_unsafe_block",
       "kind": "valid",
       "path": "conformance/fixtures/valid/small_local_unsafe_block",
@@ -3355,11 +3355,11 @@
         "OPENC-UNSAFE-LOCAL-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/small_local_unsafe_block/main"
+        "conformance/fixtures/valid/small_local_unsafe_block/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/status_invariant_success",
       "kind": "valid",
       "path": "conformance/fixtures/valid/status_invariant_success",
@@ -3369,11 +3369,11 @@
         "OPENC-STATUS-INVARIANT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/status_invariant_success/main"
+        "conformance/fixtures/valid/status_invariant_success/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/status_message_not_control_flow",
       "kind": "valid",
       "path": "conformance/fixtures/valid/status_message_not_control_flow",
@@ -3383,11 +3383,11 @@
         "OPENC-STATUS-MESSAGE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/status_message_not_control_flow/main"
+        "conformance/fixtures/valid/status_message_not_control_flow/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/status_proof_initializes_out",
       "kind": "valid",
       "path": "conformance/fixtures/valid/status_proof_initializes_out",
@@ -3397,11 +3397,11 @@
         "OPENC-STATUS-PROOF-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/status_proof_initializes_out/main"
+        "conformance/fixtures/valid/status_proof_initializes_out/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/struct_defaults",
       "kind": "valid",
       "path": "conformance/fixtures/valid/struct_defaults",
@@ -3411,11 +3411,11 @@
         "OPENC-STRUCT-EMPTY-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/struct_defaults/main"
+        "conformance/fixtures/valid/struct_defaults/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/struct_named_fields_and_copy",
       "kind": "valid",
       "path": "conformance/fixtures/valid/struct_named_fields_and_copy",
@@ -3427,11 +3427,11 @@
         "OPENC-STRUCT-INIT-FIELD-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/struct_named_fields_and_copy/main"
+        "conformance/fixtures/valid/struct_named_fields_and_copy/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/struct_named_init",
       "kind": "valid",
       "path": "conformance/fixtures/valid/struct_named_init",
@@ -3440,11 +3440,11 @@
         "OPENC-STRUCT-INIT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/struct_named_init/main"
+        "conformance/fixtures/valid/struct_named_init/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/subslice",
       "kind": "valid",
       "path": "conformance/fixtures/valid/subslice",
@@ -3453,11 +3453,11 @@
         "OPENC-SLICE-RANGE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/subslice/main"
+        "conformance/fixtures/valid/subslice/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/text_module_typeword_qualifier",
       "kind": "valid",
       "path": "conformance/fixtures/valid/text_module_typeword_qualifier",
@@ -3466,11 +3466,11 @@
         "OPENC-LEX-TYPEQUALIFIER-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/text_module_typeword_qualifier/main"
+        "conformance/fixtures/valid/text_module_typeword_qualifier/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/type_shapes_ref_ptr_optional_array_slice_storage",
       "kind": "valid",
       "path": "conformance/fixtures/valid/type_shapes_ref_ptr_optional_array_slice_storage",
@@ -3484,11 +3484,11 @@
         "OPENC-TYPE-PREFIXORDER-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/type_shapes_ref_ptr_optional_array_slice_storage/main"
+        "conformance/fixtures/valid/type_shapes_ref_ptr_optional_array_slice_storage/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/type_size_alignment",
       "kind": "valid",
       "path": "conformance/fixtures/valid/type_size_alignment",
@@ -3499,11 +3499,11 @@
         "OPENC-TARGET-SIZEOF-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/type_size_alignment/main"
+        "conformance/fixtures/valid/type_size_alignment/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/typed_storage",
       "kind": "valid",
       "path": "conformance/fixtures/valid/typed_storage",
@@ -3513,11 +3513,11 @@
         "OPENC-DESTROY-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/typed_storage/main"
+        "conformance/fixtures/valid/typed_storage/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/typed_storage_reconstruct_after_destroy",
       "kind": "valid",
       "path": "conformance/fixtures/valid/typed_storage_reconstruct_after_destroy",
@@ -3527,11 +3527,11 @@
         "OPENC-STORAGE-RECONSTRUCT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/typed_storage_reconstruct_after_destroy/main"
+        "conformance/fixtures/valid/typed_storage_reconstruct_after_destroy/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/typed_storage_scope_destroy_use",
       "kind": "valid",
       "path": "conformance/fixtures/valid/typed_storage_scope_destroy_use",
@@ -3542,11 +3542,11 @@
         "OPENC-STORAGE-LIVEEXIT-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/typed_storage_scope_destroy_use/main"
+        "conformance/fixtures/valid/typed_storage_scope_destroy_use/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/unary_minus_signed_only",
       "kind": "valid",
       "path": "conformance/fixtures/valid/unary_minus_signed_only",
@@ -3555,11 +3555,11 @@
         "OPENC-ARITH-MINUS-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/unary_minus_signed_only/main"
+        "conformance/fixtures/valid/unary_minus_signed_only/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/unchecked_integer_cast",
       "kind": "valid",
       "path": "conformance/fixtures/valid/unchecked_integer_cast",
@@ -3569,11 +3569,11 @@
         "OPENC-NUM-UNCHECKEDCAST-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/unchecked_integer_cast/main"
+        "conformance/fixtures/valid/unchecked_integer_cast/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/unsafe_pointer",
       "kind": "valid",
       "path": "conformance/fixtures/valid/unsafe_pointer",
@@ -3583,11 +3583,11 @@
         "OPENC-UNSAFE-BOUNDARY-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/unsafe_pointer/main"
+        "conformance/fixtures/valid/unsafe_pointer/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/utf8_source_valid",
       "kind": "valid",
       "path": "conformance/fixtures/valid/utf8_source_valid",
@@ -3597,11 +3597,11 @@
         "OPENC-SOURCE-UTF8-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/utf8_source_valid/main"
+        "conformance/fixtures/valid/utf8_source_valid/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC1",
+      "execution_status": "PASS_WINDOWS_X86_64_RC2",
       "id": "valid/write_borrow",
       "kind": "valid",
       "path": "conformance/fixtures/valid/write_borrow",
@@ -3611,7 +3611,7 @@
         "OPENC-REF-TYPE-001"
       ],
       "source_files": [
-        "conformance/fixtures/valid/write_borrow/main"
+        "conformance/fixtures/valid/write_borrow/main.p"
       ]
     }
   ],

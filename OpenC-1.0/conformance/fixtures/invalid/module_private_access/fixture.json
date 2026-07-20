@@ -3,7 +3,7 @@
     "OPENC-MODULE-EXPORT-001",
     "OPENC-MODULE-PRIVATE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,10 +16,10 @@
     "mode": "module",
     "modules": {
       "app": [
-        "main"
+        "main.p"
       ],
       "math.basic": [
-        "math"
+        "math.p"
       ]
     },
     "name": "module_private_access",
@@ -34,7 +34,7 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/module_private_access",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/module_private_access/sources/main",
-    "conformance/fixtures/invalid/module_private_access/sources/math"
+    "conformance/fixtures/invalid/module_private_access/sources/main.p",
+    "conformance/fixtures/invalid/module_private_access/sources/math.p"
   ]
 }

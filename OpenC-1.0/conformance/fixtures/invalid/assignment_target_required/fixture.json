@@ -2,15 +2,15 @@
   "active_rules": [
     "OPENC-ASSIGN-TARGET-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
     "environment": "hosted",
     "expected": {
+      "diagnostic_rule": "OPENC-ASSIGN-LVALUE-001",
       "result": "reject",
-      "rule": "OPENC-ASSIGN-TARGET-001",
-      "diagnostic_rule": "OPENC-ASSIGN-LVALUE-001"
+      "rule": "OPENC-ASSIGN-TARGET-001"
     },
     "fixture_kind": "source",
     "mode": "module",
@@ -25,6 +25,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/assignment_target_required",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/assignment_target_required/main"
+    "conformance/fixtures/invalid/assignment_target_required/main.p"
   ]
 }

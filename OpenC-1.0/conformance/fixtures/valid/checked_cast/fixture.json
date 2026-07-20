@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-CONVERT-CAST-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -22,6 +22,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/valid/checked_cast",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/valid/checked_cast/main"
+    "conformance/fixtures/valid/checked_cast/main.p"
   ]
 }

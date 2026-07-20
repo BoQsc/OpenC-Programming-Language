@@ -1,4 +1,5 @@
 import system.memory;
+import system.text;
 
 export resource File {
     ptr byte handle;
@@ -26,6 +27,38 @@ export status read_all(ref File file, out memory.Bytes bytes) {
 
 export status write_all(ref File file, text value) {
     return runtime_write_all(file, value);
+}
+
+export status read_text(text path, out text value) {
+    File file;
+    status opened = open_read(path, out file);
+    if !opened.ok {
+        return opened;
+    }
+    scope close(file);
+
+    memory.Bytes bytes;
+    status read = read_all(ref file, out bytes);
+    if !read.ok {
+        return read;
+    }
+    scope memory.bytes_destroy(bytes);
+    return text.decode_utf8(ref bytes, out value);
+}
+
+export status write_text(text path, text value) {
+    File file;
+    status opened = open_write(path, true, out file);
+    if !opened.ok {
+        return opened;
+    }
+    scope close(file);
+
+    status written = write_all(ref file, value);
+    if !written.ok {
+        return written;
+    }
+    return flush(ref file);
 }
 
 export status flush(ref File file) {

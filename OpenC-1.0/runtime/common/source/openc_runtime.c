@@ -229,6 +229,22 @@ uintptr_t oc_text_scalar_length(oc_text value, uint32_t span_id) {
     return count;
 }
 
+oc_status oc_text_scalar_at(oc_text value, uintptr_t index, uint32_t *out_scalar) {
+    if (!out_scalar) return (oc_status){OC_STATUS_INVALID_ARGUMENT, OC_TEXT_LITERAL("scalar output is null")};
+    uintptr_t offset = 0, count = 0;
+    uint32_t scalar = 0;
+    while (offset < value.length) {
+        if (!oc_utf8_decode(value.data, value.length, &offset, &scalar))
+            return (oc_status){OC_STATUS_INVALID_UTF8, OC_TEXT_LITERAL("text contains invalid UTF-8")};
+        if (count == index) {
+            *out_scalar = scalar;
+            return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
+        }
+        ++count;
+    }
+    return (oc_status){OC_STATUS_OUT_OF_BOUNDS, OC_TEXT_LITERAL("text scalar index is outside the text")};
+}
+
 static uintptr_t oc_text_byte_offset(oc_text value, uintptr_t scalar_index, uint32_t span_id) {
     uintptr_t offset = 0, count = 0;
     uint32_t scalar = 0;

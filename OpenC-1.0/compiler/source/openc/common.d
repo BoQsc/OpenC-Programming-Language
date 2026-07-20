@@ -68,7 +68,7 @@ struct TargetContext {
 
 struct CompilerVersion {
     string languageVersion = "1.0";
-    string implementationVersion = "1.0.0-rc.1";
+    string implementationVersion = "1.0.0-rc.2";
     string implementationName = "OpenC reference compiler";
 
     JSONValue toJson() const {
@@ -79,6 +79,8 @@ struct CompilerVersion {
         return result;
     }
 }
+
+enum canonicalSourceExtension = ".p";
 
 string stableJoin(const string[] values, string separator = ",") {
     auto copy = values.dup;

@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-UNSAFE-WRAPPER-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -24,6 +24,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/safe_wrapper_missing_check",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/safe_wrapper_missing_check/main"
+    "conformance/fixtures/invalid/safe_wrapper_missing_check/main.p"
   ]
 }

@@ -3,7 +3,7 @@
     "OPENC-FLOW-OPTIONAL-INVALIDATE-001",
     "OPENC-OPTIONAL-CHECK-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -26,6 +26,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/optional_proof_invalidated",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/optional_proof_invalidated/main"
+    "conformance/fixtures/invalid/optional_proof_invalidated/main.p"
   ]
 }

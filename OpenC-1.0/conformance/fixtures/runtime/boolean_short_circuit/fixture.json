@@ -3,7 +3,7 @@
     "OPENC-BOOL-SHORT-001",
     "OPENC-EVAL-SHORT-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -26,6 +26,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/runtime/boolean_short_circuit",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/runtime/boolean_short_circuit/main"
+    "conformance/fixtures/runtime/boolean_short_circuit/main.p"
   ]
 }

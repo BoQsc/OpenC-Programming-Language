@@ -3,7 +3,7 @@
     "OPENC-REINTERPRET-NOLIFETIME-001",
     "OPENC-REINTERPRET-PTR-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -26,6 +26,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/reinterpret_pointer_no_new_lifetime",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/reinterpret_pointer_no_new_lifetime/main"
+    "conformance/fixtures/invalid/reinterpret_pointer_no_new_lifetime/main.p"
   ]
 }

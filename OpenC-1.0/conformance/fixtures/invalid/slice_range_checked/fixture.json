@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-SLICE-RANGE-CHECK-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -24,6 +24,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/slice_range_checked",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/slice_range_checked/main"
+    "conformance/fixtures/invalid/slice_range_checked/main.p"
   ]
 }

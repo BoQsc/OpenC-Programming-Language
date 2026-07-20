@@ -43,14 +43,14 @@ class ProjectRecordTests(unittest.TestCase):
     def test_minimal_project_shape(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            (root / "main").write_text("i32 main() { return 0; }\n", encoding="utf-8")
+            (root / "main.p").write_text("i32 main() { return 0; }\n", encoding="utf-8")
             record = {
                 "name": "test",
                 "version": "0.0.0",
                 "edition": "OpenC 1.0",
                 "profile": "standard",
                 "target": "linux-x86_64",
-                "modules": {"app.main": ["main"]},
+                "modules": {"app.main": ["main.p"]},
             }
             path = root / "openc.project.json"
             path.write_text(json.dumps(record), encoding="utf-8")

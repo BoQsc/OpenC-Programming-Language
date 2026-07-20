@@ -1,6 +1,6 @@
 module openc.tools.info;
 
-import openc.common : CompilerVersion, Result, TargetContext;
+import openc.common : canonicalSourceExtension, CompilerVersion, Result, TargetContext;
 import openc.project : ProjectConfig;
 import std.json : JSONValue;
 
@@ -13,6 +13,7 @@ JSONValue projectInfo(ProjectConfig project, CompilerVersion compilerVersion) {
     root["project"] = project.path;
     root["root"] = project.root;
     root["output_directory"] = project.outputDirectory;
+    root["canonical_source_extension"] = canonicalSourceExtension;
     root["target"] = project.target.toJson();
     JSONValue[] modules;
     foreach (moduleConfig; project.modules) {

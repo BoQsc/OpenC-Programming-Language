@@ -2,15 +2,15 @@
   "active_rules": [
     "OPENC-CONVERT-LOSSY-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
     "environment": "hosted",
     "expected": {
+      "diagnostic_rule": "OPENC-TYPE-MISMATCH-001",
       "result": "reject",
-      "rule": "OPENC-CONVERT-LOSSY-001",
-      "diagnostic_rule": "OPENC-TYPE-MISMATCH-001"
+      "rule": "OPENC-CONVERT-LOSSY-001"
     },
     "fixture_kind": "source",
     "name": "implicit_narrow",
@@ -24,6 +24,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/implicit_narrow",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/implicit_narrow/main"
+    "conformance/fixtures/invalid/implicit_narrow/main.p"
   ]
 }

@@ -53,7 +53,7 @@ class ConformanceRunner:
             "schema": "openc.conformance_result.v1",
             "implementation": {
                 "name": "openc-bootstrap-python",
-                "version": "1.0.0-rc.1",
+                "version": "1.0.0-rc.2",
                 "evidence_state": "EXECUTED",
             },
             "bundle": str(bundle_path),
@@ -172,7 +172,7 @@ class ConformanceRunner:
                 source_path = root / "source" / "main"
                 source_path.parent.mkdir(parents=True, exist_ok=True)
                 source_path.write_text(source, encoding="utf-8", newline="\n")
-                modules = {"app.main": ["source/main"]}
+                modules = {"app.main": ["source/main.p"]}
             else:
                 for module_name, sources in inline_modules.items():
                     modules[str(module_name)] = []

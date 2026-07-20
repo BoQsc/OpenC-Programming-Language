@@ -3,7 +3,7 @@
     "OPENC-MODULE-FULLIMPORT-001",
     "OPENC-MODULE-SHORT-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -15,7 +15,7 @@
     "mode": "module",
     "modules": {
       "app": [
-        "main"
+        "main.p"
       ]
     },
     "name": "module_short_and_full_qualifier",
@@ -30,6 +30,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/valid/module_short_and_full_qualifier",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/valid/module_short_and_full_qualifier/sources/main"
+    "conformance/fixtures/valid/module_short_and_full_qualifier/sources/main.p"
   ]
 }

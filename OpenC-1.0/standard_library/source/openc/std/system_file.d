@@ -78,3 +78,37 @@ Status read_text(ref File file, out OpenCText text) {
     text = candidate.idup;
     return Status.success();
 }
+
+Status read_text(OpenCText path, out OpenCText text) {
+    File file;
+    auto opened = open_read(path, file);
+    if (!opened.ok) return opened;
+    scope (exit) close_file(file);
+    return read_text(file, text);
+}
+
+Status write_text(OpenCText path, OpenCText text) {
+    File file;
+    auto opened = open_write(path, file);
+    if (!opened.ok) return opened;
+    scope (exit) close_file(file);
+    usize written;
+    auto result = write_bytes(file, cast(const(OpenCByte)[]) text, written);
+    if (!result.ok) return result;
+    if (written != text.length) return Status.failure(12, "incomplete file write");
+    return flush_file(file);
+}
+
+unittest {
+    import std.conv : to;
+    import std.file : exists, remove, tempDir;
+    import std.path : buildPath;
+    import std.process : thisProcessID;
+
+    auto path = buildPath(tempDir(), "openc-system-file-" ~ thisProcessID.to!string ~ ".p");
+    scope (exit) if (exists(path)) remove(path);
+    assert(write_text(path, "i32 main() { return 0; }\n").ok);
+    OpenCText source;
+    assert(read_text(path, source).ok);
+    assert(source == "i32 main() { return 0; }\n");
+}

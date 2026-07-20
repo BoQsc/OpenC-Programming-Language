@@ -2,15 +2,15 @@
   "active_rules": [
     "OPENC-RESOURCE-OBLIGATION-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
     "environment": "hosted",
     "expected": {
+      "diagnostic_rule": "OPENC-OWN-EXIT-001",
       "result": "reject",
-      "rule": "OPENC-RESOURCE-OBLIGATION-001",
-      "diagnostic_rule": "OPENC-OWN-EXIT-001"
+      "rule": "OPENC-RESOURCE-OBLIGATION-001"
     },
     "fixture_kind": "source",
     "mode": "module",
@@ -25,6 +25,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/resource_obligation_not_discharged",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/resource_obligation_not_discharged/main"
+    "conformance/fixtures/invalid/resource_obligation_not_discharged/main.p"
   ]
 }

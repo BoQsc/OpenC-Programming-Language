@@ -73,3 +73,13 @@ OpenCText concat(OpenCText left, OpenCText right) {
 bool equal(OpenCText left, OpenCText right) {
     return left == right;
 }
+
+unittest {
+    u32 scalar;
+    auto first = scalar_at("Aé", 0, scalar);
+    assert(first.ok && scalar == cast(u32)'A');
+    auto second = scalar_at("Aé", 1, scalar);
+    assert(second.ok && scalar == 0xE9);
+    auto missing = scalar_at("Aé", 2, scalar);
+    assert(!missing.ok);
+}

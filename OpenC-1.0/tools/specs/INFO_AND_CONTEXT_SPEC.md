@@ -5,6 +5,7 @@
 ```text
 candidate and component claim
 implementation and toolchain version
+canonical source extension (`.p`)
 project and source roots
 logical module map
 build-context values and their origins

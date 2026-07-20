@@ -3,7 +3,7 @@
     "OPENC-CLEANUP-CALLEE-001",
     "OPENC-CLEANUP-REGISTER-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -28,6 +28,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/runtime/cleanup_registration_capture",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/runtime/cleanup_registration_capture/main"
+    "conformance/fixtures/runtime/cleanup_registration_capture/main.p"
   ]
 }

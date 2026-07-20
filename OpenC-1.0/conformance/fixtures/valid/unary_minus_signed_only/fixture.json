@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-ARITH-MINUS-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -23,6 +23,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/valid/unary_minus_signed_only",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/valid/unary_minus_signed_only/main"
+    "conformance/fixtures/valid/unary_minus_signed_only/main.p"
   ]
 }

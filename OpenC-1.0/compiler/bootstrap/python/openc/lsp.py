@@ -135,7 +135,7 @@ class LanguageServer:
                 "renameProvider": {"prepareProvider": False},
                 "completionProvider": {"resolveProvider": False, "triggerCharacters": ["."]},
             },
-            "serverInfo": {"name": "openc-lsp", "version": "1.0.0-rc.1"},
+            "serverInfo": {"name": "openc-lsp", "version": "1.0.0-rc.2"},
         }
 
     def parse_document(self, uri: str) -> tuple[SourceUnit | None, list[dict]]:

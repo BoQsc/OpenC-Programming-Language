@@ -4,7 +4,7 @@
   "edition": "OpenC 1.0",
   "profile": "standard",
   "target": "linux-x86_64",
-  "modules": { "app.main": ["main"] },
+  "modules": { "app.main": ["main.p"] },
   "standard_library_directory": "../../standard_library",
   "runtime_directory": "../../runtime",
   "output_directory": "build"

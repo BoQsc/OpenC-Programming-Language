@@ -77,6 +77,11 @@ private:
                     [model.types.textType]);
                 addBuiltinFunction(logical, "trim", model.types.textType,
                     [model.types.textType]);
+                addBuiltinFunction(logical, "scalar_at", model.types.statusType,
+                    [model.types.textType, model.types.find("usize"), model.types.find("u32")],
+                    false, ["value", "value", "out"]);
+                addBuiltinFunction(logical, "concat", model.types.textType,
+                    [model.types.textType, model.types.textType]);
                 addBuiltinFunction(logical, "equal", model.types.boolType,
                     [model.types.textType, model.types.textType]);
                 addBuiltinFunction(logical, "compare", model.types.find("i32"),
@@ -86,6 +91,12 @@ private:
                 addBuiltinFunction(logical, "argument", model.types.textType,
                     [model.types.find("usize")]);
                 addBuiltinFunction(logical, "current_directory", model.types.textType, []);
+            } else if (logical.name == "system.file") {
+                addBuiltinFunction(logical, "read_text", model.types.statusType,
+                    [model.types.textType, model.types.textType],
+                    false, ["value", "out"]);
+                addBuiltinFunction(logical, "write_text", model.types.statusType,
+                    [model.types.textType, model.types.textType]);
             }
         }
     }
@@ -95,7 +106,8 @@ private:
         string name,
         TypeId result,
         TypeId[] parameters,
-        bool owningResult = false
+        bool owningResult = false,
+        string[] modes = []
     ) {
         auto qualified = logical.name ~ "." ~ name;
         auto id = model.symbols.add(
@@ -108,8 +120,11 @@ private:
         FunctionSignature signature;
         signature.result = result;
         signature.parameters = parameters.dup;
-        signature.modes.length = parameters.length;
-        signature.modes[] = "value";
+        if (modes.length) signature.modes = modes.dup;
+        else {
+            signature.modes.length = parameters.length;
+            signature.modes[] = "value";
+        }
         signature.owningResult = owningResult;
         symbol.signature = signature;
         symbol.type = result;

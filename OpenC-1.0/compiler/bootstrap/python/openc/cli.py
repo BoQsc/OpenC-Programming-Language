@@ -14,7 +14,8 @@ from .formatter import Formatter
 from .lsp import run_stdio
 
 
-VERSION = "1.0.0-rc.1"
+VERSION = "1.0.0-rc.2"
+CANONICAL_SOURCE_EXTENSION = ".p"
 
 
 def repository_root() -> Path:
@@ -110,6 +111,7 @@ def main(argv: list[str] | None = None) -> int:
             "project": {"name": project.name, "version": project.version, "file": str(project.project_file)},
             "edition": project.edition,
             "profile": project.profile,
+            "canonical_source_extension": CANONICAL_SOURCE_EXTENSION,
             "target": project.target_name,
             "modules": {name: [str(path) for path in paths] for name, paths in sorted(project.modules.items())},
             "build_context": dict(sorted(project.target().build_context.items())),

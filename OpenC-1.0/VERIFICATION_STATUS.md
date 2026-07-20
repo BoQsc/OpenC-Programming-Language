@@ -1,6 +1,6 @@
-# OpenC 1.0.0-rc.1 verification status
+# OpenC 1.0.0-rc.2 verification status
 
-Date: 2026-07-20
+Date: 2026-07-21
 Host: Windows 10.0.19045, x86-64
 
 ## Verified scope
@@ -25,6 +25,12 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
 - 268 of 268 conformance fixtures pass with zero infrastructure failures.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
+- All 281 pre-existing OpenC source files were migrated to `.p`; together with
+  the self-host seed/probes the tree contains 284 canonical `.p` sources. The
+  migrated fixture corpus retains 268/268 passes and zero infrastructure
+  failures.
+- The SH-1 compiler-in-OpenC seed builds through stage 0, scans its own source,
+  and passes two malformed-source rejection probes.
 - Structure, source-completeness, manifest, and archive verification pass.
 
 Fixture execution now distinguishes normative rules from implementation
@@ -51,6 +57,7 @@ python tests/run_all.py
 PYTHONPATH=compiler/bootstrap/python python -m unittest discover -s tests/python
 compiler/openc validate --manifest=conformance/fixtures/MANIFEST.json
 python tests/run_maintained.py
+python compiler/selfhost/bootstrap.py
 python scripts/validate_structure.py
 python scripts/source_completeness.py
 ```
@@ -61,4 +68,5 @@ HD-012 is ratified, the declared platform gate passes, and independent external
 review is a recommended post-release assurance activity rather than an initial
 owner-certified release prerequisite. The candidate is `RELEASE_READY` for its
 declared Windows x86-64 Hosted scope. It remains unpublished and therefore is
-not `RELEASED`.
+not `RELEASED`. SH-1 is an executed self-hosting milestone; it does not claim
+that the pending SH-2 through SH-6 compiler and standalone-backend gates pass.

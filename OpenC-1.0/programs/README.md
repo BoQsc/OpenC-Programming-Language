@@ -9,7 +9,7 @@ C_UNSAFE_BOUNDARY   typed storage, raw pointers, unsafe, safe wrapper
 D_HOSTED_CLI        minimum Hosted console and process-argument behavior
 ```
 
-Each directory contains source, an `openc.project.json`, and an expected-result record.
+Each directory contains canonical `.p` source, an `openc.project.json`, and an expected-result record.
 
 Evidence state: **4 OF 4 CHECKED, BUILT, AND EXECUTED SUCCESSFULLY ON THE RECORDED WINDOWS HOST**.
 

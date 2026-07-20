@@ -3,7 +3,7 @@
     "OPENC-MODULE-DUPLICATE-001",
     "OPENC-OVERLOAD-EXACT-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -15,8 +15,8 @@
     "mode": "module",
     "modules": {
       "app": [
-        "a",
-        "b"
+        "a.p",
+        "b.p"
       ]
     },
     "name": "module_multi_source_overload",
@@ -31,7 +31,7 @@
   "origin": "OpenC Standard Draft 0.10 validation/valid/module_multi_source_overload",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/valid/module_multi_source_overload/sources/a",
-    "conformance/fixtures/valid/module_multi_source_overload/sources/b"
+    "conformance/fixtures/valid/module_multi_source_overload/sources/a.p",
+    "conformance/fixtures/valid/module_multi_source_overload/sources/b.p"
   ]
 }

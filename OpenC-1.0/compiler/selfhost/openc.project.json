@@ -1,0 +1,13 @@
+{
+  "name": "openc-selfhost-seed",
+  "version": "0.1.0",
+  "edition": "OpenC 1.0",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "modules": {
+    "openc.selfhost.main": ["source/main.p"]
+  },
+  "standard_library_directory": "../../standard_library",
+  "runtime_directory": "../../runtime",
+  "output_directory": "../../build-output/selfhost"
+}

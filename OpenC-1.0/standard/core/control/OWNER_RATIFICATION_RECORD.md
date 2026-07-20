@@ -31,6 +31,16 @@ published/released:                       NO
 | HD-011 | Concurrency publication status | RATIFIED_FOR_1_0 |
 | HD-012 | Licensing and project authority | RATIFIED_FOR_1_0 |
 
+## HD-008 selection
+
+- `.p` is the official OpenC source-file extension; its name is derived from
+  the word "open" in OpenC.
+- First-party source, examples, templates, generated-source names, and default
+  source discovery use `.p`.
+- The extension remains outside Core language semantics. Explicit source paths
+  are accepted independent of extension, and filenames never create logical
+  module identity.
+
 ## HD-012 selection
 
 - 0BSD covers software, standalone code, tests, tools, examples, and executable

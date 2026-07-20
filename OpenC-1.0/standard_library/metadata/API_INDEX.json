@@ -1,5 +1,5 @@
 {
-  "evidence_state": "D_LIBRARY_BUILT_TESTED_HOSTED_PROGRAM_EXECUTED_WINDOWS_X86_64_RC1",
+  "evidence_state": "D_LIBRARY_BUILT_TESTED_HOSTED_PROGRAM_EXECUTED_WINDOWS_X86_64_RC2",
   "modules": {
     "system.file": {
       "exports": [
@@ -8,10 +8,12 @@
         "open_write(text,bool,out File)",
         "read_all(ref File,out memory.Bytes)",
         "write_all(ref File,text)",
+        "read_text(text,out text)",
+        "write_text(text,text)",
         "flush(ref File)",
         "close(own File)"
       ],
-      "source": "standard_library/system.file/source/file"
+      "source": "standard_library/system.file/source/file.p"
     },
     "system.io": {
       "exports": [
@@ -30,7 +32,7 @@
         "print(bool)",
         "error(text)"
       ],
-      "source": "standard_library/system.io/source/io"
+      "source": "standard_library/system.io/source/io.p"
     },
     "system.memory": {
       "exports": [
@@ -41,14 +43,14 @@
         "move(ref Bytes,ref const Bytes,usize)",
         "clear(ref Bytes)"
       ],
-      "source": "standard_library/system.memory/source/memory"
+      "source": "standard_library/system.memory/source/memory.p"
     },
     "system.path": {
       "exports": [
         "join(text,text,out memory.Bytes)",
         "is_absolute(text)"
       ],
-      "source": "standard_library/system.path/source/path"
+      "source": "standard_library/system.path/source/path.p"
     },
     "system.process": {
       "exports": [
@@ -56,17 +58,18 @@
         "argument(usize)",
         "current_directory()"
       ],
-      "source": "standard_library/system.process/source/process"
+      "source": "standard_library/system.process/source/process.p"
     },
     "system.text": {
       "exports": [
         "decode_utf8(ref const memory.Bytes,out text)",
         "encode_utf8(text,out memory.Bytes)",
         "length(text)",
+        "scalar_at(text,usize,out u32)",
         "equal(text,text)",
         "compare(text,text)"
       ],
-      "source": "standard_library/system.text/source/text"
+      "source": "standard_library/system.text/source/text.p"
     }
   },
   "schema": "openc.standard_library_api_index.v1"

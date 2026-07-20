@@ -3,7 +3,7 @@
     "OPENC-FLOW-BORROW-001",
     "OPENC-FLOW-DESTROYED-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -26,6 +26,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/flow_borrow_and_destroyed_state",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/flow_borrow_and_destroyed_state/main"
+    "conformance/fixtures/invalid/flow_borrow_and_destroyed_state/main.p"
   ]
 }

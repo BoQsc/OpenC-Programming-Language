@@ -5,7 +5,7 @@
     "OPENC-STRUCT-FIELD-001",
     "OPENC-STRUCT-INIT-FIELD-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -29,6 +29,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/valid/struct_named_fields_and_copy",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/valid/struct_named_fields_and_copy/main"
+    "conformance/fixtures/valid/struct_named_fields_and_copy/main.p"
   ]
 }

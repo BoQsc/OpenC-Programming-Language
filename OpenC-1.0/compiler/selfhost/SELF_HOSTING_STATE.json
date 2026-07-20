@@ -1,0 +1,55 @@
+{
+  "schema": "openc.self_hosting_state.v1",
+  "target": "windows-x86_64-hosted",
+  "official_source_extension": ".p",
+  "stage0": {
+    "implementation_language": "D",
+    "role": "retained_bootstrap_seed"
+  },
+  "gates": [
+    {
+      "id": "SH-0",
+      "name": "canonical_source_convention",
+      "status": "PASS"
+    },
+    {
+      "id": "SH-1",
+      "name": "compiler_in_openc_frontend_seed",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap.py",
+      "source": "compiler/selfhost/source/main.p"
+    },
+    {
+      "id": "SH-2",
+      "name": "full_frontend_parity",
+      "status": "PENDING"
+    },
+    {
+      "id": "SH-3",
+      "name": "semantic_and_ir_parity",
+      "status": "PENDING"
+    },
+    {
+      "id": "SH-4",
+      "name": "bootstrap_self_compilation",
+      "status": "PENDING"
+    },
+    {
+      "id": "SH-5",
+      "name": "dmd_independent_windows_backend",
+      "status": "PENDING"
+    },
+    {
+      "id": "SH-6",
+      "name": "standalone_self_hosted_release",
+      "status": "PENDING"
+    }
+  ],
+  "claims": {
+    "compiler_in_openc_source_exists": true,
+    "stage1_seed_executed": true,
+    "self_hosted": false,
+    "dmd_independent": false,
+    "standalone": false
+  }
+}

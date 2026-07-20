@@ -3,7 +3,7 @@
     {
       "bytes": 175409,
       "path": "standard/core/OpenC_Core_Current.md",
-      "sha256": "bb2d8fb910f557bba04fb1da5ee4be20d811226e6bbc80c444aae91b3d91ec6c"
+      "sha256": "1b5328253b2e1922b7e7af8de97103d88061d2e0dbc6c82888213cc4b269f7e1"
     },
     {
       "bytes": 14814,
@@ -31,9 +31,9 @@
       "sha256": "210724c7c1023470deed9d8f99cb7ba6493b281093549754d52b581a8e4aff83"
     },
     {
-      "bytes": 6260,
+      "bytes": 6701,
       "path": "standard/hosted/OpenC_Hosted_Current.md",
-      "sha256": "0eca523e825871def268e0ff153e1ba2d4bb5094748c4edd04322bf5d0d30028"
+      "sha256": "20c7f45c893fbb678e7e06b78a465bbc3fb16cd789eecefbc36c81d20a6cffff"
     },
     {
       "bytes": 3226,
@@ -46,9 +46,9 @@
       "sha256": "141617231dfeba230b4a0f33468cdc6d6be63dc59f39e18e7e302ad66a46005d"
     },
     {
-      "bytes": 3404,
+      "bytes": 4035,
       "path": "standard/tooling/OpenC_Tooling_Current.md",
-      "sha256": "2378e3f3ca616f262a18d6f08bff9f0ea21c4a618701a96c1d4e1f72544a937d"
+      "sha256": "047957ea4b9d6afc71c68c37be846571b67aca6ef012adfbf8673906cba269bd"
     }
   ],
   "evidence_state": "OWNER_CERTIFIED_WINDOWS_X86_64_RELEASE_READY",
@@ -67,8 +67,6 @@
     "history",
     "examples"
   ],
-  "schema": "openc.authority_index.v2",
-  "version": "1.0.0-rc.1",
   "project_authority": [
     {
       "bytes": 1411,
@@ -96,9 +94,9 @@
       "sha256": "85bb362dedfd94699efe8061d88f9e3d1f9c3ca8679692e9d4eb39ebee6d9610"
     },
     {
-      "bytes": 1664,
+      "bytes": 1963,
       "path": "release/RELEASE_SCOPE_1.0.md",
-      "sha256": "77b624c3d379343e34d1c2d67e57cf59fb3ee66e20e85eb2996895be76bf2f62"
+      "sha256": "f9f91aa0986480eff30a2a2aefd45d541cb7b6f55070c07441edd70180c23d08"
     },
     {
       "bytes": 699,
@@ -110,5 +108,7 @@
       "path": "release/SUPPORT_POLICY.md",
       "sha256": "8e61816f71ab4280b98e4aefea8efae0f94ad72ac9831bcf1b26ed14be5c357a"
     }
-  ]
+  ],
+  "schema": "openc.authority_index.v2",
+  "version": "1.0.0-rc.2"
 }

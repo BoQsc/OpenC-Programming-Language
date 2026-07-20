@@ -3,6 +3,7 @@ import system.memory;
 external(c, "oc_text_from_owned_bytes") status runtime_decode_utf8(ref const memory.Bytes bytes, out text value);
 external(c, "oc_text_to_utf8") status runtime_encode_utf8(text value, out memory.Bytes bytes);
 external(c, "oc_text_scalar_length") usize runtime_scalar_length(text value, u32 span_id);
+external(c, "oc_text_scalar_at") status runtime_scalar_at(text value, usize index, out u32 scalar);
 external(c, "oc_text_equal") bool runtime_equal(text left, text right);
 external(c, "oc_text_compare") i32 runtime_compare(text left, text right);
 
@@ -16,6 +17,10 @@ export status encode_utf8(text value, out memory.Bytes bytes) {
 
 export usize length(text value) {
     return runtime_scalar_length(value, 0);
+}
+
+export status scalar_at(text value, usize index, out u32 scalar) {
+    return runtime_scalar_at(value, index, out scalar);
 }
 
 export bool equal(text left, text right) {

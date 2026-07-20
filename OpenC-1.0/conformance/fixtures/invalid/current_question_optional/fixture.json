@@ -2,19 +2,19 @@
   "active_rules": [
     "OPENC-OPTIONAL-NOSHORTHAND-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
+    "diagnostic_rule": "OPENC-SYNTAX-OPTIONAL-001",
     "result": "reject",
     "rules": [
       "OPENC-OPTIONAL-NOSHORTHAND-001"
-    ],
-    "diagnostic_rule": "OPENC-SYNTAX-OPTIONAL-001"
+    ]
   },
   "id": "invalid/current_question_optional",
   "kind": "invalid",
   "origin": "OpenC canonical mainline",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/current_question_optional/main"
+    "conformance/fixtures/invalid/current_question_optional/main.p"
   ]
 }

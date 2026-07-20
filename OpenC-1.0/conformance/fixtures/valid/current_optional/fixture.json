@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-OPTIONAL-EXPLICIT-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "result": "accept",
     "rules": [
@@ -14,6 +14,6 @@
   "origin": "OpenC canonical mainline",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/valid/current_optional/main"
+    "conformance/fixtures/valid/current_optional/main.p"
   ]
 }

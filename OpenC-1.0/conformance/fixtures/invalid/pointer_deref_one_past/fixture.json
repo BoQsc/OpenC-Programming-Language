@@ -3,7 +3,7 @@
     "OPENC-PTR-ONEPAST-001",
     "OPENC-TARGET-PTROFFSET-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -26,6 +26,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/invalid/pointer_deref_one_past",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/invalid/pointer_deref_one_past/main"
+    "conformance/fixtures/invalid/pointer_deref_one_past/main.p"
   ]
 }

@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-EVAL-UNARY-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -23,6 +23,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/runtime/unary_operand_once",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/runtime/unary_operand_once/main"
+    "conformance/fixtures/runtime/unary_operand_once/main.p"
   ]
 }

@@ -88,13 +88,15 @@ export status open_read(text path, out File file);
 export status open_write(text path, bool truncate, out File file);
 export status read_all(ref File file, out memory.Bytes bytes);
 export status write_all(ref File file, text value);
+export status read_text(text path, out text value);
+export status write_text(text path, text value);
 export status flush(ref File file);
 export void close(own File file);
 ```
 
 A successful open begins one file ownership obligation. Failure publishes no file. `close` is no-fail and exactly-once; the provider may record a close failure diagnostically but cannot leave a caller-visible owner live.
 
-`read_all` publishes one independently owned byte buffer on success. End of file is successful completion, not an operational failure. `write_all` attempts to write the complete UTF-8 byte sequence. `flush` is the explicit fallible protocol-completion operation and therefore is not a `scope` cleanup substitute for `close`.
+`read_all` publishes one independently owned byte buffer on success. End of file is successful completion, not an operational failure. `write_all` attempts to write the complete UTF-8 byte sequence. `read_text` and `write_text` are whole-file convenience operations that acquire and close their file internally; `read_text` rejects invalid UTF-8. `flush` is the explicit fallible protocol-completion operation and therefore is not a `scope` cleanup substitute for `close`.
 
 ## 6. `system.path`
 
@@ -121,11 +123,12 @@ Arguments are immutable borrowed text values valid for the lifetime of the Hoste
 export status decode_utf8(ref const memory.Bytes bytes, out text value);
 export status encode_utf8(text value, out memory.Bytes bytes);
 export usize length(text value);
+export status scalar_at(text value, usize index, out u32 scalar);
 export bool equal(text left, text right);
 export i32 compare(text left, text right);
 ```
 
-`decode_utf8` validates the complete input. Failure publishes no text value. `encode_utf8` publishes an owned byte buffer containing the exact UTF-8 encoding. `length` counts Unicode scalar values. `compare` performs deterministic scalar-value lexicographic ordering and returns a negative, zero, or positive value.
+`decode_utf8` validates the complete input. Failure publishes no text value. `encode_utf8` publishes an owned byte buffer containing the exact UTF-8 encoding. `length` counts Unicode scalar values. `scalar_at` publishes the scalar at one checked scalar index and fails without publishing when the index is outside the text. `compare` performs deterministic scalar-value lexicographic ordering and returns a negative, zero, or positive value.
 
 Hosted 1.0 performs no implicit normalization and no locale-sensitive comparison.
 

@@ -3,7 +3,7 @@
     "OPENC-EVAL-BREAK-001",
     "OPENC-EVAL-SCOPE-REGISTER-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -25,6 +25,6 @@
   "origin": "OpenC Standard Draft 0.10 validation/runtime/break_and_scope_registration_order",
   "schema": "openc.fixture.v1",
   "source_files": [
-    "conformance/fixtures/runtime/break_and_scope_registration_order/main"
+    "conformance/fixtures/runtime/break_and_scope_registration_order/main.p"
   ]
 }

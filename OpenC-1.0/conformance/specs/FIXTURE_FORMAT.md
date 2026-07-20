@@ -9,9 +9,9 @@ listed by `conformance/fixtures/MANIFEST.json`.
   "id": "invalid/implicit_narrow",
   "kind": "invalid",
   "origin": "OpenC Standard Draft 0.10 validation/invalid/implicit_narrow",
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC1",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC2",
   "active_rules": ["OPENC-CONVERT-LOSSY-001"],
-  "source_files": ["conformance/fixtures/invalid/implicit_narrow/main"],
+  "source_files": ["conformance/fixtures/invalid/implicit_narrow/main.p"],
   "expected": {
     "edition": "OpenC Core 1.0 Current",
     "fixture_kind": "source",
@@ -33,3 +33,6 @@ compile-time diagnostic.
 
 Fixture IDs and `origin` provenance are stable. Adapting a historical source to
 Current changes its execution target but does not erase its origin.
+
+Canonical OpenC fixture sources use `.p`. Command and structured-record
+fixtures may instead list their required JSON input documents.

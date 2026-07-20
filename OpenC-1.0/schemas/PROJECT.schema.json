@@ -33,6 +33,7 @@
       "type": "string"
     },
     "module_map": {
+      "description": "Explicit logical-module to source-path mapping. Canonical OpenC source paths use .p; explicit paths remain extension-independent.",
       "additionalProperties": {
         "items": {
           "type": "string"

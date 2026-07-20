@@ -1,7 +1,7 @@
 module app.main;
 
 import openc.command : CommandRequest, normalize;
-import openc.common : CompilerVersion, Result;
+import openc.common : canonicalSourceExtension, CompilerVersion, Result;
 import openc.compiler : CompilationOptions, CompilationResult, Compiler;
 import openc.conformance : ConformanceAdapter;
 import openc.project : ProjectConfig;
@@ -121,7 +121,7 @@ int runProgram(Compiler compiler, CommandRequest request) {
 int runEval(Compiler compiler, CommandRequest request) {
     auto expression = request.option("code", request.positionals.length ? request.positionals[0] : "");
     if (!expression.length) { stderr.writeln("openc eval requires code"); return 2; }
-    auto path = buildPath(tempDir(), "openc-eval-source");
+    auto path = buildPath(tempDir(), "openc-eval-source" ~ canonicalSourceExtension);
     write(path, "i32 main() {\n    " ~ expression ~ (expression.endsWith(";") ? "" : ";") ~ "\n    return 0;\n}\n");
     CommandRequest buildRequest;
     buildRequest.command = "run";
@@ -251,5 +251,5 @@ void printUsage() {
     stdout.writeln("  openc explain RULE-ID [--index=rule-index.json]");
     stdout.writeln("  openc validate --manifest=fixtures.json");
     stdout.writeln("  openc lsp --stdio");
-    stdout.writeln("  openc 'check(file=\"source/main\", diagnostics_format=\"json\")'");
+    stdout.writeln("  openc 'check(file=\"source/main.p\", diagnostics_format=\"json\")'");
 }

@@ -2,6 +2,10 @@
 
 No remote repository is required.
 
+Before generating `MANIFEST.sha256`, run
+`python scripts/update_authority_index.py` so every authoritative byte count and
+hash corresponds to the candidate tree.
+
 1. Verify the source-package manifest and checksums.
 2. Validate the authoritative standard, grammar, rule index, and schemas.
 3. Build the implementation with a recorded toolchain.
