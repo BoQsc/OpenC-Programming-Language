@@ -9,7 +9,7 @@ listed by `conformance/fixtures/MANIFEST.json`.
   "id": "invalid/implicit_narrow",
   "kind": "invalid",
   "origin": "OpenC Standard Draft 0.10 validation/invalid/implicit_narrow",
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC5",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
   "active_rules": ["OPENC-CONVERT-LOSSY-001"],
   "source_files": ["conformance/fixtures/invalid/implicit_narrow/main.p"],
   "expected": {

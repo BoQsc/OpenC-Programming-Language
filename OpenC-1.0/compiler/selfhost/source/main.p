@@ -803,19 +803,26 @@ unsafe void lex_source(
 unsafe i32 main() {
     usize arguments = process.argument_count();
     if arguments != 1 && arguments != 2 {
-        io.error("usage: openc-selfhost-lexer [--parse] SOURCE.p\n");
+        io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json]\n");
         return 64;
     }
 
     bool parse_mode = false;
+    bool project_mode = false;
     text path = process.argument(0);
     if arguments == 2 {
-        if process.argument(0) != "--parse" {
-            io.error("usage: openc-selfhost-lexer [--parse] SOURCE.p\n");
+        if process.argument(0) == "--parse" {
+            parse_mode = true;
+        } else if process.argument(0) == "--project" {
+            project_mode = true;
+        } else {
+            io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json]\n");
             return 64;
         }
-        parse_mode = true;
         path = process.argument(1);
+    }
+    if project_mode {
+        return observe_project(path);
     }
     text source;
     status loaded = file.read_text(path, out source);

@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-TARGET-QUERY-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC5",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",

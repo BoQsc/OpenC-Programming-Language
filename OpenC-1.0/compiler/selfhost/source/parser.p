@@ -799,18 +799,22 @@ unsafe NodeResult parse_switch_statement(
     while !parser_at_end(context) && !parser_check(context, "}") {
         if parser_match(context, "case") {
             parse_control_condition(context);
-            NodeResult body = parse_block(context);
+            NodeResult case_body = parse_block(context);
             usize case_begin = previous_token(context);
             make_node(
                 context, 18,
                 token_start(context, case_begin),
                 combined_length(
-                    token_start(context, case_begin), body.start, body.length
+                    token_start(context, case_begin),
+                    case_body.start, case_body.length
                 )
             );
         } else if parser_match(context, "default") {
-            NodeResult body = parse_block(context);
-            make_node(context, 19, body.start, body.length);
+            NodeResult default_body = parse_block(context);
+            make_node(
+                context, 19,
+                default_body.start, default_body.length
+            );
         } else {
             parser_error(context, 26, current_token(context));
             advance_token(context);

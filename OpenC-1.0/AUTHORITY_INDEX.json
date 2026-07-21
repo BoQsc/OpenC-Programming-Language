@@ -3,7 +3,7 @@
     {
       "bytes": 175409,
       "path": "standard/core/OpenC_Core_Current.md",
-      "sha256": "bfd375610d47baea74051e4587bce7c5b2ab09ae3c3b696f32d1bc9982fb4e6a"
+      "sha256": "0c46395de46c0c71d75f0b57fc3a663a6c2e958f7f13f73bc97fbba298562f71"
     },
     {
       "bytes": 14814,
@@ -94,9 +94,9 @@
       "sha256": "85bb362dedfd94699efe8061d88f9e3d1f9c3ca8679692e9d4eb39ebee6d9610"
     },
     {
-      "bytes": 2108,
+      "bytes": 2121,
       "path": "release/RELEASE_SCOPE_1.0.md",
-      "sha256": "a058f71b932c0c10be67f6e0235743111e25be7a02ee72d90705f02180aab822"
+      "sha256": "6faa273f79053ee7028bad2bd2edd89f85667f3402f9db21ae0f111648acbfe1"
     },
     {
       "bytes": 699,
@@ -110,5 +110,5 @@
     }
   ],
   "schema": "openc.authority_index.v2",
-  "version": "1.0.0-rc.5"
+  "version": "1.0.0-rc.6"
 }

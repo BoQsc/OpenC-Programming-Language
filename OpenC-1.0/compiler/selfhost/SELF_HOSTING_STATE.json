@@ -25,9 +25,9 @@
       "status": "PASS",
       "command": "python compiler/selfhost/bootstrap.py",
       "evidence": "build-output/selfhost/lexer-parity-result.json",
-      "canonical_sources": 285,
+      "canonical_sources": 286,
       "focused_probes": 16,
-      "comparisons": 301,
+      "comparisons": 302,
       "diagnostic_rules": 12
     },
     {
@@ -41,7 +41,7 @@
       "owned_token_storage": true,
       "owned_diagnostic_storage": true,
       "byte_accurate_source_positions": true,
-      "comparisons": 301
+      "comparisons": 302
     },
     {
       "id": "SH-2C",
@@ -51,16 +51,32 @@
       "evidence": "build-output/selfhost/parser-parity-result.json",
       "protocol": "OPENC-PARSE-OBSERVATION 1",
       "owned_syntax_storage": true,
-      "canonical_sources": 285,
+      "canonical_sources": 286,
       "focused_probes": 15,
-      "comparisons": 300,
+      "comparisons": 301,
       "syntax_node_kinds": 52,
       "reachable_parser_rules": 15
     },
     {
+      "id": "SH-2D",
+      "name": "exact_project_module_frontend_parity",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap.py",
+      "evidence": "build-output/selfhost/project-parity-result.json",
+      "protocol": "OPENC-PROJECT-OBSERVATION 1",
+      "canonical_projects": 7,
+      "focused_probes": 15,
+      "comparisons": 22,
+      "module_graph_rules": 3,
+      "project_loading": true,
+      "multi_source_composition": true,
+      "deterministic_module_order": true
+    },
+    {
       "id": "SH-2",
       "name": "full_frontend_parity",
-      "status": "PENDING"
+      "status": "PASS",
+      "scope": "lexical_syntax_and_project_module_frontend"
     },
     {
       "id": "SH-3",
@@ -91,7 +107,11 @@
     "stage1_byte_accurate_source_positions": true,
     "stage1_exact_parser_parity": true,
     "stage1_owned_syntax_storage": true,
-    "full_frontend_parity": false,
+    "stage1_exact_project_module_parity": true,
+    "stage1_project_loading": true,
+    "stage1_multi_source_composition": true,
+    "full_frontend_parity": true,
+    "semantic_ir_parity": false,
     "self_hosted": false,
     "dmd_independent": false,
     "standalone": false

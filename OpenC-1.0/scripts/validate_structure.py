@@ -93,7 +93,7 @@ for entry in fixture_manifest["fixtures"]:
         errors.append(f"fixture ID mismatch: {entry['id']}")
     if set(fixture.get("active_rules", [])) != set(entry["rules"]):
         errors.append(f"fixture rule mismatch: {entry['id']}")
-    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC5":
+    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC6":
         errors.append(f"fixture evidence state is stale: {entry['id']}")
     for source in fixture.get("source_files", []):
         if not (ROOT / source).is_file():
@@ -119,11 +119,11 @@ self_hosting = json.loads((ROOT / "compiler/selfhost/SELF_HOSTING_STATE.json").r
 self_host_gates = {gate["id"]: gate["status"] for gate in self_hosting.get("gates", [])}
 if self_hosting.get("official_source_extension") != ".p":
     errors.append("self-hosting state must record .p as the official source extension")
-if (self_host_gates.get("SH-0") != "PASS" or self_host_gates.get("SH-1") != "PASS"
-        or self_host_gates.get("SH-2A") != "PASS"):
-    errors.append("self-hosting source-convention, frontend-seed, and lexer-parity gates must pass")
-if self_hosting.get("claims", {}).get("full_frontend_parity"):
-    errors.append("self-hosting state must keep full frontend parity false until SH-2 passes")
+if any(self_host_gates.get(gate) != "PASS" for gate in
+       ("SH-0", "SH-1", "SH-2A", "SH-2B", "SH-2C", "SH-2D", "SH-2")):
+    errors.append("self-hosting source-convention and SH-1 through SH-2 frontend gates must pass")
+if self_hosting.get("claims", {}).get("full_frontend_parity") != (self_host_gates.get("SH-2") == "PASS"):
+    errors.append("full_frontend_parity claim must match the SH-2 gate")
 if self_hosting.get("claims", {}).get("self_hosted") or self_hosting.get("claims", {}).get("dmd_independent"):
     errors.append("self-hosting state must not overclaim pending bootstrap/native-backend gates")
 

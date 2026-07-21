@@ -91,6 +91,9 @@ private:
                     [model.types.textType, model.types.textType]);
                 addBuiltinFunction(logical, "compare", model.types.find("i32"),
                     [model.types.textType, model.types.textType]);
+                addBuiltinFunction(logical, "slice", model.types.statusType,
+                    [model.types.textType, model.types.find("usize"), model.types.find("usize"), model.types.textType],
+                    false, ["value", "value", "value", "out"]);
             } else if (logical.name == "system.process") {
                 addBuiltinFunction(logical, "argument_count", model.types.find("usize"), []);
                 addBuiltinFunction(logical, "argument", model.types.textType,
@@ -102,6 +105,15 @@ private:
                     false, ["value", "out"]);
                 addBuiltinFunction(logical, "write_text", model.types.statusType,
                     [model.types.textType, model.types.textType]);
+            } else if (logical.name == "system.path") {
+                addBuiltinFunction(logical, "join", model.types.textType,
+                    [model.types.textType, model.types.textType]);
+                addBuiltinFunction(logical, "normalize", model.types.textType,
+                    [model.types.textType]);
+                addBuiltinFunction(logical, "directory", model.types.textType,
+                    [model.types.textType]);
+                addBuiltinFunction(logical, "absolute", model.types.boolType,
+                    [model.types.textType]);
             }
         }
     }

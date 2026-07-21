@@ -32,7 +32,7 @@ def main() -> int:
     output.mkdir(parents=True, exist_ok=True)
     project = ROOT / "compiler" / "selfhost" / "openc.project.json"
     source = ROOT / "compiler" / "selfhost" / "source" / "main.p"
-    stage1 = output / "openc-selfhost-parser.exe"
+    stage1 = output / "openc-selfhost-frontend.exe"
 
     run([
         str(stage0), "build", f"--project={project}", f"--output={stage1}",
@@ -61,10 +61,20 @@ def main() -> int:
     parser_parity = json.loads(
         (output / "parser-parity-result.json").read_text(encoding="utf-8")
     )
+    run([
+        sys.executable,
+        str(ROOT / "compiler" / "selfhost" / "project_parity.py"),
+        f"--stage0={stage0}",
+        f"--stage1={stage1}",
+        f"--output={output}",
+    ])
+    project_parity = json.loads(
+        (output / "project-parity-result.json").read_text(encoding="utf-8")
+    )
 
     record = {
         "schema": "openc.self_host_stage_result.v1",
-        "stage": "SH-2C_PARSER_PARITY",
+        "stage": "SH-2D_PROJECT_MODULE_FRONTEND",
         "status": "PASS",
         "stage0": str(stage0),
         "source": "compiler/selfhost/source/main.p",
@@ -72,6 +82,7 @@ def main() -> int:
         "self_scan_protocol": executed.stdout.splitlines()[0],
         "lexer_parity_result": str(output / "lexer-parity-result.json"),
         "parser_parity_result": str(output / "parser-parity-result.json"),
+        "project_parity_result": str(output / "project-parity-result.json"),
         "claims": {
             "compiler_source_written_in_openc": True,
             "stage0_builds_stage1": True,
@@ -85,11 +96,18 @@ def main() -> int:
             "stage1_parser_parity": True,
             "stage1_declaration_type_statement_expression_parser": True,
             "stage1_parser_recovery": True,
+            "stage1_project_loading": True,
+            "stage1_multi_source_composition": True,
+            "stage1_module_import_graph": True,
+            "stage1_project_module_parity": True,
             "canonical_sources_compared": parser_parity["canonical_sources"],
             "focused_lexer_probes": lexer_parity["focused_probes"],
             "focused_parser_probes": parser_parity["focused_probes"],
             "syntax_node_kinds_matched": parser_parity["syntax_node_kind_count"],
             "parser_rules_matched": parser_parity["parser_rule_count"],
+            "canonical_projects_compared": project_parity["canonical_projects"],
+            "focused_project_probes": project_parity["focused_probes"],
+            "project_module_rules_matched": project_parity["module_graph_rules"],
             "stage1_compiles_openc": False,
             "self_hosted": False,
             "dmd_independent": False,
@@ -99,10 +117,11 @@ def main() -> int:
         json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     print(
-        "self-host parser parity: PASS; "
+        "self-host project/module frontend: PASS; "
         f"canonical={parser_parity['canonical_sources']} "
         f"lexer_probes={lexer_parity['focused_probes']} "
         f"parser_probes={parser_parity['focused_probes']} "
+        f"projects={project_parity['comparisons']} "
         f"artifact={stage1}"
     )
     return 0

@@ -1,11 +1,11 @@
 {
   "name": "openc-selfhost-lexer",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "edition": "OpenC 1.0",
   "profile": "standard",
   "target": "windows-x86_64",
   "modules": {
-    "openc.selfhost.main": ["source/main.p", "source/parser.p"]
+    "openc.selfhost.main": ["source/main.p", "source/parser.p", "source/project.p"]
   },
   "standard_library_directory": "../../standard_library",
   "runtime_directory": "../../runtime",

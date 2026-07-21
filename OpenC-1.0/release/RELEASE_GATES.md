@@ -32,7 +32,8 @@ Likewise, the parser and grammar validators pass even though dedicated
 positive/rejection pairs are not complete for every one of the 174 productions.
 
 The `.p` source-convention gate, executable SH-1 compiler-in-OpenC seed, SH-2A
-exact lexer-parity subgate, SH-2B owned single-pass lexer-state subgate, and
-SH-2C exact parser-parity subgate pass. SH-2D project/module work is next. Full
-SH-2 through SH-6 track the future self-hosted, DMD-independent compiler and do
-not alter the stated D-bootstrap 1.0 release boundary.
+exact lexer-parity subgate, SH-2B owned single-pass lexer-state subgate, SH-2C
+exact parser-parity subgate, SH-2D project/module subgate, and full syntactic
+and project frontend SH-2 gate pass. SH-3 through SH-6 track the future
+semantic, self-hosted, DMD-independent compiler and do not alter the stated
+D-bootstrap 1.0 release boundary.

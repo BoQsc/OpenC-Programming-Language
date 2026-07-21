@@ -1,4 +1,4 @@
-# OpenC 1.0.0-rc.5 verification status
+# OpenC 1.0.0-rc.6 verification status
 
 Date: 2026-07-21
 Host: Windows 10.0.19045, x86-64
@@ -26,20 +26,25 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`; together with
-  the compiler-in-OpenC lexer/parser frontend and its two checked-in probes,
-  the tree contains 285 canonical `.p` sources. The
+  the compiler-in-OpenC lexer/parser/project frontend and its two checked-in
+  probes, the tree contains 286 canonical `.p` sources. The
   migrated fixture corpus retains 268/268 passes and zero infrastructure
   failures.
 - The compiler-in-OpenC frontend builds through stage 0 and passes SH-2A exact
-  lexer parity plus SH-2B owned single-pass lexer state: 285 canonical `.p`
-  sources plus 16 focused probes, 301/301. Outcomes, token kinds, byte spans,
+  lexer parity plus SH-2B owned single-pass lexer state: 286 canonical `.p`
+  sources plus 16 focused probes, 302/302. Outcomes, token kinds, byte spans,
   line/byte-column positions, diagnostic rules, source-encoding rejection,
   and totals match exactly; all 12 source/lexical diagnostic rules are
   observed.
-- SH-2C exact parser parity passes on all 285 canonical sources plus 15 focused
-  parser probes, 300/300. Syntax-node creation order, all 52 parser-produced
+- SH-2C exact parser parity passes on all 286 canonical sources plus 15 focused
+  parser probes, 301/301. Syntax-node creation order, all 52 parser-produced
   kinds and final byte spans, 15 reachable parser/recovery rules, diagnostic
   positions, node totals, and error totals match exactly.
+- SH-2D exact project/module parity passes on all 7 checked-in projects plus
+  15 focused probes, 22/22. Sorted modules, ordered source units, resolved
+  paths, imports, per-source parsing, missing imports, ambiguous short
+  qualifiers, direct cycles, and totals match exactly. Together SH-2A through
+  SH-2D promote full lexical/syntactic/project frontend SH-2.
 - Structure, source-completeness, manifest, and archive verification pass.
 
 Fixture execution now distinguishes normative rules from implementation
@@ -77,6 +82,7 @@ HD-012 is ratified, the declared platform gate passes, and independent external
 review is a recommended post-release assurance activity rather than an initial
 owner-certified release prerequisite. The candidate is `RELEASE_READY` for its
 declared Windows x86-64 Hosted scope. It remains unpublished and therefore is
-not `RELEASED`. SH-2A through SH-2C are executed self-hosting milestones;
-SH-2D project/module frontend work is next. They do not claim that full SH-2
-or the pending SH-3 through SH-6 compiler and standalone-backend gates pass.
+not `RELEASED`. SH-2A through SH-2D and full lexical/syntactic/project SH-2 are
+executed self-hosting milestones. SH-3 semantic and canonical IR parity is
+next; SH-3 through SH-6 do not yet claim self-compilation or a standalone
+backend.

@@ -1,5 +1,20 @@
 # OpenC development changelog
 
+## 1.0.0-rc.6 — exact project/module frontend parity
+
+- added a deterministic stage-0 project observation protocol over sorted
+  logical modules, ordered units, resolved paths, imports, per-source parser
+  results, graph diagnostics, and totals;
+- added a specialized JSON project loader and multi-source/module composer in
+  canonical OpenC `.p` source;
+- matched all 7 checked-in projects plus 15 focused project/module probes
+  exactly (22/22), covering missing imports, ambiguous short qualifiers, and
+  direct import cycles;
+- retained exact lexer parity across 286 canonical sources plus 16 probes
+  (302/302) and parser parity plus 15 probes (301/301);
+- promoted SH-2D and full syntactic/project frontend SH-2, making SH-3
+  semantic and canonical IR parity the explicit next milestone.
+
 ## 1.0.0-rc.5 — exact compiler-in-OpenC parser parity
 
 - added parser-facing access over the OpenC-owned token buffer and a third
