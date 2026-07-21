@@ -247,7 +247,25 @@ text diagnostic_rule(usize code) {
     if code == 8 { return "OPENC-LITERAL-UNICODE-001"; }
     if code == 9 { return "OPENC-LEX-TEXT-001"; }
     if code == 10 { return "OPENC-SYNTAX-OPTIONAL-001"; }
-    return "OPENC-LEX-TOKEN-001";
+    if code == 11 { return "OPENC-LEX-TOKEN-001"; }
+    if code == 12 { return "OPENC-LOOP-CONTEXT-001"; }
+    if code == 13 { return "OPENC-RETURN-CONTEXT-001"; }
+    if code == 14 { return "OPENC-STATUS-FIELD-001"; }
+    if code == 15 { return "OPENC-SYNTAX-BRACES-001"; }
+    if code == 16 { return "OPENC-SYNTAX-BRACKET-001"; }
+    if code == 17 { return "OPENC-SYNTAX-COMMA-001"; }
+    if code == 18 { return "OPENC-SYNTAX-CONST-001"; }
+    if code == 19 { return "OPENC-SYNTAX-EXPR-001"; }
+    if code == 20 { return "OPENC-SYNTAX-FUNCTION-001"; }
+    if code == 21 { return "OPENC-SYNTAX-IDENTIFIER-001"; }
+    if code == 22 { return "OPENC-SYNTAX-INITIALIZER-001"; }
+    if code == 23 { return "OPENC-SYNTAX-PAREN-001"; }
+    if code == 24 { return "OPENC-SYNTAX-PROGRESS-001"; }
+    if code == 25 { return "OPENC-SYNTAX-SEMICOLON-001"; }
+    if code == 26 { return "OPENC-SYNTAX-SWITCH-001"; }
+    if code == 27 { return "OPENC-SYNTAX-TOP-DECL-001"; }
+    if code == 28 { return "OPENC-TYPE-CONSTRUCTOR-ORDER-001"; }
+    return "OPENC-TYPE-SUFFIX-001";
 }
 
 SourcePosition position_at(text source, usize target) {
@@ -783,16 +801,30 @@ unsafe void lex_source(
 }
 
 unsafe i32 main() {
-    if process.argument_count() != 1 {
-        io.error("usage: openc-selfhost-lexer SOURCE.p\n");
+    usize arguments = process.argument_count();
+    if arguments != 1 && arguments != 2 {
+        io.error("usage: openc-selfhost-lexer [--parse] SOURCE.p\n");
         return 64;
     }
 
+    bool parse_mode = false;
     text path = process.argument(0);
+    if arguments == 2 {
+        if process.argument(0) != "--parse" {
+            io.error("usage: openc-selfhost-lexer [--parse] SOURCE.p\n");
+            return 64;
+        }
+        parse_mode = true;
+        path = process.argument(1);
+    }
     text source;
     status loaded = file.read_text(path, out source);
     if !loaded.ok {
-        io.println("OPENC-LEX-OBSERVATION 2");
+        if parse_mode {
+            io.println("OPENC-PARSE-OBSERVATION 1");
+        } else {
+            io.println("OPENC-LEX-OBSERVATION 2");
+        }
         io.println("SOURCE_ERROR OPENC-SOURCE-INVALID-001 0 0 1 1");
         io.println("SUMMARY 0 1");
         return 1;
@@ -805,7 +837,7 @@ unsafe i32 main() {
     };
     PackedBuffer diagnostics = PackedBuffer{
         length = 0,
-        capacity = source_length * 2 + 2
+        capacity = source_length * 4 + 8
     };
     ptr byte token_data = memory.alloc(tokens.capacity * record_stride());
     scope memory.free(token_data);
@@ -820,8 +852,35 @@ unsafe i32 main() {
         diagnostic_data, diagnostics
     );
     assign_token_positions(source, token_data, tokens);
-    assign_diagnostic_positions(source, diagnostic_data, diagnostics);
 
+    if parse_mode {
+        PackedBuffer syntax = PackedBuffer{
+            length = 0,
+            capacity = tokens.length * 6 + 8
+        };
+        ptr byte syntax_data = memory.alloc(
+            syntax.capacity * record_stride()
+        );
+        scope memory.free(syntax_data);
+        parse_source_syntax(
+            source,
+            token_data, tokens,
+            syntax_data, syntax,
+            diagnostic_data, diagnostics
+        );
+        assign_diagnostic_positions(source, diagnostic_data, diagnostics);
+        io.println("OPENC-PARSE-OBSERVATION 1");
+        emit_syntax_records(syntax_data, syntax);
+        emit_observation_records(diagnostic_data, diagnostics, true);
+        io.print("SUMMARY ");
+        io.print(syntax.length);
+        io.print(" ");
+        io.println(diagnostics.length);
+        if diagnostics.length != 0 { return 1; }
+        return 0;
+    }
+
+    assign_diagnostic_positions(source, diagnostic_data, diagnostics);
     io.println("OPENC-LEX-OBSERVATION 2");
     emit_observation_records(token_data, tokens, false);
     emit_observation_records(diagnostic_data, diagnostics, true);

@@ -25,9 +25,9 @@
       "status": "PASS",
       "command": "python compiler/selfhost/bootstrap.py",
       "evidence": "build-output/selfhost/lexer-parity-result.json",
-      "canonical_sources": 284,
+      "canonical_sources": 285,
       "focused_probes": 16,
-      "comparisons": 300,
+      "comparisons": 301,
       "diagnostic_rules": 12
     },
     {
@@ -41,7 +41,21 @@
       "owned_token_storage": true,
       "owned_diagnostic_storage": true,
       "byte_accurate_source_positions": true,
-      "comparisons": 300
+      "comparisons": 301
+    },
+    {
+      "id": "SH-2C",
+      "name": "exact_parser_parity",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap.py",
+      "evidence": "build-output/selfhost/parser-parity-result.json",
+      "protocol": "OPENC-PARSE-OBSERVATION 1",
+      "owned_syntax_storage": true,
+      "canonical_sources": 285,
+      "focused_probes": 15,
+      "comparisons": 300,
+      "syntax_node_kinds": 52,
+      "reachable_parser_rules": 15
     },
     {
       "id": "SH-2",
@@ -75,6 +89,8 @@
     "stage1_exact_lexer_parity": true,
     "stage1_owned_single_pass_lexer_state": true,
     "stage1_byte_accurate_source_positions": true,
+    "stage1_exact_parser_parity": true,
+    "stage1_owned_syntax_storage": true,
     "full_frontend_parity": false,
     "self_hosted": false,
     "dmd_independent": false,

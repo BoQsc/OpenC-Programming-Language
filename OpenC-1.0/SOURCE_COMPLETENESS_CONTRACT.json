@@ -33,7 +33,7 @@
       "id": "compiler.backend"
     },
     {
-      "description": "executable compiler-in-OpenC lexer, parity harness, and bootstrap gates",
+      "description": "executable compiler-in-OpenC lexer/parser, exact parity harnesses, and bootstrap gates",
       "groups": [
         "compiler_selfhost"
       ],
@@ -148,6 +148,7 @@
       "compiler/source/openc/native.d",
       "compiler/source/openc/overload.d",
       "compiler/source/openc/ownership.d",
+      "compiler/source/openc/parse_observation.d",
       "compiler/source/openc/parser.d",
       "compiler/source/openc/pointer.d",
       "compiler/source/openc/project.d",
@@ -191,7 +192,9 @@
     "compiler_selfhost": [
       "compiler/selfhost/bootstrap.py",
       "compiler/selfhost/lexer_parity.py",
+      "compiler/selfhost/parser_parity.py",
       "compiler/selfhost/source/main.p",
+      "compiler/selfhost/source/parser.p",
       "compiler/selfhost/tests/unbalanced.p",
       "compiler/selfhost/tests/unterminated_string.p"
     ],
@@ -294,5 +297,5 @@
     "compiler/selfhost/SELF_HOSTING_STATE.json"
   ],
   "schema": "openc.source_completeness_contract.v2",
-  "version": "1.0.0-rc.4"
+  "version": "1.0.0-rc.5"
 }

@@ -8,7 +8,7 @@
     "validate",
     "lsp"
   ],
-  "evidence_state": "REQUIRED_COMMANDS_BUILT_TESTED_WINDOWS_X86_64_RC4",
+  "evidence_state": "REQUIRED_COMMANDS_BUILT_TESTED_WINDOWS_X86_64_RC5",
   "experimental_commands": [
     "eval",
     "live"

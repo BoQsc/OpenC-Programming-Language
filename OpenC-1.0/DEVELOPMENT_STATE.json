@@ -1,6 +1,6 @@
 {
   "schema": "openc.development_state.v4",
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.5",
   "authority": "owner_certified_release_candidate",
   "release_scope": "windows_x86_64_hosted",
   "core_baseline": "OpenC Core 1.0 release candidate",
@@ -8,14 +8,15 @@
   "bootstrap_source": "source_complete_four_tests_and_cli_smoke_passed",
   "official_source_extension": ".p",
   "migrated_existing_p_sources": 281,
-  "canonical_p_sources": 284,
+  "canonical_p_sources": 285,
   "self_hosting": {
     "state_record": "compiler/selfhost/SELF_HOSTING_STATE.json",
     "source_convention_gate": "SH-0_PASS",
     "compiler_in_openc_frontend_seed": "SH-1_PASS_BUILT_EXECUTED_SELF_SCAN",
-    "exact_lexer_parity": "SH-2A_PASS_284_CANONICAL_PLUS_16_PROBES",
-    "owned_single_pass_lexer_state": "SH-2B_PASS_300_COMPARISONS_WITH_POSITIONS",
-    "next_milestone": "SH-2C_PARSER_IN_OPENC",
+    "exact_lexer_parity": "SH-2A_PASS_285_CANONICAL_PLUS_16_PROBES",
+    "owned_single_pass_lexer_state": "SH-2B_PASS_301_COMPARISONS_WITH_POSITIONS",
+    "exact_parser_parity": "SH-2C_PASS_285_CANONICAL_PLUS_15_PROBES",
+    "next_milestone": "SH-2D_PROJECT_MODULE_FRONTEND",
     "full_frontend_parity": "SH-2_PENDING",
     "semantic_ir_parity": "SH-3_PENDING",
     "bootstrap_self_compilation": "SH-4_PENDING",
@@ -62,7 +63,7 @@
     "dedicated_positive_rejection_pairs_incomplete_for_174_grammar_productions",
     "independent_third_party_reviews",
     "linux_freestanding_native_and_c_provider_verification",
-    "self_hosting_SH_2C_PARSER_THROUGH_SH_6_AFTER_SH_2B_PASS"
+    "self_hosting_SH_2D_PROJECT_MODULE_FRONTEND_THROUGH_SH_6_AFTER_SH_2C_PASS"
   ],
   "published": false,
   "released": false,

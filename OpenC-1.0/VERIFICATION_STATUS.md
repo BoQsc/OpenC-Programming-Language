@@ -1,4 +1,4 @@
-# OpenC 1.0.0-rc.4 verification status
+# OpenC 1.0.0-rc.5 verification status
 
 Date: 2026-07-21
 Host: Windows 10.0.19045, x86-64
@@ -26,16 +26,20 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`; together with
-  the compiler-in-OpenC frontend and its two checked-in probes, the tree
-  contains 284 canonical `.p` sources. The
+  the compiler-in-OpenC lexer/parser frontend and its two checked-in probes,
+  the tree contains 285 canonical `.p` sources. The
   migrated fixture corpus retains 268/268 passes and zero infrastructure
   failures.
 - The compiler-in-OpenC frontend builds through stage 0 and passes SH-2A exact
-  lexer parity plus SH-2B owned single-pass lexer state: 284 canonical `.p`
-  sources plus 16 focused probes, 300/300. Outcomes, token kinds, byte spans,
+  lexer parity plus SH-2B owned single-pass lexer state: 285 canonical `.p`
+  sources plus 16 focused probes, 301/301. Outcomes, token kinds, byte spans,
   line/byte-column positions, diagnostic rules, source-encoding rejection,
   and totals match exactly; all 12 source/lexical diagnostic rules are
   observed.
+- SH-2C exact parser parity passes on all 285 canonical sources plus 15 focused
+  parser probes, 300/300. Syntax-node creation order, all 52 parser-produced
+  kinds and final byte spans, 15 reachable parser/recovery rules, diagnostic
+  positions, node totals, and error totals match exactly.
 - Structure, source-completeness, manifest, and archive verification pass.
 
 Fixture execution now distinguishes normative rules from implementation
@@ -73,6 +77,6 @@ HD-012 is ratified, the declared platform gate passes, and independent external
 review is a recommended post-release assurance activity rather than an initial
 owner-certified release prerequisite. The candidate is `RELEASE_READY` for its
 declared Windows x86-64 Hosted scope. It remains unpublished and therefore is
-not `RELEASED`. SH-2A and SH-2B are executed self-hosting milestones; SH-2C
-parser work is next. They do not claim that full SH-2 or the pending SH-3
-through SH-6 compiler and standalone-backend gates pass.
+not `RELEASED`. SH-2A through SH-2C are executed self-hosting milestones;
+SH-2D project/module frontend work is next. They do not claim that full SH-2
+or the pending SH-3 through SH-6 compiler and standalone-backend gates pass.

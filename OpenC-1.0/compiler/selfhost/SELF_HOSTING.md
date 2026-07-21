@@ -38,8 +38,8 @@ This is not a self-hosting claim: the seed does not yet compile source.
 - Stage 0 and stage 1 match process outcome, token kind and byte span,
   diagnostic rule and byte span, source line and byte column, and token/error
   totals.
-- The parity harness covers all 284 canonical `.p` sources plus 16 focused
-  probes: 300 of 300 comparisons pass and all 12 source/lexical diagnostic
+- The parity harness covers all 285 canonical `.p` sources plus 16 focused
+  probes: 301 of 301 comparisons pass and all 12 source/lexical diagnostic
   rules are observed. The focused set includes CRLF and lone-CR positions.
 - Evidence is produced by `python compiler/selfhost/bootstrap.py` and recorded
   in `build-output/selfhost/lexer-parity-result.json`.
@@ -54,14 +54,29 @@ Status: **PASS**
 - Every stored token and diagnostic carries a byte offset, byte length,
   one-based line, and one-based byte column.
 - Observation protocol 2 compares all stored fields against stage 0 across
-  the complete 300-case SH-2A corpus.
+  the complete 301-case SH-2A corpus.
+
+Status: **PASS**
+
+### SH-2C — exact parser parity
+
+- Stage 1 reads the owned token records through parser-facing lookahead and
+  matching APIs and stores final syntax records in a third owned buffer.
+- Declarations, types, blocks, statements, precedence/assignment expressions,
+  postfix operations, initializers, intrinsics, and recovery execute in OpenC.
+- Parser observation protocol 1 compares process outcome, syntax-node creation
+  order, all 52 parser-produced node kinds and final byte spans, diagnostic
+  rule/span/position, node totals, and error totals.
+- All 285 canonical `.p` sources plus 15 focused parser probes match exactly:
+  300 of 300 comparisons pass and all 15 reachable parser/recovery diagnostic
+  rules are observed.
 
 Status: **PASS**
 
 ### SH-2 — full frontend parity
 
-- Retain SH-2A/SH-2B lexer parity while porting parser, diagnostic
-  rendering/collections, module composition, and project loading to `.p`.
+- Retain SH-2A through SH-2C while porting multi-source module composition,
+  project loading, and complete frontend diagnostic collections to `.p`.
 - Run every accepted/rejected frontend fixture through both implementations.
 - Require matching acceptance and exact diagnostic rule IDs.
 
@@ -106,12 +121,12 @@ Status: **PENDING**
 
 ## Required enabling libraries
 
-The compiler-in-OpenC implementation next needs parser-facing token and syntax
-types, declaration/type/expression/statement parsing, recovery, and structured
-diagnostic collections. Later stages need byte and text builders, stable string
-tables/maps, JSON parsing and writing, deterministic sorting, project-file
-access, process invocation, and Windows object/link support. These may be
-specialized compiler libraries; generics are not required to begin.
+The compiler-in-OpenC implementation next needs SH-2D multi-source module
+composition, project loading, and full frontend-fixture execution. Later stages
+need semantic tables, byte and text builders, stable string tables/maps, JSON
+parsing and writing, deterministic sorting, process invocation, and Windows
+object/link support. These may be specialized compiler libraries; generics are
+not required to begin.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

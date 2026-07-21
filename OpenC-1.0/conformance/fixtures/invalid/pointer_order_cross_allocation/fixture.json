@@ -3,7 +3,7 @@
     "OPENC-PTR-COMPARE-001",
     "OPENC-TARGET-PTRCOMPARE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC4",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC5",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",

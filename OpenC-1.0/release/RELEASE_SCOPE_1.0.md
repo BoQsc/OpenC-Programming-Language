@@ -13,10 +13,10 @@ archives, and the local licensing/governance authorization.
 
 Canonical OpenC source uses `.p`. The source distribution also contains an
 executed compiler-in-OpenC frontend with SH-1 bootstrap, SH-2A exact lexical
-parity, and SH-2B owned single-pass lexer-state evidence. SH-2C parser work is
-next. Full frontend/semantic self-hosting and a DMD-independent backend are
-separately tracked future gates, not prerequisites retroactively added to the
-D-bootstrap 1.0 claim.
+parity, SH-2B owned single-pass lexer state, and SH-2C exact parser parity.
+SH-2D project/module frontend work is next. Full frontend/semantic self-hosting
+and a DMD-independent backend are separately tracked future gates, not
+prerequisites retroactively added to the D-bootstrap 1.0 claim.
 
 ## Experimental source included without a support claim
 

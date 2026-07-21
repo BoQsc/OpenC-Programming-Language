@@ -93,7 +93,7 @@ for entry in fixture_manifest["fixtures"]:
         errors.append(f"fixture ID mismatch: {entry['id']}")
     if set(fixture.get("active_rules", [])) != set(entry["rules"]):
         errors.append(f"fixture rule mismatch: {entry['id']}")
-    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC4":
+    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC5":
         errors.append(f"fixture evidence state is stale: {entry['id']}")
     for source in fixture.get("source_files", []):
         if not (ROOT / source).is_file():

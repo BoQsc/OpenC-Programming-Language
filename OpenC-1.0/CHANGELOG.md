@@ -1,5 +1,22 @@
 # OpenC development changelog
 
+## 1.0.0-rc.5 — exact compiler-in-OpenC parser parity
+
+- added parser-facing access over the OpenC-owned token buffer and a third
+  OpenC-owned buffer for final syntax records;
+- ported top-level declarations, types, blocks, statements, precedence and
+  assignment expressions, postfix operations, initializers, intrinsics, and
+  parser recovery to canonical `.p` source;
+- added a stage-0 parser observation command covering creation-order syntax
+  kinds/final spans, diagnostics with positions, node totals, and error totals;
+- passed exact parser parity over 285 canonical `.p` sources plus 15 focused
+  probes (300/300), covering all 52 parser-produced syntax kinds and all 15
+  reachable parser/recovery rules;
+- retained exact lexical parity across the expanded corpus: 285 canonical
+  sources plus 16 probes (301/301);
+- promoted SH-2C and made SH-2D multi-source project/module frontend work the
+  explicit next milestone.
+
 ## 1.0.0-rc.4 — owned single-pass compiler-in-OpenC lexer state
 
 - replaced the stage-1 lexer's two observation passes with one lexical pass

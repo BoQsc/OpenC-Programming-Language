@@ -3,7 +3,7 @@
     "OPENC-CAST-UNCHECKED-INT-001",
     "OPENC-NUM-UNCHECKEDCAST-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC4",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC5",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",

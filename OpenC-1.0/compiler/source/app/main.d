@@ -6,6 +6,7 @@ import openc.compiler : CompilationOptions, CompilationResult, Compiler;
 import openc.conformance : ConformanceAdapter;
 import openc.project : ProjectConfig;
 import openc.lex_observation : observeLexing;
+import openc.parse_observation : observeParsing;
 import openc.toolchain : DToolchain;
 import openc.tools.explain : ExplanationDatabase;
 import openc.tools.formatter : Formatter, FormatterConfig;
@@ -50,6 +51,9 @@ int main(string[] argv) {
         case "lex-observe":
             if (!request.positionals.length) { stderr.writeln("openc lex-observe requires a source path"); return 2; }
             return observeLexing(request.positionals[0]);
+        case "parse-observe":
+            if (!request.positionals.length) { stderr.writeln("openc parse-observe requires a source path"); return 2; }
+            return observeParsing(request.positionals[0]);
         case "version":
         case "--version":
             stdout.writeln(compiler.compilerVersion.implementationName ~ " " ~ compiler.compilerVersion.implementationVersion);

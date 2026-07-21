@@ -25,5 +25,5 @@
   "schema": "openc.release_record.v2",
   "signatures": [],
   "signatures_required": false,
-  "version": "1.0.0-rc.4"
+  "version": "1.0.0-rc.5"
 }

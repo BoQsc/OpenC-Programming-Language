@@ -115,10 +115,17 @@ final class AstNode {
 final class AstArena {
 private:
     NodeId nextId;
+    AstNode[] created;
 
 public:
     AstNode make(NodeKind kind, SourceSpan span, string text = "") {
-        return new AstNode(nextId++, kind, span, text);
+        auto node = new AstNode(nextId++, kind, span, text);
+        created ~= node;
+        return node;
+    }
+
+    AstNode[] all() {
+        return created;
     }
 }
 

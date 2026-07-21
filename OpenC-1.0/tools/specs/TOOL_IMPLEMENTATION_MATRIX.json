@@ -2,7 +2,7 @@
   "compiled": true,
   "executed": true,
   "schema": "openc.tooling.work_matrix.v1",
-  "source_authoring_state": "SOURCE_AUTHORED_WINDOWS_X86_64_RC4_VERIFIED",
+  "source_authoring_state": "SOURCE_AUTHORED_WINDOWS_X86_64_RC5_VERIFIED",
   "tools": [
     {
       "contracts": [
@@ -16,7 +16,7 @@
         "compiler/source/app/main.d",
         "compiler/source/openc/compiler.d"
       ],
-      "status": "BUILT_WINDOWS_X86_64_RC4",
+      "status": "BUILT_WINDOWS_X86_64_RC5",
       "tool": "openc check"
     },
     {
@@ -31,7 +31,7 @@
         "compiler/source/app/main.d",
         "compiler/source/openc/toolchain.d"
       ],
-      "status": "BUILT_WINDOWS_X86_64_RC4",
+      "status": "BUILT_WINDOWS_X86_64_RC5",
       "tool": "openc build"
     },
     {
@@ -45,7 +45,7 @@
         "compiler/source/app/main.d",
         "tools/source/openc/tools/runner.d"
       ],
-      "status": "BUILT_WINDOWS_X86_64_RC4",
+      "status": "BUILT_WINDOWS_X86_64_RC5",
       "tool": "openc run"
     },
     {
@@ -59,7 +59,7 @@
         "compiler/source/app/main.d",
         "tools/source/openc/tools/validator.d"
       ],
-      "status": "BUILT_WINDOWS_X86_64_RC4",
+      "status": "BUILT_WINDOWS_X86_64_RC5",
       "tool": "openc test"
     },
     {
@@ -72,7 +72,7 @@
         "compiler/source/app/main.d",
         "tools/source/openc/tools/formatter.d"
       ],
-      "status": "BUILT_WINDOWS_X86_64_RC4",
+      "status": "BUILT_WINDOWS_X86_64_RC5",
       "tool": "openc fmt"
     },
     {
@@ -87,7 +87,7 @@
         "compiler/source/app/main.d",
         "tools/source/openc/tools/info.d"
       ],
-      "status": "BUILT_WINDOWS_X86_64_RC4",
+      "status": "BUILT_WINDOWS_X86_64_RC5",
       "tool": "openc info"
     },
     {
@@ -101,7 +101,7 @@
         "compiler/source/app/main.d",
         "tools/source/openc/tools/explain.d"
       ],
-      "status": "BUILT_WINDOWS_X86_64_RC4",
+      "status": "BUILT_WINDOWS_X86_64_RC5",
       "tool": "openc explain"
     },
     {
@@ -116,7 +116,7 @@
         "tools/source/openc/tools/validator.d",
         "compiler/source/openc/conformance.d"
       ],
-      "status": "BUILT_WINDOWS_X86_64_RC4",
+      "status": "BUILT_WINDOWS_X86_64_RC5",
       "tool": "openc validate"
     },
     {
@@ -129,7 +129,7 @@
         "compiler/source/app/main.d",
         "tools/source/openc/tools/lsp.d"
       ],
-      "status": "BUILT_WINDOWS_X86_64_RC4",
+      "status": "BUILT_WINDOWS_X86_64_RC5",
       "tool": "openc lsp"
     }
   ]

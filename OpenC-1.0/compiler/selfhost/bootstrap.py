@@ -32,7 +32,7 @@ def main() -> int:
     output.mkdir(parents=True, exist_ok=True)
     project = ROOT / "compiler" / "selfhost" / "openc.project.json"
     source = ROOT / "compiler" / "selfhost" / "source" / "main.p"
-    stage1 = output / "openc-selfhost-lexer.exe"
+    stage1 = output / "openc-selfhost-parser.exe"
 
     run([
         str(stage0), "build", f"--project={project}", f"--output={stage1}",
@@ -48,17 +48,30 @@ def main() -> int:
         f"--stage1={stage1}",
         f"--output={output}",
     ])
-    parity = json.loads((output / "lexer-parity-result.json").read_text(encoding="utf-8"))
+    lexer_parity = json.loads(
+        (output / "lexer-parity-result.json").read_text(encoding="utf-8")
+    )
+    run([
+        sys.executable,
+        str(ROOT / "compiler" / "selfhost" / "parser_parity.py"),
+        f"--stage0={stage0}",
+        f"--stage1={stage1}",
+        f"--output={output}",
+    ])
+    parser_parity = json.loads(
+        (output / "parser-parity-result.json").read_text(encoding="utf-8")
+    )
 
     record = {
         "schema": "openc.self_host_stage_result.v1",
-        "stage": "SH-2B_OWNED_LEXER_STATE",
+        "stage": "SH-2C_PARSER_PARITY",
         "status": "PASS",
         "stage0": str(stage0),
         "source": "compiler/selfhost/source/main.p",
         "artifact": str(stage1),
         "self_scan_protocol": executed.stdout.splitlines()[0],
         "lexer_parity_result": str(output / "lexer-parity-result.json"),
+        "parser_parity_result": str(output / "parser-parity-result.json"),
         "claims": {
             "compiler_source_written_in_openc": True,
             "stage0_builds_stage1": True,
@@ -68,8 +81,15 @@ def main() -> int:
             "stage1_owned_token_storage": True,
             "stage1_owned_diagnostic_storage": True,
             "stage1_byte_accurate_source_positions": True,
-            "canonical_sources_compared": parity["canonical_sources"],
-            "focused_lexer_probes": parity["focused_probes"],
+            "stage1_owned_syntax_storage": True,
+            "stage1_parser_parity": True,
+            "stage1_declaration_type_statement_expression_parser": True,
+            "stage1_parser_recovery": True,
+            "canonical_sources_compared": parser_parity["canonical_sources"],
+            "focused_lexer_probes": lexer_parity["focused_probes"],
+            "focused_parser_probes": parser_parity["focused_probes"],
+            "syntax_node_kinds_matched": parser_parity["syntax_node_kind_count"],
+            "parser_rules_matched": parser_parity["parser_rule_count"],
             "stage1_compiles_openc": False,
             "self_hosted": False,
             "dmd_independent": False,
@@ -79,8 +99,10 @@ def main() -> int:
         json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     print(
-        "self-host owned lexer state: PASS; "
-        f"canonical={parity['canonical_sources']} probes={parity['focused_probes']} "
+        "self-host parser parity: PASS; "
+        f"canonical={parser_parity['canonical_sources']} "
+        f"lexer_probes={lexer_parity['focused_probes']} "
+        f"parser_probes={parser_parity['focused_probes']} "
         f"artifact={stage1}"
     )
     return 0

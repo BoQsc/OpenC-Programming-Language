@@ -6,13 +6,12 @@ verification are optional future target work; they do not block this release.
 
 ## Self-hosting critical path
 
-1. **SH-2C — parser in OpenC (next)**
-   - expose the owned lexer records through parser-facing token APIs;
-   - implement syntax nodes plus declaration, type, expression, statement,
-     attribute, and module parsing;
-   - implement recovery and structured parser diagnostics;
-   - compare stage 0 and stage 1 acceptance, syntax observations, rule IDs,
-     spans, lines, and byte columns across the authored frontend corpus.
+1. **SH-2D — project/module frontend in OpenC (next)**
+   - load `openc.project.json` and resolve explicit source/module paths;
+   - compose multiple source units with import visibility and cycle handling;
+   - retain exact lexer/parser observations per source while producing a
+     deterministic project-level frontend observation;
+   - execute every accepted and rejected frontend fixture in both compilers.
 2. **SH-2 — full frontend parity**
    - finish source/module composition and project loading;
    - pass every accepted and rejected frontend fixture in both compilers.
@@ -29,9 +28,11 @@ verification are optional future target work; they do not block this release.
    - rebuild the compiler, runtime, and library from the shipped standalone
      distribution and record artifacts and checksums.
 
-SH-2A exact lexical parity and SH-2B owned single-pass lexer state already
-pass. The current SH-2B evidence covers 284 canonical `.p` sources plus 16
-focused probes (300/300) and all 12 source/lexical diagnostic rules.
+SH-2A exact lexical parity, SH-2B owned single-pass lexer state, and SH-2C
+exact parser parity already pass. Lexer evidence covers 285 canonical `.p`
+sources plus 16 probes (301/301). Parser evidence covers the same canonical
+sources plus 15 parser probes (300/300), all 52 parser-produced syntax kinds,
+and all 15 reachable parser/recovery rules.
 
 ## Nonblocking quality work
 

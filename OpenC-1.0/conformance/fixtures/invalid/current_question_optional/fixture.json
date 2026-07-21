@@ -2,7 +2,7 @@
   "active_rules": [
     "OPENC-OPTIONAL-NOSHORTHAND-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC4",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC5",
   "expected": {
     "diagnostic_rule": "OPENC-SYNTAX-OPTIONAL-001",
     "result": "reject",

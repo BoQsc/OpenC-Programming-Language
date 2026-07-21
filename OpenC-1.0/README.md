@@ -25,10 +25,11 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - all 268 authored conformance fixtures pass, including 35 runtime fixtures;
 - all 4 maintained programs check, build, and run successfully;
 - all 281 canonical OpenC library, program, and fixture sources use `.p`;
-- the compiler-in-OpenC frontend builds and passes SH-2A exact lexer parity and
-  SH-2B owned single-pass lexer state on all 284 canonical `.p` sources plus
-  16 focused probes (300/300), including source positions; SH-2C parser work
-  is next, while full frontend parity and self-hosting remain in progress;
+- the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
+  lexer parity on 285 canonical `.p` sources plus 16 probes (301/301), and
+  SH-2C exact parser parity on those sources plus 15 parser probes (300/300),
+  covering 52 syntax kinds and 15 reachable parser rules; SH-2D project/module
+  composition is next;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed;
 - 331 of 466 active Core rules have dedicated executable fixture coverage;
