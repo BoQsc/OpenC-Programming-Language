@@ -31,8 +31,11 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   SH-2D exact project/module parity on 7 checked-in projects plus 15 probes
   (22/22); full SH-2 passes, and SH-3A declaration/symbol/type-table parity
   passes on the canonical compiler project plus 16 focused projects (17/17),
-  and SH-3B name/constant/overload parity passes on one maintained canonical
-  project plus 9 probes (10/10); SH-3C flow/safety parity is next;
+  SH-3B name/constant/overload parity passes on one maintained canonical
+  project plus 9 probes (10/10), SH-3C exact flow/safety parity covers 232
+  semantic comparisons, and SH-3D matches 149 rejection outcomes plus exact
+  canonical IR for 117 accepted programs and all 33 reachable opcodes; full
+  SH-3 passes and SH-4A bootstrap D-source backend parity is next;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed;
 - 331 of 466 active Core rules have dedicated executable fixture coverage;

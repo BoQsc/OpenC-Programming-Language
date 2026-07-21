@@ -132,6 +132,18 @@ if self_host_gates.get("SH-3B") != "PASS":
     errors.append("self-hosting name/constant/overload SH-3B gate must pass")
 if not self_hosting.get("claims", {}).get("stage1_exact_name_constant_overload_resolution_parity"):
     errors.append("self-hosting state must record exact SH-3B parity")
+if self_host_gates.get("SH-3C") != "PASS":
+    errors.append("self-hosting flow/safety SH-3C gate must pass")
+if not self_hosting.get("claims", {}).get("stage1_exact_flow_safety_parity"):
+    errors.append("self-hosting state must record exact SH-3C parity")
+if self_host_gates.get("SH-3D") != "PASS":
+    errors.append("self-hosting semantic-outcome/canonical-IR SH-3D gate must pass")
+if not self_hosting.get("claims", {}).get("stage1_exact_semantic_outcome_parity") or \
+        not self_hosting.get("claims", {}).get("stage1_exact_canonical_ir_parity"):
+    errors.append("self-hosting state must record exact SH-3D parity")
+if self_host_gates.get("SH-3") != "PASS" or \
+        not self_hosting.get("claims", {}).get("semantic_ir_parity"):
+    errors.append("self-hosting semantic and IR SH-3 gate must pass")
 if self_hosting.get("claims", {}).get("self_hosted") or self_hosting.get("claims", {}).get("dmd_independent"):
     errors.append("self-hosting state must not overclaim pending bootstrap/native-backend gates")
 

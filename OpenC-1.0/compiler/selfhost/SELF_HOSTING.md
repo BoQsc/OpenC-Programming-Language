@@ -121,7 +121,7 @@ Status: **PASS**
 
 ### SH-3 — semantic and IR parity
 
-Before the full gate, SH-3B establishes the resolution layer:
+SH-3B establishes the resolution layer:
 
 - Stage 1 owns lexical and module binding tables, local/parameter/field/enum
   target selection, constant-domain results, function signatures, and
@@ -137,24 +137,45 @@ Before the full gate, SH-3B establishes the resolution layer:
 
 SH-3B status: **PASS**
 
-- Port types, constants, overloads, flow, status/out, ownership, borrowing,
-  cleanup, unsafe checking, and lowering.
-- Emit the canonical JSON IR deterministically.
-- Require semantic and IR parity across the complete authored fixture set.
+SH-3C owns flow, status/out, ownership, borrowing, cleanup, pointer, and unsafe
+analysis in OpenC. Semantic flow/safety observation protocol 1 matches exact
+function spans, CFG block/edge counts, cleanup order, diagnostic phases/rules,
+and diagnostic spans across 3 maintained projects and 263 authored source
+fixtures. It compares 232 semantic cases, delegates 34 frontend-error cases to
+SH-2, and observes 313 functions, 733 blocks, 464 edges, 34 cleanups, and 19
+flow/safety rules.
 
-Status: **PENDING**
+SH-3C status: **PASS**
 
-SH-3A and SH-3B are complete. SH-3C flow/safety parity is the next subgate,
-followed by SH-3D canonical IR lowering.
+SH-3D owns semantic acceptance and deterministic canonical JSON IR lowering.
+Across the same maintained/authored corpus, stage 0 and stage 1 match all 149
+frontend/semantic rejection outcomes and compare exact IR for 117 accepted
+programs: 183 functions, 275 blocks, 1,489 instructions, and all 33 reachable
+canonical opcodes. Matching includes module/function/block/instruction order,
+types, values, text, byte spans, operands, and target-fault records.
+
+SH-3D status: **PASS**
+
+Status: **PASS**
+
+Evidence is produced by `python compiler/selfhost/bootstrap.py` and recorded
+in `semantic-flow-safety-parity-result.json` and
+`semantic-ir-parity-result.json` under `build-output/selfhost`.
 
 ### SH-4 — bootstrap self-compilation
 
-- Implement the bootstrap D-source backend and required process invocation in
-  OpenC.
+- SH-4A: port deterministic bootstrap D-source emission and prove generated
+  source parity from the canonical IR.
+- SH-4B: add the Hosted toolchain driver so stage 1 can invoke the configured D
+  compiler and build stage 2 from the same canonical `.p` project.
+- SH-4C: have stage 2 build stage 3 and require normalized generated-source,
+  semantic-IR, behavior, and artifact equivalence.
 - Stage 0 builds stage 1 from `.p`; stage 1 builds stage 2 from the same `.p`.
 - Stage 2 builds stage 3; stage 2 and stage 3 are reproducibly equivalent.
 
 Status: **PENDING**
+
+Next subgate: **SH-4A — bootstrap D-source backend parity**
 
 ### SH-5 — DMD-independent Windows backend
 
@@ -177,12 +198,11 @@ Status: **PENDING**
 
 ## Required enabling libraries
 
-The compiler-in-OpenC implementation next needs SH-3C flow,
-ownership/borrowing, cleanup, status/out, pointer, and unsafe checking, then
-SH-3D canonical IR lowering. Later stages need stable string
-tables/maps, JSON writing, process invocation, self-compilation, and Windows
-object/link support. These may be specialized compiler libraries; generics are
-not required to begin.
+SH-3 now supplies owned frontend, semantic, safety, acceptance, and canonical
+IR stages. Bootstrap closure next needs deterministic D-source writing and
+Hosted process invocation. SH-5 later replaces the installed D compiler with
+the standalone Windows object/link backend. These may be specialized compiler
+libraries; generics are not required to begin.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

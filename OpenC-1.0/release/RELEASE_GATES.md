@@ -35,6 +35,6 @@ The `.p` source-convention gate, executable SH-1 compiler-in-OpenC seed, SH-2A
 exact lexer-parity subgate, SH-2B owned single-pass lexer-state subgate, SH-2C
 exact parser-parity subgate, SH-2D project/module subgate, and full syntactic
 and project frontend SH-2 gate pass. SH-3A declaration, symbol, and type-table
-parity also passes. SH-3B through
-SH-3D and SH-4 through SH-6 remain future standalone-compiler work and do not
-alter that release boundary.
+parity also passes. SH-3B name/constant/overload, SH-3C flow/safety, and SH-3D
+semantic-outcome/canonical-IR parity pass, completing SH-3. SH-4 through SH-6
+remain future standalone-compiler work and do not alter that release boundary.

@@ -803,7 +803,7 @@ unsafe void lex_source(
 unsafe i32 main() {
     usize arguments = process.argument_count();
     if arguments != 1 && arguments != 2 {
-        io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json]\n");
+        io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json | --semantic-flow-safety openc.project.json | --semantic-ir openc.project.json]\n");
         return 64;
     }
 
@@ -811,6 +811,8 @@ unsafe i32 main() {
     bool project_mode = false;
     bool semantic_declaration_mode = false;
     bool semantic_resolution_mode = false;
+    bool semantic_flow_safety_mode = false;
+    bool semantic_ir_mode = false;
     text path = process.argument(0);
     if arguments == 2 {
         if process.argument(0) == "--parse" {
@@ -821,8 +823,12 @@ unsafe i32 main() {
             semantic_declaration_mode = true;
         } else if process.argument(0) == "--semantic-resolve" {
             semantic_resolution_mode = true;
+        } else if process.argument(0) == "--semantic-flow-safety" {
+            semantic_flow_safety_mode = true;
+        } else if process.argument(0) == "--semantic-ir" {
+            semantic_ir_mode = true;
         } else {
-            io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json]\n");
+            io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json | --semantic-flow-safety openc.project.json | --semantic-ir openc.project.json]\n");
             return 64;
         }
         path = process.argument(1);
@@ -835,6 +841,12 @@ unsafe i32 main() {
     }
     if semantic_resolution_mode {
         return observe_semantic_resolution(path);
+    }
+    if semantic_flow_safety_mode {
+        return observe_semantic_flow_safety(path);
+    }
+    if semantic_ir_mode {
+        return observe_semantic_ir(path);
     }
     text source;
     status loaded = file.read_text(path, out source);

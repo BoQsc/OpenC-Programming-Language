@@ -42,7 +42,7 @@ def main() -> int:
     text = json.dumps(report, indent=2, sort_keys=True) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(text, encoding="utf-8")
+        args.output.write_text(text, encoding="utf-8", newline="\n")
     print(text, end="")
     return 0 if report["source_complete_by_inventory"] else 1
 

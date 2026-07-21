@@ -18,8 +18,11 @@ project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
 full syntactic/project frontend:      SH-2 PASS
 declaration/symbol/type tables:       SH-3A PASS; 17/17 EXACT PARITY
 name/constant/overload resolution:    SH-3B PASS; 10/10 EXACT PARITY
-self-hosting next milestone:          SH-3C FLOW/SAFETY PARITY
-self-hosted compiler:                 NO; SH-3C THROUGH SH-4 PENDING
+flow/safety semantics:                SH-3C PASS; 232 SEMANTIC COMPARISONS
+semantic outcomes/canonical IR:       SH-3D PASS; 149 REJECT + 117 IR MATCHES
+full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
+self-hosting next milestone:          SH-4A BOOTSTRAP D-SOURCE BACKEND PARITY
+self-hosted compiler:                 NO; SH-4 BOOTSTRAP CLOSURE PENDING
 DMD-independent standalone compiler: NO; SH-5 THROUGH SH-6 PENDING
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED
 first-party tool source:             SOURCE-COMPLETE; BUILT AND TESTED

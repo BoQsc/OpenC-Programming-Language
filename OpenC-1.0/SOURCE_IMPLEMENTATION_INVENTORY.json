@@ -123,12 +123,12 @@
       "sha256": "3ac48a78020db771c289f56d8123bf175394c8cdc0c5dcc428b65674bdedf30b"
     },
     {
-      "bytes": 2081,
+      "bytes": 2095,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/source_completeness.py",
       "present": true,
-      "sha256": "176a0f65cf3c66ece72be47381d248d10f5cb179794a4a5db5f3ab8c75cdd028"
+      "sha256": "d81874b2f6c31945c430721240e8b10103ec45a7b218aecfebabf38079408d69"
     },
     {
       "bytes": 2373,
@@ -147,20 +147,20 @@
       "sha256": "83872bc5b5927b207bc4926956a0b3316fab9e66961bfafc4584cf74e57f1915"
     },
     {
-      "bytes": 8413,
+      "bytes": 9228,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/validate_structure.py",
       "present": true,
-      "sha256": "e5f0910de18c6c55aa98f2cd0e34fefe1d5b6260883c402197d51fc4ec91c48b"
+      "sha256": "32334e9b3ebddff71c20199fb8efcb7e27987691085f66bc54b787917215ed5d"
     },
     {
-      "bytes": 13940,
+      "bytes": 14740,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_d",
       "path": "compiler/source/app/main.d",
       "present": true,
-      "sha256": "b1eb289e5f783a22bc3ef1bd306297356548a85ff61bce13e25247dba00e4f76"
+      "sha256": "9c5d75fc733c1aa024c31c63fa7da98c4844756fa4e2c0eae5874aee482e4b60"
     },
     {
       "bytes": 3638,
@@ -417,6 +417,22 @@
       "path": "compiler/source/openc/semantic_declaration_observation.d",
       "present": true,
       "sha256": "7e46934e4c2052a0020a1f4c6ee2f72b9561b89699c0ab1f5ced7ba0614a5076"
+    },
+    {
+      "bytes": 7115,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/semantic_flow_safety_observation.d",
+      "present": true,
+      "sha256": "b0f0414293c56948d8211efa7b3de1145b40f60cef722467cb84d1d15b8c8da5"
+    },
+    {
+      "bytes": 1856,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_d",
+      "path": "compiler/source/openc/semantic_ir_observation.d",
+      "present": true,
+      "sha256": "bd36ca8ac34c320c323aec2c7ae7940f85bd59bb276e16472095046021f4bd91"
     },
     {
       "bytes": 1243,
@@ -699,12 +715,12 @@
       "sha256": "0c475d811c8372e2568e512e8fd9874f8501b1ab65e6968884e46ec894f6147b"
     },
     {
-      "bytes": 7159,
+      "bytes": 8976,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/bootstrap.py",
       "present": true,
-      "sha256": "c008275215a320d03c2b6c096475555f28fd8cd7e9142fcc9ee259286ec301c8"
+      "sha256": "dbe892840479b8707a159ddb09bb48063179bd4d85301ce648392eb78cce6831"
     },
     {
       "bytes": 7064,
@@ -739,6 +755,22 @@
       "sha256": "1522343977009bb5d97842684adf8d3c8861cfa4a0f721d4f0fd11c964f6799c"
     },
     {
+      "bytes": 6747,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/semantic_flow_safety_parity.py",
+      "present": true,
+      "sha256": "7df1652e38823a4adc52fe1ad409be2f6e507f90188de725b3480b45a98c1db6"
+    },
+    {
+      "bytes": 8661,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/semantic_ir_parity.py",
+      "present": true,
+      "sha256": "3bc3c90cdcb1907f8276021a06b0f3e5ad25d7d3448c3944d62e16408a3a5734"
+    },
+    {
       "bytes": 8166,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
@@ -747,20 +779,44 @@
       "sha256": "1a0660e9053bbb4a64c09366cf5b80494248f7c77ce0e483a980c7bf4aa38ca3"
     },
     {
-      "bytes": 30797,
+      "bytes": 104664,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance.p",
+      "present": true,
+      "sha256": "cdb3c28a0c0d6eb5e46143eeb8a47d752952efa5085efc0a06238703dfde3935"
+    },
+    {
+      "bytes": 108371,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow.p",
+      "present": true,
+      "sha256": "8e2180b00dc663e8a5c29adb87b9b35bb78d149f51e3da1bbbd6da68271871cb"
+    },
+    {
+      "bytes": 145676,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir.p",
+      "present": true,
+      "sha256": "be26cbb9163a3551f7b8597b0651f26c488a737afc3f7ecf39e186b7baa726ab"
+    },
+    {
+      "bytes": 31410,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/main.p",
       "present": true,
-      "sha256": "b95e83d7e680ed52756bb2b346e7496dad593b6ced8e3bbcd82f9a5ad7972d60"
+      "sha256": "af83e106738b0e007029975097f472e5c874c3b8faca2f4bdef33a7480fb563c"
     },
     {
-      "bytes": 50663,
+      "bytes": 51390,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/parser.p",
       "present": true,
-      "sha256": "dae71dce8bc47dae32284308d5bb2266ecb5123b883fdb86a69432d0ea915eb8"
+      "sha256": "7f328f5ea56d435f6f1deff9f42a77dd5f61b9c9a5d895b067aa1019917d8b66"
     },
     {
       "bytes": 33997,
@@ -1222,9 +1278,9 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 1163659,
+    "bytes": 1551535,
     "empty": 0,
-    "files": 152,
+    "files": 159,
     "missing": 0
   },
   "version": "1.0.0-rc.8"

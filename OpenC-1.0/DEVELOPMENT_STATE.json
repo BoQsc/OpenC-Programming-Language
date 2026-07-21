@@ -20,8 +20,10 @@
     "full_frontend_parity": "SH-2_PASS_LEXICAL_SYNTAX_PROJECT_MODULE",
     "declaration_symbol_type_table_parity": "SH-3A_PASS_1_CANONICAL_PROJECT_PLUS_16_PROBES",
     "name_constant_overload_resolution_parity": "SH-3B_PASS_1_CANONICAL_PROJECT_PLUS_9_PROBES",
-    "next_milestone": "SH-3C_FLOW_SAFETY_PARITY",
-    "semantic_ir_parity": "SH-3_PENDING",
+    "flow_safety_parity": "SH-3C_PASS_232_SEMANTIC_COMPARISONS",
+    "semantic_outcome_canonical_ir_parity": "SH-3D_PASS_149_REJECTIONS_117_IR_COMPARISONS_33_OPCODES",
+    "semantic_ir_parity": "SH-3_PASS",
+    "next_milestone": "SH-4A_BOOTSTRAP_D_SOURCE_BACKEND_PARITY",
     "bootstrap_self_compilation": "SH-4_PENDING",
     "dmd_independent_windows_backend": "SH-5_PENDING",
     "standalone_self_hosted_release": "SH-6_PENDING",
@@ -66,7 +68,7 @@
     "dedicated_positive_rejection_pairs_incomplete_for_174_grammar_productions",
     "independent_third_party_reviews",
     "linux_freestanding_native_and_c_provider_verification",
-    "self_hosting_SH_3_SEMANTIC_IR_PARITY_THROUGH_SH_6_AFTER_SH_2_PASS"
+    "self_hosting_SH_4_BOOTSTRAP_CLOSURE_THROUGH_SH_6_AFTER_SH_3_PASS"
   ],
   "published": false,
   "released": false,

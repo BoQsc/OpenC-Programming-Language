@@ -10,6 +10,8 @@ import openc.parse_observation : observeParsing;
 import openc.project_observation : observeProjectFrontend;
 import openc.semantic_declaration_observation : observeSemanticDeclarations;
 import openc.semantic_resolution_observation : observeSemanticResolution;
+import openc.semantic_flow_safety_observation : observeSemanticFlowSafety;
+import openc.semantic_ir_observation : observeSemanticIr;
 import openc.toolchain : DToolchain;
 import openc.tools.explain : ExplanationDatabase;
 import openc.tools.formatter : Formatter, FormatterConfig;
@@ -66,6 +68,12 @@ int main(string[] argv) {
         case "semantic-resolve-observe":
             if (!request.positionals.length) { stderr.writeln("openc semantic-resolve-observe requires a project path"); return 2; }
             return observeSemanticResolution(request.positionals[0]);
+        case "semantic-flow-safety-observe":
+            if (!request.positionals.length) { stderr.writeln("openc semantic-flow-safety-observe requires a project path"); return 2; }
+            return observeSemanticFlowSafety(request.positionals[0]);
+        case "semantic-ir-observe":
+            if (!request.positionals.length) { stderr.writeln("openc semantic-ir-observe requires a project path"); return 2; }
+            return observeSemanticIr(request.positionals[0]);
         case "version":
         case "--version":
             stdout.writeln(compiler.compilerVersion.implementationName ~ " " ~ compiler.compilerVersion.implementationVersion);
@@ -274,5 +282,7 @@ void printUsage() {
     stdout.writeln("  openc lex-observe <source>  (self-host parity protocol)");
     stdout.writeln("  openc semantic-decl-observe <project>  (self-host parity protocol)");
     stdout.writeln("  openc semantic-resolve-observe <project>  (self-host parity protocol)");
+    stdout.writeln("  openc semantic-flow-safety-observe <project>  (self-host parity protocol)");
+    stdout.writeln("  openc semantic-ir-observe <project>  (self-host parity protocol)");
     stdout.writeln("  openc 'check(file=\"source/main.p\", diagnostics_format=\"json\")'");
 }

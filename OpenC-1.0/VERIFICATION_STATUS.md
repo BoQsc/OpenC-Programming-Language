@@ -54,6 +54,12 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
   maintained computation project plus 9 focused projects, 10/10. The compared
   observations include 32 exact bindings, 10 constant results, 4 selected
   calls, and exact unknown-name, no-match, ambiguity, and divide-by-zero rules.
+- SH-3C exact flow/safety parity covers 3 maintained projects and 263 authored
+  source fixtures: 232 semantic comparisons plus 34 SH-2 frontend cases, with
+  313 functions, 733 blocks, 464 edges, 34 cleanups, and 19 observed rules.
+- SH-3D matches all 149 frontend/semantic rejection outcomes and exact
+  canonical JSON IR for 117 accepted programs, covering 183 functions, 275
+  blocks, 1,489 instructions, and all 33 reachable opcodes. Full SH-3 passes.
 - Structure, source-completeness, manifest, and archive verification pass.
 
 Fixture execution now distinguishes normative rules from implementation
@@ -93,6 +99,6 @@ owner-certified release prerequisite. The candidate is `RELEASE_READY` for its
 declared Windows x86-64 Hosted scope. It remains unpublished and therefore is
 not `RELEASED`. SH-2A through SH-2D and full lexical/syntactic/project SH-2 are
 executed self-hosting milestones. SH-3A declaration/symbol/type-table and
-SH-3B name/constant/overload parity also pass. SH-3C flow/safety parity is
-next; the remaining SH-3 subgates through SH-6 do not yet claim
-self-compilation or a standalone backend.
+SH-3B name/constant/overload parity, SH-3C flow/safety parity, and SH-3D exact
+semantic-outcome/canonical-IR parity also pass, completing SH-3. SH-4 bootstrap
+closure through SH-6 do not yet claim self-compilation or a standalone backend.

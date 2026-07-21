@@ -6,17 +6,17 @@ verification are optional future target work; they do not block this release.
 
 ## Self-hosting critical path
 
-1. **SH-3C — flow and safety parity (next)**
-   - SH-3A declaration/type and SH-3B name/constant/overload parity pass;
-   - port flow, status/out, ownership, borrowing, cleanup, pointer, and unsafe
-     checking with exact diagnostic outcomes.
-2. **SH-3D — canonical IR parity**
-   - port deterministic semantic lowering and canonical JSON IR emission;
-   - compare semantic outcomes and canonical JSON IR across the authored
-     fixture set.
-3. **SH-4 — bootstrap closure**
-   - stage 0 builds stage 1; stage 1 builds stage 2; stage 2 builds stage 3;
-   - require reproducibly equivalent stage-2 and stage-3 outputs.
+1. **SH-4A — bootstrap D-source backend parity (next)**
+   - lower the owned canonical IR to deterministic bootstrap D source;
+   - compare generated modules and runtime/library input ordering with stage 0.
+2. **SH-4B — stage-1 builds stage-2**
+   - add Hosted process invocation and build-record writing;
+   - have stage 1 invoke the configured D compiler on its own canonical `.p`
+     project and produce stage 2.
+3. **SH-4C — bootstrap closure**
+   - stage 2 builds stage 3 from the same source;
+   - require normalized D source, semantic IR, behavior, and stage-2/stage-3
+     artifact equivalence.
 4. **SH-5 — DMD-independent Windows backend**
    - emit/link Windows x86-64 programs without a separately installed DMD,
      DUB, or Python runtime.
@@ -36,6 +36,12 @@ diagnostic parity.
 SH-3B evidence covers one maintained canonical project plus 9 focused
 projects (10/10), with 32 exact bindings, 10 constant results, 4 overload
 selections, and 4 exact diagnostic rules.
+SH-3C flow/safety evidence covers 3 maintained projects and 263 authored
+source fixtures: 232 semantic comparisons plus 34 SH-2 frontend cases, with
+313 functions, 733 blocks, 464 edges, 34 cleanups, and 19 observed rules.
+SH-3D matches all 149 rejection outcomes and exact canonical IR for 117
+accepted programs: 183 functions, 275 blocks, 1,489 instructions, and all 33
+reachable opcodes. Full SH-3 passes.
 
 ## Nonblocking quality work
 

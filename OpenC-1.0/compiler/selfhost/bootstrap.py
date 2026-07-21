@@ -91,10 +91,30 @@ def main() -> int:
     semantic_resolution_parity = json.loads(
         (output / "semantic-resolution-parity-result.json").read_text(encoding="utf-8")
     )
+    run([
+        sys.executable,
+        str(ROOT / "compiler" / "selfhost" / "semantic_flow_safety_parity.py"),
+        f"--stage0={stage0}",
+        f"--stage1={stage1}",
+        f"--output={output}",
+    ])
+    semantic_flow_safety_parity = json.loads(
+        (output / "semantic-flow-safety-parity-result.json").read_text(encoding="utf-8")
+    )
+    run([
+        sys.executable,
+        str(ROOT / "compiler" / "selfhost" / "semantic_ir_parity.py"),
+        f"--stage0={stage0}",
+        f"--stage1={stage1}",
+        f"--output={output}",
+    ])
+    semantic_ir_parity = json.loads(
+        (output / "semantic-ir-parity-result.json").read_text(encoding="utf-8")
+    )
 
     record = {
         "schema": "openc.self_host_stage_result.v1",
-        "stage": "SH-3B_NAME_CONSTANT_OVERLOAD_PARITY",
+        "stage": "SH-3_SEMANTIC_AND_IR_PARITY",
         "status": "PASS",
         "stage0": str(stage0),
         "source": "compiler/selfhost/source/main.p",
@@ -109,6 +129,10 @@ def main() -> int:
         "semantic_resolution_parity_result": str(
             output / "semantic-resolution-parity-result.json"
         ),
+        "semantic_flow_safety_parity_result": str(
+            output / "semantic-flow-safety-parity-result.json"
+        ),
+        "semantic_ir_parity_result": str(output / "semantic-ir-parity-result.json"),
         "claims": {
             "compiler_source_written_in_openc": True,
             "stage0_builds_stage1": True,
@@ -129,6 +153,9 @@ def main() -> int:
             "stage1_owned_semantic_type_storage": True,
             "stage1_declaration_symbol_type_parity": True,
             "stage1_name_constant_overload_parity": True,
+            "stage1_flow_safety_parity": True,
+            "stage1_semantic_outcome_parity": True,
+            "stage1_canonical_ir_parity": True,
             "canonical_sources_compared": parser_parity["canonical_sources"],
             "focused_lexer_probes": lexer_parity["focused_probes"],
             "focused_parser_probes": parser_parity["focused_probes"],
@@ -144,6 +171,14 @@ def main() -> int:
             "semantic_bindings_matched": semantic_resolution_parity["observed_records"]["bindings"],
             "semantic_constants_matched": semantic_resolution_parity["observed_records"]["constants"],
             "semantic_calls_matched": semantic_resolution_parity["observed_records"]["calls"],
+            "semantic_flow_comparisons": semantic_flow_safety_parity["semantic_comparisons"],
+            "semantic_flow_rules_observed": len(
+                semantic_flow_safety_parity["flow_safety_rules_observed"]
+            ),
+            "semantic_ir_comparisons": semantic_ir_parity["ir_comparisons"],
+            "semantic_rejections_matched": semantic_ir_parity["semantic_rejections"],
+            "semantic_ir_instructions_matched": semantic_ir_parity["observed_records"]["instructions"],
+            "semantic_ir_opcodes_matched": len(semantic_ir_parity["observed_records"]["opcodes"]),
             "stage1_compiles_openc": False,
             "self_hosted": False,
             "dmd_independent": False,
@@ -153,13 +188,16 @@ def main() -> int:
         json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     print(
-        "self-host name/constant/overload parity: PASS; "
+        "self-host semantic and canonical IR parity: PASS; "
         f"canonical={parser_parity['canonical_sources']} "
         f"lexer_probes={lexer_parity['focused_probes']} "
         f"parser_probes={parser_parity['focused_probes']} "
         f"projects={project_parity['comparisons']} "
         f"semantic_projects={semantic_declaration_parity['comparisons']} "
         f"resolution_projects={semantic_resolution_parity['comparisons']} "
+        f"flow={semantic_flow_safety_parity['semantic_comparisons']} "
+        f"ir={semantic_ir_parity['ir_comparisons']} "
+        f"rejected={semantic_ir_parity['semantic_rejections']} "
         f"artifact={stage1}"
     )
     return 0

@@ -1,5 +1,20 @@
 # OpenC development changelog
 
+## Unreleased — complete semantic and canonical IR parity
+
+- added stage-0 and OpenC-owned SH-3C flow/safety observation paths covering
+  CFG structure, cleanup order, status/out, ownership, borrowing, pointer, and
+  unsafe diagnostics; 232 semantic comparisons match exactly, alongside 34
+  frontend cases already covered by SH-2;
+- added OpenC-owned semantic acceptance and deterministic canonical JSON IR
+  lowering for all 33 reachable opcodes;
+- matched all 149 frontend/semantic rejection outcomes and exact IR for 117
+  accepted programs, covering 183 functions, 275 blocks, and 1,489
+  instructions across the complete authored source-fixture corpus and three
+  maintained projects;
+- integrated SH-3C/SH-3D into the bootstrap evidence command, completed SH-3,
+  and made SH-4A bootstrap D-source backend parity the next milestone.
+
 ## 1.0.0-rc.8 — exact name, constant, and overload resolution parity
 
 - added a deterministic stage-0 semantic resolution observation protocol for

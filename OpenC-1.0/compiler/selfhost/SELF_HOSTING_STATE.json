@@ -109,16 +109,49 @@
       "owned_resolution_storage": true
     },
     {
+      "id": "SH-3C",
+      "name": "exact_flow_safety_parity",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap.py",
+      "evidence": "build-output/selfhost/semantic-flow-safety-parity-result.json",
+      "protocol": "OPENC-SEMANTIC-FLOW-SAFETY-OBSERVATION 1",
+      "maintained_projects": 3,
+      "authored_source_fixtures": 263,
+      "semantic_comparisons": 232,
+      "frontend_cases_covered_by_sh2": 34,
+      "observed_functions": 313,
+      "observed_blocks": 733,
+      "observed_edges": 464,
+      "observed_cleanups": 34,
+      "observed_rules": 19
+    },
+    {
+      "id": "SH-3D",
+      "name": "exact_semantic_outcome_and_canonical_ir_parity",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap.py",
+      "evidence": "build-output/selfhost/semantic-ir-parity-result.json",
+      "protocol": "OPENC-SEMANTIC-IR-OBSERVATION 1",
+      "maintained_projects": 3,
+      "authored_source_fixtures": 263,
+      "ir_comparisons": 117,
+      "semantic_rejections": 149,
+      "observed_functions": 183,
+      "observed_blocks": 275,
+      "observed_instructions": 1489,
+      "reachable_opcodes": 33
+    },
+    {
       "id": "SH-3",
       "name": "semantic_and_ir_parity",
-      "status": "PENDING",
-      "completed_subgates": ["SH-3A", "SH-3B"],
-      "next_subgate": "SH-3C_FLOW_SAFETY_PARITY"
+      "status": "PASS",
+      "completed_subgates": ["SH-3A", "SH-3B", "SH-3C", "SH-3D"]
     },
     {
       "id": "SH-4",
       "name": "bootstrap_self_compilation",
-      "status": "PENDING"
+      "status": "PENDING",
+      "next_subgate": "SH-4A_BOOTSTRAP_D_SOURCE_BACKEND_PARITY"
     },
     {
       "id": "SH-5",
@@ -147,7 +180,10 @@
     "stage1_owned_semantic_storage": true,
     "stage1_exact_name_constant_overload_resolution_parity": true,
     "stage1_owned_resolution_storage": true,
-    "semantic_ir_parity": false,
+    "stage1_exact_flow_safety_parity": true,
+    "stage1_exact_semantic_outcome_parity": true,
+    "stage1_exact_canonical_ir_parity": true,
+    "semantic_ir_parity": true,
     "self_hosted": false,
     "dmd_independent": false,
     "standalone": false

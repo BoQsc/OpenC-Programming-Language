@@ -5,7 +5,7 @@
   "profile": "standard",
   "target": "windows-x86_64",
   "modules": {
-    "openc.selfhost.main": ["source/main.p", "source/parser.p", "source/project.p", "source/semantic.p", "source/resolution.p"]
+    "openc.selfhost.main": ["source/main.p", "source/parser.p", "source/project.p", "source/semantic.p", "source/resolution.p", "source/flow.p", "source/ir.p", "source/acceptance.p"]
   },
   "standard_library_directory": "../../standard_library",
   "runtime_directory": "../../runtime",

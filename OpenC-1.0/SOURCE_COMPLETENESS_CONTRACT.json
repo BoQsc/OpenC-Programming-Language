@@ -33,7 +33,7 @@
       "id": "compiler.backend"
     },
     {
-      "description": "executable compiler-in-OpenC frontend and declaration/type semantics, exact parity harnesses, and bootstrap gates",
+      "description": "executable compiler-in-OpenC frontend, complete semantic acceptance, canonical IR, exact parity harnesses, and bootstrap gates",
       "groups": [
         "compiler_selfhost"
       ],
@@ -154,6 +154,8 @@
       "compiler/source/openc/project.d",
       "compiler/source/openc/project_observation.d",
       "compiler/source/openc/semantic_declaration_observation.d",
+      "compiler/source/openc/semantic_flow_safety_observation.d",
+      "compiler/source/openc/semantic_ir_observation.d",
       "compiler/source/openc/semantic_resolution_observation.d",
       "compiler/source/openc/semantic_model.d",
       "compiler/source/openc/semantic_pipeline.d",
@@ -198,7 +200,12 @@
       "compiler/selfhost/parser_parity.py",
       "compiler/selfhost/project_parity.py",
       "compiler/selfhost/semantic_declaration_parity.py",
+      "compiler/selfhost/semantic_flow_safety_parity.py",
+      "compiler/selfhost/semantic_ir_parity.py",
       "compiler/selfhost/semantic_resolution_parity.py",
+      "compiler/selfhost/source/acceptance.p",
+      "compiler/selfhost/source/flow.p",
+      "compiler/selfhost/source/ir.p",
       "compiler/selfhost/source/main.p",
       "compiler/selfhost/source/parser.p",
       "compiler/selfhost/source/project.p",

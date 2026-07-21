@@ -1043,12 +1043,14 @@ unsafe NodeResult parse_logical_or(ref ParserContext context) {
 unsafe NodeResult parse_assignment(ref ParserContext context) {
     NodeResult left = parse_logical_or(context);
     if parser_is_assignment_operator(context) {
-        advance_token(context);
+        usize operator = advance_token(context);
         NodeResult right = parse_assignment(context);
-        return make_node(
+        NodeResult assignment = make_node(
             context, 37, left.start,
             combined_length(left.start, right.start, right.length)
         );
+        set_node_name(context, assignment, operator);
+        return assignment;
     }
     return left;
 }
@@ -1163,11 +1165,12 @@ unsafe NodeResult parse_status_initializer(ref ParserContext context) {
                 !token_matches(context, field, "message") {
                 parser_error(context, 14, field);
             }
-            parser_expect(context, "=", 22);
-            make_node(
+            NodeResult status_field = make_node(
                 context, 49,
                 token_start(context, field), token_length(context, field)
             );
+            set_node_name(context, status_field, field);
+            parser_expect(context, "=", 22);
             parse_expression(context);
             more = parser_match(context, ",") && !parser_check(context, "}");
         }
@@ -1198,13 +1201,14 @@ unsafe NodeResult parse_aggregate_initializer(
             NodeResult value = no_node();
             if owns { value = parse_qualified_name(context); }
             else { value = parse_expression(context); }
-            make_node(
+            NodeResult aggregate_field = make_node(
                 context, 49,
                 token_start(context, field),
                 combined_length(
                     token_start(context, field), value.start, value.length
                 )
             );
+            set_node_name(context, aggregate_field, field);
             more = parser_match(context, ",") && !parser_check(context, "}");
         }
     }
@@ -1345,36 +1349,43 @@ unsafe NodeResult parse_postfix(ref ParserContext context) {
             expression = call;
         } else if parser_match(context, ".") {
             usize member = parser_expect_identifier(context, 21);
-            expression = make_node(
+            NodeResult member_expression = make_node(
                 context, 39, expression.start,
                 combined_length(
                     expression.start,
                     token_start(context, member), token_length(context, member)
                 )
             );
+            set_node_name(context, member_expression, member);
+            expression = member_expression;
         } else if parser_match(context, "[") {
+            usize bracket = previous_token(context);
             if !parser_check(context, "..") && !parser_check(context, "]") {
                 parse_expression(context);
             }
             if parser_match(context, "..") {
                 if !parser_check(context, "]") { parse_expression(context); }
                 usize end = parser_expect(context, "]", 16);
-                expression = make_node(
+                NodeResult range_expression = make_node(
                     context, 41, expression.start,
                     combined_length(
                         expression.start,
                         token_start(context, end), token_length(context, end)
                     )
                 );
+                set_node_name(context, range_expression, bracket);
+                expression = range_expression;
             } else {
                 usize end = parser_expect(context, "]", 16);
-                expression = make_node(
+                NodeResult index_expression = make_node(
                     context, 40, expression.start,
                     combined_length(
                         expression.start,
                         token_start(context, end), token_length(context, end)
                     )
                 );
+                set_node_name(context, index_expression, bracket);
+                expression = index_expression;
             }
         } else {
             scanning = false;
