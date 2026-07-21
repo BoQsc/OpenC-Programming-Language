@@ -124,6 +124,10 @@ if any(self_host_gates.get(gate) != "PASS" for gate in
     errors.append("self-hosting source-convention and SH-1 through SH-2 frontend gates must pass")
 if self_hosting.get("claims", {}).get("full_frontend_parity") != (self_host_gates.get("SH-2") == "PASS"):
     errors.append("full_frontend_parity claim must match the SH-2 gate")
+if self_host_gates.get("SH-3A") != "PASS":
+    errors.append("self-hosting declaration/symbol/type-table SH-3A gate must pass")
+if not self_hosting.get("claims", {}).get("stage1_exact_declaration_symbol_type_table_parity"):
+    errors.append("self-hosting state must record exact SH-3A parity")
 if self_hosting.get("claims", {}).get("self_hosted") or self_hosting.get("claims", {}).get("dmd_independent"):
     errors.append("self-hosting state must not overclaim pending bootstrap/native-backend gates")
 

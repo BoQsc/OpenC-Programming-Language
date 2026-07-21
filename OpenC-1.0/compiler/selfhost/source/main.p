@@ -803,26 +803,32 @@ unsafe void lex_source(
 unsafe i32 main() {
     usize arguments = process.argument_count();
     if arguments != 1 && arguments != 2 {
-        io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json]\n");
+        io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json]\n");
         return 64;
     }
 
     bool parse_mode = false;
     bool project_mode = false;
+    bool semantic_declaration_mode = false;
     text path = process.argument(0);
     if arguments == 2 {
         if process.argument(0) == "--parse" {
             parse_mode = true;
         } else if process.argument(0) == "--project" {
             project_mode = true;
+        } else if process.argument(0) == "--semantic-decl" {
+            semantic_declaration_mode = true;
         } else {
-            io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json]\n");
+            io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json]\n");
             return 64;
         }
         path = process.argument(1);
     }
     if project_mode {
         return observe_project(path);
+    }
+    if semantic_declaration_mode {
+        return observe_semantic_declarations(path);
     }
     text source;
     status loaded = file.read_text(path, out source);

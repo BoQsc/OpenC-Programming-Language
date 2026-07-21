@@ -25,9 +25,9 @@
       "status": "PASS",
       "command": "python compiler/selfhost/bootstrap.py",
       "evidence": "build-output/selfhost/lexer-parity-result.json",
-      "canonical_sources": 286,
+      "canonical_sources": 287,
       "focused_probes": 16,
-      "comparisons": 302,
+      "comparisons": 303,
       "diagnostic_rules": 12
     },
     {
@@ -41,7 +41,7 @@
       "owned_token_storage": true,
       "owned_diagnostic_storage": true,
       "byte_accurate_source_positions": true,
-      "comparisons": 302
+      "comparisons": 303
     },
     {
       "id": "SH-2C",
@@ -51,9 +51,9 @@
       "evidence": "build-output/selfhost/parser-parity-result.json",
       "protocol": "OPENC-PARSE-OBSERVATION 1",
       "owned_syntax_storage": true,
-      "canonical_sources": 286,
+      "canonical_sources": 287,
       "focused_probes": 15,
-      "comparisons": 301,
+      "comparisons": 302,
       "syntax_node_kinds": 52,
       "reachable_parser_rules": 15
     },
@@ -79,9 +79,25 @@
       "scope": "lexical_syntax_and_project_module_frontend"
     },
     {
+      "id": "SH-3A",
+      "name": "exact_declaration_symbol_type_table_parity",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap.py",
+      "evidence": "build-output/selfhost/semantic-declaration-parity-result.json",
+      "protocol": "OPENC-SEMANTIC-DECL-OBSERVATION 1",
+      "canonical_projects": 1,
+      "focused_probes": 16,
+      "comparisons": 17,
+      "observed_declarations": 213,
+      "observed_type_records": 376,
+      "owned_semantic_storage": true
+    },
+    {
       "id": "SH-3",
       "name": "semantic_and_ir_parity",
-      "status": "PENDING"
+      "status": "PENDING",
+      "completed_subgates": ["SH-3A"],
+      "next_subgate": "SH-3B_NAME_CONSTANT_OVERLOAD_RESOLUTION"
     },
     {
       "id": "SH-4",
@@ -111,6 +127,8 @@
     "stage1_project_loading": true,
     "stage1_multi_source_composition": true,
     "full_frontend_parity": true,
+    "stage1_exact_declaration_symbol_type_table_parity": true,
+    "stage1_owned_semantic_storage": true,
     "semantic_ir_parity": false,
     "self_hosted": false,
     "dmd_independent": false,

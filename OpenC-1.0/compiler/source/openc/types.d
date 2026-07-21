@@ -94,6 +94,7 @@ public:
 
     OpenCTypeInfo get(TypeId id) { return types[id]; }
     const(OpenCTypeInfo) get(TypeId id) const { return types[id]; }
+    size_t length() const { return types.length; }
     TypeId find(string name) const {
         auto found = name in canonical;
         return found is null ? errorType : *found;

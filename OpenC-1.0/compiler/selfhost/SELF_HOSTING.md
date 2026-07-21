@@ -38,8 +38,8 @@ This is not a self-hosting claim: the seed does not yet compile source.
 - Stage 0 and stage 1 match process outcome, token kind and byte span,
   diagnostic rule and byte span, source line and byte column, and token/error
   totals.
-- The parity harness covers all 286 canonical `.p` sources plus 16 focused
-  probes: 302 of 302 comparisons pass and all 12 source/lexical diagnostic
+- The parity harness covers all 287 canonical `.p` sources plus 16 focused
+  probes: 303 of 303 comparisons pass and all 12 source/lexical diagnostic
   rules are observed. The focused set includes CRLF and lone-CR positions.
 - Evidence is produced by `python compiler/selfhost/bootstrap.py` and recorded
   in `build-output/selfhost/lexer-parity-result.json`.
@@ -54,7 +54,7 @@ Status: **PASS**
 - Every stored token and diagnostic carries a byte offset, byte length,
   one-based line, and one-based byte column.
 - Observation protocol 2 compares all stored fields against stage 0 across
-  the complete 302-case SH-2A corpus.
+  the complete 303-case SH-2A corpus.
 
 Status: **PASS**
 
@@ -67,8 +67,8 @@ Status: **PASS**
 - Parser observation protocol 1 compares process outcome, syntax-node creation
   order, all 52 parser-produced node kinds and final byte spans, diagnostic
   rule/span/position, node totals, and error totals.
-- All 286 canonical `.p` sources plus 15 focused parser probes match exactly:
-  301 of 301 comparisons pass and all 15 reachable parser/recovery diagnostic
+- All 287 canonical `.p` sources plus 15 focused parser probes match exactly:
+  302 of 302 comparisons pass and all 15 reachable parser/recovery diagnostic
   rules are observed.
 
 Status: **PASS**
@@ -102,6 +102,23 @@ Status: **PASS**
 This gate does not include types, name resolution beyond module composition,
 ownership, flow, lowering, or IR; those are explicitly SH-3.
 
+### SH-3A — declaration, symbol, and type-table parity
+
+- Stage 1 predeclares aggregate/resource/enum types, interns built-in, named,
+  qualified, const, view, slice, and fixed-array types, and records top-level
+  functions, aggregates, enum items, module constants, fields, parameter
+  modes, visibility, resource state, and source spans in OpenC-owned storage.
+- Semantic declaration observation protocol 1 compares exact declaration and
+  member order, symbol attributes, canonical type IDs and structure, and
+  declaration-layer duplicate diagnostics.
+- The canonical compiler-in-OpenC project plus 16 focused multi-source and
+  multi-module projects match exactly: 17 of 17 comparisons pass, observing
+  213 declarations and 376 complete type-table records.
+- Evidence is produced by `python compiler/selfhost/bootstrap.py` and recorded
+  in `build-output/selfhost/semantic-declaration-parity-result.json`.
+
+Status: **PASS**
+
 ### SH-3 — semantic and IR parity
 
 - Port types, constants, overloads, flow, status/out, ownership, borrowing,
@@ -110,6 +127,9 @@ ownership, flow, lowering, or IR; those are explicitly SH-3.
 - Require semantic and IR parity across the complete authored fixture set.
 
 Status: **PENDING**
+
+SH-3A is complete. SH-3B name, constant, and overload resolution is the next
+subgate, followed by SH-3C flow/safety parity and SH-3D canonical IR lowering.
 
 ### SH-4 — bootstrap self-compilation
 
@@ -141,8 +161,8 @@ Status: **PENDING**
 
 ## Required enabling libraries
 
-The compiler-in-OpenC implementation next needs SH-3 semantic tables, name and
-type resolution, constants, overloads, flow, ownership/borrowing, cleanup,
+The compiler-in-OpenC implementation next needs SH-3B name and type use
+resolution, constants, and overloads; then flow, ownership/borrowing, cleanup,
 unsafe checking, and canonical IR lowering. Later stages need stable string
 tables/maps, JSON writing, process invocation, self-compilation, and Windows
 object/link support. These may be specialized compiler libraries; generics are

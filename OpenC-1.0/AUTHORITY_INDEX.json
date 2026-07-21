@@ -3,7 +3,7 @@
     {
       "bytes": 175409,
       "path": "standard/core/OpenC_Core_Current.md",
-      "sha256": "0c46395de46c0c71d75f0b57fc3a663a6c2e958f7f13f73bc97fbba298562f71"
+      "sha256": "c36fbd3099a6d8447fbce7a0d1da64033d4f335ece5bfc606ed8c465ae3e4251"
     },
     {
       "bytes": 14814,
@@ -110,5 +110,5 @@
     }
   ],
   "schema": "openc.authority_index.v2",
-  "version": "1.0.0-rc.6"
+  "version": "1.0.0-rc.7"
 }

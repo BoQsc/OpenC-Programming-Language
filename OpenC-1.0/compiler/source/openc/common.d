@@ -68,7 +68,7 @@ struct TargetContext {
 
 struct CompilerVersion {
     string languageVersion = "1.0";
-    string implementationVersion = "1.0.0-rc.6";
+    string implementationVersion = "1.0.0-rc.7";
     string implementationName = "OpenC reference compiler";
 
     JSONValue toJson() const {

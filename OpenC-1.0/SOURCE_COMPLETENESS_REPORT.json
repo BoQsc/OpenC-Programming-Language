@@ -3,10 +3,10 @@
   "empty": [],
   "evidence_state": "STRUCTURAL_SOURCE_CHECK_ONLY",
   "missing": [],
-  "required_files": 173,
+  "required_files": 176,
   "required_non_source_files": 27,
-  "required_source_files": 146,
+  "required_source_files": 149,
   "schema": "openc.source_completeness_result.v2",
   "source_complete_by_inventory": true,
-  "version": "1.0.0-rc.6"
+  "version": "1.0.0-rc.7"
 }

@@ -1,5 +1,24 @@
 # OpenC development changelog
 
+## 1.0.0-rc.7 — exact declaration, symbol, and type-table parity
+
+- added a deterministic stage-0 semantic declaration observation protocol for
+  module/source order, top-level symbols, aggregate and enum members, function
+  signatures, visibility, ownership flags, source spans, interned canonical
+  types, and declaration-layer duplicate diagnostics;
+- added OpenC-owned declaration, symbol, diagnostic, and canonical type tables
+  supporting built-ins, named/qualified/resource types, const qualification,
+  references, pointers, optionals, storage, slices, and fixed arrays;
+- matched the canonical compiler-in-OpenC project plus 16 focused semantic
+  projects exactly (17/17), observing 213 declarations and 376 type-table
+  records across overload, multi-source, multi-module, ownership, and
+  diagnostic cases;
+- retained exact lexer parity across 287 canonical sources plus 16 probes
+  (303/303), parser parity plus 15 probes (302/302), and project/module parity
+  across 22/22 comparisons;
+- promoted SH-3A and made SH-3B name, constant, and overload resolution parity
+  the explicit next milestone.
+
 ## 1.0.0-rc.6 — exact project/module frontend parity
 
 - added a deterministic stage-0 project observation protocol over sorted

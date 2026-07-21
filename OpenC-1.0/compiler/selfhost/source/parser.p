@@ -171,6 +171,15 @@ unsafe void set_node_span(
     write_record_field(context.syntax_data, node.record, 2, length);
 }
 
+unsafe void set_node_name(
+    ref ParserContext context,
+    ref NodeResult node,
+    usize token
+) {
+    write_record_field(context.syntax_data, node.record, 3, token_start(context, token));
+    write_record_field(context.syntax_data, node.record, 4, token_length(context, token));
+}
+
 usize combined_length(usize first_start, usize last_start, usize last_length) {
     usize finish = last_start + last_length;
     if finish >= first_start {
@@ -365,12 +374,14 @@ unsafe NodeResult parse_field_declaration(
         parse_constant_expression(context);
     }
     usize end = parser_expect(context, ";", 25);
-    return make_node(
+    NodeResult node = make_node(
         context,
         9,
         start,
         combined_length(start, token_start(context, end), token_length(context, end))
     );
+    set_node_name(context, node, name);
+    return node;
 }
 
 unsafe NodeResult parse_aggregate_declaration(
@@ -378,7 +389,7 @@ unsafe NodeResult parse_aggregate_declaration(
     usize kind,
     usize begin
 ) {
-    parser_expect_identifier(context, 21);
+    usize name = parser_expect_identifier(context, 21);
     parser_expect(context, "{", 15);
     NodeResult node = make_node(
         context,
@@ -386,6 +397,7 @@ unsafe NodeResult parse_aggregate_declaration(
         token_start(context, begin),
         token_length(context, begin)
     );
+    set_node_name(context, node, name);
     while !parser_at_end(context) && !parser_check(context, "}") {
         usize before = context.cursor;
         parse_field_declaration(context, kind == 4);
@@ -410,7 +422,7 @@ unsafe NodeResult parse_enum_declaration(
         token_kind(context, peek_token(context, 1)) == 1 {
         advance_token(context);
     }
-    parser_expect_identifier(context, 21);
+    usize name = parser_expect_identifier(context, 21);
     parser_expect(context, "{", 15);
     NodeResult node = make_node(
         context,
@@ -418,14 +430,16 @@ unsafe NodeResult parse_enum_declaration(
         token_start(context, begin),
         token_length(context, begin)
     );
+    set_node_name(context, node, name);
     if !parser_check(context, "}") {
         bool more = true;
         while more {
             usize item = parser_expect_identifier(context, 21);
-            make_node(
+            NodeResult item_node = make_node(
                 context, 6,
                 token_start(context, item), token_length(context, item)
             );
+            set_node_name(context, item_node, item);
             if parser_match(context, "=") {
                 parse_constant_expression(context);
             }
@@ -469,11 +483,11 @@ unsafe NodeResult parse_when_declaration(
 unsafe NodeResult parse_module_constant(ref ParserContext context) {
     usize begin = parser_expect(context, "const", 18);
     parse_type(context);
-    parser_expect_identifier(context, 21);
+    usize name = parser_expect_identifier(context, 21);
     parser_expect(context, "=", 22);
     parse_constant_expression(context);
     usize end = parser_expect(context, ";", 25);
-    return make_node(
+    NodeResult node = make_node(
         context, 7,
         token_start(context, begin),
         combined_length(
@@ -481,6 +495,8 @@ unsafe NodeResult parse_module_constant(ref ParserContext context) {
             token_start(context, end), token_length(context, end)
         )
     );
+    set_node_name(context, node, name);
+    return node;
 }
 
 unsafe NodeResult parse_parameter(ref ParserContext context) {
@@ -492,10 +508,12 @@ unsafe NodeResult parse_parameter(ref ParserContext context) {
     }
     parse_type(context);
     usize name = parser_expect_identifier(context, 21);
-    return make_node(
+    NodeResult node = make_node(
         context, 10, start,
         combined_length(start, token_start(context, name), token_length(context, name))
     );
+    set_node_name(context, node, name);
+    return node;
 }
 
 unsafe NodeResult parse_function_declaration(ref ParserContext context) {
@@ -512,11 +530,12 @@ unsafe NodeResult parse_function_declaration(ref ParserContext context) {
     } else {
         parse_type(context);
     }
-    parser_expect_identifier(context, 20);
+    usize name = parser_expect_identifier(context, 20);
     parser_expect(context, "(", 23);
     NodeResult node = make_node(
         context, 2, start, token_length(context, start_token)
     );
+    set_node_name(context, node, name);
     if !parser_check(context, ")") {
         bool more = true;
         while more {
