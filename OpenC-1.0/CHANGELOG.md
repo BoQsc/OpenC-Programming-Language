@@ -1,5 +1,24 @@
 # OpenC development changelog
 
+## 1.0.0-rc.8 — exact name, constant, and overload resolution parity
+
+- added a deterministic stage-0 semantic resolution observation protocol for
+  name-use bindings, target symbol identities and spans, resolved types,
+  constant domains and values, selected overloads, call results, and exact
+  resolution diagnostics;
+- added OpenC-owned lexical/module binding, function-signature, constant
+  evaluation, and deterministic overload-selection state in canonical `.p`
+  source;
+- matched the maintained computation project plus 9 focused semantic projects
+  exactly (10/10), observing 32 bindings, 10 constant results, 4 selected
+  calls, and exact unknown-name, call-no-match, call-ambiguity, and
+  divide-by-zero diagnostics;
+- retained exact declaration/type parity across 17/17 projects, now observing
+  264 declarations and 385 type records, lexer parity across 288 canonical
+  sources plus 16 probes (304/304), parser parity plus 15 probes (303/303), and
+  project/module parity across 22/22 comparisons;
+- promoted SH-3B and made SH-3C flow/safety parity the explicit next milestone.
+
 ## 1.0.0-rc.7 — exact declaration, symbol, and type-table parity
 
 - added a deterministic stage-0 semantic declaration observation protocol for

@@ -803,13 +803,14 @@ unsafe void lex_source(
 unsafe i32 main() {
     usize arguments = process.argument_count();
     if arguments != 1 && arguments != 2 {
-        io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json]\n");
+        io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json]\n");
         return 64;
     }
 
     bool parse_mode = false;
     bool project_mode = false;
     bool semantic_declaration_mode = false;
+    bool semantic_resolution_mode = false;
     text path = process.argument(0);
     if arguments == 2 {
         if process.argument(0) == "--parse" {
@@ -818,8 +819,10 @@ unsafe i32 main() {
             project_mode = true;
         } else if process.argument(0) == "--semantic-decl" {
             semantic_declaration_mode = true;
+        } else if process.argument(0) == "--semantic-resolve" {
+            semantic_resolution_mode = true;
         } else {
-            io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json]\n");
+            io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json]\n");
             return 64;
         }
         path = process.argument(1);
@@ -829,6 +832,9 @@ unsafe i32 main() {
     }
     if semantic_declaration_mode {
         return observe_semantic_declarations(path);
+    }
+    if semantic_resolution_mode {
+        return observe_semantic_resolution(path);
     }
     text source;
     status loaded = file.read_text(path, out source);

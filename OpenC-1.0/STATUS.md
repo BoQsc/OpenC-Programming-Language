@@ -1,7 +1,7 @@
 # OpenC canonical mainline status
 
 ```text
-version:                            1.0.0-rc.7
+version:                            1.0.0-rc.8
 canonical development tree:         YES
 release scope:                      WINDOWS X86-64 HOSTED
 
@@ -11,14 +11,15 @@ Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
 canonical D compiler source:         SOURCE-COMPLETE; BUILT AND TESTED
 informative Python bootstrap source: SOURCE-COMPLETE; TESTED
-official OpenC source extension:      .p; 281 MIGRATED, 287 TOTAL `.p` SOURCES
-compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 303/303 EXACT PARITY
-compiler-in-OpenC parser:             SH-2C PASS; 302/302 EXACT PARITY
+official OpenC source extension:      .p; 281 MIGRATED, 288 TOTAL `.p` SOURCES
+compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
+compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
 full syntactic/project frontend:      SH-2 PASS
 declaration/symbol/type tables:       SH-3A PASS; 17/17 EXACT PARITY
-self-hosting next milestone:          SH-3B NAME/CONSTANT/OVERLOAD RESOLUTION
-self-hosted compiler:                 NO; SH-3B THROUGH SH-4 PENDING
+name/constant/overload resolution:    SH-3B PASS; 10/10 EXACT PARITY
+self-hosting next milestone:          SH-3C FLOW/SAFETY PARITY
+self-hosted compiler:                 NO; SH-3C THROUGH SH-4 PENDING
 DMD-independent standalone compiler: NO; SH-5 THROUGH SH-6 PENDING
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED
 first-party tool source:             SOURCE-COMPLETE; BUILT AND TESTED

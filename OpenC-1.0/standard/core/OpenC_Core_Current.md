@@ -1,6 +1,6 @@
 # OpenC Core — 1.0 Release-Candidate Standard
 
-- Release-candidate version: `1.0.0-rc.7`
+- Release-candidate version: `1.0.0-rc.8`
 - Authority state: **owner-ratified release-candidate baseline; not published**
 - Source lineage: OpenC Core Candidate 2, Correction 001, and Implementation Readiness Revision 1
 - Active normative rules: 466

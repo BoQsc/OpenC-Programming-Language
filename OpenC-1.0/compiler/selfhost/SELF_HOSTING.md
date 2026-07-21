@@ -38,8 +38,8 @@ This is not a self-hosting claim: the seed does not yet compile source.
 - Stage 0 and stage 1 match process outcome, token kind and byte span,
   diagnostic rule and byte span, source line and byte column, and token/error
   totals.
-- The parity harness covers all 287 canonical `.p` sources plus 16 focused
-  probes: 303 of 303 comparisons pass and all 12 source/lexical diagnostic
+- The parity harness covers all 288 canonical `.p` sources plus 16 focused
+  probes: 304 of 304 comparisons pass and all 12 source/lexical diagnostic
   rules are observed. The focused set includes CRLF and lone-CR positions.
 - Evidence is produced by `python compiler/selfhost/bootstrap.py` and recorded
   in `build-output/selfhost/lexer-parity-result.json`.
@@ -54,7 +54,7 @@ Status: **PASS**
 - Every stored token and diagnostic carries a byte offset, byte length,
   one-based line, and one-based byte column.
 - Observation protocol 2 compares all stored fields against stage 0 across
-  the complete 303-case SH-2A corpus.
+  the complete 304-case SH-2A corpus.
 
 Status: **PASS**
 
@@ -67,8 +67,8 @@ Status: **PASS**
 - Parser observation protocol 1 compares process outcome, syntax-node creation
   order, all 52 parser-produced node kinds and final byte spans, diagnostic
   rule/span/position, node totals, and error totals.
-- All 287 canonical `.p` sources plus 15 focused parser probes match exactly:
-  302 of 302 comparisons pass and all 15 reachable parser/recovery diagnostic
+- All 288 canonical `.p` sources plus 15 focused parser probes match exactly:
+  303 of 303 comparisons pass and all 15 reachable parser/recovery diagnostic
   rules are observed.
 
 Status: **PASS**
@@ -113,13 +113,29 @@ ownership, flow, lowering, or IR; those are explicitly SH-3.
   declaration-layer duplicate diagnostics.
 - The canonical compiler-in-OpenC project plus 16 focused multi-source and
   multi-module projects match exactly: 17 of 17 comparisons pass, observing
-  213 declarations and 376 complete type-table records.
+  264 declarations and 385 complete type-table records.
 - Evidence is produced by `python compiler/selfhost/bootstrap.py` and recorded
   in `build-output/selfhost/semantic-declaration-parity-result.json`.
 
 Status: **PASS**
 
 ### SH-3 — semantic and IR parity
+
+Before the full gate, SH-3B establishes the resolution layer:
+
+- Stage 1 owns lexical and module binding tables, local/parameter/field/enum
+  target selection, constant-domain results, function signatures, and
+  deterministic overload ranking.
+- Semantic resolution observation protocol 1 compares exact use and target
+  spans, symbol identities, resolved types, constant domains/values, selected
+  overloads, call results, and resolution diagnostics.
+- The maintained computation project plus 9 focused projects match exactly:
+  10 of 10 comparisons pass, observing 32 bindings, 10 constants, 4 selected
+  calls, and exact unknown-name, no-match, ambiguity, and divide-by-zero rules.
+- Evidence is recorded in
+  `build-output/selfhost/semantic-resolution-parity-result.json`.
+
+SH-3B status: **PASS**
 
 - Port types, constants, overloads, flow, status/out, ownership, borrowing,
   cleanup, unsafe checking, and lowering.
@@ -128,8 +144,8 @@ Status: **PASS**
 
 Status: **PENDING**
 
-SH-3A is complete. SH-3B name, constant, and overload resolution is the next
-subgate, followed by SH-3C flow/safety parity and SH-3D canonical IR lowering.
+SH-3A and SH-3B are complete. SH-3C flow/safety parity is the next subgate,
+followed by SH-3D canonical IR lowering.
 
 ### SH-4 — bootstrap self-compilation
 
@@ -161,9 +177,9 @@ Status: **PENDING**
 
 ## Required enabling libraries
 
-The compiler-in-OpenC implementation next needs SH-3B name and type use
-resolution, constants, and overloads; then flow, ownership/borrowing, cleanup,
-unsafe checking, and canonical IR lowering. Later stages need stable string
+The compiler-in-OpenC implementation next needs SH-3C flow,
+ownership/borrowing, cleanup, status/out, pointer, and unsafe checking, then
+SH-3D canonical IR lowering. Later stages need stable string
 tables/maps, JSON writing, process invocation, self-compilation, and Windows
 object/link support. These may be specialized compiler libraries; generics are
 not required to begin.

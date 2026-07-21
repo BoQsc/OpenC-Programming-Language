@@ -681,15 +681,17 @@ unsafe bool parser_looks_like_local(ref ParserContext context) {
 unsafe NodeResult parse_local_declaration(ref ParserContext context) {
     usize start = token_start(context, current_token(context));
     parse_type(context);
-    parser_expect_identifier(context, 21);
+    usize name = parser_expect_identifier(context, 21);
     if parser_match(context, "=") {
         parse_expression(context);
     }
     usize end = parser_expect(context, ";", 25);
-    return make_node(
+    NodeResult node = make_node(
         context, 12, start,
         combined_length(start, token_start(context, end), token_length(context, end))
     );
+    set_node_name(context, node, name);
+    return node;
 }
 
 unsafe NodeResult parse_block(ref ParserContext context) {
@@ -776,12 +778,13 @@ unsafe NodeResult parse_for_statement(
                 parse_expression(context);
                 last = previous_token(context);
             }
-            make_node(
+            NodeResult local = make_node(
                 context, 12, start,
                 combined_length(
                     start, token_start(context, last), token_length(context, last)
                 )
             );
+            set_node_name(context, local, name);
         } else {
             parse_expression(context);
         }
@@ -1021,12 +1024,14 @@ unsafe NodeResult parse_binary_level(
     }
     expression = parse_binary_level(context, level - 1);
     while parser_binary_operator(context, level) {
-        advance_token(context);
+        usize operator = advance_token(context);
         NodeResult right = parse_binary_level(context, level - 1);
-        expression = make_node(
+        NodeResult combined = make_node(
             context, 36, expression.start,
             combined_length(expression.start, right.start, right.length)
         );
+        set_node_name(context, combined, operator);
+        expression = combined;
     }
     return expression;
 }
@@ -1313,6 +1318,8 @@ unsafe NodeResult parse_postfix(ref ParserContext context) {
             NodeResult call = make_node(
                 context, 38, expression.start, expression.length
             );
+            write_record_field(context.syntax_data, call.record, 3, expression.record);
+            usize argument_count = 0;
             if !parser_check(context, ")") {
                 bool more = true;
                 while more {
@@ -1325,9 +1332,11 @@ unsafe NodeResult parse_postfix(ref ParserContext context) {
                     } else {
                         parse_expression(context);
                     }
+                    argument_count = argument_count + 1;
                     more = parser_match(context, ",");
                 }
             }
+            write_record_field(context.syntax_data, call.record, 4, argument_count);
             usize end = parser_expect(context, ")", 23);
             set_node_combined(
                 context, call, expression.start,
@@ -1378,13 +1387,15 @@ unsafe NodeResult parse_unary(ref ParserContext context) {
     if parser_is_unary_operator(context) {
         usize begin = advance_token(context);
         NodeResult value = parse_unary(context);
-        return make_node(
+        NodeResult node = make_node(
             context, 35,
             token_start(context, begin),
             combined_length(
                 token_start(context, begin), value.start, value.length
             )
         );
+        set_node_name(context, node, begin);
+        return node;
     }
     if parser_match(context, "cast") {
         return parse_typed_intrinsic(context, 42, previous_token(context));

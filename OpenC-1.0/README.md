@@ -26,12 +26,13 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - all 4 maintained programs check, build, and run successfully;
 - all 281 canonical OpenC library, program, and fixture sources use `.p`;
 - the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
-  lexer parity on 287 canonical `.p` sources plus 16 probes (303/303), SH-2C
-  exact parser parity on those sources plus 15 parser probes (302/302), and
+  lexer parity on 288 canonical `.p` sources plus 16 probes (304/304), SH-2C
+  exact parser parity on those sources plus 15 parser probes (303/303), and
   SH-2D exact project/module parity on 7 checked-in projects plus 15 probes
   (22/22); full SH-2 passes, and SH-3A declaration/symbol/type-table parity
-  passes on the canonical compiler project plus 16 focused projects (17/17);
-  SH-3B name, constant, and overload resolution parity is next;
+  passes on the canonical compiler project plus 16 focused projects (17/17),
+  and SH-3B name/constant/overload parity passes on one maintained canonical
+  project plus 9 probes (10/10); SH-3C flow/safety parity is next;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed;
 - 331 of 466 active Core rules have dedicated executable fixture coverage;

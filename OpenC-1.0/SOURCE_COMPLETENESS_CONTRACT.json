@@ -154,6 +154,7 @@
       "compiler/source/openc/project.d",
       "compiler/source/openc/project_observation.d",
       "compiler/source/openc/semantic_declaration_observation.d",
+      "compiler/source/openc/semantic_resolution_observation.d",
       "compiler/source/openc/semantic_model.d",
       "compiler/source/openc/semantic_pipeline.d",
       "compiler/source/openc/source.d",
@@ -197,9 +198,11 @@
       "compiler/selfhost/parser_parity.py",
       "compiler/selfhost/project_parity.py",
       "compiler/selfhost/semantic_declaration_parity.py",
+      "compiler/selfhost/semantic_resolution_parity.py",
       "compiler/selfhost/source/main.p",
       "compiler/selfhost/source/parser.p",
       "compiler/selfhost/source/project.p",
+      "compiler/selfhost/source/resolution.p",
       "compiler/selfhost/source/semantic.p",
       "compiler/selfhost/tests/unbalanced.p",
       "compiler/selfhost/tests/unterminated_string.p"
@@ -303,5 +306,5 @@
     "compiler/selfhost/SELF_HOSTING_STATE.json"
   ],
   "schema": "openc.source_completeness_contract.v2",
-  "version": "1.0.0-rc.7"
+  "version": "1.0.0-rc.8"
 }

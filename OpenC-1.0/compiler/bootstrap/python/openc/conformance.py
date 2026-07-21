@@ -53,7 +53,7 @@ class ConformanceRunner:
             "schema": "openc.conformance_result.v1",
             "implementation": {
                 "name": "openc-bootstrap-python",
-                "version": "1.0.0-rc.7",
+                "version": "1.0.0-rc.8",
                 "evidence_state": "EXECUTED",
             },
             "bundle": str(bundle_path),

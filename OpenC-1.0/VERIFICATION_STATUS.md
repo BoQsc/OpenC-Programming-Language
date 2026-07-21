@@ -1,4 +1,4 @@
-# OpenC 1.0.0-rc.7 verification status
+# OpenC 1.0.0-rc.8 verification status
 
 Date: 2026-07-21
 Host: Windows 10.0.19045, x86-64
@@ -27,17 +27,17 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`; together with
   the compiler-in-OpenC lexer/parser/project frontend and its two checked-in
-  probes, the tree contains 287 canonical `.p` sources. The
+  semantic passes, the tree contains 288 canonical `.p` sources. The
   migrated fixture corpus retains 268/268 passes and zero infrastructure
   failures.
 - The compiler-in-OpenC frontend builds through stage 0 and passes SH-2A exact
-  lexer parity plus SH-2B owned single-pass lexer state: 287 canonical `.p`
-  sources plus 16 focused probes, 303/303. Outcomes, token kinds, byte spans,
+  lexer parity plus SH-2B owned single-pass lexer state: 288 canonical `.p`
+  sources plus 16 focused probes, 304/304. Outcomes, token kinds, byte spans,
   line/byte-column positions, diagnostic rules, source-encoding rejection,
   and totals match exactly; all 12 source/lexical diagnostic rules are
   observed.
-- SH-2C exact parser parity passes on all 287 canonical sources plus 15 focused
-  parser probes, 302/302. Syntax-node creation order, all 52 parser-produced
+- SH-2C exact parser parity passes on all 288 canonical sources plus 15 focused
+  parser probes, 303/303. Syntax-node creation order, all 52 parser-produced
   kinds and final byte spans, 15 reachable parser/recovery rules, diagnostic
   positions, node totals, and error totals match exactly.
 - SH-2D exact project/module parity passes on all 7 checked-in projects plus
@@ -50,6 +50,10 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
   The compared observations cover declaration/member order, visibility,
   parameter modes, ownership/resource state, canonical type IDs and
   constructors, source spans, and duplicate-declaration diagnostics.
+- SH-3B exact name, constant, and overload resolution parity passes on the
+  maintained computation project plus 9 focused projects, 10/10. The compared
+  observations include 32 exact bindings, 10 constant results, 4 selected
+  calls, and exact unknown-name, no-match, ambiguity, and divide-by-zero rules.
 - Structure, source-completeness, manifest, and archive verification pass.
 
 Fixture execution now distinguishes normative rules from implementation
@@ -88,7 +92,7 @@ review is a recommended post-release assurance activity rather than an initial
 owner-certified release prerequisite. The candidate is `RELEASE_READY` for its
 declared Windows x86-64 Hosted scope. It remains unpublished and therefore is
 not `RELEASED`. SH-2A through SH-2D and full lexical/syntactic/project SH-2 are
-executed self-hosting milestones. SH-3A declaration/symbol/type-table parity
-also passes. SH-3B name, constant, and overload resolution is next; the
-remaining SH-3 subgates through SH-6 do not yet claim self-compilation or a
-standalone backend.
+executed self-hosting milestones. SH-3A declaration/symbol/type-table and
+SH-3B name/constant/overload parity also pass. SH-3C flow/safety parity is
+next; the remaining SH-3 subgates through SH-6 do not yet claim
+self-compilation or a standalone backend.

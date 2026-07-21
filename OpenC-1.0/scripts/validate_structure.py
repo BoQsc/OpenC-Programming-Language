@@ -128,6 +128,10 @@ if self_host_gates.get("SH-3A") != "PASS":
     errors.append("self-hosting declaration/symbol/type-table SH-3A gate must pass")
 if not self_hosting.get("claims", {}).get("stage1_exact_declaration_symbol_type_table_parity"):
     errors.append("self-hosting state must record exact SH-3A parity")
+if self_host_gates.get("SH-3B") != "PASS":
+    errors.append("self-hosting name/constant/overload SH-3B gate must pass")
+if not self_hosting.get("claims", {}).get("stage1_exact_name_constant_overload_resolution_parity"):
+    errors.append("self-hosting state must record exact SH-3B parity")
 if self_hosting.get("claims", {}).get("self_hosted") or self_hosting.get("claims", {}).get("dmd_independent"):
     errors.append("self-hosting state must not overclaim pending bootstrap/native-backend gates")
 

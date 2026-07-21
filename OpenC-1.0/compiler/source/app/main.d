@@ -9,6 +9,7 @@ import openc.lex_observation : observeLexing;
 import openc.parse_observation : observeParsing;
 import openc.project_observation : observeProjectFrontend;
 import openc.semantic_declaration_observation : observeSemanticDeclarations;
+import openc.semantic_resolution_observation : observeSemanticResolution;
 import openc.toolchain : DToolchain;
 import openc.tools.explain : ExplanationDatabase;
 import openc.tools.formatter : Formatter, FormatterConfig;
@@ -62,6 +63,9 @@ int main(string[] argv) {
         case "semantic-decl-observe":
             if (!request.positionals.length) { stderr.writeln("openc semantic-decl-observe requires a project path"); return 2; }
             return observeSemanticDeclarations(request.positionals[0]);
+        case "semantic-resolve-observe":
+            if (!request.positionals.length) { stderr.writeln("openc semantic-resolve-observe requires a project path"); return 2; }
+            return observeSemanticResolution(request.positionals[0]);
         case "version":
         case "--version":
             stdout.writeln(compiler.compilerVersion.implementationName ~ " " ~ compiler.compilerVersion.implementationVersion);
@@ -269,5 +273,6 @@ void printUsage() {
     stdout.writeln("  openc lsp --stdio");
     stdout.writeln("  openc lex-observe <source>  (self-host parity protocol)");
     stdout.writeln("  openc semantic-decl-observe <project>  (self-host parity protocol)");
+    stdout.writeln("  openc semantic-resolve-observe <project>  (self-host parity protocol)");
     stdout.writeln("  openc 'check(file=\"source/main.p\", diagnostics_format=\"json\")'");
 }

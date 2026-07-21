@@ -6,13 +6,12 @@ verification are optional future target work; they do not block this release.
 
 ## Self-hosting critical path
 
-1. **SH-3B — name, constant, and overload resolution parity (next)**
-   - SH-3A declaration, symbol, and canonical type-table parity passes;
-   - port cross-module and lexical name resolution, constant evaluation, and
-     deterministic overload selection.
-2. **SH-3C/SH-3D — flow/safety and canonical IR parity**
-   - port flow, ownership, borrowing, cleanup, status/out, pointer, and unsafe
-     checking, then deterministic IR lowering;
+1. **SH-3C — flow and safety parity (next)**
+   - SH-3A declaration/type and SH-3B name/constant/overload parity pass;
+   - port flow, status/out, ownership, borrowing, cleanup, pointer, and unsafe
+     checking with exact diagnostic outcomes.
+2. **SH-3D — canonical IR parity**
+   - port deterministic semantic lowering and canonical JSON IR emission;
    - compare semantic outcomes and canonical JSON IR across the authored
      fixture set.
 3. **SH-4 — bootstrap closure**
@@ -25,15 +24,18 @@ verification are optional future target work; they do not block this release.
    - rebuild the compiler, runtime, and library from the shipped standalone
      distribution and record artifacts and checksums.
 
-SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 287 canonical
-`.p` sources plus 16 probes (303/303). Parser evidence covers those canonical
-sources plus 15 parser probes (302/302), all 52 parser-produced syntax kinds,
+SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
+`.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
+sources plus 15 parser probes (303/303), all 52 parser-produced syntax kinds,
 and all 15 reachable parser/recovery rules. Project/module evidence covers 7
 checked-in projects plus 15 focused probes (22/22), including all 3 observed
 composition diagnostic rules.
 SH-3A evidence covers the canonical compiler project plus 16 focused semantic
 projects (17/17), with exact declaration, symbol, type-table, and duplicate
 diagnostic parity.
+SH-3B evidence covers one maintained canonical project plus 9 focused
+projects (10/10), with 32 exact bindings, 10 constant results, 4 overload
+selections, and 4 exact diagnostic rules.
 
 ## Nonblocking quality work
 
