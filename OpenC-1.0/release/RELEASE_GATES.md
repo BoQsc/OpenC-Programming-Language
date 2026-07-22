@@ -25,7 +25,9 @@ Concurrent sources are outside the claimed 1.0 implementation scope. Their
 verification cannot fail a Windows Hosted release gate.
 
 G6 covers the entire authored 268-fixture manifest with zero compatibility
-fallback. Dedicated fixtures cover 331 of 466 active Core rules; the remaining
+fallback in the current run; the former 93 historical rule-ID compatibility
+matches remain disclosed in `CHANGELOG.md`. Dedicated fixtures cover 331 of
+466 active Core rules; the remaining
 135-rule authoring backlog is disclosed and tracked but is not a release gate.
 The normative rules remain binding regardless of dedicated-fixture presence.
 Likewise, the parser and grammar validators pass even though dedicated
@@ -36,5 +38,8 @@ exact lexer-parity subgate, SH-2B owned single-pass lexer-state subgate, SH-2C
 exact parser-parity subgate, SH-2D project/module subgate, and full syntactic
 and project frontend SH-2 gate pass. SH-3A declaration, symbol, and type-table
 parity also passes. SH-3B name/constant/overload, SH-3C flow/safety, and SH-3D
-semantic-outcome/canonical-IR parity pass, completing SH-3. SH-4 through SH-6
-remain future standalone-compiler work and do not alter that release boundary.
+semantic-outcome/canonical-IR parity pass, completing SH-3. SH-4 bootstrap
+self-compilation and closure now pass as well: Stage 1 builds Stage 2
+and Stage 2 builds an equivalent Stage 3. SH-5 DMD independence and SH-6
+standalone packaging remain future compiler work and do not alter that release
+boundary.

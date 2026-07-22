@@ -11,6 +11,7 @@ usize length(OpenCText text) {
     return count;
 }
 
+pragma(inline, true)
 usize byte_length(OpenCText text) {
     return text.length;
 }
@@ -39,6 +40,11 @@ Status byte_at(OpenCText text, usize index, out u8 value) {
     if (index >= text.length) return Status.failure(9, "text byte index out of bounds");
     value = cast(u8) text[index];
     return Status.success();
+}
+
+pragma(inline, true)
+u8 byte_at_unchecked(OpenCText text, usize index) {
+    return cast(u8) text[index];
 }
 
 Status slice(OpenCText text, usize lower, usize upper, out OpenCText result) {
@@ -78,6 +84,11 @@ Status utf8_decode(const(OpenCByte)[] bytes, out OpenCText text) {
 
 OpenCText concat(OpenCText left, OpenCText right) {
     return (left ~ right).idup;
+}
+
+OpenCText from_utf8(void* data, usize length) {
+    if (data is null || length == 0) return "";
+    return (cast(const(char)*) data)[0 .. length].idup;
 }
 
 bool equal(OpenCText left, OpenCText right) {

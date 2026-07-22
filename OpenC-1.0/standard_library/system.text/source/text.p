@@ -8,6 +8,7 @@ external(c, "oc_text_byte_length") usize runtime_byte_length(text value);
 external(c, "oc_text_byte_at") status runtime_byte_at(text value, usize index, out u8 byte_value);
 external(c, "oc_text_equal") bool runtime_equal(text left, text right);
 external(c, "oc_text_compare") i32 runtime_compare(text left, text right);
+external(c, "oc_text_from_utf8_view") unsafe text from_utf8(ptr byte data, usize length);
 
 export status decode_utf8(ref const memory.Bytes bytes, out text value) {
     return runtime_decode_utf8(bytes, out value);

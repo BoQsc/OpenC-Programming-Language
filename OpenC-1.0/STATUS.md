@@ -11,7 +11,7 @@ Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
 canonical D compiler source:         SOURCE-COMPLETE; BUILT AND TESTED
 informative Python bootstrap source: SOURCE-COMPLETE; TESTED
-official OpenC source extension:      .p; 281 MIGRATED, 288 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 368 TOTAL `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
@@ -21,9 +21,12 @@ name/constant/overload resolution:    SH-3B PASS; 10/10 EXACT PARITY
 flow/safety semantics:                SH-3C PASS; 232 SEMANTIC COMPARISONS
 semantic outcomes/canonical IR:       SH-3D PASS; 149 REJECT + 117 IR MATCHES
 full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
-self-hosting next milestone:          SH-4A BOOTSTRAP D-SOURCE BACKEND PARITY
-self-hosted compiler:                 NO; SH-4 BOOTSTRAP CLOSURE PENDING
-DMD-independent standalone compiler: NO; SH-5 THROUGH SH-6 PENDING
+bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
+stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
+bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
+self-hosted compiler:                 YES; SH-4 PASS, DMD BOOTSTRAP BACKEND
+self-hosting next milestone:          SH-5 DMD-INDEPENDENT WINDOWS BACKEND
+DMD-independent standalone compiler: NO; SH-5 AND SH-6 PENDING
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED
 first-party tool source:             SOURCE-COMPLETE; BUILT AND TESTED
 build/test/release source:           SOURCE-COMPLETE; EXECUTED
@@ -31,7 +34,7 @@ build/test/release source:           SOURCE-COMPLETE; EXECUTED
 D targets compiled/linked:           9/9 DEBUG; 9/9 RELEASE ON WINDOWS
 implementation tests:               8/8 D COMMANDS; 4/4 PYTHON TESTS
 conformance fixtures:                268/268 PASS; 0 INFRASTRUCTURE FAILURES
-diagnostic matching:                 EXACT CURRENT EXPECTATIONS; 0 COMPATIBILITY
+diagnostic matching:                 EXACT CURRENT; PRIOR 93 COMPATIBILITY DISCLOSED
 runtime fixtures:                    35/35 BUILT AND EXECUTED
 maintained programs:                 4/4 CHECKED, BUILT, AND RUN
 active rules with dedicated fixture: 331/466

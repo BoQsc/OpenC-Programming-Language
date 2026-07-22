@@ -1,6 +1,6 @@
-# OpenC compiler-in-OpenC frontend
+# OpenC compiler in OpenC
 
-This directory begins the self-hosting implementation in canonical `.p`
+This directory contains the self-hosting implementation in canonical `.p`
 source. The stage-0 D compiler builds `source/main.p` into a native Windows
 executable. That executable implements the stage-0 byte-exact lexer and source
 encoding rejection in OpenC. It performs one lexical pass, stores tokens and
@@ -14,11 +14,12 @@ The semantic stages build OpenC-owned declaration, symbol, canonical type,
 lexical-scope, constant-value, overload-selection, flow/safety, acceptance,
 and canonical IR state and emit exact observations.
 
-This is executable self-hosting evidence, not a completed self-hosted compiler.
-It does not yet emit bootstrap D source or objects, invoke the toolchain, link
-programs, or compile itself. Those capabilities are tracked by
-`SELF_HOSTING.md` and must not be inferred from the lexer executable. The
-machine-readable current gate state is `SELF_HOSTING_STATE.json`.
+This is now an executable self-hosted compiler through the bootstrap D backend.
+It emits deterministic D, invokes the configured D compiler, links the next
+compiler stage, and reaches Stage-2/Stage-3 closure. It is not yet
+DMD-independent or packaged as the SH-6 standalone distribution. Those
+remaining capabilities are tracked by `SELF_HOSTING.md`; the machine-readable
+gate state is `SELF_HOSTING_STATE.json`.
 
 Run from the repository root after building stage 0:
 
@@ -31,4 +32,14 @@ parser gate, 22-case project/module gate, 17-case declaration/symbol/type gate,
 10 exact name/constant/overload comparisons, 232 flow/safety comparisons, and
 full semantic-outcome/canonical-IR comparison. SH-2A through SH-2D, full SH-2,
 SH-3A through SH-3D, and full SH-3 pass. SH-4A bootstrap D-source backend
-parity is next.
+parity, SH-4B Stage-1 self-compilation, SH-4C Stage-2/Stage-3 closure, and full
+SH-4 also pass.
+
+Run the SH-4 proofs with a built Stage-1 executable and configured DMD:
+
+```text
+python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh4/closure-final/openc-stage1.exe --output build-output/selfhost-sh4/parity-final
+python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final
+```
+
+Next: **SH-5 — DMD-independent Windows backend**.

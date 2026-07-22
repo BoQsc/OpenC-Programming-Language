@@ -8,6 +8,7 @@ import openc.semantic_model : SemanticModel;
 import openc.symbol : SymbolKind;
 import openc.types : TypeKind;
 import std.algorithm.searching : canFind;
+import std.algorithm.sorting : sort;
 
 enum OwnershipState : string {
     none = "none",
@@ -52,7 +53,30 @@ public:
             }
         }
         inspectBlock(functionNode.children[$ - 1]);
+        SymbolId[] ordered;
         foreach (symbol, value; state) {
+            if (value.state == OwnershipState.live ||
+                value.state == OwnershipState.dismantling ||
+                value.state == OwnershipState.maybeLive) {
+                ordered ~= symbol;
+            }
+        }
+        ordered.sort!((left, right) {
+            auto leftSpan = model.symbols.get(left).span;
+            auto rightSpan = model.symbols.get(right).span;
+            if (leftSpan.source.value != rightSpan.source.value) {
+                return leftSpan.source.value < rightSpan.source.value;
+            }
+            if (leftSpan.start != rightSpan.start) {
+                return leftSpan.start < rightSpan.start;
+            }
+            if (leftSpan.length != rightSpan.length) {
+                return leftSpan.length < rightSpan.length;
+            }
+            return left < right;
+        });
+        foreach (symbol; ordered) {
+            auto value = state[symbol];
             if (value.state == OwnershipState.live || value.state == OwnershipState.dismantling || value.state == OwnershipState.maybeLive) {
                 auto info = model.symbols.get(symbol);
                 if (info.kind == SymbolKind.parameterSymbol && info.declaration !is null &&

@@ -24,7 +24,8 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - all 8 D test commands and all 4 Python bootstrap tests pass;
 - all 268 authored conformance fixtures pass, including 35 runtime fixtures;
 - all 4 maintained programs check, build, and run successfully;
-- all 281 canonical OpenC library, program, and fixture sources use `.p`;
+- all 281 migrated OpenC library, program, and fixture sources use `.p`; with
+  the expanded compiler-in-OpenC source, the current tree has 368 `.p` files;
 - the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
   lexer parity on 288 canonical `.p` sources plus 16 probes (304/304), SH-2C
   exact parser parity on those sources plus 15 parser probes (303/303), and
@@ -35,9 +36,14 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   project plus 9 probes (10/10), SH-3C exact flow/safety parity covers 232
   semantic comparisons, and SH-3D matches 149 rejection outcomes plus exact
   canonical IR for 117 accepted programs and all 33 reachable opcodes; full
-  SH-3 passes and SH-4A bootstrap D-source backend parity is next;
+  SH-3 passes; SH-4A matches 28 generated D files across 4 projects byte for
+  byte, SH-4B has Stage 1 build Stage 2, and SH-4C proves Stage-2/Stage-3
+  generated-source, lexer, canonical-IR, and normalized-PE closure; full SH-4
+  passes, the compiler is self-hosted through its D bootstrap backend, and
+  SH-5 DMD-independent Windows code generation is next;
 - all diagnostic expectations use exact current matches; the historical
-  compatibility fallback has been removed;
+  compatibility fallback has been removed from current execution, while its
+  prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
 - 331 of 466 active Core rules have dedicated executable fixture coverage;
   the 135-rule dedicated-fixture backlog remains an explicit quality backlog,
   not an unimplemented-rule assertion;

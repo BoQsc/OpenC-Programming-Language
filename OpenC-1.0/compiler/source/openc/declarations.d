@@ -72,6 +72,10 @@ private:
                     [model.types.find("usize")], true);
                 addBuiltinFunction(logical, "free", model.types.voidType,
                     [bytePointer]);
+                addBuiltinFunction(logical, "load_usize", model.types.find("usize"),
+                    [bytePointer], true);
+                addBuiltinFunction(logical, "store_usize", model.types.voidType,
+                    [bytePointer, model.types.find("usize")], true);
             } else if (logical.name == "system.text") {
                 addBuiltinFunction(logical, "length", model.types.find("usize"),
                     [model.types.textType]);
@@ -85,8 +89,12 @@ private:
                 addBuiltinFunction(logical, "byte_at", model.types.statusType,
                     [model.types.textType, model.types.find("usize"), model.types.find("u8")],
                     false, ["value", "value", "out"]);
+                addBuiltinFunction(logical, "byte_at_unchecked", model.types.find("u8"),
+                    [model.types.textType, model.types.find("usize")], true);
                 addBuiltinFunction(logical, "concat", model.types.textType,
                     [model.types.textType, model.types.textType]);
+                addBuiltinFunction(logical, "from_utf8", model.types.textType,
+                    [model.types.pointer(model.types.byteType, false), model.types.find("usize")], true);
                 addBuiltinFunction(logical, "equal", model.types.boolType,
                     [model.types.textType, model.types.textType]);
                 addBuiltinFunction(logical, "compare", model.types.find("i32"),
@@ -99,8 +107,14 @@ private:
                 addBuiltinFunction(logical, "argument", model.types.textType,
                     [model.types.find("usize")]);
                 addBuiltinFunction(logical, "current_directory", model.types.textType, []);
+                addBuiltinFunction(logical, "run", model.types.statusType,
+                    [model.types.textType, model.types.find("i32"), model.types.textType],
+                    false, ["value", "out", "out"]);
             } else if (logical.name == "system.file") {
                 addBuiltinFunction(logical, "read_text", model.types.statusType,
+                    [model.types.textType, model.types.textType],
+                    false, ["value", "out"]);
+                addBuiltinFunction(logical, "read_text_cached", model.types.statusType,
                     [model.types.textType, model.types.textType],
                     false, ["value", "out"]);
                 addBuiltinFunction(logical, "write_text", model.types.statusType,

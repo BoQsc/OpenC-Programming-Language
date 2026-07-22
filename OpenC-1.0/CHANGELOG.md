@@ -1,6 +1,22 @@
 # OpenC development changelog
 
-## Unreleased — complete semantic and canonical IR parity
+## Unreleased — bootstrap self-compilation and closure
+
+- added deterministic OpenC-owned bootstrap D emission and proved 28 of 28
+  generated files byte-exact across the canonical compiler and A/B/C projects;
+- added the Hosted bootstrap toolchain driver and build-record path, allowing
+  Stage 1 to invoke configured DMD and build Stage 2 from the canonical `.p`
+  compiler;
+- proved Stage-2/Stage-3 bootstrap closure across the 7-file generated tree,
+  lexer behavior, canonical IR, and normalized PE artifacts with hash
+  `e1776ad8492ea4181dff91885ea45d371f1288abbdad8423cb2e4a16ef6c9e65`;
+- completed SH-4 and made SH-5 DMD-independent Windows backend work the next
+  milestone; SH-6 standalone packaging remains pending;
+- retained explicit historical disclosure of the former 93 rule-ID
+  compatibility matches while current conformance execution uses exact Current
+  expectations with zero compatibility fallback.
+
+### Complete semantic and canonical IR parity
 
 - added stage-0 and OpenC-owned SH-3C flow/safety observation paths covering
   CFG structure, cleanup order, status/out, ownership, borrowing, pointer, and

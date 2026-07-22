@@ -2,7 +2,7 @@ module openc.std.system_process;
 
 import openc.runtime.process : arguments, exitProcess;
 import openc.runtime.checked : opencTargetFault;
-import openc.runtime.types : OpenCText, i32, usize;
+import openc.runtime.types : OpenCText, Status, i32, usize;
 
 OpenCText[] args() {
     return arguments();
@@ -21,6 +21,20 @@ OpenCText argument(usize index) {
 OpenCText current_directory() {
     import std.file : getcwd;
     return getcwd().idup;
+}
+
+Status run(OpenCText command, out i32 exitCode, out OpenCText output) {
+    import std.process : executeShell;
+    try {
+        auto result = executeShell(command);
+        exitCode = cast(i32) result.status;
+        output = result.output.idup;
+        return Status.success();
+    } catch (Exception error) {
+        exitCode = -1;
+        output = error.msg.idup;
+        return Status.failure(13, error.msg.idup);
+    }
 }
 
 noreturn exit(i32 code) {

@@ -148,10 +148,42 @@
       "completed_subgates": ["SH-3A", "SH-3B", "SH-3C", "SH-3D"]
     },
     {
+      "id": "SH-4A",
+      "name": "exact_bootstrap_d_source_backend_parity",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh4/openc-stage1-final.exe --output build-output/selfhost-sh4/parity-final",
+      "evidence": "build-output/selfhost-sh4/parity-final/bootstrap-d-parity-result.json",
+      "project_comparisons": 4,
+      "file_comparisons": 28,
+      "byte_exact_generated_d": true
+    },
+    {
+      "id": "SH-4B",
+      "name": "stage1_builds_stage2",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final",
+      "evidence": "build-output/selfhost-sh4/closure-final/bootstrap-closure-result.json",
+      "configured_d_compiler_invoked": true,
+      "build_record_written": true
+    },
+    {
+      "id": "SH-4C",
+      "name": "stage2_stage3_bootstrap_closure",
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final",
+      "evidence": "build-output/selfhost-sh4/closure-final/bootstrap-closure-result.json",
+      "generated_source_files": 7,
+      "generated_source_equal": true,
+      "lexer_behavior_equal": true,
+      "canonical_ir_equal": true,
+      "normalized_artifact_equal": true,
+      "normalized_sha256": "e1776ad8492ea4181dff91885ea45d371f1288abbdad8423cb2e4a16ef6c9e65"
+    },
+    {
       "id": "SH-4",
       "name": "bootstrap_self_compilation",
-      "status": "PENDING",
-      "next_subgate": "SH-4A_BOOTSTRAP_D_SOURCE_BACKEND_PARITY"
+      "status": "PASS",
+      "completed_subgates": ["SH-4A", "SH-4B", "SH-4C"]
     },
     {
       "id": "SH-5",
@@ -184,7 +216,11 @@
     "stage1_exact_semantic_outcome_parity": true,
     "stage1_exact_canonical_ir_parity": true,
     "semantic_ir_parity": true,
-    "self_hosted": false,
+    "stage1_exact_bootstrap_d_source_parity": true,
+    "stage1_builds_stage2": true,
+    "stage2_builds_stage3": true,
+    "bootstrap_closure": true,
+    "self_hosted": true,
     "dmd_independent": false,
     "standalone": false
   }

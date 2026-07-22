@@ -15,8 +15,11 @@ Canonical OpenC source uses `.p`. The source distribution also contains an
 executed compiler-in-OpenC frontend with SH-1 bootstrap, SH-2A exact lexical
 parity, SH-2B owned single-pass lexer state, SH-2C exact parser parity, SH-2D
 exact project/module parity, and full syntactic/project SH-2 parity. Semantic
-self-hosting and a DMD-independent backend are separately tracked future gates, not
-prerequisites retroactively added to the D-bootstrap 1.0 claim.
+and IR parity (SH-3) plus bootstrap self-compilation and closure (SH-4) also
+pass. The self-hosted compiler still uses its D bootstrap backend and a
+configured DMD. DMD independence (SH-5) and standalone packaging (SH-6) are
+separately tracked future gates, not prerequisites retroactively added to the
+D-bootstrap 1.0 claim.
 
 ## Experimental source included without a support claim
 

@@ -14,7 +14,8 @@ required = [
     "release/ERRATA_POLICY.md", "release/SUPPORT_POLICY.md",
     "compiler/selfhost/SELF_HOSTING.md", "compiler/selfhost/SELF_HOSTING_STATE.json",
     "compiler/selfhost/source/main.p", "compiler/selfhost/bootstrap.py",
-    "compiler/selfhost/lexer_parity.py",
+    "compiler/selfhost/lexer_parity.py", "compiler/selfhost/bootstrap_d_parity.py",
+    "compiler/selfhost/bootstrap_closure.py",
     "standard/core/OpenC_Core_Current.md",
     "standard/core/grammar/OpenC_Core_Grammar.ebnf",
     "standard/core/metadata/OpenC_Core_Rule_Index.json",
@@ -144,8 +145,19 @@ if not self_hosting.get("claims", {}).get("stage1_exact_semantic_outcome_parity"
 if self_host_gates.get("SH-3") != "PASS" or \
         not self_hosting.get("claims", {}).get("semantic_ir_parity"):
     errors.append("self-hosting semantic and IR SH-3 gate must pass")
-if self_hosting.get("claims", {}).get("self_hosted") or self_hosting.get("claims", {}).get("dmd_independent"):
-    errors.append("self-hosting state must not overclaim pending bootstrap/native-backend gates")
+if any(self_host_gates.get(gate) != "PASS" for gate in
+       ("SH-4A", "SH-4B", "SH-4C", "SH-4")):
+    errors.append("self-hosting bootstrap SH-4A through SH-4C and full SH-4 gates must pass")
+if not self_hosting.get("claims", {}).get("stage1_exact_bootstrap_d_source_parity") or \
+        not self_hosting.get("claims", {}).get("stage1_builds_stage2") or \
+        not self_hosting.get("claims", {}).get("stage2_builds_stage3") or \
+        not self_hosting.get("claims", {}).get("bootstrap_closure"):
+    errors.append("self-hosting state must record complete SH-4 bootstrap evidence")
+if self_hosting.get("claims", {}).get("self_hosted") != (self_host_gates.get("SH-4") == "PASS"):
+    errors.append("self_hosted claim must match the SH-4 gate")
+if self_hosting.get("claims", {}).get("dmd_independent") or \
+        self_hosting.get("claims", {}).get("standalone"):
+    errors.append("self-hosting state must not overclaim pending SH-5/SH-6 gates")
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

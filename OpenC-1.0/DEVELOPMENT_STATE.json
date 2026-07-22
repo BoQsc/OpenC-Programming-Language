@@ -8,7 +8,7 @@
   "bootstrap_source": "source_complete_four_tests_and_cli_smoke_passed",
   "official_source_extension": ".p",
   "migrated_existing_p_sources": 281,
-  "canonical_p_sources": 288,
+  "canonical_p_sources": 368,
   "self_hosting": {
     "state_record": "compiler/selfhost/SELF_HOSTING_STATE.json",
     "source_convention_gate": "SH-0_PASS",
@@ -23,11 +23,14 @@
     "flow_safety_parity": "SH-3C_PASS_232_SEMANTIC_COMPARISONS",
     "semantic_outcome_canonical_ir_parity": "SH-3D_PASS_149_REJECTIONS_117_IR_COMPARISONS_33_OPCODES",
     "semantic_ir_parity": "SH-3_PASS",
-    "next_milestone": "SH-4A_BOOTSTRAP_D_SOURCE_BACKEND_PARITY",
-    "bootstrap_self_compilation": "SH-4_PENDING",
+    "bootstrap_d_source_backend_parity": "SH-4A_PASS_4_PROJECTS_28_FILES_BYTE_EXACT",
+    "stage1_builds_stage2": "SH-4B_PASS",
+    "bootstrap_closure": "SH-4C_PASS_STAGE2_STAGE3_SOURCE_BEHAVIOR_IR_NORMALIZED_PE",
+    "bootstrap_self_compilation": "SH-4_PASS",
+    "next_milestone": "SH-5_DMD_INDEPENDENT_WINDOWS_BACKEND",
     "dmd_independent_windows_backend": "SH-5_PENDING",
     "standalone_self_hosted_release": "SH-6_PENDING",
-    "self_hosted": false,
+    "self_hosted": true,
     "standalone": false
   },
   "runtime_source": "d_library_built_tested_runtime_fixtures_passed",
@@ -47,6 +50,7 @@
     "infrastructure_failures": 0,
     "diagnostic_expectations_exact": 149,
     "edition_compatibility_matches": 0,
+    "historical_edition_compatibility_matches_disclosed": 93,
     "runtime_fixtures_built_and_executed": 35
   },
   "active_rule_count": 466,
@@ -68,7 +72,7 @@
     "dedicated_positive_rejection_pairs_incomplete_for_174_grammar_productions",
     "independent_third_party_reviews",
     "linux_freestanding_native_and_c_provider_verification",
-    "self_hosting_SH_4_BOOTSTRAP_CLOSURE_THROUGH_SH_6_AFTER_SH_3_PASS"
+    "self_hosting_SH_5_DMD_INDEPENDENT_BACKEND_AND_SH_6_STANDALONE_RELEASE"
   ],
   "published": false,
   "released": false,

@@ -1,6 +1,6 @@
 # OpenC 1.0.0-rc.8 verification status
 
-Date: 2026-07-21
+Date: 2026-07-22
 Host: Windows 10.0.19045, x86-64
 
 ## Verified scope
@@ -25,11 +25,12 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
 - 268 of 268 conformance fixtures pass with zero infrastructure failures.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
-- All 281 pre-existing OpenC source files were migrated to `.p`; together with
-  the compiler-in-OpenC lexer/parser/project frontend and its two checked-in
-  semantic passes, the tree contains 288 canonical `.p` sources. The
-  migrated fixture corpus retains 268/268 passes and zero infrastructure
-  failures.
+- All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
+  compiler-in-OpenC implementation brings the current tree to 368 `.p` files,
+  including 85 compiler source units. The migrated fixture corpus retains
+  268/268 passes and zero infrastructure failures. SH-2 records the exact
+  288-file corpus used for that milestone; SH-4A covers the complete current
+  compiler project through byte-exact generated output.
 - The compiler-in-OpenC frontend builds through stage 0 and passes SH-2A exact
   lexer parity plus SH-2B owned single-pass lexer state: 288 canonical `.p`
   sources plus 16 focused probes, 304/304. Outcomes, token kinds, byte spans,
@@ -60,13 +61,23 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
 - SH-3D matches all 149 frontend/semantic rejection outcomes and exact
   canonical JSON IR for 117 accepted programs, covering 183 functions, 275
   blocks, 1,489 instructions, and all 33 reachable opcodes. Full SH-3 passes.
+- SH-4A byte-exact D-backend parity passes across the canonical compiler and
+  A/B/C projects: 4 project comparisons and 28 of 28 generated files match.
+- SH-4B passes: Stage 1 invokes the configured DMD toolchain, writes a build
+  record, and builds the standalone Stage-2 compiler from the canonical `.p`
+  compiler project.
+- SH-4C and full SH-4 pass: Stage 2 builds Stage 3; their 7 generated modules,
+  lexer behavior, canonical IR, and normalized PE artifacts are equal. The
+  normalized Stage-2/Stage-3 hash is
+  `e1776ad8492ea4181dff91885ea45d371f1288abbdad8423cb2e4a16ef6c9e65`.
 - Structure, source-completeness, manifest, and archive verification pass.
 
 Fixture execution now distinguishes normative rules from implementation
 diagnostic codes. All rejection diagnostic expectations match exactly and the
 historical edition-compatibility fallback is removed (zero compatibility
-matches). Imported fixtures retain their origin records while targeting OpenC
-Core 1.0 Current.
+matches in the current run). The 93 matches previously accepted through that
+fallback remain explicitly disclosed in the development changelog. Imported
+fixtures retain their origin records while targeting OpenC Core 1.0 Current.
 
 Dedicated executable fixtures name 331 of 466 active Core rules. The remaining
 135-rule fixture-authoring backlog is explicit in the manifest and coverage
@@ -87,6 +98,8 @@ PYTHONPATH=compiler/bootstrap/python python -m unittest discover -s tests/python
 compiler/openc validate --manifest=conformance/fixtures/MANIFEST.json
 python tests/run_maintained.py
 python compiler/selfhost/bootstrap.py
+python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh4/closure-final/openc-stage1.exe --output build-output/selfhost-sh4/parity-final
+python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final
 python scripts/validate_structure.py
 python scripts/source_completeness.py
 ```
@@ -101,4 +114,7 @@ not `RELEASED`. SH-2A through SH-2D and full lexical/syntactic/project SH-2 are
 executed self-hosting milestones. SH-3A declaration/symbol/type-table and
 SH-3B name/constant/overload parity, SH-3C flow/safety parity, and SH-3D exact
 semantic-outcome/canonical-IR parity also pass, completing SH-3. SH-4 bootstrap
-closure through SH-6 do not yet claim self-compilation or a standalone backend.
+closure now passes: the OpenC compiler compiles the next OpenC compiler stage
+and reaches Stage-2/Stage-3 equivalence. This is a self-hosting claim through
+the D bootstrap backend, not a DMD-independent or standalone-distribution
+claim. SH-5 is the next milestone; SH-6 remains pending after it.

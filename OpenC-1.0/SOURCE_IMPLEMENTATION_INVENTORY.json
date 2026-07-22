@@ -147,12 +147,12 @@
       "sha256": "83872bc5b5927b207bc4926956a0b3316fab9e66961bfafc4584cf74e57f1915"
     },
     {
-      "bytes": 9228,
+      "bytes": 10061,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/validate_structure.py",
       "present": true,
-      "sha256": "32334e9b3ebddff71c20199fb8efcb7e27987691085f66bc54b787917215ed5d"
+      "sha256": "86051539f20002defe9e0c8dd3ae2e38f1f68b8a8c1be5855b744b81601697e7"
     },
     {
       "bytes": 14740,
@@ -275,12 +275,12 @@
       "sha256": "1d2e4eb9bba58bdc719abd63b0503dd9e8be937ade7e5f350ca6f68515717c37"
     },
     {
-      "bytes": 12655,
+      "bytes": 13703,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_d",
       "path": "compiler/source/openc/declarations.d",
       "present": true,
-      "sha256": "50a986f466ad0b4cd9dd1cf8ea68886ff5cefcca0088fad1e9654a27125fdcfa"
+      "sha256": "cb2e6f802ea4f5cc5cbc04c1bfea8fc10fa4a0a93e01c910f5ad092bfadbd459"
     },
     {
       "bytes": 6254,
@@ -363,12 +363,12 @@
       "sha256": "08eb2b2ef0260f1d043eeaafde0511c3e38c4498c3437aba80aa1ed798b8db3d"
     },
     {
-      "bytes": 11257,
+      "bytes": 12236,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_d",
       "path": "compiler/source/openc/ownership.d",
       "present": true,
-      "sha256": "d62342a955f6f8e9eb5c49bf6e97f822103d48910963a2dbcb2f22a3d26f08da"
+      "sha256": "29b959bd1722ef9d8415d6d9298dccee54d7da8d8263fef6e13b7d52d7a815ec"
     },
     {
       "bytes": 1680,
@@ -723,6 +723,22 @@
       "sha256": "dbe892840479b8707a159ddb09bb48063179bd4d85301ce648392eb78cce6831"
     },
     {
+      "bytes": 6086,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/bootstrap_closure.py",
+      "present": true,
+      "sha256": "e70516e4d29fe71c70530d5cb7346dfff49b6e4c818cb9cff7c0dbcd1a07c1d7"
+    },
+    {
+      "bytes": 4647,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/bootstrap_d_parity.py",
+      "present": true,
+      "sha256": "8c7128e2b59ba23828908f2ff39faa4ca34a0c76e825db0c675b1b685818e47e"
+    },
+    {
       "bytes": 7064,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
@@ -779,68 +795,684 @@
       "sha256": "1a0660e9053bbb4a64c09366cf5b80494248f7c77ce0e483a980c7bf4aa38ca3"
     },
     {
-      "bytes": 104664,
+      "bytes": 8402,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/acceptance.p",
       "present": true,
-      "sha256": "cdb3c28a0c0d6eb5e46143eeb8a47d752952efa5085efc0a06238703dfde3935"
+      "sha256": "a0f84e31bec4ce8d9cf79f4e431edbeac4588e8833830308d3c6b1124ed3daf8"
     },
     {
-      "bytes": 108371,
+      "bytes": 9894,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_conditions.p",
+      "present": true,
+      "sha256": "da000a111a72aca0dacfc9e22b91c02a134e1fd317c60654b86ad3f971ecda63"
+    },
+    {
+      "bytes": 8048,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_conditions_part2.p",
+      "present": true,
+      "sha256": "8f6c8ba68db26eae3e6743231f3cc6ecdfffff61823a196fc593cff1218756ef"
+    },
+    {
+      "bytes": 3981,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_conditions_part3.p",
+      "present": true,
+      "sha256": "44ca09638968ac6b8e431cde87e551961cef41a2cb151803fc8ce366fea2b732"
+    },
+    {
+      "bytes": 7585,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_driver.p",
+      "present": true,
+      "sha256": "ed458c1a22cef8a7b17b9b3104192ad8a9a0e62df53f18b99c54c601c6f6f06a"
+    },
+    {
+      "bytes": 9824,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_functions.p",
+      "present": true,
+      "sha256": "8afc0335ef37d309cae7b96c917ca5f756914de4f594b2c56e7f8059f315c004"
+    },
+    {
+      "bytes": 8109,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_part2.p",
+      "present": true,
+      "sha256": "dfb17388515753665a47fc4d06061880a15133dc13c9874096a90c8d14d3c6eb"
+    },
+    {
+      "bytes": 6766,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_part3.p",
+      "present": true,
+      "sha256": "63da385af5c2591259eee00b9cbba910296ed1bec35a56762bb23d1fc57742fa"
+    },
+    {
+      "bytes": 3822,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_pointer.p",
+      "present": true,
+      "sha256": "79d566539ad086e98671e9d4d4fcbda9011afb25e7588f300fd0c1e878fbda5a"
+    },
+    {
+      "bytes": 7648,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_project.p",
+      "present": true,
+      "sha256": "ee7bea627d63deaa5244657d35c4649e2a3f31330492356cd9b7e7cba5ef1cdb"
+    },
+    {
+      "bytes": 5469,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_project_part2.p",
+      "present": true,
+      "sha256": "476f953a0aee5ec159b5b742ae8be3359c4b361a980a2b33f0218bda92716876"
+    },
+    {
+      "bytes": 10925,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_ranges.p",
+      "present": true,
+      "sha256": "46b3ea2aa281277a2c5d1acf03de70ef440281d043a1cd12983a45e774973fd2"
+    },
+    {
+      "bytes": 7747,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_ranges_part2.p",
+      "present": true,
+      "sha256": "822a62d907a03c1c50608c94886447d488385b123d6986199cffe5b3475ecbef"
+    },
+    {
+      "bytes": 9266,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/acceptance_ranges_part3.p",
+      "present": true,
+      "sha256": "2cb5ffa97ce378b7e72dbcaa903c2bc91937d0a98e4364b6e2ab750c6fb67012"
+    },
+    {
+      "bytes": 16661,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/backend.p",
+      "present": true,
+      "sha256": "c13704ce26eb7c97d3ef8b4b707298d6fa528197f5dd459f4bb33be28c0200fb"
+    },
+    {
+      "bytes": 8182,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/backend_buffer.p",
+      "present": true,
+      "sha256": "26394bda489600f4e28df6ddd30d77882ffee67eb2be1028298254b5a2dccbd2"
+    },
+    {
+      "bytes": 8043,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/backend_buffer_part2.p",
+      "present": true,
+      "sha256": "7894de2e185921672b02d940e5470617eff4ce15afa87b242e43aa4f08787164"
+    },
+    {
+      "bytes": 6019,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/backend_buffer_part3.p",
+      "present": true,
+      "sha256": "322e07db5dbccc8401eca0f17449991618c6e5e47decbd25ddcd18d4c18a9914"
+    },
+    {
+      "bytes": 9533,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/backend_declaration.p",
+      "present": true,
+      "sha256": "a681c95962c1acdee373fa8ef8742ba004c6dcdde647c7e9bdd4ea3327833e2a"
+    },
+    {
+      "bytes": 1872,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/backend_declaration_part2.p",
+      "present": true,
+      "sha256": "92fbcc7fade7e99bd4f4f03c19d8350fe4c862c088640376032bd46c3e706915"
+    },
+    {
+      "bytes": 16538,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/backend_instruction.p",
+      "present": true,
+      "sha256": "7225150c77586b7aabb2afe13b712a9f9d0400b06732ef42bbd1fb6a65d16e31"
+    },
+    {
+      "bytes": 4160,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/backend_part2.p",
+      "present": true,
+      "sha256": "49f4ca3f2cd2007e2e989203b377b547fe4fd3005e943e59415a35a56336136d"
+    },
+    {
+      "bytes": 8120,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/flow.p",
       "present": true,
-      "sha256": "8e2180b00dc663e8a5c29adb87b9b35bb78d149f51e3da1bbbd6da68271871cb"
+      "sha256": "42d845c121125402c24df9b30a2f08f612a9ac2a04273562fca2a0cce28300c0"
     },
     {
-      "bytes": 145676,
+      "bytes": 9299,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_expressions.p",
+      "present": true,
+      "sha256": "817ff27ddf55f50f9e29e4c047e337d63c2eecfc959d53eaba744527bea78e5b"
+    },
+    {
+      "bytes": 6499,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_expressions_part2.p",
+      "present": true,
+      "sha256": "af0bc1d988709364a24e11ce343ec4245d5954630593d517b9e5eb95fbe898b2"
+    },
+    {
+      "bytes": 7775,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_observation.p",
+      "present": true,
+      "sha256": "ad577bedb56875a4f976dbc6b3dc99077c6d6ebc5a21e2e3f424bbb0b8c745a8"
+    },
+    {
+      "bytes": 15875,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_ownership.p",
+      "present": true,
+      "sha256": "918c8dc2c32d3654df6d6feadff972ccf162c3559f855e84f800abd7a5baeb48"
+    },
+    {
+      "bytes": 10888,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_ownership_part2.p",
+      "present": true,
+      "sha256": "b45a77c949799aca2d26fe432874c380812b2547e67907c056490bbefd9f81a4"
+    },
+    {
+      "bytes": 8140,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_part2.p",
+      "present": true,
+      "sha256": "acc54e970240cdc3bf2fbe683d24b8e38b55665d511e63b79499d7c888287bc8"
+    },
+    {
+      "bytes": 3570,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_part3.p",
+      "present": true,
+      "sha256": "d3028a62469ad990cad8c607625d49a5bc57ea30fcfe0dda15042de86b2c7db0"
+    },
+    {
+      "bytes": 8365,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_precheck.p",
+      "present": true,
+      "sha256": "152b2bf43c9d0afe97c41620e09e8b15a5a6db97bae10ad50c05e282abcad968"
+    },
+    {
+      "bytes": 9302,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_precheck_part2.p",
+      "present": true,
+      "sha256": "efefab6cb2967a9db3215cde6e232ea0b148f4afab0ffc17ce5ec2905420cf86"
+    },
+    {
+      "bytes": 10029,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_precheck_part3.p",
+      "present": true,
+      "sha256": "19776d9bcd26e1011b49e08369d9ec4c0b606683ed12f7a618983e5b58ab987c"
+    },
+    {
+      "bytes": 14404,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/flow_validation.p",
+      "present": true,
+      "sha256": "b44675988ee9bb5c4e5739ad7c7b41799660fc88b1ae51e8ce82e7e999b47454"
+    },
+    {
+      "bytes": 7992,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/ir.p",
       "present": true,
-      "sha256": "be26cbb9163a3551f7b8597b0651f26c488a737afc3f7ecf39e186b7baa726ab"
+      "sha256": "deb8c2faa6bd9863ea316de802f3c14182abaa03f5d38ef53908a8f9653ee96e"
     },
     {
-      "bytes": 31410,
+      "bytes": 9393,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_bounds.p",
+      "present": true,
+      "sha256": "df1e1e028d160ed4684eab436055d9f1c09844ceab73a493076ae4e8238d65ff"
+    },
+    {
+      "bytes": 7821,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_bounds_part2.p",
+      "present": true,
+      "sha256": "14fbca8a27a2a06d448f909600bb6079bd4e7844c440ea7edb70373e016e611e"
+    },
+    {
+      "bytes": 11569,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_bounds_part3.p",
+      "present": true,
+      "sha256": "6b69cd0396d2b2adb3f15818e8dfd75dd0295257943fc48df747308a6bb4b80c"
+    },
+    {
+      "bytes": 330,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_bounds_part4.p",
+      "present": true,
+      "sha256": "644dd7bacbccac7deefd42ea71c66025ef0dd7b9d8c4d0d2d1b4282719119bcc"
+    },
+    {
+      "bytes": 27527,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_control.p",
+      "present": true,
+      "sha256": "b260f0768b0b9f82e2b9b193aa4dee9061a7dcff8fafc3da77c9b6edff41b3e6"
+    },
+    {
+      "bytes": 3721,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_json.p",
+      "present": true,
+      "sha256": "bcdbad438ec07eaf3f7c25784905a6114c6c3dadce76e4fa99a007c76e9762b2"
+    },
+    {
+      "bytes": 1302,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_lower.p",
+      "present": true,
+      "sha256": "09e4865a43f671accecf337d50b16b647ae9d7f5ef97460080e0a8536ab41f6e"
+    },
+    {
+      "bytes": 7543,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_lower_binary.p",
+      "present": true,
+      "sha256": "abf25554aed3932fc947362ce48fc267161220fe70fb5dae7cc3a59c2e678bf6"
+    },
+    {
+      "bytes": 12290,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_lower_call.p",
+      "present": true,
+      "sha256": "0339a0164f1ce5f06daa0f45605f111c5293559de433961918b23ff366ab1a4d"
+    },
+    {
+      "bytes": 6160,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_lower_construct.p",
+      "present": true,
+      "sha256": "c242ce9c4ba477f541ab80c95c7522644d1bc815a596d1c6ad77a92fdd9df2ec"
+    },
+    {
+      "bytes": 4999,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_lower_conversion.p",
+      "present": true,
+      "sha256": "645d629842a23f319e9c50ed98b450a3aa7e75aea752486faca005371479b2ce"
+    },
+    {
+      "bytes": 6159,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_lower_mode.p",
+      "present": true,
+      "sha256": "a28047074614f98275d25c1341734d319e31294de3b3d73de321c815eba03ca2"
+    },
+    {
+      "bytes": 4907,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_lower_primary.p",
+      "present": true,
+      "sha256": "ffac49d1250892706fa2e935d454bf7e75870c53ccc74d69f7d84be761f87237"
+    },
+    {
+      "bytes": 11983,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_part2.p",
+      "present": true,
+      "sha256": "8becb709901a05ef6913dc4df454fb2bc4c7fac4a024374de012b8ba4b62be48"
+    },
+    {
+      "bytes": 24394,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_part3.p",
+      "present": true,
+      "sha256": "ee761e7e78f69c9dcd0819f6fa141e536f1d91bde3f91506ba55d1d178956dca"
+    },
+    {
+      "bytes": 21311,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/ir_project.p",
+      "present": true,
+      "sha256": "32ab9b44cae773b79550b6ea4d45dd5a5bddcee741e7feacaf8098fb1b604077"
+    },
+    {
+      "bytes": 4480,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/lexer_number.p",
+      "present": true,
+      "sha256": "d95a36f78c25d0cc2eaded447158f303623207b7b1db2341782605d26fb7c1c9"
+    },
+    {
+      "bytes": 8345,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/lexer_text.p",
+      "present": true,
+      "sha256": "74c70249dd4e3b42c758b0f035258c81cfd2390dc2b0aaf89edec235adc75aee"
+    },
+    {
+      "bytes": 7725,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/main.p",
       "present": true,
-      "sha256": "af83e106738b0e007029975097f472e5c874c3b8faca2f4bdef33a7480fb563c"
+      "sha256": "18b397c08b637de4e0e109aafbb120b76077fdabdfdb3c56af5bec00b4478889"
     },
     {
-      "bytes": 51390,
+      "bytes": 5810,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/main_driver.p",
+      "present": true,
+      "sha256": "2cc55ffd27e3ed41a7c0fc7e86dfd2adfc4e6062c178100a09f9838d27114ad2"
+    },
+    {
+      "bytes": 6299,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/main_part2.p",
+      "present": true,
+      "sha256": "0cea9d5ae6799f73214c49491a9e387e9a997c41d7b923af46cf45ee92d72912"
+    },
+    {
+      "bytes": 7714,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/parser.p",
       "present": true,
-      "sha256": "7f328f5ea56d435f6f1deff9f42a77dd5f61b9c9a5d895b067aa1019917d8b66"
+      "sha256": "f3f28c9b0ffe1d154860f39e56ffca5ff215a5b4780542bc5a993b33ca5ac9a2"
     },
     {
-      "bytes": 33997,
+      "bytes": 7988,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/parser_declarations.p",
+      "present": true,
+      "sha256": "bbf2f1e52ff74e281b387216f5d8c05bafbfa59d1543c688f74a8855b7511092"
+    },
+    {
+      "bytes": 5684,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/parser_declarations_part2.p",
+      "present": true,
+      "sha256": "68ea117c18f1eb7e6e127f6c42898777bcb27133405a2bbb80b77670c32ce56a"
+    },
+    {
+      "bytes": 7819,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/parser_expressions.p",
+      "present": true,
+      "sha256": "a240b8985bf8477f120e22159a5b98f817550845c9389412632fefbe5254617b"
+    },
+    {
+      "bytes": 4533,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/parser_expressions_part2.p",
+      "present": true,
+      "sha256": "8e68c842c5f373fc918cdf57e819120ce1be2b3c2c08f4351f2a413fc7b6e13c"
+    },
+    {
+      "bytes": 4670,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/parser_part2.p",
+      "present": true,
+      "sha256": "226eb0940d3f0de1fa44e806553e2e0b753244708ca5de8939ff0ca30de4c2a9"
+    },
+    {
+      "bytes": 7671,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/parser_statements.p",
+      "present": true,
+      "sha256": "f8d2204e747477adf7142e214dc6f04dced1f44a1bc99cdbb009ba619a85e20a"
+    },
+    {
+      "bytes": 5929,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/parser_statements_part2.p",
+      "present": true,
+      "sha256": "6aac0b9e8234666a869b84cfc0b0dbeac3b7fa88f14204239d22f6b21d045d15"
+    },
+    {
+      "bytes": 8075,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/project.p",
       "present": true,
-      "sha256": "d3136920941c885be56b068b607d28af654365aa906c2ce6b25d7f208f45e2f7"
+      "sha256": "004dd9a18fc5d9d059ec89325469e8efae72acab6d04d9fc00edc9f286e0db28"
     },
     {
-      "bytes": 75048,
+      "bytes": 7234,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/project_driver.p",
+      "present": true,
+      "sha256": "bbd69ee4e19cebc05636407c59814e2e7ac481fd711f7ca42c0e7d23df1785f1"
+    },
+    {
+      "bytes": 7974,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/project_graph.p",
+      "present": true,
+      "sha256": "3c9c76531ceb3d1db9f79932219eaa9283f7cdeb2ce0b7cf1da4cd5eef589b36"
+    },
+    {
+      "bytes": 6699,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/project_manifest.p",
+      "present": true,
+      "sha256": "b6350b988b81f23b30147efe156c0fee3ca987464c2a67ad9dea15318ac0e0fc"
+    },
+    {
+      "bytes": 4449,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/project_part2.p",
+      "present": true,
+      "sha256": "19e6e8b310b4041164a946245958ab8a1eb0fb7fcd1848bd607f562e4337e1b3"
+    },
+    {
+      "bytes": 11403,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/resolution.p",
       "present": true,
-      "sha256": "2ae870c6b394085adfdd43803020baecae09b8cec010bcbbdf96497226a26a05"
+      "sha256": "2d9f8ba4944f6ab9958f43148ff1f4180d02e82a880da2d7a68dc4cdb153dfd1"
     },
     {
-      "bytes": 49152,
+      "bytes": 9316,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/resolution_calls.p",
+      "present": true,
+      "sha256": "6b55ae3d37292a2ce9c741d180895c24ad0bab772393215f75ae3e49f15a2857"
+    },
+    {
+      "bytes": 10538,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/resolution_constants.p",
+      "present": true,
+      "sha256": "4684bac85b5b1874fc32b3ed167cb7a1693049df82cdea82348becd0548f9181"
+    },
+    {
+      "bytes": 2716,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/resolution_constants_part2.p",
+      "present": true,
+      "sha256": "0d26aa161847b0ceb5ddef9d40af413883ad2b52f5ae4234deb1ee6639530e0c"
+    },
+    {
+      "bytes": 14771,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/resolution_driver.p",
+      "present": true,
+      "sha256": "9086a96cb6e55711b1c5671bde6c284cf9a8ec3d785ed127e0b739cede21a659"
+    },
+    {
+      "bytes": 8110,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/resolution_names.p",
+      "present": true,
+      "sha256": "86e2af31dbef08aa38084a1a23d6687cacd6afb03dfb563eaffc1dcca9d3dc37"
+    },
+    {
+      "bytes": 8560,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/resolution_names_part2.p",
+      "present": true,
+      "sha256": "384b906582093ed21f220733ed8eb5d2fd93e3447ce78ec04629a9841ff2c860"
+    },
+    {
+      "bytes": 961,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/resolution_names_part3.p",
+      "present": true,
+      "sha256": "1e707a58d49364e889d6a4dc924c86b73df18ccf00f320695b5b35e81be8c7b5"
+    },
+    {
+      "bytes": 8422,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/resolution_observation.p",
+      "present": true,
+      "sha256": "eae4d985bf36a06af5b31f1862163aa6b58ec461b8dd90577c166dfa2e7d143f"
+    },
+    {
+      "bytes": 3376,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/resolution_part2.p",
+      "present": true,
+      "sha256": "d7e60bf33eecbfb4e6e54491038abb08ca0102372f76f98475029bb33ba4de39"
+    },
+    {
+      "bytes": 8799,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/semantic.p",
       "present": true,
-      "sha256": "e18be12f63dec82dc945980a7bf2dd5d769603b75c005115f7abf3b7f1539ffb"
+      "sha256": "b52fe5a08f5efcb018aba7679ddb3476877fac031d86ceba732a2120e0f5240e"
+    },
+    {
+      "bytes": 19340,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/semantic_declarations.p",
+      "present": true,
+      "sha256": "041fe1958224e013690d7367fe8e1a7e115f9dc100653a0e6b4b8aee39af9fd3"
+    },
+    {
+      "bytes": 6216,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/semantic_driver.p",
+      "present": true,
+      "sha256": "fda206c5efabc6d47a928edc29ebc1914ec8cbd01c061bb1ffde5f37422d0718"
+    },
+    {
+      "bytes": 4565,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/semantic_part2.p",
+      "present": true,
+      "sha256": "8441bfe0e36cacecee5a520cd084c162e30b9bab8f633544855ed9c29ec31bb9"
+    },
+    {
+      "bytes": 7724,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/semantic_types.p",
+      "present": true,
+      "sha256": "ff0853b40ba28ca5c0198bf0f1d5e2b3f7110695221ee681116840e52ef21526"
+    },
+    {
+      "bytes": 3691,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/semantic_types_part2.p",
+      "present": true,
+      "sha256": "e6d96f481b0eb9c1b61b4e19d2202e3274d544be6f1b6981c8cbd5180da8cc39"
     },
     {
       "bytes": 27,
@@ -987,12 +1619,12 @@
       "sha256": "670df7ad956f2a72bac91b34a8f57f8ea7b476de9df8c672562df94452f118aa"
     },
     {
-      "bytes": 3269,
+      "bytes": 3601,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "standard_library_d",
       "path": "standard_library/source/openc/std/system_file.d",
       "present": true,
-      "sha256": "436d58bf6fb12571033967dc443dfa1bb94de61646be1318a9ad77e9c5b60a1d"
+      "sha256": "91384f7a959128b655df1b498ab36ba478db461d11d866c25049cf1454494e83"
     },
     {
       "bytes": 1313,
@@ -1003,12 +1635,12 @@
       "sha256": "5e7c0d477baec7482827f3928d7bef0673f0aa81e678ffd240aea5f7101ab5c6"
     },
     {
-      "bytes": 756,
+      "bytes": 944,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "standard_library_d",
       "path": "standard_library/source/openc/std/system_memory.d",
       "present": true,
-      "sha256": "e9942fd290b7bb50ca15aa0b02ed054679eeb873049ccf57d7776e9c1ba07301"
+      "sha256": "d08b2c3d6f4300b225da4a4a8ac43a5ff28e3894ed4e0d77f177c919910c45a5"
     },
     {
       "bytes": 784,
@@ -1019,20 +1651,20 @@
       "sha256": "e91ddae5e46ce05269a154bd458c8ec9732ea5e7656123d167fd9ab4b77584b1"
     },
     {
-      "bytes": 624,
+      "bytes": 1060,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "standard_library_d",
       "path": "standard_library/source/openc/std/system_process.d",
       "present": true,
-      "sha256": "e86a77dd20e714ba63704ef1175e0925dcef9c91eeb7101c86924bf4b0afc569"
+      "sha256": "f1bfc0010ff2ce8d8751667aaa0385060230dc8a8f99b17c92ae4eb178ad01c8"
     },
     {
-      "bytes": 2727,
+      "bytes": 3012,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "standard_library_d",
       "path": "standard_library/source/openc/std/system_text.d",
       "present": true,
-      "sha256": "de2fd75bce416e72afa51aaa4344ff72d9e5fe36297d294d48de2f325d5e778e"
+      "sha256": "fa110107a639d6e5f5c26158e0157fbb46a3f8b10feba9bcd3a5118d81979877"
     },
     {
       "bytes": 1902,
@@ -1067,20 +1699,20 @@
       "sha256": "04bbb94a5a6c00573bc714459c154a25216f98d8894e3dea5dc12be5a629100e"
     },
     {
-      "bytes": 462,
+      "bytes": 695,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "standard_library_openc",
       "path": "standard_library/system.process/source/process.p",
       "present": true,
-      "sha256": "00a0444e37a912f98676a9bb78f132f75a33e11707be58fc48beb191687b64ee"
+      "sha256": "bea4ed6b0fbb5c47ecab1ca4a908b5d948221f24c9c67a7127cf12aaad1330a8"
     },
     {
-      "bytes": 1577,
+      "bytes": 1667,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "standard_library_openc",
       "path": "standard_library/system.text/source/text.p",
       "present": true,
-      "sha256": "3973396de10fb33bfc10b0d32bd3eb60dbdb929f2c22135dec3f3203b31539a8"
+      "sha256": "da0a290965c3eae5589cb2c9a986404c63973fabe79209339936fc0048f7608a"
     },
     {
       "bytes": 3388,
@@ -1278,9 +1910,9 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 1551535,
+    "bytes": 1674751,
     "empty": 0,
-    "files": 159,
+    "files": 238,
     "missing": 0
   },
   "version": "1.0.0-rc.8"

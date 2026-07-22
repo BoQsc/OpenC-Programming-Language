@@ -1,9 +1,10 @@
 # OpenC self-hosting and standalone compiler gates
 
-The long-term canonical compiler is written in OpenC and builds OpenC programs
-without DMD, DUB, Python, or another language compiler at execution time. The
+The canonical compiler is written in OpenC and now completes bootstrap
+self-compilation through deterministic D emission and a configured DMD. The
 existing D implementation remains the auditable stage-0 bootstrap seed; it is
-not deleted when bootstrap closure is achieved.
+not deleted after closure. Removing the installed DMD dependency is SH-5, and
+packaging the standalone self-hosted distribution is SH-6.
 
 The supported initial target is Windows x86-64 Hosted. Linux and freestanding
 do not gate this program.
@@ -173,9 +174,17 @@ in `semantic-flow-safety-parity-result.json` and
 - Stage 0 builds stage 1 from `.p`; stage 1 builds stage 2 from the same `.p`.
 - Stage 2 builds stage 3; stage 2 and stage 3 are reproducibly equivalent.
 
-Status: **PENDING**
+SH-4A evidence compares the canonical compiler plus A/B/C projects: all 28
+generated D files match Stage 0 byte for byte. SH-4B records Stage 1 invoking
+the configured D compiler and producing Stage 2. SH-4C records Stage 2
+producing Stage 3, with equal 7-file generated trees, lexer behavior,
+canonical IR, and normalized PE artifacts. The normalized Stage-2/Stage-3
+hash is
+`e1776ad8492ea4181dff91885ea45d371f1288abbdad8423cb2e4a16ef6c9e65`.
 
-Next subgate: **SH-4A — bootstrap D-source backend parity**
+Status: **PASS**
+
+Next gate: **SH-5 — DMD-independent Windows backend**
 
 ### SH-5 — DMD-independent Windows backend
 
@@ -198,11 +207,10 @@ Status: **PENDING**
 
 ## Required enabling libraries
 
-SH-3 now supplies owned frontend, semantic, safety, acceptance, and canonical
-IR stages. Bootstrap closure next needs deterministic D-source writing and
-Hosted process invocation. SH-5 later replaces the installed D compiler with
-the standalone Windows object/link backend. These may be specialized compiler
-libraries; generics are not required to begin.
+SH-4 now supplies deterministic D-source writing, Hosted process invocation,
+build records, self-compilation, and bootstrap closure. SH-5 replaces the
+installed D compiler with the standalone Windows object/link backend. These
+may be specialized compiler libraries; generics are not required to begin.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

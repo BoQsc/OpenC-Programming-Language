@@ -28,4 +28,7 @@ tracked compiler-in-OpenC self-hosting work.
 The owner-certified Windows x86-64 Hosted source candidate builds in debug and
 release modes and passes the recorded unit, conformance, runtime, and maintained
 program gates. It still emits D source for executable builds and therefore is
-not yet a DMD-independent or self-hosted compiler.
+not yet DMD-independent. The canonical compiler written in OpenC now completes
+SH-4 bootstrap self-compilation and Stage-2/Stage-3 closure through this D
+backend. SH-5 replaces the separately installed DMD dependency; SH-6 packages
+and verifies the standalone self-hosted distribution.

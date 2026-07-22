@@ -5,6 +5,8 @@ import openc.runtime.memory : opencAlloc, opencFree;
 import openc.runtime.types : OpenCByte, OpenCText, Status, usize;
 import std.utf : UTFException, validate;
 
+private OpenCText[OpenCText] readTextCache;
+
 struct File {
 private:
     FileHandle handle;
@@ -85,6 +87,16 @@ Status read_text(OpenCText path, out OpenCText text) {
     if (!opened.ok) return opened;
     scope (exit) close_file(file);
     return read_text(file, text);
+}
+
+Status read_text_cached(OpenCText path, out OpenCText text) {
+    if (auto cached = path in readTextCache) {
+        text = *cached;
+        return Status.success();
+    }
+    auto result = read_text(path, text);
+    if (result.ok) readTextCache[path.idup] = text;
+    return result;
 }
 
 Status write_text(OpenCText path, OpenCText text) {

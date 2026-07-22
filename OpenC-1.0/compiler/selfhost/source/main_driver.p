@@ -1,0 +1,157 @@
+import system.file;
+import system.io;
+import system.memory;
+import system.path;
+import system.process;
+import system.text;
+
+unsafe i32 main() {
+    usize arguments = process.argument_count();
+    if arguments != 1 && arguments != 2 && arguments != 3 && arguments != 8 {
+        io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json | --semantic-flow-safety openc.project.json | --semantic-ir openc.project.json | --emit-d PROJECT OUTPUT-DIRECTORY | --bootstrap-emit-d PROJECT OUTPUT-DIRECTORY | --bootstrap-build PROJECT OUTPUT-EXE GENERATED-DIR RUNTIME-DIR LIBRARY-DIR RECORD D-COMPILER]\n");
+        return 64;
+    }
+    if arguments == 8 {
+        if process.argument(0) == "--bootstrap-build" {
+            return build_bootstrap_compiler(
+                process.argument(1), process.argument(2), process.argument(3),
+                process.argument(4), process.argument(5), process.argument(6),
+                process.argument(7)
+            );
+        }
+        io.error("usage: openc-selfhost-frontend --bootstrap-build PROJECT OUTPUT-EXE GENERATED-DIR RUNTIME-DIR LIBRARY-DIR RECORD D-COMPILER\n");
+        return 64;
+    }
+
+    if arguments == 3 {
+        if process.argument(0) == "--emit-d" {
+            return emit_bootstrap_d(process.argument(1), process.argument(2));
+        }
+        if process.argument(0) == "--bootstrap-emit-d" {
+            return emit_trusted_bootstrap_d(
+                process.argument(1), process.argument(2)
+            );
+        }
+        io.error("usage: openc-selfhost-frontend [--emit-d | --bootstrap-emit-d] openc.project.json OUTPUT-DIRECTORY\n");
+        return 64;
+    }
+
+    bool parse_mode = false;
+    bool project_mode = false;
+    bool semantic_declaration_mode = false;
+    bool semantic_resolution_mode = false;
+    bool semantic_flow_safety_mode = false;
+    bool semantic_ir_mode = false;
+    text path = process.argument(0);
+    if arguments == 2 {
+        if process.argument(0) == "--parse" {
+            parse_mode = true;
+        } else if process.argument(0) == "--project" {
+            project_mode = true;
+        } else if process.argument(0) == "--semantic-decl" {
+            semantic_declaration_mode = true;
+        } else if process.argument(0) == "--semantic-resolve" {
+            semantic_resolution_mode = true;
+        } else if process.argument(0) == "--semantic-flow-safety" {
+            semantic_flow_safety_mode = true;
+        } else if process.argument(0) == "--semantic-ir" {
+            semantic_ir_mode = true;
+        } else {
+            io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json | --semantic-flow-safety openc.project.json | --semantic-ir openc.project.json | --emit-d openc.project.json OUTPUT-DIRECTORY]\n");
+            return 64;
+        }
+        path = process.argument(1);
+    }
+    if project_mode {
+        return observe_project(path);
+    }
+    if semantic_declaration_mode {
+        return observe_semantic_declarations(path);
+    }
+    if semantic_resolution_mode {
+        return observe_semantic_resolution(path);
+    }
+    if semantic_flow_safety_mode {
+        return observe_semantic_flow_safety(path);
+    }
+    if semantic_ir_mode {
+        return observe_semantic_ir(path);
+    }
+    text source;
+    status loaded = file.read_text(path, out source);
+    if !loaded.ok {
+        if parse_mode {
+            io.println("OPENC-PARSE-OBSERVATION 1");
+        } else {
+            io.println("OPENC-LEX-OBSERVATION 2");
+        }
+        io.println("SOURCE_ERROR OPENC-SOURCE-INVALID-001 0 0 1 1");
+        io.println("SUMMARY 0 1");
+        return 1;
+    }
+
+    usize source_length = text.byte_length(source);
+    PackedBuffer tokens = PackedBuffer{
+        length = 0,
+        capacity = source_length + 1
+    };
+    PackedBuffer diagnostics = PackedBuffer{
+        length = 0,
+        capacity = source_length * 4 + 8
+    };
+    ptr byte token_data = memory.alloc(tokens.capacity * record_stride());
+    scope memory.free(token_data);
+    ptr byte diagnostic_data = memory.alloc(
+        diagnostics.capacity * record_stride()
+    );
+    scope memory.free(diagnostic_data);
+
+    lex_source(
+        source,
+        token_data, tokens,
+        diagnostic_data, diagnostics
+    );
+    assign_token_positions(source, token_data, tokens);
+
+    if parse_mode {
+        PackedBuffer syntax = PackedBuffer{
+            length = 0,
+            capacity = tokens.length * 6 + 8
+        };
+        ptr byte syntax_data = memory.alloc(
+            syntax.capacity * record_stride()
+        );
+        scope memory.free(syntax_data);
+        parse_source_syntax(
+            source,
+            token_data, tokens,
+            syntax_data, syntax,
+            diagnostic_data, diagnostics
+        );
+        assign_diagnostic_positions(source, diagnostic_data, diagnostics);
+        io.println("OPENC-PARSE-OBSERVATION 1");
+        emit_syntax_records(syntax_data, syntax);
+        emit_observation_records(diagnostic_data, diagnostics, true);
+        io.print("SUMMARY ");
+        io.print(syntax.length);
+        io.print(" ");
+        io.println(diagnostics.length);
+        if diagnostics.length != 0 { return 1; }
+        return 0;
+    }
+
+    assign_diagnostic_positions(source, diagnostic_data, diagnostics);
+    io.println("OPENC-LEX-OBSERVATION 2");
+    emit_observation_records(token_data, tokens, false);
+    emit_observation_records(diagnostic_data, diagnostics, true);
+    io.print("SUMMARY ");
+    io.print(tokens.length);
+    io.print(" ");
+    io.println(diagnostics.length);
+
+    if diagnostics.length != 0 {
+        return 1;
+    }
+    return 0;
+}
+

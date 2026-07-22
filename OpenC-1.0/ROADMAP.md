@@ -6,23 +6,20 @@ verification are optional future target work; they do not block this release.
 
 ## Self-hosting critical path
 
-1. **SH-4A — bootstrap D-source backend parity (next)**
-   - lower the owned canonical IR to deterministic bootstrap D source;
-   - compare generated modules and runtime/library input ordering with stage 0.
-2. **SH-4B — stage-1 builds stage-2**
-   - add Hosted process invocation and build-record writing;
-   - have stage 1 invoke the configured D compiler on its own canonical `.p`
-     project and produce stage 2.
-3. **SH-4C — bootstrap closure**
-   - stage 2 builds stage 3 from the same source;
-   - require normalized D source, semantic IR, behavior, and stage-2/stage-3
-     artifact equivalence.
-4. **SH-5 — DMD-independent Windows backend**
+1. **SH-5 — DMD-independent Windows backend (next)**
    - emit/link Windows x86-64 programs without a separately installed DMD,
      DUB, or Python runtime.
-5. **SH-6 — standalone self-hosted release**
+2. **SH-6 — standalone self-hosted release**
    - rebuild the compiler, runtime, and library from the shipped standalone
      distribution and record artifacts and checksums.
+
+SH-4 is complete. SH-4A matches all 28 generated D files across the canonical
+compiler and A/B/C projects byte for byte. SH-4B has Stage 1 invoke the
+configured D compiler and build Stage 2 from the canonical `.p` compiler.
+SH-4C has Stage 2 build Stage 3 and proves equal generated source, lexer
+behavior, canonical IR, and normalized Windows PE artifacts. The compiler is
+self-hosted through the bootstrap D backend; eliminating that external DMD
+dependency is specifically SH-5.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -42,6 +39,9 @@ source fixtures: 232 semantic comparisons plus 34 SH-2 frontend cases, with
 SH-3D matches all 149 rejection outcomes and exact canonical IR for 117
 accepted programs: 183 functions, 275 blocks, 1,489 instructions, and all 33
 reachable opcodes. Full SH-3 passes.
+SH-4 closure produces 7 stable generated modules and identical normalized
+Stage-2/Stage-3 PE hash
+`e1776ad8492ea4181dff91885ea45d371f1288abbdad8423cb2e4a16ef6c9e65`.
 
 ## Nonblocking quality work
 
