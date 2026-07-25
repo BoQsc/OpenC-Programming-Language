@@ -1,0 +1,15 @@
+{
+  "schema": "openc-third-party-component-v1",
+  "name": "TinyCC Win64",
+  "version": "0.9.27",
+  "license": "NOASSERTION",
+  "license_components": [
+    "LGPL-2.1-only",
+    "MIT",
+    "LicenseRef-Public-Domain"
+  ],
+  "upstream": "https://savannah.nongnu.org/projects/tinycc/",
+  "binary_archive_sha256": "34A721949A2583FDFF725312DA092FA0F5F1F284B702E6F811C6954714FAABB2",
+  "compiler_sha256": "E9CB3E89E20A9EFEAD83CC9E6B100314275634C2F705056DA71F424EA9B0CDF0",
+  "source_archive_sha256": "DE23AF78FCA90CE32DFF2DD45B3432B2334740BB9BB7B05BF60FDBFC396CEB9C"
+}

@@ -4,13 +4,44 @@
 #include <errno.h>
 #include <float.h>
 #include <limits.h>
+#if defined(__TINYC__)
+extern int _finite(double value);
+extern double floor(double value);
+#else
 #include <math.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 
 static int oc_argc = 0;
 static char **oc_argv = NULL;
 static oc_owned_bytes oc_cwd = {NULL, 0};
+
+static bool oc_runtime_isfinite(long double value) {
+#if defined(__TINYC__)
+    return _finite((double)value) != 0;
+#else
+    return isfinite((double)value) != 0;
+#endif
+}
+
+static long double oc_runtime_truncl(long double value) {
+#if defined(__TINYC__)
+    return value < 0.0L
+        ? (long double)-floor((double)-value)
+        : (long double)floor((double)value);
+#else
+    return truncl(value);
+#endif
+}
+
+static long double oc_runtime_fabsl(long double value) {
+#if defined(__TINYC__)
+    return value < 0.0L ? -value : value;
+#else
+    return fabsl(value);
+#endif
+}
 
 static oc_text oc_text_from_c_string(const char *value) {
     if (value == NULL) return OC_TEXT_EMPTY;
@@ -121,7 +152,7 @@ uintptr_t oc_range_length(uintptr_t start, uintptr_t end, uintptr_t total, uint3
         return (type)shifted; \
     } \
     type oc_checked_cast_##suffix(long double value, uint32_t span_id) { \
-        if (!isfinite((double)value) || value < (long double)(min_value) || value > (long double)(max_value) || truncl(value) != value) \
+        if (!oc_runtime_isfinite(value) || value < (long double)(min_value) || value > (long double)(max_value) || oc_runtime_truncl(value) != value) \
             oc_checked_failure(OC_STATUS_INTEGER_OVERFLOW, "OPENC-CAST-CHECKED-001", "checked numeric cast is not representable", span_id); \
         return (type)value; \
     }
@@ -161,7 +192,7 @@ uintptr_t oc_range_length(uintptr_t start, uintptr_t end, uintptr_t total, uint3
         return (type)(a >> (unsigned)b); \
     } \
     type oc_checked_cast_##suffix(long double value, uint32_t span_id) { \
-        if (!isfinite((double)value) || value < 0.0L || value > (long double)(max_value) || truncl(value) != value) \
+        if (!oc_runtime_isfinite(value) || value < 0.0L || value > (long double)(max_value) || oc_runtime_truncl(value) != value) \
             oc_checked_failure(OC_STATUS_INTEGER_OVERFLOW, "OPENC-CAST-CHECKED-001", "checked numeric cast is not representable", span_id); \
         return (type)value; \
     }
@@ -178,13 +209,13 @@ OC_UNSIGNED_IMPL(uint64_t, u64, UINT64_MAX)
 OC_UNSIGNED_IMPL(uintptr_t, usize, UINTPTR_MAX)
 
 float oc_checked_cast_f32(long double value, uint32_t span_id) {
-    if (!isfinite((double)value) || fabsl(value) > FLT_MAX)
+    if (!oc_runtime_isfinite(value) || oc_runtime_fabsl(value) > FLT_MAX)
         oc_checked_failure(OC_STATUS_INTEGER_OVERFLOW, "OPENC-CAST-CHECKED-001", "checked f32 cast is not representable", span_id);
     return (float)value;
 }
 
 double oc_checked_cast_f64(long double value, uint32_t span_id) {
-    if (!isfinite((double)value) || fabsl(value) > DBL_MAX)
+    if (!oc_runtime_isfinite(value) || oc_runtime_fabsl(value) > DBL_MAX)
         oc_checked_failure(OC_STATUS_INTEGER_OVERFLOW, "OPENC-CAST-CHECKED-001", "checked f64 cast is not representable", span_id);
     return (double)value;
 }

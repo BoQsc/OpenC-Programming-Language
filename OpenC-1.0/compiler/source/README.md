@@ -26,9 +26,10 @@ standard-library packages. It is the stage-0 implementation for the separately
 tracked compiler-in-OpenC self-hosting work.
 
 The owner-certified Windows x86-64 Hosted source candidate builds in debug and
-release modes and passes the recorded unit, conformance, runtime, and maintained
-program gates. It still emits D source for executable builds and therefore is
-not yet DMD-independent. The canonical compiler written in OpenC now completes
-SH-4 bootstrap self-compilation and Stage-2/Stage-3 closure through this D
-backend. SH-5 replaces the separately installed DMD dependency; SH-6 packages
-and verifies the standalone self-hosted distribution.
+release modes and passes the recorded unit, conformance, runtime, and
+maintained-program gates. This D implementation remains the auditable stage-0
+bootstrap seed. The canonical compiler written in OpenC completes SH-4
+bootstrap self-compilation through this retained D backend and SH-5
+DMD-independent closure through deterministic C11 plus the shipped TinyCC
+0.9.27 Win64 backend. SH-6 packages and verifies the standalone self-hosted
+distribution.

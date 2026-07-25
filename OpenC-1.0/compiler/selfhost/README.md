@@ -14,12 +14,13 @@ The semantic stages build OpenC-owned declaration, symbol, canonical type,
 lexical-scope, constant-value, overload-selection, flow/safety, acceptance,
 and canonical IR state and emit exact observations.
 
-This is now an executable self-hosted compiler through the bootstrap D backend.
-It emits deterministic D, invokes the configured D compiler, links the next
-compiler stage, and reaches Stage-2/Stage-3 closure. It is not yet
-DMD-independent or packaged as the SH-6 standalone distribution. Those
-remaining capabilities are tracked by `SELF_HOSTING.md`; the machine-readable
-gate state is `SELF_HOSTING_STATE.json`.
+This is now a DMD-independent executable self-hosted compiler on Windows
+x86-64 Hosted. It emits deterministic C11, invokes the shipped TinyCC 0.9.27
+Win64 backend, links the next compiler stage, and reaches byte-exact
+Stage-2/Stage-3 source and executable closure. It is not yet packaged as the
+SH-6 standalone distribution. That remaining capability is tracked by
+`SELF_HOSTING.md`; the machine-readable gate state is
+`SELF_HOSTING_STATE.json`.
 
 Run from the repository root after building stage 0:
 
@@ -35,6 +36,18 @@ SH-3A through SH-3D, and full SH-3 pass. SH-4A bootstrap D-source backend
 parity, SH-4B Stage-1 self-compilation, SH-4C Stage-2/Stage-3 closure, and full
 SH-4 also pass.
 
+Run the SH-5 DMD-independent Windows closure proof with:
+
+```text
+python compiler/selfhost/bootstrap_windows_closure.py
+```
+
+The resulting native compiler exposes the public build command:
+
+```text
+openc build --project=path/to/openc.project.json --output=path/to/program.exe
+```
+
 Run the SH-4 proofs with a built Stage-1 executable and configured DMD:
 
 ```text
@@ -42,4 +55,4 @@ python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh
 python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final
 ```
 
-Next: **SH-5 — DMD-independent Windows backend**.
+Next: **SH-6 — standalone self-hosted release**.

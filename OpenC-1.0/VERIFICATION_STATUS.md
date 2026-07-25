@@ -1,13 +1,13 @@
 # OpenC 1.0.0-rc.8 verification status
 
-Date: 2026-07-22
+Date: 2026-07-26
 Host: Windows 10.0.19045, x86-64
 
 ## Verified scope
 
 This evidence supports the owner-certified Windows x86-64 Hosted reference
-implementation. Linux, freestanding, Native, standalone C providers,
-script/live, and Concurrent work are outside the supported 1.0 scope.
+implementation. Linux, freestanding, Native, script/live, and Concurrent work
+are outside the supported 1.0 scope.
 
 ## Toolchain
 
@@ -15,6 +15,8 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
 - DUB 1.41.0
 - DMD-bundled `lld-link`
 - Python 3.13.7
+- Shipped TinyCC 0.9.27 Win64 (`tcc.exe` SHA-256
+  `e9cb3e89e20a9efead83cc9e6b100314275634c2f705056da71f424ea9b0cdf0`)
 
 ## Executed evidence
 
@@ -26,8 +28,8 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
-  compiler-in-OpenC implementation brings the current tree to 368 `.p` files,
-  including 85 compiler source units. The migrated fixture corpus retains
+  compiler-in-OpenC implementation brings the current tree to 373 `.p` files,
+  including 90 compiler source units. The migrated fixture corpus retains
   268/268 passes and zero infrastructure failures. SH-2 records the exact
   288-file corpus used for that milestone; SH-4A covers the complete current
   compiler project through byte-exact generated output.
@@ -70,6 +72,15 @@ script/live, and Concurrent work are outside the supported 1.0 scope.
   lexer behavior, canonical IR, and normalized PE artifacts are equal. The
   normalized Stage-2/Stage-3 hash is
   `e1776ad8492ea4181dff91885ea45d371f1288abbdad8423cb2e4a16ef6c9e65`.
+- SH-5 passes: OpenC emits deterministic single-file C11 and invokes the
+  shipped TinyCC 0.9.27 Win64 compiler/linker. The public `openc build`
+  command succeeds with DMD, DUB, and Python hidden from the child PATH.
+- Native Stage 2 builds native Stage 3. Their generated C is byte-identical
+  with SHA-256
+  `ae3c4929bf874ae8c23416a9966c26788a8a294a53853628880fef848a28bbec`,
+  and their raw Windows executables are byte-identical with SHA-256
+  `b42892ed15f944049eefd6b91206dd283de5ce38fef97d6667a1131dc955be5f`.
+  Lexer behavior, canonical IR, and public-build execution smoke checks pass.
 - Structure, source-completeness, manifest, and archive verification pass.
 
 Fixture execution now distinguishes normative rules from implementation
@@ -100,6 +111,7 @@ python tests/run_maintained.py
 python compiler/selfhost/bootstrap.py
 python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh4/closure-final/openc-stage1.exe --output build-output/selfhost-sh4/parity-final
 python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final
+python compiler/selfhost/bootstrap_windows_closure.py
 python scripts/validate_structure.py
 python scripts/source_completeness.py
 ```
@@ -114,7 +126,8 @@ not `RELEASED`. SH-2A through SH-2D and full lexical/syntactic/project SH-2 are
 executed self-hosting milestones. SH-3A declaration/symbol/type-table and
 SH-3B name/constant/overload parity, SH-3C flow/safety parity, and SH-3D exact
 semantic-outcome/canonical-IR parity also pass, completing SH-3. SH-4 bootstrap
-closure now passes: the OpenC compiler compiles the next OpenC compiler stage
-and reaches Stage-2/Stage-3 equivalence. This is a self-hosting claim through
-the D bootstrap backend, not a DMD-independent or standalone-distribution
-claim. SH-5 is the next milestone; SH-6 remains pending after it.
+closure passes through the retained D bootstrap route. SH-5 also passes: the
+native OpenC compiler uses its C11 backend and shipped TinyCC to build the next
+native compiler with no DMD, DUB, or Python available to the build. This is a
+DMD-independent Windows self-hosting claim, not yet a standalone-distribution
+claim. SH-6 standalone packaging and distribution verification remain next.

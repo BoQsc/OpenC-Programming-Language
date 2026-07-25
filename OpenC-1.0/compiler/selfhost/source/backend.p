@@ -8,7 +8,8 @@ import system.text;
 unsafe i32 emit_bootstrap_d_mode(
     text project_path,
     text output_directory,
-    bool validate_semantics
+    bool validate_semantics,
+    bool c_backend
 ) {
     text project_source;
     status loaded_project = file.read_text(project_path, out project_source);
@@ -178,6 +179,11 @@ unsafe i32 emit_bootstrap_d_mode(
         current_block = 0,
         next_value = next_value
     };
+    if c_backend {
+        return c_emit_project(
+            base, output_directory, output_capacity, entry
+        );
+    }
     module_index = 0;
     while module_index < modules.length {
         base.module_index = module_index;

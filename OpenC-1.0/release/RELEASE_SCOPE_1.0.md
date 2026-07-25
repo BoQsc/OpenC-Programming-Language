@@ -16,17 +16,17 @@ executed compiler-in-OpenC frontend with SH-1 bootstrap, SH-2A exact lexical
 parity, SH-2B owned single-pass lexer state, SH-2C exact parser parity, SH-2D
 exact project/module parity, and full syntactic/project SH-2 parity. Semantic
 and IR parity (SH-3) plus bootstrap self-compilation and closure (SH-4) also
-pass. The self-hosted compiler still uses its D bootstrap backend and a
-configured DMD. DMD independence (SH-5) and standalone packaging (SH-6) are
-separately tracked future gates, not prerequisites retroactively added to the
-D-bootstrap 1.0 claim.
+pass. DMD-independent Windows self-hosting (SH-5) passes through deterministic
+C11 emission and the shipped TinyCC 0.9.27 Win64 backend. Standalone packaging
+and distribution verification (SH-6) remain separately tracked future work,
+not prerequisites retroactively added to the original D-bootstrap 1.0 claim.
 
 ## Experimental source included without a support claim
 
-Linux, freestanding, standalone C providers, Native interfaces, script/live,
-and Concurrent material may be included for continued development. It is not a
-claimed 1.0 binary target, is not verified by the 1.0 release record, and does
-not block the Windows x86-64 Hosted release.
+Linux, freestanding, Native interfaces, script/live, and Concurrent material
+may be included for continued development. It is not a claimed 1.0 binary
+target, is not verified by the 1.0 release record, and does not block the
+Windows x86-64 Hosted release.
 
 Adding a supported target later requires its own target record, native build and
 runtime evidence, maintained-program execution, provider tests, artifact

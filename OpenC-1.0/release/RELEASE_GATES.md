@@ -20,9 +20,9 @@ third-party grammar, semantic, security, and usability reviews remain strongly
 recommended, but they are post-release assurance work and not mandatory for the
 owner-maintained initial 1.0 release.
 
-Linux, freestanding, Native, standalone C providers, script/live, and
-Concurrent sources are outside the claimed 1.0 implementation scope. Their
-verification cannot fail a Windows Hosted release gate.
+Linux, freestanding, Native, script/live, and Concurrent sources are outside
+the claimed 1.0 implementation scope. Their verification cannot fail a
+Windows Hosted release gate.
 
 G6 covers the entire authored 268-fixture manifest with zero compatibility
 fallback in the current run; the former 93 historical rule-ID compatibility
@@ -40,6 +40,8 @@ and project frontend SH-2 gate pass. SH-3A declaration, symbol, and type-table
 parity also passes. SH-3B name/constant/overload, SH-3C flow/safety, and SH-3D
 semantic-outcome/canonical-IR parity pass, completing SH-3. SH-4 bootstrap
 self-compilation and closure now pass as well: Stage 1 builds Stage 2
-and Stage 2 builds an equivalent Stage 3. SH-5 DMD independence and SH-6
-standalone packaging remain future compiler work and do not alter that release
-boundary.
+and Stage 2 builds an equivalent Stage 3. SH-5 DMD independence also passes:
+native Stage 2 builds a byte-identical native Stage 3 through public
+`openc build`, deterministic C11, and the shipped TinyCC Win64 backend with
+DMD, DUB, and Python hidden. SH-6 standalone packaging remains future compiler
+work and does not alter that release boundary.

@@ -7,3 +7,6 @@
 *.obj binary
 *.pdb binary
 *.zip binary
+
+# Preserve the audited upstream distribution byte-for-byte.
+third_party/tinycc-win64/** -text

@@ -11,7 +11,7 @@ Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
 canonical D compiler source:         SOURCE-COMPLETE; BUILT AND TESTED
 informative Python bootstrap source: SOURCE-COMPLETE; TESTED
-official OpenC source extension:      .p; 281 MIGRATED, 368 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 373 TOTAL `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
@@ -24,9 +24,10 @@ full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
 bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
 bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
-self-hosted compiler:                 YES; SH-4 PASS, DMD BOOTSTRAP BACKEND
-self-hosting next milestone:          SH-5 DMD-INDEPENDENT WINDOWS BACKEND
-DMD-independent standalone compiler: NO; SH-5 AND SH-6 PENDING
+self-hosted compiler:                 YES; SH-5 PASS, DMD-INDEPENDENT WINDOWS
+self-hosting next milestone:          SH-6 STANDALONE SELF-HOSTED RELEASE
+DMD-independent self-host compiler:  YES; PUBLIC `openc build`, VENDORED TCC
+standalone compiler distribution:    NO; SH-6 PENDING
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED
 first-party tool source:             SOURCE-COMPLETE; BUILT AND TESTED
 build/test/release source:           SOURCE-COMPLETE; EXECUTED
@@ -42,7 +43,7 @@ dedicated-fixture backlog:           135 ACTIVE RULES, DISCLOSED/NONBLOCKING
 dedicated grammar-production pairs: INCOMPLETE, DISCLOSED/NONBLOCKING
 
 Windows behavior verified:           YES, WITH LOCAL RECORDED TOOLCHAIN
-standalone C providers compiled:     NO; OUTSIDE CLAIMED 1.0 IMPLEMENTATION
+Windows Hosted C providers compiled: YES; SH-5 TINYCC BUILD AND EXECUTION PASS
 Linux/freestanding verified:         NO; OPTIONAL FUTURE TARGETS
 independent third-party review:       NOT PERFORMED; RECOMMENDED/NONBLOCKING
 maintainer release review:            PASS; NO OPEN P0/P1 FINDINGS
@@ -50,6 +51,7 @@ maintainer release review:            PASS; NO OPEN P0/P1 FINDINGS
 licensing/governance:                HD-012 RATIFIED
 software license:                    0BSD
 specification/docs/assets:           CC0-1.0
+vendored TinyCC backend:             LGPL-2.1 + BUNDLED MIT/PUBLIC-DOMAIN TERMS
 release authority:                   OPENC PROJECT OWNER
 formal release ready:                YES FOR DECLARED WINDOWS HOSTED SCOPE
 published/released:                  NO

@@ -188,7 +188,23 @@
     {
       "id": "SH-5",
       "name": "dmd_independent_windows_backend",
-      "status": "PENDING"
+      "status": "PASS",
+      "command": "python compiler/selfhost/bootstrap_windows_closure.py --output build-output/selfhost-sh5/closure",
+      "evidence": "build-output/selfhost-sh5/final/bootstrap-windows-closure-result.json",
+      "backend": "c11_tinycc_0_9_27_win64",
+      "public_command": "openc build --project=PROJECT --output=OUTPUT-EXE",
+      "backend_shipped": true,
+      "corresponding_backend_source_shipped": true,
+      "dmd_invoked": false,
+      "dub_invoked": false,
+      "python_invoked": false,
+      "generated_c_byte_equal": true,
+      "generated_c_sha256": "ae3c4929bf874ae8c23416a9966c26788a8a294a53853628880fef848a28bbec",
+      "executable_byte_equal": true,
+      "executable_sha256": "b42892ed15f944049eefd6b91206dd283de5ce38fef97d6667a1131dc955be5f",
+      "lexer_behavior_equal": true,
+      "canonical_ir_equal": true,
+      "public_smoke_passed": true
     },
     {
       "id": "SH-6",
@@ -221,7 +237,10 @@
     "stage2_builds_stage3": true,
     "bootstrap_closure": true,
     "self_hosted": true,
-    "dmd_independent": false,
+    "windows_c_backend": true,
+    "vendored_windows_backend": true,
+    "public_openc_build": true,
+    "dmd_independent": true,
     "standalone": false
   }
 }

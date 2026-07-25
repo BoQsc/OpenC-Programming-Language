@@ -5,6 +5,55 @@ import system.path;
 import system.process;
 import system.text;
 
+unsafe bool cli_has_prefix(text value, text prefix) {
+    usize value_length = text.byte_length(value);
+    usize prefix_length = text.byte_length(prefix);
+    if value_length < prefix_length { return false; }
+    return text.equal(
+        project_slice(value, 0, prefix_length), prefix
+    );
+}
+
+unsafe text cli_remove_prefix(text value, text prefix) {
+    usize prefix_length = text.byte_length(prefix);
+    return project_slice(
+        value, prefix_length, text.byte_length(value) - prefix_length
+    );
+}
+
+unsafe i32 build_default_windows(
+    text project_path,
+    text output_executable
+) {
+    DBuffer generated = d_buffer_create(
+        text.byte_length(output_executable) + 32
+    );
+    d_put(generated, output_executable);
+    d_put(generated, ".openc.c");
+    DBuffer record = d_buffer_create(
+        text.byte_length(output_executable) + 32
+    );
+    d_put(record, output_executable);
+    d_put(record, ".build.json");
+    if !generated.ok || !record.ok {
+        d_buffer_destroy(record);
+        d_buffer_destroy(generated);
+        return 1;
+    }
+    i32 result = build_windows_c(
+        project_path,
+        output_executable,
+        d_buffer_text(generated),
+        "runtime",
+        "compiler/selfhost/native_runtime",
+        d_buffer_text(record),
+        "third_party/tinycc-win64/tcc.exe"
+    );
+    d_buffer_destroy(record);
+    d_buffer_destroy(generated);
+    return result;
+}
+
 unsafe i32 main() {
     usize arguments = process.argument_count();
     if arguments != 1 && arguments != 2 && arguments != 3 && arguments != 8 {
@@ -19,11 +68,35 @@ unsafe i32 main() {
                 process.argument(7)
             );
         }
-        io.error("usage: openc-selfhost-frontend --bootstrap-build PROJECT OUTPUT-EXE GENERATED-DIR RUNTIME-DIR LIBRARY-DIR RECORD D-COMPILER\n");
+        if process.argument(0) == "--windows-build" {
+            return build_windows_c(
+                process.argument(1), process.argument(2), process.argument(3),
+                process.argument(4), process.argument(5), process.argument(6),
+                process.argument(7)
+            );
+        }
+        io.error("usage: openc-selfhost-frontend [--bootstrap-build PROJECT OUTPUT-EXE GENERATED-DIR RUNTIME-DIR LIBRARY-DIR RECORD D-COMPILER | --windows-build PROJECT OUTPUT-EXE GENERATED-C RUNTIME-ROOT NATIVE-RUNTIME-DIR RECORD TCC-EXE]\n");
         return 64;
     }
 
     if arguments == 3 {
+        if process.argument(0) == "build" {
+            text project_path = process.argument(1);
+            text output_executable = process.argument(2);
+            if cli_has_prefix(project_path, "--project=") {
+                project_path = cli_remove_prefix(
+                    project_path, "--project="
+                );
+            }
+            if cli_has_prefix(output_executable, "--output=") {
+                output_executable = cli_remove_prefix(
+                    output_executable, "--output="
+                );
+            }
+            return build_default_windows(
+                project_path, output_executable
+            );
+        }
         if process.argument(0) == "--emit-d" {
             return emit_bootstrap_d(process.argument(1), process.argument(2));
         }
@@ -32,7 +105,17 @@ unsafe i32 main() {
                 process.argument(1), process.argument(2)
             );
         }
-        io.error("usage: openc-selfhost-frontend [--emit-d | --bootstrap-emit-d] openc.project.json OUTPUT-DIRECTORY\n");
+        if process.argument(0) == "--emit-c" {
+            return emit_windows_c(
+                process.argument(1), process.argument(2)
+            );
+        }
+        if process.argument(0) == "--bootstrap-emit-c" {
+            return emit_trusted_windows_c(
+                process.argument(1), process.argument(2)
+            );
+        }
+        io.error("usage: openc [build [--project=]PROJECT [--output=]OUTPUT-EXE | --emit-d | --bootstrap-emit-d | --emit-c | --bootstrap-emit-c] openc.project.json OUTPUT\n");
         return 64;
     }
 
@@ -154,4 +237,3 @@ unsafe i32 main() {
     }
     return 0;
 }
-

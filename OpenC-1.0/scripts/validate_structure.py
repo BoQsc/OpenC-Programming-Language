@@ -155,9 +155,17 @@ if not self_hosting.get("claims", {}).get("stage1_exact_bootstrap_d_source_parit
     errors.append("self-hosting state must record complete SH-4 bootstrap evidence")
 if self_hosting.get("claims", {}).get("self_hosted") != (self_host_gates.get("SH-4") == "PASS"):
     errors.append("self_hosted claim must match the SH-4 gate")
-if self_hosting.get("claims", {}).get("dmd_independent") or \
-        self_hosting.get("claims", {}).get("standalone"):
-    errors.append("self-hosting state must not overclaim pending SH-5/SH-6 gates")
+if self_hosting.get("claims", {}).get("dmd_independent") != \
+        (self_host_gates.get("SH-5") == "PASS"):
+    errors.append("dmd_independent claim must match the SH-5 gate")
+if self_hosting.get("claims", {}).get("standalone") != \
+        (self_host_gates.get("SH-6") == "PASS"):
+    errors.append("standalone claim must match the SH-6 gate")
+if self_host_gates.get("SH-5") == "PASS" and (
+        not self_hosting.get("claims", {}).get("windows_c_backend")
+        or not self_hosting.get("claims", {}).get("vendored_windows_backend")
+        or not self_hosting.get("claims", {}).get("public_openc_build")):
+    errors.append("SH-5 PASS requires C backend, vendored backend, and public build claims")
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

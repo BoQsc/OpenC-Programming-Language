@@ -74,9 +74,9 @@
       "sha256": "8cb8d03e63eaac52a3a52f4f67df8b7ff0087866acfa1153dc9823dacd329f4a"
     },
     {
-      "bytes": 1352,
+      "bytes": 1712,
       "path": "LICENSE_POLICY.md",
-      "sha256": "dd5b3a1ce3d9b26c1e6d047f62ab6dad4cb50a3c6a6ad70eeabec21f25561c2c"
+      "sha256": "d785fd081b1b39a9b1f413554c29c384e761a0a988c8f40b3c4b42b01652a04b"
     },
     {
       "bytes": 960,
@@ -94,9 +94,9 @@
       "sha256": "85bb362dedfd94699efe8061d88f9e3d1f9c3ca8679692e9d4eb39ebee6d9610"
     },
     {
-      "bytes": 2299,
+      "bytes": 2337,
       "path": "release/RELEASE_SCOPE_1.0.md",
-      "sha256": "2c59f9e14c5190c16fd80acc9cce7c9d59d578da8757765317401b5b027f68d9"
+      "sha256": "b4b934c8eae11690b09f887e0d6d77ae7a483faae8facf47c323e273fafe3f6c"
     },
     {
       "bytes": 699,

@@ -1,6 +1,22 @@
 # OpenC development changelog
 
-## Unreleased — bootstrap self-compilation and closure
+## Unreleased — DMD-independent Windows self-hosting
+
+- added deterministic single-file C11 emission in canonical OpenC `.p` source
+  and exposed it through public
+  `openc build --project=PROJECT --output=OUTPUT-EXE`;
+- vendored the official TinyCC 0.9.27 Win64 binary distribution as the Windows
+  compiler/linker backend, with LGPL-2.1 and bundled MIT/public-domain notices,
+  integrity hashes, and the complete corresponding source archive;
+- proved clean-path native Stage-2/Stage-3 closure with DMD, DUB, and Python
+  hidden: generated C is byte-identical at SHA-256
+  `ae3c4929bf874ae8c23416a9966c26788a8a294a53853628880fef848a28bbec`
+  and raw executables are byte-identical at SHA-256
+  `b42892ed15f944049eefd6b91206dd283de5ce38fef97d6667a1131dc955be5f`;
+- matched lexer behavior and canonical IR across the native stages and built
+  and executed a standalone OpenC smoke program through public `openc build`;
+- completed SH-5 and made SH-6 standalone packaging and distribution
+  verification the next self-hosting milestone;
 
 - added deterministic OpenC-owned bootstrap D emission and proved 28 of 28
   generated files byte-exact across the canonical compiler and A/B/C projects;
@@ -10,8 +26,8 @@
 - proved Stage-2/Stage-3 bootstrap closure across the 7-file generated tree,
   lexer behavior, canonical IR, and normalized PE artifacts with hash
   `e1776ad8492ea4181dff91885ea45d371f1288abbdad8423cb2e4a16ef6c9e65`;
-- completed SH-4 and made SH-5 DMD-independent Windows backend work the next
-  milestone; SH-6 standalone packaging remains pending;
+- retained SH-4 as the auditable D-bootstrap closure beneath the new SH-5
+  DMD-independent Windows path;
 - retained explicit historical disclosure of the former 93 rule-ID
   compatibility matches while current conformance execution uses exact Current
   expectations with zero compatibility fallback.

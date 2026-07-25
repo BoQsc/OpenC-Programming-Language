@@ -25,7 +25,7 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - all 268 authored conformance fixtures pass, including 35 runtime fixtures;
 - all 4 maintained programs check, build, and run successfully;
 - all 281 migrated OpenC library, program, and fixture sources use `.p`; with
-  the expanded compiler-in-OpenC source, the current tree has 368 `.p` files;
+  the expanded compiler-in-OpenC source, the current tree has 373 `.p` files;
 - the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
   lexer parity on 288 canonical `.p` sources plus 16 probes (304/304), SH-2C
   exact parser parity on those sources plus 15 parser probes (303/303), and
@@ -39,8 +39,10 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   SH-3 passes; SH-4A matches 28 generated D files across 4 projects byte for
   byte, SH-4B has Stage 1 build Stage 2, and SH-4C proves Stage-2/Stage-3
   generated-source, lexer, canonical-IR, and normalized-PE closure; full SH-4
-  passes, the compiler is self-hosted through its D bootstrap backend, and
-  SH-5 DMD-independent Windows code generation is next;
+  passes; SH-5 adds deterministic C11 emission and the shipped TinyCC 0.9.27
+  Win64 backend, proves byte-exact native compiler source/executable closure
+  with DMD, DUB, and Python hidden, and exposes public `openc build`; SH-6
+  standalone packaging is next;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
@@ -48,7 +50,9 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   the 135-rule dedicated-fixture backlog remains an explicit quality backlog,
   not an unimplemented-rule assertion;
 - licensing and governance are resolved: 0BSD for software and CC0-1.0 for
-  specifications, documentation, metadata, diagrams, and artwork.
+  specifications, documentation, metadata, diagrams, and artwork. Vendored
+  TinyCC is a separate LGPL-2.1 component with notice and corresponding source
+  included; bundled headers retain their public-domain and MIT notices.
 
 The owner-certified Windows x86-64 Hosted release candidate is `RELEASE_READY`,
 but it is not published or marked `RELEASED`. Independent third-party review

@@ -5,14 +5,30 @@ import system.process;
 import system.text;
 
 unsafe i32 emit_bootstrap_d(text project_path, text output_directory) {
-    return emit_bootstrap_d_mode(project_path, output_directory, true);
+    return emit_bootstrap_d_mode(
+        project_path, output_directory, true, false
+    );
 }
 
 unsafe i32 emit_trusted_bootstrap_d(
     text project_path,
     text output_directory
 ) {
-    return emit_bootstrap_d_mode(project_path, output_directory, false);
+    return emit_bootstrap_d_mode(
+        project_path, output_directory, false, false
+    );
+}
+
+unsafe i32 emit_windows_c(text project_path, text output_source) {
+    return emit_bootstrap_d_mode(
+        project_path, output_source, true, true
+    );
+}
+
+unsafe i32 emit_trusted_windows_c(text project_path, text output_source) {
+    return emit_bootstrap_d_mode(
+        project_path, output_source, false, true
+    );
 }
 
 unsafe void d_put_response_path(

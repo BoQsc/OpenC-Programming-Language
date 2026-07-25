@@ -30,3 +30,9 @@ OpenC Project contributors. Third-party material, if introduced, must be
 identified with its own notice and compatible terms. CC0 does not waive patent,
 trademark, privacy, publicity, or third-party rights. Project-name policy is
 recorded separately in `TRADEMARKS.md`.
+
+The TinyCC 0.9.27 Win64 distribution under `third_party/tinycc-win64/` is a
+separate upstream work. TinyCC is LGPL-2.1-only; bundled headers also carry
+public-domain and MIT notices. Its license, per-file notices, integrity hashes,
+and corresponding source archive are shipped in that directory. The OpenC
+0BSD and CC0-1.0 grants do not apply to those files.

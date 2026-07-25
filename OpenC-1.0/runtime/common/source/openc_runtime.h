@@ -5,8 +5,12 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <inttypes.h>
-#include <stdalign.h>
 #include <stdio.h>
+
+#if defined(__TINYC__)
+#  define _Noreturn __attribute__((noreturn))
+#  define _Alignof __alignof__
+#endif
 
 #ifdef __cplusplus
 extern "C" {

@@ -6,10 +6,7 @@ verification are optional future target work; they do not block this release.
 
 ## Self-hosting critical path
 
-1. **SH-5 — DMD-independent Windows backend (next)**
-   - emit/link Windows x86-64 programs without a separately installed DMD,
-     DUB, or Python runtime.
-2. **SH-6 — standalone self-hosted release**
+1. **SH-6 — standalone self-hosted release (next)**
    - rebuild the compiler, runtime, and library from the shipped standalone
      distribution and record artifacts and checksums.
 
@@ -18,8 +15,13 @@ compiler and A/B/C projects byte for byte. SH-4B has Stage 1 invoke the
 configured D compiler and build Stage 2 from the canonical `.p` compiler.
 SH-4C has Stage 2 build Stage 3 and proves equal generated source, lexer
 behavior, canonical IR, and normalized Windows PE artifacts. The compiler is
-self-hosted through the bootstrap D backend; eliminating that external DMD
-dependency is specifically SH-5.
+self-hosted through the retained bootstrap D backend.
+
+SH-5 is complete. The compiler emits deterministic C11 and uses the shipped
+TinyCC 0.9.27 Win64 backend. With DMD, DUB, and Python hidden from the build
+environment, native Stage 2 builds native Stage 3 through `openc build`.
+Generated C, raw Windows executables, lexer behavior, and canonical IR reach
+closure; a compiled smoke program executes successfully.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -50,6 +52,8 @@ Stage-2/Stage-3 PE hash
 - obtain independent grammar, semantic, security, and usability reviews;
 - add separately scoped Linux, freestanding, Native, and provider target
   records only when those targets become active priorities.
+- reduce the current native self-rebuild time and peak memory before or during
+  SH-6 packaging without weakening the closure checks.
 
 Future language changes continue through the proposal and accepted-change
 process. Provisional concurrency remains outside the Core 1.0 blocking path.

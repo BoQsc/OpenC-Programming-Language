@@ -1,10 +1,10 @@
 # OpenC self-hosting and standalone compiler gates
 
-The canonical compiler is written in OpenC and now completes bootstrap
-self-compilation through deterministic D emission and a configured DMD. The
-existing D implementation remains the auditable stage-0 bootstrap seed; it is
-not deleted after closure. Removing the installed DMD dependency is SH-5, and
-packaging the standalone self-hosted distribution is SH-6.
+The canonical compiler is written in OpenC and now completes DMD-independent
+Windows self-compilation through deterministic C11 emission and the shipped
+TinyCC 0.9.27 Win64 backend. The existing D implementation remains the
+auditable stage-0 bootstrap seed; it is not deleted after closure. Packaging
+and verifying the standalone self-hosted distribution is SH-6.
 
 The supported initial target is Windows x86-64 Hosted. Linux and freestanding
 do not gate this program.
@@ -184,7 +184,7 @@ hash is
 
 Status: **PASS**
 
-Next gate: **SH-5 — DMD-independent Windows backend**
+Next gate: **SH-6 — standalone self-hosted release**
 
 ### SH-5 — DMD-independent Windows backend
 
@@ -193,7 +193,29 @@ Next gate: **SH-5 — DMD-independent Windows backend**
   backend whose bits ship inside the standalone distribution.
 - `openc build` succeeds on a clean Windows host without DMD, DUB, or Python.
 
-Status: **PENDING**
+OpenC now emits deterministic single-file C11 from canonical IR and invokes
+the vendored TinyCC 0.9.27 Win64 compiler/linker. The complete upstream binary
+tree, LGPL-2.1 license, bundled MIT/public-domain notices, integrity metadata,
+and corresponding source archive ship under `third_party/tinycc-win64/`.
+
+The final clean-path proof hid DMD, DUB, and Python from the child environment.
+Native Stage 2 built native Stage 3 through the public `openc build` command.
+Their 3,179,967-byte generated C files are byte-identical with SHA-256
+`ae3c4929bf874ae8c23416a9966c26788a8a294a53853628880fef848a28bbec`;
+their 1,534,976-byte Windows executables are also byte-identical with SHA-256
+`b42892ed15f944049eefd6b91206dd283de5ce38fef97d6667a1131dc955be5f`.
+Lexer behavior, canonical IR, and a public-build execution smoke also match.
+
+Reproduce the complete closure with:
+
+```text
+python compiler/selfhost/bootstrap_windows_closure.py
+```
+
+The Python program is an external evidence harness. Neither `openc build` nor
+its child backend invokes Python.
+
+Status: **PASS**
 
 ### SH-6 — standalone self-hosted release
 
@@ -207,10 +229,12 @@ Status: **PENDING**
 
 ## Required enabling libraries
 
-SH-4 now supplies deterministic D-source writing, Hosted process invocation,
-build records, self-compilation, and bootstrap closure. SH-5 replaces the
-installed D compiler with the standalone Windows object/link backend. These
-may be specialized compiler libraries; generics are not required to begin.
+SH-4 supplies the retained deterministic D bootstrap path. SH-5 supplies
+deterministic C11 writing, Hosted process invocation, the shipped Windows
+compiler/linker backend, build records, and DMD-independent closure. SH-6 now
+packages these pieces into a relocatable distribution and verifies that
+distribution against the compiler, runtime/library, conformance, and
+maintained-program gates.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

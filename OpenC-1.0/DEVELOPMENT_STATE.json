@@ -8,7 +8,7 @@
   "bootstrap_source": "source_complete_four_tests_and_cli_smoke_passed",
   "official_source_extension": ".p",
   "migrated_existing_p_sources": 281,
-  "canonical_p_sources": 368,
+  "canonical_p_sources": 373,
   "self_hosting": {
     "state_record": "compiler/selfhost/SELF_HOSTING_STATE.json",
     "source_convention_gate": "SH-0_PASS",
@@ -27,10 +27,12 @@
     "stage1_builds_stage2": "SH-4B_PASS",
     "bootstrap_closure": "SH-4C_PASS_STAGE2_STAGE3_SOURCE_BEHAVIOR_IR_NORMALIZED_PE",
     "bootstrap_self_compilation": "SH-4_PASS",
-    "next_milestone": "SH-5_DMD_INDEPENDENT_WINDOWS_BACKEND",
-    "dmd_independent_windows_backend": "SH-5_PENDING",
+    "dmd_independent_windows_backend": "SH-5_PASS_C11_VENDORED_TINYCC_BYTE_EXACT_C_AND_PE_CLOSURE",
+    "public_build_command": "openc build --project=PROJECT --output=OUTPUT_EXE",
+    "next_milestone": "SH-6_STANDALONE_SELF_HOSTED_RELEASE",
     "standalone_self_hosted_release": "SH-6_PENDING",
     "self_hosted": true,
+    "dmd_independent": true,
     "standalone": false
   },
   "runtime_source": "d_library_built_tested_runtime_fixtures_passed",
@@ -39,8 +41,8 @@
   "build_test_release_source": "required_windows_release_gates_executed",
   "compiled": true,
   "linked": true,
-  "standalone_c_providers_compiled": false,
-  "standalone_c_provider_scope": "experimental_out_of_1_0_claim",
+  "standalone_c_providers_compiled": true,
+  "standalone_c_provider_scope": "windows_hosted_sh5_backend_compiled_and_executed",
   "implementation_test_commands": {"passed": 8, "failed": 0},
   "bootstrap_tests": {"passed": 4, "failed": 0},
   "conformance_result": {
@@ -72,7 +74,8 @@
     "dedicated_positive_rejection_pairs_incomplete_for_174_grammar_productions",
     "independent_third_party_reviews",
     "linux_freestanding_native_and_c_provider_verification",
-    "self_hosting_SH_5_DMD_INDEPENDENT_BACKEND_AND_SH_6_STANDALONE_RELEASE"
+    "self_hosting_SH_6_STANDALONE_RELEASE",
+    "native_self_rebuild_performance_and_peak_memory"
   ],
   "published": false,
   "released": false,

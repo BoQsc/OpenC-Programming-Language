@@ -5,6 +5,21 @@
 #include <stdint.h>
 #include <string.h>
 
+#if defined(__TINYC__)
+#  define CP_UTF8 65001u
+#  define WC_ERR_INVALID_CHARS 0x00000080u
+WINBASEAPI int WINAPI WideCharToMultiByte(
+    UINT code_page,
+    DWORD flags,
+    const wchar_t *wide,
+    int wide_length,
+    char *bytes,
+    int byte_length,
+    const char *default_character,
+    BOOL *used_default_character
+);
+#endif
+
 typedef struct oc_windows_allocation_header {
     void *base;
     uintptr_t requested_size;
@@ -16,7 +31,7 @@ static bool oc_is_power_of_two(uintptr_t value) {
 }
 
 static uintptr_t oc_normalize_alignment(uintptr_t alignment) {
-    uintptr_t minimum = (uintptr_t)_Alignof(max_align_t);
+    uintptr_t minimum = (uintptr_t)_Alignof(long double);
     if (alignment < minimum) alignment = minimum;
     return alignment;
 }

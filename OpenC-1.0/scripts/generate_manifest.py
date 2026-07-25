@@ -11,6 +11,8 @@ EXCLUDED_SUFFIXES = {".dll", ".exe", ".exp", ".lib", ".obj", ".pdb", ".pyc"}
 def is_generated(path: Path) -> bool:
     relative = path.relative_to(ROOT)
     parts = relative.parts
+    if parts and parts[0] == "third_party":
+        return False
     return (
         any(part in EXCLUDED_PARTS for part in parts)
         or path.suffix.lower() in EXCLUDED_SUFFIXES
