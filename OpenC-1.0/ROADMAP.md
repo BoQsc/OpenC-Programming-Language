@@ -57,6 +57,19 @@ SH-4 closure produces 7 stable generated modules and identical normalized
 Stage-2/Stage-3 PE hash
 `e1776ad8492ea4181dff91885ea45d371f1288abbdad8423cb2e4a16ef6c9e65`.
 
+## Completed post-SH-6 performance milestone
+
+The native compiler now completes a full compiler self-rebuild in 381.049
+seconds instead of 698.918 seconds on the recorded Windows host, a 45.5%
+reduction. Peak working set is 11.37 MiB instead of an observed lower bound of
+1,947.0 MiB, and peak private memory is 161.55 MiB instead of an observed lower
+bound of 2,144.9 MiB.
+
+Optimized Stage 2 and Stage 3 remain byte-identical, and generated C, normalized
+PE, lexer behavior, canonical IR, semantic/flow parity, 268/268 conformance,
+and all 4 maintained-program gates pass. Exact measurements and reproduction
+commands are in `compiler/selfhost/PERFORMANCE.md`.
+
 ## What comes next
 
 1. **Complete release-asset publication**
@@ -64,14 +77,12 @@ Stage-2/Stage-3 PE hash
      release record, commit, and public tag are complete; attach the verified
      files to the GitHub prerelease page when an asset-upload-capable operator
      surface is available. Detached signing remains optional.
-2. **Improve native compiler performance — next engineering milestone**
-   - reduce compiler-sized native rebuild time and peak memory while retaining
-     exact generated-C, executable, normalized-PE, semantic, conformance, and
-     maintained-program closure gates.
-3. **Increase evidence granularity**
-   - add dedicated fixtures for the 135 active rules that lack one, complete
-     positive/rejection pairs for all 174 grammar productions, and seek
-     independent grammar, semantic, security, and usability reviews.
+2. **Increase evidence granularity — next engineering milestone**
+   - add dedicated fixtures for the 135 active rules that lack one and complete
+     positive/rejection pairs for all 174 grammar productions.
+3. **Seek independent review**
+   - invite independent grammar, semantic, security, and usability reviews;
+     this is additional assurance, not a Windows Hosted 1.0 release blocker.
 
 Linux, freestanding, Native, and Native-provider target records remain optional
 future work and begin only when those targets become active priorities.

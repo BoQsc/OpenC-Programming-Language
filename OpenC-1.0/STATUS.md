@@ -25,7 +25,8 @@ bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
 bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
 self-hosted compiler:                 YES; SH-6 PASS, STANDALONE WINDOWS
-self-hosting next milestone:          NATIVE REBUILD PERFORMANCE
+self-host performance milestone:     PASS; 45.5% FASTER, >=92.5% LESS PRIVATE MEMORY
+next engineering milestone:          DEDICATED RULE/GRAMMAR FIXTURE COVERAGE
 DMD-independent self-host compiler:  YES; PUBLIC `openc build`, VENDORED TCC
 standalone compiler distribution:    YES; RELOCATABLE, REPRODUCIBLE, VERIFIED
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED

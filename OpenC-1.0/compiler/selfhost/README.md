@@ -21,7 +21,8 @@ Stage-2/Stage-3 source and executable closure. SH-6 packages it with its source,
 runtime, library inputs, backend, bootstrap audit seed, licenses, and integrity
 records in a relocatable distribution. The gate contract is in
 `SELF_HOSTING.md`; the machine-readable gate state is
-`SELF_HOSTING_STATE.json`.
+`SELF_HOSTING_STATE.json`. Post-SH-6 native self-rebuild measurements and
+reproduction instructions are in `PERFORMANCE.md`.
 
 Run from the repository root after building stage 0:
 
@@ -41,6 +42,12 @@ Run the SH-5 DMD-independent Windows closure proof with:
 
 ```text
 python compiler/selfhost/bootstrap_windows_closure.py
+```
+
+Measure a closed native compiler rebuilding the complete compiler project with:
+
+```text
+python compiler/selfhost/benchmark_windows_rebuild.py --compiler=path/to/closed/stage3/openc.exe
 ```
 
 The resulting native compiler exposes the public build command:

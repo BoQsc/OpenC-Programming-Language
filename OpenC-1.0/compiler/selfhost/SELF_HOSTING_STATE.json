@@ -238,6 +238,27 @@
       "native_provider_gate": false
     }
   ],
+  "native_self_rebuild_performance": {
+    "status": "PASS",
+    "command": "python compiler/selfhost/benchmark_windows_rebuild.py --compiler build-output/selfhost-performance/closure/stage3/openc.exe",
+    "evidence": "build-output/selfhost-performance/final-benchmark/measurement.json",
+    "baseline_elapsed_seconds": 698.918,
+    "optimized_elapsed_seconds": 381.049,
+    "elapsed_reduction_percent": 45.5,
+    "optimized_peak_working_set_bytes": 11923456,
+    "optimized_peak_private_bytes": 169398272,
+    "stage2_stage3_executable_byte_equal": true,
+    "stage2_stage3_executable_sha256": "9c74209ddfc8c865ae9be66586c2b18d8318be6b01617b4d84db37c6232639dd",
+    "generated_c_byte_equal": true,
+    "generated_c_sha256": "33a8bff3281b988925407a152430f65b37619cb58e91e0aa5d7adb5a53751d3d",
+    "normalized_pe_equal": true,
+    "normalized_pe_sha256": "bca85705c132a265d9e308f148eb83bc3eeb2d89e7f5ae9f0387404adf73989b",
+    "semantic_ir_parity": true,
+    "flow_safety_parity": true,
+    "conformance_passed": 268,
+    "python_tests_passed": 4,
+    "maintained_programs_passed": 4
+  },
   "claims": {
     "compiler_in_openc_source_exists": true,
     "stage1_seed_executed": true,
@@ -267,6 +288,7 @@
     "vendored_windows_backend": true,
     "public_openc_build": true,
     "dmd_independent": true,
-    "standalone": true
+    "standalone": true,
+    "native_self_rebuild_performance_gate": true
   }
 }

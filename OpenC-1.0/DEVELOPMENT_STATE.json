@@ -29,10 +29,21 @@
     "bootstrap_self_compilation": "SH-4_PASS",
     "dmd_independent_windows_backend": "SH-5_PASS_C11_VENDORED_TINYCC_BYTE_EXACT_C_AND_PE_CLOSURE",
     "public_build_command": "openc build --project=PROJECT --output=OUTPUT_EXE",
-    "next_milestone": "NATIVE_SELF_REBUILD_PERFORMANCE_WITH_RELEASE_ASSET_UPLOAD_PENDING",
+    "next_milestone": "DEDICATED_RULE_AND_GRAMMAR_FIXTURE_COVERAGE_WITH_RELEASE_ASSET_UPLOAD_PENDING",
     "standalone_self_hosted_release": "SH-6_PASS_RELOCATABLE_REPRODUCIBLE_268_CONFORMANCE_4_MAINTAINED",
     "standalone_archive_sha256": "6adf2254263cc11ae8a2f31ee883923021397942237ffb6fd64f0742a1b0eaac",
     "standalone_compiler_sha256": "c2a26a1d286354f4e4b5ed2192e9008a5fffb2a667c4e4b9ba3f4a4afc76ed75",
+    "native_self_rebuild_performance": {
+      "status": "PASS",
+      "baseline_elapsed_seconds": 698.918,
+      "optimized_elapsed_seconds": 381.049,
+      "elapsed_reduction_percent": 45.5,
+      "optimized_peak_working_set_bytes": 11923456,
+      "optimized_peak_private_bytes": 169398272,
+      "stage2_stage3_executable_sha256": "9c74209ddfc8c865ae9be66586c2b18d8318be6b01617b4d84db37c6232639dd",
+      "generated_c_sha256": "33a8bff3281b988925407a152430f65b37619cb58e91e0aa5d7adb5a53751d3d",
+      "normalized_pe_sha256": "bca85705c132a265d9e308f148eb83bc3eeb2d89e7f5ae9f0387404adf73989b"
+    },
     "self_hosted": true,
     "dmd_independent": true,
     "standalone": true
@@ -88,8 +99,7 @@
     "135_active_rules_without_dedicated_fixtures",
     "dedicated_positive_rejection_pairs_incomplete_for_174_grammar_productions",
     "independent_third_party_reviews",
-    "linux_freestanding_native_and_c_provider_verification",
-    "native_self_rebuild_performance_and_peak_memory"
+    "linux_freestanding_native_and_c_provider_verification"
   ],
   "published": false,
   "released": false,

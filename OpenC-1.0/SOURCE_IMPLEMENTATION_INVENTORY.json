@@ -747,6 +747,14 @@
       "sha256": "0c475d811c8372e2568e512e8fd9874f8501b1ab65e6968884e46ec894f6147b"
     },
     {
+      "bytes": 8378,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/benchmark_windows_rebuild.py",
+      "present": true,
+      "sha256": "596a4cb5855023b74c9103493a5b0f6736a02a83546f14a952d014b718e65ce5"
+    },
+    {
       "bytes": 8976,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
@@ -771,12 +779,12 @@
       "sha256": "8c7128e2b59ba23828908f2ff39faa4ca34a0c76e825db0c675b1b685818e47e"
     },
     {
-      "bytes": 8264,
+      "bytes": 8612,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/bootstrap_windows_closure.py",
       "present": true,
-      "sha256": "37af92eab3586d5ac170a00df5c2c52d6c4d74d7f1bafa3ebf378ba51e1c88f7"
+      "sha256": "27f097ba1057029f1979bdd8a08781694f3fbacbd289f173e8e75d921b27a72b"
     },
     {
       "bytes": 7064,
@@ -787,12 +795,12 @@
       "sha256": "7087e4222bd7eb4eeb22249fc2f03efbe1a06cbf0ea97885122d4dbaf0a3aed5"
     },
     {
-      "bytes": 11494,
+      "bytes": 21326,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/native_runtime/openc_sh5_runtime.c",
       "present": true,
-      "sha256": "f916112185dc1bc3c776fc3cc07843c27d41af397a8c2a9a84370e9b36377393"
+      "sha256": "d2815214f5066f712f42ddb0143656e8a933ad8bada2ec65965b0c2b8101f983"
     },
     {
       "bytes": 1832,
@@ -1115,12 +1123,12 @@
       "sha256": "b45a77c949799aca2d26fe432874c380812b2547e67907c056490bbefd9f81a4"
     },
     {
-      "bytes": 8140,
+      "bytes": 8322,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/flow_part2.p",
       "present": true,
-      "sha256": "acc54e970240cdc3bf2fbe683d24b8e38b55665d511e63b79499d7c888287bc8"
+      "sha256": "002c6f4b3614f7e68ffa9811b1f6fd15d8711e2972480a2f5164d1506e69f1f6"
     },
     {
       "bytes": 3570,
@@ -2006,9 +2014,9 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 1805094,
+    "bytes": 1823834,
     "empty": 0,
-    "files": 250,
+    "files": 251,
     "missing": 0
   },
   "version": "1.0.0-rc.8"

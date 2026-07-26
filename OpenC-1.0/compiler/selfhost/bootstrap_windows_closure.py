@@ -153,8 +153,13 @@ def main() -> int:
         raise SystemExit(f"missing vendored TinyCC executable: {tcc}")
     output.mkdir(parents=True, exist_ok=True)
 
-    stage2 = output / "openc-stage2.exe"
-    stage3 = output / "openc-stage3.exe"
+    # Keep the executable basename stable across stages. TinyCC records the
+    # export-module basename in the PE image, so stage-numbered basenames create
+    # a path-induced artifact difference even when generated C is identical.
+    stage2 = output / "stage2" / "openc.exe"
+    stage3 = output / "stage3" / "openc.exe"
+    stage2.parent.mkdir(parents=True, exist_ok=True)
+    stage3.parent.mkdir(parents=True, exist_ok=True)
     generated2 = Path(str(stage2) + ".openc.c")
     generated3 = Path(str(stage3) + ".openc.c")
     record2 = Path(str(stage2) + ".build.json")

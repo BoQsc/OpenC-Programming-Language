@@ -96,6 +96,15 @@ are outside the supported 1.0 scope.
   149 exact rejection outcomes across 263 authored fixtures. The extracted
   package passes 268/268 conformance and builds and executes all 4 maintained
   programs.
+- The post-SH-6 native performance milestone passes. A closed Stage 3 rebuilds
+  the compiler in 381.049 seconds versus 698.918 seconds before the changes,
+  with 11.37 MiB peak working set and 161.55 MiB peak private memory. Optimized
+  Stage 2 and Stage 3 are byte-identical, and exact native semantic/IR,
+  flow/safety, and 4/4 maintained-program regressions pass. The retained seed
+  passes 268/268 conformance and the informative Python suite passes 4/4.
+  Public `openc build` also passes from a foreign working directory in a
+  copied standalone layout. Full evidence is in
+  `compiler/selfhost/PERFORMANCE.md`.
 - Structure, source-completeness, manifest, and archive verification pass.
 
 Fixture execution now distinguishes normative rules from implementation
@@ -127,6 +136,7 @@ python compiler/selfhost/bootstrap.py
 python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh4/closure-final/openc-stage1.exe --output build-output/selfhost-sh4/parity-final
 python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final
 python compiler/selfhost/bootstrap_windows_closure.py
+python compiler/selfhost/benchmark_windows_rebuild.py --compiler build-output/selfhost-performance/closure/stage3/openc.exe
 python release/verify_standalone_windows.py --archive build-output/release/OpenC-1.0.0-rc.8-windows-x86_64-standalone-a.zip --comparison-archive build-output/release/OpenC-1.0.0-rc.8-windows-x86_64-standalone-b.zip --output build-output/selfhost-sh6/final --force
 python scripts/validate_structure.py
 python scripts/source_completeness.py

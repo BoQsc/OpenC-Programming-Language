@@ -199,6 +199,7 @@
       "compiler/bootstrap/python/openc/typesys.py"
     ],
     "compiler_selfhost": [
+      "compiler/selfhost/benchmark_windows_rebuild.py",
       "compiler/selfhost/bootstrap.py",
       "compiler/selfhost/bootstrap_closure.py",
       "compiler/selfhost/bootstrap_d_parity.py",
@@ -400,6 +401,7 @@
     "schemas/DIAGNOSTIC.schema.json",
     "schemas/FIXTURE.schema.json",
     "compiler/selfhost/openc.project.json",
+    "compiler/selfhost/PERFORMANCE.md",
     "compiler/selfhost/README.md",
     "compiler/selfhost/SELF_HOSTING.md",
     "compiler/selfhost/SELF_HOSTING_STATE.json"

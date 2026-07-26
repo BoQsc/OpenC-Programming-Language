@@ -18,7 +18,13 @@ unsafe usize flow_next_direct_statement(
     while record < syntax.length {
         usize kind = read_record_field(syntax_data, record, 0);
         usize start = read_record_field(syntax_data, record, 1);
-        if flow_statement_kind(kind) && record != block {
+        bool after = start > after_start ||
+            (start == after_start && record > after_record);
+        bool earlier = selected == syntax.length || start < selected_start ||
+            (start == selected_start && record < selected_record);
+        // Parent discovery performs full syntax scans. Only records that can
+        // still win the source-order selection need those scans.
+        if flow_statement_kind(kind) && record != block && after && earlier {
             usize block_parent = flow_smallest_block_parent(
                 syntax_data, syntax, record
             );
@@ -33,10 +39,7 @@ unsafe usize flow_next_direct_statement(
                     ) != block;
                 }
                 if direct_control &&
-                    (start > after_start ||
-                     (start == after_start && record > after_record)) &&
-                    (selected == syntax.length || start < selected_start ||
-                     (start == selected_start && record < selected_record)) {
+                    after && earlier {
                     selected = record;
                     selected_start = start;
                     selected_record = record;

@@ -255,6 +255,25 @@ evidence only and neither is a native build dependency.
 
 Status: **PASS**
 
+## Post-SH-6 — native self-rebuild performance
+
+The closed OpenC-native compiler rebuilds its complete 90-source compiler
+project in 381.049 seconds on the recorded Windows host, down from 698.918
+seconds. Peak working set is 11.37 MiB and peak private memory is 161.55 MiB,
+reductions of at least 99.4% and 92.5% respectively from the last observed
+pre-change values.
+
+Stage 2 and Stage 3 are byte-identical at
+`9c74209ddfc8c865ae9be66586c2b18d8318be6b01617b4d84db37c6232639dd`.
+Generated C is equal at
+`33a8bff3281b988925407a152430f65b37619cb58e91e0aa5d7adb5a53751d3d`,
+and normalized PE is equal at
+`bca85705c132a265d9e308f148eb83bc3eeb2d89e7f5ae9f0387404adf73989b`.
+The exact semantic/IR, flow/safety, conformance, Python, and maintained-program
+regressions pass. See `PERFORMANCE.md` for method and reproduction commands.
+
+Status: **PASS**
+
 ## Required enabling libraries
 
 SH-4 supplies the retained deterministic D bootstrap path. SH-5 supplies

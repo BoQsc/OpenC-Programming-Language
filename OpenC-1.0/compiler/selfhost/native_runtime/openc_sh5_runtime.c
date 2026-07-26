@@ -23,13 +23,45 @@ WINBASEAPI int WINAPI WideCharToMultiByte(
 #endif
 
 typedef struct ocb_text_cache_entry {
+    uintptr_t hash;
     oc_text path;
     oc_text value;
 } ocb_text_cache_entry;
 
+typedef struct ocb_path_cache_entry {
+    uintptr_t hash;
+    oc_text left;
+    oc_text right;
+    oc_text value;
+} ocb_path_cache_entry;
+
+#define OCB_FAST_CACHE_CAPACITY 1024u
+
+typedef struct ocb_path_fast_entry {
+    uintptr_t generation;
+    const uint8_t *left_data;
+    uintptr_t left_length;
+    const uint8_t *right_data;
+    uintptr_t right_length;
+    oc_text value;
+} ocb_path_fast_entry;
+
+typedef struct ocb_file_fast_entry {
+    uintptr_t generation;
+    const uint8_t *path_data;
+    uintptr_t path_length;
+    oc_text value;
+} ocb_file_fast_entry;
+
 static ocb_text_cache_entry *ocb_text_cache;
 static uintptr_t ocb_text_cache_length;
 static uintptr_t ocb_text_cache_capacity;
+static ocb_path_cache_entry *ocb_path_cache;
+static uintptr_t ocb_path_cache_length;
+static uintptr_t ocb_path_cache_capacity;
+static ocb_path_fast_entry ocb_path_fast_cache[OCB_FAST_CACHE_CAPACITY];
+static ocb_file_fast_entry ocb_file_fast_cache[OCB_FAST_CACHE_CAPACITY];
+static uintptr_t ocb_fast_cache_generation = 1u;
 static oc_text ocb_executable_directory_value;
 
 static oc_text ocb_copy_text(oc_text value) {
@@ -50,6 +82,187 @@ static char *ocb_c_string(oc_text value) {
     }
     result[value.length] = '\0';
     return result;
+}
+
+static uintptr_t ocb_hash_bytes(
+    uintptr_t hash,
+    const uint8_t *data,
+    uintptr_t length
+) {
+    uintptr_t index;
+#if UINTPTR_MAX > UINT32_MAX
+    const uintptr_t prime = (uintptr_t)1099511628211ull;
+#else
+    const uintptr_t prime = (uintptr_t)16777619u;
+#endif
+    for (index = 0u; index < length; ++index) {
+        hash ^= (uintptr_t)data[index];
+        hash *= prime;
+    }
+    return hash;
+}
+
+static uintptr_t ocb_hash_text(oc_text value) {
+#if UINTPTR_MAX > UINT32_MAX
+    uintptr_t hash = (uintptr_t)14695981039346656037ull;
+#else
+    uintptr_t hash = (uintptr_t)2166136261u;
+#endif
+    hash = ocb_hash_bytes(hash, value.data, value.length);
+    return hash == 0u ? 1u : hash;
+}
+
+static uintptr_t ocb_hash_text_pair(oc_text left, oc_text right) {
+    uintptr_t hash = ocb_hash_text(left);
+    const uint8_t separator = 0xffu;
+    hash = ocb_hash_bytes(hash, &separator, 1u);
+    hash = ocb_hash_bytes(hash, right.data, right.length);
+    return hash == 0u ? 1u : hash;
+}
+
+static uintptr_t ocb_hash_pointer(uintptr_t value) {
+#if UINTPTR_MAX > UINT32_MAX
+    value ^= value >> 33u;
+    value *= (uintptr_t)0xff51afd7ed558ccdull;
+    value ^= value >> 33u;
+#else
+    value ^= value >> 16u;
+    value *= (uintptr_t)0x7feb352du;
+    value ^= value >> 15u;
+#endif
+    return value;
+}
+
+static uintptr_t ocb_path_fast_slot(oc_text left, oc_text right) {
+    uintptr_t key = ocb_hash_pointer((uintptr_t)left.data);
+    key ^= ocb_hash_pointer((uintptr_t)right.data);
+    key ^= ocb_hash_pointer(left.length);
+    key ^= ocb_hash_pointer(right.length);
+    return key & (OCB_FAST_CACHE_CAPACITY - 1u);
+}
+
+static uintptr_t ocb_file_fast_slot(oc_text path) {
+    uintptr_t key = ocb_hash_pointer((uintptr_t)path.data);
+    key ^= ocb_hash_pointer(path.length);
+    return key & (OCB_FAST_CACHE_CAPACITY - 1u);
+}
+
+static void ocb_fast_cache_invalidate(void) {
+    ++ocb_fast_cache_generation;
+    if (ocb_fast_cache_generation == 0u) {
+        memset(ocb_path_fast_cache, 0, sizeof(ocb_path_fast_cache));
+        memset(ocb_file_fast_cache, 0, sizeof(ocb_file_fast_cache));
+        ocb_fast_cache_generation = 1u;
+    }
+}
+
+static uintptr_t ocb_text_cache_slot(
+    ocb_text_cache_entry *entries,
+    uintptr_t capacity,
+    uintptr_t hash,
+    oc_text path
+) {
+    uintptr_t slot = hash & (capacity - 1u);
+    while (entries[slot].path.data != NULL &&
+        (entries[slot].hash != hash ||
+            !oc_text_equal(entries[slot].path, path))) {
+        slot = (slot + 1u) & (capacity - 1u);
+    }
+    return slot;
+}
+
+static void ocb_text_cache_reserve(uintptr_t capacity) {
+    uintptr_t index;
+    ocb_text_cache_entry *next = (ocb_text_cache_entry *)oc_memory_allocate(
+        capacity * (uintptr_t)sizeof(ocb_text_cache_entry),
+        (uintptr_t)_Alignof(ocb_text_cache_entry)
+    );
+    oc_memory_clear(
+        next, capacity * (uintptr_t)sizeof(ocb_text_cache_entry)
+    );
+    for (index = 0u; index < ocb_text_cache_capacity; ++index) {
+        if (ocb_text_cache[index].path.data != NULL) {
+            uintptr_t slot = ocb_text_cache_slot(
+                next,
+                capacity,
+                ocb_text_cache[index].hash,
+                ocb_text_cache[index].path
+            );
+            next[slot] = ocb_text_cache[index];
+        }
+    }
+    oc_memory_release(ocb_text_cache);
+    ocb_text_cache = next;
+    ocb_text_cache_capacity = capacity;
+}
+
+static uintptr_t ocb_path_cache_slot(
+    ocb_path_cache_entry *entries,
+    uintptr_t capacity,
+    uintptr_t hash,
+    oc_text left,
+    oc_text right
+) {
+    uintptr_t slot = hash & (capacity - 1u);
+    while (entries[slot].value.data != NULL &&
+        (entries[slot].hash != hash ||
+            !oc_text_equal(entries[slot].left, left) ||
+            !oc_text_equal(entries[slot].right, right))) {
+        slot = (slot + 1u) & (capacity - 1u);
+    }
+    return slot;
+}
+
+static void ocb_path_cache_reserve(uintptr_t capacity) {
+    uintptr_t index;
+    ocb_path_cache_entry *next = (ocb_path_cache_entry *)oc_memory_allocate(
+        capacity * (uintptr_t)sizeof(ocb_path_cache_entry),
+        (uintptr_t)_Alignof(ocb_path_cache_entry)
+    );
+    oc_memory_clear(
+        next, capacity * (uintptr_t)sizeof(ocb_path_cache_entry)
+    );
+    for (index = 0u; index < ocb_path_cache_capacity; ++index) {
+        if (ocb_path_cache[index].value.data != NULL) {
+            uintptr_t slot = ocb_path_cache_slot(
+                next,
+                capacity,
+                ocb_path_cache[index].hash,
+                ocb_path_cache[index].left,
+                ocb_path_cache[index].right
+            );
+            next[slot] = ocb_path_cache[index];
+        }
+    }
+    oc_memory_release(ocb_path_cache);
+    ocb_path_cache = next;
+    ocb_path_cache_capacity = capacity;
+}
+
+static void ocb_release_caches(void) {
+    uintptr_t index;
+    for (index = 0u; index < ocb_text_cache_capacity; ++index) {
+        if (ocb_text_cache[index].path.data != NULL) {
+            oc_memory_release((void *)ocb_text_cache[index].path.data);
+            oc_memory_release((void *)ocb_text_cache[index].value.data);
+        }
+    }
+    oc_memory_release(ocb_text_cache);
+    ocb_text_cache = NULL;
+    ocb_text_cache_length = 0u;
+    ocb_text_cache_capacity = 0u;
+
+    for (index = 0u; index < ocb_path_cache_capacity; ++index) {
+        if (ocb_path_cache[index].value.data != NULL) {
+            oc_memory_release((void *)ocb_path_cache[index].left.data);
+            oc_memory_release((void *)ocb_path_cache[index].right.data);
+            oc_memory_release((void *)ocb_path_cache[index].value.data);
+        }
+    }
+    oc_memory_release(ocb_path_cache);
+    ocb_path_cache = NULL;
+    ocb_path_cache_length = 0u;
+    ocb_path_cache_capacity = 0u;
 }
 
 static oc_status ocb_failure(int32_t code, const char *message) {
@@ -108,6 +321,7 @@ void ocb_process_initialize(int argc, char **argv) {
 }
 
 void ocb_process_finalize(void) {
+    ocb_release_caches();
     if (ocb_executable_directory_value.data != NULL) {
         oc_memory_release((void *)ocb_executable_directory_value.data);
         ocb_executable_directory_value = OC_TEXT_EMPTY;
@@ -120,6 +334,7 @@ void *ocb_memory_alloc(uintptr_t size) {
 }
 
 void ocb_memory_free(void *allocation) {
+    ocb_fast_cache_invalidate();
     oc_memory_release(allocation);
 }
 
@@ -222,38 +437,57 @@ oc_status ocb_file_read_text(oc_text path, oc_text *value) {
 }
 
 oc_status ocb_file_read_text_cached(oc_text path, oc_text *value) {
-    uintptr_t index;
+    uintptr_t fast_slot;
+    uintptr_t hash;
+    uintptr_t slot;
     oc_status result;
-    for (index = 0; index < ocb_text_cache_length; ++index) {
-        if (oc_text_equal(path, ocb_text_cache[index].path)) {
-            *value = ocb_text_cache[index].value;
+    if (value == NULL) {
+        return ocb_failure(OC_STATUS_INVALID_ARGUMENT, "text output is null");
+    }
+    fast_slot = ocb_file_fast_slot(path);
+    if (ocb_file_fast_cache[fast_slot].generation ==
+            ocb_fast_cache_generation &&
+        ocb_file_fast_cache[fast_slot].path_data == path.data &&
+        ocb_file_fast_cache[fast_slot].path_length == path.length) {
+        *value = ocb_file_fast_cache[fast_slot].value;
+        return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
+    }
+    hash = ocb_hash_text(path);
+    if (ocb_text_cache_capacity != 0u) {
+        slot = ocb_text_cache_slot(
+            ocb_text_cache, ocb_text_cache_capacity, hash, path
+        );
+        if (ocb_text_cache[slot].path.data != NULL) {
+            *value = ocb_text_cache[slot].value;
+            ocb_file_fast_cache[fast_slot].generation =
+                ocb_fast_cache_generation;
+            ocb_file_fast_cache[fast_slot].path_data = path.data;
+            ocb_file_fast_cache[fast_slot].path_length = path.length;
+            ocb_file_fast_cache[fast_slot].value = *value;
             return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
         }
     }
     result = ocb_file_read_text(path, value);
     if (!oc_status_ok(result)) return result;
-    if (ocb_text_cache_length == ocb_text_cache_capacity) {
-        uintptr_t next_capacity = ocb_text_cache_capacity == 0u
-            ? 16u
-            : ocb_text_cache_capacity * 2u;
-        ocb_text_cache_entry *next = (ocb_text_cache_entry *)oc_memory_allocate(
-            next_capacity * (uintptr_t)sizeof(ocb_text_cache_entry),
-            (uintptr_t)_Alignof(ocb_text_cache_entry)
+    if (ocb_text_cache_capacity == 0u ||
+        (ocb_text_cache_length + 1u) * 2u > ocb_text_cache_capacity) {
+        ocb_text_cache_reserve(
+            ocb_text_cache_capacity == 0u
+                ? 16u
+                : ocb_text_cache_capacity * 2u
         );
-        if (ocb_text_cache_length != 0u) {
-            oc_memory_copy(
-                next,
-                ocb_text_cache,
-                ocb_text_cache_length * (uintptr_t)sizeof(ocb_text_cache_entry)
-            );
-        }
-        oc_memory_release(ocb_text_cache);
-        ocb_text_cache = next;
-        ocb_text_cache_capacity = next_capacity;
     }
-    ocb_text_cache[ocb_text_cache_length].path = ocb_copy_text(path);
-    ocb_text_cache[ocb_text_cache_length].value = *value;
+    slot = ocb_text_cache_slot(
+        ocb_text_cache, ocb_text_cache_capacity, hash, path
+    );
+    ocb_text_cache[slot].hash = hash;
+    ocb_text_cache[slot].path = ocb_copy_text(path);
+    ocb_text_cache[slot].value = *value;
     ++ocb_text_cache_length;
+    ocb_file_fast_cache[fast_slot].generation = ocb_fast_cache_generation;
+    ocb_file_fast_cache[fast_slot].path_data = path.data;
+    ocb_file_fast_cache[fast_slot].path_length = path.length;
+    ocb_file_fast_cache[fast_slot].value = *value;
     return result;
 }
 
@@ -269,12 +503,63 @@ oc_status ocb_file_write_text(oc_text path, oc_text value) {
 }
 
 oc_text ocb_path_join(oc_text left, oc_text right) {
+    uintptr_t fast_slot = ocb_path_fast_slot(left, right);
+    uintptr_t hash;
+    uintptr_t slot;
     oc_owned_bytes bytes;
-    oc_status result = oc_path_join(left, right, &bytes);
+    oc_status result;
+    if (ocb_path_fast_cache[fast_slot].generation ==
+            ocb_fast_cache_generation &&
+        ocb_path_fast_cache[fast_slot].left_data == left.data &&
+        ocb_path_fast_cache[fast_slot].left_length == left.length &&
+        ocb_path_fast_cache[fast_slot].right_data == right.data &&
+        ocb_path_fast_cache[fast_slot].right_length == right.length) {
+        return ocb_path_fast_cache[fast_slot].value;
+    }
+    hash = ocb_hash_text_pair(left, right);
+    if (ocb_path_cache_capacity != 0u) {
+        slot = ocb_path_cache_slot(
+            ocb_path_cache, ocb_path_cache_capacity, hash, left, right
+        );
+        if (ocb_path_cache[slot].value.data != NULL) {
+            ocb_path_fast_cache[fast_slot].generation =
+                ocb_fast_cache_generation;
+            ocb_path_fast_cache[fast_slot].left_data = left.data;
+            ocb_path_fast_cache[fast_slot].left_length = left.length;
+            ocb_path_fast_cache[fast_slot].right_data = right.data;
+            ocb_path_fast_cache[fast_slot].right_length = right.length;
+            ocb_path_fast_cache[fast_slot].value =
+                ocb_path_cache[slot].value;
+            return ocb_path_cache[slot].value;
+        }
+    }
+    result = oc_path_join(left, right, &bytes);
     if (!oc_status_ok(result)) {
         oc_checked_failure(result.code, "OPENC-PATH-JOIN-001", "path join failed", 0);
     }
-    return (oc_text){bytes.data, bytes.length};
+    if (ocb_path_cache_capacity == 0u ||
+        (ocb_path_cache_length + 1u) * 2u > ocb_path_cache_capacity) {
+        ocb_path_cache_reserve(
+            ocb_path_cache_capacity == 0u
+                ? 16u
+                : ocb_path_cache_capacity * 2u
+        );
+    }
+    slot = ocb_path_cache_slot(
+        ocb_path_cache, ocb_path_cache_capacity, hash, left, right
+    );
+    ocb_path_cache[slot].hash = hash;
+    ocb_path_cache[slot].left = ocb_copy_text(left);
+    ocb_path_cache[slot].right = ocb_copy_text(right);
+    ocb_path_cache[slot].value = (oc_text){bytes.data, bytes.length};
+    ++ocb_path_cache_length;
+    ocb_path_fast_cache[fast_slot].generation = ocb_fast_cache_generation;
+    ocb_path_fast_cache[fast_slot].left_data = left.data;
+    ocb_path_fast_cache[fast_slot].left_length = left.length;
+    ocb_path_fast_cache[fast_slot].right_data = right.data;
+    ocb_path_fast_cache[fast_slot].right_length = right.length;
+    ocb_path_fast_cache[fast_slot].value = ocb_path_cache[slot].value;
+    return ocb_path_cache[slot].value;
 }
 
 oc_text ocb_path_directory(oc_text value) {

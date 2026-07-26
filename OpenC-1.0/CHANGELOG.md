@@ -2,6 +2,21 @@
 
 ## Unreleased — standalone self-hosted Windows release
 
+- reduced a full native compiler self-rebuild from 698.918 to 381.049 seconds
+  on the recorded host (45.5%) by avoiding noncompetitive full-syntax parent
+  scans in the lowering hot path;
+- replaced unbounded repeated native path-join allocation and linear file
+  caching with deterministic content-safe caches, reducing measured peak
+  working set to 11.37 MiB and peak private memory to 161.55 MiB;
+- added a reproducible Windows native-rebuild benchmark with a clean child
+  tool PATH and PSAPI peak-memory sampling;
+- re-proved byte-identical native Stage-2/Stage-3 closure, exact semantic/IR
+  and flow/safety parity, 268/268 conformance, 4/4 Python bootstrap tests, and
+  native build/execution of all 4 maintained programs;
+- completed the native-rebuild performance milestone and made dedicated
+  active-rule and grammar-production fixture coverage the next engineering
+  milestone;
+
 - added deterministic complete-release assembly and verification covering the
   declared Core artifact layout, Windows Hosted standalone distribution,
   source/conformance bundles, implementation evidence, mandatory SHA-256 list,
