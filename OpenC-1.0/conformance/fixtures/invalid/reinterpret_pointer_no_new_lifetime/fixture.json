@@ -1,9 +1,11 @@
 {
   "active_rules": [
+    "OPENC-PTR-BYTEWRITE-001",
+    "OPENC-PTR-INVALIDATE-001",
     "OPENC-REINTERPRET-NOLIFETIME-001",
     "OPENC-REINTERPRET-PTR-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -17,8 +19,10 @@
     "name": "reinterpret_pointer_no_new_lifetime",
     "profile": "standard",
     "rules": [
-      "OPENC-REINTERPRET-PTR-001",
-      "OPENC-REINTERPRET-NOLIFETIME-001"
+      "OPENC-PTR-BYTEWRITE-001",
+      "OPENC-PTR-INVALIDATE-001",
+      "OPENC-REINTERPRET-NOLIFETIME-001",
+      "OPENC-REINTERPRET-PTR-001"
     ]
   },
   "id": "invalid/reinterpret_pointer_no_new_lifetime",

@@ -1,0 +1,37 @@
+{
+  "active_rules": [
+    "OPENC-RESOURCE-CONSUMER-RETURN-001",
+    "OPENC-RESOURCE-DISMANTLE-001",
+    "OPENC-RESOURCE-FIELD-ASSIGN-001",
+    "OPENC-RESOURCE-FIELD-CONSUME-001",
+    "OPENC-RESOURCE-FIELD-ONCE-001"
+  ],
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
+  "expected": {
+    "class": "invalid",
+    "edition": "OpenC Core 1.0 Current",
+    "environment": "hosted",
+    "expected": {
+      "diagnostic_rule": "OPENC-OWN-USE-AFTER-MOVE-001",
+      "result": "reject"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "resource_field_state_rejections",
+    "profile": "standard",
+    "rules": [
+      "OPENC-RESOURCE-CONSUMER-RETURN-001",
+      "OPENC-RESOURCE-DISMANTLE-001",
+      "OPENC-RESOURCE-FIELD-ASSIGN-001",
+      "OPENC-RESOURCE-FIELD-CONSUME-001",
+      "OPENC-RESOURCE-FIELD-ONCE-001"
+    ]
+  },
+  "id": "invalid/resource_field_state_rejections",
+  "kind": "invalid",
+  "origin": "OpenC Core 1.0 resource field-state boundary evidence",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/invalid/resource_field_state_rejections/main.p"
+  ]
+}

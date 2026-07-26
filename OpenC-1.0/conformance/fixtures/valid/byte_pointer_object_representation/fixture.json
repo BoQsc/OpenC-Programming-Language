@@ -1,8 +1,9 @@
 {
   "active_rules": [
+    "OPENC-BYTE-DISTINCT-001",
     "OPENC-PTR-BYTE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -15,6 +16,7 @@
     "name": "byte_pointer_object_representation",
     "profile": "standard",
     "rules": [
+      "OPENC-BYTE-DISTINCT-001",
       "OPENC-PTR-BYTE-001"
     ]
   },

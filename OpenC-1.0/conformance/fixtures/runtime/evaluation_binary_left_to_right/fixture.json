@@ -3,9 +3,10 @@
     "OPENC-EVAL-BINARY-001",
     "OPENC-EVAL-FULL-001",
     "OPENC-EVAL-NOUNSPEC-001",
-    "OPENC-EVAL-OBSERVABLE-001"
+    "OPENC-EVAL-OBSERVABLE-001",
+    "OPENC-SAFETY-OPTIMIZE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -22,10 +23,11 @@
     "name": "evaluation_binary_left_to_right",
     "profile": "standard",
     "rules": [
+      "OPENC-EVAL-BINARY-001",
       "OPENC-EVAL-FULL-001",
       "OPENC-EVAL-NOUNSPEC-001",
-      "OPENC-EVAL-BINARY-001",
-      "OPENC-EVAL-OBSERVABLE-001"
+      "OPENC-EVAL-OBSERVABLE-001",
+      "OPENC-SAFETY-OPTIMIZE-001"
     ]
   },
   "id": "runtime/evaluation_binary_left_to_right",

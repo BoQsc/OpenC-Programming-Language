@@ -3,7 +3,7 @@
     "OPENC-CLEANUP-ARG-001",
     "OPENC-EVAL-SCOPE-NESTED-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -18,8 +18,8 @@
     "name": "scope_nested_fallible_argument",
     "profile": "standard",
     "rules": [
-      "OPENC-EVAL-SCOPE-NESTED-001",
-      "OPENC-CLEANUP-ARG-001"
+      "OPENC-CLEANUP-ARG-001",
+      "OPENC-EVAL-SCOPE-NESTED-001"
     ]
   },
   "id": "invalid/scope_nested_fallible_argument",

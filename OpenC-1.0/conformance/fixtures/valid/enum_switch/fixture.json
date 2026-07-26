@@ -1,9 +1,13 @@
 {
   "active_rules": [
     "OPENC-ENUM-DISTINCT-001",
-    "OPENC-SWITCH-ENUM-001"
+    "OPENC-ENUM-IMPLICIT-001",
+    "OPENC-SWITCH-CASE-001",
+    "OPENC-SWITCH-DOMAIN-001",
+    "OPENC-SWITCH-ENUM-001",
+    "OPENC-SWITCH-EXECUTE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,7 +20,11 @@
     "profile": "standard",
     "rules": [
       "OPENC-ENUM-DISTINCT-001",
-      "OPENC-SWITCH-ENUM-001"
+      "OPENC-ENUM-IMPLICIT-001",
+      "OPENC-SWITCH-CASE-001",
+      "OPENC-SWITCH-DOMAIN-001",
+      "OPENC-SWITCH-ENUM-001",
+      "OPENC-SWITCH-EXECUTE-001"
     ]
   },
   "id": "valid/enum_switch",

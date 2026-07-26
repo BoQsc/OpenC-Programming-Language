@@ -142,7 +142,9 @@ unsafe status project_read_source_record(
     text loaded_source;
     status loaded = file.read_text_cached(source_path, out loaded_source);
     if !loaded.ok { return loaded; }
-    source = loaded_source;
+    text logical_source;
+    source_without_initial_bom(loaded_source, out logical_source);
+    source = logical_source;
     return loaded;
 }
 

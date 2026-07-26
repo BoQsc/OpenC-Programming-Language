@@ -22,10 +22,11 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 
 - all 9 canonical D targets build and link in debug and release modes;
 - all 8 D test commands and all 4 Python bootstrap tests pass;
-- all 268 authored conformance fixtures pass, including 35 runtime fixtures;
+- all 278 authored conformance fixtures pass, including 35 runtime fixtures;
 - all 4 maintained programs check, build, and run successfully;
 - all 281 migrated OpenC library, program, and fixture sources use `.p`; with
-  the expanded compiler-in-OpenC source, the current tree has 373 `.p` files;
+  the expanded compiler-in-OpenC and conformance source, the current tree has
+  383 `.p` files;
 - the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
   lexer parity on 288 canonical `.p` sources plus 16 probes (304/304), SH-2C
   exact parser parity on those sources plus 15 parser probes (303/303), and
@@ -48,9 +49,8 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
-- 331 of 466 active Core rules have dedicated executable fixture coverage;
-  the 135-rule dedicated-fixture backlog remains an explicit quality backlog,
-  not an unimplemented-rule assertion;
+- all 466 active Core rules have executed dedicated fixture coverage, and all
+  174 grammar productions name executed accepting/rejecting fixture pairs;
 - licensing and governance are resolved: 0BSD for software and CC0-1.0 for
   specifications, documentation, metadata, diagrams, and artwork. Vendored
   TinyCC is a separate LGPL-2.1 component with notice and corresponding source
@@ -60,6 +60,11 @@ The owner-certified Windows x86-64 Hosted release candidate is `RELEASE_READY`,
 but it is not published or marked `RELEASED`. Independent third-party review
 remains welcome and may produce errata; it is not a prerequisite for the
 owner-maintained initial release.
+
+The public RC8 package evidence remains the immutable 268-fixture historical
+record described above. Current post-tag mainline passes 278/278; the next
+engineering milestone is an RC9 standalone refresh containing this expanded
+corpus.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
 `LICENSE_POLICY.md`, `standard/core/OpenC_Core_Current.md`, and

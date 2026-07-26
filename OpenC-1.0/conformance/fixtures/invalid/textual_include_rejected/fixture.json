@@ -3,7 +3,7 @@
     "OPENC-TRANSLATE-NOINCLUDE-001",
     "OPENC-TRANSLATE-NOPREPROCESSOR-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -18,8 +18,8 @@
     "name": "textual_include_rejected",
     "profile": "standard",
     "rules": [
-      "OPENC-TRANSLATE-NOPREPROCESSOR-001",
-      "OPENC-TRANSLATE-NOINCLUDE-001"
+      "OPENC-TRANSLATE-NOINCLUDE-001",
+      "OPENC-TRANSLATE-NOPREPROCESSOR-001"
     ]
   },
   "id": "invalid/textual_include_rejected",

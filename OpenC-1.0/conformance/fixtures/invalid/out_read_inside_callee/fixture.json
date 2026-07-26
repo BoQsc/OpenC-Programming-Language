@@ -1,8 +1,10 @@
 {
   "active_rules": [
-    "OPENC-OUT-NOREAD-001"
+    "OPENC-FLOW-OUT-TOKEN-001",
+    "OPENC-OUT-NOREAD-001",
+    "OPENC-OUT-PENDINGUSE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -17,7 +19,9 @@
     "name": "out_read_inside_callee",
     "profile": "standard",
     "rules": [
-      "OPENC-OUT-NOREAD-001"
+      "OPENC-FLOW-OUT-TOKEN-001",
+      "OPENC-OUT-NOREAD-001",
+      "OPENC-OUT-PENDINGUSE-001"
     ]
   },
   "id": "invalid/out_read_inside_callee",

@@ -1,9 +1,12 @@
 {
   "active_rules": [
     "OPENC-CLEANUP-FAILURE-001",
-    "OPENC-CLEANUP-NOFALLIBLE-001"
+    "OPENC-CLEANUP-FINISH-001",
+    "OPENC-CLEANUP-NOFALLIBLE-001",
+    "OPENC-CLEANUP-SAFEWRAPPER-001",
+    "OPENC-CLEANUP-VOID-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -18,8 +21,11 @@
     "name": "fallible_scope_action_rejected",
     "profile": "standard",
     "rules": [
+      "OPENC-CLEANUP-FAILURE-001",
+      "OPENC-CLEANUP-FINISH-001",
       "OPENC-CLEANUP-NOFALLIBLE-001",
-      "OPENC-CLEANUP-FAILURE-001"
+      "OPENC-CLEANUP-SAFEWRAPPER-001",
+      "OPENC-CLEANUP-VOID-001"
     ]
   },
   "id": "invalid/fallible_scope_action_rejected",

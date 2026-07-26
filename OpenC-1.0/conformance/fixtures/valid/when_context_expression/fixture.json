@@ -1,0 +1,31 @@
+{
+  "active_rules": [
+    "OPENC-WHEN-CONTEXT-001",
+    "OPENC-WHEN-EXPR-001",
+    "OPENC-WHEN-STRUCTURED-001"
+  ],
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC Core 1.0 Current",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "when_context_expression",
+    "profile": "standard",
+    "rules": [
+      "OPENC-WHEN-CONTEXT-001",
+      "OPENC-WHEN-EXPR-001",
+      "OPENC-WHEN-STRUCTURED-001"
+    ]
+  },
+  "id": "valid/when_context_expression",
+  "kind": "valid",
+  "origin": "OpenC 1.0 dedicated coverage/when_context_expression",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/when_context_expression/main.p"
+  ]
+}

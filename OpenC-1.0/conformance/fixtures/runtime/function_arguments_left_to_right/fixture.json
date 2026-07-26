@@ -3,7 +3,7 @@
     "OPENC-EVAL-ARGMODE-001",
     "OPENC-FUNCTION-ARGORDER-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -20,8 +20,8 @@
     "name": "function_arguments_left_to_right",
     "profile": "standard",
     "rules": [
-      "OPENC-FUNCTION-ARGORDER-001",
-      "OPENC-EVAL-ARGMODE-001"
+      "OPENC-EVAL-ARGMODE-001",
+      "OPENC-FUNCTION-ARGORDER-001"
     ]
   },
   "id": "runtime/function_arguments_left_to_right",

@@ -1,8 +1,10 @@
 {
   "active_rules": [
-    "OPENC-NUM-ADD-001"
+    "OPENC-NUM-ADD-001",
+    "OPENC-NUM-AUTHORITY-001",
+    "OPENC-NUM-COMPOUND-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -15,7 +17,9 @@
     "name": "checked_addition",
     "profile": "standard",
     "rules": [
-      "OPENC-NUM-ADD-001"
+      "OPENC-NUM-ADD-001",
+      "OPENC-NUM-AUTHORITY-001",
+      "OPENC-NUM-COMPOUND-001"
     ]
   },
   "id": "runtime/checked_addition",

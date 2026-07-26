@@ -1,10 +1,13 @@
 {
-  "authored_rule_count": 331,
+  "authored_rule_count": 466,
   "candidate": "OpenC 1.0.0-rc.8",
   "entries": [
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -13,8 +16,11 @@
       "rule": "OPENC-SAFETY-NOUB-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -23,8 +29,11 @@
       "rule": "OPENC-SAFETY-UNSAFE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -33,8 +42,11 @@
       "rule": "OPENC-TERM-CHECKFAIL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -43,8 +55,11 @@
       "rule": "OPENC-SAFETY-OUTCOME-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/evaluation_binary_left_to_right"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -53,8 +68,11 @@
       "rule": "OPENC-SAFETY-OPTIMIZE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/fatal_allocation_defined"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -64,7 +82,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/utf8_source_valid"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -73,7 +94,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/invalid_utf8_source"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -81,8 +105,11 @@
       "rule": "OPENC-SOURCE-INVALID-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/source_bom_ignored"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -91,7 +118,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unterminated_block_comment",
+        "valid/comments_preserve_tokens"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -100,7 +131,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/textual_include_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -109,7 +143,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/textual_include_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -117,8 +154,11 @@
       "rule": "OPENC-TRANSLATE-NOINCLUDE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/when_context_expression"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -126,8 +166,11 @@
       "rule": "OPENC-WHEN-CONTEXT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/when_context_expression"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -136,7 +179,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/when_token_fragment_rejected",
+        "valid/when_context_expression"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -145,7 +192,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/identifier_case_sensitive"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -154,7 +204,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/predeclared_typeword_binding"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -163,7 +216,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/text_module_typeword_qualifier"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -171,8 +227,11 @@
       "rule": "OPENC-LEX-TYPEQUALIFIER-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/identifier_case_sensitive"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -180,8 +239,11 @@
       "rule": "OPENC-LEX-MAXIMAL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/identifier_case_sensitive"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -190,7 +252,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/integer_literal_exact_context"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -199,7 +264,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/integer_literal_destination_range",
+        "valid/integer_literal_exact_context"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -208,7 +277,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/utf8_source_valid"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -217,7 +289,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_separator_doubled",
+        "valid/numeric_separator_valid"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -226,7 +302,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/floating_literal_default_f64"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -235,7 +314,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_literal_suffix"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -244,7 +326,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unicode_escape_surrogate"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -253,7 +338,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_repeated_import_idempotent"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -263,7 +351,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/first_program"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -273,7 +364,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_short_and_full_qualifier"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -283,7 +377,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_short_qualifier_ambiguous"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -293,7 +390,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_private_access"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -303,7 +403,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_private_access"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -313,7 +416,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_import_cycle"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -322,8 +428,11 @@
       "rule": "OPENC-MODULE-CYCLE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_multi_source_overload"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -333,7 +442,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_duplicate_top_level",
+        "valid/module_multi_source_overload"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -343,7 +456,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_import_not_shared"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -353,7 +469,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_short_and_full_qualifier"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -363,7 +482,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_repeated_import_idempotent"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -372,8 +494,11 @@
       "rule": "OPENC-MODULE-IMPORTIDEMPOTENT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_multi_source_overload"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -382,8 +507,11 @@
       "rule": "OPENC-MODULE-ORDER-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_import_not_shared"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -392,8 +520,11 @@
       "rule": "OPENC-MODULE-NOREEXPORT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_multi_source_overload"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -402,8 +533,11 @@
       "rule": "OPENC-MODULE-MAPPING-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_import_cycle"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -412,8 +546,11 @@
       "rule": "OPENC-MODULE-CONSTCYCLE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_private_access"
+      ],
       "required_fixture_kinds": [
         "multi-source",
         "source-invalid",
@@ -423,7 +560,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/fixed_width_values"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -432,7 +572,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/machine_integer_width_reported"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -441,7 +584,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/historical_int_type_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -450,7 +596,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/size_of_void",
+        "invalid/void_local_object"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -459,7 +609,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/bool_condition"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -468,7 +621,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/byte_not_text_or_arithmetic"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -477,7 +633,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/float_integer_no_implicit"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -486,7 +645,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/float_binary_types"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -494,8 +656,11 @@
       "rule": "OPENC-TYPE-FLOAT-FIXED-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/text_value_semantics"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -504,7 +669,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/const_binding_readonly"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -513,7 +681,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/write_borrow"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -522,7 +693,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/read_borrow"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -531,7 +705,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/c_reference_decl"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -540,7 +717,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ref_local_without_initializer",
+        "valid/ref_assigns_referent"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -549,7 +730,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/ref_assigns_referent"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -558,7 +742,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ref_const_whole_assignment",
+        "valid/ref_assigns_referent"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -567,7 +755,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ref_resource_whole_assignment"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -576,7 +767,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -585,7 +779,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/c_pointer_decl"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -594,7 +791,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ref_const_to_mutable",
+        "valid/const_view_conversions"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -603,7 +804,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ptr_const_to_mutable",
+        "valid/const_view_conversions"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -612,7 +817,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/current_optional",
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -621,7 +830,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_proof_invalidated",
+        "valid/flow_optional_early_return"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -630,7 +843,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/current_question_optional",
+        "invalid/optional_question_syntax"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -639,7 +856,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_slice"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -648,7 +868,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -657,7 +880,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -666,7 +892,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/slice_const_to_mutable",
+        "valid/const_view_conversions"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -675,7 +905,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -684,7 +917,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/float_integer_no_implicit"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -693,7 +929,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/assignment_conversion_checked",
+        "invalid/implicit_narrow"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -702,7 +942,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/checked_cast"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -711,7 +954,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_unrelated_layout_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -719,8 +965,11 @@
       "rule": "OPENC-CONVERT-REINTERPRET-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_contains_resource"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -729,7 +978,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_contains_resource"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -738,7 +990,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -746,8 +1001,11 @@
       "rule": "OPENC-TYPE-PREFIXORDER-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -755,8 +1013,11 @@
       "rule": "OPENC-TYPE-CONSTRUCTORS-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -765,7 +1026,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/declaration_requires_type"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -774,7 +1038,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/declaration_requires_type"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -783,7 +1050,15 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "diagnostic/diagnostic_flow_path_locations",
+        "invalid/flow_if_missing_else",
+        "invalid/flow_while_only_initialization",
+        "invalid/local_not_zero_initialized",
+        "invalid/read_uninitialized",
+        "valid/initialized_local"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -792,7 +1067,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_if_all_paths"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -801,7 +1079,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/local_not_zero_initialized"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -810,7 +1091,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/const_binding_readonly"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -819,7 +1103,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/const_reassignment_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -828,7 +1115,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/block_local_escape"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -837,7 +1127,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/same_scope_duplicate"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -846,7 +1139,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/shadowing"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -855,7 +1151,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/global_const_valid"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -864,7 +1163,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/mutable_global_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -873,7 +1175,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_reference_parameter"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -882,7 +1187,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/own_plain_integer"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -891,7 +1199,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/parameter_modes_visible"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -900,7 +1211,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/parameter_modes_visible"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -909,7 +1223,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/parameter_modes_visible"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -917,8 +1234,11 @@
       "rule": "OPENC-PARAM-REF-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/parameter_modes_visible"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -926,8 +1246,11 @@
       "rule": "OPENC-OWN-MODE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/parameter_modes_visible"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -936,7 +1259,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/block_local_escape",
+        "invalid/declaration_requires_type"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -945,7 +1272,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/loop_only_initialization_not_definite"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -954,7 +1284,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_field_target",
+        "invalid/out_initialized_target"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -963,8 +1297,11 @@
       "rule": "OPENC-OUT-TARGET-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_initialized_target"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -973,7 +1310,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_read_inside_callee"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -981,8 +1321,11 @@
       "rule": "OPENC-OUT-NOREAD-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_initialized_target"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -990,8 +1333,11 @@
       "rule": "OPENC-OUT-REASSIGN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/constant_expression_same_numeric_rules"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -999,8 +1345,11 @@
       "rule": "OPENC-CONST-EXPR-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_div_min_negative_one_static"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1009,7 +1358,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_call_left_to_right"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1018,7 +1370,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/call_argument_count"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1027,7 +1382,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/function_add"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1036,7 +1394,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unknown_member"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1045,7 +1406,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/bounds_trap",
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1054,7 +1419,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/slice_range_checked"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1063,7 +1431,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/arithmetic_type_mismatch"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -1073,7 +1444,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unary_minus_signed_only"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -1083,7 +1457,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_equality_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1092,7 +1469,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/boolean_short_circuit"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1101,7 +1481,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/assignment_target_required"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -1111,7 +1494,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/assignment_conversion_checked"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1120,7 +1506,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/address_outside_unsafe"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1128,8 +1517,11 @@
       "rule": "OPENC-PTR-ADDRESS-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unsafe_pointer"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1138,7 +1530,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/deref_outside_unsafe",
+        "valid/unsafe_pointer"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1147,7 +1543,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_arithmetic_outside_unsafe"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1156,7 +1555,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/null_pointer_equality"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1165,7 +1567,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/checked_cast_requires_exact_value"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1174,7 +1579,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_order_cross_allocation"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1183,7 +1591,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/missing_braces"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1192,7 +1603,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/missing_semicolon"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1201,7 +1615,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/integer_condition",
+        "valid/bool_condition"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1210,7 +1628,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/for_variable_scope"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1219,7 +1640,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/switch_implicit_fallthrough"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1228,7 +1652,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch",
+        "valid/flow_switch_exhaustive"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1236,8 +1664,11 @@
       "rule": "OPENC-SWITCH-ENUM-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1245,8 +1676,11 @@
       "rule": "OPENC-SWITCH-DOMAIN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1254,8 +1688,11 @@
       "rule": "OPENC-SWITCH-CASE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/enum_duplicate_value"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1263,8 +1700,11 @@
       "rule": "OPENC-SWITCH-DUPLICATE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1273,7 +1713,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/break_outside_loop"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1281,8 +1724,11 @@
       "rule": "OPENC-LOOP-CONTEXT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/bool_condition"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1290,8 +1736,11 @@
       "rule": "OPENC-IF-EXECUTE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_loop_preinitialized"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1299,8 +1748,11 @@
       "rule": "OPENC-WHILE-EXECUTE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/break_and_scope_registration_order"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1309,7 +1761,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/return_type_mismatch"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1318,7 +1773,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/return_local_reference"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1327,7 +1785,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "diagnostic/critical_unreachable_statement"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1336,7 +1797,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/arrow_function",
+        "valid/first_program"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1345,7 +1810,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/function_add"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1354,7 +1822,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/overload_conversion_ambiguity"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1363,7 +1834,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_multi_source_overload",
+        "valid/overload_exact_preferred"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1372,7 +1847,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/overload_conversion_ambiguity",
+        "invalid/overload_lossless_ambiguous"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1381,7 +1860,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/overload_return_only"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1390,7 +1872,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/overload_parameter_modes"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1399,7 +1884,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/nonvoid_missing_path"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1408,7 +1896,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_own_pointer_missing_contract"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1416,8 +1907,11 @@
       "rule": "OPENC-OUT-OWN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1425,8 +1919,11 @@
       "rule": "OPENC-OUT-CALL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1435,7 +1932,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/domain_own_call"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1444,7 +1944,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unsafe_function_call_outside_unsafe"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1453,7 +1956,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_success_without_init",
+        "valid/flow_out_early_return"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1462,7 +1969,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_failure_partial_exposure"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1470,8 +1980,11 @@
       "rule": "OPENC-FUNCTION-OUTFAIL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1479,8 +1992,11 @@
       "rule": "OPENC-FUNCTION-OUTRETURN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1489,7 +2005,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/function_arguments_left_to_right"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1497,8 +2016,11 @@
       "rule": "OPENC-FUNCTION-ARGORDER-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/overload_exact_preferred"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1506,8 +2028,11 @@
       "rule": "OPENC-OVERLOAD-CONVERSIONS-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/function_recursion"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1516,7 +2041,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1525,7 +2053,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/struct_trailing_semicolon"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1534,7 +2065,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/current_resource"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1542,8 +2076,11 @@
       "rule": "OPENC-RESOURCE-DECL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/current_resource"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1552,7 +2089,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1560,8 +2100,11 @@
       "rule": "OPENC-STRUCT-FIELD-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/const_reassignment_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1570,7 +2113,12 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ref_field",
+        "invalid/slice_field",
+        "invalid/storage_field"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1579,7 +2127,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_defaults"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1588,7 +2139,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/positional_struct",
+        "valid/struct_named_init"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1597,7 +2152,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1606,7 +2164,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/missing_struct_field"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1615,7 +2176,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_defaults"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1624,7 +2188,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1632,8 +2199,11 @@
       "rule": "OPENC-STRUCT-COPY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_equality"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1642,7 +2212,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1651,7 +2224,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/enum_duplicate_value"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1660,7 +2236,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/enum_duplicate_value"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1669,7 +2248,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1678,7 +2260,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_domain_operations"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1687,7 +2272,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_domain_operations"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1696,7 +2284,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_domain_operations"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1705,7 +2296,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_obligation_not_discharged"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1714,7 +2308,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/const_resource_owner"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1723,7 +2320,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_struct_initializer_order"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1731,8 +2331,11 @@
       "rule": "OPENC-STRUCT-INIT-ORDER-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1741,7 +2344,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_contains_resource"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1750,7 +2356,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/current_resource"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1758,8 +2367,11 @@
       "rule": "OPENC-RESOURCE-FIELD-OWNPTR-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1767,8 +2379,11 @@
       "rule": "OPENC-RESOURCE-FIELD-DEFAULT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1776,8 +2391,11 @@
       "rule": "OPENC-RESOURCE-INIT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1785,8 +2403,11 @@
       "rule": "OPENC-RESOURCE-INIT-REQUIRED-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1794,8 +2415,11 @@
       "rule": "OPENC-RESOURCE-INIT-OWNER-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1803,8 +2427,11 @@
       "rule": "OPENC-RESOURCE-INIT-RESERVE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1812,8 +2439,11 @@
       "rule": "OPENC-RESOURCE-INIT-COMMIT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1821,8 +2451,11 @@
       "rule": "OPENC-RESOURCE-INIT-ROLLBACK-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1830,8 +2463,11 @@
       "rule": "OPENC-RESOURCE-INIT-PLACEMENT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_reinitialize_live"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1839,8 +2475,11 @@
       "rule": "OPENC-RESOURCE-REINIT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1848,8 +2487,11 @@
       "rule": "OPENC-RESOURCE-FIELD-VIEW-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_field_state_rejections"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1857,8 +2499,11 @@
       "rule": "OPENC-RESOURCE-FIELD-ASSIGN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_field_state_rejections"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1866,8 +2511,11 @@
       "rule": "OPENC-RESOURCE-FIELD-CONSUME-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_field_state_rejections"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1875,8 +2523,11 @@
       "rule": "OPENC-RESOURCE-DISMANTLE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_field_state_rejections"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1884,8 +2535,11 @@
       "rule": "OPENC-RESOURCE-FIELD-ONCE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_field_state_rejections"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1893,8 +2547,11 @@
       "rule": "OPENC-RESOURCE-CONSUMER-RETURN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1902,8 +2559,11 @@
       "rule": "OPENC-RESOURCE-OPAQUE-DISCHARGE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/missing_struct_field"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1911,8 +2571,11 @@
       "rule": "OPENC-STRUCT-DEFAULT-NODEP-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1920,8 +2583,11 @@
       "rule": "OPENC-STRUCT-INIT-COMMIT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1930,7 +2596,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/c_array_decl",
+        "valid/fixed_array"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1939,7 +2609,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/array_init_length_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1948,7 +2621,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/array_out_of_bounds",
+        "valid/fixed_array"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1957,7 +2634,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/array_init_length_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1966,7 +2646,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/array_init_length_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1975,7 +2658,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_sum"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1984,7 +2670,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_length_and_mutation"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -1993,7 +2682,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_sum"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2002,7 +2694,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_length_and_mutation"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2011,7 +2706,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/subslice"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2020,7 +2718,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/slice_alias_mutation_conflict"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2029,7 +2730,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/array_no_pointer_decay"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2038,7 +2742,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/byte_not_text_or_arithmetic"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2046,8 +2753,11 @@
       "rule": "OPENC-BYTE-ARITH-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/text_value_semantics"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2056,7 +2766,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/text_index"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2065,7 +2778,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/text_byte_conversion_explicit"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2074,7 +2790,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_empty_and_default_ranges"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2083,7 +2802,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_empty_and_default_ranges"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2092,7 +2814,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/disjoint_mutable_slices"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2100,8 +2825,11 @@
       "rule": "OPENC-SLICE-DISJOINT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/text_value_semantics"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2109,8 +2837,11 @@
       "rule": "OPENC-TEXT-EQUALITY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/text_value_semantics"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2118,8 +2849,11 @@
       "rule": "OPENC-TEXT-COPY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/byte_pointer_object_representation"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2127,8 +2861,11 @@
       "rule": "OPENC-BYTE-DISTINCT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_length_and_mutation"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2136,8 +2873,11 @@
       "rule": "OPENC-SLICE-COPY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/slice_outlives_owner"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2146,7 +2886,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/optional_none_and_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2155,7 +2898,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/optional_checked"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2164,7 +2910,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/optional_trap",
+        "valid/optional_checked"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2173,7 +2923,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ignored_status"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2181,8 +2934,11 @@
       "rule": "OPENC-STATUS-MUSTHANDLE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ignored_status"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2191,7 +2947,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_invariant_success"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2200,7 +2959,12 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/status_failure_zero_code",
+        "invalid/status_success_nonzero_code",
+        "valid/status_invariant_success"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2208,8 +2972,11 @@
       "rule": "OPENC-STATUS-INVARIANT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ignored_status"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2218,7 +2985,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_message_not_control_flow"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2226,8 +2996,11 @@
       "rule": "OPENC-STATUS-MESSAGE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_own_pointer_missing_contract"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2236,7 +3009,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_nonstatus_function"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2245,7 +3021,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_message_not_control_flow"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2254,7 +3033,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/fatal_allocation_defined"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2262,8 +3044,11 @@
       "rule": "OPENC-ERROR-FATAL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_invariant_success"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2272,7 +3057,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2280,8 +3068,11 @@
       "rule": "OPENC-STATUS-PROOF-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_invariant_success"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2290,7 +3081,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_failure_partial_exposure",
+        "valid/status_proof_initializes_out"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2298,8 +3093,11 @@
       "rule": "OPENC-OUT-NOPARTIAL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2307,8 +3105,11 @@
       "rule": "OPENC-OUT-COMMIT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_failure_partial_exposure"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2316,8 +3117,11 @@
       "rule": "OPENC-OUT-OWNCOMMIT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_failure_partial_exposure"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2325,8 +3129,11 @@
       "rule": "OPENC-OUT-OWNTAIL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_failure_partial_exposure"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2335,7 +3142,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/optional_none_and_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2344,7 +3154,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_present_readonly"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2352,8 +3165,11 @@
       "rule": "OPENC-OPTIONAL-PRESENT-READONLY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/optional_none_and_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2361,8 +3177,11 @@
       "rule": "OPENC-OPTIONAL-ASSIGN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_question_syntax"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2371,7 +3190,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/storage_read_before_construct"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2380,7 +3202,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/plain_copy_independent"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2389,7 +3214,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/use_after_move"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2398,7 +3226,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/many_read_borrows_last_use"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2407,7 +3238,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/two_write_borrows",
+        "valid/write_borrow"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2416,7 +3251,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/many_read_borrows_last_use"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2425,7 +3263,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/borrow_prevents_move"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2434,7 +3275,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/return_local_ref",
+        "invalid/return_local_reference"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2443,7 +3288,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/slice_outlives_owner"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2452,7 +3300,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_move_reserved_owner",
+        "invalid/scope_reassign_reserved_owner"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2461,7 +3313,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_return_transfers"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2469,8 +3324,11 @@
       "rule": "OPENC-OWN-RETURN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_return_transfers"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2478,8 +3336,11 @@
       "rule": "OPENC-OWN-PRODUCE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/domain_own_call"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2487,8 +3348,11 @@
       "rule": "OPENC-OWN-CONSUME-ARG-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2496,8 +3360,11 @@
       "rule": "OPENC-OWN-CHECKEDGE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_return_transfers"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2505,8 +3372,11 @@
       "rule": "OPENC-OWN-EXIT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_return_transfers"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2515,7 +3385,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/owning_pointer_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2524,7 +3397,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/plain_struct_hides_owning_pointer"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2533,7 +3409,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_double_consuming_action"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2542,7 +3421,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/scope_bound_owner_borrow"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2551,7 +3433,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/storage_read_before_construct"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2560,7 +3445,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/storage_resource_type"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2569,7 +3457,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2577,8 +3468,11 @@
       "rule": "OPENC-CONSTRUCT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2586,8 +3480,11 @@
       "rule": "OPENC-CONSTRUCT-VALUE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2596,7 +3493,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/construct_twice"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2605,7 +3505,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage",
+        "valid/typed_storage_reconstruct_after_destroy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2614,7 +3518,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/destroy_with_active_borrow"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2623,7 +3530,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/destroy_with_active_borrow"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2632,7 +3542,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/typed_storage_live_exit",
+        "valid/typed_storage_scope_destroy_use"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2641,7 +3555,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage_reconstruct_after_destroy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2650,7 +3567,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/typed_storage_old_ref_after_reconstruct"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2659,7 +3579,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ptr_length"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2668,7 +3591,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/misaligned_typed_deref"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2677,7 +3603,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_typed_deref_requires_lifetime"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2686,7 +3615,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/byte_pointer_object_representation"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2694,8 +3626,11 @@
       "rule": "OPENC-PTR-BYTE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_pointer_no_new_lifetime"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2703,8 +3638,11 @@
       "rule": "OPENC-PTR-BYTEWRITE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unsafe_pointer"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2713,7 +3651,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_deref_one_past",
+        "valid/pointer_one_past_compare"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2722,7 +3664,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_cross_allocation_subtract"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2731,7 +3676,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ptr_const_write"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2739,8 +3687,11 @@
       "rule": "OPENC-PTR-CONST-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/pointer_one_past_compare"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2748,8 +3699,11 @@
       "rule": "OPENC-PTR-BINDING-MUTABLE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unsafe_pointer"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2757,8 +3711,11 @@
       "rule": "OPENC-PTR-PROVENANCE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/owning_pointer_copy"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2766,8 +3723,11 @@
       "rule": "OPENC-PTR-BASE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_deref_one_past"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2775,8 +3735,11 @@
       "rule": "OPENC-PTR-DEREF-RANGE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_pointer_no_new_lifetime"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2784,8 +3747,11 @@
       "rule": "OPENC-PTR-INVALIDATE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/pointer_one_past_compare"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2793,8 +3759,11 @@
       "rule": "OPENC-PTR-SUBTRACT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2802,8 +3771,11 @@
       "rule": "OPENC-STORAGE-EMPTY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2812,7 +3784,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unsafe_pointer"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2821,7 +3796,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/small_local_unsafe_block"
+      ],
       "required_fixture_kinds": [
         "human-review"
       ],
@@ -2829,7 +3807,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unsafe_call_requires_boundary"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2838,7 +3819,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unsafe_contract_caller_responsibility"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2847,7 +3831,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unchecked_integer_cast"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2856,7 +3843,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unchecked_float_to_integer"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2865,7 +3855,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_struct_value",
+        "valid/reinterpret_u32_f32"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2874,7 +3868,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_size_mismatch",
+        "valid/reinterpret_u32_f32"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2883,7 +3881,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_pointer_no_new_lifetime"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2892,7 +3893,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_pointer_no_new_lifetime"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2901,7 +3905,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/safe_wrapper_missing_check"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2910,7 +3917,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2919,7 +3929,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2928,7 +3941,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unsafe_provenance_not_forged"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2937,7 +3953,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/unsafe_history_in_diagnostic"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2945,8 +3964,11 @@
       "rule": "OPENC-UNSAFE-HISTORY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2954,8 +3976,11 @@
       "rule": "OPENC-UNSAFE-PRECONDITION-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/safe_wrapper_missing_check"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2963,8 +3988,11 @@
       "rule": "OPENC-SAFE-GUARANTEE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/safe_wrapper_missing_check"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2972,8 +4000,11 @@
       "rule": "OPENC-SAFE-WRAPPER-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unsafe_contract_caller_responsibility"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2982,7 +4013,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -2991,7 +4025,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "required_fixture_kinds": [
         "human-review"
       ],
@@ -2999,7 +4036,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3008,7 +4048,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/unsafe_history_in_diagnostic"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3016,8 +4059,11 @@
       "rule": "OPENC-DIAG-TRACE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3025,8 +4071,11 @@
       "rule": "OPENC-DIAG-SPAN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3034,8 +4083,11 @@
       "rule": "OPENC-DIAG-PHASE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3043,8 +4095,11 @@
       "rule": "OPENC-DIAG-SEVERITY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3052,8 +4107,11 @@
       "rule": "OPENC-DIAG-PRIMARY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/first_program"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3061,8 +4119,11 @@
       "rule": "OPENC-GRAMMAR-AUTHORITY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/first_program"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3071,7 +4132,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/evaluation_binary_left_to_right"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3081,7 +4145,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/evaluation_binary_left_to_right"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3091,7 +4158,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_call_left_to_right"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3101,7 +4171,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/callee_then_arguments_order"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3111,7 +4184,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/callee_then_arguments_order",
+        "runtime/function_arguments_left_to_right"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3121,7 +4198,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/evaluation_binary_left_to_right"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3131,7 +4211,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/boolean_short_circuit"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3141,7 +4224,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unary_operand_once"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3151,7 +4237,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/assignment_destination_once"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3161,7 +4250,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_compound_target_once"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3170,8 +4262,11 @@
       "rule": "OPENC-EVAL-COMPOUND-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/array_init_length_copy"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3181,7 +4276,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_struct_initializer_order"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3191,7 +4289,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/struct_defaults_after_explicit"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3201,7 +4302,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/construct_and_return_order"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3211,7 +4315,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/construct_and_return_order"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3221,7 +4328,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/break_and_scope_registration_order"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3231,7 +4341,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/break_and_scope_registration_order"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3241,7 +4354,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_nested_fallible_argument"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3251,7 +4367,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/evaluation_binary_left_to_right"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3261,7 +4380,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_state_branch_merge"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3270,7 +4392,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_unreachable_after_return"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3279,7 +4404,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_if_all_paths"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3288,7 +4416,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_if_missing_else"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3297,7 +4428,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_switch_exhaustive"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3306,7 +4440,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_while_only_initialization",
+        "valid/flow_loop_preinitialized"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3315,7 +4453,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_for_not_guaranteed"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3324,7 +4465,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_continue_skips_init"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3333,7 +4477,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_break_path_merge"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3341,8 +4488,11 @@
       "rule": "OPENC-FLOW-BREAK-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_read_inside_callee"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3350,8 +4500,11 @@
       "rule": "OPENC-FLOW-OUT-TOKEN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_out_early_return"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3359,8 +4512,11 @@
       "rule": "OPENC-FLOW-OUT-PREDICATE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_read_inside_callee"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3368,8 +4524,11 @@
       "rule": "OPENC-OUT-PENDINGUSE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_out_early_return"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3378,7 +4537,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "diagnostic/diagnostic_status_out_failure"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3387,7 +4549,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_out_early_return"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3395,8 +4560,11 @@
       "rule": "OPENC-FLOW-OUT-MERGE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_continue_skips_init"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3404,8 +4572,11 @@
       "rule": "OPENC-FLOW-OUT-LOOP-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_out_early_return"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3414,7 +4585,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_status_copy_proof"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3423,7 +4597,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_optional_proof_invalidated"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3432,7 +4609,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_optional_early_return"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3441,7 +4621,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_proof_invalidated"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3450,7 +4633,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_move_one_branch"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3459,7 +4645,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_borrow_and_destroyed_state"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3468,7 +4657,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_borrow_and_destroyed_state"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3477,7 +4669,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "diagnostic/diagnostic_flow_path_locations",
+        "diagnostic/diagnostic_status_out_failure"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3486,7 +4682,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/fixed_width_values"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3496,7 +4695,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/fixed_width_values",
+        "runtime/unsigned_modulo_exact"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3506,7 +4709,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsigned_modulo_exact"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3516,7 +4722,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/machine_integer_width_reported"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3525,8 +4734,11 @@
       "rule": "OPENC-NUM-MACHINE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/integer_literal_exact_context"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3536,7 +4748,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_unconstrained_too_large"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3546,7 +4761,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/negative_literal_context"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3556,7 +4774,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/checked_addition"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3566,7 +4787,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/numeric_division_toward_zero"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3576,7 +4800,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/numeric_remainder_dividend_sign"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3586,7 +4813,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_div_min_negative_one_static",
+        "runtime/runtime_division_min_negative_one"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3596,7 +4827,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_division_zero"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3606,7 +4840,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_signed_bitwise"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3616,7 +4853,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_shift_width"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3626,7 +4866,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/signed_right_shift_defined"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3636,7 +4879,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/left_shift_checked"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3645,8 +4891,11 @@
       "rule": "OPENC-NUM-SHIFTLEFT-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unchecked_integer_cast"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3656,7 +4905,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/numeric_saturating_add"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3665,8 +4917,11 @@
       "rule": "OPENC-NUM-SATURATE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unchecked_integer_cast"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3675,7 +4930,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_cast_integer_range"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3685,7 +4943,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_cast_float_fraction",
+        "runtime/runtime_cast_float_fraction"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3695,7 +4957,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_cast_int_float_inexact_static"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3705,7 +4970,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/checked_cast_requires_exact_value"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3715,7 +4983,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unchecked_integer_cast"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3725,7 +4996,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/float_binary_types"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3735,7 +5009,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/float_binary_types"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3745,7 +5022,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_float_nan_comparison"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3755,7 +5035,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_float_nan_comparison"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3765,7 +5048,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_float_nan_comparison"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3775,7 +5061,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/constant_expression_same_numeric_rules"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3784,8 +5073,11 @@
       "rule": "OPENC-NUM-CONST-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/checked_addition"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3794,8 +5086,11 @@
       "rule": "OPENC-NUM-AUTHORITY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/checked_addition"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3804,8 +5099,11 @@
       "rule": "OPENC-NUM-COMPOUND-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/float_binary_types"
+      ],
       "required_fixture_kinds": [
         "runtime-checked-failure",
         "source-invalid",
@@ -3815,7 +5113,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/cleanup_registration_capture"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3824,7 +5125,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/cleanup_registration_capture"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3833,7 +5137,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/scope_value_capture"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3842,7 +5149,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/cleanup_reference_must_live"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3851,7 +5161,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_move_reserved_owner",
+        "invalid/scope_reassign_reserved_owner"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3860,7 +5174,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_out_argument"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3869,7 +5186,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_nested_fallible_argument"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3878,7 +5198,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage_scope_destroy_use"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3887,7 +5210,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_destroy_early"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3896,7 +5222,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage_scope_destroy_use"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3905,7 +5234,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_scope_lifo",
+        "valid/scope_nested_lifo"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3914,7 +5247,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/scope_nested_lifo"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3923,7 +5259,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/cleanup_owner_registered_once"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3932,7 +5271,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/cleanup_on_return"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3941,7 +5283,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/cleanup_on_return"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3950,7 +5295,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3958,8 +5306,11 @@
       "rule": "OPENC-CLEANUP-CHECKFAIL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3968,7 +5319,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/fallible_scope_action_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3977,7 +5331,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/fallible_scope_action_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3986,7 +5343,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_cancel_not_supported"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -3994,8 +5354,11 @@
       "rule": "OPENC-CLEANUP-NOCANCEL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/fallible_scope_action_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -4003,8 +5366,11 @@
       "rule": "OPENC-CLEANUP-VOID-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/fallible_scope_action_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -4012,8 +5378,11 @@
       "rule": "OPENC-CLEANUP-SAFEWRAPPER-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -4021,8 +5390,11 @@
       "rule": "OPENC-CLEANUP-ALL-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -4030,8 +5402,11 @@
       "rule": "OPENC-CLEANUP-PRIMARY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/fallible_scope_action_rejected"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -4039,8 +5414,11 @@
       "rule": "OPENC-CLEANUP-FINISH-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -4049,7 +5427,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4059,7 +5440,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4069,7 +5453,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4079,7 +5466,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4089,7 +5479,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_layout_report"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4099,7 +5492,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_layout_report"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4109,7 +5505,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_layout_report"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4119,7 +5518,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/size_of_void",
+        "valid/type_size_alignment"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4129,7 +5532,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_size_alignment"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4138,8 +5544,11 @@
       "rule": "OPENC-TARGET-ALIGNOF-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_size_alignment"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4148,8 +5557,11 @@
       "rule": "OPENC-TARGET-QUERYDOMAIN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_size_alignment"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4159,7 +5571,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_size_alignment"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4169,7 +5584,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/size_of_expression"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4179,7 +5597,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/pointer_provenance_target_fault"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4189,7 +5610,11 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_deref_one_past",
+        "valid/pointer_one_past_compare"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4199,7 +5624,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_pointer_cross_extent_fault"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4209,7 +5637,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_order_cross_allocation"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4219,7 +5650,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_integer_conversion_not_plain"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4229,7 +5663,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_pointer_cross_extent_fault"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4239,7 +5676,10 @@
     },
     {
       "authoring_status": "AUTHORED",
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/pointer_provenance_target_fault"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4248,8 +5688,11 @@
       "rule": "OPENC-TARGET-NOARBITRARY-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4258,8 +5701,11 @@
       "rule": "OPENC-TARGET-SANITIZE-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4268,8 +5714,11 @@
       "rule": "OPENC-PORTABILITY-PLAIN-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4278,8 +5727,11 @@
       "rule": "OPENC-TARGET-SCHEMA-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid",
@@ -4288,8 +5740,11 @@
       "rule": "OPENC-TARGET-CROSS-001"
     },
     {
-      "authoring_status": "REQUIRED",
-      "execution_status": "NO_DEDICATED_FIXTURE",
+      "authoring_status": "AUTHORED",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_call_left_to_right"
+      ],
       "required_fixture_kinds": [
         "source-invalid",
         "source-valid"
@@ -4297,7 +5752,7 @@
       "rule": "OPENC-EXPR-PRECEDENCE-001"
     }
   ],
-  "fixture_count": 268,
-  "required_rule_count": 135,
-  "schema": "openc.conformance.fixture_queue.v1"
+  "fixture_count": 278,
+  "required_rule_count": 0,
+  "schema": "openc.conformance.fixture_queue.v2"
 }

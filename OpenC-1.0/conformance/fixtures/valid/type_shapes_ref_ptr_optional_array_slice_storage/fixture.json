@@ -5,9 +5,11 @@
     "OPENC-PTR-TYPE-001",
     "OPENC-SLICE-TYPE-001",
     "OPENC-STORAGE-TYPE-001",
-    "OPENC-TYPE-PREFIXORDER-001"
+    "OPENC-TYPE-CONSTRUCTORS-001",
+    "OPENC-TYPE-PREFIXORDER-001",
+    "OPENC-TYPE-SUFFIX-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -20,12 +22,14 @@
     "name": "type_shapes_ref_ptr_optional_array_slice_storage",
     "profile": "standard",
     "rules": [
-      "OPENC-PTR-TYPE-001",
-      "OPENC-OPTIONAL-EXPLICIT-001",
       "OPENC-ARRAY-TYPE-001",
+      "OPENC-OPTIONAL-EXPLICIT-001",
+      "OPENC-PTR-TYPE-001",
       "OPENC-SLICE-TYPE-001",
       "OPENC-STORAGE-TYPE-001",
-      "OPENC-TYPE-PREFIXORDER-001"
+      "OPENC-TYPE-CONSTRUCTORS-001",
+      "OPENC-TYPE-PREFIXORDER-001",
+      "OPENC-TYPE-SUFFIX-001"
     ]
   },
   "id": "valid/type_shapes_ref_ptr_optional_array_slice_storage",

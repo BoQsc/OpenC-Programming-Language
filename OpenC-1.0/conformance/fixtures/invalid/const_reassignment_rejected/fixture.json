@@ -1,8 +1,9 @@
 {
   "active_rules": [
-    "OPENC-CONST-ASSIGN-001"
+    "OPENC-CONST-ASSIGN-001",
+    "OPENC-STRUCT-CONSTFIELD-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,7 +17,8 @@
     "name": "const_reassignment_rejected",
     "profile": "standard",
     "rules": [
-      "OPENC-CONST-ASSIGN-001"
+      "OPENC-CONST-ASSIGN-001",
+      "OPENC-STRUCT-CONSTFIELD-001"
     ]
   },
   "id": "invalid/const_reassignment_rejected",

@@ -1,9 +1,14 @@
 {
   "active_rules": [
+    "OPENC-FUNCTION-OUTRETURN-001",
+    "OPENC-OUT-CALL-001",
+    "OPENC-OUT-COMMIT-001",
+    "OPENC-OUT-FORWARD-001",
     "OPENC-OUT-NOPARTIAL-001",
+    "OPENC-OUT-RESULTBIND-001",
     "OPENC-STATUS-PROOF-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,8 +21,13 @@
     "name": "status_proof_initializes_out",
     "profile": "standard",
     "rules": [
-      "OPENC-STATUS-PROOF-001",
-      "OPENC-OUT-NOPARTIAL-001"
+      "OPENC-FUNCTION-OUTRETURN-001",
+      "OPENC-OUT-CALL-001",
+      "OPENC-OUT-COMMIT-001",
+      "OPENC-OUT-FORWARD-001",
+      "OPENC-OUT-NOPARTIAL-001",
+      "OPENC-OUT-RESULTBIND-001",
+      "OPENC-STATUS-PROOF-001"
     ]
   },
   "id": "valid/status_proof_initializes_out",

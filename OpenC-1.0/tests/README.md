@@ -15,4 +15,9 @@ maintained programs built and executed. The retained repository matrix also
 passed 9/9 debug builds, 9/9 release builds, 8/8 D test commands, and 4/4
 Python bootstrap tests.
 
+The post-tag conformance-evidence milestone expands the repository corpus to
+278/278 passing fixtures, covers all 466 active rules with dedicated fixtures,
+and supplies accepting/rejecting pairs for all 174 grammar productions. The
+historical RC8 package count above remains unchanged.
+
 Conformance execution is recorded separately by the canonical `openc validate` command. Local success is not evidence for untested targets or independent review.

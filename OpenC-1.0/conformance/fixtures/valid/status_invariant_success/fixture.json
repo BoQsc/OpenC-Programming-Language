@@ -1,9 +1,11 @@
 {
   "active_rules": [
     "OPENC-STATUS-CODE-001",
-    "OPENC-STATUS-INVARIANT-001"
+    "OPENC-STATUS-COPY-001",
+    "OPENC-STATUS-INVARIANT-001",
+    "OPENC-STATUS-READONLY-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,8 +18,10 @@
     "name": "status_invariant_success",
     "profile": "standard",
     "rules": [
+      "OPENC-STATUS-CODE-001",
+      "OPENC-STATUS-COPY-001",
       "OPENC-STATUS-INVARIANT-001",
-      "OPENC-STATUS-CODE-001"
+      "OPENC-STATUS-READONLY-001"
     ]
   },
   "id": "valid/status_invariant_success",

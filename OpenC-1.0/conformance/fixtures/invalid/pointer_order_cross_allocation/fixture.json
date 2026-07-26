@@ -3,7 +3,7 @@
     "OPENC-PTR-COMPARE-001",
     "OPENC-TARGET-PTRCOMPARE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -17,8 +17,8 @@
     "name": "pointer_order_cross_allocation",
     "profile": "standard",
     "rules": [
-      "OPENC-TARGET-PTRCOMPARE-001",
-      "OPENC-PTR-COMPARE-001"
+      "OPENC-PTR-COMPARE-001",
+      "OPENC-TARGET-PTRCOMPARE-001"
     ]
   },
   "id": "invalid/pointer_order_cross_allocation",

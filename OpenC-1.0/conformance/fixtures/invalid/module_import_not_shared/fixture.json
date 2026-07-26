@@ -1,8 +1,9 @@
 {
   "active_rules": [
-    "OPENC-MODULE-IMPORTLOCAL-001"
+    "OPENC-MODULE-IMPORTLOCAL-001",
+    "OPENC-MODULE-NOREEXPORT-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -22,7 +23,8 @@
     "name": "module_import_not_shared",
     "profile": "standard",
     "rules": [
-      "OPENC-MODULE-IMPORTLOCAL-001"
+      "OPENC-MODULE-IMPORTLOCAL-001",
+      "OPENC-MODULE-NOREEXPORT-001"
     ]
   },
   "id": "invalid/module_import_not_shared",

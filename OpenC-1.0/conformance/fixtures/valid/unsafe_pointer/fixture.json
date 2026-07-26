@@ -1,9 +1,12 @@
 {
   "active_rules": [
+    "OPENC-PTR-ADDRESSABLE-001",
     "OPENC-PTR-DEREF-001",
+    "OPENC-PTR-DERIVED-NONOWNING-001",
+    "OPENC-PTR-PROVENANCE-001",
     "OPENC-UNSAFE-BOUNDARY-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -15,8 +18,11 @@
     "name": "unsafe_pointer",
     "profile": "standard",
     "rules": [
-      "OPENC-UNSAFE-BOUNDARY-001",
-      "OPENC-PTR-DEREF-001"
+      "OPENC-PTR-ADDRESSABLE-001",
+      "OPENC-PTR-DEREF-001",
+      "OPENC-PTR-DERIVED-NONOWNING-001",
+      "OPENC-PTR-PROVENANCE-001",
+      "OPENC-UNSAFE-BOUNDARY-001"
     ]
   },
   "id": "valid/unsafe_pointer",

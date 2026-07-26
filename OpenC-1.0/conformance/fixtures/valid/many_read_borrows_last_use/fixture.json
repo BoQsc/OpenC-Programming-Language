@@ -3,7 +3,7 @@
     "OPENC-BORROW-LASTUSE-001",
     "OPENC-BORROW-MANYREAD-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,8 +16,8 @@
     "name": "many_read_borrows_last_use",
     "profile": "standard",
     "rules": [
-      "OPENC-BORROW-MANYREAD-001",
-      "OPENC-BORROW-LASTUSE-001"
+      "OPENC-BORROW-LASTUSE-001",
+      "OPENC-BORROW-MANYREAD-001"
     ]
   },
   "id": "valid/many_read_borrows_last_use",

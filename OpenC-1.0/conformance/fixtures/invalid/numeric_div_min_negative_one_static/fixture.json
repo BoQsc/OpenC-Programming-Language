@@ -1,8 +1,9 @@
 {
   "active_rules": [
+    "OPENC-CONST-CHECKFAIL-001",
     "OPENC-NUM-DIV-MIN-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,6 +17,7 @@
     "name": "numeric_div_min_negative_one_static",
     "profile": "standard",
     "rules": [
+      "OPENC-CONST-CHECKFAIL-001",
       "OPENC-NUM-DIV-MIN-001"
     ]
   },

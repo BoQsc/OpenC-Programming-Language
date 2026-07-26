@@ -18,6 +18,22 @@ struct SourcePosition {
     usize column;
 }
 
+void source_without_initial_bom(text source, out text logical_source) {
+    logical_source = source;
+    if text.byte_length(source) >= 3 &&
+        byte_at_or_zero(source, 0) == 239 &&
+        byte_at_or_zero(source, 1) == 187 &&
+        byte_at_or_zero(source, 2) == 191 {
+        text sliced_source;
+        status sliced = text.slice(
+            source, 1, text.length(source), out sliced_source
+        );
+        if sliced.ok {
+            logical_source = sliced_source;
+        }
+    }
+}
+
 usize record_stride() {
     return size_of(usize) * cast(usize, 5);
 }

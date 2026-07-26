@@ -1,8 +1,9 @@
 {
   "active_rules": [
+    "OPENC-MODULE-CONSTCYCLE-001",
     "OPENC-MODULE-CYCLE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -24,6 +25,7 @@
     "name": "module_import_cycle",
     "profile": "standard",
     "rules": [
+      "OPENC-MODULE-CONSTCYCLE-001",
       "OPENC-MODULE-CYCLE-001"
     ]
   },

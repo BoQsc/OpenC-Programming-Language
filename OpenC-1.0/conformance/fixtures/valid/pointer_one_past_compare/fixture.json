@@ -1,9 +1,11 @@
 {
   "active_rules": [
+    "OPENC-PTR-BINDING-MUTABLE-001",
     "OPENC-PTR-ONEPAST-001",
+    "OPENC-PTR-SUBTRACT-001",
     "OPENC-TARGET-PTROFFSET-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,8 +18,10 @@
     "name": "pointer_one_past_compare",
     "profile": "standard",
     "rules": [
-      "OPENC-TARGET-PTROFFSET-001",
-      "OPENC-PTR-ONEPAST-001"
+      "OPENC-PTR-BINDING-MUTABLE-001",
+      "OPENC-PTR-ONEPAST-001",
+      "OPENC-PTR-SUBTRACT-001",
+      "OPENC-TARGET-PTROFFSET-001"
     ]
   },
   "id": "valid/pointer_one_past_compare",

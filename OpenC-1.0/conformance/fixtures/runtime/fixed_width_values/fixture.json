@@ -4,7 +4,7 @@
     "OPENC-NUM-UNSIGNED-001",
     "OPENC-TYPE-WIDTH-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -21,9 +21,9 @@
     "name": "fixed_width_values",
     "profile": "standard",
     "rules": [
-      "OPENC-TYPE-WIDTH-001",
       "OPENC-NUM-TWOS-001",
-      "OPENC-NUM-UNSIGNED-001"
+      "OPENC-NUM-UNSIGNED-001",
+      "OPENC-TYPE-WIDTH-001"
     ]
   },
   "id": "runtime/fixed_width_values",

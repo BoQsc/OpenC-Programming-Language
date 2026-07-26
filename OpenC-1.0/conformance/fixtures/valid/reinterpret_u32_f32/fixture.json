@@ -3,7 +3,7 @@
     "OPENC-REINTERPRET-SIZE-001",
     "OPENC-REINTERPRET-VALUE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,8 +16,8 @@
     "name": "reinterpret_u32_f32",
     "profile": "standard",
     "rules": [
-      "OPENC-REINTERPRET-VALUE-001",
-      "OPENC-REINTERPRET-SIZE-001"
+      "OPENC-REINTERPRET-SIZE-001",
+      "OPENC-REINTERPRET-VALUE-001"
     ]
   },
   "id": "valid/reinterpret_u32_f32",

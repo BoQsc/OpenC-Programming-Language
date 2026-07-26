@@ -4,7 +4,7 @@
     "OPENC-TARGET-PADDING-001",
     "OPENC-TARGET-STRUCTLAYOUT-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "tooling",
     "edition": "OpenC Core 1.0 Current",
@@ -18,8 +18,8 @@
     "profile": "standard",
     "rules": [
       "OPENC-TARGET-ARRAYLAYOUT-001",
-      "OPENC-TARGET-STRUCTLAYOUT-001",
-      "OPENC-TARGET-PADDING-001"
+      "OPENC-TARGET-PADDING-001",
+      "OPENC-TARGET-STRUCTLAYOUT-001"
     ]
   },
   "id": "command/target_layout_report",

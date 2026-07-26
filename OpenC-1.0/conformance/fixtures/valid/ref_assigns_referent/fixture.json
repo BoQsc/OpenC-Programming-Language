@@ -4,7 +4,7 @@
     "OPENC-REF-INIT-001",
     "OPENC-REF-NOREBIND-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -17,9 +17,9 @@
     "name": "ref_assigns_referent",
     "profile": "standard",
     "rules": [
+      "OPENC-REF-ASSIGN-001",
       "OPENC-REF-INIT-001",
-      "OPENC-REF-NOREBIND-001",
-      "OPENC-REF-ASSIGN-001"
+      "OPENC-REF-NOREBIND-001"
     ]
   },
   "id": "valid/ref_assigns_referent",

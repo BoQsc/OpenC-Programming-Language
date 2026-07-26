@@ -1,0 +1,28 @@
+{
+  "active_rules": [
+    "OPENC-FUNCTION-RECURSION-001"
+  ],
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC Core 1.0 Current",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "function_recursion",
+    "profile": "standard",
+    "rules": [
+      "OPENC-FUNCTION-RECURSION-001"
+    ]
+  },
+  "id": "valid/function_recursion",
+  "kind": "valid",
+  "origin": "OpenC Core 1.0 dedicated recursion evidence",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/function_recursion/main.p"
+  ]
+}

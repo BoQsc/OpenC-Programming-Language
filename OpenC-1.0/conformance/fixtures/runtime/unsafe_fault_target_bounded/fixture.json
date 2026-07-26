@@ -1,9 +1,15 @@
 {
   "active_rules": [
+    "OPENC-CLEANUP-UNSAFEFAULT-001",
+    "OPENC-SAFETY-NOUB-001",
+    "OPENC-SAFETY-OUTCOME-001",
+    "OPENC-SAFETY-UNSAFE-001",
+    "OPENC-TARGET-SANITIZE-001",
     "OPENC-UNSAFE-FAULT-001",
-    "OPENC-UNSAFE-NOASSUME-001"
+    "OPENC-UNSAFE-NOASSUME-001",
+    "OPENC-UNSAFE-PRECONDITION-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -17,8 +23,14 @@
     "name": "unsafe_fault_target_bounded",
     "profile": "standard",
     "rules": [
+      "OPENC-CLEANUP-UNSAFEFAULT-001",
+      "OPENC-SAFETY-NOUB-001",
+      "OPENC-SAFETY-OUTCOME-001",
+      "OPENC-SAFETY-UNSAFE-001",
+      "OPENC-TARGET-SANITIZE-001",
       "OPENC-UNSAFE-FAULT-001",
-      "OPENC-UNSAFE-NOASSUME-001"
+      "OPENC-UNSAFE-NOASSUME-001",
+      "OPENC-UNSAFE-PRECONDITION-001"
     ]
   },
   "id": "runtime/unsafe_fault_target_bounded",

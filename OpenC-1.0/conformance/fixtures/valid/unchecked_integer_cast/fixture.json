@@ -1,9 +1,11 @@
 {
   "active_rules": [
     "OPENC-CAST-UNCHECKED-INT-001",
-    "OPENC-NUM-UNCHECKEDCAST-001"
+    "OPENC-NUM-INTRINSIC-001",
+    "OPENC-NUM-UNCHECKEDCAST-001",
+    "OPENC-NUM-WRAP-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -17,7 +19,9 @@
     "profile": "standard",
     "rules": [
       "OPENC-CAST-UNCHECKED-INT-001",
-      "OPENC-NUM-UNCHECKEDCAST-001"
+      "OPENC-NUM-INTRINSIC-001",
+      "OPENC-NUM-UNCHECKEDCAST-001",
+      "OPENC-NUM-WRAP-001"
     ]
   },
   "id": "valid/unchecked_integer_cast",

@@ -116,6 +116,7 @@ OC_API float oc_checked_cast_f32(long double value, uint32_t span_id);
 OC_API double oc_checked_cast_f64(long double value, uint32_t span_id);
 
 OC_API bool oc_text_is_valid_utf8(oc_text value);
+OC_API uintptr_t oc_text_length(oc_text value);
 OC_API uintptr_t oc_text_scalar_length(oc_text value, uint32_t span_id);
 OC_API oc_status oc_text_scalar_at(oc_text value, uintptr_t index, uint32_t *out_scalar);
 OC_API uintptr_t oc_text_byte_length(oc_text value);

@@ -1,10 +1,11 @@
 {
   "active_rules": [
+    "OPENC-NUM-FLOAT-CONST-001",
     "OPENC-NUM-FLOAT-FORMAT-001",
     "OPENC-NUM-FLOAT-ROUND-001",
     "OPENC-TYPE-FLOAT-FIXED-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -17,6 +18,7 @@
     "name": "float_binary_types",
     "profile": "standard",
     "rules": [
+      "OPENC-NUM-FLOAT-CONST-001",
       "OPENC-NUM-FLOAT-FORMAT-001",
       "OPENC-NUM-FLOAT-ROUND-001",
       "OPENC-TYPE-FLOAT-FIXED-001"

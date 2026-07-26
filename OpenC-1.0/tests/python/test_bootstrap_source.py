@@ -27,6 +27,9 @@ class LexerParserTests(unittest.TestCase):
         unit, diagnostics = self.parse("i32 main() { return 0; }\n")
         self.assertFalse(diagnostics.has_errors)
         self.assertEqual(len(unit.declarations), 1)
+        bom_unit, bom_diagnostics = self.parse("\ufeffi32 main() { return 0; }\n")
+        self.assertFalse(bom_diagnostics.has_errors)
+        self.assertEqual(len(bom_unit.declarations), 1)
 
     def test_struct_and_named_initializer(self):
         source = "struct Point { i32 x; i32 y; } i32 main() { Point p = Point{ x = 1, y = 2 }; return p.x; }"

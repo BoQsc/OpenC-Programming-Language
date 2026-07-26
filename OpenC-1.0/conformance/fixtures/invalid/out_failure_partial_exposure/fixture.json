@@ -1,9 +1,12 @@
 {
   "active_rules": [
     "OPENC-FUNCTION-OUTFAIL-001",
-    "OPENC-OUT-NOPARTIAL-001"
+    "OPENC-OUT-NOPARTIAL-001",
+    "OPENC-OUT-OWNCOMMIT-001",
+    "OPENC-OUT-OWNFAIL-001",
+    "OPENC-OUT-OWNTAIL-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -18,7 +21,10 @@
     "profile": "standard",
     "rules": [
       "OPENC-FUNCTION-OUTFAIL-001",
-      "OPENC-OUT-NOPARTIAL-001"
+      "OPENC-OUT-NOPARTIAL-001",
+      "OPENC-OUT-OWNCOMMIT-001",
+      "OPENC-OUT-OWNFAIL-001",
+      "OPENC-OUT-OWNTAIL-001"
     ]
   },
   "id": "invalid/out_failure_partial_exposure",

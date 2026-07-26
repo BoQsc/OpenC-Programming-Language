@@ -1,9 +1,13 @@
 {
   "active_rules": [
     "OPENC-CONSTRUCT-001",
-    "OPENC-DESTROY-001"
+    "OPENC-CONSTRUCT-PLACEMENT-001",
+    "OPENC-CONSTRUCT-VALUE-001",
+    "OPENC-DESTROY-001",
+    "OPENC-STORAGE-COMMIT-001",
+    "OPENC-STORAGE-EMPTY-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,7 +20,11 @@
     "profile": "standard",
     "rules": [
       "OPENC-CONSTRUCT-001",
-      "OPENC-DESTROY-001"
+      "OPENC-CONSTRUCT-PLACEMENT-001",
+      "OPENC-CONSTRUCT-VALUE-001",
+      "OPENC-DESTROY-001",
+      "OPENC-STORAGE-COMMIT-001",
+      "OPENC-STORAGE-EMPTY-001"
     ]
   },
   "id": "valid/typed_storage",

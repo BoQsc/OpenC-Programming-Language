@@ -3,7 +3,7 @@
     "OPENC-CONVERT-IMPLICIT-001",
     "OPENC-TYPE-FLOAT-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -18,8 +18,8 @@
     "name": "float_integer_no_implicit",
     "profile": "standard",
     "rules": [
-      "OPENC-TYPE-FLOAT-001",
-      "OPENC-CONVERT-IMPLICIT-001"
+      "OPENC-CONVERT-IMPLICIT-001",
+      "OPENC-TYPE-FLOAT-001"
     ]
   },
   "id": "invalid/float_integer_no_implicit",

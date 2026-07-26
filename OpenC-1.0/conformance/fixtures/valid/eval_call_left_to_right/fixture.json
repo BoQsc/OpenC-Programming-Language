@@ -1,9 +1,10 @@
 {
   "active_rules": [
     "OPENC-EVAL-CALL-001",
-    "OPENC-EXPR-ORDER-001"
+    "OPENC-EXPR-ORDER-001",
+    "OPENC-EXPR-PRECEDENCE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -21,7 +22,8 @@
     "profile": "standard",
     "rules": [
       "OPENC-EVAL-CALL-001",
-      "OPENC-EXPR-ORDER-001"
+      "OPENC-EXPR-ORDER-001",
+      "OPENC-EXPR-PRECEDENCE-001"
     ]
   },
   "id": "valid/eval_call_left_to_right",

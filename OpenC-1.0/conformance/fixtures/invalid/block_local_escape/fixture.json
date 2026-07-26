@@ -3,7 +3,7 @@
     "OPENC-NAME-UNKNOWN-001",
     "OPENC-SCOPE-LOCAL-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -18,8 +18,8 @@
     "name": "block_local_escape",
     "profile": "standard",
     "rules": [
-      "OPENC-SCOPE-LOCAL-001",
-      "OPENC-NAME-UNKNOWN-001"
+      "OPENC-NAME-UNKNOWN-001",
+      "OPENC-SCOPE-LOCAL-001"
     ]
   },
   "id": "invalid/block_local_escape",

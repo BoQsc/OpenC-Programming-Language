@@ -1,9 +1,10 @@
 {
   "active_rules": [
+    "OPENC-MODULE-API-001",
     "OPENC-MODULE-EXPORT-001",
     "OPENC-MODULE-PRIVATE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -25,8 +26,9 @@
     "name": "module_private_access",
     "profile": "standard",
     "rules": [
-      "OPENC-MODULE-PRIVATE-001",
-      "OPENC-MODULE-EXPORT-001"
+      "OPENC-MODULE-API-001",
+      "OPENC-MODULE-EXPORT-001",
+      "OPENC-MODULE-PRIVATE-001"
     ]
   },
   "id": "invalid/module_private_access",

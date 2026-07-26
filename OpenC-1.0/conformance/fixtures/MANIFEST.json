@@ -1,11 +1,11 @@
 {
   "active_rule_count": 466,
   "candidate": "OpenC 1.0.0-rc.8",
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
-  "fixture_count": 268,
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
+  "fixture_count": 278,
   "fixtures": [
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "command/machine_integer_width_reported",
       "kind": "command",
       "path": "conformance/fixtures/command/machine_integer_width_reported",
@@ -19,23 +19,26 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "command/target_context_complete",
       "kind": "command",
       "path": "conformance/fixtures/command/target_context_complete",
       "provenance": "OpenC Standard Draft 0.10 validation/tooling/target_context_complete",
       "rules": [
+        "OPENC-PORTABILITY-PLAIN-001",
         "OPENC-TARGET-ALIGN-001",
         "OPENC-TARGET-BYTE-001",
         "OPENC-TARGET-CONTEXT-001",
-        "OPENC-TARGET-ENDIAN-001"
+        "OPENC-TARGET-CROSS-001",
+        "OPENC-TARGET-ENDIAN-001",
+        "OPENC-TARGET-SCHEMA-001"
       ],
       "source_files": [
         "conformance/fixtures/command/target_context_complete/command.json"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "command/target_layout_report",
       "kind": "command",
       "path": "conformance/fixtures/command/target_layout_report",
@@ -50,7 +53,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "command/unsafe_history_in_diagnostic",
       "kind": "command",
       "path": "conformance/fixtures/command/unsafe_history_in_diagnostic",
@@ -64,7 +67,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "diagnostic/critical_unreachable_statement",
       "kind": "diagnostic",
       "path": "conformance/fixtures/diagnostic/critical_unreachable_statement",
@@ -77,7 +80,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "diagnostic/diagnostic_flow_path_locations",
       "kind": "diagnostic",
       "path": "conformance/fixtures/diagnostic/diagnostic_flow_path_locations",
@@ -91,7 +94,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "diagnostic/diagnostic_status_out_failure",
       "kind": "diagnostic",
       "path": "conformance/fixtures/diagnostic/diagnostic_status_out_failure",
@@ -105,7 +108,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/address_outside_unsafe",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/address_outside_unsafe",
@@ -118,7 +121,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/arithmetic_type_mismatch",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/arithmetic_type_mismatch",
@@ -131,7 +134,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/array_no_pointer_decay",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/array_no_pointer_decay",
@@ -144,7 +147,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/array_out_of_bounds",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/array_out_of_bounds",
@@ -157,7 +160,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/arrow_function",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/arrow_function",
@@ -170,7 +173,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/assignment_conversion_checked",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/assignment_conversion_checked",
@@ -184,7 +187,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/assignment_target_required",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/assignment_target_required",
@@ -197,7 +200,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/block_local_escape",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/block_local_escape",
@@ -211,7 +214,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/borrow_prevents_move",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/borrow_prevents_move",
@@ -224,7 +227,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/break_outside_loop",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/break_outside_loop",
@@ -237,7 +240,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/byte_not_text_or_arithmetic",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/byte_not_text_or_arithmetic",
@@ -251,7 +254,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/c_array_decl",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/c_array_decl",
@@ -264,7 +267,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/c_pointer_decl",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/c_pointer_decl",
@@ -277,7 +280,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/c_reference_decl",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/c_reference_decl",
@@ -290,7 +293,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/call_argument_count",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/call_argument_count",
@@ -303,7 +306,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/checked_cast_requires_exact_value",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/checked_cast_requires_exact_value",
@@ -317,7 +320,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/cleanup_owner_registered_once",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/cleanup_owner_registered_once",
@@ -330,7 +333,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/cleanup_reference_must_live",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/cleanup_reference_must_live",
@@ -343,20 +346,21 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/const_reassignment_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/const_reassignment_rejected",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/const_reassignment_rejected",
       "rules": [
-        "OPENC-CONST-ASSIGN-001"
+        "OPENC-CONST-ASSIGN-001",
+        "OPENC-STRUCT-CONSTFIELD-001"
       ],
       "source_files": [
         "conformance/fixtures/invalid/const_reassignment_rejected/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/const_resource_owner",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/const_resource_owner",
@@ -369,7 +373,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/construct_twice",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/construct_twice",
@@ -382,7 +386,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/current_question_optional",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/current_question_optional",
@@ -395,7 +399,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/declaration_requires_type",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/declaration_requires_type",
@@ -410,7 +414,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/deref_outside_unsafe",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/deref_outside_unsafe",
@@ -423,7 +427,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/destroy_with_active_borrow",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/destroy_with_active_borrow",
@@ -437,35 +441,39 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/enum_duplicate_value",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/enum_duplicate_value",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/enum_duplicate_value",
       "rules": [
         "OPENC-ENUM-DUPLICATE-001",
-        "OPENC-ENUM-UNDERLYING-001"
+        "OPENC-ENUM-UNDERLYING-001",
+        "OPENC-SWITCH-DUPLICATE-001"
       ],
       "source_files": [
         "conformance/fixtures/invalid/enum_duplicate_value/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/fallible_scope_action_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/fallible_scope_action_rejected",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/fallible_scope_action_rejected",
       "rules": [
         "OPENC-CLEANUP-FAILURE-001",
-        "OPENC-CLEANUP-NOFALLIBLE-001"
+        "OPENC-CLEANUP-FINISH-001",
+        "OPENC-CLEANUP-NOFALLIBLE-001",
+        "OPENC-CLEANUP-SAFEWRAPPER-001",
+        "OPENC-CLEANUP-VOID-001"
       ],
       "source_files": [
         "conformance/fixtures/invalid/fallible_scope_action_rejected/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/float_integer_no_implicit",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/float_integer_no_implicit",
@@ -479,7 +487,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/flow_borrow_and_destroyed_state",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_borrow_and_destroyed_state",
@@ -493,7 +501,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/flow_break_path_merge",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_break_path_merge",
@@ -506,20 +514,21 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/flow_continue_skips_init",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_continue_skips_init",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/flow_continue_skips_init",
       "rules": [
-        "OPENC-FLOW-CONTINUE-001"
+        "OPENC-FLOW-CONTINUE-001",
+        "OPENC-FLOW-OUT-LOOP-001"
       ],
       "source_files": [
         "conformance/fixtures/invalid/flow_continue_skips_init/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/flow_for_not_guaranteed",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_for_not_guaranteed",
@@ -532,7 +541,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/flow_if_missing_else",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_if_missing_else",
@@ -546,7 +555,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/flow_move_one_branch",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_move_one_branch",
@@ -559,7 +568,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/flow_optional_proof_invalidated",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_optional_proof_invalidated",
@@ -572,7 +581,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/flow_unreachable_after_return",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_unreachable_after_return",
@@ -585,7 +594,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/flow_while_only_initialization",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/flow_while_only_initialization",
@@ -599,7 +608,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/for_variable_scope",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/for_variable_scope",
@@ -612,7 +621,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/historical_int_type_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/historical_int_type_rejected",
@@ -625,20 +634,22 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/ignored_status",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ignored_status",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/ignored_status",
       "rules": [
-        "OPENC-STATUS-MUSTHANDLE-001"
+        "OPENC-STATUS-INITIALIZER-001",
+        "OPENC-STATUS-MUSTHANDLE-001",
+        "OPENC-STATUS-OVERWRITE-001"
       ],
       "source_files": [
         "conformance/fixtures/invalid/ignored_status/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/implicit_narrow",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/implicit_narrow",
@@ -651,7 +662,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/integer_condition",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/integer_condition",
@@ -664,7 +675,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/integer_literal_destination_range",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/integer_literal_destination_range",
@@ -677,7 +688,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/invalid_utf8_source",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/invalid_utf8_source",
@@ -690,7 +701,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/local_not_zero_initialized",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/local_not_zero_initialized",
@@ -704,7 +715,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/loop_only_initialization_not_definite",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/loop_only_initialization_not_definite",
@@ -717,7 +728,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/misaligned_typed_deref",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/misaligned_typed_deref",
@@ -730,7 +741,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/missing_braces",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/missing_braces",
@@ -743,7 +754,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/missing_semicolon",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/missing_semicolon",
@@ -756,12 +767,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/missing_struct_field",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/missing_struct_field",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/missing_struct_field",
       "rules": [
+        "OPENC-STRUCT-DEFAULT-NODEP-001",
         "OPENC-STRUCT-INIT-MISSING-001"
       ],
       "source_files": [
@@ -769,7 +781,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/module_duplicate_top_level",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/module_duplicate_top_level",
@@ -783,12 +795,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/module_import_cycle",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/module_import_cycle",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/module_import_cycle",
       "rules": [
+        "OPENC-MODULE-CONSTCYCLE-001",
         "OPENC-MODULE-CYCLE-001"
       ],
       "source_files": [
@@ -797,13 +810,14 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/module_import_not_shared",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/module_import_not_shared",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/module_import_not_shared",
       "rules": [
-        "OPENC-MODULE-IMPORTLOCAL-001"
+        "OPENC-MODULE-IMPORTLOCAL-001",
+        "OPENC-MODULE-NOREEXPORT-001"
       ],
       "source_files": [
         "conformance/fixtures/invalid/module_import_not_shared/sources/a.p",
@@ -811,12 +825,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/module_private_access",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/module_private_access",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/module_private_access",
       "rules": [
+        "OPENC-MODULE-API-001",
         "OPENC-MODULE-EXPORT-001",
         "OPENC-MODULE-PRIVATE-001"
       ],
@@ -826,7 +841,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/module_short_qualifier_ambiguous",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/module_short_qualifier_ambiguous",
@@ -841,7 +856,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/mutable_global_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/mutable_global_rejected",
@@ -854,7 +869,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/nonvoid_missing_path",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/nonvoid_missing_path",
@@ -867,7 +882,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/numeric_cast_float_fraction",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_cast_float_fraction",
@@ -880,7 +895,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/numeric_cast_int_float_inexact_static",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_cast_int_float_inexact_static",
@@ -893,12 +908,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/numeric_div_min_negative_one_static",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_div_min_negative_one_static",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/numeric_div_min_negative_one_static",
       "rules": [
+        "OPENC-CONST-CHECKFAIL-001",
         "OPENC-NUM-DIV-MIN-001"
       ],
       "source_files": [
@@ -906,7 +922,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/numeric_literal_suffix",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_literal_suffix",
@@ -919,7 +935,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/numeric_separator_doubled",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_separator_doubled",
@@ -932,7 +948,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/numeric_shift_width",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_shift_width",
@@ -945,7 +961,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/numeric_signed_bitwise",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_signed_bitwise",
@@ -958,7 +974,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/numeric_unconstrained_too_large",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/numeric_unconstrained_too_large",
@@ -971,12 +987,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/optional_contains_resource",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/optional_contains_resource",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/optional_contains_resource",
       "rules": [
+        "OPENC-TYPE-RESOURCEARRAY-001",
         "OPENC-TYPE-RESOURCEOPTIONAL-001"
       ],
       "source_files": [
@@ -984,7 +1001,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/optional_present_readonly",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/optional_present_readonly",
@@ -997,7 +1014,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/optional_proof_invalidated",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/optional_proof_invalidated",
@@ -1011,12 +1028,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/optional_question_syntax",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/optional_question_syntax",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/optional_question_syntax",
       "rules": [
+        "OPENC-OPTIONAL-NESTED-001",
         "OPENC-OPTIONAL-NOSHORTHAND-001"
       ],
       "source_files": [
@@ -1024,7 +1042,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/optional_slice",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/optional_slice",
@@ -1037,21 +1055,24 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/out_failure_partial_exposure",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_failure_partial_exposure",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_failure_partial_exposure",
       "rules": [
         "OPENC-FUNCTION-OUTFAIL-001",
-        "OPENC-OUT-NOPARTIAL-001"
+        "OPENC-OUT-NOPARTIAL-001",
+        "OPENC-OUT-OWNCOMMIT-001",
+        "OPENC-OUT-OWNFAIL-001",
+        "OPENC-OUT-OWNTAIL-001"
       ],
       "source_files": [
         "conformance/fixtures/invalid/out_failure_partial_exposure/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/out_field_target",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_field_target",
@@ -1064,12 +1085,14 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/out_initialized_target",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_initialized_target",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_initialized_target",
       "rules": [
+        "OPENC-OUT-ALIAS-001",
+        "OPENC-OUT-REASSIGN-001",
         "OPENC-OUT-TARGET-001"
       ],
       "source_files": [
@@ -1077,7 +1100,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/out_nonstatus_function",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_nonstatus_function",
@@ -1090,33 +1113,36 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/out_own_pointer_missing_contract",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_own_pointer_missing_contract",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_own_pointer_missing_contract",
       "rules": [
-        "OPENC-OUT-OWN-001"
+        "OPENC-OUT-OWN-001",
+        "OPENC-OUT-OWNFLOW-001"
       ],
       "source_files": [
         "conformance/fixtures/invalid/out_own_pointer_missing_contract/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/out_read_inside_callee",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_read_inside_callee",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/out_read_inside_callee",
       "rules": [
-        "OPENC-OUT-NOREAD-001"
+        "OPENC-FLOW-OUT-TOKEN-001",
+        "OPENC-OUT-NOREAD-001",
+        "OPENC-OUT-PENDINGUSE-001"
       ],
       "source_files": [
         "conformance/fixtures/invalid/out_read_inside_callee/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/out_reference_parameter",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_reference_parameter",
@@ -1129,7 +1155,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/out_success_without_init",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/out_success_without_init",
@@ -1142,7 +1168,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/overload_conversion_ambiguity",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/overload_conversion_ambiguity",
@@ -1156,7 +1182,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/overload_lossless_ambiguous",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/overload_lossless_ambiguous",
@@ -1169,7 +1195,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/overload_return_only",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/overload_return_only",
@@ -1182,7 +1208,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/own_plain_integer",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/own_plain_integer",
@@ -1195,12 +1221,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/owning_pointer_copy",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/owning_pointer_copy",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/owning_pointer_copy",
       "rules": [
+        "OPENC-PTR-BASE-001",
         "OPENC-PTR-OWNCOPY-001"
       ],
       "source_files": [
@@ -1208,7 +1235,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/plain_struct_hides_owning_pointer",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/plain_struct_hides_owning_pointer",
@@ -1221,7 +1248,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/pointer_arithmetic_outside_unsafe",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_arithmetic_outside_unsafe",
@@ -1234,7 +1261,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/pointer_cross_allocation_subtract",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_cross_allocation_subtract",
@@ -1247,12 +1274,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/pointer_deref_one_past",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_deref_one_past",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/pointer_deref_one_past",
       "rules": [
+        "OPENC-PTR-DEREF-RANGE-001",
         "OPENC-PTR-ONEPAST-001",
         "OPENC-TARGET-PTROFFSET-001"
       ],
@@ -1261,7 +1289,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/pointer_integer_conversion_not_plain",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_integer_conversion_not_plain",
@@ -1274,7 +1302,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/pointer_order_cross_allocation",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_order_cross_allocation",
@@ -1288,7 +1316,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/pointer_typed_deref_requires_lifetime",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/pointer_typed_deref_requires_lifetime",
@@ -1301,7 +1329,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/positional_struct",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/positional_struct",
@@ -1314,7 +1342,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/predeclared_typeword_binding",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/predeclared_typeword_binding",
@@ -1327,7 +1355,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/ptr_const_to_mutable",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ptr_const_to_mutable",
@@ -1340,7 +1368,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/ptr_const_write",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ptr_const_write",
@@ -1353,7 +1381,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/ptr_length",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ptr_length",
@@ -1366,7 +1394,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/read_uninitialized",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/read_uninitialized",
@@ -1379,7 +1407,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/ref_const_to_mutable",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ref_const_to_mutable",
@@ -1392,7 +1420,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/ref_const_whole_assignment",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ref_const_whole_assignment",
@@ -1405,7 +1433,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/ref_field",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ref_field",
@@ -1418,7 +1446,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/ref_local_without_initializer",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ref_local_without_initializer",
@@ -1431,7 +1459,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/ref_resource_whole_assignment",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/ref_resource_whole_assignment",
@@ -1444,12 +1472,14 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/reinterpret_pointer_no_new_lifetime",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/reinterpret_pointer_no_new_lifetime",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/reinterpret_pointer_no_new_lifetime",
       "rules": [
+        "OPENC-PTR-BYTEWRITE-001",
+        "OPENC-PTR-INVALIDATE-001",
         "OPENC-REINTERPRET-NOLIFETIME-001",
         "OPENC-REINTERPRET-PTR-001"
       ],
@@ -1458,7 +1488,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/reinterpret_size_mismatch",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/reinterpret_size_mismatch",
@@ -1471,7 +1501,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/reinterpret_struct_value",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/reinterpret_struct_value",
@@ -1484,7 +1514,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/reinterpret_unrelated_layout_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/reinterpret_unrelated_layout_rejected",
@@ -1497,7 +1527,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/resource_copy",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/resource_copy",
@@ -1510,7 +1540,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/resource_equality_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/resource_equality_rejected",
@@ -1523,7 +1553,24 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "id": "invalid/resource_field_state_rejections",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/resource_field_state_rejections",
+      "provenance": "OpenC Core 1.0 resource field-state boundary evidence",
+      "rules": [
+        "OPENC-RESOURCE-CONSUMER-RETURN-001",
+        "OPENC-RESOURCE-DISMANTLE-001",
+        "OPENC-RESOURCE-FIELD-ASSIGN-001",
+        "OPENC-RESOURCE-FIELD-CONSUME-001",
+        "OPENC-RESOURCE-FIELD-ONCE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/resource_field_state_rejections/main.p"
+      ]
+    },
+    {
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/resource_obligation_not_discharged",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/resource_obligation_not_discharged",
@@ -1536,7 +1583,20 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "id": "invalid/resource_reinitialize_live",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/resource_reinitialize_live",
+      "provenance": "OpenC Core 1.0 live-resource reinitialization boundary evidence",
+      "rules": [
+        "OPENC-RESOURCE-REINIT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/resource_reinitialize_live/main.p"
+      ]
+    },
+    {
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/return_local_ref",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/return_local_ref",
@@ -1549,7 +1609,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/return_local_reference",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/return_local_reference",
@@ -1563,7 +1623,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/return_type_mismatch",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/return_type_mismatch",
@@ -1576,12 +1636,14 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/safe_wrapper_missing_check",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/safe_wrapper_missing_check",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/safe_wrapper_missing_check",
       "rules": [
+        "OPENC-SAFE-GUARANTEE-001",
+        "OPENC-SAFE-WRAPPER-001",
         "OPENC-UNSAFE-WRAPPER-001"
       ],
       "source_files": [
@@ -1589,7 +1651,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/same_scope_duplicate",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/same_scope_duplicate",
@@ -1602,7 +1664,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/scope_cancel_not_supported",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_cancel_not_supported",
@@ -1615,7 +1677,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/scope_destroy_early",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_destroy_early",
@@ -1628,7 +1690,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/scope_double_consuming_action",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_double_consuming_action",
@@ -1641,7 +1703,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/scope_move_reserved_owner",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_move_reserved_owner",
@@ -1655,7 +1717,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/scope_nested_fallible_argument",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_nested_fallible_argument",
@@ -1669,7 +1731,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/scope_out_argument",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_out_argument",
@@ -1682,7 +1744,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/scope_reassign_reserved_owner",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/scope_reassign_reserved_owner",
@@ -1696,7 +1758,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/shadowing",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/shadowing",
@@ -1709,7 +1771,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/size_of_expression",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/size_of_expression",
@@ -1722,7 +1784,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/size_of_void",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/size_of_void",
@@ -1736,7 +1798,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/slice_alias_mutation_conflict",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/slice_alias_mutation_conflict",
@@ -1749,7 +1811,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/slice_const_to_mutable",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/slice_const_to_mutable",
@@ -1762,7 +1824,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/slice_field",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/slice_field",
@@ -1775,20 +1837,21 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/slice_outlives_owner",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/slice_outlives_owner",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/slice_outlives_owner",
       "rules": [
-        "OPENC-LIFETIME-SLICE-001"
+        "OPENC-LIFETIME-SLICE-001",
+        "OPENC-SLICE-ESCAPE-001"
       ],
       "source_files": [
         "conformance/fixtures/invalid/slice_outlives_owner/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/slice_range_checked",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/slice_range_checked",
@@ -1801,7 +1864,18 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "id": "invalid/source_bom_repeated",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/source_bom_repeated",
+      "provenance": "OpenC 1.0 dedicated coverage/source_bom_repeated",
+      "rules": [],
+      "source_files": [
+        "conformance/fixtures/invalid/source_bom_repeated/main.p"
+      ]
+    },
+    {
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/status_failure_zero_code",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/status_failure_zero_code",
@@ -1814,7 +1888,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/status_success_nonzero_code",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/status_success_nonzero_code",
@@ -1827,7 +1901,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/storage_field",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/storage_field",
@@ -1840,7 +1914,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/storage_read_before_construct",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/storage_read_before_construct",
@@ -1854,7 +1928,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/storage_resource_type",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/storage_resource_type",
@@ -1867,7 +1941,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/struct_trailing_semicolon",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/struct_trailing_semicolon",
@@ -1880,7 +1954,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/switch_implicit_fallthrough",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/switch_implicit_fallthrough",
@@ -1893,7 +1967,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/text_byte_conversion_explicit",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/text_byte_conversion_explicit",
@@ -1906,7 +1980,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/text_index",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/text_index",
@@ -1919,7 +1993,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/textual_include_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/textual_include_rejected",
@@ -1933,7 +2007,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/two_write_borrows",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/two_write_borrows",
@@ -1946,7 +2020,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/typed_storage_live_exit",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/typed_storage_live_exit",
@@ -1959,7 +2033,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/typed_storage_old_ref_after_reconstruct",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/typed_storage_old_ref_after_reconstruct",
@@ -1972,7 +2046,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/unchecked_float_to_integer",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unchecked_float_to_integer",
@@ -1985,7 +2059,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/unicode_escape_surrogate",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unicode_escape_surrogate",
@@ -1998,7 +2072,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/unknown_member",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unknown_member",
@@ -2011,7 +2085,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/unsafe_call_requires_boundary",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unsafe_call_requires_boundary",
@@ -2024,12 +2098,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/unsafe_contract_caller_responsibility",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unsafe_contract_caller_responsibility",
       "provenance": "OpenC Standard Draft 0.10 validation/invalid/unsafe_contract_caller_responsibility",
       "rules": [
+        "OPENC-EXTENSION-SAFETY-001",
         "OPENC-UNSAFE-CONTRACT-001"
       ],
       "source_files": [
@@ -2037,7 +2112,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/unsafe_function_call_outside_unsafe",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unsafe_function_call_outside_unsafe",
@@ -2050,7 +2125,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/unsafe_provenance_not_forged",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/unsafe_provenance_not_forged",
@@ -2063,7 +2138,20 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "id": "invalid/unterminated_block_comment",
+      "kind": "invalid",
+      "path": "conformance/fixtures/invalid/unterminated_block_comment",
+      "provenance": "OpenC 1.0 dedicated grammar coverage/unterminated_block_comment",
+      "rules": [
+        "OPENC-LEX-COMMENT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/invalid/unterminated_block_comment/main.p"
+      ]
+    },
+    {
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/use_after_move",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/use_after_move",
@@ -2076,7 +2164,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/void_local_object",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/void_local_object",
@@ -2089,7 +2177,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "invalid/when_token_fragment_rejected",
       "kind": "invalid",
       "path": "conformance/fixtures/invalid/when_token_fragment_rejected",
@@ -2102,14 +2190,18 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "records/diagnostic_structure_quality",
       "kind": "records",
       "path": "conformance/fixtures/records/diagnostic_structure_quality",
       "provenance": "OpenC Standard Draft 0.10 validation/record/diagnostic_structure_quality",
       "rules": [
         "OPENC-DIAG-MACHINE-001",
+        "OPENC-DIAG-PHASE-001",
+        "OPENC-DIAG-PRIMARY-001",
         "OPENC-DIAG-QUALITY-001",
+        "OPENC-DIAG-SEVERITY-001",
+        "OPENC-DIAG-SPAN-001",
         "OPENC-DIAG-STRUCTURE-001"
       ],
       "source_files": [
@@ -2117,7 +2209,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/assignment_destination_once",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/assignment_destination_once",
@@ -2130,7 +2222,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/boolean_short_circuit",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/boolean_short_circuit",
@@ -2144,7 +2236,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/bounds_trap",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/bounds_trap",
@@ -2157,21 +2249,22 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/break_and_scope_registration_order",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/break_and_scope_registration_order",
       "provenance": "OpenC Standard Draft 0.10 validation/runtime/break_and_scope_registration_order",
       "rules": [
         "OPENC-EVAL-BREAK-001",
-        "OPENC-EVAL-SCOPE-REGISTER-001"
+        "OPENC-EVAL-SCOPE-REGISTER-001",
+        "OPENC-FOR-EXECUTE-001"
       ],
       "source_files": [
         "conformance/fixtures/runtime/break_and_scope_registration_order/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/callee_then_arguments_order",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/callee_then_arguments_order",
@@ -2185,20 +2278,22 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/checked_addition",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/checked_addition",
       "provenance": "OpenC Standard Draft 0.10 validation/runtime/checked_addition",
       "rules": [
-        "OPENC-NUM-ADD-001"
+        "OPENC-NUM-ADD-001",
+        "OPENC-NUM-AUTHORITY-001",
+        "OPENC-NUM-COMPOUND-001"
       ],
       "source_files": [
         "conformance/fixtures/runtime/checked_addition/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/cleanup_on_return",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/cleanup_on_return",
@@ -2212,7 +2307,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/cleanup_registration_capture",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/cleanup_registration_capture",
@@ -2226,7 +2321,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/construct_and_return_order",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/construct_and_return_order",
@@ -2240,7 +2335,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/evaluation_binary_left_to_right",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/evaluation_binary_left_to_right",
@@ -2249,27 +2344,29 @@
         "OPENC-EVAL-BINARY-001",
         "OPENC-EVAL-FULL-001",
         "OPENC-EVAL-NOUNSPEC-001",
-        "OPENC-EVAL-OBSERVABLE-001"
+        "OPENC-EVAL-OBSERVABLE-001",
+        "OPENC-SAFETY-OPTIMIZE-001"
       ],
       "source_files": [
         "conformance/fixtures/runtime/evaluation_binary_left_to_right/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/fatal_allocation_defined",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/fatal_allocation_defined",
       "provenance": "OpenC Standard Draft 0.10 validation/runtime/fatal_allocation_defined",
       "rules": [
-        "OPENC-ERROR-FATAL-001"
+        "OPENC-ERROR-FATAL-001",
+        "OPENC-SAFETY-IMPLIMIT-001"
       ],
       "source_files": [
         "conformance/fixtures/runtime/fatal_allocation_defined/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/fixed_width_values",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/fixed_width_values",
@@ -2284,7 +2381,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/function_arguments_left_to_right",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/function_arguments_left_to_right",
@@ -2298,7 +2395,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/left_shift_checked",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/left_shift_checked",
@@ -2311,7 +2408,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/null_pointer_equality",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/null_pointer_equality",
@@ -2324,7 +2421,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/optional_trap",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/optional_trap",
@@ -2337,7 +2434,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/pointer_provenance_target_fault",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/pointer_provenance_target_fault",
@@ -2351,7 +2448,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/runtime_cast_float_fraction",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_cast_float_fraction",
@@ -2364,7 +2461,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/runtime_cast_integer_range",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_cast_integer_range",
@@ -2377,21 +2474,26 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/runtime_checked_failure_runs_cleanup",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_checked_failure_runs_cleanup",
       "provenance": "OpenC Standard Draft 0.10 validation/runtime/runtime_checked_failure_runs_cleanup",
       "rules": [
+        "OPENC-CLEANUP-ALL-001",
         "OPENC-CLEANUP-CHECKFAIL-001",
-        "OPENC-INDEX-SAFE-001"
+        "OPENC-CLEANUP-PRIMARY-001",
+        "OPENC-CLEANUP-STATE-001",
+        "OPENC-INDEX-SAFE-001",
+        "OPENC-OWN-CHECKEDGE-001",
+        "OPENC-TERM-CHECKFAIL-001"
       ],
       "source_files": [
         "conformance/fixtures/runtime/runtime_checked_failure_runs_cleanup/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/runtime_division_min_negative_one",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_division_min_negative_one",
@@ -2404,7 +2506,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/runtime_division_zero",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_division_zero",
@@ -2417,7 +2519,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/runtime_float_nan_comparison",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_float_nan_comparison",
@@ -2432,7 +2534,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/runtime_pointer_cross_extent_fault",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_pointer_cross_extent_fault",
@@ -2446,7 +2548,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/runtime_scope_lifo",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/runtime_scope_lifo",
@@ -2459,7 +2561,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/signed_right_shift_defined",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/signed_right_shift_defined",
@@ -2472,7 +2574,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/struct_defaults_after_explicit",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/struct_defaults_after_explicit",
@@ -2485,7 +2587,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/unary_operand_once",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/unary_operand_once",
@@ -2498,21 +2600,27 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/unsafe_fault_target_bounded",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/unsafe_fault_target_bounded",
       "provenance": "OpenC Standard Draft 0.10 validation/runtime/unsafe_fault_target_bounded",
       "rules": [
+        "OPENC-CLEANUP-UNSAFEFAULT-001",
+        "OPENC-SAFETY-NOUB-001",
+        "OPENC-SAFETY-OUTCOME-001",
+        "OPENC-SAFETY-UNSAFE-001",
+        "OPENC-TARGET-SANITIZE-001",
         "OPENC-UNSAFE-FAULT-001",
-        "OPENC-UNSAFE-NOASSUME-001"
+        "OPENC-UNSAFE-NOASSUME-001",
+        "OPENC-UNSAFE-PRECONDITION-001"
       ],
       "source_files": [
         "conformance/fixtures/runtime/unsafe_fault_target_bounded/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "runtime/unsigned_modulo_exact",
       "kind": "runtime",
       "path": "conformance/fixtures/runtime/unsigned_modulo_exact",
@@ -2526,7 +2634,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/array_init_length_copy",
       "kind": "valid",
       "path": "conformance/fixtures/valid/array_init_length_copy",
@@ -2534,20 +2642,22 @@
       "rules": [
         "OPENC-ARRAY-COPY-001",
         "OPENC-ARRAY-INIT-001",
-        "OPENC-ARRAY-LENGTH-001"
+        "OPENC-ARRAY-LENGTH-001",
+        "OPENC-EVAL-ARRAYINIT-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/array_init_length_copy/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/bool_condition",
       "kind": "valid",
       "path": "conformance/fixtures/valid/bool_condition",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/bool_condition",
       "rules": [
         "OPENC-COND-BOOL-001",
+        "OPENC-IF-EXECUTE-001",
         "OPENC-TYPE-BOOL-001"
       ],
       "source_files": [
@@ -2555,12 +2665,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/byte_pointer_object_representation",
       "kind": "valid",
       "path": "conformance/fixtures/valid/byte_pointer_object_representation",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/byte_pointer_object_representation",
       "rules": [
+        "OPENC-BYTE-DISTINCT-001",
         "OPENC-PTR-BYTE-001"
       ],
       "source_files": [
@@ -2568,7 +2679,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/checked_cast",
       "kind": "valid",
       "path": "conformance/fixtures/valid/checked_cast",
@@ -2581,7 +2692,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/comments_preserve_tokens",
       "kind": "valid",
       "path": "conformance/fixtures/valid/comments_preserve_tokens",
@@ -2594,7 +2705,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/const_binding_readonly",
       "kind": "valid",
       "path": "conformance/fixtures/valid/const_binding_readonly",
@@ -2608,7 +2719,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/const_view_conversions",
       "kind": "valid",
       "path": "conformance/fixtures/valid/const_view_conversions",
@@ -2623,12 +2734,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/constant_expression_same_numeric_rules",
       "kind": "valid",
       "path": "conformance/fixtures/valid/constant_expression_same_numeric_rules",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/constant_expression_same_numeric_rules",
       "rules": [
+        "OPENC-CONST-EXPR-001",
         "OPENC-NUM-CONST-001"
       ],
       "source_files": [
@@ -2636,7 +2748,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/current_optional",
       "kind": "valid",
       "path": "conformance/fixtures/valid/current_optional",
@@ -2649,21 +2761,22 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/current_resource",
       "kind": "valid",
       "path": "conformance/fixtures/valid/current_resource",
       "provenance": "OpenC canonical mainline",
       "rules": [
         "OPENC-RESOURCE-DECL-001",
-        "OPENC-RESOURCE-FIELD-OWNPTR-001"
+        "OPENC-RESOURCE-FIELD-OWNPTR-001",
+        "OPENC-RESOURCE-TRAILING-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/current_resource/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/disjoint_mutable_slices",
       "kind": "valid",
       "path": "conformance/fixtures/valid/disjoint_mutable_slices",
@@ -2676,48 +2789,54 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/domain_own_call",
       "kind": "valid",
       "path": "conformance/fixtures/valid/domain_own_call",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/domain_own_call",
       "rules": [
-        "OPENC-OWN-CALL-001"
+        "OPENC-OWN-CALL-001",
+        "OPENC-OWN-CONSUME-ARG-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/domain_own_call/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/enum_switch",
       "kind": "valid",
       "path": "conformance/fixtures/valid/enum_switch",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/enum_switch",
       "rules": [
         "OPENC-ENUM-DISTINCT-001",
-        "OPENC-SWITCH-ENUM-001"
+        "OPENC-ENUM-IMPLICIT-001",
+        "OPENC-SWITCH-CASE-001",
+        "OPENC-SWITCH-DOMAIN-001",
+        "OPENC-SWITCH-ENUM-001",
+        "OPENC-SWITCH-EXECUTE-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/enum_switch/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/eval_call_left_to_right",
       "kind": "valid",
       "path": "conformance/fixtures/valid/eval_call_left_to_right",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/eval_call_left_to_right",
       "rules": [
         "OPENC-EVAL-CALL-001",
-        "OPENC-EXPR-ORDER-001"
+        "OPENC-EXPR-ORDER-001",
+        "OPENC-EXPR-PRECEDENCE-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/eval_call_left_to_right/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/eval_compound_target_once",
       "kind": "valid",
       "path": "conformance/fixtures/valid/eval_compound_target_once",
@@ -2730,7 +2849,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/eval_struct_initializer_order",
       "kind": "valid",
       "path": "conformance/fixtures/valid/eval_struct_initializer_order",
@@ -2744,13 +2863,15 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/first_program",
       "kind": "valid",
       "path": "conformance/fixtures/valid/first_program",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/first_program",
       "rules": [
         "OPENC-FUNCTION-DIRECT-001",
+        "OPENC-GRAMMAR-AUTHORITY-001",
+        "OPENC-GRAMMAR-COVERAGE-001",
         "OPENC-MODULE-IMPORT-001"
       ],
       "source_files": [
@@ -2758,7 +2879,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/fixed_array",
       "kind": "valid",
       "path": "conformance/fixtures/valid/fixed_array",
@@ -2772,12 +2893,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/float_binary_types",
       "kind": "valid",
       "path": "conformance/fixtures/valid/float_binary_types",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/float_binary_types",
       "rules": [
+        "OPENC-NUM-FLOAT-CONST-001",
         "OPENC-NUM-FLOAT-FORMAT-001",
         "OPENC-NUM-FLOAT-ROUND-001",
         "OPENC-TYPE-FLOAT-FIXED-001"
@@ -2787,7 +2909,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/floating_literal_default_f64",
       "kind": "valid",
       "path": "conformance/fixtures/valid/floating_literal_default_f64",
@@ -2800,7 +2922,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/flow_if_all_paths",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_if_all_paths",
@@ -2814,20 +2936,21 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/flow_loop_preinitialized",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_loop_preinitialized",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/flow_loop_preinitialized",
       "rules": [
-        "OPENC-FLOW-WHILE-001"
+        "OPENC-FLOW-WHILE-001",
+        "OPENC-WHILE-EXECUTE-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/flow_loop_preinitialized/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/flow_optional_early_return",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_optional_early_return",
@@ -2841,21 +2964,24 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/flow_out_early_return",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_out_early_return",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/flow_out_early_return",
       "rules": [
         "OPENC-FLOW-OUT-MERGE-001",
-        "OPENC-FUNCTION-OUTSUCCESS-001"
+        "OPENC-FLOW-OUT-PREDICATE-001",
+        "OPENC-FLOW-OUT-SUCCESS-001",
+        "OPENC-FUNCTION-OUTSUCCESS-001",
+        "OPENC-OUT-PROOF-LOST-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/flow_out_early_return/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/flow_state_branch_merge",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_state_branch_merge",
@@ -2868,7 +2994,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/flow_status_copy_proof",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_status_copy_proof",
@@ -2881,7 +3007,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/flow_switch_exhaustive",
       "kind": "valid",
       "path": "conformance/fixtures/valid/flow_switch_exhaustive",
@@ -2895,7 +3021,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/function_add",
       "kind": "valid",
       "path": "conformance/fixtures/valid/function_add",
@@ -2909,7 +3035,20 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "id": "valid/function_recursion",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/function_recursion",
+      "provenance": "OpenC Core 1.0 dedicated recursion evidence",
+      "rules": [
+        "OPENC-FUNCTION-RECURSION-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/function_recursion/main.p"
+      ]
+    },
+    {
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/global_const_valid",
       "kind": "valid",
       "path": "conformance/fixtures/valid/global_const_valid",
@@ -2922,20 +3061,22 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/identifier_case_sensitive",
       "kind": "valid",
       "path": "conformance/fixtures/valid/identifier_case_sensitive",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/identifier_case_sensitive",
       "rules": [
-        "OPENC-LEX-IDENT-001"
+        "OPENC-LEX-IDENT-001",
+        "OPENC-LEX-MAXIMAL-001",
+        "OPENC-LEX-WORDCLASS-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/identifier_case_sensitive/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/initialized_local",
       "kind": "valid",
       "path": "conformance/fixtures/valid/initialized_local",
@@ -2948,21 +3089,22 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/integer_literal_exact_context",
       "kind": "valid",
       "path": "conformance/fixtures/valid/integer_literal_exact_context",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/integer_literal_exact_context",
       "rules": [
         "OPENC-LITERAL-INTEGER-001",
-        "OPENC-LITERAL-RANGE-001"
+        "OPENC-LITERAL-RANGE-001",
+        "OPENC-NUM-LITERAL-CONTEXT-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/integer_literal_exact_context/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/many_read_borrows_last_use",
       "kind": "valid",
       "path": "conformance/fixtures/valid/many_read_borrows_last_use",
@@ -2976,13 +3118,16 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/module_multi_source_overload",
       "kind": "valid",
       "path": "conformance/fixtures/valid/module_multi_source_overload",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/module_multi_source_overload",
       "rules": [
         "OPENC-MODULE-DUPLICATE-001",
+        "OPENC-MODULE-MAPPING-001",
+        "OPENC-MODULE-MULTISOURCE-001",
+        "OPENC-MODULE-ORDER-001",
         "OPENC-OVERLOAD-EXACT-001"
       ],
       "source_files": [
@@ -2991,7 +3136,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/module_repeated_import_idempotent",
       "kind": "valid",
       "path": "conformance/fixtures/valid/module_repeated_import_idempotent",
@@ -3006,7 +3151,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/module_short_and_full_qualifier",
       "kind": "valid",
       "path": "conformance/fixtures/valid/module_short_and_full_qualifier",
@@ -3020,7 +3165,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/negative_literal_context",
       "kind": "valid",
       "path": "conformance/fixtures/valid/negative_literal_context",
@@ -3033,7 +3178,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/numeric_division_toward_zero",
       "kind": "valid",
       "path": "conformance/fixtures/valid/numeric_division_toward_zero",
@@ -3046,7 +3191,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/numeric_remainder_dividend_sign",
       "kind": "valid",
       "path": "conformance/fixtures/valid/numeric_remainder_dividend_sign",
@@ -3059,7 +3204,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/numeric_saturating_add",
       "kind": "valid",
       "path": "conformance/fixtures/valid/numeric_saturating_add",
@@ -3072,7 +3217,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/numeric_separator_valid",
       "kind": "valid",
       "path": "conformance/fixtures/valid/numeric_separator_valid",
@@ -3085,7 +3230,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/optional_checked",
       "kind": "valid",
       "path": "conformance/fixtures/valid/optional_checked",
@@ -3099,12 +3244,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/optional_none_and_copy",
       "kind": "valid",
       "path": "conformance/fixtures/valid/optional_none_and_copy",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/optional_none_and_copy",
       "rules": [
+        "OPENC-OPTIONAL-ASSIGN-001",
         "OPENC-OPTIONAL-COPY-001",
         "OPENC-OPTIONAL-NONE-001"
       ],
@@ -3113,12 +3259,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/overload_exact_preferred",
       "kind": "valid",
       "path": "conformance/fixtures/valid/overload_exact_preferred",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/overload_exact_preferred",
       "rules": [
+        "OPENC-OVERLOAD-CONVERSIONS-001",
         "OPENC-OVERLOAD-EXACT-001"
       ],
       "source_files": [
@@ -3126,7 +3273,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/overload_parameter_modes",
       "kind": "valid",
       "path": "conformance/fixtures/valid/overload_parameter_modes",
@@ -3139,12 +3286,14 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/parameter_modes_visible",
       "kind": "valid",
       "path": "conformance/fixtures/valid/parameter_modes_visible",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/parameter_modes_visible",
       "rules": [
+        "OPENC-OUT-MODE-001",
+        "OPENC-OWN-MODE-001",
         "OPENC-PARAM-OUT-001",
         "OPENC-PARAM-OWN-001",
         "OPENC-PARAM-REF-001"
@@ -3154,7 +3303,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/plain_copy_independent",
       "kind": "valid",
       "path": "conformance/fixtures/valid/plain_copy_independent",
@@ -3167,13 +3316,15 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/pointer_one_past_compare",
       "kind": "valid",
       "path": "conformance/fixtures/valid/pointer_one_past_compare",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/pointer_one_past_compare",
       "rules": [
+        "OPENC-PTR-BINDING-MUTABLE-001",
         "OPENC-PTR-ONEPAST-001",
+        "OPENC-PTR-SUBTRACT-001",
         "OPENC-TARGET-PTROFFSET-001"
       ],
       "source_files": [
@@ -3181,7 +3332,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/read_borrow",
       "kind": "valid",
       "path": "conformance/fixtures/valid/read_borrow",
@@ -3194,7 +3345,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/ref_assigns_referent",
       "kind": "valid",
       "path": "conformance/fixtures/valid/ref_assigns_referent",
@@ -3209,7 +3360,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/reinterpret_u32_f32",
       "kind": "valid",
       "path": "conformance/fixtures/valid/reinterpret_u32_f32",
@@ -3223,7 +3374,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/resource_contains_resource",
       "kind": "valid",
       "path": "conformance/fixtures/valid/resource_contains_resource",
@@ -3236,7 +3387,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/resource_domain_operations",
       "kind": "valid",
       "path": "conformance/fixtures/valid/resource_domain_operations",
@@ -3251,12 +3402,37 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "id": "valid/resource_initializer_lifecycle",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/resource_initializer_lifecycle",
+      "provenance": "OpenC Core 1.0 dedicated resource-initializer lifecycle evidence",
+      "rules": [
+        "OPENC-RESOURCE-FIELD-DEFAULT-001",
+        "OPENC-RESOURCE-FIELD-VIEW-001",
+        "OPENC-RESOURCE-INIT-001",
+        "OPENC-RESOURCE-INIT-COMMIT-001",
+        "OPENC-RESOURCE-INIT-OWNER-001",
+        "OPENC-RESOURCE-INIT-PLACEMENT-001",
+        "OPENC-RESOURCE-INIT-REQUIRED-001",
+        "OPENC-RESOURCE-INIT-RESERVE-001",
+        "OPENC-RESOURCE-INIT-ROLLBACK-001",
+        "OPENC-RESOURCE-OPAQUE-DISCHARGE-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/resource_initializer_lifecycle/main.p"
+      ]
+    },
+    {
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/resource_return_transfers",
       "kind": "valid",
       "path": "conformance/fixtures/valid/resource_return_transfers",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/resource_return_transfers",
       "rules": [
+        "OPENC-OWN-EXIT-001",
+        "OPENC-OWN-PRODUCE-001",
+        "OPENC-OWN-PRODUCER-PLACEMENT-001",
         "OPENC-OWN-RETURN-001"
       ],
       "source_files": [
@@ -3264,7 +3440,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/scope_bound_owner_borrow",
       "kind": "valid",
       "path": "conformance/fixtures/valid/scope_bound_owner_borrow",
@@ -3277,7 +3453,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/scope_nested_lifo",
       "kind": "valid",
       "path": "conformance/fixtures/valid/scope_nested_lifo",
@@ -3291,7 +3467,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/scope_value_capture",
       "kind": "valid",
       "path": "conformance/fixtures/valid/scope_value_capture",
@@ -3304,7 +3480,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/slice_empty_and_default_ranges",
       "kind": "valid",
       "path": "conformance/fixtures/valid/slice_empty_and_default_ranges",
@@ -3318,12 +3494,13 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/slice_length_and_mutation",
       "kind": "valid",
       "path": "conformance/fixtures/valid/slice_length_and_mutation",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/slice_length_and_mutation",
       "rules": [
+        "OPENC-SLICE-COPY-001",
         "OPENC-SLICE-LENGTH-001",
         "OPENC-SLICE-MUTATE-001"
       ],
@@ -3332,7 +3509,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/slice_sum",
       "kind": "valid",
       "path": "conformance/fixtures/valid/slice_sum",
@@ -3346,7 +3523,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/small_local_unsafe_block",
       "kind": "valid",
       "path": "conformance/fixtures/valid/small_local_unsafe_block",
@@ -3359,21 +3536,36 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "id": "valid/source_bom_ignored",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/source_bom_ignored",
+      "provenance": "OpenC 1.0 dedicated coverage/source_bom_ignored",
+      "rules": [
+        "OPENC-SOURCE-BOM-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/source_bom_ignored/main.p"
+      ]
+    },
+    {
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/status_invariant_success",
       "kind": "valid",
       "path": "conformance/fixtures/valid/status_invariant_success",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/status_invariant_success",
       "rules": [
         "OPENC-STATUS-CODE-001",
-        "OPENC-STATUS-INVARIANT-001"
+        "OPENC-STATUS-COPY-001",
+        "OPENC-STATUS-INVARIANT-001",
+        "OPENC-STATUS-READONLY-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/status_invariant_success/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/status_message_not_control_flow",
       "kind": "valid",
       "path": "conformance/fixtures/valid/status_message_not_control_flow",
@@ -3387,13 +3579,18 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/status_proof_initializes_out",
       "kind": "valid",
       "path": "conformance/fixtures/valid/status_proof_initializes_out",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/status_proof_initializes_out",
       "rules": [
+        "OPENC-FUNCTION-OUTRETURN-001",
+        "OPENC-OUT-CALL-001",
+        "OPENC-OUT-COMMIT-001",
+        "OPENC-OUT-FORWARD-001",
         "OPENC-OUT-NOPARTIAL-001",
+        "OPENC-OUT-RESULTBIND-001",
         "OPENC-STATUS-PROOF-001"
       ],
       "source_files": [
@@ -3401,7 +3598,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/struct_defaults",
       "kind": "valid",
       "path": "conformance/fixtures/valid/struct_defaults",
@@ -3415,7 +3612,20 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "id": "valid/struct_equality",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/struct_equality",
+      "provenance": "OpenC Core 1.0 dedicated struct equality evidence",
+      "rules": [
+        "OPENC-STRUCT-EQUALITY-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/struct_equality/main.p"
+      ]
+    },
+    {
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/struct_named_fields_and_copy",
       "kind": "valid",
       "path": "conformance/fixtures/valid/struct_named_fields_and_copy",
@@ -3424,14 +3634,16 @@
         "OPENC-STRUCT-COPY-001",
         "OPENC-STRUCT-DECL-001",
         "OPENC-STRUCT-FIELD-001",
-        "OPENC-STRUCT-INIT-FIELD-001"
+        "OPENC-STRUCT-INIT-COMMIT-001",
+        "OPENC-STRUCT-INIT-FIELD-001",
+        "OPENC-STRUCT-NORESOURCE-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/struct_named_fields_and_copy/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/struct_named_init",
       "kind": "valid",
       "path": "conformance/fixtures/valid/struct_named_init",
@@ -3444,7 +3656,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/subslice",
       "kind": "valid",
       "path": "conformance/fixtures/valid/subslice",
@@ -3457,7 +3669,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/text_module_typeword_qualifier",
       "kind": "valid",
       "path": "conformance/fixtures/valid/text_module_typeword_qualifier",
@@ -3470,7 +3682,23 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "id": "valid/text_value_semantics",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/text_value_semantics",
+      "provenance": "OpenC 1.0 dedicated coverage/text_value_semantics",
+      "rules": [
+        "OPENC-TEXT-COPY-001",
+        "OPENC-TEXT-EQUALITY-001",
+        "OPENC-TEXT-LENGTH-001",
+        "OPENC-TYPE-TEXT-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/text_value_semantics/main.p"
+      ]
+    },
+    {
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/type_shapes_ref_ptr_optional_array_slice_storage",
       "kind": "valid",
       "path": "conformance/fixtures/valid/type_shapes_ref_ptr_optional_array_slice_storage",
@@ -3481,14 +3709,16 @@
         "OPENC-PTR-TYPE-001",
         "OPENC-SLICE-TYPE-001",
         "OPENC-STORAGE-TYPE-001",
-        "OPENC-TYPE-PREFIXORDER-001"
+        "OPENC-TYPE-CONSTRUCTORS-001",
+        "OPENC-TYPE-PREFIXORDER-001",
+        "OPENC-TYPE-SUFFIX-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/type_shapes_ref_ptr_optional_array_slice_storage/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/type_size_alignment",
       "kind": "valid",
       "path": "conformance/fixtures/valid/type_size_alignment",
@@ -3496,28 +3726,34 @@
       "rules": [
         "OPENC-TARGET-ALIGNOF-001",
         "OPENC-TARGET-ARRAYSIZE-001",
-        "OPENC-TARGET-SIZEOF-001"
+        "OPENC-TARGET-QUERYDOMAIN-001",
+        "OPENC-TARGET-SIZEOF-001",
+        "OPENC-TARGET-STORAGESIZE-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/type_size_alignment/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/typed_storage",
       "kind": "valid",
       "path": "conformance/fixtures/valid/typed_storage",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/typed_storage",
       "rules": [
         "OPENC-CONSTRUCT-001",
-        "OPENC-DESTROY-001"
+        "OPENC-CONSTRUCT-PLACEMENT-001",
+        "OPENC-CONSTRUCT-VALUE-001",
+        "OPENC-DESTROY-001",
+        "OPENC-STORAGE-COMMIT-001",
+        "OPENC-STORAGE-EMPTY-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/typed_storage/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/typed_storage_reconstruct_after_destroy",
       "kind": "valid",
       "path": "conformance/fixtures/valid/typed_storage_reconstruct_after_destroy",
@@ -3531,7 +3767,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/typed_storage_scope_destroy_use",
       "kind": "valid",
       "path": "conformance/fixtures/valid/typed_storage_scope_destroy_use",
@@ -3546,7 +3782,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/unary_minus_signed_only",
       "kind": "valid",
       "path": "conformance/fixtures/valid/unary_minus_signed_only",
@@ -3559,27 +3795,32 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/unchecked_integer_cast",
       "kind": "valid",
       "path": "conformance/fixtures/valid/unchecked_integer_cast",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/unchecked_integer_cast",
       "rules": [
         "OPENC-CAST-UNCHECKED-INT-001",
-        "OPENC-NUM-UNCHECKEDCAST-001"
+        "OPENC-NUM-INTRINSIC-001",
+        "OPENC-NUM-UNCHECKEDCAST-001",
+        "OPENC-NUM-WRAP-001"
       ],
       "source_files": [
         "conformance/fixtures/valid/unchecked_integer_cast/main.p"
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/unsafe_pointer",
       "kind": "valid",
       "path": "conformance/fixtures/valid/unsafe_pointer",
       "provenance": "OpenC Standard Draft 0.10 validation/valid/unsafe_pointer",
       "rules": [
+        "OPENC-PTR-ADDRESSABLE-001",
         "OPENC-PTR-DEREF-001",
+        "OPENC-PTR-DERIVED-NONOWNING-001",
+        "OPENC-PTR-PROVENANCE-001",
         "OPENC-UNSAFE-BOUNDARY-001"
       ],
       "source_files": [
@@ -3587,7 +3828,7 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/utf8_source_valid",
       "kind": "valid",
       "path": "conformance/fixtures/valid/utf8_source_valid",
@@ -3601,7 +3842,22 @@
       ]
     },
     {
-      "execution_status": "PASS_WINDOWS_X86_64_RC6",
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
+      "id": "valid/when_context_expression",
+      "kind": "valid",
+      "path": "conformance/fixtures/valid/when_context_expression",
+      "provenance": "OpenC 1.0 dedicated coverage/when_context_expression",
+      "rules": [
+        "OPENC-WHEN-CONTEXT-001",
+        "OPENC-WHEN-EXPR-001",
+        "OPENC-WHEN-STRUCTURED-001"
+      ],
+      "source_files": [
+        "conformance/fixtures/valid/when_context_expression/main.p"
+      ]
+    },
+    {
+      "execution_status": "PASS_WINDOWS_X86_64_RC8",
       "id": "valid/write_borrow",
       "kind": "valid",
       "path": "conformance/fixtures/valid/write_borrow",
@@ -3615,143 +3871,1464 @@
       ]
     }
   ],
-  "rules_with_imported_fixtures": 331,
-  "rules_without_imported_fixtures": [
-    "OPENC-BYTE-DISTINCT-001",
-    "OPENC-CLEANUP-ALL-001",
-    "OPENC-CLEANUP-FINISH-001",
-    "OPENC-CLEANUP-PRIMARY-001",
-    "OPENC-CLEANUP-SAFEWRAPPER-001",
-    "OPENC-CLEANUP-STATE-001",
-    "OPENC-CLEANUP-UNSAFEFAULT-001",
-    "OPENC-CLEANUP-VOID-001",
-    "OPENC-CONST-CHECKFAIL-001",
-    "OPENC-CONST-EXPR-001",
-    "OPENC-CONSTRUCT-PLACEMENT-001",
-    "OPENC-CONSTRUCT-VALUE-001",
-    "OPENC-DIAG-PHASE-001",
-    "OPENC-DIAG-PRIMARY-001",
-    "OPENC-DIAG-SEVERITY-001",
-    "OPENC-DIAG-SPAN-001",
-    "OPENC-ENUM-IMPLICIT-001",
-    "OPENC-EVAL-ARRAYINIT-001",
-    "OPENC-EXPR-PRECEDENCE-001",
-    "OPENC-EXTENSION-SAFETY-001",
-    "OPENC-FLOW-OUT-LOOP-001",
-    "OPENC-FLOW-OUT-PREDICATE-001",
-    "OPENC-FLOW-OUT-SUCCESS-001",
-    "OPENC-FLOW-OUT-TOKEN-001",
-    "OPENC-FOR-EXECUTE-001",
-    "OPENC-FUNCTION-OUTRETURN-001",
-    "OPENC-FUNCTION-RECURSION-001",
-    "OPENC-GRAMMAR-AUTHORITY-001",
-    "OPENC-GRAMMAR-COVERAGE-001",
-    "OPENC-IF-EXECUTE-001",
-    "OPENC-LEX-MAXIMAL-001",
-    "OPENC-LEX-WORDCLASS-001",
-    "OPENC-MODULE-API-001",
-    "OPENC-MODULE-CONSTCYCLE-001",
-    "OPENC-MODULE-MAPPING-001",
-    "OPENC-MODULE-MULTISOURCE-001",
-    "OPENC-MODULE-NOREEXPORT-001",
-    "OPENC-MODULE-ORDER-001",
-    "OPENC-NUM-AUTHORITY-001",
-    "OPENC-NUM-COMPOUND-001",
-    "OPENC-NUM-FLOAT-CONST-001",
-    "OPENC-NUM-INTRINSIC-001",
-    "OPENC-NUM-LITERAL-CONTEXT-001",
-    "OPENC-NUM-WRAP-001",
-    "OPENC-OPTIONAL-ASSIGN-001",
-    "OPENC-OPTIONAL-NESTED-001",
-    "OPENC-OUT-ALIAS-001",
-    "OPENC-OUT-CALL-001",
-    "OPENC-OUT-COMMIT-001",
-    "OPENC-OUT-FORWARD-001",
-    "OPENC-OUT-MODE-001",
-    "OPENC-OUT-OWNCOMMIT-001",
-    "OPENC-OUT-OWNFAIL-001",
-    "OPENC-OUT-OWNFLOW-001",
-    "OPENC-OUT-OWNTAIL-001",
-    "OPENC-OUT-PENDINGUSE-001",
-    "OPENC-OUT-PROOF-LOST-001",
-    "OPENC-OUT-REASSIGN-001",
-    "OPENC-OUT-RESULTBIND-001",
-    "OPENC-OVERLOAD-CONVERSIONS-001",
-    "OPENC-OWN-CHECKEDGE-001",
-    "OPENC-OWN-CONSUME-ARG-001",
-    "OPENC-OWN-EXIT-001",
-    "OPENC-OWN-MODE-001",
-    "OPENC-OWN-PRODUCE-001",
-    "OPENC-OWN-PRODUCER-PLACEMENT-001",
-    "OPENC-PORTABILITY-PLAIN-001",
-    "OPENC-PTR-ADDRESSABLE-001",
-    "OPENC-PTR-BASE-001",
-    "OPENC-PTR-BINDING-MUTABLE-001",
-    "OPENC-PTR-BYTEWRITE-001",
-    "OPENC-PTR-DEREF-RANGE-001",
-    "OPENC-PTR-DERIVED-NONOWNING-001",
-    "OPENC-PTR-INVALIDATE-001",
-    "OPENC-PTR-PROVENANCE-001",
-    "OPENC-PTR-SUBTRACT-001",
-    "OPENC-RESOURCE-CONSUMER-RETURN-001",
-    "OPENC-RESOURCE-DISMANTLE-001",
-    "OPENC-RESOURCE-FIELD-ASSIGN-001",
-    "OPENC-RESOURCE-FIELD-CONSUME-001",
-    "OPENC-RESOURCE-FIELD-DEFAULT-001",
-    "OPENC-RESOURCE-FIELD-ONCE-001",
-    "OPENC-RESOURCE-FIELD-VIEW-001",
-    "OPENC-RESOURCE-INIT-001",
-    "OPENC-RESOURCE-INIT-COMMIT-001",
-    "OPENC-RESOURCE-INIT-OWNER-001",
-    "OPENC-RESOURCE-INIT-PLACEMENT-001",
-    "OPENC-RESOURCE-INIT-REQUIRED-001",
-    "OPENC-RESOURCE-INIT-RESERVE-001",
-    "OPENC-RESOURCE-INIT-ROLLBACK-001",
-    "OPENC-RESOURCE-OPAQUE-DISCHARGE-001",
-    "OPENC-RESOURCE-REINIT-001",
-    "OPENC-RESOURCE-TRAILING-001",
-    "OPENC-SAFE-GUARANTEE-001",
-    "OPENC-SAFE-WRAPPER-001",
-    "OPENC-SAFETY-IMPLIMIT-001",
-    "OPENC-SAFETY-NOUB-001",
-    "OPENC-SAFETY-OPTIMIZE-001",
-    "OPENC-SAFETY-OUTCOME-001",
-    "OPENC-SAFETY-UNSAFE-001",
-    "OPENC-SLICE-COPY-001",
-    "OPENC-SLICE-ESCAPE-001",
-    "OPENC-SOURCE-BOM-001",
-    "OPENC-STATUS-COPY-001",
-    "OPENC-STATUS-INITIALIZER-001",
-    "OPENC-STATUS-OVERWRITE-001",
-    "OPENC-STATUS-READONLY-001",
-    "OPENC-STORAGE-COMMIT-001",
-    "OPENC-STORAGE-EMPTY-001",
-    "OPENC-STRUCT-CONSTFIELD-001",
-    "OPENC-STRUCT-DEFAULT-NODEP-001",
-    "OPENC-STRUCT-EQUALITY-001",
-    "OPENC-STRUCT-INIT-COMMIT-001",
-    "OPENC-STRUCT-NORESOURCE-001",
-    "OPENC-SWITCH-CASE-001",
-    "OPENC-SWITCH-DOMAIN-001",
-    "OPENC-SWITCH-DUPLICATE-001",
-    "OPENC-SWITCH-EXECUTE-001",
-    "OPENC-TARGET-CROSS-001",
-    "OPENC-TARGET-QUERYDOMAIN-001",
-    "OPENC-TARGET-SANITIZE-001",
-    "OPENC-TARGET-SCHEMA-001",
-    "OPENC-TARGET-STORAGESIZE-001",
-    "OPENC-TERM-CHECKFAIL-001",
-    "OPENC-TEXT-COPY-001",
-    "OPENC-TEXT-EQUALITY-001",
-    "OPENC-TEXT-LENGTH-001",
-    "OPENC-TYPE-CONSTRUCTORS-001",
-    "OPENC-TYPE-RESOURCEARRAY-001",
-    "OPENC-TYPE-SUFFIX-001",
-    "OPENC-TYPE-TEXT-001",
-    "OPENC-UNSAFE-PRECONDITION-001",
-    "OPENC-WHEN-CONTEXT-001",
-    "OPENC-WHEN-EXPR-001",
-    "OPENC-WHILE-EXECUTE-001"
-  ],
-  "schema": "openc.fixture_manifest.v2"
+  "rule_fixture_index": {
+    "OPENC-ARITH-MINUS-001": [
+      "valid/unary_minus_signed_only"
+    ],
+    "OPENC-ARITH-TYPE-001": [
+      "invalid/arithmetic_type_mismatch"
+    ],
+    "OPENC-ARRAY-COPY-001": [
+      "valid/array_init_length_copy"
+    ],
+    "OPENC-ARRAY-DECL-001": [
+      "invalid/c_array_decl",
+      "valid/fixed_array"
+    ],
+    "OPENC-ARRAY-INDEX-001": [
+      "invalid/array_out_of_bounds",
+      "valid/fixed_array"
+    ],
+    "OPENC-ARRAY-INIT-001": [
+      "valid/array_init_length_copy"
+    ],
+    "OPENC-ARRAY-LENGTH-001": [
+      "valid/array_init_length_copy"
+    ],
+    "OPENC-ARRAY-NODECAY-001": [
+      "invalid/array_no_pointer_decay"
+    ],
+    "OPENC-ARRAY-TYPE-001": [
+      "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+    ],
+    "OPENC-ASSIGN-CONVERT-001": [
+      "invalid/assignment_conversion_checked"
+    ],
+    "OPENC-ASSIGN-TARGET-001": [
+      "invalid/assignment_target_required"
+    ],
+    "OPENC-BLOCK-BRACES-001": [
+      "invalid/missing_braces"
+    ],
+    "OPENC-BOOL-SHORT-001": [
+      "runtime/boolean_short_circuit"
+    ],
+    "OPENC-BORROW-LASTUSE-001": [
+      "valid/many_read_borrows_last_use"
+    ],
+    "OPENC-BORROW-MANYREAD-001": [
+      "valid/many_read_borrows_last_use"
+    ],
+    "OPENC-BORROW-NOMOVE-001": [
+      "invalid/borrow_prevents_move"
+    ],
+    "OPENC-BORROW-ONEWRITE-001": [
+      "invalid/two_write_borrows",
+      "valid/write_borrow"
+    ],
+    "OPENC-BYTE-ARITH-001": [
+      "invalid/byte_not_text_or_arithmetic"
+    ],
+    "OPENC-BYTE-DISTINCT-001": [
+      "valid/byte_pointer_object_representation"
+    ],
+    "OPENC-CALL-COUNT-001": [
+      "invalid/call_argument_count"
+    ],
+    "OPENC-CALL-TYPE-001": [
+      "valid/function_add"
+    ],
+    "OPENC-CAST-EXACT-001": [
+      "invalid/checked_cast_requires_exact_value"
+    ],
+    "OPENC-CAST-UNCHECKED-INT-001": [
+      "valid/unchecked_integer_cast"
+    ],
+    "OPENC-CAST-UNCHECKED-LIMIT-001": [
+      "invalid/unchecked_float_to_integer"
+    ],
+    "OPENC-CLEANUP-ALL-001": [
+      "runtime/runtime_checked_failure_runs_cleanup"
+    ],
+    "OPENC-CLEANUP-ARG-001": [
+      "invalid/scope_nested_fallible_argument"
+    ],
+    "OPENC-CLEANUP-CALLEE-001": [
+      "runtime/cleanup_registration_capture"
+    ],
+    "OPENC-CLEANUP-CHECKFAIL-001": [
+      "runtime/runtime_checked_failure_runs_cleanup"
+    ],
+    "OPENC-CLEANUP-DESTROY-001": [
+      "valid/typed_storage_scope_destroy_use"
+    ],
+    "OPENC-CLEANUP-DESTROY-RESERVE-001": [
+      "invalid/scope_destroy_early"
+    ],
+    "OPENC-CLEANUP-DESTROY-STORAGE-001": [
+      "valid/typed_storage_scope_destroy_use"
+    ],
+    "OPENC-CLEANUP-FAILURE-001": [
+      "invalid/fallible_scope_action_rejected"
+    ],
+    "OPENC-CLEANUP-FINISH-001": [
+      "invalid/fallible_scope_action_rejected"
+    ],
+    "OPENC-CLEANUP-LIFO-001": [
+      "runtime/runtime_scope_lifo",
+      "valid/scope_nested_lifo"
+    ],
+    "OPENC-CLEANUP-NESTED-001": [
+      "valid/scope_nested_lifo"
+    ],
+    "OPENC-CLEANUP-NOCANCEL-001": [
+      "invalid/scope_cancel_not_supported"
+    ],
+    "OPENC-CLEANUP-NOFALLIBLE-001": [
+      "invalid/fallible_scope_action_rejected"
+    ],
+    "OPENC-CLEANUP-ONCE-001": [
+      "invalid/cleanup_owner_registered_once"
+    ],
+    "OPENC-CLEANUP-OUT-001": [
+      "invalid/scope_out_argument"
+    ],
+    "OPENC-CLEANUP-OWN-001": [
+      "invalid/scope_move_reserved_owner",
+      "invalid/scope_reassign_reserved_owner"
+    ],
+    "OPENC-CLEANUP-PRIMARY-001": [
+      "runtime/runtime_checked_failure_runs_cleanup"
+    ],
+    "OPENC-CLEANUP-REF-001": [
+      "invalid/cleanup_reference_must_live"
+    ],
+    "OPENC-CLEANUP-REGISTER-001": [
+      "runtime/cleanup_registration_capture"
+    ],
+    "OPENC-CLEANUP-RETURN-001": [
+      "runtime/cleanup_on_return"
+    ],
+    "OPENC-CLEANUP-SAFEWRAPPER-001": [
+      "invalid/fallible_scope_action_rejected"
+    ],
+    "OPENC-CLEANUP-STATE-001": [
+      "runtime/runtime_checked_failure_runs_cleanup"
+    ],
+    "OPENC-CLEANUP-STRUCTURED-001": [
+      "runtime/cleanup_on_return"
+    ],
+    "OPENC-CLEANUP-UNSAFEFAULT-001": [
+      "runtime/unsafe_fault_target_bounded"
+    ],
+    "OPENC-CLEANUP-VALUE-001": [
+      "valid/scope_value_capture"
+    ],
+    "OPENC-CLEANUP-VOID-001": [
+      "invalid/fallible_scope_action_rejected"
+    ],
+    "OPENC-COND-BOOL-001": [
+      "invalid/integer_condition",
+      "valid/bool_condition"
+    ],
+    "OPENC-CONST-ASSIGN-001": [
+      "invalid/const_reassignment_rejected"
+    ],
+    "OPENC-CONST-CHECKFAIL-001": [
+      "invalid/numeric_div_min_negative_one_static"
+    ],
+    "OPENC-CONST-EXPR-001": [
+      "valid/constant_expression_same_numeric_rules"
+    ],
+    "OPENC-CONST-INIT-001": [
+      "valid/const_binding_readonly"
+    ],
+    "OPENC-CONSTRUCT-001": [
+      "valid/typed_storage"
+    ],
+    "OPENC-CONSTRUCT-DOUBLE-001": [
+      "invalid/construct_twice"
+    ],
+    "OPENC-CONSTRUCT-PLACEMENT-001": [
+      "valid/typed_storage"
+    ],
+    "OPENC-CONSTRUCT-VALUE-001": [
+      "valid/typed_storage"
+    ],
+    "OPENC-CONVERT-CAST-001": [
+      "valid/checked_cast"
+    ],
+    "OPENC-CONVERT-IMPLICIT-001": [
+      "invalid/float_integer_no_implicit"
+    ],
+    "OPENC-CONVERT-LOSSY-001": [
+      "invalid/assignment_conversion_checked",
+      "invalid/implicit_narrow"
+    ],
+    "OPENC-CONVERT-REINTERPRET-001": [
+      "invalid/reinterpret_unrelated_layout_rejected"
+    ],
+    "OPENC-COPY-PLAIN-001": [
+      "valid/plain_copy_independent"
+    ],
+    "OPENC-DECL-ASSIGN-001": [
+      "invalid/declaration_requires_type"
+    ],
+    "OPENC-DECL-TYPEFIRST-001": [
+      "invalid/declaration_requires_type"
+    ],
+    "OPENC-DESTROY-001": [
+      "valid/typed_storage",
+      "valid/typed_storage_reconstruct_after_destroy"
+    ],
+    "OPENC-DESTROY-BORROW-001": [
+      "invalid/destroy_with_active_borrow"
+    ],
+    "OPENC-DESTROY-USEAFTER-001": [
+      "invalid/destroy_with_active_borrow"
+    ],
+    "OPENC-DIAG-MACHINE-001": [
+      "records/diagnostic_structure_quality"
+    ],
+    "OPENC-DIAG-PHASE-001": [
+      "records/diagnostic_structure_quality"
+    ],
+    "OPENC-DIAG-PRIMARY-001": [
+      "records/diagnostic_structure_quality"
+    ],
+    "OPENC-DIAG-QUALITY-001": [
+      "records/diagnostic_structure_quality"
+    ],
+    "OPENC-DIAG-SEVERITY-001": [
+      "records/diagnostic_structure_quality"
+    ],
+    "OPENC-DIAG-SPAN-001": [
+      "records/diagnostic_structure_quality"
+    ],
+    "OPENC-DIAG-STRUCTURE-001": [
+      "records/diagnostic_structure_quality"
+    ],
+    "OPENC-DIAG-TRACE-001": [
+      "command/unsafe_history_in_diagnostic"
+    ],
+    "OPENC-ENUM-DISTINCT-001": [
+      "valid/enum_switch"
+    ],
+    "OPENC-ENUM-DUPLICATE-001": [
+      "invalid/enum_duplicate_value"
+    ],
+    "OPENC-ENUM-IMPLICIT-001": [
+      "valid/enum_switch"
+    ],
+    "OPENC-ENUM-UNDERLYING-001": [
+      "invalid/enum_duplicate_value"
+    ],
+    "OPENC-EQUALITY-RESOURCE-001": [
+      "invalid/resource_equality_rejected"
+    ],
+    "OPENC-ERROR-FATAL-001": [
+      "runtime/fatal_allocation_defined"
+    ],
+    "OPENC-ERROR-NOHIDDEN-001": [
+      "valid/status_message_not_control_flow"
+    ],
+    "OPENC-EVAL-ARGMODE-001": [
+      "runtime/callee_then_arguments_order",
+      "runtime/function_arguments_left_to_right"
+    ],
+    "OPENC-EVAL-ARRAYINIT-001": [
+      "valid/array_init_length_copy"
+    ],
+    "OPENC-EVAL-ASSIGN-001": [
+      "runtime/assignment_destination_once"
+    ],
+    "OPENC-EVAL-BINARY-001": [
+      "runtime/evaluation_binary_left_to_right"
+    ],
+    "OPENC-EVAL-BREAK-001": [
+      "runtime/break_and_scope_registration_order"
+    ],
+    "OPENC-EVAL-CALL-001": [
+      "valid/eval_call_left_to_right"
+    ],
+    "OPENC-EVAL-CALLEE-001": [
+      "runtime/callee_then_arguments_order"
+    ],
+    "OPENC-EVAL-COMPOUND-001": [
+      "valid/eval_compound_target_once"
+    ],
+    "OPENC-EVAL-CONSTRUCT-001": [
+      "runtime/construct_and_return_order"
+    ],
+    "OPENC-EVAL-DEFAULT-001": [
+      "runtime/struct_defaults_after_explicit"
+    ],
+    "OPENC-EVAL-FULL-001": [
+      "runtime/evaluation_binary_left_to_right"
+    ],
+    "OPENC-EVAL-NOUNSPEC-001": [
+      "runtime/evaluation_binary_left_to_right"
+    ],
+    "OPENC-EVAL-OBSERVABLE-001": [
+      "runtime/evaluation_binary_left_to_right"
+    ],
+    "OPENC-EVAL-RETURN-001": [
+      "runtime/construct_and_return_order"
+    ],
+    "OPENC-EVAL-SCOPE-NESTED-001": [
+      "invalid/scope_nested_fallible_argument"
+    ],
+    "OPENC-EVAL-SCOPE-REGISTER-001": [
+      "runtime/break_and_scope_registration_order"
+    ],
+    "OPENC-EVAL-SHORT-001": [
+      "runtime/boolean_short_circuit"
+    ],
+    "OPENC-EVAL-STRUCTINIT-001": [
+      "valid/eval_struct_initializer_order"
+    ],
+    "OPENC-EVAL-UNARY-001": [
+      "runtime/unary_operand_once"
+    ],
+    "OPENC-EXPR-ORDER-001": [
+      "valid/eval_call_left_to_right"
+    ],
+    "OPENC-EXPR-PRECEDENCE-001": [
+      "valid/eval_call_left_to_right"
+    ],
+    "OPENC-EXTENSION-SAFETY-001": [
+      "invalid/unsafe_contract_caller_responsibility"
+    ],
+    "OPENC-FIELD-TYPE-001": [
+      "invalid/ref_field",
+      "invalid/slice_field",
+      "invalid/storage_field"
+    ],
+    "OPENC-FLOW-BORROW-001": [
+      "invalid/flow_borrow_and_destroyed_state"
+    ],
+    "OPENC-FLOW-BREAK-001": [
+      "invalid/flow_break_path_merge"
+    ],
+    "OPENC-FLOW-CONTINUE-001": [
+      "invalid/flow_continue_skips_init"
+    ],
+    "OPENC-FLOW-DESTROYED-001": [
+      "invalid/flow_borrow_and_destroyed_state"
+    ],
+    "OPENC-FLOW-DIAG-001": [
+      "diagnostic/diagnostic_flow_path_locations",
+      "diagnostic/diagnostic_status_out_failure"
+    ],
+    "OPENC-FLOW-FOR-001": [
+      "invalid/flow_for_not_guaranteed"
+    ],
+    "OPENC-FLOW-IF-001": [
+      "valid/flow_if_all_paths"
+    ],
+    "OPENC-FLOW-IF-NOELSE-001": [
+      "invalid/flow_if_missing_else"
+    ],
+    "OPENC-FLOW-MOVED-001": [
+      "invalid/flow_move_one_branch"
+    ],
+    "OPENC-FLOW-OPTIONAL-001": [
+      "invalid/flow_optional_proof_invalidated"
+    ],
+    "OPENC-FLOW-OPTIONAL-ELSE-001": [
+      "valid/flow_optional_early_return"
+    ],
+    "OPENC-FLOW-OPTIONAL-INVALIDATE-001": [
+      "invalid/optional_proof_invalidated"
+    ],
+    "OPENC-FLOW-OUT-COPY-001": [
+      "valid/flow_status_copy_proof"
+    ],
+    "OPENC-FLOW-OUT-FAILURE-001": [
+      "diagnostic/diagnostic_status_out_failure"
+    ],
+    "OPENC-FLOW-OUT-LOOP-001": [
+      "invalid/flow_continue_skips_init"
+    ],
+    "OPENC-FLOW-OUT-MERGE-001": [
+      "valid/flow_out_early_return"
+    ],
+    "OPENC-FLOW-OUT-PREDICATE-001": [
+      "valid/flow_out_early_return"
+    ],
+    "OPENC-FLOW-OUT-SUCCESS-001": [
+      "valid/flow_out_early_return"
+    ],
+    "OPENC-FLOW-OUT-TOKEN-001": [
+      "invalid/out_read_inside_callee"
+    ],
+    "OPENC-FLOW-REACHABLE-001": [
+      "invalid/flow_unreachable_after_return"
+    ],
+    "OPENC-FLOW-STATE-001": [
+      "valid/flow_state_branch_merge"
+    ],
+    "OPENC-FLOW-SWITCH-001": [
+      "valid/flow_switch_exhaustive"
+    ],
+    "OPENC-FLOW-WHILE-001": [
+      "invalid/flow_while_only_initialization",
+      "valid/flow_loop_preinitialized"
+    ],
+    "OPENC-FOR-EXECUTE-001": [
+      "runtime/break_and_scope_registration_order"
+    ],
+    "OPENC-FOR-SCOPE-001": [
+      "invalid/for_variable_scope"
+    ],
+    "OPENC-FUNCTION-ARGORDER-001": [
+      "runtime/function_arguments_left_to_right"
+    ],
+    "OPENC-FUNCTION-DIRECT-001": [
+      "invalid/arrow_function",
+      "valid/first_program"
+    ],
+    "OPENC-FUNCTION-OUTFAIL-001": [
+      "invalid/out_failure_partial_exposure"
+    ],
+    "OPENC-FUNCTION-OUTRETURN-001": [
+      "valid/status_proof_initializes_out"
+    ],
+    "OPENC-FUNCTION-OUTSUCCESS-001": [
+      "invalid/out_success_without_init",
+      "valid/flow_out_early_return"
+    ],
+    "OPENC-FUNCTION-PARAM-001": [
+      "valid/function_add"
+    ],
+    "OPENC-FUNCTION-PATH-001": [
+      "invalid/nonvoid_missing_path"
+    ],
+    "OPENC-FUNCTION-RECURSION-001": [
+      "valid/function_recursion"
+    ],
+    "OPENC-FUNCTION-UNSAFE-001": [
+      "invalid/unsafe_function_call_outside_unsafe"
+    ],
+    "OPENC-GLOBAL-CONST-001": [
+      "valid/global_const_valid"
+    ],
+    "OPENC-GLOBAL-MUTABLE-001": [
+      "invalid/mutable_global_rejected"
+    ],
+    "OPENC-GRAMMAR-AUTHORITY-001": [
+      "valid/first_program"
+    ],
+    "OPENC-GRAMMAR-COVERAGE-001": [
+      "valid/first_program"
+    ],
+    "OPENC-IF-EXECUTE-001": [
+      "valid/bool_condition"
+    ],
+    "OPENC-INDEX-SAFE-001": [
+      "runtime/bounds_trap",
+      "runtime/runtime_checked_failure_runs_cleanup"
+    ],
+    "OPENC-INIT-BEFOREUSE-001": [
+      "diagnostic/diagnostic_flow_path_locations",
+      "invalid/flow_if_missing_else",
+      "invalid/flow_while_only_initialization",
+      "invalid/local_not_zero_initialized",
+      "invalid/read_uninitialized",
+      "valid/initialized_local"
+    ],
+    "OPENC-INIT-LOOP-001": [
+      "invalid/loop_only_initialization_not_definite"
+    ],
+    "OPENC-INIT-NOZERO-001": [
+      "invalid/local_not_zero_initialized"
+    ],
+    "OPENC-INIT-PATH-001": [
+      "valid/flow_if_all_paths"
+    ],
+    "OPENC-LEX-COMMENT-001": [
+      "invalid/unterminated_block_comment",
+      "valid/comments_preserve_tokens"
+    ],
+    "OPENC-LEX-IDENT-001": [
+      "valid/identifier_case_sensitive"
+    ],
+    "OPENC-LEX-MAXIMAL-001": [
+      "valid/identifier_case_sensitive"
+    ],
+    "OPENC-LEX-TYPEQUALIFIER-001": [
+      "valid/text_module_typeword_qualifier"
+    ],
+    "OPENC-LEX-TYPEWORD-001": [
+      "invalid/predeclared_typeword_binding"
+    ],
+    "OPENC-LEX-WORDCLASS-001": [
+      "valid/identifier_case_sensitive"
+    ],
+    "OPENC-LIFETIME-ACTIVE-001": [
+      "invalid/storage_read_before_construct"
+    ],
+    "OPENC-LIFETIME-RETURNLOCAL-001": [
+      "invalid/return_local_ref",
+      "invalid/return_local_reference"
+    ],
+    "OPENC-LIFETIME-SLICE-001": [
+      "invalid/slice_outlives_owner"
+    ],
+    "OPENC-LITERAL-FLOATDEFAULT-001": [
+      "valid/floating_literal_default_f64"
+    ],
+    "OPENC-LITERAL-INTEGER-001": [
+      "valid/integer_literal_exact_context"
+    ],
+    "OPENC-LITERAL-NOSUFFIX-001": [
+      "invalid/numeric_literal_suffix"
+    ],
+    "OPENC-LITERAL-RANGE-001": [
+      "invalid/integer_literal_destination_range",
+      "valid/integer_literal_exact_context"
+    ],
+    "OPENC-LITERAL-SEPARATOR-001": [
+      "invalid/numeric_separator_doubled",
+      "valid/numeric_separator_valid"
+    ],
+    "OPENC-LITERAL-TEXT-001": [
+      "valid/utf8_source_valid"
+    ],
+    "OPENC-LITERAL-UNICODE-001": [
+      "invalid/unicode_escape_surrogate"
+    ],
+    "OPENC-LOOP-CONTEXT-001": [
+      "invalid/break_outside_loop"
+    ],
+    "OPENC-MEMBER-UNKNOWN-001": [
+      "invalid/unknown_member"
+    ],
+    "OPENC-MODULE-AMBIGUOUS-001": [
+      "invalid/module_short_qualifier_ambiguous"
+    ],
+    "OPENC-MODULE-API-001": [
+      "invalid/module_private_access"
+    ],
+    "OPENC-MODULE-CONSTCYCLE-001": [
+      "invalid/module_import_cycle"
+    ],
+    "OPENC-MODULE-CYCLE-001": [
+      "invalid/module_import_cycle"
+    ],
+    "OPENC-MODULE-DUPLICATE-001": [
+      "invalid/module_duplicate_top_level",
+      "valid/module_multi_source_overload"
+    ],
+    "OPENC-MODULE-EXPORT-001": [
+      "invalid/module_private_access"
+    ],
+    "OPENC-MODULE-FULLIMPORT-001": [
+      "valid/module_short_and_full_qualifier"
+    ],
+    "OPENC-MODULE-IDENTITY-001": [
+      "valid/module_repeated_import_idempotent"
+    ],
+    "OPENC-MODULE-IMPORT-001": [
+      "valid/first_program"
+    ],
+    "OPENC-MODULE-IMPORTIDEMPOTENT-001": [
+      "valid/module_repeated_import_idempotent"
+    ],
+    "OPENC-MODULE-IMPORTLOCAL-001": [
+      "invalid/module_import_not_shared"
+    ],
+    "OPENC-MODULE-MAPPING-001": [
+      "valid/module_multi_source_overload"
+    ],
+    "OPENC-MODULE-MULTISOURCE-001": [
+      "valid/module_multi_source_overload"
+    ],
+    "OPENC-MODULE-NOREEXPORT-001": [
+      "invalid/module_import_not_shared"
+    ],
+    "OPENC-MODULE-ORDER-001": [
+      "valid/module_multi_source_overload"
+    ],
+    "OPENC-MODULE-PRIVATE-001": [
+      "invalid/module_private_access"
+    ],
+    "OPENC-MODULE-SHORT-001": [
+      "valid/module_short_and_full_qualifier"
+    ],
+    "OPENC-NAME-UNKNOWN-001": [
+      "invalid/block_local_escape",
+      "invalid/declaration_requires_type"
+    ],
+    "OPENC-NUM-ADD-001": [
+      "runtime/checked_addition"
+    ],
+    "OPENC-NUM-AUTHORITY-001": [
+      "runtime/checked_addition"
+    ],
+    "OPENC-NUM-BITWISE-001": [
+      "invalid/numeric_signed_bitwise"
+    ],
+    "OPENC-NUM-BYTE8-001": [
+      "runtime/unsigned_modulo_exact"
+    ],
+    "OPENC-NUM-CAST-FLOAT-001": [
+      "invalid/checked_cast_requires_exact_value"
+    ],
+    "OPENC-NUM-CAST-FLOATINT-001": [
+      "invalid/numeric_cast_float_fraction",
+      "runtime/runtime_cast_float_fraction"
+    ],
+    "OPENC-NUM-CAST-INT-001": [
+      "runtime/runtime_cast_integer_range"
+    ],
+    "OPENC-NUM-CAST-INTFLOAT-001": [
+      "invalid/numeric_cast_int_float_inexact_static"
+    ],
+    "OPENC-NUM-COMPOUND-001": [
+      "runtime/checked_addition"
+    ],
+    "OPENC-NUM-CONST-001": [
+      "valid/constant_expression_same_numeric_rules"
+    ],
+    "OPENC-NUM-DIV-001": [
+      "valid/numeric_division_toward_zero"
+    ],
+    "OPENC-NUM-DIV-MIN-001": [
+      "invalid/numeric_div_min_negative_one_static",
+      "runtime/runtime_division_min_negative_one"
+    ],
+    "OPENC-NUM-DIVZERO-001": [
+      "runtime/runtime_division_zero"
+    ],
+    "OPENC-NUM-FLOAT-CONST-001": [
+      "valid/float_binary_types"
+    ],
+    "OPENC-NUM-FLOAT-DIVZERO-001": [
+      "runtime/runtime_float_nan_comparison"
+    ],
+    "OPENC-NUM-FLOAT-FORMAT-001": [
+      "valid/float_binary_types"
+    ],
+    "OPENC-NUM-FLOAT-NONFINITE-001": [
+      "runtime/runtime_float_nan_comparison"
+    ],
+    "OPENC-NUM-FLOAT-ORDER-001": [
+      "runtime/runtime_float_nan_comparison"
+    ],
+    "OPENC-NUM-FLOAT-ROUND-001": [
+      "valid/float_binary_types"
+    ],
+    "OPENC-NUM-INTRINSIC-001": [
+      "valid/unchecked_integer_cast"
+    ],
+    "OPENC-NUM-LITERAL-CONTEXT-001": [
+      "valid/integer_literal_exact_context"
+    ],
+    "OPENC-NUM-LITERAL-DEFAULT-001": [
+      "invalid/numeric_unconstrained_too_large"
+    ],
+    "OPENC-NUM-LITERAL-NEGATIVE-001": [
+      "valid/negative_literal_context"
+    ],
+    "OPENC-NUM-MACHINE-001": [
+      "command/machine_integer_width_reported"
+    ],
+    "OPENC-NUM-REM-001": [
+      "valid/numeric_remainder_dividend_sign"
+    ],
+    "OPENC-NUM-SATURATE-001": [
+      "valid/numeric_saturating_add"
+    ],
+    "OPENC-NUM-SHIFT-001": [
+      "invalid/numeric_shift_width"
+    ],
+    "OPENC-NUM-SHIFTLEFT-001": [
+      "runtime/left_shift_checked"
+    ],
+    "OPENC-NUM-SHIFTRIGHT-001": [
+      "runtime/signed_right_shift_defined"
+    ],
+    "OPENC-NUM-TWOS-001": [
+      "runtime/fixed_width_values"
+    ],
+    "OPENC-NUM-UNCHECKEDCAST-001": [
+      "valid/unchecked_integer_cast"
+    ],
+    "OPENC-NUM-UNSIGNED-001": [
+      "runtime/fixed_width_values",
+      "runtime/unsigned_modulo_exact"
+    ],
+    "OPENC-NUM-WRAP-001": [
+      "valid/unchecked_integer_cast"
+    ],
+    "OPENC-OPTIONAL-ASSIGN-001": [
+      "valid/optional_none_and_copy"
+    ],
+    "OPENC-OPTIONAL-CHECK-001": [
+      "invalid/optional_proof_invalidated",
+      "valid/flow_optional_early_return"
+    ],
+    "OPENC-OPTIONAL-COPY-001": [
+      "valid/optional_none_and_copy"
+    ],
+    "OPENC-OPTIONAL-EXPLICIT-001": [
+      "valid/current_optional",
+      "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+    ],
+    "OPENC-OPTIONAL-NESTED-001": [
+      "invalid/optional_question_syntax"
+    ],
+    "OPENC-OPTIONAL-NOBORROW-001": [
+      "invalid/optional_slice"
+    ],
+    "OPENC-OPTIONAL-NONE-001": [
+      "valid/optional_none_and_copy"
+    ],
+    "OPENC-OPTIONAL-NOSHORTHAND-001": [
+      "invalid/current_question_optional",
+      "invalid/optional_question_syntax"
+    ],
+    "OPENC-OPTIONAL-PRESENT-001": [
+      "valid/optional_checked"
+    ],
+    "OPENC-OPTIONAL-PRESENT-READONLY-001": [
+      "invalid/optional_present_readonly"
+    ],
+    "OPENC-OPTIONAL-VALUE-001": [
+      "runtime/optional_trap",
+      "valid/optional_checked"
+    ],
+    "OPENC-OUT-ALIAS-001": [
+      "invalid/out_initialized_target"
+    ],
+    "OPENC-OUT-CALL-001": [
+      "valid/status_proof_initializes_out"
+    ],
+    "OPENC-OUT-COMMIT-001": [
+      "valid/status_proof_initializes_out"
+    ],
+    "OPENC-OUT-FORWARD-001": [
+      "valid/status_proof_initializes_out"
+    ],
+    "OPENC-OUT-MODE-001": [
+      "valid/parameter_modes_visible"
+    ],
+    "OPENC-OUT-NOPARTIAL-001": [
+      "invalid/out_failure_partial_exposure",
+      "valid/status_proof_initializes_out"
+    ],
+    "OPENC-OUT-NOREAD-001": [
+      "invalid/out_read_inside_callee"
+    ],
+    "OPENC-OUT-OWN-001": [
+      "invalid/out_own_pointer_missing_contract"
+    ],
+    "OPENC-OUT-OWNCOMMIT-001": [
+      "invalid/out_failure_partial_exposure"
+    ],
+    "OPENC-OUT-OWNFAIL-001": [
+      "invalid/out_failure_partial_exposure"
+    ],
+    "OPENC-OUT-OWNFLOW-001": [
+      "invalid/out_own_pointer_missing_contract"
+    ],
+    "OPENC-OUT-OWNTAIL-001": [
+      "invalid/out_failure_partial_exposure"
+    ],
+    "OPENC-OUT-PENDINGUSE-001": [
+      "invalid/out_read_inside_callee"
+    ],
+    "OPENC-OUT-PROOF-LOST-001": [
+      "valid/flow_out_early_return"
+    ],
+    "OPENC-OUT-REASSIGN-001": [
+      "invalid/out_initialized_target"
+    ],
+    "OPENC-OUT-RESULTBIND-001": [
+      "valid/status_proof_initializes_out"
+    ],
+    "OPENC-OUT-STATUSONLY-001": [
+      "invalid/out_nonstatus_function"
+    ],
+    "OPENC-OUT-TARGET-001": [
+      "invalid/out_field_target",
+      "invalid/out_initialized_target"
+    ],
+    "OPENC-OVERLOAD-AMBIGUOUS-001": [
+      "invalid/overload_conversion_ambiguity"
+    ],
+    "OPENC-OVERLOAD-CONVERSIONS-001": [
+      "valid/overload_exact_preferred"
+    ],
+    "OPENC-OVERLOAD-EXACT-001": [
+      "valid/module_multi_source_overload",
+      "valid/overload_exact_preferred"
+    ],
+    "OPENC-OVERLOAD-MODE-001": [
+      "valid/overload_parameter_modes"
+    ],
+    "OPENC-OVERLOAD-NORANK-001": [
+      "invalid/overload_conversion_ambiguity",
+      "invalid/overload_lossless_ambiguous"
+    ],
+    "OPENC-OVERLOAD-RETURN-001": [
+      "invalid/overload_return_only"
+    ],
+    "OPENC-OWN-CALL-001": [
+      "valid/domain_own_call"
+    ],
+    "OPENC-OWN-CHECKEDGE-001": [
+      "runtime/runtime_checked_failure_runs_cleanup"
+    ],
+    "OPENC-OWN-CONSUME-ARG-001": [
+      "valid/domain_own_call"
+    ],
+    "OPENC-OWN-EXIT-001": [
+      "valid/resource_return_transfers"
+    ],
+    "OPENC-OWN-MODE-001": [
+      "valid/parameter_modes_visible"
+    ],
+    "OPENC-OWN-PRODUCE-001": [
+      "valid/resource_return_transfers"
+    ],
+    "OPENC-OWN-PRODUCER-PLACEMENT-001": [
+      "valid/resource_return_transfers"
+    ],
+    "OPENC-OWN-RETURN-001": [
+      "valid/resource_return_transfers"
+    ],
+    "OPENC-OWN-SCOPE-001": [
+      "invalid/scope_move_reserved_owner",
+      "invalid/scope_reassign_reserved_owner"
+    ],
+    "OPENC-OWN-SCOPE-BORROW-001": [
+      "valid/scope_bound_owner_borrow"
+    ],
+    "OPENC-OWN-SCOPE-RESERVE-001": [
+      "invalid/scope_double_consuming_action"
+    ],
+    "OPENC-OWN-USEAFTER-001": [
+      "invalid/use_after_move"
+    ],
+    "OPENC-PARAM-OUT-001": [
+      "valid/parameter_modes_visible"
+    ],
+    "OPENC-PARAM-OUTTYPE-001": [
+      "invalid/out_reference_parameter"
+    ],
+    "OPENC-PARAM-OWN-001": [
+      "valid/parameter_modes_visible"
+    ],
+    "OPENC-PARAM-OWNTYPE-001": [
+      "invalid/own_plain_integer"
+    ],
+    "OPENC-PARAM-REF-001": [
+      "valid/parameter_modes_visible"
+    ],
+    "OPENC-PORTABILITY-PLAIN-001": [
+      "command/target_context_complete"
+    ],
+    "OPENC-PTR-ADDRESS-001": [
+      "invalid/address_outside_unsafe"
+    ],
+    "OPENC-PTR-ADDRESSABLE-001": [
+      "valid/unsafe_pointer"
+    ],
+    "OPENC-PTR-ALIGN-001": [
+      "invalid/misaligned_typed_deref"
+    ],
+    "OPENC-PTR-ARITH-001": [
+      "invalid/pointer_arithmetic_outside_unsafe"
+    ],
+    "OPENC-PTR-BASE-001": [
+      "invalid/owning_pointer_copy"
+    ],
+    "OPENC-PTR-BINDING-MUTABLE-001": [
+      "valid/pointer_one_past_compare"
+    ],
+    "OPENC-PTR-BYTE-001": [
+      "valid/byte_pointer_object_representation"
+    ],
+    "OPENC-PTR-BYTEWRITE-001": [
+      "invalid/reinterpret_pointer_no_new_lifetime"
+    ],
+    "OPENC-PTR-COMPARE-001": [
+      "invalid/pointer_order_cross_allocation"
+    ],
+    "OPENC-PTR-CONST-001": [
+      "invalid/ptr_const_write"
+    ],
+    "OPENC-PTR-CONSTVIEW-001": [
+      "invalid/ptr_const_to_mutable",
+      "valid/const_view_conversions"
+    ],
+    "OPENC-PTR-CROSSALLOC-001": [
+      "invalid/pointer_cross_allocation_subtract"
+    ],
+    "OPENC-PTR-DEREF-001": [
+      "invalid/deref_outside_unsafe",
+      "valid/unsafe_pointer"
+    ],
+    "OPENC-PTR-DEREF-RANGE-001": [
+      "invalid/pointer_deref_one_past"
+    ],
+    "OPENC-PTR-DERIVED-NONOWNING-001": [
+      "valid/unsafe_pointer"
+    ],
+    "OPENC-PTR-INVALIDATE-001": [
+      "invalid/reinterpret_pointer_no_new_lifetime"
+    ],
+    "OPENC-PTR-LIFETIME-001": [
+      "invalid/pointer_typed_deref_requires_lifetime"
+    ],
+    "OPENC-PTR-NOLENGTH-001": [
+      "invalid/ptr_length"
+    ],
+    "OPENC-PTR-NULL-001": [
+      "runtime/null_pointer_equality"
+    ],
+    "OPENC-PTR-ONEPAST-001": [
+      "invalid/pointer_deref_one_past",
+      "valid/pointer_one_past_compare"
+    ],
+    "OPENC-PTR-OWNCONTAIN-001": [
+      "invalid/plain_struct_hides_owning_pointer"
+    ],
+    "OPENC-PTR-OWNCOPY-001": [
+      "invalid/owning_pointer_copy"
+    ],
+    "OPENC-PTR-PROVENANCE-001": [
+      "valid/unsafe_pointer"
+    ],
+    "OPENC-PTR-SUBTRACT-001": [
+      "valid/pointer_one_past_compare"
+    ],
+    "OPENC-PTR-SYMBOL-001": [
+      "invalid/c_pointer_decl"
+    ],
+    "OPENC-PTR-TYPE-001": [
+      "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+    ],
+    "OPENC-REF-ASSIGN-001": [
+      "invalid/ref_const_whole_assignment",
+      "valid/ref_assigns_referent"
+    ],
+    "OPENC-REF-CONSTVIEW-001": [
+      "invalid/ref_const_to_mutable",
+      "valid/const_view_conversions"
+    ],
+    "OPENC-REF-INIT-001": [
+      "invalid/ref_local_without_initializer",
+      "valid/ref_assigns_referent"
+    ],
+    "OPENC-REF-NOREBIND-001": [
+      "valid/ref_assigns_referent"
+    ],
+    "OPENC-REF-READ-001": [
+      "valid/read_borrow"
+    ],
+    "OPENC-REF-RESOURCEASSIGN-001": [
+      "invalid/ref_resource_whole_assignment"
+    ],
+    "OPENC-REF-SYMBOL-001": [
+      "invalid/c_reference_decl"
+    ],
+    "OPENC-REF-TYPE-001": [
+      "valid/write_borrow"
+    ],
+    "OPENC-REINTERPRET-NOLIFETIME-001": [
+      "invalid/reinterpret_pointer_no_new_lifetime"
+    ],
+    "OPENC-REINTERPRET-PTR-001": [
+      "invalid/reinterpret_pointer_no_new_lifetime"
+    ],
+    "OPENC-REINTERPRET-SIZE-001": [
+      "invalid/reinterpret_size_mismatch",
+      "valid/reinterpret_u32_f32"
+    ],
+    "OPENC-REINTERPRET-VALUE-001": [
+      "invalid/reinterpret_struct_value",
+      "valid/reinterpret_u32_f32"
+    ],
+    "OPENC-RESOURCE-CONSUMER-RETURN-001": [
+      "invalid/resource_field_state_rejections"
+    ],
+    "OPENC-RESOURCE-COPY-001": [
+      "valid/resource_domain_operations"
+    ],
+    "OPENC-RESOURCE-DECL-001": [
+      "valid/current_resource"
+    ],
+    "OPENC-RESOURCE-DESTROY-001": [
+      "valid/resource_domain_operations"
+    ],
+    "OPENC-RESOURCE-DISMANTLE-001": [
+      "invalid/resource_field_state_rejections"
+    ],
+    "OPENC-RESOURCE-FIELD-001": [
+      "valid/resource_contains_resource"
+    ],
+    "OPENC-RESOURCE-FIELD-ASSIGN-001": [
+      "invalid/resource_field_state_rejections"
+    ],
+    "OPENC-RESOURCE-FIELD-CONSUME-001": [
+      "invalid/resource_field_state_rejections"
+    ],
+    "OPENC-RESOURCE-FIELD-DEFAULT-001": [
+      "valid/resource_initializer_lifecycle"
+    ],
+    "OPENC-RESOURCE-FIELD-ONCE-001": [
+      "invalid/resource_field_state_rejections"
+    ],
+    "OPENC-RESOURCE-FIELD-OWNPTR-001": [
+      "valid/current_resource"
+    ],
+    "OPENC-RESOURCE-FIELD-VIEW-001": [
+      "valid/resource_initializer_lifecycle"
+    ],
+    "OPENC-RESOURCE-INIT-001": [
+      "valid/resource_initializer_lifecycle"
+    ],
+    "OPENC-RESOURCE-INIT-COMMIT-001": [
+      "valid/resource_initializer_lifecycle"
+    ],
+    "OPENC-RESOURCE-INIT-OWNER-001": [
+      "valid/resource_initializer_lifecycle"
+    ],
+    "OPENC-RESOURCE-INIT-PLACEMENT-001": [
+      "valid/resource_initializer_lifecycle"
+    ],
+    "OPENC-RESOURCE-INIT-REQUIRED-001": [
+      "valid/resource_initializer_lifecycle"
+    ],
+    "OPENC-RESOURCE-INIT-RESERVE-001": [
+      "valid/resource_initializer_lifecycle"
+    ],
+    "OPENC-RESOURCE-INIT-ROLLBACK-001": [
+      "valid/resource_initializer_lifecycle"
+    ],
+    "OPENC-RESOURCE-MOVE-001": [
+      "valid/resource_domain_operations"
+    ],
+    "OPENC-RESOURCE-NOCONSTOWNER-001": [
+      "invalid/const_resource_owner"
+    ],
+    "OPENC-RESOURCE-NOCOPY-001": [
+      "invalid/resource_copy"
+    ],
+    "OPENC-RESOURCE-OBLIGATION-001": [
+      "invalid/resource_obligation_not_discharged"
+    ],
+    "OPENC-RESOURCE-OPAQUE-DISCHARGE-001": [
+      "valid/resource_initializer_lifecycle"
+    ],
+    "OPENC-RESOURCE-REINIT-001": [
+      "invalid/resource_reinitialize_live"
+    ],
+    "OPENC-RESOURCE-TRAILING-001": [
+      "valid/current_resource"
+    ],
+    "OPENC-RETURN-LIFETIME-001": [
+      "invalid/return_local_reference"
+    ],
+    "OPENC-RETURN-TYPE-001": [
+      "invalid/return_type_mismatch"
+    ],
+    "OPENC-SAFE-GUARANTEE-001": [
+      "invalid/safe_wrapper_missing_check"
+    ],
+    "OPENC-SAFE-WRAPPER-001": [
+      "invalid/safe_wrapper_missing_check"
+    ],
+    "OPENC-SAFETY-IMPLIMIT-001": [
+      "runtime/fatal_allocation_defined"
+    ],
+    "OPENC-SAFETY-NOUB-001": [
+      "runtime/unsafe_fault_target_bounded"
+    ],
+    "OPENC-SAFETY-OPTIMIZE-001": [
+      "runtime/evaluation_binary_left_to_right"
+    ],
+    "OPENC-SAFETY-OUTCOME-001": [
+      "runtime/unsafe_fault_target_bounded"
+    ],
+    "OPENC-SAFETY-UNSAFE-001": [
+      "runtime/unsafe_fault_target_bounded"
+    ],
+    "OPENC-SCOPE-DUPLICATE-001": [
+      "invalid/same_scope_duplicate"
+    ],
+    "OPENC-SCOPE-LOCAL-001": [
+      "invalid/block_local_escape"
+    ],
+    "OPENC-SCOPE-SHADOW-001": [
+      "invalid/shadowing"
+    ],
+    "OPENC-SLICE-ALIAS-001": [
+      "invalid/slice_alias_mutation_conflict"
+    ],
+    "OPENC-SLICE-BOUNDED-001": [
+      "valid/slice_sum"
+    ],
+    "OPENC-SLICE-CONSTVIEW-001": [
+      "invalid/slice_const_to_mutable",
+      "valid/const_view_conversions"
+    ],
+    "OPENC-SLICE-COPY-001": [
+      "valid/slice_length_and_mutation"
+    ],
+    "OPENC-SLICE-DISJOINT-001": [
+      "valid/disjoint_mutable_slices"
+    ],
+    "OPENC-SLICE-ESCAPE-001": [
+      "invalid/slice_outlives_owner"
+    ],
+    "OPENC-SLICE-FROMARRAY-001": [
+      "valid/slice_sum"
+    ],
+    "OPENC-SLICE-LENGTH-001": [
+      "valid/slice_length_and_mutation"
+    ],
+    "OPENC-SLICE-MUTATE-001": [
+      "valid/slice_length_and_mutation"
+    ],
+    "OPENC-SLICE-RANGE-001": [
+      "valid/subslice"
+    ],
+    "OPENC-SLICE-RANGE-CHECK-001": [
+      "invalid/slice_range_checked"
+    ],
+    "OPENC-SLICE-RANGE-DEFAULT-001": [
+      "valid/slice_empty_and_default_ranges"
+    ],
+    "OPENC-SLICE-RANGE-EMPTY-001": [
+      "valid/slice_empty_and_default_ranges"
+    ],
+    "OPENC-SLICE-TYPE-001": [
+      "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+    ],
+    "OPENC-SOURCE-BOM-001": [
+      "valid/source_bom_ignored"
+    ],
+    "OPENC-SOURCE-INVALID-001": [
+      "invalid/invalid_utf8_source"
+    ],
+    "OPENC-SOURCE-UTF8-001": [
+      "valid/utf8_source_valid"
+    ],
+    "OPENC-STATUS-CODE-001": [
+      "valid/status_invariant_success"
+    ],
+    "OPENC-STATUS-COPY-001": [
+      "valid/status_invariant_success"
+    ],
+    "OPENC-STATUS-INITIALIZER-001": [
+      "invalid/ignored_status"
+    ],
+    "OPENC-STATUS-INVARIANT-001": [
+      "invalid/status_failure_zero_code",
+      "invalid/status_success_nonzero_code",
+      "valid/status_invariant_success"
+    ],
+    "OPENC-STATUS-MESSAGE-001": [
+      "valid/status_message_not_control_flow"
+    ],
+    "OPENC-STATUS-MUSTHANDLE-001": [
+      "invalid/ignored_status"
+    ],
+    "OPENC-STATUS-OVERWRITE-001": [
+      "invalid/ignored_status"
+    ],
+    "OPENC-STATUS-PROOF-001": [
+      "valid/status_proof_initializes_out"
+    ],
+    "OPENC-STATUS-READONLY-001": [
+      "valid/status_invariant_success"
+    ],
+    "OPENC-STMT-SEMICOLON-001": [
+      "invalid/missing_semicolon"
+    ],
+    "OPENC-STMT-UNREACHABLE-001": [
+      "diagnostic/critical_unreachable_statement"
+    ],
+    "OPENC-STORAGE-COMMIT-001": [
+      "valid/typed_storage"
+    ],
+    "OPENC-STORAGE-EMPTY-001": [
+      "valid/typed_storage"
+    ],
+    "OPENC-STORAGE-LIVEEXIT-001": [
+      "invalid/typed_storage_live_exit",
+      "valid/typed_storage_scope_destroy_use"
+    ],
+    "OPENC-STORAGE-NORESOURCE-001": [
+      "invalid/storage_resource_type"
+    ],
+    "OPENC-STORAGE-NOVALUE-001": [
+      "invalid/storage_read_before_construct"
+    ],
+    "OPENC-STORAGE-RECONSTRUCT-001": [
+      "valid/typed_storage_reconstruct_after_destroy"
+    ],
+    "OPENC-STORAGE-REFINVALID-001": [
+      "invalid/typed_storage_old_ref_after_reconstruct"
+    ],
+    "OPENC-STORAGE-TYPE-001": [
+      "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+    ],
+    "OPENC-STRUCT-CONSTFIELD-001": [
+      "invalid/const_reassignment_rejected"
+    ],
+    "OPENC-STRUCT-COPY-001": [
+      "valid/struct_named_fields_and_copy"
+    ],
+    "OPENC-STRUCT-DECL-001": [
+      "valid/struct_named_fields_and_copy"
+    ],
+    "OPENC-STRUCT-DEFAULT-001": [
+      "valid/struct_defaults"
+    ],
+    "OPENC-STRUCT-DEFAULT-NODEP-001": [
+      "invalid/missing_struct_field"
+    ],
+    "OPENC-STRUCT-EMPTY-001": [
+      "valid/struct_defaults"
+    ],
+    "OPENC-STRUCT-EQUALITY-001": [
+      "valid/struct_equality"
+    ],
+    "OPENC-STRUCT-FIELD-001": [
+      "valid/struct_named_fields_and_copy"
+    ],
+    "OPENC-STRUCT-INIT-001": [
+      "invalid/positional_struct",
+      "valid/struct_named_init"
+    ],
+    "OPENC-STRUCT-INIT-COMMIT-001": [
+      "valid/struct_named_fields_and_copy"
+    ],
+    "OPENC-STRUCT-INIT-FIELD-001": [
+      "valid/struct_named_fields_and_copy"
+    ],
+    "OPENC-STRUCT-INIT-MISSING-001": [
+      "invalid/missing_struct_field"
+    ],
+    "OPENC-STRUCT-INIT-ORDER-001": [
+      "valid/eval_struct_initializer_order"
+    ],
+    "OPENC-STRUCT-NORESOURCE-001": [
+      "valid/struct_named_fields_and_copy"
+    ],
+    "OPENC-STRUCT-TRAILING-001": [
+      "invalid/struct_trailing_semicolon"
+    ],
+    "OPENC-SWITCH-CASE-001": [
+      "valid/enum_switch"
+    ],
+    "OPENC-SWITCH-DOMAIN-001": [
+      "valid/enum_switch"
+    ],
+    "OPENC-SWITCH-DUPLICATE-001": [
+      "invalid/enum_duplicate_value"
+    ],
+    "OPENC-SWITCH-ENUM-001": [
+      "valid/enum_switch",
+      "valid/flow_switch_exhaustive"
+    ],
+    "OPENC-SWITCH-EXECUTE-001": [
+      "valid/enum_switch"
+    ],
+    "OPENC-SWITCH-NOFALL-001": [
+      "invalid/switch_implicit_fallthrough"
+    ],
+    "OPENC-TARGET-ALIGN-001": [
+      "command/target_context_complete"
+    ],
+    "OPENC-TARGET-ALIGNOF-001": [
+      "valid/type_size_alignment"
+    ],
+    "OPENC-TARGET-ARRAYLAYOUT-001": [
+      "command/target_layout_report"
+    ],
+    "OPENC-TARGET-ARRAYSIZE-001": [
+      "valid/type_size_alignment"
+    ],
+    "OPENC-TARGET-BYTE-001": [
+      "command/target_context_complete"
+    ],
+    "OPENC-TARGET-CONTEXT-001": [
+      "command/target_context_complete"
+    ],
+    "OPENC-TARGET-CROSS-001": [
+      "command/target_context_complete"
+    ],
+    "OPENC-TARGET-ENDIAN-001": [
+      "command/target_context_complete"
+    ],
+    "OPENC-TARGET-FAULTMODEL-001": [
+      "runtime/runtime_pointer_cross_extent_fault"
+    ],
+    "OPENC-TARGET-NOARBITRARY-001": [
+      "runtime/pointer_provenance_target_fault"
+    ],
+    "OPENC-TARGET-PADDING-001": [
+      "command/target_layout_report"
+    ],
+    "OPENC-TARGET-PTRCOMPARE-001": [
+      "invalid/pointer_order_cross_allocation"
+    ],
+    "OPENC-TARGET-PTRCROSS-001": [
+      "runtime/runtime_pointer_cross_extent_fault"
+    ],
+    "OPENC-TARGET-PTRINT-001": [
+      "invalid/pointer_integer_conversion_not_plain"
+    ],
+    "OPENC-TARGET-PTROFFSET-001": [
+      "invalid/pointer_deref_one_past",
+      "valid/pointer_one_past_compare"
+    ],
+    "OPENC-TARGET-PTRPROV-001": [
+      "runtime/pointer_provenance_target_fault"
+    ],
+    "OPENC-TARGET-QUERY-001": [
+      "invalid/size_of_expression"
+    ],
+    "OPENC-TARGET-QUERYDOMAIN-001": [
+      "valid/type_size_alignment"
+    ],
+    "OPENC-TARGET-SANITIZE-001": [
+      "runtime/unsafe_fault_target_bounded"
+    ],
+    "OPENC-TARGET-SCHEMA-001": [
+      "command/target_context_complete"
+    ],
+    "OPENC-TARGET-SIZEOF-001": [
+      "invalid/size_of_void",
+      "valid/type_size_alignment"
+    ],
+    "OPENC-TARGET-STORAGESIZE-001": [
+      "valid/type_size_alignment"
+    ],
+    "OPENC-TARGET-STRUCTLAYOUT-001": [
+      "command/target_layout_report"
+    ],
+    "OPENC-TERM-CHECKFAIL-001": [
+      "runtime/runtime_checked_failure_runs_cleanup"
+    ],
+    "OPENC-TEXT-CONVERT-001": [
+      "invalid/text_byte_conversion_explicit"
+    ],
+    "OPENC-TEXT-COPY-001": [
+      "valid/text_value_semantics"
+    ],
+    "OPENC-TEXT-EQUALITY-001": [
+      "valid/text_value_semantics"
+    ],
+    "OPENC-TEXT-LENGTH-001": [
+      "valid/text_value_semantics"
+    ],
+    "OPENC-TEXT-NOINDEX-001": [
+      "invalid/text_index"
+    ],
+    "OPENC-TRANSLATE-NOINCLUDE-001": [
+      "invalid/textual_include_rejected"
+    ],
+    "OPENC-TRANSLATE-NOPREPROCESSOR-001": [
+      "invalid/textual_include_rejected"
+    ],
+    "OPENC-TYPE-BOOL-001": [
+      "valid/bool_condition"
+    ],
+    "OPENC-TYPE-BYTE-001": [
+      "invalid/byte_not_text_or_arithmetic"
+    ],
+    "OPENC-TYPE-CONST-001": [
+      "valid/const_binding_readonly"
+    ],
+    "OPENC-TYPE-CONSTRUCTORS-001": [
+      "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+    ],
+    "OPENC-TYPE-FLOAT-001": [
+      "invalid/float_integer_no_implicit"
+    ],
+    "OPENC-TYPE-FLOAT-FIXED-001": [
+      "valid/float_binary_types"
+    ],
+    "OPENC-TYPE-HISTORICAL-001": [
+      "invalid/historical_int_type_rejected"
+    ],
+    "OPENC-TYPE-MACHINE-001": [
+      "command/machine_integer_width_reported"
+    ],
+    "OPENC-TYPE-PREFIXORDER-001": [
+      "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+    ],
+    "OPENC-TYPE-RESOURCEARRAY-001": [
+      "invalid/optional_contains_resource"
+    ],
+    "OPENC-TYPE-RESOURCEOPTIONAL-001": [
+      "invalid/optional_contains_resource"
+    ],
+    "OPENC-TYPE-SUFFIX-001": [
+      "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+    ],
+    "OPENC-TYPE-TEXT-001": [
+      "valid/text_value_semantics"
+    ],
+    "OPENC-TYPE-VOIDOBJECT-001": [
+      "invalid/size_of_void",
+      "invalid/void_local_object"
+    ],
+    "OPENC-TYPE-WIDTH-001": [
+      "runtime/fixed_width_values"
+    ],
+    "OPENC-UNSAFE-BOUNDARY-001": [
+      "valid/unsafe_pointer"
+    ],
+    "OPENC-UNSAFE-CALL-001": [
+      "invalid/unsafe_call_requires_boundary"
+    ],
+    "OPENC-UNSAFE-CONTRACT-001": [
+      "invalid/unsafe_contract_caller_responsibility"
+    ],
+    "OPENC-UNSAFE-FAULT-001": [
+      "runtime/unsafe_fault_target_bounded"
+    ],
+    "OPENC-UNSAFE-HISTORY-001": [
+      "command/unsafe_history_in_diagnostic"
+    ],
+    "OPENC-UNSAFE-LOCAL-001": [
+      "valid/small_local_unsafe_block"
+    ],
+    "OPENC-UNSAFE-NOASSUME-001": [
+      "runtime/unsafe_fault_target_bounded"
+    ],
+    "OPENC-UNSAFE-PRECONDITION-001": [
+      "runtime/unsafe_fault_target_bounded"
+    ],
+    "OPENC-UNSAFE-PROVENANCE-001": [
+      "invalid/unsafe_provenance_not_forged"
+    ],
+    "OPENC-UNSAFE-WRAPPER-001": [
+      "invalid/safe_wrapper_missing_check"
+    ],
+    "OPENC-WHEN-CONTEXT-001": [
+      "valid/when_context_expression"
+    ],
+    "OPENC-WHEN-EXPR-001": [
+      "valid/when_context_expression"
+    ],
+    "OPENC-WHEN-STRUCTURED-001": [
+      "invalid/when_token_fragment_rejected",
+      "valid/when_context_expression"
+    ],
+    "OPENC-WHILE-EXECUTE-001": [
+      "valid/flow_loop_preinitialized"
+    ]
+  },
+  "rules_with_imported_fixtures": 466,
+  "rules_without_imported_fixtures": [],
+  "schema": "openc.fixture_manifest.v3"
 }

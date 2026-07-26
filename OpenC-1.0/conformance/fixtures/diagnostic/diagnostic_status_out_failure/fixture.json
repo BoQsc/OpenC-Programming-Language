@@ -3,7 +3,7 @@
     "OPENC-FLOW-DIAG-001",
     "OPENC-FLOW-OUT-FAILURE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "diagnostic-message",
     "edition": "OpenC Core 1.0 Current",
@@ -21,8 +21,8 @@
     "name": "diagnostic_status_out_failure",
     "profile": "standard",
     "rules": [
-      "OPENC-FLOW-OUT-FAILURE-001",
-      "OPENC-FLOW-DIAG-001"
+      "OPENC-FLOW-DIAG-001",
+      "OPENC-FLOW-OUT-FAILURE-001"
     ]
   },
   "id": "diagnostic/diagnostic_status_out_failure",

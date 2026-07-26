@@ -260,6 +260,10 @@ uintptr_t oc_text_scalar_length(oc_text value, uint32_t span_id) {
     return count;
 }
 
+uintptr_t oc_text_length(oc_text value) {
+    return oc_text_scalar_length(value, 0);
+}
+
 oc_status oc_text_scalar_at(oc_text value, uintptr_t index, uint32_t *out_scalar) {
     if (!out_scalar) return (oc_status){OC_STATUS_INVALID_ARGUMENT, OC_TEXT_LITERAL("scalar output is null")};
     uintptr_t offset = 0, count = 0;

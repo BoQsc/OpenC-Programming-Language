@@ -16,6 +16,7 @@ required = [
     "compiler/selfhost/source/main.p", "compiler/selfhost/bootstrap.py",
     "compiler/selfhost/lexer_parity.py", "compiler/selfhost/bootstrap_d_parity.py",
     "compiler/selfhost/bootstrap_closure.py",
+    "scripts/complete_conformance_coverage.py",
     "standard/core/OpenC_Core_Current.md",
     "standard/core/grammar/OpenC_Core_Grammar.ebnf",
     "standard/core/metadata/OpenC_Core_Rule_Index.json",
@@ -76,6 +77,8 @@ fixture_manifest = json.loads((ROOT / "conformance/fixtures/MANIFEST.json").read
 active_ids = {item["id"] for item in rules}
 fixture_ids = {item["id"] for item in fixture_manifest["fixtures"]}
 fixture_rules = {rule for item in fixture_manifest["fixtures"] for rule in item["rules"]}
+fixtures_by_id = {item["id"]: item for item in fixture_manifest["fixtures"]}
+rule_fixture_index = fixture_manifest.get("rule_fixture_index", {})
 if len(fixture_ids) != fixture_manifest.get("fixture_count"):
     errors.append("fixture manifest count does not match unique fixture IDs")
 if fixture_rules - active_ids:
@@ -84,6 +87,17 @@ if fixture_manifest.get("rules_with_imported_fixtures") != len(fixture_rules):
     errors.append("fixture manifest covered-rule count is stale")
 if set(fixture_manifest.get("rules_without_imported_fixtures", [])) != active_ids - fixture_rules:
     errors.append("fixture manifest uncovered-rule list is stale")
+if fixture_rules != active_ids:
+    errors.append("every active Core rule must name a dedicated fixture")
+if set(rule_fixture_index) != active_ids:
+    errors.append("fixture manifest rule index must cover every active Core rule")
+for rule in active_ids:
+    expected_ids = sorted(
+        entry["id"] for entry in fixture_manifest["fixtures"]
+        if rule in entry["rules"]
+    )
+    if rule_fixture_index.get(rule) != expected_ids:
+        errors.append(f"fixture manifest rule index is stale: {rule}")
 for entry in fixture_manifest["fixtures"]:
     fixture_path = ROOT / entry["path"] / "fixture.json"
     if not fixture_path.is_file():
@@ -94,13 +108,56 @@ for entry in fixture_manifest["fixtures"]:
         errors.append(f"fixture ID mismatch: {entry['id']}")
     if set(fixture.get("active_rules", [])) != set(entry["rules"]):
         errors.append(f"fixture rule mismatch: {entry['id']}")
-    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC6":
+    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC8":
         errors.append(f"fixture evidence state is stale: {entry['id']}")
     for source in fixture.get("source_files", []):
         if not (ROOT / source).is_file():
             errors.append(f"missing fixture source: {source}")
         if Path(source).suffix.lower() != ".json" and Path(source).suffix.lower() != ".p":
             errors.append(f"canonical OpenC fixture source must use .p: {source}")
+
+rule_coverage = json.loads((
+    ROOT / "standard/core/conformance/OpenC_Core_Rule_Coverage.json"
+).read_text(encoding="utf-8"))
+if rule_coverage.get("rules_with_dedicated_fixtures") != len(active_ids) or \
+        rule_coverage.get("rules_without_dedicated_fixtures") != 0:
+    errors.append("Core rule coverage totals are incomplete")
+for entry in rule_coverage.get("rules", []):
+    if entry.get("fixtures") != rule_fixture_index.get(entry["rule"]):
+        errors.append(f"Core rule coverage fixture map is stale: {entry['rule']}")
+
+grammar_coverage = json.loads((
+    ROOT / "standard/core/conformance/OpenC_Core_Grammar_Coverage.json"
+).read_text(encoding="utf-8"))
+grammar_entries = grammar_coverage.get("productions", [])
+if len(grammar_entries) != 174:
+    errors.append("grammar coverage must contain 174 production entries")
+for entry in grammar_entries:
+    positive = entry.get("positive_fixture")
+    rejection = entry.get("rejection_fixture")
+    if positive not in fixtures_by_id or \
+            fixtures_by_id.get(positive, {}).get("kind") not in {
+                "valid", "runtime", "command", "records"
+            }:
+        errors.append(
+            f"grammar positive fixture is missing or non-accepting: "
+            f"{entry.get('production')}"
+        )
+    if rejection not in fixtures_by_id or \
+            fixtures_by_id.get(rejection, {}).get("kind") not in {
+                "invalid", "diagnostic"
+            }:
+        errors.append(
+            f"grammar rejection fixture is missing or non-rejecting: "
+            f"{entry.get('production')}"
+        )
+
+fixture_queue = json.loads((
+    ROOT / "conformance/matrices/FIXTURE_AUTHORING_QUEUE.json"
+).read_text(encoding="utf-8"))
+if fixture_queue.get("required_rule_count") != 0 or \
+        fixture_queue.get("authored_rule_count") != len(active_ids):
+    errors.append("fixture authoring queue is not complete")
 
 for project_path in [
     ROOT / "programs/A_COMPUTATION/openc.project.json",

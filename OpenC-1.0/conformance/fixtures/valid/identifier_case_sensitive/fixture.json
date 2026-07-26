@@ -1,8 +1,10 @@
 {
   "active_rules": [
-    "OPENC-LEX-IDENT-001"
+    "OPENC-LEX-IDENT-001",
+    "OPENC-LEX-MAXIMAL-001",
+    "OPENC-LEX-WORDCLASS-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -15,7 +17,9 @@
     "name": "identifier_case_sensitive",
     "profile": "standard",
     "rules": [
-      "OPENC-LEX-IDENT-001"
+      "OPENC-LEX-IDENT-001",
+      "OPENC-LEX-MAXIMAL-001",
+      "OPENC-LEX-WORDCLASS-001"
     ]
   },
   "id": "valid/identifier_case_sensitive",

@@ -18,6 +18,8 @@ class SourceFile:
 
     @classmethod
     def from_bytes(cls, source_id: str, raw: bytes, path: Path | None = None) -> "SourceFile":
+        if raw.startswith(b"\xef\xbb\xbf"):
+            raw = raw[3:]
         try:
             text = raw.decode("utf-8", errors="strict")
         except UnicodeDecodeError as exc:

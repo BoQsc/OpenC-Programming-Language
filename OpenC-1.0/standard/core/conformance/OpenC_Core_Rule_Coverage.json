@@ -1,3270 +1,4727 @@
 {
   "active_rule_count": 466,
   "candidate": "OpenC 1.0.0-rc.8",
-  "coverage_state": "331_RULES_WITH_EXECUTED_FIXTURES_135_WITHOUT_DEDICATED_FIXTURES",
+  "coverage_state": "466_RULES_WITH_EXECUTED_DEDICATED_FIXTURES",
   "rules": [
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SAFETY-NOUB-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SAFETY-UNSAFE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TERM-CHECKFAIL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SAFETY-OUTCOME-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/evaluation_binary_left_to_right"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SAFETY-OPTIMIZE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/fatal_allocation_defined"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SAFETY-IMPLIMIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/utf8_source_valid"
+      ],
       "phase": "source",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SOURCE-UTF8-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/invalid_utf8_source"
+      ],
       "phase": "source",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SOURCE-INVALID-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/source_bom_ignored"
+      ],
       "phase": "source",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SOURCE-BOM-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unterminated_block_comment",
+        "valid/comments_preserve_tokens"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LEX-COMMENT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/textual_include_rejected"
+      ],
       "phase": "source",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TRANSLATE-NOPREPROCESSOR-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/textual_include_rejected"
+      ],
       "phase": "source",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TRANSLATE-NOINCLUDE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/when_context_expression"
+      ],
       "phase": "source",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-WHEN-CONTEXT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/when_context_expression"
+      ],
       "phase": "source",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-WHEN-EXPR-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/when_token_fragment_rejected",
+        "valid/when_context_expression"
+      ],
       "phase": "source",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-WHEN-STRUCTURED-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/identifier_case_sensitive"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LEX-IDENT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/predeclared_typeword_binding"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LEX-TYPEWORD-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/text_module_typeword_qualifier"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LEX-TYPEQUALIFIER-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/identifier_case_sensitive"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LEX-MAXIMAL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/identifier_case_sensitive"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LEX-WORDCLASS-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/integer_literal_exact_context"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LITERAL-INTEGER-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/integer_literal_destination_range",
+        "valid/integer_literal_exact_context"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LITERAL-RANGE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/utf8_source_valid"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LITERAL-TEXT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_separator_doubled",
+        "valid/numeric_separator_valid"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LITERAL-SEPARATOR-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/floating_literal_default_f64"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LITERAL-FLOATDEFAULT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_literal_suffix"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LITERAL-NOSUFFIX-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unicode_escape_surrogate"
+      ],
       "phase": "lexical",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LITERAL-UNICODE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_repeated_import_idempotent"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-IDENTITY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/first_program"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-IMPORT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_short_and_full_qualifier"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-SHORT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_short_qualifier_ambiguous"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-AMBIGUOUS-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_private_access"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-PRIVATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_private_access"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-EXPORT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_import_cycle"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-CYCLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_multi_source_overload"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-MULTISOURCE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_duplicate_top_level",
+        "valid/module_multi_source_overload"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-DUPLICATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_import_not_shared"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-IMPORTLOCAL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_short_and_full_qualifier"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-FULLIMPORT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_repeated_import_idempotent"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-IMPORTIDEMPOTENT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_multi_source_overload"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-ORDER-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_import_not_shared"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-NOREEXPORT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_multi_source_overload"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-MAPPING-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_import_cycle"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-CONSTCYCLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/module_private_access"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MODULE-API-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/fixed_width_values"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-WIDTH-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/machine_integer_width_reported"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-MACHINE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/historical_int_type_rejected"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-HISTORICAL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/size_of_void",
+        "invalid/void_local_object"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-VOIDOBJECT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/bool_condition"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-BOOL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/byte_not_text_or_arithmetic"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-BYTE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/float_integer_no_implicit"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-FLOAT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/float_binary_types"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-FLOAT-FIXED-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/text_value_semantics"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-TEXT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/const_binding_readonly"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-CONST-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/write_borrow"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REF-TYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/read_borrow"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REF-READ-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/c_reference_decl"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REF-SYMBOL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ref_local_without_initializer",
+        "valid/ref_assigns_referent"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REF-INIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/ref_assigns_referent"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REF-NOREBIND-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ref_const_whole_assignment",
+        "valid/ref_assigns_referent"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REF-ASSIGN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ref_resource_whole_assignment"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REF-RESOURCEASSIGN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-TYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/c_pointer_decl"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-SYMBOL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ref_const_to_mutable",
+        "valid/const_view_conversions"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REF-CONSTVIEW-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ptr_const_to_mutable",
+        "valid/const_view_conversions"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-CONSTVIEW-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/current_optional",
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-EXPLICIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_proof_invalidated",
+        "valid/flow_optional_early_return"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-CHECK-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/current_question_optional",
+        "invalid/optional_question_syntax"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-NOSHORTHAND-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_slice"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-NOBORROW-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ARRAY-TYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-TYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/slice_const_to_mutable",
+        "valid/const_view_conversions"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-CONSTVIEW-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STORAGE-TYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/float_integer_no_implicit"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONVERT-IMPLICIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/assignment_conversion_checked",
+        "invalid/implicit_narrow"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONVERT-LOSSY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/checked_cast"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONVERT-CAST-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_unrelated_layout_rejected"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONVERT-REINTERPRET-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_contains_resource"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-RESOURCEARRAY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_contains_resource"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-RESOURCEOPTIONAL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-PREFIXORDER-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-CONSTRUCTORS-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_shapes_ref_ptr_optional_array_slice_storage"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TYPE-SUFFIX-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/declaration_requires_type"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DECL-TYPEFIRST-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/declaration_requires_type"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DECL-ASSIGN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "diagnostic/diagnostic_flow_path_locations",
+        "invalid/flow_if_missing_else",
+        "invalid/flow_while_only_initialization",
+        "invalid/local_not_zero_initialized",
+        "invalid/read_uninitialized",
+        "valid/initialized_local"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-INIT-BEFOREUSE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_if_all_paths"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-INIT-PATH-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/local_not_zero_initialized"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-INIT-NOZERO-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/const_binding_readonly"
+      ],
       "phase": "constant",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONST-INIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/const_reassignment_rejected"
+      ],
       "phase": "constant",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONST-ASSIGN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/block_local_escape"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SCOPE-LOCAL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/same_scope_duplicate"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SCOPE-DUPLICATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/shadowing"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SCOPE-SHADOW-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/global_const_valid"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-GLOBAL-CONST-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/mutable_global_rejected"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-GLOBAL-MUTABLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_reference_parameter"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PARAM-OUTTYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/own_plain_integer"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PARAM-OWNTYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/parameter_modes_visible"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PARAM-OUT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/parameter_modes_visible"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PARAM-OWN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/parameter_modes_visible"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PARAM-REF-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/parameter_modes_visible"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-MODE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/parameter_modes_visible"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-MODE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/block_local_escape",
+        "invalid/declaration_requires_type"
+      ],
       "phase": "name",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NAME-UNKNOWN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/loop_only_initialization_not_definite"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-INIT-LOOP-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_field_target",
+        "invalid/out_initialized_target"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-TARGET-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_initialized_target"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-ALIAS-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_read_inside_callee"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-NOREAD-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_initialized_target"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-REASSIGN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/constant_expression_same_numeric_rules"
+      ],
       "phase": "constant",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONST-EXPR-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_div_min_negative_one_static"
+      ],
       "phase": "constant",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONST-CHECKFAIL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_call_left_to_right"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EXPR-ORDER-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/call_argument_count"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CALL-COUNT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/function_add"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CALL-TYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unknown_member"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-MEMBER-UNKNOWN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/bounds_trap",
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-INDEX-SAFE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/slice_range_checked"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-RANGE-CHECK-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/arithmetic_type_mismatch"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ARITH-TYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unary_minus_signed_only"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ARITH-MINUS-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_equality_rejected"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EQUALITY-RESOURCE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/boolean_short_circuit"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-BOOL-SHORT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/assignment_target_required"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ASSIGN-TARGET-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/assignment_conversion_checked"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ASSIGN-CONVERT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/address_outside_unsafe"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-ADDRESS-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unsafe_pointer"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-ADDRESSABLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/deref_outside_unsafe",
+        "valid/unsafe_pointer"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-DEREF-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_arithmetic_outside_unsafe"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-ARITH-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/null_pointer_equality"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-NULL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/checked_cast_requires_exact_value"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CAST-EXACT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_order_cross_allocation"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-COMPARE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/missing_braces"
+      ],
       "phase": "syntax",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-BLOCK-BRACES-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/missing_semicolon"
+      ],
       "phase": "syntax",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STMT-SEMICOLON-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/integer_condition",
+        "valid/bool_condition"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-COND-BOOL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/for_variable_scope"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FOR-SCOPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/switch_implicit_fallthrough"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SWITCH-NOFALL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch",
+        "valid/flow_switch_exhaustive"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SWITCH-ENUM-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SWITCH-DOMAIN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SWITCH-CASE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/enum_duplicate_value"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SWITCH-DUPLICATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SWITCH-EXECUTE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/break_outside_loop"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LOOP-CONTEXT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/bool_condition"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-IF-EXECUTE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_loop_preinitialized"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-WHILE-EXECUTE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/break_and_scope_registration_order"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FOR-EXECUTE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/return_type_mismatch"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RETURN-TYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/return_local_reference"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RETURN-LIFETIME-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "diagnostic/critical_unreachable_statement"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STMT-UNREACHABLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/arrow_function",
+        "valid/first_program"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FUNCTION-DIRECT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/function_add"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FUNCTION-PARAM-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/overload_conversion_ambiguity"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OVERLOAD-AMBIGUOUS-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/module_multi_source_overload",
+        "valid/overload_exact_preferred"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OVERLOAD-EXACT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/overload_conversion_ambiguity",
+        "invalid/overload_lossless_ambiguous"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OVERLOAD-NORANK-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/overload_return_only"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OVERLOAD-RETURN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/overload_parameter_modes"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OVERLOAD-MODE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/nonvoid_missing_path"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FUNCTION-PATH-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_own_pointer_missing_contract"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-OWN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-CALL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-RESULTBIND-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/domain_own_call"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-CALL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unsafe_function_call_outside_unsafe"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FUNCTION-UNSAFE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_success_without_init",
+        "valid/flow_out_early_return"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FUNCTION-OUTSUCCESS-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_failure_partial_exposure"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FUNCTION-OUTFAIL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FUNCTION-OUTRETURN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-FORWARD-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/function_arguments_left_to_right"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FUNCTION-ARGORDER-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/overload_exact_preferred"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OVERLOAD-CONVERSIONS-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/function_recursion"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FUNCTION-RECURSION-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-DECL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/struct_trailing_semicolon"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-TRAILING-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/current_resource"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-DECL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/current_resource"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-TRAILING-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-FIELD-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/const_reassignment_rejected"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-CONSTFIELD-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ref_field",
+        "invalid/slice_field",
+        "invalid/storage_field"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FIELD-TYPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_defaults"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-DEFAULT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/positional_struct",
+        "valid/struct_named_init"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-INIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-INIT-FIELD-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/missing_struct_field"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-INIT-MISSING-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_defaults"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-EMPTY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-COPY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_equality"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-EQUALITY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ENUM-DISTINCT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/enum_duplicate_value"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ENUM-UNDERLYING-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/enum_duplicate_value"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ENUM-DUPLICATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_copy"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-NOCOPY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_domain_operations"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-MOVE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_domain_operations"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-COPY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_domain_operations"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-DESTROY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_obligation_not_discharged"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-OBLIGATION-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/const_resource_owner"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-NOCONSTOWNER-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_struct_initializer_order"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-INIT-ORDER-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-NORESOURCE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_contains_resource"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-FIELD-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/current_resource"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-FIELD-OWNPTR-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-FIELD-DEFAULT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-INIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-INIT-REQUIRED-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-INIT-OWNER-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-INIT-RESERVE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-INIT-COMMIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-INIT-ROLLBACK-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-INIT-PLACEMENT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_reinitialize_live"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-REINIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-FIELD-VIEW-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_field_state_rejections"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-FIELD-ASSIGN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_field_state_rejections"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-FIELD-CONSUME-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_field_state_rejections"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-DISMANTLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_field_state_rejections"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-FIELD-ONCE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/resource_field_state_rejections"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-CONSUMER-RETURN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_initializer_lifecycle"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-RESOURCE-OPAQUE-DISCHARGE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/missing_struct_field"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-DEFAULT-NODEP-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/struct_named_fields_and_copy"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STRUCT-INIT-COMMIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/enum_switch"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ENUM-IMPLICIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/c_array_decl",
+        "valid/fixed_array"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ARRAY-DECL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/array_init_length_copy"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ARRAY-INIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/array_out_of_bounds",
+        "valid/fixed_array"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ARRAY-INDEX-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/array_init_length_copy"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ARRAY-LENGTH-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/array_init_length_copy"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ARRAY-COPY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_sum"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-BOUNDED-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_length_and_mutation"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-LENGTH-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_sum"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-FROMARRAY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_length_and_mutation"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-MUTATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/subslice"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-RANGE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/slice_alias_mutation_conflict"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-ALIAS-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/array_no_pointer_decay"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ARRAY-NODECAY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/byte_not_text_or_arithmetic"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-BYTE-ARITH-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/text_value_semantics"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TEXT-LENGTH-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/text_index"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TEXT-NOINDEX-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/text_byte_conversion_explicit"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TEXT-CONVERT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_empty_and_default_ranges"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-RANGE-EMPTY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_empty_and_default_ranges"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-RANGE-DEFAULT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/disjoint_mutable_slices"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-DISJOINT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/text_value_semantics"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TEXT-EQUALITY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/text_value_semantics"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TEXT-COPY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/byte_pointer_object_representation"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-BYTE-DISTINCT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/slice_length_and_mutation"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-COPY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/slice_outlives_owner"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SLICE-ESCAPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/optional_none_and_copy"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-NONE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/optional_checked"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-PRESENT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/optional_trap",
+        "valid/optional_checked"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-VALUE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ignored_status"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STATUS-MUSTHANDLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ignored_status"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STATUS-OVERWRITE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_invariant_success"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STATUS-CODE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/status_failure_zero_code",
+        "invalid/status_success_nonzero_code",
+        "valid/status_invariant_success"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STATUS-INVARIANT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ignored_status"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STATUS-INITIALIZER-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_message_not_control_flow"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STATUS-MESSAGE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_own_pointer_missing_contract"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-OWNFLOW-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_nonstatus_function"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-STATUSONLY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_message_not_control_flow"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ERROR-NOHIDDEN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/fatal_allocation_defined"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-ERROR-FATAL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_invariant_success"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STATUS-READONLY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STATUS-PROOF-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_invariant_success"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STATUS-COPY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_failure_partial_exposure",
+        "valid/status_proof_initializes_out"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-NOPARTIAL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/status_proof_initializes_out"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-COMMIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_failure_partial_exposure"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-OWNCOMMIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_failure_partial_exposure"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-OWNTAIL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_failure_partial_exposure"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-OWNFAIL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/optional_none_and_copy"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-COPY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_present_readonly"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-PRESENT-READONLY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/optional_none_and_copy"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-ASSIGN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_question_syntax"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OPTIONAL-NESTED-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/storage_read_before_construct"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LIFETIME-ACTIVE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/plain_copy_independent"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-COPY-PLAIN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/use_after_move"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-USEAFTER-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/many_read_borrows_last_use"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-BORROW-MANYREAD-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/two_write_borrows",
+        "valid/write_borrow"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-BORROW-ONEWRITE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/many_read_borrows_last_use"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-BORROW-LASTUSE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/borrow_prevents_move"
+      ],
       "phase": "borrow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-BORROW-NOMOVE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/return_local_ref",
+        "invalid/return_local_reference"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LIFETIME-RETURNLOCAL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/slice_outlives_owner"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-LIFETIME-SLICE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_move_reserved_owner",
+        "invalid/scope_reassign_reserved_owner"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-SCOPE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_return_transfers"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-RETURN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_return_transfers"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-PRODUCE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/domain_own_call"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-CONSUME-ARG-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-CHECKEDGE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_return_transfers"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-EXIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/resource_return_transfers"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-PRODUCER-PLACEMENT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/owning_pointer_copy"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-OWNCOPY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/plain_struct_hides_owning_pointer"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-OWNCONTAIN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_double_consuming_action"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-SCOPE-RESERVE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/scope_bound_owner_borrow"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OWN-SCOPE-BORROW-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/storage_read_before_construct"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STORAGE-NOVALUE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/storage_resource_type"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STORAGE-NORESOURCE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONSTRUCT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONSTRUCT-VALUE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONSTRUCT-PLACEMENT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/construct_twice"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CONSTRUCT-DOUBLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage",
+        "valid/typed_storage_reconstruct_after_destroy"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DESTROY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/destroy_with_active_borrow"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DESTROY-BORROW-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/destroy_with_active_borrow"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DESTROY-USEAFTER-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/typed_storage_live_exit",
+        "valid/typed_storage_scope_destroy_use"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STORAGE-LIVEEXIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage_reconstruct_after_destroy"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STORAGE-RECONSTRUCT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/typed_storage_old_ref_after_reconstruct"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STORAGE-REFINVALID-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ptr_length"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-NOLENGTH-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/misaligned_typed_deref"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-ALIGN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_typed_deref_requires_lifetime"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-LIFETIME-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/byte_pointer_object_representation"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-BYTE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_pointer_no_new_lifetime"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-BYTEWRITE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unsafe_pointer"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-DERIVED-NONOWNING-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_deref_one_past",
+        "valid/pointer_one_past_compare"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-ONEPAST-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_cross_allocation_subtract"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-CROSSALLOC-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/ptr_const_write"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-CONST-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/pointer_one_past_compare"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-BINDING-MUTABLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unsafe_pointer"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-PROVENANCE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/owning_pointer_copy"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-BASE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_deref_one_past"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-DEREF-RANGE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_pointer_no_new_lifetime"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-INVALIDATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/pointer_one_past_compare"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PTR-SUBTRACT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STORAGE-EMPTY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-STORAGE-COMMIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unsafe_pointer"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-UNSAFE-BOUNDARY-001"
     },
     {
       "automatable": false,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/small_local_unsafe_block"
+      ],
       "phase": "unsafe",
       "required_evidence": "human_review",
       "rule": "OPENC-UNSAFE-LOCAL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unsafe_call_requires_boundary"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-UNSAFE-CALL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unsafe_contract_caller_responsibility"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-UNSAFE-CONTRACT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unchecked_integer_cast"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CAST-UNCHECKED-INT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unchecked_float_to_integer"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CAST-UNCHECKED-LIMIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_struct_value",
+        "valid/reinterpret_u32_f32"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REINTERPRET-VALUE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_size_mismatch",
+        "valid/reinterpret_u32_f32"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REINTERPRET-SIZE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_pointer_no_new_lifetime"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REINTERPRET-PTR-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/reinterpret_pointer_no_new_lifetime"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-REINTERPRET-NOLIFETIME-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/safe_wrapper_missing_check"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-UNSAFE-WRAPPER-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-UNSAFE-FAULT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-UNSAFE-NOASSUME-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unsafe_provenance_not_forged"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-UNSAFE-PROVENANCE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/unsafe_history_in_diagnostic"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-UNSAFE-HISTORY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-UNSAFE-PRECONDITION-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/safe_wrapper_missing_check"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SAFE-GUARANTEE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/safe_wrapper_missing_check"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-SAFE-WRAPPER-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/unsafe_contract_caller_responsibility"
+      ],
       "phase": "unsafe",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EXTENSION-SAFETY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DIAG-STRUCTURE-001"
     },
     {
       "automatable": false,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "phase": "declaration",
       "required_evidence": "human_review",
       "rule": "OPENC-DIAG-QUALITY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DIAG-MACHINE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/unsafe_history_in_diagnostic"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DIAG-TRACE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "phase": "source",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DIAG-SPAN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DIAG-PHASE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DIAG-SEVERITY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "records/diagnostic_structure_quality"
+      ],
       "phase": "declaration",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-DIAG-PRIMARY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/first_program"
+      ],
       "phase": "syntax",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-GRAMMAR-AUTHORITY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/first_program"
+      ],
       "phase": "syntax",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-GRAMMAR-COVERAGE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/evaluation_binary_left_to_right"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-FULL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/evaluation_binary_left_to_right"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-NOUNSPEC-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_call_left_to_right"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-CALL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/callee_then_arguments_order"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-CALLEE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/callee_then_arguments_order",
+        "runtime/function_arguments_left_to_right"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-ARGMODE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/evaluation_binary_left_to_right"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-BINARY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/boolean_short_circuit"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-SHORT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unary_operand_once"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-UNARY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/assignment_destination_once"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-ASSIGN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_compound_target_once"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-COMPOUND-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/array_init_length_copy"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-ARRAYINIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_struct_initializer_order"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-STRUCTINIT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/struct_defaults_after_explicit"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-DEFAULT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/construct_and_return_order"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-CONSTRUCT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/construct_and_return_order"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-RETURN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/break_and_scope_registration_order"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-BREAK-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/break_and_scope_registration_order"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-SCOPE-REGISTER-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_nested_fallible_argument"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-SCOPE-NESTED-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/evaluation_binary_left_to_right"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EVAL-OBSERVABLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_state_branch_merge"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-STATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_unreachable_after_return"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-REACHABLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_if_all_paths"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-IF-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_if_missing_else"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-IF-NOELSE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_switch_exhaustive"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-SWITCH-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_while_only_initialization",
+        "valid/flow_loop_preinitialized"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-WHILE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_for_not_guaranteed"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-FOR-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_continue_skips_init"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-CONTINUE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_break_path_merge"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-BREAK-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_read_inside_callee"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-OUT-TOKEN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_out_early_return"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-OUT-PREDICATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/out_read_inside_callee"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-PENDINGUSE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_out_early_return"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-OUT-SUCCESS-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "diagnostic/diagnostic_status_out_failure"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-OUT-FAILURE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_out_early_return"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-OUT-MERGE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_continue_skips_init"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-OUT-LOOP-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_out_early_return"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-OUT-PROOF-LOST-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_status_copy_proof"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-OUT-COPY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_optional_proof_invalidated"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-OPTIONAL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/flow_optional_early_return"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-OPTIONAL-ELSE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/optional_proof_invalidated"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-OPTIONAL-INVALIDATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_move_one_branch"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-MOVED-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_borrow_and_destroyed_state"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-BORROW-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/flow_borrow_and_destroyed_state"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-DESTROYED-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "diagnostic/diagnostic_flow_path_locations",
+        "diagnostic/diagnostic_status_out_failure"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-FLOW-DIAG-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/fixed_width_values"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-TWOS-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/fixed_width_values",
+        "runtime/unsigned_modulo_exact"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-UNSIGNED-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsigned_modulo_exact"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-BYTE8-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/machine_integer_width_reported"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-MACHINE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/integer_literal_exact_context"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-LITERAL-CONTEXT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_unconstrained_too_large"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-LITERAL-DEFAULT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/negative_literal_context"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-LITERAL-NEGATIVE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/checked_addition"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-ADD-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/numeric_division_toward_zero"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-DIV-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/numeric_remainder_dividend_sign"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-REM-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_div_min_negative_one_static",
+        "runtime/runtime_division_min_negative_one"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-DIV-MIN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_division_zero"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-DIVZERO-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_signed_bitwise"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-BITWISE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_shift_width"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-SHIFT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/signed_right_shift_defined"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-SHIFTRIGHT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/left_shift_checked"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-SHIFTLEFT-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unchecked_integer_cast"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-WRAP-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/numeric_saturating_add"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-SATURATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unchecked_integer_cast"
+      ],
       "phase": "type",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-INTRINSIC-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_cast_integer_range"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-CAST-INT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_cast_float_fraction",
+        "runtime/runtime_cast_float_fraction"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-CAST-FLOATINT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/numeric_cast_int_float_inexact_static"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-CAST-INTFLOAT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/checked_cast_requires_exact_value"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-CAST-FLOAT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/unchecked_integer_cast"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-UNCHECKEDCAST-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/float_binary_types"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-FLOAT-FORMAT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/float_binary_types"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-FLOAT-ROUND-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_float_nan_comparison"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-FLOAT-NONFINITE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_float_nan_comparison"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-FLOAT-DIVZERO-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_float_nan_comparison"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-FLOAT-ORDER-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/constant_expression_same_numeric_rules"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-CONST-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/checked_addition"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-AUTHORITY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/checked_addition"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-COMPOUND-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/float_binary_types"
+      ],
       "phase": "runtime",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-NUM-FLOAT-CONST-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/cleanup_registration_capture"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-REGISTER-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/cleanup_registration_capture"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-CALLEE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/scope_value_capture"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-VALUE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/cleanup_reference_must_live"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-REF-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_move_reserved_owner",
+        "invalid/scope_reassign_reserved_owner"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-OWN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_out_argument"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-OUT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_nested_fallible_argument"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-ARG-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage_scope_destroy_use"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-DESTROY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_destroy_early"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-DESTROY-RESERVE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/typed_storage_scope_destroy_use"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-DESTROY-STORAGE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_scope_lifo",
+        "valid/scope_nested_lifo"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-LIFO-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/scope_nested_lifo"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-NESTED-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/cleanup_owner_registered_once"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-ONCE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/cleanup_on_return"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-STRUCTURED-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/cleanup_on_return"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-RETURN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-CHECKFAIL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-UNSAFEFAULT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/fallible_scope_action_rejected"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-NOFALLIBLE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/fallible_scope_action_rejected"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-FAILURE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/scope_cancel_not_supported"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-NOCANCEL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/fallible_scope_action_rejected"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-VOID-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/fallible_scope_action_rejected"
+      ],
       "phase": "flow",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-SAFEWRAPPER-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-ALL-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-PRIMARY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/fallible_scope_action_rejected"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-FINISH-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_checked_failure_runs_cleanup"
+      ],
       "phase": "ownership",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-CLEANUP-STATE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-CONTEXT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-BYTE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-ENDIAN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-ALIGN-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_layout_report"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-ARRAYLAYOUT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_layout_report"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-STRUCTLAYOUT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_layout_report"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-PADDING-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/size_of_void",
+        "valid/type_size_alignment"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-SIZEOF-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_size_alignment"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-ALIGNOF-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_size_alignment"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-QUERYDOMAIN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_size_alignment"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-STORAGESIZE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/type_size_alignment"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-ARRAYSIZE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/size_of_expression"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-QUERY-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/pointer_provenance_target_fault"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-PTRPROV-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_deref_one_past",
+        "valid/pointer_one_past_compare"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-PTROFFSET-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_pointer_cross_extent_fault"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-PTRCROSS-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_order_cross_allocation"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-PTRCOMPARE-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "invalid/pointer_integer_conversion_not_plain"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-PTRINT-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/runtime_pointer_cross_extent_fault"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-FAULTMODEL-001"
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC6",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/pointer_provenance_target_fault"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-NOARBITRARY-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "runtime/unsafe_fault_target_bounded"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-SANITIZE-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-PORTABILITY-PLAIN-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-SCHEMA-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "command/target_context_complete"
+      ],
       "phase": "target",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-TARGET-CROSS-001"
     },
     {
       "automatable": true,
-      "execution_state": "NO_DEDICATED_FIXTURE",
+      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "fixtures": [
+        "valid/eval_call_left_to_right"
+      ],
       "phase": "syntax",
       "required_evidence": "fixture_execution",
       "rule": "OPENC-EXPR-PRECEDENCE-001"
     }
   ],
-  "schema": "openc.core.rule_coverage.v3"
+  "rules_with_dedicated_fixtures": 466,
+  "rules_without_dedicated_fixtures": 0,
+  "schema": "openc.core.rule_coverage.v4"
 }

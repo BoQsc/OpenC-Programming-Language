@@ -1,9 +1,11 @@
 {
   "active_rules": [
     "OPENC-FUNCTION-DIRECT-001",
+    "OPENC-GRAMMAR-AUTHORITY-001",
+    "OPENC-GRAMMAR-COVERAGE-001",
     "OPENC-MODULE-IMPORT-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -15,8 +17,10 @@
     "name": "first_program",
     "profile": "standard",
     "rules": [
-      "OPENC-MODULE-IMPORT-001",
-      "OPENC-FUNCTION-DIRECT-001"
+      "OPENC-FUNCTION-DIRECT-001",
+      "OPENC-GRAMMAR-AUTHORITY-001",
+      "OPENC-GRAMMAR-COVERAGE-001",
+      "OPENC-MODULE-IMPORT-001"
     ]
   },
   "id": "valid/first_program",

@@ -45,12 +45,7 @@ claim.
 
 ## Evidence limits
 
-Passing the 268-fixture authored conformance set is concrete executable
+Passing the 278-fixture authored conformance set is concrete executable
 evidence, not a mathematical proof of every behavior. Dedicated fixtures cover
-331 of 466 active Core rules; 135 rules remain on the documented authoring
-backlog. This gap is disclosed and does not convert those rules into optional
-language semantics.
-
-The 174-production grammar and parser pass structural/build/suite validation;
-dedicated positive/rejection evidence pairs for every individual production
-remain an explicit future evidence improvement.
+all 466 active Core rules, and all 174 grammar productions name executed
+accepting/rejecting fixture pairs. The dedicated authoring backlog is empty.

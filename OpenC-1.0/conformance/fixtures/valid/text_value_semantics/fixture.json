@@ -1,0 +1,33 @@
+{
+  "active_rules": [
+    "OPENC-TEXT-COPY-001",
+    "OPENC-TEXT-EQUALITY-001",
+    "OPENC-TEXT-LENGTH-001",
+    "OPENC-TYPE-TEXT-001"
+  ],
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC Core 1.0 Current",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "text_value_semantics",
+    "profile": "standard",
+    "rules": [
+      "OPENC-TEXT-COPY-001",
+      "OPENC-TEXT-EQUALITY-001",
+      "OPENC-TEXT-LENGTH-001",
+      "OPENC-TYPE-TEXT-001"
+    ]
+  },
+  "id": "valid/text_value_semantics",
+  "kind": "valid",
+  "origin": "OpenC 1.0 dedicated coverage/text_value_semantics",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/text_value_semantics/main.p"
+  ]
+}

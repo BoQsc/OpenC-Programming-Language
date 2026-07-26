@@ -3,7 +3,7 @@
     "OPENC-BYTE-ARITH-001",
     "OPENC-TYPE-BYTE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -18,8 +18,8 @@
     "name": "byte_not_text_or_arithmetic",
     "profile": "standard",
     "rules": [
-      "OPENC-TYPE-BYTE-001",
-      "OPENC-BYTE-ARITH-001"
+      "OPENC-BYTE-ARITH-001",
+      "OPENC-TYPE-BYTE-001"
     ]
   },
   "id": "invalid/byte_not_text_or_arithmetic",

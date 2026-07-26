@@ -177,6 +177,9 @@ unsafe i32 main() {
         io.println("SUMMARY 0 1");
         return 1;
     }
+    text logical_source;
+    source_without_initial_bom(source, out logical_source);
+    source = logical_source;
 
     usize source_length = text.byte_length(source);
     PackedBuffer tokens = PackedBuffer{

@@ -33,7 +33,7 @@ Concrete source exists for the unified `openc` driver, formatter, LSP, explain, 
 
 ## Tests and conformance
 
-Authored D and Python tests, 268 imported/current Core fixtures, maintained programs, build scripts, test drivers, release scripts, schemas, and source-completeness contracts are included.
+Authored D and Python tests, 278 imported/current Core fixtures, maintained programs, build scripts, test drivers, release scripts, schemas, and source-completeness contracts are included.
 
 ## Machine-readable inventory
 

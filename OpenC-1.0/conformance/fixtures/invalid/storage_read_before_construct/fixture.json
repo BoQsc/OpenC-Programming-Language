@@ -3,7 +3,7 @@
     "OPENC-LIFETIME-ACTIVE-001",
     "OPENC-STORAGE-NOVALUE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -18,8 +18,8 @@
     "name": "storage_read_before_construct",
     "profile": "standard",
     "rules": [
-      "OPENC-STORAGE-NOVALUE-001",
-      "OPENC-LIFETIME-ACTIVE-001"
+      "OPENC-LIFETIME-ACTIVE-001",
+      "OPENC-STORAGE-NOVALUE-001"
     ]
   },
   "id": "invalid/storage_read_before_construct",

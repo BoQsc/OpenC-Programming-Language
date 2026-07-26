@@ -3,7 +3,7 @@
     "OPENC-TARGET-SIZEOF-001",
     "OPENC-TYPE-VOIDOBJECT-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",

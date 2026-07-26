@@ -2,9 +2,10 @@
   "active_rules": [
     "OPENC-ARRAY-COPY-001",
     "OPENC-ARRAY-INIT-001",
-    "OPENC-ARRAY-LENGTH-001"
+    "OPENC-ARRAY-LENGTH-001",
+    "OPENC-EVAL-ARRAYINIT-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -17,9 +18,10 @@
     "name": "array_init_length_copy",
     "profile": "standard",
     "rules": [
+      "OPENC-ARRAY-COPY-001",
       "OPENC-ARRAY-INIT-001",
       "OPENC-ARRAY-LENGTH-001",
-      "OPENC-ARRAY-COPY-001"
+      "OPENC-EVAL-ARRAYINIT-001"
     ]
   },
   "id": "valid/array_init_length_copy",

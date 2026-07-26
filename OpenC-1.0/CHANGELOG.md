@@ -2,6 +2,23 @@
 
 ## Unreleased — standalone self-hosted Windows release
 
+- completed the conformance-evidence granularity milestone with 466/466 active
+  rules covered by executed dedicated fixtures and 174/174 grammar productions
+  mapped to executed accepting/rejecting fixture pairs;
+- expanded the Windows Hosted conformance corpus from 268 to 278 fixtures and
+  passed 278/278 with zero failures and zero infrastructure failures;
+- corrected initial UTF-8 BOM removal in the D reference compiler, informative
+  Python bootstrap, and OpenC-owned self-hosted source loaders, with explicit
+  accepted and repeated-BOM rejection fixtures;
+- added direct recursion, struct equality, text-value, `when`-context, and
+  unterminated-comment evidence, plus a named resource-initializer lifecycle,
+  and made the coverage generator reject stale rule mappings;
+- re-proved DMD-independent native Stage-2/Stage-3 closure after the source
+  changes, with byte-identical generated C and executables plus equal
+  normalized PE, lexer behavior, and canonical IR;
+- made an RC9 standalone candidate refresh with the 278-fixture corpus the
+  explicit next engineering milestone;
+
 - reduced a full native compiler self-rebuild from 698.918 to 381.049 seconds
   on the recorded host (45.5%) by avoiding noncompetitive full-syntax parent
   scans in the lowering hot path;

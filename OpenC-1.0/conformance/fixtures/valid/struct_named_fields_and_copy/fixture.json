@@ -3,9 +3,11 @@
     "OPENC-STRUCT-COPY-001",
     "OPENC-STRUCT-DECL-001",
     "OPENC-STRUCT-FIELD-001",
-    "OPENC-STRUCT-INIT-FIELD-001"
+    "OPENC-STRUCT-INIT-COMMIT-001",
+    "OPENC-STRUCT-INIT-FIELD-001",
+    "OPENC-STRUCT-NORESOURCE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -18,10 +20,12 @@
     "name": "struct_named_fields_and_copy",
     "profile": "standard",
     "rules": [
+      "OPENC-STRUCT-COPY-001",
       "OPENC-STRUCT-DECL-001",
       "OPENC-STRUCT-FIELD-001",
+      "OPENC-STRUCT-INIT-COMMIT-001",
       "OPENC-STRUCT-INIT-FIELD-001",
-      "OPENC-STRUCT-COPY-001"
+      "OPENC-STRUCT-NORESOURCE-001"
     ]
   },
   "id": "valid/struct_named_fields_and_copy",

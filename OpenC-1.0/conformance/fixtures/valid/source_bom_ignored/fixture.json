@@ -1,0 +1,27 @@
+{
+  "active_rules": [
+    "OPENC-SOURCE-BOM-001"
+  ],
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC Core 1.0 Current",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "name": "source_bom_ignored",
+    "profile": "standard",
+    "rules": [
+      "OPENC-SOURCE-BOM-001"
+    ]
+  },
+  "id": "valid/source_bom_ignored",
+  "kind": "valid",
+  "origin": "OpenC 1.0 dedicated coverage/source_bom_ignored",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/source_bom_ignored/main.p"
+  ]
+}

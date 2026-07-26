@@ -1,8 +1,9 @@
 {
   "active_rules": [
-    "OPENC-FLOW-CONTINUE-001"
+    "OPENC-FLOW-CONTINUE-001",
+    "OPENC-FLOW-OUT-LOOP-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -17,7 +18,8 @@
     "name": "flow_continue_skips_init",
     "profile": "standard",
     "rules": [
-      "OPENC-FLOW-CONTINUE-001"
+      "OPENC-FLOW-CONTINUE-001",
+      "OPENC-FLOW-OUT-LOOP-001"
     ]
   },
   "id": "invalid/flow_continue_skips_init",

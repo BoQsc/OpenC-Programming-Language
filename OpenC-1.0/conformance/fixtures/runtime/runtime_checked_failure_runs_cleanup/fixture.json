@@ -1,9 +1,14 @@
 {
   "active_rules": [
+    "OPENC-CLEANUP-ALL-001",
     "OPENC-CLEANUP-CHECKFAIL-001",
-    "OPENC-INDEX-SAFE-001"
+    "OPENC-CLEANUP-PRIMARY-001",
+    "OPENC-CLEANUP-STATE-001",
+    "OPENC-INDEX-SAFE-001",
+    "OPENC-OWN-CHECKEDGE-001",
+    "OPENC-TERM-CHECKFAIL-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -23,8 +28,13 @@
     "name": "runtime_checked_failure_runs_cleanup",
     "profile": "standard",
     "rules": [
+      "OPENC-CLEANUP-ALL-001",
       "OPENC-CLEANUP-CHECKFAIL-001",
-      "OPENC-INDEX-SAFE-001"
+      "OPENC-CLEANUP-PRIMARY-001",
+      "OPENC-CLEANUP-STATE-001",
+      "OPENC-INDEX-SAFE-001",
+      "OPENC-OWN-CHECKEDGE-001",
+      "OPENC-TERM-CHECKFAIL-001"
     ]
   },
   "id": "runtime/runtime_checked_failure_runs_cleanup",

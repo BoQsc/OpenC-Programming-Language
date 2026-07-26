@@ -1,8 +1,9 @@
 {
   "active_rules": [
+    "OPENC-PTR-BASE-001",
     "OPENC-PTR-OWNCOPY-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -17,6 +18,7 @@
     "name": "owning_pointer_copy",
     "profile": "standard",
     "rules": [
+      "OPENC-PTR-BASE-001",
       "OPENC-PTR-OWNCOPY-001"
     ]
   },

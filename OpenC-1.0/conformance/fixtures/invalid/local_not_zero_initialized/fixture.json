@@ -3,7 +3,7 @@
     "OPENC-INIT-BEFOREUSE-001",
     "OPENC-INIT-NOZERO-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "invalid",
     "edition": "OpenC Core 1.0 Current",
@@ -18,8 +18,8 @@
     "name": "local_not_zero_initialized",
     "profile": "standard",
     "rules": [
-      "OPENC-INIT-NOZERO-001",
-      "OPENC-INIT-BEFOREUSE-001"
+      "OPENC-INIT-BEFOREUSE-001",
+      "OPENC-INIT-NOZERO-001"
     ]
   },
   "id": "invalid/local_not_zero_initialized",

@@ -70,16 +70,32 @@ PE, lexer behavior, canonical IR, semantic/flow parity, 268/268 conformance,
 and all 4 maintained-program gates pass. Exact measurements and reproduction
 commands are in `compiler/selfhost/PERFORMANCE.md`.
 
+## Completed conformance-evidence granularity milestone
+
+All 466 active Core rules now name at least one executed dedicated fixture,
+and all 174 grammar productions now name both an accepting fixture and a
+rejecting fixture. The Windows x86-64 Hosted reference run passes all 278
+fixtures with zero failures and zero infrastructure failures.
+
+The milestone also corrected initial UTF-8 BOM handling in the D, Python, and
+OpenC-owned source loaders. Native Stage 2 and Stage 3 remain byte-identical;
+their generated C, normalized PE artifacts, lexer observations, and canonical
+IR reach closure. Exact evidence and reproduction commands are in
+`conformance/COVERAGE_MILESTONE_EVIDENCE.md`.
+
 ## What comes next
 
-1. **Complete release-asset publication**
-   - the owner authorization, deterministic artifacts, mandatory checksums,
-     release record, commit, and public tag are complete; attach the verified
-     files to the GitHub prerelease page when an asset-upload-capable operator
-     surface is available. Detached signing remains optional.
-2. **Increase evidence granularity — next engineering milestone**
-   - add dedicated fixtures for the 135 active rules that lack one and complete
-     positive/rejection pairs for all 174 grammar productions.
+1. **Refresh the standalone release candidate — next engineering milestone**
+   - prepare RC9 from the post-tag source, build two byte-identical standalone
+     Windows archives, and run the packaged compiler against all 278 fixtures
+     and all 4 maintained programs;
+   - regenerate the complete artifact set, checksums, release record, owner
+     authorization, commit, and tag without rewriting the historical RC8
+     evidence.
+2. **Complete release-asset publication**
+   - attach the verified release-candidate files to the GitHub prerelease page
+     when an asset-upload-capable operator surface is available. Detached
+     signing remains optional.
 3. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.

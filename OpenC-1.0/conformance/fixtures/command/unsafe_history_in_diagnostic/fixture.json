@@ -3,7 +3,7 @@
     "OPENC-DIAG-TRACE-001",
     "OPENC-UNSAFE-HISTORY-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "tooling",
     "edition": "OpenC Core 1.0 Current",
@@ -16,8 +16,8 @@
     "name": "unsafe_history_in_diagnostic",
     "profile": "critical",
     "rules": [
-      "OPENC-UNSAFE-HISTORY-001",
-      "OPENC-DIAG-TRACE-001"
+      "OPENC-DIAG-TRACE-001",
+      "OPENC-UNSAFE-HISTORY-001"
     ]
   },
   "id": "command/unsafe_history_in_diagnostic",

@@ -1,9 +1,10 @@
 {
   "active_rules": [
     "OPENC-COND-BOOL-001",
+    "OPENC-IF-EXECUTE-001",
     "OPENC-TYPE-BOOL-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,6 +17,7 @@
     "profile": "standard",
     "rules": [
       "OPENC-COND-BOOL-001",
+      "OPENC-IF-EXECUTE-001",
       "OPENC-TYPE-BOOL-001"
     ]
   },

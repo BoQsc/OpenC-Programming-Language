@@ -23,7 +23,7 @@ owner-authorized release record and immutable artifact hashes are authoritative.
 
 For the Windows standalone artifact, the archive verifier additionally checks
 the internal manifest, relocation, packaged compiler self-rebuild through
-Stage 3, byte and normalized-PE closure, native semantic/IR parity, 268/268
+Stage 3, byte and normalized-PE closure, native semantic/IR parity, 278/278
 conformance, and 4/4 maintained programs. DMD, DUB, and Python are absent from
 the native build environment; the retained D seed and Python are evidence
 harness inputs only.

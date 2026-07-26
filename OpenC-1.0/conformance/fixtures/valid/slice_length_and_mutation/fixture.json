@@ -1,9 +1,10 @@
 {
   "active_rules": [
+    "OPENC-SLICE-COPY-001",
     "OPENC-SLICE-LENGTH-001",
     "OPENC-SLICE-MUTATE-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",
@@ -16,6 +17,7 @@
     "name": "slice_length_and_mutation",
     "profile": "standard",
     "rules": [
+      "OPENC-SLICE-COPY-001",
       "OPENC-SLICE-LENGTH-001",
       "OPENC-SLICE-MUTATE-001"
     ]

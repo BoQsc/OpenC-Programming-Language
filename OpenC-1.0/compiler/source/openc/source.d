@@ -8,6 +8,13 @@ import std.path : absolutePath, buildNormalizedPath;
 import std.string : splitLines;
 import std.utf : UTFException, validate;
 
+private string withoutInitialBom(string text) {
+    enum bom = "\xEF\xBB\xBF";
+    return text.length >= bom.length && text[0 .. bom.length] == bom
+        ? text[bom.length .. $]
+        : text;
+}
+
 struct SourceId {
     size_t value;
 }
@@ -121,6 +128,7 @@ public:
         } catch (UTFException) {
             return Result!SourceId.failure("source file is not valid UTF-8: " ~ normalized);
         }
+        text = withoutInitialBom(text);
 
         auto id = SourceId(files.length);
         auto file = new SourceFile(id, normalized, logicalName.length ? logicalName : normalized, text);
@@ -130,6 +138,7 @@ public:
     }
 
     SourceId addVirtual(string logicalName, string text) {
+        text = withoutInitialBom(text);
         auto id = SourceId(files.length);
         files ~= new SourceFile(id, "<" ~ logicalName ~ ">", logicalName, text);
         return id;

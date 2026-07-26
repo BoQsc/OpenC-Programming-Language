@@ -3,7 +3,7 @@
     "OPENC-TARGET-FAULTMODEL-001",
     "OPENC-TARGET-PTRCROSS-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "runtime",
     "edition": "OpenC Core 1.0 Current",
@@ -17,8 +17,8 @@
     "name": "runtime_pointer_cross_extent_fault",
     "profile": "standard",
     "rules": [
-      "OPENC-TARGET-PTRCROSS-001",
-      "OPENC-TARGET-FAULTMODEL-001"
+      "OPENC-TARGET-FAULTMODEL-001",
+      "OPENC-TARGET-PTRCROSS-001"
     ]
   },
   "id": "runtime/runtime_pointer_cross_extent_fault",

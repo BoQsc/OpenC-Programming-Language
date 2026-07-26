@@ -1,11 +1,14 @@
 {
   "active_rules": [
+    "OPENC-PORTABILITY-PLAIN-001",
     "OPENC-TARGET-ALIGN-001",
     "OPENC-TARGET-BYTE-001",
     "OPENC-TARGET-CONTEXT-001",
-    "OPENC-TARGET-ENDIAN-001"
+    "OPENC-TARGET-CROSS-001",
+    "OPENC-TARGET-ENDIAN-001",
+    "OPENC-TARGET-SCHEMA-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC6",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
   "expected": {
     "class": "tooling",
     "edition": "OpenC Core 1.0 Current",
@@ -18,10 +21,13 @@
     "name": "target_context_complete",
     "profile": "standard",
     "rules": [
-      "OPENC-TARGET-CONTEXT-001",
+      "OPENC-PORTABILITY-PLAIN-001",
+      "OPENC-TARGET-ALIGN-001",
       "OPENC-TARGET-BYTE-001",
+      "OPENC-TARGET-CONTEXT-001",
+      "OPENC-TARGET-CROSS-001",
       "OPENC-TARGET-ENDIAN-001",
-      "OPENC-TARGET-ALIGN-001"
+      "OPENC-TARGET-SCHEMA-001"
     ]
   },
   "id": "command/target_context_complete",

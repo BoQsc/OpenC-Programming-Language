@@ -24,13 +24,14 @@ review and does not claim verification of experimental targets.
   support, release authorization, and publication separation;
 - explicit Windows-only 1.0 implementation scope.
 
-## Nonblocking follow-up
+## Nonblocking follow-up disposition
 
-- author dedicated fixtures for the remaining 135 active Core rules;
-- complete dedicated positive/rejection evidence pairs for all grammar productions;
+- dedicated fixtures for all 466 active Core rules: completed post-review;
+- accepting/rejecting fixture pairs for all 174 grammar productions:
+  completed post-review;
 - obtain external grammar, semantic, security, and usability reviews;
 - verify Linux, freestanding, Native, and standalone C providers if a later
   release adds them as supported targets.
 
-These items constrain future evidence and platform claims but do not contradict
-the declared Windows x86-64 Hosted candidate.
+The remaining items constrain future evidence and platform claims but do not
+contradict the declared Windows x86-64 Hosted candidate.

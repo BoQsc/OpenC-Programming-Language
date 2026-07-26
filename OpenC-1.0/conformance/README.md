@@ -13,10 +13,13 @@ fixtures/command
 fixtures/records
 ```
 
-Every automatable rule should eventually have an active fixture and expected
-result. Non-automatable rules state the required review evidence. The 1.0
-candidate executes all 268 authored fixtures; 331 active rules have dedicated
-fixture coverage and 135 remain in the explicit authoring backlog.
+Every automatable rule has an active fixture and expected result.
+Non-automatable rules state the required review evidence. The current 1.0
+candidate corpus executes all 278 authored fixtures; all 466 active rules have
+dedicated fixture coverage and the authoring backlog is empty.
+
+All 174 grammar productions name an accepting fixture and a rejecting fixture
+in `standard/core/conformance/OpenC_Core_Grammar_Coverage.json`.
 
 `active_rules` and `expected.rules` identify normative rules exercised by a
 fixture. `expected.expected.diagnostic_rule` identifies the exact compiler

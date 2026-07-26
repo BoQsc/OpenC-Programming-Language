@@ -1,0 +1,46 @@
+{
+  "active_rules": [
+    "OPENC-RESOURCE-FIELD-DEFAULT-001",
+    "OPENC-RESOURCE-FIELD-VIEW-001",
+    "OPENC-RESOURCE-INIT-001",
+    "OPENC-RESOURCE-INIT-COMMIT-001",
+    "OPENC-RESOURCE-INIT-OWNER-001",
+    "OPENC-RESOURCE-INIT-PLACEMENT-001",
+    "OPENC-RESOURCE-INIT-REQUIRED-001",
+    "OPENC-RESOURCE-INIT-RESERVE-001",
+    "OPENC-RESOURCE-INIT-ROLLBACK-001",
+    "OPENC-RESOURCE-OPAQUE-DISCHARGE-001"
+  ],
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
+  "expected": {
+    "class": "valid",
+    "edition": "OpenC Core 1.0 Current",
+    "environment": "hosted",
+    "expected": {
+      "result": "accept"
+    },
+    "fixture_kind": "source",
+    "mode": "module",
+    "name": "resource_initializer_lifecycle",
+    "profile": "standard",
+    "rules": [
+      "OPENC-RESOURCE-FIELD-DEFAULT-001",
+      "OPENC-RESOURCE-FIELD-VIEW-001",
+      "OPENC-RESOURCE-INIT-001",
+      "OPENC-RESOURCE-INIT-COMMIT-001",
+      "OPENC-RESOURCE-INIT-OWNER-001",
+      "OPENC-RESOURCE-INIT-PLACEMENT-001",
+      "OPENC-RESOURCE-INIT-REQUIRED-001",
+      "OPENC-RESOURCE-INIT-RESERVE-001",
+      "OPENC-RESOURCE-INIT-ROLLBACK-001",
+      "OPENC-RESOURCE-OPAQUE-DISCHARGE-001"
+    ]
+  },
+  "id": "valid/resource_initializer_lifecycle",
+  "kind": "valid",
+  "origin": "OpenC Core 1.0 dedicated resource-initializer lifecycle evidence",
+  "schema": "openc.fixture.v1",
+  "source_files": [
+    "conformance/fixtures/valid/resource_initializer_lifecycle/main.p"
+  ]
+}
