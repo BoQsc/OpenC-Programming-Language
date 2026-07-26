@@ -1,6 +1,6 @@
-# OpenC 1.0.0-rc.8 maintainer release review
+# OpenC 1.0.0-rc.9 maintainer release review
 
-Date: 2026-07-21
+Date: 2026-07-26
 Review class: `INTERNAL_MAINTAINER_REVIEW`
 Release scope: Windows x86-64 Hosted
 
@@ -16,7 +16,7 @@ review and does not claim verification of experimental targets.
   structure validator;
 - debug and release builds for all 9 canonical D targets;
 - all 8 D test commands and 4 Python bootstrap tests;
-- all 268 conformance fixtures, including 35 runtime fixtures;
+- all 278 conformance fixtures, including 35 runtime fixtures;
 - all 4 maintained programs;
 - source completeness, deterministic manifest generation, clean archive
   extraction, and repeat archive hashing;
@@ -26,9 +26,8 @@ review and does not claim verification of experimental targets.
 
 ## Nonblocking follow-up disposition
 
-- dedicated fixtures for all 466 active Core rules: completed post-review;
-- accepting/rejecting fixture pairs for all 174 grammar productions:
-  completed post-review;
+- dedicated executed fixtures for all 466 active Core rules;
+- executed accepting/rejecting fixture pairs for all 174 grammar productions;
 - obtain external grammar, semantic, security, and usability reviews;
 - verify Linux, freestanding, Native, and standalone C providers if a later
   release adds them as supported targets.

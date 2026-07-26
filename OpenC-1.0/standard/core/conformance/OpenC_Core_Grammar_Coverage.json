@@ -1,10 +1,10 @@
 {
-  "candidate": "OpenC 1.0.0-rc.8",
+  "candidate": "OpenC 1.0.0-rc.9",
   "coverage_state": "174_PRODUCTIONS_WITH_EXECUTED_POSITIVE_REJECTION_PAIRS",
   "production_count": 174,
   "productions": [
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/first_program",
       "positive_fixture_required": true,
       "production": "source_unit",
@@ -12,7 +12,7 @@
       "rejection_fixture": "invalid/missing_semicolon"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/first_program",
       "positive_fixture_required": true,
       "production": "import_decl",
@@ -20,7 +20,7 @@
       "rejection_fixture": "invalid/module_import_cycle"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/module_short_and_full_qualifier",
       "positive_fixture_required": true,
       "production": "module_name",
@@ -28,7 +28,7 @@
       "rejection_fixture": "invalid/module_short_qualifier_ambiguous"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/module_short_and_full_qualifier",
       "positive_fixture_required": true,
       "production": "qualified_name",
@@ -36,7 +36,7 @@
       "rejection_fixture": "invalid/module_short_qualifier_ambiguous"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/first_program",
       "positive_fixture_required": true,
       "production": "top_decl",
@@ -44,7 +44,7 @@
       "rejection_fixture": "invalid/missing_semicolon"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/global_const_valid",
       "positive_fixture_required": true,
       "production": "module_const_decl",
@@ -52,7 +52,7 @@
       "rejection_fixture": "invalid/mutable_global_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/global_const_valid",
       "positive_fixture_required": true,
       "production": "module_const_type",
@@ -60,7 +60,7 @@
       "rejection_fixture": "invalid/mutable_global_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/global_const_valid",
       "positive_fixture_required": true,
       "production": "module_const_value_type",
@@ -68,7 +68,7 @@
       "rejection_fixture": "invalid/mutable_global_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/struct_named_fields_and_copy",
       "positive_fixture_required": true,
       "production": "struct_decl",
@@ -76,7 +76,7 @@
       "rejection_fixture": "invalid/struct_trailing_semicolon"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/current_resource",
       "positive_fixture_required": true,
       "production": "resource_decl",
@@ -84,7 +84,7 @@
       "rejection_fixture": "invalid/resource_copy"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/struct_named_fields_and_copy",
       "positive_fixture_required": true,
       "production": "struct_field_decl",
@@ -92,7 +92,7 @@
       "rejection_fixture": "invalid/struct_trailing_semicolon"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/current_resource",
       "positive_fixture_required": true,
       "production": "resource_field_decl",
@@ -100,7 +100,7 @@
       "rejection_fixture": "invalid/resource_copy"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/current_resource",
       "positive_fixture_required": true,
       "production": "resource_value_field_decl",
@@ -108,7 +108,7 @@
       "rejection_fixture": "invalid/resource_copy"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/current_resource",
       "positive_fixture_required": true,
       "production": "resource_owned_pointer_field_decl",
@@ -116,7 +116,7 @@
       "rejection_fixture": "invalid/resource_copy"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/struct_named_fields_and_copy",
       "positive_fixture_required": true,
       "production": "struct_field_type",
@@ -124,7 +124,7 @@
       "rejection_fixture": "invalid/struct_trailing_semicolon"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/struct_named_fields_and_copy",
       "positive_fixture_required": true,
       "production": "field_value_type",
@@ -132,7 +132,7 @@
       "rejection_fixture": "invalid/struct_trailing_semicolon"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/enum_switch",
       "positive_fixture_required": true,
       "production": "enum_decl",
@@ -140,7 +140,7 @@
       "rejection_fixture": "invalid/enum_duplicate_value"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/enum_switch",
       "positive_fixture_required": true,
       "production": "enum_item",
@@ -148,7 +148,7 @@
       "rejection_fixture": "invalid/enum_duplicate_value"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/function_add",
       "positive_fixture_required": true,
       "production": "function_decl",
@@ -156,7 +156,7 @@
       "rejection_fixture": "invalid/arrow_function"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/function_add",
       "positive_fixture_required": true,
       "production": "function_result",
@@ -164,7 +164,7 @@
       "rejection_fixture": "invalid/arrow_function"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/function_add",
       "positive_fixture_required": true,
       "production": "ordinary_result_type",
@@ -172,7 +172,7 @@
       "rejection_fixture": "invalid/arrow_function"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/resource_return_transfers",
       "positive_fixture_required": true,
       "production": "owning_pointer_result",
@@ -180,7 +180,7 @@
       "rejection_fixture": "invalid/resource_obligation_not_discharged"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/parameter_modes_visible",
       "positive_fixture_required": true,
       "production": "parameter",
@@ -188,7 +188,7 @@
       "rejection_fixture": "invalid/out_reference_parameter"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/function_add",
       "positive_fixture_required": true,
       "production": "ordinary_parameter",
@@ -196,7 +196,7 @@
       "rejection_fixture": "invalid/arrow_function"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/function_add",
       "positive_fixture_required": true,
       "production": "parameter_type",
@@ -204,7 +204,7 @@
       "rejection_fixture": "invalid/arrow_function"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/resource_return_transfers",
       "positive_fixture_required": true,
       "production": "own_parameter",
@@ -212,7 +212,7 @@
       "rejection_fixture": "invalid/resource_obligation_not_discharged"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/resource_return_transfers",
       "positive_fixture_required": true,
       "production": "own_parameter_target",
@@ -220,7 +220,7 @@
       "rejection_fixture": "invalid/resource_obligation_not_discharged"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/parameter_modes_visible",
       "positive_fixture_required": true,
       "production": "out_parameter",
@@ -228,7 +228,7 @@
       "rejection_fixture": "invalid/out_reference_parameter"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/parameter_modes_visible",
       "positive_fixture_required": true,
       "production": "output_parameter_type",
@@ -236,7 +236,7 @@
       "rejection_fixture": "invalid/out_reference_parameter"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/parameter_modes_visible",
       "positive_fixture_required": true,
       "production": "output_value_type",
@@ -244,7 +244,7 @@
       "rejection_fixture": "invalid/out_reference_parameter"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/parameter_modes_visible",
       "positive_fixture_required": true,
       "production": "out_own_pointer_parameter",
@@ -252,7 +252,7 @@
       "rejection_fixture": "invalid/out_reference_parameter"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_decl",
@@ -260,7 +260,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/initialized_local",
       "positive_fixture_required": true,
       "production": "block",
@@ -268,7 +268,7 @@
       "rejection_fixture": "invalid/missing_braces"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/initialized_local",
       "positive_fixture_required": true,
       "production": "block_item",
@@ -276,7 +276,7 @@
       "rejection_fixture": "invalid/missing_braces"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/initialized_local",
       "positive_fixture_required": true,
       "production": "local_decl",
@@ -284,7 +284,7 @@
       "rejection_fixture": "invalid/missing_braces"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/initialized_local",
       "positive_fixture_required": true,
       "production": "local_type",
@@ -292,7 +292,7 @@
       "rejection_fixture": "invalid/missing_braces"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/type_shapes_ref_ptr_optional_array_slice_storage",
       "positive_fixture_required": true,
       "production": "type",
@@ -300,7 +300,7 @@
       "rejection_fixture": "invalid/declaration_requires_type"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/type_shapes_ref_ptr_optional_array_slice_storage",
       "positive_fixture_required": true,
       "production": "value_type",
@@ -308,7 +308,7 @@
       "rejection_fixture": "invalid/declaration_requires_type"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/type_shapes_ref_ptr_optional_array_slice_storage",
       "positive_fixture_required": true,
       "production": "value_suffix",
@@ -316,7 +316,7 @@
       "rejection_fixture": "invalid/declaration_requires_type"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/read_borrow",
       "positive_fixture_required": true,
       "production": "ref_type",
@@ -324,7 +324,7 @@
       "rejection_fixture": "invalid/ref_local_without_initializer"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/unsafe_pointer",
       "positive_fixture_required": true,
       "production": "ptr_type",
@@ -332,7 +332,7 @@
       "rejection_fixture": "invalid/c_pointer_decl"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/current_optional",
       "positive_fixture_required": true,
       "production": "optional_type",
@@ -340,7 +340,7 @@
       "rejection_fixture": "invalid/optional_question_syntax"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/current_optional",
       "positive_fixture_required": true,
       "production": "optional_core_type",
@@ -348,7 +348,7 @@
       "rejection_fixture": "invalid/optional_question_syntax"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/typed_storage",
       "positive_fixture_required": true,
       "production": "storage_type",
@@ -356,7 +356,7 @@
       "rejection_fixture": "invalid/storage_field"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/read_borrow",
       "positive_fixture_required": true,
       "production": "ref_target",
@@ -364,7 +364,7 @@
       "rejection_fixture": "invalid/ref_local_without_initializer"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/unsafe_pointer",
       "positive_fixture_required": true,
       "production": "ptr_target",
@@ -372,7 +372,7 @@
       "rejection_fixture": "invalid/c_pointer_decl"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/current_optional",
       "positive_fixture_required": true,
       "production": "optional_target",
@@ -380,7 +380,7 @@
       "rejection_fixture": "invalid/optional_question_syntax"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/typed_storage",
       "positive_fixture_required": true,
       "production": "storage_target",
@@ -388,7 +388,7 @@
       "rejection_fixture": "invalid/storage_field"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/type_shapes_ref_ptr_optional_array_slice_storage",
       "positive_fixture_required": true,
       "production": "type_atom",
@@ -396,7 +396,7 @@
       "rejection_fixture": "invalid/declaration_requires_type"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/fixed_array",
       "positive_fixture_required": true,
       "production": "fixed_array_suffix",
@@ -404,7 +404,7 @@
       "rejection_fixture": "invalid/c_array_decl"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/slice_sum",
       "positive_fixture_required": true,
       "production": "slice_suffix_type",
@@ -412,7 +412,7 @@
       "rejection_fixture": "invalid/optional_slice"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/type_shapes_ref_ptr_optional_array_slice_storage",
       "positive_fixture_required": true,
       "production": "primitive_object_type",
@@ -420,7 +420,7 @@
       "rejection_fixture": "invalid/declaration_requires_type"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/fixed_array",
       "positive_fixture_required": true,
       "production": "signed_integer_type",
@@ -428,7 +428,7 @@
       "rejection_fixture": "invalid/c_array_decl"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/fixed_array",
       "positive_fixture_required": true,
       "production": "unsigned_integer_type",
@@ -436,7 +436,7 @@
       "rejection_fixture": "invalid/c_array_decl"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/first_program",
       "positive_fixture_required": true,
       "production": "statement",
@@ -444,7 +444,7 @@
       "rejection_fixture": "invalid/missing_semicolon"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/first_program",
       "positive_fixture_required": true,
       "production": "expression_stmt",
@@ -452,7 +452,7 @@
       "rejection_fixture": "invalid/missing_semicolon"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/bool_condition",
       "positive_fixture_required": true,
       "production": "if_stmt",
@@ -460,7 +460,7 @@
       "rejection_fixture": "invalid/integer_condition"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/flow_loop_preinitialized",
       "positive_fixture_required": true,
       "production": "while_stmt",
@@ -468,7 +468,7 @@
       "rejection_fixture": "invalid/flow_while_only_initialization"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "runtime/break_and_scope_registration_order",
       "positive_fixture_required": true,
       "production": "for_stmt",
@@ -476,7 +476,7 @@
       "rejection_fixture": "invalid/for_variable_scope"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "runtime/break_and_scope_registration_order",
       "positive_fixture_required": true,
       "production": "for_init",
@@ -484,7 +484,7 @@
       "rejection_fixture": "invalid/for_variable_scope"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/enum_switch",
       "positive_fixture_required": true,
       "production": "switch_stmt",
@@ -492,7 +492,7 @@
       "rejection_fixture": "invalid/switch_implicit_fallthrough"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/enum_switch",
       "positive_fixture_required": true,
       "production": "switch_case",
@@ -500,7 +500,7 @@
       "rejection_fixture": "invalid/switch_implicit_fallthrough"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/enum_switch",
       "positive_fixture_required": true,
       "production": "default_case",
@@ -508,7 +508,7 @@
       "rejection_fixture": "invalid/switch_implicit_fallthrough"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "runtime/break_and_scope_registration_order",
       "positive_fixture_required": true,
       "production": "break_stmt",
@@ -516,7 +516,7 @@
       "rejection_fixture": "invalid/for_variable_scope"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "runtime/break_and_scope_registration_order",
       "positive_fixture_required": true,
       "production": "continue_stmt",
@@ -524,7 +524,7 @@
       "rejection_fixture": "invalid/for_variable_scope"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/first_program",
       "positive_fixture_required": true,
       "production": "return_stmt",
@@ -532,7 +532,7 @@
       "rejection_fixture": "invalid/missing_semicolon"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/scope_nested_lifo",
       "positive_fixture_required": true,
       "production": "scope_stmt",
@@ -540,7 +540,7 @@
       "rejection_fixture": "invalid/fallible_scope_action_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/scope_nested_lifo",
       "positive_fixture_required": true,
       "production": "scope_action",
@@ -548,7 +548,7 @@
       "rejection_fixture": "invalid/fallible_scope_action_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/scope_nested_lifo",
       "positive_fixture_required": true,
       "production": "scope_call",
@@ -556,7 +556,7 @@
       "rejection_fixture": "invalid/fallible_scope_action_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/scope_nested_lifo",
       "positive_fixture_required": true,
       "production": "scope_argument",
@@ -564,7 +564,7 @@
       "rejection_fixture": "invalid/fallible_scope_action_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/small_local_unsafe_block",
       "positive_fixture_required": true,
       "production": "unsafe_stmt",
@@ -572,7 +572,7 @@
       "rejection_fixture": "invalid/address_outside_unsafe"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_stmt",
@@ -580,7 +580,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/eval_compound_target_once",
       "positive_fixture_required": true,
       "production": "expression",
@@ -588,7 +588,7 @@
       "rejection_fixture": "invalid/assignment_target_required"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/eval_compound_target_once",
       "positive_fixture_required": true,
       "production": "assignment_expr",
@@ -596,7 +596,7 @@
       "rejection_fixture": "invalid/assignment_target_required"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/eval_compound_target_once",
       "positive_fixture_required": true,
       "production": "assignment_op",
@@ -604,7 +604,7 @@
       "rejection_fixture": "invalid/assignment_target_required"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "runtime/boolean_short_circuit",
       "positive_fixture_required": true,
       "production": "logical_or_expr",
@@ -612,7 +612,7 @@
       "rejection_fixture": "invalid/integer_condition"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "runtime/boolean_short_circuit",
       "positive_fixture_required": true,
       "production": "logical_and_expr",
@@ -620,7 +620,7 @@
       "rejection_fixture": "invalid/integer_condition"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "bitwise_or_expr",
@@ -628,7 +628,7 @@
       "rejection_fixture": "invalid/numeric_signed_bitwise"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "bitwise_xor_expr",
@@ -636,7 +636,7 @@
       "rejection_fixture": "invalid/numeric_signed_bitwise"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "bitwise_and_expr",
@@ -644,7 +644,7 @@
       "rejection_fixture": "invalid/numeric_signed_bitwise"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/text_value_semantics",
       "positive_fixture_required": true,
       "production": "equality_expr",
@@ -652,7 +652,7 @@
       "rejection_fixture": "invalid/resource_equality_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_division_toward_zero",
       "positive_fixture_required": true,
       "production": "relational_expr",
@@ -660,7 +660,7 @@
       "rejection_fixture": "invalid/arithmetic_type_mismatch"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "runtime/signed_right_shift_defined",
       "positive_fixture_required": true,
       "production": "shift_expr",
@@ -668,7 +668,7 @@
       "rejection_fixture": "invalid/numeric_shift_width"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_division_toward_zero",
       "positive_fixture_required": true,
       "production": "additive_expr",
@@ -676,7 +676,7 @@
       "rejection_fixture": "invalid/arithmetic_type_mismatch"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_division_toward_zero",
       "positive_fixture_required": true,
       "production": "multiplicative_expr",
@@ -684,7 +684,7 @@
       "rejection_fixture": "invalid/arithmetic_type_mismatch"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/unary_minus_signed_only",
       "positive_fixture_required": true,
       "production": "unary_expr",
@@ -692,7 +692,7 @@
       "rejection_fixture": "invalid/arithmetic_type_mismatch"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/checked_cast",
       "positive_fixture_required": true,
       "production": "cast_expr",
@@ -700,7 +700,7 @@
       "rejection_fixture": "invalid/checked_cast_requires_exact_value"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/unchecked_integer_cast",
       "positive_fixture_required": true,
       "production": "cast_unchecked_expr",
@@ -708,7 +708,7 @@
       "rejection_fixture": "invalid/unchecked_float_to_integer"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/reinterpret_u32_f32",
       "positive_fixture_required": true,
       "production": "reinterpret_expr",
@@ -716,7 +716,7 @@
       "rejection_fixture": "invalid/reinterpret_size_mismatch"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/typed_storage",
       "positive_fixture_required": true,
       "production": "construct_expr",
@@ -724,7 +724,7 @@
       "rejection_fixture": "invalid/construct_twice"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/typed_storage",
       "positive_fixture_required": true,
       "production": "destroy_expr",
@@ -732,7 +732,7 @@
       "rejection_fixture": "invalid/construct_twice"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/type_size_alignment",
       "positive_fixture_required": true,
       "production": "type_query_expr",
@@ -740,7 +740,7 @@
       "rejection_fixture": "invalid/size_of_expression"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/function_add",
       "positive_fixture_required": true,
       "production": "postfix_expr",
@@ -748,7 +748,7 @@
       "rejection_fixture": "invalid/call_argument_count"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/function_add",
       "positive_fixture_required": true,
       "production": "postfix_suffix",
@@ -756,7 +756,7 @@
       "rejection_fixture": "invalid/call_argument_count"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/function_add",
       "positive_fixture_required": true,
       "production": "call_suffix",
@@ -764,7 +764,7 @@
       "rejection_fixture": "invalid/call_argument_count"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/function_add",
       "positive_fixture_required": true,
       "production": "call_argument",
@@ -772,7 +772,7 @@
       "rejection_fixture": "invalid/call_argument_count"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/status_proof_initializes_out",
       "positive_fixture_required": true,
       "production": "out_argument",
@@ -780,7 +780,7 @@
       "rejection_fixture": "invalid/out_field_target"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/struct_named_fields_and_copy",
       "positive_fixture_required": true,
       "production": "member_suffix",
@@ -788,7 +788,7 @@
       "rejection_fixture": "invalid/unknown_member"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/fixed_array",
       "positive_fixture_required": true,
       "production": "index_suffix",
@@ -796,7 +796,7 @@
       "rejection_fixture": "invalid/array_out_of_bounds"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/subslice",
       "positive_fixture_required": true,
       "production": "range_suffix",
@@ -804,7 +804,7 @@
       "rejection_fixture": "invalid/slice_range_checked"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/integer_literal_exact_context",
       "positive_fixture_required": true,
       "production": "primary_expr",
@@ -812,7 +812,7 @@
       "rejection_fixture": "invalid/numeric_literal_suffix"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/status_invariant_success",
       "positive_fixture_required": true,
       "production": "status_initializer",
@@ -820,7 +820,7 @@
       "rejection_fixture": "invalid/status_failure_zero_code"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/status_invariant_success",
       "positive_fixture_required": true,
       "production": "status_code_init",
@@ -828,7 +828,7 @@
       "rejection_fixture": "invalid/status_failure_zero_code"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/status_invariant_success",
       "positive_fixture_required": true,
       "production": "status_message_init",
@@ -836,7 +836,7 @@
       "rejection_fixture": "invalid/status_failure_zero_code"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/struct_named_init",
       "positive_fixture_required": true,
       "production": "aggregate_initializer",
@@ -844,7 +844,7 @@
       "rejection_fixture": "invalid/missing_struct_field"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/struct_named_init",
       "positive_fixture_required": true,
       "production": "aggregate_field_init",
@@ -852,7 +852,7 @@
       "rejection_fixture": "invalid/missing_struct_field"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/struct_named_init",
       "positive_fixture_required": true,
       "production": "ordinary_field_init",
@@ -860,7 +860,7 @@
       "rejection_fixture": "invalid/missing_struct_field"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/current_resource",
       "positive_fixture_required": true,
       "production": "ownership_field_init",
@@ -868,7 +868,7 @@
       "rejection_fixture": "invalid/plain_struct_hides_owning_pointer"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/current_resource",
       "positive_fixture_required": true,
       "production": "ownership_source",
@@ -876,7 +876,7 @@
       "rejection_fixture": "invalid/plain_struct_hides_owning_pointer"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/array_init_length_copy",
       "positive_fixture_required": true,
       "production": "array_initializer",
@@ -884,7 +884,7 @@
       "rejection_fixture": "invalid/array_out_of_bounds"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/integer_literal_exact_context",
       "positive_fixture_required": true,
       "production": "literal",
@@ -892,7 +892,7 @@
       "rejection_fixture": "invalid/numeric_literal_suffix"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_expression",
@@ -900,7 +900,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_or_expression",
@@ -908,7 +908,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_and_expression",
@@ -916,7 +916,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_bitwise_or_expression",
@@ -924,7 +924,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_bitwise_xor_expression",
@@ -932,7 +932,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_bitwise_and_expression",
@@ -940,7 +940,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_equality_expression",
@@ -948,7 +948,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_relational_expression",
@@ -956,7 +956,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_shift_expression",
@@ -964,7 +964,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_additive_expression",
@@ -972,7 +972,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_multiplicative_expression",
@@ -980,7 +980,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_unary_expression",
@@ -988,7 +988,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_primary_expression",
@@ -996,7 +996,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_literal",
@@ -1004,7 +1004,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_type_query",
@@ -1012,7 +1012,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_array_initializer",
@@ -1020,7 +1020,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_aggregate_initializer",
@@ -1028,7 +1028,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_field_init",
@@ -1036,7 +1036,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/constant_expression_same_numeric_rules",
       "positive_fixture_required": true,
       "production": "constant_integer_expression",
@@ -1044,7 +1044,7 @@
       "rejection_fixture": "invalid/numeric_div_min_negative_one_static"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_expression",
@@ -1052,7 +1052,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_or_expression",
@@ -1060,7 +1060,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_and_expression",
@@ -1068,7 +1068,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_equality_expression",
@@ -1076,7 +1076,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_relational_expression",
@@ -1084,7 +1084,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_unary_expression",
@@ -1092,7 +1092,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_primary_expression",
@@ -1100,7 +1100,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_literal",
@@ -1108,7 +1108,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_integer_literal",
@@ -1116,7 +1116,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/when_context_expression",
       "positive_fixture_required": true,
       "production": "when_context_name",
@@ -1124,7 +1124,7 @@
       "rejection_fixture": "invalid/when_token_fragment_rejected"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "ignored_element",
@@ -1132,7 +1132,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "space_character",
@@ -1140,7 +1140,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "horizontal_tab_character",
@@ -1148,7 +1148,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "line_feed_character",
@@ -1156,7 +1156,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "carriage_return_character",
@@ -1164,7 +1164,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "backslash_character",
@@ -1172,7 +1172,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "double_quote_character",
@@ -1180,7 +1180,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "whitespace",
@@ -1188,7 +1188,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "line_terminator",
@@ -1196,7 +1196,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "line_comment",
@@ -1204,7 +1204,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "line_comment_character",
@@ -1212,7 +1212,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "block_comment",
@@ -1220,7 +1220,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/comments_preserve_tokens",
       "positive_fixture_required": true,
       "production": "block_comment_body",
@@ -1228,7 +1228,7 @@
       "rejection_fixture": "invalid/unterminated_block_comment"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/identifier_case_sensitive",
       "positive_fixture_required": true,
       "production": "identifier",
@@ -1236,7 +1236,7 @@
       "rejection_fixture": "invalid/predeclared_typeword_binding"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/identifier_case_sensitive",
       "positive_fixture_required": true,
       "production": "identifier_start",
@@ -1244,7 +1244,7 @@
       "rejection_fixture": "invalid/predeclared_typeword_binding"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/identifier_case_sensitive",
       "positive_fixture_required": true,
       "production": "identifier_continue",
@@ -1252,7 +1252,7 @@
       "rejection_fixture": "invalid/predeclared_typeword_binding"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/identifier_case_sensitive",
       "positive_fixture_required": true,
       "production": "ascii_letter",
@@ -1260,7 +1260,7 @@
       "rejection_fixture": "invalid/predeclared_typeword_binding"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/identifier_case_sensitive",
       "positive_fixture_required": true,
       "production": "predeclared_type_word",
@@ -1268,7 +1268,7 @@
       "rejection_fixture": "invalid/predeclared_typeword_binding"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_separator_valid",
       "positive_fixture_required": true,
       "production": "decimal_digit",
@@ -1276,7 +1276,7 @@
       "rejection_fixture": "invalid/numeric_separator_doubled"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_separator_valid",
       "positive_fixture_required": true,
       "production": "hex_digit",
@@ -1284,7 +1284,7 @@
       "rejection_fixture": "invalid/numeric_separator_doubled"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_separator_valid",
       "positive_fixture_required": true,
       "production": "binary_digit",
@@ -1292,7 +1292,7 @@
       "rejection_fixture": "invalid/numeric_separator_doubled"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_separator_valid",
       "positive_fixture_required": true,
       "production": "digit_separator",
@@ -1300,7 +1300,7 @@
       "rejection_fixture": "invalid/numeric_separator_doubled"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_separator_valid",
       "positive_fixture_required": true,
       "production": "integer_literal",
@@ -1308,7 +1308,7 @@
       "rejection_fixture": "invalid/numeric_separator_doubled"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_separator_valid",
       "positive_fixture_required": true,
       "production": "decimal_integer",
@@ -1316,7 +1316,7 @@
       "rejection_fixture": "invalid/numeric_separator_doubled"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_separator_valid",
       "positive_fixture_required": true,
       "production": "hexadecimal_integer",
@@ -1324,7 +1324,7 @@
       "rejection_fixture": "invalid/numeric_separator_doubled"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_separator_valid",
       "positive_fixture_required": true,
       "production": "binary_integer",
@@ -1332,7 +1332,7 @@
       "rejection_fixture": "invalid/numeric_separator_doubled"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/floating_literal_default_f64",
       "positive_fixture_required": true,
       "production": "float_literal",
@@ -1340,7 +1340,7 @@
       "rejection_fixture": "invalid/numeric_literal_suffix"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/numeric_separator_valid",
       "positive_fixture_required": true,
       "production": "decimal_digits",
@@ -1348,7 +1348,7 @@
       "rejection_fixture": "invalid/numeric_separator_doubled"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/floating_literal_default_f64",
       "positive_fixture_required": true,
       "production": "exponent_part",
@@ -1356,7 +1356,7 @@
       "rejection_fixture": "invalid/numeric_literal_suffix"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/utf8_source_valid",
       "positive_fixture_required": true,
       "production": "text_literal",
@@ -1364,7 +1364,7 @@
       "rejection_fixture": "invalid/unicode_escape_surrogate"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/utf8_source_valid",
       "positive_fixture_required": true,
       "production": "text_character",
@@ -1372,7 +1372,7 @@
       "rejection_fixture": "invalid/unicode_escape_surrogate"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/utf8_source_valid",
       "positive_fixture_required": true,
       "production": "escape_sequence",
@@ -1380,7 +1380,7 @@
       "rejection_fixture": "invalid/unicode_escape_surrogate"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/utf8_source_valid",
       "positive_fixture_required": true,
       "production": "escape_code",
@@ -1388,7 +1388,7 @@
       "rejection_fixture": "invalid/unicode_escape_surrogate"
     },
     {
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "positive_fixture": "valid/utf8_source_valid",
       "positive_fixture_required": true,
       "production": "unicode_escape_tail",

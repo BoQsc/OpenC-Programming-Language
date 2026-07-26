@@ -8,7 +8,7 @@
     "OPENC-TARGET-ENDIAN-001",
     "OPENC-TARGET-SCHEMA-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC9",
   "expected": {
     "class": "tooling",
     "edition": "OpenC Core 1.0 Current",

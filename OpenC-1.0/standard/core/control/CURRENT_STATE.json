@@ -1,9 +1,9 @@
 {
   "active_rules": 466,
-  "candidate": "OpenC 1.0.0-rc.8",
-  "conformance_execution": "PASS_268_OF_268_WINDOWS_X86_64",
+  "candidate": "OpenC 1.0.0-rc.9",
+  "conformance_execution": "PASS_278_OF_278_WINDOWS_X86_64",
   "core_1_0_rc_ready": true,
-  "date": "2026-07-20",
+  "date": "2026-07-26",
   "evidence_state": "OWNER_CERTIFIED_RELEASE_READY",
   "grammar_productions": 174,
   "implementation": "BUILT_TESTED_WINDOWS_X86_64",

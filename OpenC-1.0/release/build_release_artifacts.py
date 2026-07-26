@@ -55,6 +55,7 @@ DIRECT_ARTIFACTS = (
         "text/markdown",
     ),
 )
+REQUIRED_CONFORMANCE_FIXTURES = 278
 
 
 def sha256(path: Path) -> str:
@@ -154,7 +155,7 @@ def implementation_evidence(
         "target": "windows-x86_64-hosted",
         "status": "PASS",
         "self_hosting": {
-            "gate": "SH-6",
+            "gate": "SH-6_RC9_REFRESH",
             "status": sh6["status"],
             "checks": sh6["checks"],
             "standalone_archive_sha256": artifacts["archive_sha256"],
@@ -271,8 +272,16 @@ def main() -> int:
         conformance.get("total"),
         conformance.get("passed"),
         conformance.get("failed"),
-    ) != (268, 268, 0):
-        raise SystemExit("conformance report is not the required 268/268 PASS")
+    ) != (
+        REQUIRED_CONFORMANCE_FIXTURES,
+        REQUIRED_CONFORMANCE_FIXTURES,
+        0,
+    ):
+        raise SystemExit(
+            "conformance report is not the required "
+            f"{REQUIRED_CONFORMANCE_FIXTURES}/"
+            f"{REQUIRED_CONFORMANCE_FIXTURES} PASS"
+        )
 
     prepare_directory(output, args.force)
     records: list[dict[str, object]] = []
@@ -355,7 +364,7 @@ def main() -> int:
     records.append(
         artifact_record(
             conformance_target,
-            "executed 268-fixture conformance report",
+            f"executed {REQUIRED_CONFORMANCE_FIXTURES}-fixture conformance report",
             "application/json",
         )
     )

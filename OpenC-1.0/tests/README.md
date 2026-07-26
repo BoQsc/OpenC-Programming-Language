@@ -10,8 +10,10 @@ byte-identical across native stages.
 On 2026-07-26, SH-6 passed from the deterministic relocated standalone
 package: packaged Stage 1 built Stage 2, Stage 2 built a byte-identical Stage 3,
 native semantic/IR parity covered 263 authored fixtures (117 accepted IR
-comparisons and 149 exact rejections), conformance passed 268/268, and all 4
-maintained programs built and executed. The retained repository matrix also
+comparisons and 149 exact rejections), RC8 conformance passed 268/268, and all
+4 maintained programs built and executed. Current mainline conformance passes
+278/278; RC9 repeats that complete corpus from the relocated package. The
+retained repository matrix also
 passed 9/9 debug builds, 9/9 release builds, 8/8 D test commands, and 4/4
 Python bootstrap tests.
 

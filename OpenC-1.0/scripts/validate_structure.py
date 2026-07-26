@@ -6,6 +6,14 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+RC_MATCH = re.fullmatch(r".+-rc\.(\d+)", VERSION)
+EXPECTED_CANDIDATE = f"OpenC {VERSION}"
+EXPECTED_EXECUTION_STATE = (
+    f"EXECUTED_PASS_WINDOWS_X86_64_RC{RC_MATCH.group(1)}"
+    if RC_MATCH
+    else None
+)
 required = [
     "README.md", "VERSION", "STATUS.md", "AUTHORITY.md", "DEVELOPMENT_MODEL.md",
     "LICENSE", "LICENSES/CC0-1.0.txt", "LICENSE_POLICY.md", "GOVERNANCE.md",
@@ -60,8 +68,10 @@ if not development.get("release_ready") or development.get("release_blockers"):
     errors.append("development state must record a blocker-free release candidate")
 
 authority_index = json.loads((ROOT / "AUTHORITY_INDEX.json").read_text(encoding="utf-8"))
-if authority_index.get("version") != (ROOT / "VERSION").read_text(encoding="utf-8").strip():
+if authority_index.get("version") != VERSION:
     errors.append("authority index version is stale")
+if EXPECTED_EXECUTION_STATE is None:
+    errors.append("VERSION must identify a numbered release candidate")
 for section in ("authoritative", "project_authority"):
     for record in authority_index.get(section, []):
         path = ROOT / record["path"]
@@ -74,6 +84,8 @@ for section in ("authoritative", "project_authority"):
             errors.append(f"authority hash is stale: {record['path']}")
 
 fixture_manifest = json.loads((ROOT / "conformance/fixtures/MANIFEST.json").read_text(encoding="utf-8"))
+if fixture_manifest.get("candidate") != EXPECTED_CANDIDATE:
+    errors.append("fixture manifest candidate is stale")
 active_ids = {item["id"] for item in rules}
 fixture_ids = {item["id"] for item in fixture_manifest["fixtures"]}
 fixture_rules = {rule for item in fixture_manifest["fixtures"] for rule in item["rules"]}
@@ -108,7 +120,7 @@ for entry in fixture_manifest["fixtures"]:
         errors.append(f"fixture ID mismatch: {entry['id']}")
     if set(fixture.get("active_rules", [])) != set(entry["rules"]):
         errors.append(f"fixture rule mismatch: {entry['id']}")
-    if fixture.get("evidence_state") != "EXECUTED_PASS_WINDOWS_X86_64_RC8":
+    if fixture.get("evidence_state") != EXPECTED_EXECUTION_STATE:
         errors.append(f"fixture evidence state is stale: {entry['id']}")
     for source in fixture.get("source_files", []):
         if not (ROOT / source).is_file():
@@ -119,6 +131,8 @@ for entry in fixture_manifest["fixtures"]:
 rule_coverage = json.loads((
     ROOT / "standard/core/conformance/OpenC_Core_Rule_Coverage.json"
 ).read_text(encoding="utf-8"))
+if rule_coverage.get("candidate") != EXPECTED_CANDIDATE:
+    errors.append("Core rule coverage candidate is stale")
 if rule_coverage.get("rules_with_dedicated_fixtures") != len(active_ids) or \
         rule_coverage.get("rules_without_dedicated_fixtures") != 0:
     errors.append("Core rule coverage totals are incomplete")
@@ -129,6 +143,8 @@ for entry in rule_coverage.get("rules", []):
 grammar_coverage = json.loads((
     ROOT / "standard/core/conformance/OpenC_Core_Grammar_Coverage.json"
 ).read_text(encoding="utf-8"))
+if grammar_coverage.get("candidate") != EXPECTED_CANDIDATE:
+    errors.append("Core grammar coverage candidate is stale")
 grammar_entries = grammar_coverage.get("productions", [])
 if len(grammar_entries) != 174:
     errors.append("grammar coverage must contain 174 production entries")
@@ -155,6 +171,8 @@ for entry in grammar_entries:
 fixture_queue = json.loads((
     ROOT / "conformance/matrices/FIXTURE_AUTHORING_QUEUE.json"
 ).read_text(encoding="utf-8"))
+if fixture_queue.get("candidate") != EXPECTED_CANDIDATE:
+    errors.append("fixture authoring queue candidate is stale")
 if fixture_queue.get("required_rule_count") != 0 or \
         fixture_queue.get("authored_rule_count") != len(active_ids):
     errors.append("fixture authoring queue is not complete")

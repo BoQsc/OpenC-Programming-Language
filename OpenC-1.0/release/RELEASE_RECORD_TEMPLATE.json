@@ -1,6 +1,6 @@
 {
   "schema": "openc.release_record.v2",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.9",
   "component": "Core_and_Hosted_reference_distribution",
   "release_scope": "windows_x86_64_hosted",
   "release_commit": "0000000000000000000000000000000000000000",

@@ -1,4 +1,4 @@
-# OpenC 1.0.0-rc.8 verification status
+# OpenC 1.0.0-rc.9 verification status
 
 Date: 2026-07-26
 Host: Windows 10.0.19045, x86-64
@@ -82,7 +82,8 @@ are outside the supported 1.0 scope.
   and their raw Windows executables are byte-identical with SHA-256
   `b42892ed15f944049eefd6b91206dd283de5ce38fef97d6667a1131dc955be5f`.
   Lexer behavior, canonical IR, and public-build execution smoke checks pass.
-- SH-6 passes. Two independently assembled standalone archives are
+- The immutable RC8 SH-6 record passes. Two independently assembled standalone
+  archives are
   byte-identical at SHA-256
   `6adf2254263cc11ae8a2f31ee883923021397942237ffb6fd64f0742a1b0eaac`.
   The extracted 1,140-entry package manifest validates, and public
@@ -93,10 +94,11 @@ are outside the supported 1.0 scope.
   compiler and both stages are byte-identical at
   `c2a26a1d286354f4e4b5ed2192e9008a5fffb2a667c4e4b9ba3f4a4afc76ed75`;
   generated C and normalized PE hashes are recorded in the SH-6 evidence.
-- The packaged native compiler passes 117 exact canonical-IR comparisons and
+- The RC8 packaged native compiler passes 117 exact canonical-IR comparisons and
   149 exact rejection outcomes across 263 authored fixtures. The extracted
-  package passes 268/268 conformance and builds and executes all 4 maintained
-  programs.
+  package passes its historical 268/268 conformance gate and builds and
+  executes all 4 maintained programs. RC9 requires a fresh relocated package
+  run against 278/278 before authorization.
 - The post-SH-6 native performance milestone passes. A closed Stage 3 rebuilds
   the compiler in 381.049 seconds versus 698.918 seconds before the changes,
   with 11.37 MiB peak working set and 161.55 MiB peak private memory. Optimized

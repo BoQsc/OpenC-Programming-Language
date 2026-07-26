@@ -43,9 +43,9 @@ native Stage 2 builds a byte-identical native Stage 3 through public
 `openc build`, deterministic C11, and the shipped TinyCC Win64 backend with
 DMD, DUB, and Python hidden. SH-6 standalone packaging also passes: two
 independent package builds are byte-identical, the extracted compiler is
-relocatable, packaged Stage 2 and Stage 3 are byte-identical, and the package
-passes 268/268 conformance fixtures plus all 4 maintained programs.
+relocatable, and packaged Stage 2 and Stage 3 are byte-identical.
 
-The SH-6 package count is its immutable RC8 historical result. A future RC9
-standalone refresh must execute the current 278-fixture corpus from the
-relocated package before publication.
+The SH-6 268-fixture package count is the immutable RC8 historical result.
+RC9 adds a mandatory successor gate: the relocated package must execute the
+current 278-fixture corpus plus all 4 maintained programs before owner
+authorization.

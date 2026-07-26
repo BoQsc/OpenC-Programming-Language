@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the extracted OpenC SH-6 standalone Windows distribution."""
+"""Verify the extracted OpenC RC9 standalone Windows distribution."""
 from __future__ import annotations
 
 import argparse
@@ -25,6 +25,7 @@ PROGRAMS = (
         "arguments: 2\n0: alpha\n1: two words\n",
     ),
 )
+REQUIRED_CONFORMANCE_FIXTURES = 278
 
 
 def sha256(path: Path) -> str:
@@ -312,15 +313,15 @@ def main() -> int:
         ),
         "native_semantic_ir_parity": parity_report.get("status") == "PASS",
         "maintained_programs_4_of_4": maintained_passed == len(PROGRAMS),
-        "full_conformance_268_of_268": (
-            conformance_report.get("total") == 268
-            and conformance_report.get("passed") == 268
+        "full_conformance_278_of_278": (
+            conformance_report.get("total") == REQUIRED_CONFORMANCE_FIXTURES
+            and conformance_report.get("passed") == REQUIRED_CONFORMANCE_FIXTURES
             and conformance_report.get("failed") == 0
         ),
     }
     result = {
         "schema": "openc.self_host_standalone_release.v1",
-        "stage": "SH-6_STANDALONE_SELF_HOSTED_RELEASE",
+        "stage": "RC9_STANDALONE_REFRESH",
         "status": "PASS" if all(checks.values()) else "FAIL",
         "checks": checks,
         "roles": {
@@ -395,9 +396,9 @@ def main() -> int:
     )
     if result["status"] != "PASS":
         failed = [name for name, passed in checks.items() if not passed]
-        raise SystemExit("SH-6 standalone gate failed: " + ", ".join(failed))
+        raise SystemExit("RC9 standalone gate failed: " + ", ".join(failed))
     print(
-        "SH-6 standalone self-hosted release: PASS; "
+        "RC9 standalone self-hosted refresh: PASS; "
         f"conformance={conformance_report.get('passed')}/"
         f"{conformance_report.get('total')} "
         f"maintained={maintained_passed}/{len(PROGRAMS)} "

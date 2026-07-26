@@ -1,7 +1,7 @@
 # OpenC canonical mainline status
 
 ```text
-version:                            1.0.0-rc.8
+version:                            1.0.0-rc.9
 canonical development tree:         YES
 release scope:                      WINDOWS X86-64 HOSTED
 
@@ -56,19 +56,18 @@ specification/docs/assets:           CC0-1.0
 vendored TinyCC backend:             LGPL-2.1 + BUNDLED MIT/PUBLIC-DOMAIN TERMS
 release authority:                   OPENC PROJECT OWNER
 formal release ready:                YES FOR DECLARED WINDOWS HOSTED SCOPE
-owner authorization:                 AUTHORIZED; 13-ARTIFACT SET VERIFIED
-public release tag:                  v1.0.0-rc.8 -> aa8a247
-GitHub release assets:               PENDING EXTERNAL UPLOAD
-published/released:                  NO; TAGGED SOURCE IS PUBLIC
+owner authorization:                 RC9 CANDIDATE PREPARATION IN PROGRESS
+public release tag:                  RC8 HISTORICAL; RC9 NOT YET TAGGED
+GitHub release assets:               NOT YET ASSEMBLED FOR RC9
+published/released:                  NO
 ```
 
-`RELEASE_READY` means the declared local gates pass. The owner has now
-authorized the deterministic artifact set and published its immutable source
-tag. The release remains not `RELEASED` until the recorded assets are attached
-to a publication endpoint. This does not imply independent certification or
-verification on targets outside the declared scope.
+`RELEASE_READY` means the declared local gates pass. Owner authorization,
+immutable source tagging, and release-asset publication are distinct actions.
+This does not imply independent certification or verification on targets
+outside the declared scope.
 
 The RC8 tag and standalone archive remain an immutable 268-fixture historical
 release-candidate record. Post-tag mainline passes the expanded 278-fixture
-corpus and native compiler closure; RC9 standalone assembly is the next
-engineering milestone.
+corpus and native compiler closure; the RC9 standalone refresh must reproduce
+those results from the relocated package before authorization.

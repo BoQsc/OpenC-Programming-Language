@@ -13,5 +13,6 @@ Read in this order:
 
 The current baseline contains 466 active normative rules and 174 grammar
 entries. The Windows x86-64 Hosted reference implementation builds and passes
-the complete 268-fixture authored manifest. Independent review and additional
-dedicated-rule fixtures remain recommended follow-up work.
+the complete 278-fixture authored manifest. Every active rule has a dedicated
+executed fixture, and every grammar production names an executed accepting and
+rejecting pair. Independent review remains recommended follow-up work.

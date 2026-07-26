@@ -14,7 +14,7 @@ from .formatter import Formatter
 from .lsp import run_stdio
 
 
-VERSION = "1.0.0-rc.8"
+VERSION = "1.0.0-rc.9"
 CANONICAL_SOURCE_EXTENSION = ".p"
 
 

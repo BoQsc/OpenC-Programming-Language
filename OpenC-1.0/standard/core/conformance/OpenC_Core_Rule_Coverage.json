@@ -1,11 +1,11 @@
 {
   "active_rule_count": 466,
-  "candidate": "OpenC 1.0.0-rc.8",
+  "candidate": "OpenC 1.0.0-rc.9",
   "coverage_state": "466_RULES_WITH_EXECUTED_DEDICATED_FIXTURES",
   "rules": [
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/unsafe_fault_target_bounded"
       ],
@@ -15,7 +15,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/unsafe_fault_target_bounded"
       ],
@@ -25,7 +25,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_checked_failure_runs_cleanup"
       ],
@@ -35,7 +35,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/unsafe_fault_target_bounded"
       ],
@@ -45,7 +45,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/evaluation_binary_left_to_right"
       ],
@@ -55,7 +55,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/fatal_allocation_defined"
       ],
@@ -65,7 +65,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/utf8_source_valid"
       ],
@@ -75,7 +75,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/invalid_utf8_source"
       ],
@@ -85,7 +85,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/source_bom_ignored"
       ],
@@ -95,7 +95,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/unterminated_block_comment",
         "valid/comments_preserve_tokens"
@@ -106,7 +106,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/textual_include_rejected"
       ],
@@ -116,7 +116,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/textual_include_rejected"
       ],
@@ -126,7 +126,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/when_context_expression"
       ],
@@ -136,7 +136,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/when_context_expression"
       ],
@@ -146,7 +146,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/when_token_fragment_rejected",
         "valid/when_context_expression"
@@ -157,7 +157,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/identifier_case_sensitive"
       ],
@@ -167,7 +167,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/predeclared_typeword_binding"
       ],
@@ -177,7 +177,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/text_module_typeword_qualifier"
       ],
@@ -187,7 +187,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/identifier_case_sensitive"
       ],
@@ -197,7 +197,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/identifier_case_sensitive"
       ],
@@ -207,7 +207,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/integer_literal_exact_context"
       ],
@@ -217,7 +217,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/integer_literal_destination_range",
         "valid/integer_literal_exact_context"
@@ -228,7 +228,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/utf8_source_valid"
       ],
@@ -238,7 +238,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/numeric_separator_doubled",
         "valid/numeric_separator_valid"
@@ -249,7 +249,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/floating_literal_default_f64"
       ],
@@ -259,7 +259,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/numeric_literal_suffix"
       ],
@@ -269,7 +269,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/unicode_escape_surrogate"
       ],
@@ -279,7 +279,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/module_repeated_import_idempotent"
       ],
@@ -289,7 +289,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/first_program"
       ],
@@ -299,7 +299,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/module_short_and_full_qualifier"
       ],
@@ -309,7 +309,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/module_short_qualifier_ambiguous"
       ],
@@ -319,7 +319,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/module_private_access"
       ],
@@ -329,7 +329,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/module_private_access"
       ],
@@ -339,7 +339,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/module_import_cycle"
       ],
@@ -349,7 +349,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/module_multi_source_overload"
       ],
@@ -359,7 +359,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/module_duplicate_top_level",
         "valid/module_multi_source_overload"
@@ -370,7 +370,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/module_import_not_shared"
       ],
@@ -380,7 +380,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/module_short_and_full_qualifier"
       ],
@@ -390,7 +390,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/module_repeated_import_idempotent"
       ],
@@ -400,7 +400,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/module_multi_source_overload"
       ],
@@ -410,7 +410,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/module_import_not_shared"
       ],
@@ -420,7 +420,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/module_multi_source_overload"
       ],
@@ -430,7 +430,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/module_import_cycle"
       ],
@@ -440,7 +440,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/module_private_access"
       ],
@@ -450,7 +450,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/fixed_width_values"
       ],
@@ -460,7 +460,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/machine_integer_width_reported"
       ],
@@ -470,7 +470,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/historical_int_type_rejected"
       ],
@@ -480,7 +480,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/size_of_void",
         "invalid/void_local_object"
@@ -491,7 +491,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/bool_condition"
       ],
@@ -501,7 +501,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/byte_not_text_or_arithmetic"
       ],
@@ -511,7 +511,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/float_integer_no_implicit"
       ],
@@ -521,7 +521,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/float_binary_types"
       ],
@@ -531,7 +531,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/text_value_semantics"
       ],
@@ -541,7 +541,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/const_binding_readonly"
       ],
@@ -551,7 +551,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/write_borrow"
       ],
@@ -561,7 +561,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/read_borrow"
       ],
@@ -571,7 +571,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/c_reference_decl"
       ],
@@ -581,7 +581,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ref_local_without_initializer",
         "valid/ref_assigns_referent"
@@ -592,7 +592,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/ref_assigns_referent"
       ],
@@ -602,7 +602,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ref_const_whole_assignment",
         "valid/ref_assigns_referent"
@@ -613,7 +613,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ref_resource_whole_assignment"
       ],
@@ -623,7 +623,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_shapes_ref_ptr_optional_array_slice_storage"
       ],
@@ -633,7 +633,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/c_pointer_decl"
       ],
@@ -643,7 +643,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ref_const_to_mutable",
         "valid/const_view_conversions"
@@ -654,7 +654,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ptr_const_to_mutable",
         "valid/const_view_conversions"
@@ -665,7 +665,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/current_optional",
         "valid/type_shapes_ref_ptr_optional_array_slice_storage"
@@ -676,7 +676,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/optional_proof_invalidated",
         "valid/flow_optional_early_return"
@@ -687,7 +687,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/current_question_optional",
         "invalid/optional_question_syntax"
@@ -698,7 +698,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/optional_slice"
       ],
@@ -708,7 +708,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_shapes_ref_ptr_optional_array_slice_storage"
       ],
@@ -718,7 +718,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_shapes_ref_ptr_optional_array_slice_storage"
       ],
@@ -728,7 +728,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/slice_const_to_mutable",
         "valid/const_view_conversions"
@@ -739,7 +739,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_shapes_ref_ptr_optional_array_slice_storage"
       ],
@@ -749,7 +749,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/float_integer_no_implicit"
       ],
@@ -759,7 +759,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/assignment_conversion_checked",
         "invalid/implicit_narrow"
@@ -770,7 +770,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/checked_cast"
       ],
@@ -780,7 +780,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/reinterpret_unrelated_layout_rejected"
       ],
@@ -790,7 +790,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/optional_contains_resource"
       ],
@@ -800,7 +800,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/optional_contains_resource"
       ],
@@ -810,7 +810,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_shapes_ref_ptr_optional_array_slice_storage"
       ],
@@ -820,7 +820,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_shapes_ref_ptr_optional_array_slice_storage"
       ],
@@ -830,7 +830,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_shapes_ref_ptr_optional_array_slice_storage"
       ],
@@ -840,7 +840,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/declaration_requires_type"
       ],
@@ -850,7 +850,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/declaration_requires_type"
       ],
@@ -860,7 +860,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "diagnostic/diagnostic_flow_path_locations",
         "invalid/flow_if_missing_else",
@@ -875,7 +875,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_if_all_paths"
       ],
@@ -885,7 +885,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/local_not_zero_initialized"
       ],
@@ -895,7 +895,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/const_binding_readonly"
       ],
@@ -905,7 +905,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/const_reassignment_rejected"
       ],
@@ -915,7 +915,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/block_local_escape"
       ],
@@ -925,7 +925,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/same_scope_duplicate"
       ],
@@ -935,7 +935,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/shadowing"
       ],
@@ -945,7 +945,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/global_const_valid"
       ],
@@ -955,7 +955,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/mutable_global_rejected"
       ],
@@ -965,7 +965,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_reference_parameter"
       ],
@@ -975,7 +975,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/own_plain_integer"
       ],
@@ -985,7 +985,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/parameter_modes_visible"
       ],
@@ -995,7 +995,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/parameter_modes_visible"
       ],
@@ -1005,7 +1005,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/parameter_modes_visible"
       ],
@@ -1015,7 +1015,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/parameter_modes_visible"
       ],
@@ -1025,7 +1025,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/parameter_modes_visible"
       ],
@@ -1035,7 +1035,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/block_local_escape",
         "invalid/declaration_requires_type"
@@ -1046,7 +1046,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/loop_only_initialization_not_definite"
       ],
@@ -1056,7 +1056,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_field_target",
         "invalid/out_initialized_target"
@@ -1067,7 +1067,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_initialized_target"
       ],
@@ -1077,7 +1077,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_read_inside_callee"
       ],
@@ -1087,7 +1087,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_initialized_target"
       ],
@@ -1097,7 +1097,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/constant_expression_same_numeric_rules"
       ],
@@ -1107,7 +1107,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/numeric_div_min_negative_one_static"
       ],
@@ -1117,7 +1117,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/eval_call_left_to_right"
       ],
@@ -1127,7 +1127,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/call_argument_count"
       ],
@@ -1137,7 +1137,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/function_add"
       ],
@@ -1147,7 +1147,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/unknown_member"
       ],
@@ -1157,7 +1157,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/bounds_trap",
         "runtime/runtime_checked_failure_runs_cleanup"
@@ -1168,7 +1168,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/slice_range_checked"
       ],
@@ -1178,7 +1178,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/arithmetic_type_mismatch"
       ],
@@ -1188,7 +1188,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/unary_minus_signed_only"
       ],
@@ -1198,7 +1198,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/resource_equality_rejected"
       ],
@@ -1208,7 +1208,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/boolean_short_circuit"
       ],
@@ -1218,7 +1218,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/assignment_target_required"
       ],
@@ -1228,7 +1228,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/assignment_conversion_checked"
       ],
@@ -1238,7 +1238,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/address_outside_unsafe"
       ],
@@ -1248,7 +1248,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/unsafe_pointer"
       ],
@@ -1258,7 +1258,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/deref_outside_unsafe",
         "valid/unsafe_pointer"
@@ -1269,7 +1269,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/pointer_arithmetic_outside_unsafe"
       ],
@@ -1279,7 +1279,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/null_pointer_equality"
       ],
@@ -1289,7 +1289,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/checked_cast_requires_exact_value"
       ],
@@ -1299,7 +1299,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/pointer_order_cross_allocation"
       ],
@@ -1309,7 +1309,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/missing_braces"
       ],
@@ -1319,7 +1319,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/missing_semicolon"
       ],
@@ -1329,7 +1329,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/integer_condition",
         "valid/bool_condition"
@@ -1340,7 +1340,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/for_variable_scope"
       ],
@@ -1350,7 +1350,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/switch_implicit_fallthrough"
       ],
@@ -1360,7 +1360,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/enum_switch",
         "valid/flow_switch_exhaustive"
@@ -1371,7 +1371,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/enum_switch"
       ],
@@ -1381,7 +1381,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/enum_switch"
       ],
@@ -1391,7 +1391,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/enum_duplicate_value"
       ],
@@ -1401,7 +1401,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/enum_switch"
       ],
@@ -1411,7 +1411,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/break_outside_loop"
       ],
@@ -1421,7 +1421,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/bool_condition"
       ],
@@ -1431,7 +1431,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_loop_preinitialized"
       ],
@@ -1441,7 +1441,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/break_and_scope_registration_order"
       ],
@@ -1451,7 +1451,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/return_type_mismatch"
       ],
@@ -1461,7 +1461,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/return_local_reference"
       ],
@@ -1471,7 +1471,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "diagnostic/critical_unreachable_statement"
       ],
@@ -1481,7 +1481,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/arrow_function",
         "valid/first_program"
@@ -1492,7 +1492,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/function_add"
       ],
@@ -1502,7 +1502,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/overload_conversion_ambiguity"
       ],
@@ -1512,7 +1512,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/module_multi_source_overload",
         "valid/overload_exact_preferred"
@@ -1523,7 +1523,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/overload_conversion_ambiguity",
         "invalid/overload_lossless_ambiguous"
@@ -1534,7 +1534,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/overload_return_only"
       ],
@@ -1544,7 +1544,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/overload_parameter_modes"
       ],
@@ -1554,7 +1554,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/nonvoid_missing_path"
       ],
@@ -1564,7 +1564,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_own_pointer_missing_contract"
       ],
@@ -1574,7 +1574,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_proof_initializes_out"
       ],
@@ -1584,7 +1584,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_proof_initializes_out"
       ],
@@ -1594,7 +1594,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/domain_own_call"
       ],
@@ -1604,7 +1604,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/unsafe_function_call_outside_unsafe"
       ],
@@ -1614,7 +1614,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_success_without_init",
         "valid/flow_out_early_return"
@@ -1625,7 +1625,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_failure_partial_exposure"
       ],
@@ -1635,7 +1635,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_proof_initializes_out"
       ],
@@ -1645,7 +1645,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_proof_initializes_out"
       ],
@@ -1655,7 +1655,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/function_arguments_left_to_right"
       ],
@@ -1665,7 +1665,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/overload_exact_preferred"
       ],
@@ -1675,7 +1675,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/function_recursion"
       ],
@@ -1685,7 +1685,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/struct_named_fields_and_copy"
       ],
@@ -1695,7 +1695,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/struct_trailing_semicolon"
       ],
@@ -1705,7 +1705,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/current_resource"
       ],
@@ -1715,7 +1715,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/current_resource"
       ],
@@ -1725,7 +1725,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/struct_named_fields_and_copy"
       ],
@@ -1735,7 +1735,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/const_reassignment_rejected"
       ],
@@ -1745,7 +1745,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ref_field",
         "invalid/slice_field",
@@ -1757,7 +1757,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/struct_defaults"
       ],
@@ -1767,7 +1767,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/positional_struct",
         "valid/struct_named_init"
@@ -1778,7 +1778,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/struct_named_fields_and_copy"
       ],
@@ -1788,7 +1788,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/missing_struct_field"
       ],
@@ -1798,7 +1798,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/struct_defaults"
       ],
@@ -1808,7 +1808,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/struct_named_fields_and_copy"
       ],
@@ -1818,7 +1818,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/struct_equality"
       ],
@@ -1828,7 +1828,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/enum_switch"
       ],
@@ -1838,7 +1838,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/enum_duplicate_value"
       ],
@@ -1848,7 +1848,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/enum_duplicate_value"
       ],
@@ -1858,7 +1858,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/resource_copy"
       ],
@@ -1868,7 +1868,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_domain_operations"
       ],
@@ -1878,7 +1878,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_domain_operations"
       ],
@@ -1888,7 +1888,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_domain_operations"
       ],
@@ -1898,7 +1898,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/resource_obligation_not_discharged"
       ],
@@ -1908,7 +1908,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/const_resource_owner"
       ],
@@ -1918,7 +1918,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/eval_struct_initializer_order"
       ],
@@ -1928,7 +1928,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/struct_named_fields_and_copy"
       ],
@@ -1938,7 +1938,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_contains_resource"
       ],
@@ -1948,7 +1948,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/current_resource"
       ],
@@ -1958,7 +1958,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_initializer_lifecycle"
       ],
@@ -1968,7 +1968,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_initializer_lifecycle"
       ],
@@ -1978,7 +1978,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_initializer_lifecycle"
       ],
@@ -1988,7 +1988,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_initializer_lifecycle"
       ],
@@ -1998,7 +1998,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_initializer_lifecycle"
       ],
@@ -2008,7 +2008,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_initializer_lifecycle"
       ],
@@ -2018,7 +2018,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_initializer_lifecycle"
       ],
@@ -2028,7 +2028,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_initializer_lifecycle"
       ],
@@ -2038,7 +2038,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/resource_reinitialize_live"
       ],
@@ -2048,7 +2048,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_initializer_lifecycle"
       ],
@@ -2058,7 +2058,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/resource_field_state_rejections"
       ],
@@ -2068,7 +2068,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/resource_field_state_rejections"
       ],
@@ -2078,7 +2078,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/resource_field_state_rejections"
       ],
@@ -2088,7 +2088,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/resource_field_state_rejections"
       ],
@@ -2098,7 +2098,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/resource_field_state_rejections"
       ],
@@ -2108,7 +2108,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_initializer_lifecycle"
       ],
@@ -2118,7 +2118,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/missing_struct_field"
       ],
@@ -2128,7 +2128,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/struct_named_fields_and_copy"
       ],
@@ -2138,7 +2138,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/enum_switch"
       ],
@@ -2148,7 +2148,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/c_array_decl",
         "valid/fixed_array"
@@ -2159,7 +2159,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/array_init_length_copy"
       ],
@@ -2169,7 +2169,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/array_out_of_bounds",
         "valid/fixed_array"
@@ -2180,7 +2180,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/array_init_length_copy"
       ],
@@ -2190,7 +2190,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/array_init_length_copy"
       ],
@@ -2200,7 +2200,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/slice_sum"
       ],
@@ -2210,7 +2210,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/slice_length_and_mutation"
       ],
@@ -2220,7 +2220,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/slice_sum"
       ],
@@ -2230,7 +2230,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/slice_length_and_mutation"
       ],
@@ -2240,7 +2240,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/subslice"
       ],
@@ -2250,7 +2250,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/slice_alias_mutation_conflict"
       ],
@@ -2260,7 +2260,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/array_no_pointer_decay"
       ],
@@ -2270,7 +2270,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/byte_not_text_or_arithmetic"
       ],
@@ -2280,7 +2280,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/text_value_semantics"
       ],
@@ -2290,7 +2290,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/text_index"
       ],
@@ -2300,7 +2300,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/text_byte_conversion_explicit"
       ],
@@ -2310,7 +2310,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/slice_empty_and_default_ranges"
       ],
@@ -2320,7 +2320,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/slice_empty_and_default_ranges"
       ],
@@ -2330,7 +2330,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/disjoint_mutable_slices"
       ],
@@ -2340,7 +2340,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/text_value_semantics"
       ],
@@ -2350,7 +2350,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/text_value_semantics"
       ],
@@ -2360,7 +2360,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/byte_pointer_object_representation"
       ],
@@ -2370,7 +2370,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/slice_length_and_mutation"
       ],
@@ -2380,7 +2380,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/slice_outlives_owner"
       ],
@@ -2390,7 +2390,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/optional_none_and_copy"
       ],
@@ -2400,7 +2400,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/optional_checked"
       ],
@@ -2410,7 +2410,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/optional_trap",
         "valid/optional_checked"
@@ -2421,7 +2421,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ignored_status"
       ],
@@ -2431,7 +2431,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ignored_status"
       ],
@@ -2441,7 +2441,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_invariant_success"
       ],
@@ -2451,7 +2451,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/status_failure_zero_code",
         "invalid/status_success_nonzero_code",
@@ -2463,7 +2463,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ignored_status"
       ],
@@ -2473,7 +2473,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_message_not_control_flow"
       ],
@@ -2483,7 +2483,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_own_pointer_missing_contract"
       ],
@@ -2493,7 +2493,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_nonstatus_function"
       ],
@@ -2503,7 +2503,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_message_not_control_flow"
       ],
@@ -2513,7 +2513,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/fatal_allocation_defined"
       ],
@@ -2523,7 +2523,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_invariant_success"
       ],
@@ -2533,7 +2533,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_proof_initializes_out"
       ],
@@ -2543,7 +2543,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_invariant_success"
       ],
@@ -2553,7 +2553,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_failure_partial_exposure",
         "valid/status_proof_initializes_out"
@@ -2564,7 +2564,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/status_proof_initializes_out"
       ],
@@ -2574,7 +2574,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_failure_partial_exposure"
       ],
@@ -2584,7 +2584,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_failure_partial_exposure"
       ],
@@ -2594,7 +2594,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_failure_partial_exposure"
       ],
@@ -2604,7 +2604,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/optional_none_and_copy"
       ],
@@ -2614,7 +2614,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/optional_present_readonly"
       ],
@@ -2624,7 +2624,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/optional_none_and_copy"
       ],
@@ -2634,7 +2634,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/optional_question_syntax"
       ],
@@ -2644,7 +2644,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/storage_read_before_construct"
       ],
@@ -2654,7 +2654,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/plain_copy_independent"
       ],
@@ -2664,7 +2664,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/use_after_move"
       ],
@@ -2674,7 +2674,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/many_read_borrows_last_use"
       ],
@@ -2684,7 +2684,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/two_write_borrows",
         "valid/write_borrow"
@@ -2695,7 +2695,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/many_read_borrows_last_use"
       ],
@@ -2705,7 +2705,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/borrow_prevents_move"
       ],
@@ -2715,7 +2715,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/return_local_ref",
         "invalid/return_local_reference"
@@ -2726,7 +2726,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/slice_outlives_owner"
       ],
@@ -2736,7 +2736,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/scope_move_reserved_owner",
         "invalid/scope_reassign_reserved_owner"
@@ -2747,7 +2747,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_return_transfers"
       ],
@@ -2757,7 +2757,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_return_transfers"
       ],
@@ -2767,7 +2767,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/domain_own_call"
       ],
@@ -2777,7 +2777,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_checked_failure_runs_cleanup"
       ],
@@ -2787,7 +2787,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_return_transfers"
       ],
@@ -2797,7 +2797,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/resource_return_transfers"
       ],
@@ -2807,7 +2807,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/owning_pointer_copy"
       ],
@@ -2817,7 +2817,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/plain_struct_hides_owning_pointer"
       ],
@@ -2827,7 +2827,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/scope_double_consuming_action"
       ],
@@ -2837,7 +2837,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/scope_bound_owner_borrow"
       ],
@@ -2847,7 +2847,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/storage_read_before_construct"
       ],
@@ -2857,7 +2857,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/storage_resource_type"
       ],
@@ -2867,7 +2867,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/typed_storage"
       ],
@@ -2877,7 +2877,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/typed_storage"
       ],
@@ -2887,7 +2887,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/typed_storage"
       ],
@@ -2897,7 +2897,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/construct_twice"
       ],
@@ -2907,7 +2907,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/typed_storage",
         "valid/typed_storage_reconstruct_after_destroy"
@@ -2918,7 +2918,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/destroy_with_active_borrow"
       ],
@@ -2928,7 +2928,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/destroy_with_active_borrow"
       ],
@@ -2938,7 +2938,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/typed_storage_live_exit",
         "valid/typed_storage_scope_destroy_use"
@@ -2949,7 +2949,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/typed_storage_reconstruct_after_destroy"
       ],
@@ -2959,7 +2959,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/typed_storage_old_ref_after_reconstruct"
       ],
@@ -2969,7 +2969,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ptr_length"
       ],
@@ -2979,7 +2979,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/misaligned_typed_deref"
       ],
@@ -2989,7 +2989,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/pointer_typed_deref_requires_lifetime"
       ],
@@ -2999,7 +2999,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/byte_pointer_object_representation"
       ],
@@ -3009,7 +3009,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/reinterpret_pointer_no_new_lifetime"
       ],
@@ -3019,7 +3019,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/unsafe_pointer"
       ],
@@ -3029,7 +3029,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/pointer_deref_one_past",
         "valid/pointer_one_past_compare"
@@ -3040,7 +3040,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/pointer_cross_allocation_subtract"
       ],
@@ -3050,7 +3050,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/ptr_const_write"
       ],
@@ -3060,7 +3060,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/pointer_one_past_compare"
       ],
@@ -3070,7 +3070,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/unsafe_pointer"
       ],
@@ -3080,7 +3080,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/owning_pointer_copy"
       ],
@@ -3090,7 +3090,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/pointer_deref_one_past"
       ],
@@ -3100,7 +3100,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/reinterpret_pointer_no_new_lifetime"
       ],
@@ -3110,7 +3110,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/pointer_one_past_compare"
       ],
@@ -3120,7 +3120,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/typed_storage"
       ],
@@ -3130,7 +3130,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/typed_storage"
       ],
@@ -3140,7 +3140,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/unsafe_pointer"
       ],
@@ -3150,7 +3150,7 @@
     },
     {
       "automatable": false,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/small_local_unsafe_block"
       ],
@@ -3160,7 +3160,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/unsafe_call_requires_boundary"
       ],
@@ -3170,7 +3170,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/unsafe_contract_caller_responsibility"
       ],
@@ -3180,7 +3180,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/unchecked_integer_cast"
       ],
@@ -3190,7 +3190,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/unchecked_float_to_integer"
       ],
@@ -3200,7 +3200,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/reinterpret_struct_value",
         "valid/reinterpret_u32_f32"
@@ -3211,7 +3211,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/reinterpret_size_mismatch",
         "valid/reinterpret_u32_f32"
@@ -3222,7 +3222,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/reinterpret_pointer_no_new_lifetime"
       ],
@@ -3232,7 +3232,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/reinterpret_pointer_no_new_lifetime"
       ],
@@ -3242,7 +3242,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/safe_wrapper_missing_check"
       ],
@@ -3252,7 +3252,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/unsafe_fault_target_bounded"
       ],
@@ -3262,7 +3262,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/unsafe_fault_target_bounded"
       ],
@@ -3272,7 +3272,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/unsafe_provenance_not_forged"
       ],
@@ -3282,7 +3282,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/unsafe_history_in_diagnostic"
       ],
@@ -3292,7 +3292,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/unsafe_fault_target_bounded"
       ],
@@ -3302,7 +3302,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/safe_wrapper_missing_check"
       ],
@@ -3312,7 +3312,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/safe_wrapper_missing_check"
       ],
@@ -3322,7 +3322,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/unsafe_contract_caller_responsibility"
       ],
@@ -3332,7 +3332,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "records/diagnostic_structure_quality"
       ],
@@ -3342,7 +3342,7 @@
     },
     {
       "automatable": false,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "records/diagnostic_structure_quality"
       ],
@@ -3352,7 +3352,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "records/diagnostic_structure_quality"
       ],
@@ -3362,7 +3362,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/unsafe_history_in_diagnostic"
       ],
@@ -3372,7 +3372,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "records/diagnostic_structure_quality"
       ],
@@ -3382,7 +3382,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "records/diagnostic_structure_quality"
       ],
@@ -3392,7 +3392,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "records/diagnostic_structure_quality"
       ],
@@ -3402,7 +3402,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "records/diagnostic_structure_quality"
       ],
@@ -3412,7 +3412,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/first_program"
       ],
@@ -3422,7 +3422,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/first_program"
       ],
@@ -3432,7 +3432,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/evaluation_binary_left_to_right"
       ],
@@ -3442,7 +3442,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/evaluation_binary_left_to_right"
       ],
@@ -3452,7 +3452,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/eval_call_left_to_right"
       ],
@@ -3462,7 +3462,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/callee_then_arguments_order"
       ],
@@ -3472,7 +3472,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/callee_then_arguments_order",
         "runtime/function_arguments_left_to_right"
@@ -3483,7 +3483,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/evaluation_binary_left_to_right"
       ],
@@ -3493,7 +3493,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/boolean_short_circuit"
       ],
@@ -3503,7 +3503,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/unary_operand_once"
       ],
@@ -3513,7 +3513,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/assignment_destination_once"
       ],
@@ -3523,7 +3523,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/eval_compound_target_once"
       ],
@@ -3533,7 +3533,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/array_init_length_copy"
       ],
@@ -3543,7 +3543,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/eval_struct_initializer_order"
       ],
@@ -3553,7 +3553,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/struct_defaults_after_explicit"
       ],
@@ -3563,7 +3563,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/construct_and_return_order"
       ],
@@ -3573,7 +3573,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/construct_and_return_order"
       ],
@@ -3583,7 +3583,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/break_and_scope_registration_order"
       ],
@@ -3593,7 +3593,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/break_and_scope_registration_order"
       ],
@@ -3603,7 +3603,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/scope_nested_fallible_argument"
       ],
@@ -3613,7 +3613,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/evaluation_binary_left_to_right"
       ],
@@ -3623,7 +3623,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_state_branch_merge"
       ],
@@ -3633,7 +3633,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_unreachable_after_return"
       ],
@@ -3643,7 +3643,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_if_all_paths"
       ],
@@ -3653,7 +3653,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_if_missing_else"
       ],
@@ -3663,7 +3663,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_switch_exhaustive"
       ],
@@ -3673,7 +3673,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_while_only_initialization",
         "valid/flow_loop_preinitialized"
@@ -3684,7 +3684,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_for_not_guaranteed"
       ],
@@ -3694,7 +3694,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_continue_skips_init"
       ],
@@ -3704,7 +3704,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_break_path_merge"
       ],
@@ -3714,7 +3714,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_read_inside_callee"
       ],
@@ -3724,7 +3724,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_out_early_return"
       ],
@@ -3734,7 +3734,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/out_read_inside_callee"
       ],
@@ -3744,7 +3744,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_out_early_return"
       ],
@@ -3754,7 +3754,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "diagnostic/diagnostic_status_out_failure"
       ],
@@ -3764,7 +3764,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_out_early_return"
       ],
@@ -3774,7 +3774,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_continue_skips_init"
       ],
@@ -3784,7 +3784,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_out_early_return"
       ],
@@ -3794,7 +3794,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_status_copy_proof"
       ],
@@ -3804,7 +3804,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_optional_proof_invalidated"
       ],
@@ -3814,7 +3814,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/flow_optional_early_return"
       ],
@@ -3824,7 +3824,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/optional_proof_invalidated"
       ],
@@ -3834,7 +3834,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_move_one_branch"
       ],
@@ -3844,7 +3844,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_borrow_and_destroyed_state"
       ],
@@ -3854,7 +3854,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/flow_borrow_and_destroyed_state"
       ],
@@ -3864,7 +3864,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "diagnostic/diagnostic_flow_path_locations",
         "diagnostic/diagnostic_status_out_failure"
@@ -3875,7 +3875,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/fixed_width_values"
       ],
@@ -3885,7 +3885,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/fixed_width_values",
         "runtime/unsigned_modulo_exact"
@@ -3896,7 +3896,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/unsigned_modulo_exact"
       ],
@@ -3906,7 +3906,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/machine_integer_width_reported"
       ],
@@ -3916,7 +3916,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/integer_literal_exact_context"
       ],
@@ -3926,7 +3926,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/numeric_unconstrained_too_large"
       ],
@@ -3936,7 +3936,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/negative_literal_context"
       ],
@@ -3946,7 +3946,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/checked_addition"
       ],
@@ -3956,7 +3956,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/numeric_division_toward_zero"
       ],
@@ -3966,7 +3966,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/numeric_remainder_dividend_sign"
       ],
@@ -3976,7 +3976,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/numeric_div_min_negative_one_static",
         "runtime/runtime_division_min_negative_one"
@@ -3987,7 +3987,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_division_zero"
       ],
@@ -3997,7 +3997,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/numeric_signed_bitwise"
       ],
@@ -4007,7 +4007,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/numeric_shift_width"
       ],
@@ -4017,7 +4017,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/signed_right_shift_defined"
       ],
@@ -4027,7 +4027,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/left_shift_checked"
       ],
@@ -4037,7 +4037,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/unchecked_integer_cast"
       ],
@@ -4047,7 +4047,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/numeric_saturating_add"
       ],
@@ -4057,7 +4057,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/unchecked_integer_cast"
       ],
@@ -4067,7 +4067,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_cast_integer_range"
       ],
@@ -4077,7 +4077,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/numeric_cast_float_fraction",
         "runtime/runtime_cast_float_fraction"
@@ -4088,7 +4088,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/numeric_cast_int_float_inexact_static"
       ],
@@ -4098,7 +4098,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/checked_cast_requires_exact_value"
       ],
@@ -4108,7 +4108,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/unchecked_integer_cast"
       ],
@@ -4118,7 +4118,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/float_binary_types"
       ],
@@ -4128,7 +4128,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/float_binary_types"
       ],
@@ -4138,7 +4138,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_float_nan_comparison"
       ],
@@ -4148,7 +4148,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_float_nan_comparison"
       ],
@@ -4158,7 +4158,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_float_nan_comparison"
       ],
@@ -4168,7 +4168,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/constant_expression_same_numeric_rules"
       ],
@@ -4178,7 +4178,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/checked_addition"
       ],
@@ -4188,7 +4188,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/checked_addition"
       ],
@@ -4198,7 +4198,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/float_binary_types"
       ],
@@ -4208,7 +4208,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/cleanup_registration_capture"
       ],
@@ -4218,7 +4218,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/cleanup_registration_capture"
       ],
@@ -4228,7 +4228,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/scope_value_capture"
       ],
@@ -4238,7 +4238,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/cleanup_reference_must_live"
       ],
@@ -4248,7 +4248,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/scope_move_reserved_owner",
         "invalid/scope_reassign_reserved_owner"
@@ -4259,7 +4259,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/scope_out_argument"
       ],
@@ -4269,7 +4269,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/scope_nested_fallible_argument"
       ],
@@ -4279,7 +4279,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/typed_storage_scope_destroy_use"
       ],
@@ -4289,7 +4289,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/scope_destroy_early"
       ],
@@ -4299,7 +4299,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/typed_storage_scope_destroy_use"
       ],
@@ -4309,7 +4309,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_scope_lifo",
         "valid/scope_nested_lifo"
@@ -4320,7 +4320,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/scope_nested_lifo"
       ],
@@ -4330,7 +4330,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/cleanup_owner_registered_once"
       ],
@@ -4340,7 +4340,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/cleanup_on_return"
       ],
@@ -4350,7 +4350,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/cleanup_on_return"
       ],
@@ -4360,7 +4360,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_checked_failure_runs_cleanup"
       ],
@@ -4370,7 +4370,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/unsafe_fault_target_bounded"
       ],
@@ -4380,7 +4380,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/fallible_scope_action_rejected"
       ],
@@ -4390,7 +4390,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/fallible_scope_action_rejected"
       ],
@@ -4400,7 +4400,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/scope_cancel_not_supported"
       ],
@@ -4410,7 +4410,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/fallible_scope_action_rejected"
       ],
@@ -4420,7 +4420,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/fallible_scope_action_rejected"
       ],
@@ -4430,7 +4430,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_checked_failure_runs_cleanup"
       ],
@@ -4440,7 +4440,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_checked_failure_runs_cleanup"
       ],
@@ -4450,7 +4450,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/fallible_scope_action_rejected"
       ],
@@ -4460,7 +4460,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_checked_failure_runs_cleanup"
       ],
@@ -4470,7 +4470,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/target_context_complete"
       ],
@@ -4480,7 +4480,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/target_context_complete"
       ],
@@ -4490,7 +4490,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/target_context_complete"
       ],
@@ -4500,7 +4500,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/target_context_complete"
       ],
@@ -4510,7 +4510,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/target_layout_report"
       ],
@@ -4520,7 +4520,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/target_layout_report"
       ],
@@ -4530,7 +4530,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/target_layout_report"
       ],
@@ -4540,7 +4540,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/size_of_void",
         "valid/type_size_alignment"
@@ -4551,7 +4551,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_size_alignment"
       ],
@@ -4561,7 +4561,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_size_alignment"
       ],
@@ -4571,7 +4571,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_size_alignment"
       ],
@@ -4581,7 +4581,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/type_size_alignment"
       ],
@@ -4591,7 +4591,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/size_of_expression"
       ],
@@ -4601,7 +4601,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/pointer_provenance_target_fault"
       ],
@@ -4611,7 +4611,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/pointer_deref_one_past",
         "valid/pointer_one_past_compare"
@@ -4622,7 +4622,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_pointer_cross_extent_fault"
       ],
@@ -4632,7 +4632,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/pointer_order_cross_allocation"
       ],
@@ -4642,7 +4642,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "invalid/pointer_integer_conversion_not_plain"
       ],
@@ -4652,7 +4652,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/runtime_pointer_cross_extent_fault"
       ],
@@ -4662,7 +4662,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/pointer_provenance_target_fault"
       ],
@@ -4672,7 +4672,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "runtime/unsafe_fault_target_bounded"
       ],
@@ -4682,7 +4682,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/target_context_complete"
       ],
@@ -4692,7 +4692,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/target_context_complete"
       ],
@@ -4702,7 +4702,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "command/target_context_complete"
       ],
@@ -4712,7 +4712,7 @@
     },
     {
       "automatable": true,
-      "execution_state": "PASS_WINDOWS_X86_64_RC8",
+      "execution_state": "PASS_WINDOWS_X86_64_RC9",
       "fixtures": [
         "valid/eval_call_left_to_right"
       ],

@@ -13,6 +13,7 @@ import jsonschema
 
 RECORD_NAME = "OpenC-Core-1.0-release-record.json"
 SUMS_NAME = "OpenC-Core-1.0-SHA256SUMS.txt"
+REQUIRED_CONFORMANCE_FIXTURES = 278
 
 
 def sha256(path: Path) -> str:
@@ -139,8 +140,16 @@ def verify_release(root: Path, schema_path: Path) -> dict:
         conformance.get("total"),
         conformance.get("passed"),
         conformance.get("failed"),
-    ) != (268, 268, 0):
-        raise SystemExit("published conformance report is not 268/268 PASS")
+    ) != (
+        REQUIRED_CONFORMANCE_FIXTURES,
+        REQUIRED_CONFORMANCE_FIXTURES,
+        0,
+    ):
+        raise SystemExit(
+            "published conformance report is not "
+            f"{REQUIRED_CONFORMANCE_FIXTURES}/"
+            f"{REQUIRED_CONFORMANCE_FIXTURES} PASS"
+        )
     evidence = json.loads(
         (root / "OpenC-Core-1.0-implementation-evidence.json").read_text(
             encoding="utf-8"

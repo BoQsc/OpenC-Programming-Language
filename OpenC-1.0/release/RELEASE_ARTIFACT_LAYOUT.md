@@ -12,7 +12,7 @@ OpenC-Core-1.0-conformance.zip
 OpenC-Core-1.0-reference-source.zip
 OpenC-Core-1.0-implementation-evidence.json
 OpenC-Core-1.0-conformance-report.json
-OpenC-Hosted-1.0.0-rc.8-windows-x86_64-standalone.zip
+OpenC-Hosted-1.0.0-rc.9-windows-x86_64-standalone.zip
 OpenC-Core-1.0-SHA256SUMS.txt
 OpenC-Core-1.0-release-record.json
 signatures/ (optional)

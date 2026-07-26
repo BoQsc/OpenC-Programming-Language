@@ -409,5 +409,5 @@
     "compiler/selfhost/SELF_HOSTING_STATE.json"
   ],
   "schema": "openc.source_completeness_contract.v2",
-  "version": "1.0.0-rc.8"
+  "version": "1.0.0-rc.9"
 }

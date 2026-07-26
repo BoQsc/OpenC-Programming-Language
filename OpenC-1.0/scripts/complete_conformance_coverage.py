@@ -5,11 +5,18 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import re
 
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE_ROOT = ROOT / "conformance" / "fixtures"
-EXECUTION_STATE = "EXECUTED_PASS_WINDOWS_X86_64_RC8"
+VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+RC_MATCH = re.fullmatch(r".+-rc\.(\d+)", VERSION)
+if not RC_MATCH:
+    raise SystemExit("VERSION must identify a numbered release candidate")
+RELEASE_CANDIDATE = f"RC{RC_MATCH.group(1)}"
+EXECUTION_STATE = f"EXECUTED_PASS_WINDOWS_X86_64_{RELEASE_CANDIDATE}"
+PASS_STATE = f"PASS_WINDOWS_X86_64_{RELEASE_CANDIDATE}"
 
 
 # Each formerly uncovered rule is assigned to one fixture whose authored
@@ -604,12 +611,12 @@ def materialize(check: bool) -> None:
 
     manifest = {
         "active_rule_count": len(active_rules),
-        "candidate": "OpenC 1.0.0-rc.8",
+        "candidate": f"OpenC {VERSION}",
         "evidence_state": EXECUTION_STATE,
         "fixture_count": len(fixtures),
         "fixtures": [
             {
-                "execution_status": "PASS_WINDOWS_X86_64_RC8",
+                "execution_status": PASS_STATE,
                 "id": fixture_id,
                 "kind": fixture["kind"],
                 "path": fixture_paths[fixture_id]
@@ -637,31 +644,34 @@ def materialize(check: bool) -> None:
     rule_coverage["coverage_state"] = (
         "466_RULES_WITH_EXECUTED_DEDICATED_FIXTURES"
     )
+    rule_coverage["candidate"] = f"OpenC {VERSION}"
     rule_coverage["rules_with_dedicated_fixtures"] = len(active_rules)
     rule_coverage["rules_without_dedicated_fixtures"] = 0
     rule_coverage["schema"] = "openc.core.rule_coverage.v4"
     for entry in rule_coverage["rules"]:
-        entry["execution_state"] = "PASS_WINDOWS_X86_64_RC8"
+        entry["execution_state"] = PASS_STATE
         entry["fixtures"] = reverse[entry["rule"]]
     outputs[rule_coverage_path] = rule_coverage
 
     queue["authored_rule_count"] = len(active_rules)
+    queue["candidate"] = f"OpenC {VERSION}"
     queue["fixture_count"] = len(fixtures)
     queue["required_rule_count"] = 0
     queue["schema"] = "openc.conformance.fixture_queue.v2"
     for entry in queue["entries"]:
         entry["authoring_status"] = "AUTHORED"
-        entry["execution_status"] = "PASS_WINDOWS_X86_64_RC8"
+        entry["execution_status"] = PASS_STATE
         entry["fixtures"] = reverse[entry["rule"]]
     outputs[queue_path] = queue
 
     grammar["coverage_state"] = (
         "174_PRODUCTIONS_WITH_EXECUTED_POSITIVE_REJECTION_PAIRS"
     )
+    grammar["candidate"] = f"OpenC {VERSION}"
     grammar["schema"] = "openc.core.grammar_coverage.v4"
     for entry in grammar["productions"]:
         positive, rejection = pairs[entry["production"]]
-        entry["execution_state"] = "PASS_WINDOWS_X86_64_RC8"
+        entry["execution_state"] = PASS_STATE
         entry["positive_fixture"] = positive
         entry["rejection_fixture"] = rejection
     outputs[grammar_path] = grammar

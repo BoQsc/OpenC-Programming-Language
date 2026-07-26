@@ -9,7 +9,7 @@
     "OPENC-TYPE-PREFIXORDER-001",
     "OPENC-TYPE-SUFFIX-001"
   ],
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC8",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC9",
   "expected": {
     "class": "valid",
     "edition": "OpenC Core 1.0 Current",

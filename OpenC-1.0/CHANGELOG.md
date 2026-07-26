@@ -1,6 +1,16 @@
 # OpenC development changelog
 
-## Unreleased — standalone self-hosted Windows release
+## 1.0.0-rc.9 — expanded standalone conformance candidate
+
+- advanced the canonical compiler, Core metadata, release templates, and
+  authored evidence to `1.0.0-rc.9`;
+- raised standalone-package and publication-artifact verification from the
+  immutable RC8 268-fixture baseline to the complete 278-fixture corpus;
+- preserved `v1.0.0-rc.8`, its standalone archive, and its SH-6 evidence as
+  historical release-candidate records;
+- retained Windows x86-64 Hosted as the only required implementation target;
+  Linux, freestanding, and Native-provider verification remain optional future
+  work.
 
 - completed the conformance-evidence granularity milestone with 466/466 active
   rules covered by executed dedicated fixtures and 174/174 grammar productions
@@ -17,7 +27,7 @@
   changes, with byte-identical generated C and executables plus equal
   normalized PE, lexer behavior, and canonical IR;
 - made an RC9 standalone candidate refresh with the 278-fixture corpus the
-  explicit next engineering milestone;
+  explicit successor engineering milestone;
 
 - reduced a full native compiler self-rebuild from 698.918 to 381.049 seconds
   on the recorded host (45.5%) by avoiding noncompetitive full-syntax parent
