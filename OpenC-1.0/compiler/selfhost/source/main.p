@@ -18,8 +18,8 @@ struct SourcePosition {
     usize column;
 }
 
-void source_without_initial_bom(text source, out text logical_source) {
-    logical_source = source;
+text source_without_initial_bom(text source) {
+    text logical_source = source;
     if text.byte_length(source) >= 3 &&
         byte_at_or_zero(source, 0) == 239 &&
         byte_at_or_zero(source, 1) == 187 &&
@@ -32,6 +32,7 @@ void source_without_initial_bom(text source, out text logical_source) {
             logical_source = sliced_source;
         }
     }
+    return logical_source;
 }
 
 usize record_stride() {

@@ -59,6 +59,11 @@ unsafe void ir_emit_immediate(
     } else if kind == 2 { ir_json_slice(context.source, one, two); }
     else if kind == 3 { io.print("\"bind\""); }
     else if kind == 4 { io.print("\"deref\""); }
+    else if kind == 5 {
+        io.print("\"");
+        io.print(project_slice(context.source, one, two));
+        io.print(":own\"");
+    }
     else { io.print("\"\""); }
 }
 
@@ -115,4 +120,3 @@ unsafe void ir_emit_instruction_json(
     io.print(read_record_field(context.instruction_data, instruction, 3));
     io.print("}");
 }
-

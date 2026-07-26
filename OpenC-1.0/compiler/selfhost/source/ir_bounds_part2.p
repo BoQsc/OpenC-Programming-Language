@@ -47,7 +47,13 @@ unsafe usize ir_qualified_member_type(
         usize current_kind = read_record_field(
             context.type_data, current_type, 0
         );
-        if current_kind == 10 || current_kind == 11 {
+        if current_type == semantic_type_text() {
+            if !span_equals_ascii(
+                context.source, member_start + cursor,
+                segment_length, "length"
+            ) { return semantic_type_error(); }
+            current_type = semantic_builtin_type("usize", 0, 5);
+        } else if current_kind == 10 || current_kind == 11 {
             current_type = semantic_builtin_type("usize", 0, 5);
         } else if current_kind == 14 {
             if span_equals_ascii(

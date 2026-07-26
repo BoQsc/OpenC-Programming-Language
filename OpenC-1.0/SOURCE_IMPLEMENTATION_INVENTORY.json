@@ -1115,12 +1115,12 @@
       "sha256": "ad577bedb56875a4f976dbc6b3dc99077c6d6ebc5a21e2e3f424bbb0b8c745a8"
     },
     {
-      "bytes": 15875,
+      "bytes": 19509,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/flow_ownership.p",
       "present": true,
-      "sha256": "918c8dc2c32d3654df6d6feadff972ccf162c3559f855e84f800abd7a5baeb48"
+      "sha256": "7da7857b1722aa917e3cfbd2d91000615e1b3bb3e5c81ab3e258bd8e178deb64"
     },
     {
       "bytes": 10888,
@@ -1195,12 +1195,12 @@
       "sha256": "df1e1e028d160ed4684eab436055d9f1c09844ceab73a493076ae4e8238d65ff"
     },
     {
-      "bytes": 7821,
+      "bytes": 8122,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/ir_bounds_part2.p",
       "present": true,
-      "sha256": "14fbca8a27a2a06d448f909600bb6079bd4e7844c440ea7edb70373e016e611e"
+      "sha256": "5a047ee467c654b1b1f641066cdaab41015143b07d4d62de8ea3dd63fd629d9a"
     },
     {
       "bytes": 11569,
@@ -1219,20 +1219,20 @@
       "sha256": "644dd7bacbccac7deefd42ea71c66025ef0dd7b9d8c4d0d2d1b4282719119bcc"
     },
     {
-      "bytes": 27527,
+      "bytes": 27555,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/ir_control.p",
       "present": true,
-      "sha256": "b260f0768b0b9f82e2b9b193aa4dee9061a7dcff8fafc3da77c9b6edff41b3e6"
+      "sha256": "08a58f7a09eb8aae1cd9615735a4823c84f3f976eebf0419164e291827d93a0a"
     },
     {
-      "bytes": 3721,
+      "bytes": 3861,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/ir_json.p",
       "present": true,
-      "sha256": "bcdbad438ec07eaf3f7c25784905a6114c6c3dadce76e4fa99a007c76e9762b2"
+      "sha256": "1b82d36794df52866adcf6d6b5b195986793916a118e15ce636c3883757d9d26"
     },
     {
       "bytes": 1302,
@@ -1259,12 +1259,12 @@
       "sha256": "0339a0164f1ce5f06daa0f45605f111c5293559de433961918b23ff366ab1a4d"
     },
     {
-      "bytes": 6160,
+      "bytes": 6758,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/ir_lower_construct.p",
       "present": true,
-      "sha256": "c242ce9c4ba477f541ab80c95c7522644d1bc815a596d1c6ad77a92fdd9df2ec"
+      "sha256": "23460c59de261c952745387aaf4e6f8f20fcdc8af0e39dc33b648112bf4c5445"
     },
     {
       "bytes": 4999,
@@ -1331,20 +1331,20 @@
       "sha256": "74c70249dd4e3b42c758b0f035258c81cfd2390dc2b0aaf89edec235adc75aee"
     },
     {
-      "bytes": 8223,
+      "bytes": 8230,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/main.p",
       "present": true,
-      "sha256": "42d0e2e21715222dad92cdf2b5b836e948ef9289acf3d3843c906c379f2ddcf1"
+      "sha256": "de261e7fca079e671953bee9b707a1e9563a0df43a578d103d03d2062c7244da"
     },
     {
-      "bytes": 9005,
+      "bytes": 8940,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/main_driver.p",
       "present": true,
-      "sha256": "e4fded54ecc7ca1466fe1d7aee63fefb17acb6917fcc07aed463a81aae86a282"
+      "sha256": "ba4ec459d02bf5f35bb1846c857e0594271a24f1a2fe6782053e3195c6b09d44"
     },
     {
       "bytes": 6299,
@@ -1443,12 +1443,12 @@
       "sha256": "3c9c76531ceb3d1db9f79932219eaa9283f7cdeb2ce0b7cf1da4cd5eef589b36"
     },
     {
-      "bytes": 6792,
+      "bytes": 6727,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/project_manifest.p",
       "present": true,
-      "sha256": "09bc9adbc8f82842b0c0a39fb20b0ec8a3a1b32e64761b533f83bb16ac613922"
+      "sha256": "ff933561fd1557f9e8cb584a979351c891247d33c8fab3e4af4bc2344337563f"
     },
     {
       "bytes": 4449,
@@ -2022,7 +2022,7 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 1855362,
+    "bytes": 1859940,
     "empty": 0,
     "files": 252,
     "missing": 0

@@ -68,6 +68,16 @@ unsafe usize ir_lower_construct(
                     field_values, field_count, 2,
                     read_record_field(context.syntax_data, field, 4)
                 );
+                usize field_start = read_record_field(
+                    context.syntax_data, field, 1
+                );
+                usize own_field = 0;
+                if field_start >= 4 && starts_with_ascii(
+                    context.source, field_start - 4, "own "
+                ) { own_field = 1; }
+                write_record_field(
+                    field_values, field_count, 3, own_field
+                );
                 field_count = field_count + 1;
             }
             field = field + 1;
@@ -75,9 +85,13 @@ unsafe usize ir_lower_construct(
         usize first = context.operands.length;
         field = 0;
         while field < field_count {
+            usize immediate_kind = 2;
+            if read_record_field(
+                field_values, field, 3
+            ) != 0 { immediate_kind = 5; }
             ir_add_operand(
-                context,
-                read_record_field(field_values, field, 0), 2,
+                context, read_record_field(field_values, field, 0),
+                immediate_kind,
                 read_record_field(field_values, field, 1),
                 read_record_field(field_values, field, 2)
             );

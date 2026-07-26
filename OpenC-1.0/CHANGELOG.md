@@ -11,6 +11,16 @@
 - retained Windows x86-64 Hosted as the only required implementation target;
   Linux, freestanding, and Native-provider verification remain optional future
   work.
+- closed the RC9 standalone semantic-parity gaps for text member typing,
+  `when`-context lowering, and owned resource aggregate initializers;
+- made qualified owning-field consumption retain the required
+  `OPENC-OWN-USE-AFTER-MOVE-001` rejection behavior while aggregate `own`
+  initializers move their source owner exactly once;
+- made the OpenC-authored compiler's UTF-8 BOM helper conform to the status/out
+  contract, allowing the canonical compiler source to build cleanly again;
+- passed the complete self-host bootstrap with 383 canonical sources, 240
+  flow/safety comparisons, 123 canonical-IR comparisons, and 153 exact
+  rejection comparisons.
 
 - completed the conformance-evidence granularity milestone with 466/466 active
   rules covered by executed dedicated fixtures and 174/174 grammar productions

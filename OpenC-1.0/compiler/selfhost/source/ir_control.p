@@ -629,9 +629,9 @@ unsafe void ir_lower_block(ref IrContext context, usize block) {
                     0, 0, 0, operand_first, 1
                 );
             }
-        } else if kind == 11 || kind == 24 {
+        } else if kind == 11 || kind == 24 || kind == 25 {
             usize nested = statement;
-            if kind == 24 {
+            if kind == 24 || kind == 25 {
                 nested = flow_largest_direct_block(
                     context.syntax_data, context.syntax, statement
                 );
