@@ -1,25 +1,145 @@
 {
-  "$id": "openc://schema/release-record/v1",
+  "$id": "openc://schema/release-record/v2",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "authorization": {
+            "properties": {
+              "status": {
+                "const": "AUTHORIZED"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "authorization": {
+            "properties": {
+              "authorized_utc": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "released": {
+            "const": true
+          }
+        },
+        "required": [
+          "released"
+        ]
+      },
+      "then": {
+        "properties": {
+          "authorization": {
+            "properties": {
+              "status": {
+                "const": "AUTHORIZED"
+              }
+            }
+          },
+          "published_utc": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ],
   "properties": {
     "artifacts": {
       "items": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "media_type": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "role",
+          "media_type",
+          "bytes",
+          "sha256"
+        ],
         "type": "object"
       },
       "type": "array"
     },
     "authority": {
       "items": {
-        "type": "object"
+        "type": "string"
       },
+      "minItems": 1,
       "type": "array"
     },
     "authorization": {
+      "additionalProperties": false,
+      "properties": {
+        "authorized_by": {
+          "type": "string"
+        },
+        "authorized_utc": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "enum": [
+            "CANDIDATE_RELEASE_READY",
+            "AUTHORIZED"
+          ]
+        }
+      },
+      "required": [
+        "authorized_by",
+        "authorized_utc",
+        "status"
+      ],
       "type": "object"
     },
     "checksums": {
       "items": {
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "sha256"
+        ],
         "type": "object"
       },
       "type": "array"
@@ -31,11 +151,26 @@
         "Freestanding",
         "Native",
         "Tooling",
-        "Concurrent"
+        "Concurrent",
+        "Core_and_Hosted_reference_distribution"
       ]
     },
     "gates": {
       "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "pattern": "^G([1-9]|1[0-9])$",
+            "type": "string"
+          },
+          "status": {
+            "const": "PASS"
+          }
+        },
+        "required": [
+          "id",
+          "status"
+        ],
         "type": "object"
       },
       "type": "array"
@@ -47,13 +182,26 @@
       ]
     },
     "schema": {
-      "const": "openc.release_record.v1"
+      "const": "openc.release_record.v2"
     },
     "signatures": {
       "items": {
         "type": "object"
       },
       "type": "array"
+    },
+    "signatures_required": {
+      "type": "boolean"
+    },
+    "release_commit": {
+      "pattern": "^[0-9a-f]{40}$",
+      "type": "string"
+    },
+    "release_scope": {
+      "const": "windows_x86_64_hosted"
+    },
+    "released": {
+      "type": "boolean"
     },
     "version": {
       "type": "string"
@@ -63,12 +211,17 @@
     "schema",
     "component",
     "version",
+    "release_scope",
+    "release_commit",
     "authority",
     "gates",
     "artifacts",
     "checksums",
     "signatures",
-    "authorization"
+    "signatures_required",
+    "authorization",
+    "published_utc",
+    "released"
   ],
   "title": "OpenC release record",
   "type": "object"

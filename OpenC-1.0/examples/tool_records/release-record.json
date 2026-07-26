@@ -3,6 +3,7 @@
   "authority": ["OpenC project owner"],
   "authorization": {
     "authorized_by": "OpenC project owner",
+    "authorized_utc": null,
     "status": "CANDIDATE_RELEASE_READY"
   },
   "checksums": [],
@@ -17,9 +18,11 @@
     {"id": "G7", "status": "PASS"},
     {"id": "G8", "status": "PASS"},
     {"id": "G9", "status": "PASS"},
-    {"id": "G10", "status": "PASS"}
+    {"id": "G10", "status": "PASS"},
+    {"id": "G11", "status": "PASS"}
   ],
   "published_utc": null,
+  "release_commit": "0000000000000000000000000000000000000000",
   "release_scope": "windows_x86_64_hosted",
   "released": false,
   "schema": "openc.release_record.v2",

@@ -2,6 +2,12 @@
 
 ## Unreleased — standalone self-hosted Windows release
 
+- added deterministic complete-release assembly and verification covering the
+  declared Core artifact layout, Windows Hosted standalone distribution,
+  source/conformance bundles, implementation evidence, mandatory SHA-256 list,
+  and owner authorization record;
+- repaired the release-record contract by aligning its schema, template, and
+  example on `openc.release_record.v2` and adding the completed SH-6 gate;
 - completed SH-6 with two byte-identical relocatable standalone archives;
 - proved packaged OpenC-native compiler → Stage 2 → Stage 3 closure from a
   foreign working directory while DMD, DUB, and Python were unavailable to the

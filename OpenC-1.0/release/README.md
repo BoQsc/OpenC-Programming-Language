@@ -21,3 +21,10 @@ The SH-6 Windows standalone package is built by
 and verified by `verify_standalone_windows.py`. Its exact commands, supported
 roles, results, and hashes are in `SH6_STANDALONE_EVIDENCE.md`; package-user
 instructions are in `STANDALONE_WINDOWS_README.md`.
+
+The complete publication set is assembled by
+`build_release_artifacts.py` and verified by
+`verify_release_artifacts.py`. The builder emits the artifact layout, mandatory
+checksum list, and schema-valid owner authorization record without claiming
+that a tag, push, or publication occurred. Those state changes are performed
+and recorded separately.

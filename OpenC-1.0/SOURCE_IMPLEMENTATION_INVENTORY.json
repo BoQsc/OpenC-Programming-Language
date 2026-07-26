@@ -99,6 +99,14 @@
       "sha256": "287734fda2920a6a6f6c3766cf5e0ed4014bf6e8c33968211265b27cba79d6de"
     },
     {
+      "bytes": 14203,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "release/build_release_artifacts.py",
+      "present": true,
+      "sha256": "6ed0018ef9729ca8fa035925fefdcd1d2be32277d2e9a8e0a1924515e6f362e7"
+    },
+    {
       "bytes": 2471,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
@@ -113,6 +121,14 @@
       "path": "release/build_standalone_windows.py",
       "present": true,
       "sha256": "029ffba8d388bbfef27e5d6d546417b5c03a9ee43eca63693b535d0ea4e2a03d"
+    },
+    {
+      "bytes": 8817,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "release/verify_release_artifacts.py",
+      "present": true,
+      "sha256": "c0e0bbf6dd0e08d0a6334066ac84f00944d9ecbfdce3e28236518e4fb63f1e05"
     },
     {
       "bytes": 1759,
@@ -1990,9 +2006,9 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 1782074,
+    "bytes": 1805094,
     "empty": 0,
-    "files": 248,
+    "files": 250,
     "missing": 0
   },
   "version": "1.0.0-rc.8"

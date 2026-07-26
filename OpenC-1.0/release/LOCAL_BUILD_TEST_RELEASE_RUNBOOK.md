@@ -21,6 +21,9 @@ hash corresponds to the candidate tree.
     with `release/build_standalone_windows.py`, compare their bytes, and run
     `release/verify_standalone_windows.py` from a foreign working directory.
 12. Generate mandatory SHA-256 checksums and any optional detached signatures.
+    Use `release/build_release_artifacts.py` twice with the same explicit
+    release commit and authorization timestamp, then require
+    `release/verify_release_artifacts.py` to report byte equality.
 13. Verify the committed legal/governance authorization.
 14. Mark artifacts RELEASE_READY only after every required gate passes.
 15. Publish immutable artifacts and then mark RELEASED.
