@@ -246,6 +246,24 @@ Reproduce the distribution and proof with
 `release/verify_standalone_windows.py`; the exact final command and hashes are
 recorded in `release/SH6_STANDALONE_EVIDENCE.md`.
 
+## RC9 standalone successor
+
+The published `v1.0.0-rc.9` package preserves the RC8 historical evidence and
+refreshes the required Windows Hosted standalone gate to the 278-fixture
+corpus. Two independent archives are byte-identical at SHA-256
+`c215e8c5b0847657573204e19493f54c71d2c5ad8c3a95fe1523f21f1bc66344`.
+The packaged compiler, Stage 2, and Stage 3 are byte-identical at SHA-256
+`5924db13e20464d392dd563a086d35c95c61dafc6862ad7ba0fc767c0cdae4a6`.
+
+The relocated package passes 240 flow/safety comparisons, 123 exact
+canonical-IR comparisons, 153 exact semantic rejections, 278/278 conformance,
+and all 4 maintained programs. Full hashes, commands, authorization, and
+publication evidence are in `release/RC9_STANDALONE_EVIDENCE.md`.
+
+SH-7 native conformance and tooling independence is next. It removes the
+retained D audit seed from the required packaged conformance gate while
+preserving that implementation as an optional comparison oracle.
+
 The supported library mode is the six compiler-provided
 `system.file`/`io`/`memory`/`path`/`process`/`text` modules backed by the
 packaged Windows C runtime and native shim. Authored Native-provider `.p`

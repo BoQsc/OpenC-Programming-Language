@@ -66,8 +66,8 @@ The public `v1.0.0-rc.8` tag and its 268-fixture standalone evidence remain
 immutable historical records. This milestone is post-tag mainline work; it
 does not claim that the old archive contains the expanded corpus.
 
-The next engineering milestone is an RC9 standalone refresh: assemble two
-byte-identical archives from this source, verify packaged native closure,
-execute all 278 fixtures and all 4 maintained programs from the relocated
-package, then regenerate the authorized artifact set, release record,
-checksums, commit, and tag.
+That successor milestone is complete and published as `v1.0.0-rc.9`: two
+byte-identical archives reach packaged native closure, execute all 278 fixtures
+and all 4 maintained programs, and ship with the verified artifact set and
+release record. The next engineering milestone is SH-7 native conformance and
+tooling independence.

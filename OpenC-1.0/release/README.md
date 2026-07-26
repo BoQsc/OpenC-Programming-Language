@@ -20,8 +20,9 @@ The SH-6 Windows standalone package and its RC9 successor refresh are built by
 `build_standalone_windows.py`, used as a relocated self-hosting environment,
 and verified by `verify_standalone_windows.py`. The immutable RC8 commands,
 roles, results, and hashes are in `SH6_STANDALONE_EVIDENCE.md`; RC9 raises the
-packaged conformance gate to 278/278. Package-user instructions are in
-`STANDALONE_WINDOWS_README.md`.
+packaged conformance gate to 278/278. Its published evidence and successor
+milestone are in `RC9_STANDALONE_EVIDENCE.md`. Package-user instructions are
+in `STANDALONE_WINDOWS_README.md`.
 
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by

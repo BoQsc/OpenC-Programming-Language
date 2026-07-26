@@ -18,8 +18,8 @@ project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
 full syntactic/project frontend:      SH-2 PASS
 declaration/symbol/type tables:       SH-3A PASS; 17/17 EXACT PARITY
 name/constant/overload resolution:    SH-3B PASS; 10/10 EXACT PARITY
-flow/safety semantics:                SH-3C PASS; 232 SEMANTIC COMPARISONS
-semantic outcomes/canonical IR:       SH-3D PASS; 149 REJECT + 117 IR MATCHES
+flow/safety semantics:                SH-3C PASS; RC9 CURRENT 240 COMPARISONS
+semantic outcomes/canonical IR:       SH-3D PASS; RC9 153 REJECT + 123 IR MATCHES
 full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
 bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
@@ -27,7 +27,7 @@ bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
 self-hosted compiler:                 YES; SH-6 PASS, STANDALONE WINDOWS
 self-host performance milestone:     PASS; 45.5% FASTER, >=92.5% LESS PRIVATE MEMORY
 coverage-granularity milestone:      PASS; 466/466 RULES, 174/174 GRAMMAR PAIRS
-next engineering milestone:          RC9 STANDALONE REFRESH WITH 278 FIXTURES
+next engineering milestone:          SH-7 NATIVE CONFORMANCE/TOOLING INDEPENDENCE
 DMD-independent self-host compiler:  YES; PUBLIC `openc build`, VENDORED TCC
 standalone compiler distribution:    YES; RELOCATABLE, REPRODUCIBLE, VERIFIED
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED
@@ -56,10 +56,10 @@ specification/docs/assets:           CC0-1.0
 vendored TinyCC backend:             LGPL-2.1 + BUNDLED MIT/PUBLIC-DOMAIN TERMS
 release authority:                   OPENC PROJECT OWNER
 formal release ready:                YES FOR DECLARED WINDOWS HOSTED SCOPE
-owner authorization:                 RC9 CANDIDATE PREPARATION IN PROGRESS
-public release tag:                  RC8 HISTORICAL; RC9 NOT YET TAGGED
-GitHub release assets:               NOT YET ASSEMBLED FOR RC9
-published/released:                  NO
+owner authorization:                 RC9 AUTHORIZED 2026-07-26T15:06:20Z
+public release tag:                  v1.0.0-rc.9 -> 0535ad08bd54e74e76a3879d57afb4f1bd0f9835
+GitHub release assets:               14/14 UPLOADED; REMOTE DIGEST AUDIT PASS
+published/released:                  YES; PRERELEASE PUBLISHED 2026-07-26T15:09:50Z
 ```
 
 `RELEASE_READY` means the declared local gates pass. Owner authorization,
@@ -68,6 +68,10 @@ This does not imply independent certification or verification on targets
 outside the declared scope.
 
 The RC8 tag and standalone archive remain an immutable 268-fixture historical
-release-candidate record. Post-tag mainline passes the expanded 278-fixture
-corpus and native compiler closure; the RC9 standalone refresh must reproduce
-those results from the relocated package before authorization.
+release-candidate record. RC9 reproduces the expanded 278-fixture corpus and
+native compiler closure from the relocated package and is published at
+`https://github.com/BoQsc/OpenC-Programming-Language/releases/tag/v1.0.0-rc.9`.
+
+The next engineering milestone is SH-7: move the complete conformance and
+release-tooling path onto the OpenC-native compiler so the packaged 278-fixture
+gate no longer depends on the retained D audit seed.

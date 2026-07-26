@@ -21,6 +21,14 @@
 - passed the complete self-host bootstrap with 383 canonical sources, 240
   flow/safety comparisons, 123 canonical-IR comparisons, and 153 exact
   rejection comparisons.
+- built two byte-identical 1,169-file standalone archives at SHA-256
+  `c215e8c5b0847657573204e19493f54c71d2c5ad8c3a95fe1523f21f1bc66344`;
+- passed relocated packaged Stage-2/Stage-3 closure, 278/278 packaged
+  conformance, all 4 maintained programs, and complete artifact verification;
+- authorized, tagged, and published `v1.0.0-rc.9` with 14 GitHub assets whose
+  remote sizes and SHA-256 digests match the verified local publication set;
+- made SH-7 native conformance and tooling independence the next engineering
+  milestone.
 
 - completed the conformance-evidence granularity milestone with 466/466 active
   rules covered by executed dedicated fixtures and 174/174 grammar productions

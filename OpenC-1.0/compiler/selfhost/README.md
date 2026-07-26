@@ -32,8 +32,9 @@ python compiler/selfhost/bootstrap.py
 
 That command builds stage 1 and executes the 304-case lexer gate, 303-case
 parser gate, 22-case project/module gate, 17-case declaration/symbol/type gate,
-10 exact name/constant/overload comparisons, 232 flow/safety comparisons, and
-full semantic-outcome/canonical-IR comparison. SH-2A through SH-2D, full SH-2,
+10 exact name/constant/overload comparisons, 240 current flow/safety
+comparisons, and full semantic-outcome/canonical-IR comparison with 123
+accepted IR cases and 153 exact rejections. SH-2A through SH-2D, full SH-2,
 SH-3A through SH-3D, and full SH-3 pass. SH-4A bootstrap D-source backend
 parity, SH-4B Stage-1 self-compilation, SH-4C Stage-2/Stage-3 closure, and full
 SH-4 also pass.
@@ -65,3 +66,14 @@ python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4
 
 Run the complete SH-6 distribution proof with the commands recorded in
 `release/SH6_STANDALONE_EVIDENCE.md`. SH-6 is **PASS**.
+
+The published RC9 successor proof is recorded in
+`release/RC9_STANDALONE_EVIDENCE.md`. It passes 278/278 conformance, all 4
+maintained programs, 123 canonical-IR comparisons, and 153 exact semantic
+rejections from the relocated package. Its native compiler is byte-identical
+through Stage 2 and Stage 3 at SHA-256
+`5924db13e20464d392dd563a086d35c95c61dafc6862ad7ba0fc767c0cdae4a6`.
+
+The next engineering milestone is SH-7 native conformance and tooling
+independence: move the complete packaged conformance gate off the retained D
+audit seed and onto the OpenC-native compiler.

@@ -36,7 +36,10 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   SH-3B name/constant/overload parity passes on one maintained canonical
   project plus 9 probes (10/10), SH-3C exact flow/safety parity covers 232
   semantic comparisons, and SH-3D matches 149 rejection outcomes plus exact
-  canonical IR for 117 accepted programs and all 33 reachable opcodes; full
+  canonical IR for 117 accepted programs and all 33 reachable opcodes at the
+  original SH-3 gate; the current RC9 corpus passes 240 flow/safety
+  comparisons, 123 canonical-IR comparisons, and 153 exact semantic
+  rejections; full
   SH-3 passes; SH-4A matches 28 generated D files across 4 projects byte for
   byte, SH-4B has Stage 1 build Stage 2, and SH-4C proves Stage-2/Stage-3
   generated-source, lexer, canonical-IR, and normalized-PE closure; full SH-4
@@ -44,8 +47,9 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   Win64 backend, proves byte-exact native compiler source/executable closure
   with DMD, DUB, and Python hidden, and exposes public `openc build`; SH-6
   packages that compiler and complete source in a relocatable deterministic
-  archive, proves packaged Stage-2/Stage-3 byte closure, and passes 268/268
-  conformance fixtures plus all 4 maintained programs from the package;
+  archive; RC9 proves packaged Stage-2/Stage-3 byte closure, passes 278/278
+  conformance fixtures plus all 4 maintained programs from the package, and
+  is published as `v1.0.0-rc.9`;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
@@ -56,15 +60,16 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   TinyCC is a separate LGPL-2.1 component with notice and corresponding source
   included; bundled headers retain their public-domain and MIT notices.
 
-The owner-certified Windows x86-64 Hosted release candidate is `RELEASE_READY`,
-but it is not published or marked `RELEASED`. Independent third-party review
-remains welcome and may produce errata; it is not a prerequisite for the
+The owner-certified Windows x86-64 Hosted `v1.0.0-rc.9` release candidate is
+`RELEASED` as a GitHub prerelease. Independent third-party review remains
+welcome and may produce errata; it is not a prerequisite for the
 owner-maintained initial release.
 
 The public RC8 package evidence remains the immutable 268-fixture historical
-record described above. Current post-tag mainline passes 278/278; the next
-engineering milestone is an RC9 standalone refresh containing this expanded
-corpus.
+record described above. RC9 is the published 278-fixture successor. The next
+engineering milestone is SH-7 native conformance and tooling independence:
+make the packaged native compiler own the complete conformance gate without
+the retained D audit seed.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
 `LICENSE_POLICY.md`, `standard/core/OpenC_Core_Current.md`, and

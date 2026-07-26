@@ -11,7 +11,7 @@ pending owner decisions:                  0
 HD-012 legal/governance status:           RATIFIED
 release-candidate scope:                  WINDOWS X86-64 HOSTED
 release ready:                            YES
-published/released:                       NO
+published/released:                       YES; v1.0.0-rc.9
 ```
 
 ## Decision status
@@ -63,5 +63,6 @@ The controlling terms are local to the source package in `LICENSE`,
 ## Effect
 
 Ratified decisions may be changed only through the recorded normative-change
-and errata process. `RELEASE_READY` authorizes candidate artifact preparation;
-publication remains a distinct owner action.
+and errata process. `RELEASE_READY` authorizes candidate artifact preparation.
+The distinct owner publication action was completed for `v1.0.0-rc.9` on
+2026-07-26.

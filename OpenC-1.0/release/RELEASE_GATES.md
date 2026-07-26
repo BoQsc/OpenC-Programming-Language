@@ -46,6 +46,6 @@ independent package builds are byte-identical, the extracted compiler is
 relocatable, and packaged Stage 2 and Stage 3 are byte-identical.
 
 The SH-6 268-fixture package count is the immutable RC8 historical result.
-RC9 adds a mandatory successor gate: the relocated package must execute the
+RC9 completes the mandatory successor gate: the relocated package executes the
 current 278-fixture corpus plus all 4 maintained programs before owner
-authorization.
+authorization. The verified set is published as `v1.0.0-rc.9`.

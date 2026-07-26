@@ -97,8 +97,13 @@ are outside the supported 1.0 scope.
 - The RC8 packaged native compiler passes 117 exact canonical-IR comparisons and
   149 exact rejection outcomes across 263 authored fixtures. The extracted
   package passes its historical 268/268 conformance gate and builds and
-  executes all 4 maintained programs. RC9 requires a fresh relocated package
-  run against 278/278 before authorization.
+  executes all 4 maintained programs. The published RC9 relocated package
+  passes the expanded 278/278 corpus and all 4 maintained programs.
+- The RC9 packaged compiler, Stage 2, and Stage 3 are byte-identical at
+  `5924db13e20464d392dd563a086d35c95c61dafc6862ad7ba0fc767c0cdae4a6`.
+  It passes 240 flow/safety comparisons, 123 exact canonical-IR comparisons,
+  and 153 exact semantic rejections. Two standalone builds are byte-identical
+  at `c215e8c5b0847657573204e19493f54c71d2c5ad8c3a95fe1523f21f1bc66344`.
 - The post-SH-6 native performance milestone passes. A closed Stage 3 rebuilds
   the compiler in 381.049 seconds versus 698.918 seconds before the changes,
   with 11.37 MiB peak working set and 161.55 MiB peak private memory. Optimized
@@ -143,7 +148,7 @@ python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh
 python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final
 python compiler/selfhost/bootstrap_windows_closure.py
 python compiler/selfhost/benchmark_windows_rebuild.py --compiler build-output/selfhost-performance/closure/stage3/openc.exe
-python release/verify_standalone_windows.py --archive build-output/release/OpenC-1.0.0-rc.8-windows-x86_64-standalone-a.zip --comparison-archive build-output/release/OpenC-1.0.0-rc.8-windows-x86_64-standalone-b.zip --output build-output/selfhost-sh6/final --force
+python release/verify_standalone_windows.py --archive build-output/release/OpenC-1.0.0-rc.9-windows-x86_64-standalone-a.zip --comparison-archive build-output/release/OpenC-1.0.0-rc.9-windows-x86_64-standalone-b.zip --output build-output/selfhost-rc9/final-v2 --jobs 8 --force
 python scripts/validate_structure.py
 python scripts/source_completeness.py
 ```
@@ -152,9 +157,9 @@ python scripts/source_completeness.py
 
 HD-012 is ratified, the declared platform gate passes, and independent external
 review is a recommended post-release assurance activity rather than an initial
-owner-certified release prerequisite. The candidate is `RELEASE_READY` for its
-declared Windows x86-64 Hosted scope. It remains unpublished and therefore is
-not `RELEASED`. SH-2A through SH-2D and full lexical/syntactic/project SH-2 are
+owner-certified release prerequisite. The candidate is `RELEASED` for its
+declared Windows x86-64 Hosted scope as the published `v1.0.0-rc.9`
+prerelease. SH-2A through SH-2D and full lexical/syntactic/project SH-2 are
 executed self-hosting milestones. SH-3A declaration/symbol/type-table and
 SH-3B name/constant/overload parity, SH-3C flow/safety parity, and SH-3D exact
 semantic-outcome/canonical-IR parity also pass, completing SH-3. SH-4 bootstrap
@@ -166,7 +171,8 @@ and passes the full packaged compiler, semantic/IR, conformance, and maintained
 program gates. Self-hosting SH-0 through SH-6 is complete for the declared
 Windows x86-64 Hosted scope.
 
-The current coverage milestone is post-tag mainline evidence. The immutable
-RC8 standalone record remains at 268 fixtures; an RC9 standalone refresh that
-packages and executes the current 278-fixture corpus is the next engineering
-milestone.
+The immutable RC8 standalone record remains at 268 fixtures. RC9 packages and
+executes the current 278-fixture corpus, reaches byte-identical native closure,
+and publishes the verified artifact set. The next engineering milestone is
+SH-7 native conformance and tooling independence: remove the retained D audit
+seed from the required packaged conformance gate.

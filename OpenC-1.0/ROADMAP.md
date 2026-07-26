@@ -1,20 +1,20 @@
 # OpenC roadmap
 
 The Windows x86-64 Hosted standalone self-hosted release candidate is
-owner-authorized and publicly tagged as `v1.0.0-rc.8`. Its complete
-13-artifact set is reproducible and verified. Attaching those assets to the
-GitHub release page is the remaining external publication action. Linux,
-freestanding, Native, and standalone Native-provider verification remain
-optional future target work.
+owner-authorized, tagged, and published as `v1.0.0-rc.9`. Its complete
+13-artifact set plus release record is reproducible, verified, and available
+as 14 GitHub release assets. Linux, freestanding, Native, and standalone
+Native-provider verification remain optional future target work.
 
 ## Completed self-hosting path
 
 SH-0 through SH-6 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes native semantic/IR parity, passes all
-268 conformance fixtures, and builds and executes all 4 maintained programs.
-The package and complete evidence are recorded in
-`release/SH6_STANDALONE_EVIDENCE.md`.
+278 current conformance fixtures, and builds and executes all 4 maintained
+programs. The immutable RC8 baseline is recorded in
+`release/SH6_STANDALONE_EVIDENCE.md`; the published RC9 refresh is recorded in
+`release/RC9_STANDALONE_EVIDENCE.md`.
 
 SH-4 is complete. SH-4A matches all 28 generated D files across the canonical
 compiler and A/B/C projects byte for byte. SH-4B has Stage 1 invoke the
@@ -85,17 +85,21 @@ IR reach closure. Exact evidence and reproduction commands are in
 
 ## What comes next
 
-1. **Refresh the standalone release candidate — next engineering milestone**
-   - prepare RC9 from the post-tag source, build two byte-identical standalone
-     Windows archives, and run the packaged compiler against all 278 fixtures
-     and all 4 maintained programs;
-   - regenerate the complete artifact set, checksums, release record, owner
-     authorization, commit, and tag without rewriting the historical RC8
-     evidence.
-2. **Complete release-asset publication**
-   - attach the verified release-candidate files to the GitHub prerelease page
-     when an asset-upload-capable operator surface is available. Detached
-     signing remains optional.
+1. **SH-7 native conformance and tooling independence — next engineering
+   milestone**
+   - implement native `openc validate`, or an equivalent OpenC-authored
+     conformance runner, for the complete 278-fixture manifest;
+   - reproduce exact acceptance, diagnostic, and runtime outcomes through the
+     packaged OpenC-native compiler;
+   - remove the retained D audit seed from the required packaged conformance
+     gate while retaining it as an optional comparison oracle;
+   - preserve byte-identical native Stage-2/Stage-3 closure, reproducible
+     archives, and the 4/4 maintained-program gate.
+2. **Native developer-workflow hardening**
+   - make the OpenC-native compiler the default compiler-under-test for Windows
+     Hosted development gates;
+   - profile native validation and rebuild paths, establish regression budgets,
+     and remove avoidable full-corpus work where measurements justify it.
 3. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.
