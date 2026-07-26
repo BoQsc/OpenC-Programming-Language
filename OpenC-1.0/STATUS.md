@@ -25,7 +25,7 @@ bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
 bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
 self-hosted compiler:                 YES; SH-6 PASS, STANDALONE WINDOWS
-self-hosting next milestone:          POST-SH-6 PUBLICATION/PERFORMANCE
+self-hosting next milestone:          NATIVE REBUILD PERFORMANCE
 DMD-independent self-host compiler:  YES; PUBLIC `openc build`, VENDORED TCC
 standalone compiler distribution:    YES; RELOCATABLE, REPRODUCIBLE, VERIFIED
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED
@@ -54,9 +54,14 @@ specification/docs/assets:           CC0-1.0
 vendored TinyCC backend:             LGPL-2.1 + BUNDLED MIT/PUBLIC-DOMAIN TERMS
 release authority:                   OPENC PROJECT OWNER
 formal release ready:                YES FOR DECLARED WINDOWS HOSTED SCOPE
-published/released:                  NO
+owner authorization:                 AUTHORIZED; 13-ARTIFACT SET VERIFIED
+public release tag:                  v1.0.0-rc.8 -> aa8a247
+GitHub release assets:               PENDING EXTERNAL UPLOAD
+published/released:                  NO; TAGGED SOURCE IS PUBLIC
 ```
 
-`RELEASE_READY` means the declared local gates pass and artifacts may be
-presented to the project owner for publication. It does not mean published,
-independently certified, or verified on targets outside the declared scope.
+`RELEASE_READY` means the declared local gates pass. The owner has now
+authorized the deterministic artifact set and published its immutable source
+tag. The release remains not `RELEASED` until the recorded assets are attached
+to a publication endpoint. This does not imply independent certification or
+verification on targets outside the declared scope.

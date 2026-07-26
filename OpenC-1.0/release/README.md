@@ -28,3 +28,6 @@ The complete publication set is assembled by
 checksum list, and schema-valid owner authorization record without claiming
 that a tag, push, or publication occurred. Those state changes are performed
 and recorded separately.
+
+The current owner authorization and public-tag state is recorded in
+`PUBLICATION_STATUS.md`.

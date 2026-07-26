@@ -1,9 +1,11 @@
 # OpenC roadmap
 
 The Windows x86-64 Hosted standalone self-hosted release candidate is
-release-ready and remains unpublished. Linux, freestanding, Native, and
-standalone Native-provider verification are optional future target work; they
-do not block this release.
+owner-authorized and publicly tagged as `v1.0.0-rc.8`. Its complete
+13-artifact set is reproducible and verified. Attaching those assets to the
+GitHub release page is the remaining external publication action. Linux,
+freestanding, Native, and standalone Native-provider verification remain
+optional future target work.
 
 ## Completed self-hosting path
 
@@ -57,12 +59,12 @@ Stage-2/Stage-3 PE hash
 
 ## What comes next
 
-1. **Publish the owner-authorized 1.0 artifact set**
-   - perform the explicit owner publication act, record immutable artifact
-     hashes, and create the release tag; mandatory SHA-256 records are ready,
-     while detached signing remains optional until a public signing key is
-     deliberately established.
-2. **Improve native compiler performance**
+1. **Complete release-asset publication**
+   - the owner authorization, deterministic artifacts, mandatory checksums,
+     release record, commit, and public tag are complete; attach the verified
+     files to the GitHub prerelease page when an asset-upload-capable operator
+     surface is available. Detached signing remains optional.
+2. **Improve native compiler performance — next engineering milestone**
    - reduce compiler-sized native rebuild time and peak memory while retaining
      exact generated-C, executable, normalized-PE, semantic, conformance, and
      maintained-program closure gates.
