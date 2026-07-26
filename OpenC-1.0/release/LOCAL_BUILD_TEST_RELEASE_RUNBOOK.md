@@ -17,6 +17,9 @@ hash corresponds to the candidate tree.
 9. Generate standard, rationale, diagnostic, and API books.
 10. Create deterministic source and binary archives.
 11. Extract archives into a clean directory and reverify all manifests.
+    For the standalone Windows binary/source distribution, build two archives
+    with `release/build_standalone_windows.py`, compare their bytes, and run
+    `release/verify_standalone_windows.py` from a foreign working directory.
 12. Generate mandatory SHA-256 checksums and any optional detached signatures.
 13. Verify the committed legal/governance authorization.
 14. Mark artifacts RELEASE_READY only after every required gate passes.

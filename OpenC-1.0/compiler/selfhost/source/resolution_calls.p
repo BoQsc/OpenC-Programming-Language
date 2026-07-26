@@ -162,6 +162,7 @@ unsafe ResolutionInteger resolution_parse_integer(
         if marker == 98 || marker == 66 { radix = 2; index = 2; }
     }
     i64 value = 0;
+    i64 maximum = cast(i64, 9223372036854775807);
     while index < length {
         u8 octet = byte_at_or_zero(source, start + index);
         if octet == 95 { index = index + 1; continue; }
@@ -175,7 +176,12 @@ unsafe ResolutionInteger resolution_parse_integer(
         if digit >= radix {
             return ResolutionInteger{ value = 0, valid = false };
         }
-        value = value * cast(i64, radix) + cast(i64, digit);
+        i64 base = cast(i64, radix);
+        i64 amount = cast(i64, digit);
+        if value > (maximum - amount) / base {
+            return ResolutionInteger{ value = 0, valid = false };
+        }
+        value = value * base + amount;
         index = index + 1;
     }
     return ResolutionInteger{ value = value, valid = valid };
@@ -231,4 +237,3 @@ unsafe usize resolution_right_expression(
     }
     return selected;
 }
-

@@ -25,6 +25,7 @@ unsafe i32 build_default_windows(
     text project_path,
     text output_executable
 ) {
+    text distribution_root = process.executable_directory();
     DBuffer generated = d_buffer_create(
         text.byte_length(output_executable) + 32
     );
@@ -44,10 +45,14 @@ unsafe i32 build_default_windows(
         project_path,
         output_executable,
         d_buffer_text(generated),
-        "runtime",
-        "compiler/selfhost/native_runtime",
+        path.join(distribution_root, "runtime"),
+        path.join(
+            distribution_root, "compiler/selfhost/native_runtime"
+        ),
         d_buffer_text(record),
-        "third_party/tinycc-win64/tcc.exe"
+        path.join(
+            distribution_root, "third_party/tinycc-win64/tcc.exe"
+        )
     );
     d_buffer_destroy(record);
     d_buffer_destroy(generated);

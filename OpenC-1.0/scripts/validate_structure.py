@@ -161,6 +161,11 @@ if self_hosting.get("claims", {}).get("dmd_independent") != \
 if self_hosting.get("claims", {}).get("standalone") != \
         (self_host_gates.get("SH-6") == "PASS"):
     errors.append("standalone claim must match the SH-6 gate")
+if self_host_gates.get("SH-6") == "PASS" and (
+        not self_hosting.get("claims", {}).get("self_hosted")
+        or not self_hosting.get("claims", {}).get("dmd_independent")
+        or not self_hosting.get("claims", {}).get("standalone")):
+    errors.append("SH-6 PASS requires self-hosted, DMD-independent, standalone claims")
 if self_host_gates.get("SH-5") == "PASS" and (
         not self_hosting.get("claims", {}).get("windows_c_backend")
         or not self_hosting.get("claims", {}).get("vendored_windows_backend")

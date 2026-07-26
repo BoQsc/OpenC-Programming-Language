@@ -258,16 +258,21 @@ unsafe void c_emit_instruction(
     }
     if opcode == ir_op_cast() {
         c_put_lhs(buffer, result);
-        if c_type_is_integer(context, type_id) {
+        usize operand = d_operand_value(context, instruction, 0);
+        usize operand_type = c_value_type(value_types, operand);
+        if operand_type == type_id {
+            d_put(buffer, "v");
+            d_put_usize(buffer, operand);
+        } else if c_type_is_integer(context, type_id) {
             d_put(buffer, "oc_checked_cast_");
             c_put_checked_suffix(context, buffer, type_id);
             d_put(buffer, "((long double)v");
-            d_put_usize(buffer, d_operand_value(context, instruction, 0));
+            d_put_usize(buffer, operand);
             d_put(buffer, ", 0)");
         } else {
             d_put(buffer, "("); c_put_type(context, buffer, type_id);
             d_put(buffer, ")v");
-            d_put_usize(buffer, d_operand_value(context, instruction, 0));
+            d_put_usize(buffer, operand);
         }
         d_put(buffer, ";\n");
         return;

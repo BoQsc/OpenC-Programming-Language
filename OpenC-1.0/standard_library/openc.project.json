@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "edition": "OpenC 1.0",
   "profile": "standard",
-  "target": "linux-x86_64",
+  "target": "windows-x86_64",
   "modules": {
     "system.file": ["system.file/source/file.p"],
     "system.io": ["system.io/source/io.p"],

@@ -1,10 +1,11 @@
 # OpenC self-hosting and standalone compiler gates
 
-The canonical compiler is written in OpenC and now completes DMD-independent
-Windows self-compilation through deterministic C11 emission and the shipped
-TinyCC 0.9.27 Win64 backend. The existing D implementation remains the
-auditable stage-0 bootstrap seed; it is not deleted after closure. Packaging
-and verifying the standalone self-hosted distribution is SH-6.
+The canonical compiler is written in OpenC and completes standalone,
+DMD-independent Windows self-compilation through deterministic C11 emission
+and the shipped TinyCC 0.9.27 Win64 backend. The existing D implementation
+remains the auditable stage-0 bootstrap seed; it is not deleted after closure.
+SH-6 packages the native compiler and complete source in a relocatable,
+manifested distribution and proves closure from that package.
 
 The supported initial target is Windows x86-64 Hosted. Linux and freestanding
 do not gate this program.
@@ -184,8 +185,6 @@ hash is
 
 Status: **PASS**
 
-Next gate: **SH-6 — standalone self-hosted release**
-
 ### SH-5 — DMD-independent Windows backend
 
 - Implement deterministic Windows x86-64 object emission and the required
@@ -225,13 +224,42 @@ Status: **PASS**
 - The source, bootstrap seed, stage artifacts, normalized comparison, and
   checksums are recorded in the release evidence.
 
-Status: **PENDING**
+Two independently assembled archives are byte-identical at SHA-256
+`6adf2254263cc11ae8a2f31ee883923021397942237ffb6fd64f0742a1b0eaac`.
+After extraction, the package manifest validates 1,140 entries and the
+packaged compiler runs from a foreign working directory. The packaged compiler
+builds Stage 2 and Stage 2 builds Stage 3 with DMD, DUB, and Python unavailable
+to those native builds.
+
+The packaged compiler, Stage 2, and Stage 3 are byte-identical at SHA-256
+`c2a26a1d286354f4e4b5ed2192e9008a5fffb2a667c4e4b9ba3f4a4afc76ed75`.
+Their generated C is byte-identical at
+`5851bde4caebb5cb4142966ce650db51ccf55983e1a3888e15ff0cd573c3a966`;
+the normalized PE hash is
+`cb8c75fc9e364608d61cdb062c58180f8899b99c7f1fb9396b9c8f2c1ff4b8e8`.
+Native semantic/IR parity passes across 263 authored source fixtures, including
+117 exact IR comparisons and 149 exact rejection outcomes. The extracted
+package passes 268/268 conformance fixtures and all 4 maintained programs.
+
+Reproduce the distribution and proof with
+`release/build_standalone_windows.py` and
+`release/verify_standalone_windows.py`; the exact final command and hashes are
+recorded in `release/SH6_STANDALONE_EVIDENCE.md`.
+
+The supported library mode is the six compiler-provided
+`system.file`/`io`/`memory`/`path`/`process`/`text` modules backed by the
+packaged Windows C runtime and native shim. Authored Native-provider `.p`
+sources are included but remain outside this gate. The retained D seed supplies
+audit observations and the legacy conformance adapter; Python orchestrates
+evidence only and neither is a native build dependency.
+
+Status: **PASS**
 
 ## Required enabling libraries
 
 SH-4 supplies the retained deterministic D bootstrap path. SH-5 supplies
 deterministic C11 writing, Hosted process invocation, the shipped Windows
-compiler/linker backend, build records, and DMD-independent closure. SH-6 now
+compiler/linker backend, build records, and DMD-independent closure. SH-6
 packages these pieces into a relocatable distribution and verifies that
 distribution against the compiler, runtime/library, conformance, and
 maintained-program gates.

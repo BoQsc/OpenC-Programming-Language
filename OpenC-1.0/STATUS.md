@@ -24,10 +24,10 @@ full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
 bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
 bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
-self-hosted compiler:                 YES; SH-5 PASS, DMD-INDEPENDENT WINDOWS
-self-hosting next milestone:          SH-6 STANDALONE SELF-HOSTED RELEASE
+self-hosted compiler:                 YES; SH-6 PASS, STANDALONE WINDOWS
+self-hosting next milestone:          POST-SH-6 PUBLICATION/PERFORMANCE
 DMD-independent self-host compiler:  YES; PUBLIC `openc build`, VENDORED TCC
-standalone compiler distribution:    NO; SH-6 PENDING
+standalone compiler distribution:    YES; RELOCATABLE, REPRODUCIBLE, VERIFIED
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED
 first-party tool source:             SOURCE-COMPLETE; BUILT AND TESTED
 build/test/release source:           SOURCE-COMPLETE; EXECUTED

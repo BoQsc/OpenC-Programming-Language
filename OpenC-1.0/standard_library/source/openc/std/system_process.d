@@ -23,6 +23,12 @@ OpenCText current_directory() {
     return getcwd().idup;
 }
 
+OpenCText executable_directory() {
+    import std.file : thisExePath;
+    import std.path : dirName;
+    return dirName(thisExePath()).idup;
+}
+
 Status run(OpenCText command, out i32 exitCode, out OpenCText output) {
     import std.process : executeShell;
     try {

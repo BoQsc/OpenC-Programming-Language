@@ -407,6 +407,17 @@ void oc_file_close(oc_file file) {
 
 oc_status oc_path_join(oc_text left, oc_text right, oc_owned_bytes *out_bytes) {
     const uint8_t separator = '/';
+    if (oc_path_is_absolute(right)) {
+        uint8_t *absolute = (uint8_t *)oc_memory_allocate(
+            right.length == 0u ? 1u : right.length,
+            1u
+        );
+        if (right.length != 0u) {
+            memcpy(absolute, right.data, (size_t)right.length);
+        }
+        *out_bytes = (oc_owned_bytes){absolute, right.length};
+        return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
+    }
     bool needs = left.length != 0u && left.data[left.length - 1u] != '/' && left.data[left.length - 1u] != '\\';
     uintptr_t length = left.length + right.length + (needs ? 1u : 0u);
     uint8_t *data = (uint8_t *)oc_memory_allocate(length == 0u ? 1u : length, 1u);

@@ -25,7 +25,13 @@ unsafe usize ir_lower_binary(
         usize operand_expected = ir_node_type(
             context, left_node, semantic_type_error()
         );
-        if read_record_field(context.syntax_data, left_node, 0) == 29 {
+        ResolutionInteger left_integer = acceptance_integer_value(
+            context, left_node
+        );
+        ResolutionInteger right_integer = acceptance_integer_value(
+            context, right_node
+        );
+        if left_integer.valid && !right_integer.valid {
             usize right_type = ir_node_type(
                 context, right_node, semantic_type_error()
             );

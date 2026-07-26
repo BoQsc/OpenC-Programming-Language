@@ -199,8 +199,8 @@ unsafe i32 c_emit_project(
     d_put(output, "#include \"openc_sh5_runtime.h\"\n\n");
     c_emit_forward_types(base, output);
     c_emit_enum_types(base, output);
-    c_emit_compound_types(base, output);
     c_emit_named_type_bodies(base, output);
+    c_emit_compound_types(base, output);
     c_emit_function_prototypes(base, output, entry_module);
 
     usize module_index = 0;

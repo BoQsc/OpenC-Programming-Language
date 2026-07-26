@@ -1,6 +1,7 @@
 external(c, "oc_process_argument_count") usize runtime_argument_count();
 external(c, "oc_process_argument") text runtime_argument(usize index, u32 span_id);
 external(c, "oc_process_current_directory") text runtime_current_directory();
+external(c, "oc_process_executable_directory") text runtime_executable_directory();
 external(c, "oc_process_run") status runtime_run(text command, out i32 exit_code, out text output);
 
 export usize argument_count() {
@@ -13,6 +14,10 @@ export text argument(usize index) {
 
 export text current_directory() {
     return runtime_current_directory();
+}
+
+export text executable_directory() {
+    return runtime_executable_directory();
 }
 
 export status run(text command, out i32 exit_code, out text output) {

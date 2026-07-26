@@ -81,6 +81,21 @@ are outside the supported 1.0 scope.
   and their raw Windows executables are byte-identical with SHA-256
   `b42892ed15f944049eefd6b91206dd283de5ce38fef97d6667a1131dc955be5f`.
   Lexer behavior, canonical IR, and public-build execution smoke checks pass.
+- SH-6 passes. Two independently assembled standalone archives are
+  byte-identical at SHA-256
+  `6adf2254263cc11ae8a2f31ee883923021397942237ffb6fd64f0742a1b0eaac`.
+  The extracted 1,140-entry package manifest validates, and public
+  `openc build` works from a foreign working directory using paths relative to
+  the packaged compiler.
+- The packaged compiler builds Stage 2 and Stage 2 builds Stage 3 with DMD,
+  DUB, and Python absent from the native build environment. The packaged
+  compiler and both stages are byte-identical at
+  `c2a26a1d286354f4e4b5ed2192e9008a5fffb2a667c4e4b9ba3f4a4afc76ed75`;
+  generated C and normalized PE hashes are recorded in the SH-6 evidence.
+- The packaged native compiler passes 117 exact canonical-IR comparisons and
+  149 exact rejection outcomes across 263 authored fixtures. The extracted
+  package passes 268/268 conformance and builds and executes all 4 maintained
+  programs.
 - Structure, source-completeness, manifest, and archive verification pass.
 
 Fixture execution now distinguishes normative rules from implementation
@@ -112,6 +127,7 @@ python compiler/selfhost/bootstrap.py
 python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh4/closure-final/openc-stage1.exe --output build-output/selfhost-sh4/parity-final
 python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final
 python compiler/selfhost/bootstrap_windows_closure.py
+python release/verify_standalone_windows.py --archive build-output/release/OpenC-1.0.0-rc.8-windows-x86_64-standalone-a.zip --comparison-archive build-output/release/OpenC-1.0.0-rc.8-windows-x86_64-standalone-b.zip --output build-output/selfhost-sh6/final --force
 python scripts/validate_structure.py
 python scripts/source_completeness.py
 ```
@@ -128,6 +144,8 @@ SH-3B name/constant/overload parity, SH-3C flow/safety parity, and SH-3D exact
 semantic-outcome/canonical-IR parity also pass, completing SH-3. SH-4 bootstrap
 closure passes through the retained D bootstrap route. SH-5 also passes: the
 native OpenC compiler uses its C11 backend and shipped TinyCC to build the next
-native compiler with no DMD, DUB, or Python available to the build. This is a
-DMD-independent Windows self-hosting claim, not yet a standalone-distribution
-claim. SH-6 standalone packaging and distribution verification remain next.
+native compiler with no DMD, DUB, or Python available to the build. SH-6
+extends that result to a deterministic, relocatable standalone distribution
+and passes the full packaged compiler, semantic/IR, conformance, and maintained
+program gates. Self-hosting SH-0 through SH-6 is complete for the declared
+Windows x86-64 Hosted scope.

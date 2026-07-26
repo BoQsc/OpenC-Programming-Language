@@ -1,0 +1,201 @@
+#!/usr/bin/env python3
+"""Build the deterministic OpenC standalone Windows distribution."""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import zipfile
+
+from build_source_archive import included_files
+
+
+EPOCH = (1980, 1, 1, 0, 0, 0)
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def prepare_directory(path: Path, force: bool) -> None:
+    if path.exists():
+        if not force:
+            raise SystemExit(f"output tree already exists: {path}")
+        if path == Path(path.anchor) or len(path.parts) < 3:
+            raise SystemExit(f"refusing to replace broad output path: {path}")
+        shutil.rmtree(path)
+    path.mkdir(parents=True)
+
+
+def copy_source_tree(source: Path, destination: Path) -> int:
+    count = 0
+    for path in included_files(source):
+        relative = path.relative_to(source)
+        target = destination / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(path, target)
+        count += 1
+    return count
+
+
+def write_manifest(root: Path) -> Path:
+    manifest = root / "STANDALONE-MANIFEST.sha256"
+    lines = []
+    for path in sorted(root.rglob("*")):
+        if path.is_file() and path != manifest:
+            lines.append(f"{sha256(path)}  {path.relative_to(root).as_posix()}")
+    manifest.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+    return manifest
+
+
+def write_archive(tree: Path, archive: Path) -> None:
+    archive.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(
+        archive, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
+    ) as bundle:
+        for path in sorted(tree.rglob("*")):
+            if not path.is_file():
+                continue
+            relative = Path(tree.name) / path.relative_to(tree)
+            info = zipfile.ZipInfo(relative.as_posix(), EPOCH)
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.external_attr = 0o100644 << 16
+            bundle.writestr(info, path.read_bytes())
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--tree", type=Path, default=Path(__file__).resolve().parents[1]
+    )
+    parser.add_argument("--compiler", type=Path, required=True)
+    parser.add_argument("--bootstrap-seed", type=Path)
+    parser.add_argument("--version")
+    parser.add_argument("--output-tree", type=Path, required=True)
+    parser.add_argument("--archive", type=Path, required=True)
+    parser.add_argument("--force", action="store_true")
+    args = parser.parse_args()
+
+    source = args.tree.resolve()
+    compiler = args.compiler.resolve()
+    seed = (
+        args.bootstrap_seed.resolve()
+        if args.bootstrap_seed
+        else source / "compiler" / "openc.exe"
+    )
+    version = args.version or (source / "VERSION").read_text(
+        encoding="utf-8"
+    ).strip()
+    output_tree = args.output_tree.resolve()
+    archive = args.archive.resolve()
+    if not compiler.is_file():
+        raise SystemExit(f"missing OpenC-native compiler: {compiler}")
+    if not seed.is_file():
+        raise SystemExit(f"missing retained bootstrap seed: {seed}")
+    if source == output_tree or source in output_tree.parents:
+        if "build-output" not in output_tree.parts:
+            raise SystemExit("output tree inside source must be under build-output")
+
+    prepare_directory(output_tree, args.force)
+    source_files = copy_source_tree(source, output_tree)
+
+    shutil.copyfile(compiler, output_tree / "openc.exe")
+    bootstrap = output_tree / "bootstrap"
+    bootstrap.mkdir(exist_ok=True)
+    shutil.copyfile(seed, bootstrap / "openc-stage0.exe")
+    readme = source / "release" / "STANDALONE_WINDOWS_README.md"
+    shutil.copyfile(readme, output_tree / "README-STANDALONE.md")
+
+    required = (
+        output_tree / "compiler" / "selfhost" / "openc.project.json",
+        output_tree / "runtime" / "common" / "source" / "openc_runtime.c",
+        output_tree
+        / "runtime"
+        / "windows"
+        / "source"
+        / "openc_platform_windows.c",
+        output_tree
+        / "compiler"
+        / "selfhost"
+        / "native_runtime"
+        / "openc_sh5_runtime.c",
+        output_tree / "standard_library" / "openc.project.json",
+        output_tree / "third_party" / "tinycc-win64" / "tcc.exe",
+        output_tree
+        / "third_party"
+        / "tinycc-win64"
+        / "source"
+        / "tcc-0.9.27.tar.bz2",
+        output_tree / "conformance" / "fixtures" / "MANIFEST.json",
+    )
+    missing = [str(path.relative_to(output_tree)) for path in required if not path.is_file()]
+    if missing:
+        raise SystemExit(f"standalone inputs missing: {', '.join(missing)}")
+
+    release_record = {
+        "schema": "openc.standalone_windows_distribution.v1",
+        "version": version,
+        "target": "windows-x86_64-hosted",
+        "compiler": {
+            "path": "openc.exe",
+            "implementation_language": "OpenC",
+            "sha256": sha256(output_tree / "openc.exe"),
+            "public_build_command": (
+                "openc.exe build --project=PROJECT --output=OUTPUT-EXE"
+            ),
+        },
+        "bootstrap_seed": {
+            "path": "bootstrap/openc-stage0.exe",
+            "implementation_language": "D",
+            "role": "retained audit and conformance seed; not a native build dependency",
+            "sha256": sha256(bootstrap / "openc-stage0.exe"),
+        },
+        "backend": {
+            "name": "TinyCC 0.9.27 Win64",
+            "path": "third_party/tinycc-win64/tcc.exe",
+            "sha256": sha256(
+                output_tree / "third_party" / "tinycc-win64" / "tcc.exe"
+            ),
+            "corresponding_source_included": True,
+        },
+        "source_files_copied": source_files,
+        "runtime_inputs": [
+            "runtime/common/source/openc_runtime.c",
+            "runtime/windows/source/openc_platform_windows.c",
+            "compiler/selfhost/native_runtime/openc_sh5_runtime.c",
+        ],
+        "library_inputs": {
+            "native_compiler_mode": (
+                "six compiler-provided system modules exercised while "
+                "rebuilding the compiler and maintained programs"
+            ),
+            "bootstrap_seed_mode": "standard_library/source/openc/std/*.d",
+            "authored_native_provider_sources": (
+                "standard_library/system.*/source/*.p"
+            ),
+            "authored_native_provider_status": (
+                "included for future Native-provider work; outside the "
+                "Windows Hosted SH-6 gate"
+            ),
+        },
+        "linux_and_freestanding_gate": False,
+    }
+    (output_tree / "STANDALONE-RELEASE.json").write_text(
+        json.dumps(release_record, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    manifest = write_manifest(output_tree)
+    write_archive(output_tree, archive)
+    print(
+        "standalone Windows distribution: BUILT; "
+        f"files={sum(1 for path in output_tree.rglob('*') if path.is_file())} "
+        f"manifest={sha256(manifest)} archive={sha256(archive)}"
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

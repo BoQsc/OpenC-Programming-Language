@@ -107,6 +107,7 @@ private:
                 addBuiltinFunction(logical, "argument", model.types.textType,
                     [model.types.find("usize")]);
                 addBuiltinFunction(logical, "current_directory", model.types.textType, []);
+                addBuiltinFunction(logical, "executable_directory", model.types.textType, []);
                 addBuiltinFunction(logical, "run", model.types.statusType,
                     [model.types.textType, model.types.find("i32"), model.types.textType],
                     false, ["value", "out", "out"]);

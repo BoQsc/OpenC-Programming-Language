@@ -1,6 +1,27 @@
 # OpenC development changelog
 
-## Unreleased — DMD-independent Windows self-hosting
+## Unreleased — standalone self-hosted Windows release
+
+- completed SH-6 with two byte-identical relocatable standalone archives;
+- proved packaged OpenC-native compiler → Stage 2 → Stage 3 closure from a
+  foreign working directory while DMD, DUB, and Python were unavailable to the
+  native builds;
+- recorded byte-identical packaged/stage executables, generated C, normalized
+  PE comparison, bootstrap-seed/backend hashes, and an internal 1,140-entry
+  package manifest;
+- passed native semantic/IR parity across 263 authored fixtures, all 268
+  conformance fixtures, and all 4 maintained programs from the extracted
+  package;
+- made public `openc build` locate its runtime, native shim, and shipped backend
+  relative to `openc.exe`, and made runtime path joining preserve absolute
+  right-hand paths;
+- corrected native C emission for cleanup argument modes, named-type
+  declaration order, and identity integer casts, and corrected negative
+  integer contextual typing and signed parse overflow handling exposed by the
+  complete native semantic suite;
+- retained the D implementation as an audit/conformance bootstrap seed rather
+  than a native build dependency, and kept Linux, freestanding, and the
+  authored Native provider explicitly outside the Windows Hosted gate.
 
 - added deterministic single-file C11 emission in canonical OpenC `.p` source
   and exposed it through public
@@ -15,8 +36,7 @@
   `b42892ed15f944049eefd6b91206dd283de5ce38fef97d6667a1131dc955be5f`;
 - matched lexer behavior and canonical IR across the native stages and built
   and executed a standalone OpenC smoke program through public `openc build`;
-- completed SH-5 and made SH-6 standalone packaging and distribution
-  verification the next self-hosting milestone;
+- completed SH-5 as the DMD-independent foundation used by SH-6;
 
 - added deterministic OpenC-owned bootstrap D emission and proved 28 of 28
   generated files byte-exact across the canonical compiler and A/B/C projects;

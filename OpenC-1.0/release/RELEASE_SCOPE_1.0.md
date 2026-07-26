@@ -3,8 +3,11 @@
 ## Supported claim
 
 OpenC 1.0 ships an owner-certified Core and Hosted source distribution plus a
-reference implementation verified on Windows 10 x86-64 with the recorded DMD,
-DUB, linker, and Python toolchain.
+standalone reference implementation verified on Windows 10 x86-64. The
+OpenC-native compiler and shipped TinyCC backend do not require DMD, DUB, or
+Python to build OpenC projects. The retained D/DUB/Python toolchain remains
+recorded for audit, legacy conformance, and reference-implementation regression
+evidence.
 
 The required 1.0 implementation gates are Windows debug/release builds, the D
 and Python tests, the complete authored conformance manifest, runtime fixtures,
@@ -18,8 +21,15 @@ exact project/module parity, and full syntactic/project SH-2 parity. Semantic
 and IR parity (SH-3) plus bootstrap self-compilation and closure (SH-4) also
 pass. DMD-independent Windows self-hosting (SH-5) passes through deterministic
 C11 emission and the shipped TinyCC 0.9.27 Win64 backend. Standalone packaging
-and distribution verification (SH-6) remain separately tracked future work,
-not prerequisites retroactively added to the original D-bootstrap 1.0 claim.
+and distribution verification (SH-6) also pass: the relocatable package
+rebuilds the compiler through byte-identical native stages and passes the full
+authored conformance and maintained-program gates.
+
+The supported standalone library mode is the six compiler-provided
+`system.file`, `system.io`, `system.memory`, `system.path`, `system.process`,
+and `system.text` modules backed by the packaged Windows C runtime and native
+shim. Authored Native-provider `.p` sources are distributed as future work and
+are not part of the supported 1.0 package claim.
 
 ## Experimental source included without a support claim
 

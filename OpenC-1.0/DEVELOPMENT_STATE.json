@@ -29,11 +29,13 @@
     "bootstrap_self_compilation": "SH-4_PASS",
     "dmd_independent_windows_backend": "SH-5_PASS_C11_VENDORED_TINYCC_BYTE_EXACT_C_AND_PE_CLOSURE",
     "public_build_command": "openc build --project=PROJECT --output=OUTPUT_EXE",
-    "next_milestone": "SH-6_STANDALONE_SELF_HOSTED_RELEASE",
-    "standalone_self_hosted_release": "SH-6_PENDING",
+    "next_milestone": "POST_SH6_RELEASE_PUBLICATION_AND_NATIVE_OPTIMIZATION",
+    "standalone_self_hosted_release": "SH-6_PASS_RELOCATABLE_REPRODUCIBLE_268_CONFORMANCE_4_MAINTAINED",
+    "standalone_archive_sha256": "6adf2254263cc11ae8a2f31ee883923021397942237ffb6fd64f0742a1b0eaac",
+    "standalone_compiler_sha256": "c2a26a1d286354f4e4b5ed2192e9008a5fffb2a667c4e4b9ba3f4a4afc76ed75",
     "self_hosted": true,
     "dmd_independent": true,
-    "standalone": false
+    "standalone": true
   },
   "runtime_source": "d_library_built_tested_runtime_fixtures_passed",
   "standard_library_source": "d_library_built_tested_and_hosted_program_executed",
@@ -42,7 +44,7 @@
   "compiled": true,
   "linked": true,
   "standalone_c_providers_compiled": true,
-  "standalone_c_provider_scope": "windows_hosted_sh5_backend_compiled_and_executed",
+  "standalone_c_provider_scope": "windows_hosted_sh6_distribution_compiled_executed_relocated_and_rebuilt",
   "implementation_test_commands": {"passed": 8, "failed": 0},
   "bootstrap_tests": {"passed": 4, "failed": 0},
   "conformance_result": {
@@ -74,7 +76,6 @@
     "dedicated_positive_rejection_pairs_incomplete_for_174_grammar_productions",
     "independent_third_party_reviews",
     "linux_freestanding_native_and_c_provider_verification",
-    "self_hosting_SH_6_STANDALONE_RELEASE",
     "native_self_rebuild_performance_and_peak_memory"
   ],
   "published": false,

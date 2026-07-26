@@ -14,11 +14,12 @@ The semantic stages build OpenC-owned declaration, symbol, canonical type,
 lexical-scope, constant-value, overload-selection, flow/safety, acceptance,
 and canonical IR state and emit exact observations.
 
-This is now a DMD-independent executable self-hosted compiler on Windows
-x86-64 Hosted. It emits deterministic C11, invokes the shipped TinyCC 0.9.27
-Win64 backend, links the next compiler stage, and reaches byte-exact
-Stage-2/Stage-3 source and executable closure. It is not yet packaged as the
-SH-6 standalone distribution. That remaining capability is tracked by
+This is now a standalone, DMD-independent executable self-hosted compiler on
+Windows x86-64 Hosted. It emits deterministic C11, invokes the shipped TinyCC
+0.9.27 Win64 backend, links the next compiler stage, and reaches byte-exact
+Stage-2/Stage-3 source and executable closure. SH-6 packages it with its source,
+runtime, library inputs, backend, bootstrap audit seed, licenses, and integrity
+records in a relocatable distribution. The gate contract is in
 `SELF_HOSTING.md`; the machine-readable gate state is
 `SELF_HOSTING_STATE.json`.
 
@@ -55,4 +56,5 @@ python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh
 python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final
 ```
 
-Next: **SH-6 — standalone self-hosted release**.
+Run the complete SH-6 distribution proof with the commands recorded in
+`release/SH6_STANDALONE_EVIDENCE.md`. SH-6 is **PASS**.

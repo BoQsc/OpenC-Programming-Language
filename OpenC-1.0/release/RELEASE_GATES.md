@@ -13,6 +13,7 @@ G7  maintained programs on claimed target                PASS 4/4 WINDOWS
 G8  maintainer documentation/usability release review    PASS
 G9  deterministic clean source rebuild/archive checks    PASS
 G10 licensing/governance/checksum/publication authority  PASS
+G11 standalone self-hosted distribution (SH-6)           PASS
 ```
 
 There are no open P0/P1 findings in the maintainer release review. Independent
@@ -43,5 +44,7 @@ self-compilation and closure now pass as well: Stage 1 builds Stage 2
 and Stage 2 builds an equivalent Stage 3. SH-5 DMD independence also passes:
 native Stage 2 builds a byte-identical native Stage 3 through public
 `openc build`, deterministic C11, and the shipped TinyCC Win64 backend with
-DMD, DUB, and Python hidden. SH-6 standalone packaging remains future compiler
-work and does not alter that release boundary.
+DMD, DUB, and Python hidden. SH-6 standalone packaging also passes: two
+independent package builds are byte-identical, the extracted compiler is
+relocatable, packaged Stage 2 and Stage 3 are byte-identical, and the package
+passes 268/268 conformance fixtures plus all 4 maintained programs.

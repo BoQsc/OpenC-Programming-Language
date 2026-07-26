@@ -282,6 +282,9 @@ unsafe void c_put_call_name(
     if c_builtin_is(context, instruction, "process.argument", "system.process.argument") {
         d_put(buffer, "ocb_process_argument"); return;
     }
+    if c_builtin_is(context, instruction, "process.executable_directory", "system.process.executable_directory") {
+        d_put(buffer, "ocb_process_executable_directory"); return;
+    }
     if c_builtin_is(context, instruction, "process.run", "system.process.run") {
         d_put(buffer, "ocb_process_run"); return;
     }

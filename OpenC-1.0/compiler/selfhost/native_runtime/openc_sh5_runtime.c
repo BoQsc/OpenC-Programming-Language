@@ -1,9 +1,26 @@
+#define WIN32_LEAN_AND_MEAN
 #define OPENC_RUNTIME_BUILD 1
 #include "openc_sh5_runtime.h"
 
+#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#if defined(__TINYC__)
+#  define CP_UTF8 65001u
+#  define WC_ERR_INVALID_CHARS 0x00000080u
+WINBASEAPI int WINAPI WideCharToMultiByte(
+    UINT code_page,
+    DWORD flags,
+    const wchar_t *wide,
+    int wide_length,
+    char *bytes,
+    int byte_length,
+    const char *default_character,
+    BOOL *used_default_character
+);
+#endif
 
 typedef struct ocb_text_cache_entry {
     oc_text path;
@@ -13,6 +30,7 @@ typedef struct ocb_text_cache_entry {
 static ocb_text_cache_entry *ocb_text_cache;
 static uintptr_t ocb_text_cache_length;
 static uintptr_t ocb_text_cache_capacity;
+static oc_text ocb_executable_directory_value;
 
 static oc_text ocb_copy_text(oc_text value) {
     uint8_t *data = (uint8_t *)oc_memory_allocate(
@@ -44,9 +62,56 @@ void ocb_process_initialize(int argc, char **argv) {
     } else {
         oc_process_initialize(0, argv);
     }
+#ifdef _WIN32
+    {
+        wchar_t wide_path[32768];
+        DWORD wide_length = GetModuleFileNameW(
+            NULL, wide_path, (DWORD)(sizeof(wide_path) / sizeof(wide_path[0]))
+        );
+        if (wide_length != 0u &&
+            wide_length < (DWORD)(sizeof(wide_path) / sizeof(wide_path[0]))) {
+            while (wide_length != 0u &&
+                wide_path[wide_length - 1u] != L'\\' &&
+                wide_path[wide_length - 1u] != L'/') {
+                --wide_length;
+            }
+            if (wide_length > 3u || wide_path[1] != L':') --wide_length;
+            wide_path[wide_length] = L'\0';
+            {
+                int utf8_length = WideCharToMultiByte(
+                    CP_UTF8, WC_ERR_INVALID_CHARS, wide_path, -1,
+                    NULL, 0, NULL, NULL
+                );
+                if (utf8_length > 0) {
+                    uint8_t *data = (uint8_t *)oc_memory_allocate(
+                        (uintptr_t)utf8_length, 1u
+                    );
+                    if (WideCharToMultiByte(
+                            CP_UTF8, WC_ERR_INVALID_CHARS, wide_path, -1,
+                            (char *)data, utf8_length, NULL, NULL
+                        ) > 0) {
+                        ocb_executable_directory_value =
+                            (oc_text){data, (uintptr_t)(utf8_length - 1)};
+                    } else {
+                        oc_memory_release(data);
+                    }
+                }
+            }
+        }
+    }
+#endif
+    if (ocb_executable_directory_value.data == NULL) {
+        ocb_executable_directory_value = ocb_copy_text(
+            oc_process_current_directory()
+        );
+    }
 }
 
 void ocb_process_finalize(void) {
+    if (ocb_executable_directory_value.data != NULL) {
+        oc_memory_release((void *)ocb_executable_directory_value.data);
+        ocb_executable_directory_value = OC_TEXT_EMPTY;
+    }
     oc_process_finalize();
 }
 
@@ -234,6 +299,10 @@ uintptr_t ocb_process_argument_count(void) {
 
 oc_text ocb_process_argument(uintptr_t index) {
     return oc_process_argument(index, 0);
+}
+
+oc_text ocb_process_executable_directory(void) {
+    return ocb_executable_directory_value;
 }
 
 oc_status ocb_process_run(

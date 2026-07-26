@@ -244,8 +244,13 @@ unsafe usize ir_node_type(
             flow_node_operator(context.source, context.syntax_data, node, "-") {
             return semantic_builtin_type("isize", 0, 5);
         }
-        if read_record_field(context.syntax_data, left, 0) == 29 &&
-            read_record_field(context.syntax_data, right, 0) != 29 {
+        ResolutionInteger left_integer = acceptance_integer_value(
+            context, left
+        );
+        ResolutionInteger right_integer = acceptance_integer_value(
+            context, right
+        );
+        if left_integer.valid && !right_integer.valid {
             return ir_node_type(context, right, expected);
         }
         return ir_node_type(context, left, expected);
@@ -398,6 +403,12 @@ unsafe usize ir_node_type(
             ) || span_equals_ascii(
                 context.source, callee_start, callee_length,
                 "system.process.current_directory"
+            ) || span_equals_ascii(
+                context.source, callee_start, callee_length,
+                "process.executable_directory"
+            ) || span_equals_ascii(
+                context.source, callee_start, callee_length,
+                "system.process.executable_directory"
             ) || span_equals_ascii(
                 context.source, callee_start, callee_length,
                 "path.join"

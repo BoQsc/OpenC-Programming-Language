@@ -42,7 +42,9 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   passes; SH-5 adds deterministic C11 emission and the shipped TinyCC 0.9.27
   Win64 backend, proves byte-exact native compiler source/executable closure
   with DMD, DUB, and Python hidden, and exposes public `openc build`; SH-6
-  standalone packaging is next;
+  packages that compiler and complete source in a relocatable deterministic
+  archive, proves packaged Stage-2/Stage-3 byte closure, and passes 268/268
+  conformance fixtures plus all 4 maintained programs from the package;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;

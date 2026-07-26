@@ -71,15 +71,23 @@ def run(
 def build(
     compiler: Path,
     output_executable: Path,
+    tcc: Path,
     environment: dict[str, str],
 ) -> None:
     project = ROOT / "compiler" / "selfhost" / "openc.project.json"
+    generated = Path(str(output_executable) + ".openc.c")
+    record = Path(str(output_executable) + ".build.json")
     run(
         [
             str(compiler),
-            "build",
-            f"--project={project}",
-            f"--output={output_executable}",
+            "--windows-build",
+            str(project),
+            str(output_executable),
+            str(generated),
+            str(ROOT / "runtime"),
+            str(ROOT / "compiler" / "selfhost" / "native_runtime"),
+            str(record),
+            str(tcc),
         ],
         environment,
     )
@@ -153,8 +161,8 @@ def main() -> int:
     record3 = Path(str(stage3) + ".build.json")
     environment, clean_path = clean_child_environment(tcc)
 
-    build(stage1, stage2, environment)
-    build(stage2, stage3, environment)
+    build(stage1, stage2, tcc, environment)
+    build(stage2, stage3, tcc, environment)
 
     source_probe = ROOT / "compiler" / "selfhost" / "source" / "main.p"
     ir_probe = ROOT / "programs" / "A_COMPUTATION" / "openc.project.json"

@@ -209,7 +209,33 @@
     {
       "id": "SH-6",
       "name": "standalone_self_hosted_release",
-      "status": "PENDING"
+      "status": "PASS",
+      "command": "python release/verify_standalone_windows.py --archive build-output/release/OpenC-1.0.0-rc.8-windows-x86_64-standalone-a.zip --comparison-archive build-output/release/OpenC-1.0.0-rc.8-windows-x86_64-standalone-b.zip --output build-output/selfhost-sh6/final --force",
+      "evidence": "build-output/selfhost-sh6/final/standalone-release-result.json",
+      "target": "windows-x86_64-hosted",
+      "archive_sha256": "6adf2254263cc11ae8a2f31ee883923021397942237ffb6fd64f0742a1b0eaac",
+      "archive_builds_byte_equal": true,
+      "package_manifest_entries": 1140,
+      "package_manifest_valid": true,
+      "package_relocatable": true,
+      "packaged_compiler_sha256": "c2a26a1d286354f4e4b5ed2192e9008a5fffb2a667c4e4b9ba3f4a4afc76ed75",
+      "bootstrap_seed_sha256": "ac10fad15aa032d22ac56a632e9977477bdd8c87f56c9924a21a231a64dfafcf",
+      "stage2_builds_stage3": true,
+      "generated_c_byte_equal": true,
+      "generated_c_sha256": "5851bde4caebb5cb4142966ce650db51ccf55983e1a3888e15ff0cd573c3a966",
+      "native_executable_byte_equal": true,
+      "native_executable_sha256": "c2a26a1d286354f4e4b5ed2192e9008a5fffb2a667c4e4b9ba3f4a4afc76ed75",
+      "normalized_pe_equal": true,
+      "normalized_pe_sha256": "cb8c75fc9e364608d61cdb062c58180f8899b99c7f1fb9396b9c8f2c1ff4b8e8",
+      "native_semantic_ir_parity": true,
+      "conformance_passed": 268,
+      "conformance_failed": 0,
+      "maintained_programs_passed": 4,
+      "native_build_dmd_invoked": false,
+      "native_build_dub_invoked": false,
+      "native_build_python_invoked": false,
+      "linux_and_freestanding_gate": false,
+      "native_provider_gate": false
     }
   ],
   "claims": {
@@ -241,6 +267,6 @@
     "vendored_windows_backend": true,
     "public_openc_build": true,
     "dmd_independent": true,
-    "standalone": false
+    "standalone": true
   }
 }

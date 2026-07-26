@@ -7,4 +7,12 @@ rebuilt the OpenC compiler with the shipped TinyCC backend while DMD, DUB, and
 Python were hidden, and the resulting C source and executables were
 byte-identical across native stages.
 
+On 2026-07-26, SH-6 passed from the deterministic relocated standalone
+package: packaged Stage 1 built Stage 2, Stage 2 built a byte-identical Stage 3,
+native semantic/IR parity covered 263 authored fixtures (117 accepted IR
+comparisons and 149 exact rejections), conformance passed 268/268, and all 4
+maintained programs built and executed. The retained repository matrix also
+passed 9/9 debug builds, 9/9 release builds, 8/8 D test commands, and 4/4
+Python bootstrap tests.
+
 Conformance execution is recorded separately by the canonical `openc validate` command. Local success is not evidence for untested targets or independent review.
