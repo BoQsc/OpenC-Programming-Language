@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/checked_addition/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/checked_addition",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

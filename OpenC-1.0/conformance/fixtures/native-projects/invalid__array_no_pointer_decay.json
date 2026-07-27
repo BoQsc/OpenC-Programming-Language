@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/array_no_pointer_decay/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/array_no_pointer_decay",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

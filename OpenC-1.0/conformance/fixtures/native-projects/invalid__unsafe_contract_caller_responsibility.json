@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/unsafe_contract_caller_responsibility/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/unsafe_contract_caller_responsibility",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

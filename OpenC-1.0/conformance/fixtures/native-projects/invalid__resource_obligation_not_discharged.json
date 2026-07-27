@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/resource_obligation_not_discharged/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/resource_obligation_not_discharged",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

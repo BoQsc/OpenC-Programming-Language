@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/pointer_integer_conversion_not_plain/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/pointer_integer_conversion_not_plain",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

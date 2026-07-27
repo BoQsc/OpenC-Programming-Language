@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/text_byte_conversion_explicit/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/text_byte_conversion_explicit",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

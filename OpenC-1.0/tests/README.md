@@ -22,4 +22,11 @@ The post-tag conformance-evidence milestone expands the repository corpus to
 and supplies accepting/rejecting pairs for all 174 grammar productions. The
 historical RC8 package count above remains unchanged.
 
-Conformance execution is recorded separately by the canonical `openc validate` command. Local success is not evidence for untested targets or independent review.
+On 2026-07-27, SH-7 moved the complete gate to the OpenC-authored native
+`openc validate`: 278/278 fixtures pass with zero infrastructure failures,
+including 35/35 runtime executions and 153/153 diagnostic contracts. The
+required package gate does not execute the retained D seed.
+
+Conformance execution is recorded separately by the canonical `openc validate`
+command. Local success is not evidence for untested targets or independent
+review.

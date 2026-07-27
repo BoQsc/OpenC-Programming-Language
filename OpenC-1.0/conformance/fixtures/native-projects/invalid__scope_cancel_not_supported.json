@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/scope_cancel_not_supported/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/scope_cancel_not_supported",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/historical_int_type_rejected/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/historical_int_type_rejected",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

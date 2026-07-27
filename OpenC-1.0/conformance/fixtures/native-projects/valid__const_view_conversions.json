@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/const_view_conversions/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/const_view_conversions",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

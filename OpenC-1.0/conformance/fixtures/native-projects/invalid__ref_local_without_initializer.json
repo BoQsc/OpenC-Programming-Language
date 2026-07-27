@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/ref_local_without_initializer/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/ref_local_without_initializer",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

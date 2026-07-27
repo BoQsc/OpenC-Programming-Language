@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/byte_pointer_object_representation/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/byte_pointer_object_representation",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

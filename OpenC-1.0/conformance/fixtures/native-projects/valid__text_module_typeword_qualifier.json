@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/text_module_typeword_qualifier/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/text_module_typeword_qualifier",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

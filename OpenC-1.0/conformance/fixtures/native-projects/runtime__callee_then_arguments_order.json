@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/callee_then_arguments_order/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/callee_then_arguments_order",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

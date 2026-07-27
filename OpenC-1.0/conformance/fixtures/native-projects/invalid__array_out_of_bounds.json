@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/array_out_of_bounds/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/array_out_of_bounds",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

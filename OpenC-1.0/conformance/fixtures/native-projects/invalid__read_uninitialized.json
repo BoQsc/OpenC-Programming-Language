@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/read_uninitialized/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/read_uninitialized",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,15 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "app": [
+      "../invalid/module_private_access/sources/main.p"
+    ],
+    "math.basic": [
+      "../invalid/module_private_access/sources/math.p"
+    ]
+  },
+  "name": "native-conformance-invalid/module_private_access",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

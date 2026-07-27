@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/boolean_short_circuit/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/boolean_short_circuit",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

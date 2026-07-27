@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/array_init_length_copy/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/array_init_length_copy",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

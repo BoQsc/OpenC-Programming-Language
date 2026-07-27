@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/struct_trailing_semicolon/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/struct_trailing_semicolon",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

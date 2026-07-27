@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/floating_literal_default_f64/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/floating_literal_default_f64",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

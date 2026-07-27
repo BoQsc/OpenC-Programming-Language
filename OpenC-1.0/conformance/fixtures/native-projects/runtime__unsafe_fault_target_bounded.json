@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/unsafe_fault_target_bounded/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/unsafe_fault_target_bounded",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

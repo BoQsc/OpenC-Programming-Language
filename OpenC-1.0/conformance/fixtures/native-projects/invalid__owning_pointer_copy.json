@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/owning_pointer_copy/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/owning_pointer_copy",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

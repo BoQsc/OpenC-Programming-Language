@@ -1,0 +1,13 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "app": [
+      "../valid/module_multi_source_overload/sources/a.p",
+      "../valid/module_multi_source_overload/sources/b.p"
+    ]
+  },
+  "name": "native-conformance-valid/module_multi_source_overload",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

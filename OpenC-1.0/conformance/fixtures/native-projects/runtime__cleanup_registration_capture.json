@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/cleanup_registration_capture/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/cleanup_registration_capture",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

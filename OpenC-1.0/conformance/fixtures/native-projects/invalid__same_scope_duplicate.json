@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/same_scope_duplicate/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/same_scope_duplicate",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

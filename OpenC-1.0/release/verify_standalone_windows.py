@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the extracted OpenC RC9 standalone Windows distribution."""
+"""Verify the extracted OpenC standalone Windows distribution."""
 from __future__ import annotations
 
 import argparse
@@ -26,6 +26,8 @@ PROGRAMS = (
     ),
 )
 REQUIRED_CONFORMANCE_FIXTURES = 278
+REQUIRED_DIAGNOSTIC_CONTRACTS = 153
+REQUIRED_RUNTIME_FIXTURES = 35
 
 
 def sha256(path: Path) -> str:
@@ -99,7 +101,7 @@ def run(
     environment: dict[str, str],
     label: str,
 ) -> subprocess.CompletedProcess[str]:
-    print(f"[SH-6] {label}", flush=True)
+    print(f"[SH-7] {label}", flush=True)
     completed = subprocess.run(
         command,
         cwd=cwd,
@@ -144,6 +146,11 @@ def main() -> int:
     parser.add_argument("--comparison-archive", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--jobs", type=int, default=8)
+    parser.add_argument(
+        "--audit-seed",
+        action="store_true",
+        help="run the optional retained-D semantic/IR comparison oracle",
+    )
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
 
@@ -256,44 +263,65 @@ def main() -> int:
         )
 
     parity_output = output / "semantic-parity"
-    parity = run(
-        [
-            sys.executable,
-            str(distribution / "compiler" / "selfhost" / "semantic_ir_parity.py"),
-            "--stage0",
-            str(seed),
-            "--stage1",
-            str(stage3),
-            "--output",
-            str(parity_output),
-            "--jobs",
-            str(max(1, args.jobs)),
-        ],
-        distribution,
-        environment,
-        "packaged native compiler semantic/IR parity",
-    )
-    parity_report = json.loads(
-        (parity_output / "semantic-ir-parity-result.json").read_text(
-            encoding="utf-8"
+    parity_stdout = ""
+    parity_report: dict[str, object] = {
+        "status": "NOT_RUN_OPTIONAL",
+        "reason": "retained D seed is not part of the required SH-7 gate",
+    }
+    if args.audit_seed:
+        parity = run(
+            [
+                sys.executable,
+                str(
+                    distribution
+                    / "compiler"
+                    / "selfhost"
+                    / "semantic_ir_parity.py"
+                ),
+                "--stage0",
+                str(seed),
+                "--stage1",
+                str(stage3),
+                "--output",
+                str(parity_output),
+                "--jobs",
+                str(max(1, args.jobs)),
+            ],
+            distribution,
+            environment,
+            "optional retained-D semantic/IR audit",
         )
-    )
+        parity_stdout = parity.stdout
+        parity_report = json.loads(
+            (parity_output / "semantic-ir-parity-result.json").read_text(
+                encoding="utf-8"
+            )
+        )
 
     conformance_report_path = output / "conformance-report.json"
     conformance = run(
         [
-            str(seed),
+            str(stage3),
             "validate",
             f"--manifest={distribution / 'conformance' / 'fixtures' / 'MANIFEST.json'}",
             f"--output={conformance_report_path}",
         ],
-        distribution,
-        os.environ.copy(),
-        "retained seed executes the complete packaged conformance manifest",
+        foreign_cwd,
+        environment,
+        "OpenC-authored native runner executes all packaged conformance fixtures",
     )
     conformance_report = json.loads(
         conformance_report_path.read_text(encoding="utf-8")
     )
+    conformance_results = conformance_report.get("results", [])
+    diagnostic_results = [
+        item for item in conformance_results if item.get("expected_rule")
+    ]
+    runtime_results = [
+        item
+        for item in conformance_results
+        if item.get("fixture_kind") == "runtime"
+    ]
 
     checks = {
         "independent_archive_builds_byte_equal": True,
@@ -311,17 +339,41 @@ def main() -> int:
             and record.get("python_invoked") is False
             for record in (record2, record3)
         ),
-        "native_semantic_ir_parity": parity_report.get("status") == "PASS",
         "maintained_programs_4_of_4": maintained_passed == len(PROGRAMS),
-        "full_conformance_278_of_278": (
-            conformance_report.get("total") == REQUIRED_CONFORMANCE_FIXTURES
+        "native_openc_validate_278_of_278": (
+            conformance_report.get("schema") == "openc.conformance_result.v2"
+            and conformance_report.get("evidence_state") == "EXECUTED_NATIVE"
+            and conformance_report.get("implementation", {}).get("language")
+            == "OpenC"
+            and conformance_report.get("total") == REQUIRED_CONFORMANCE_FIXTURES
             and conformance_report.get("passed") == REQUIRED_CONFORMANCE_FIXTURES
             and conformance_report.get("failed") == 0
+            and conformance_report.get("infrastructure_failures") == 0
         ),
+        "exact_diagnostic_contracts_153_of_153": (
+            len(diagnostic_results) == REQUIRED_DIAGNOSTIC_CONTRACTS
+            and all(item.get("rule_matched") for item in diagnostic_results)
+            and (
+                conformance_report.get("exact_native_diagnostic_observations", 0)
+                + conformance_report.get(
+                    "native_fixture_contract_diagnostics", 0
+                )
+                == REQUIRED_DIAGNOSTIC_CONTRACTS
+            )
+        ),
+        "native_runtime_35_of_35": (
+            len(runtime_results) == REQUIRED_RUNTIME_FIXTURES
+            and all(
+                item.get("runtime_execution") == "EXECUTED"
+                and item.get("passed")
+                for item in runtime_results
+            )
+        ),
+        "required_conformance_command_uses_native_stage3": True,
     }
     result = {
         "schema": "openc.self_host_standalone_release.v1",
-        "stage": "RC9_STANDALONE_REFRESH",
+        "stage": "SH7_NATIVE_CONFORMANCE",
         "status": "PASS" if all(checks.values()) else "FAIL",
         "checks": checks,
         "roles": {
@@ -334,8 +386,8 @@ def main() -> int:
                 "packaged but outside the Windows Hosted gate"
             ),
             "bootstrap_seed": (
-                "retained D audit seed used for expected semantic observations "
-                "and the complete legacy conformance adapter"
+                "optional retained D comparison oracle; packaged for audit "
+                "continuity but never executed by the required SH-7 gate"
             ),
             "python": "external evidence harness only",
         },
@@ -348,6 +400,7 @@ def main() -> int:
             "distribution_root": str(distribution),
             "linux_and_freestanding_gate": False,
             "native_provider_gate": False,
+            "retained_d_seed_executed": args.audit_seed,
         },
         "artifacts": {
             "archive": str(archive),
@@ -363,12 +416,16 @@ def main() -> int:
             "normalized_stage3_sha256": hashlib.sha256(normalized3).hexdigest(),
             "generated_c_sha256": sha256(generated2),
             "tcc_sha256": sha256(tcc),
-            "semantic_parity_report": str(
-                parity_output / "semantic-ir-parity-result.json"
+            "optional_semantic_parity_report": (
+                str(parity_output / "semantic-ir-parity-result.json")
+                if args.audit_seed
+                else None
             ),
             "conformance_report": str(conformance_report_path),
         },
-        "semantic_parity": {
+        "optional_seed_audit": {
+            "executed": args.audit_seed,
+            "status": parity_report.get("status"),
             "ir_comparisons": parity_report.get("ir_comparisons"),
             "semantic_rejections": parity_report.get("semantic_rejections"),
             "authored_source_fixtures": parity_report.get(
@@ -379,9 +436,19 @@ def main() -> int:
             "total": conformance_report.get("total"),
             "passed": conformance_report.get("passed"),
             "failed": conformance_report.get("failed"),
+            "infrastructure_failures": conformance_report.get(
+                "infrastructure_failures"
+            ),
+            "exact_native_diagnostic_observations": conformance_report.get(
+                "exact_native_diagnostic_observations"
+            ),
+            "native_fixture_contract_diagnostics": conformance_report.get(
+                "native_fixture_contract_diagnostics"
+            ),
+            "runtime_fixtures": len(runtime_results),
         },
         "maintained_programs": maintained_results,
-        "native_harness_stdout": parity.stdout,
+        "optional_seed_audit_stdout": parity_stdout,
         "conformance_harness_stdout": conformance.stdout,
         "normalization": [
             "PE COFF TimeDateStamp",
@@ -396,9 +463,9 @@ def main() -> int:
     )
     if result["status"] != "PASS":
         failed = [name for name, passed in checks.items() if not passed]
-        raise SystemExit("RC9 standalone gate failed: " + ", ".join(failed))
+        raise SystemExit("SH-7 standalone gate failed: " + ", ".join(failed))
     print(
-        "RC9 standalone self-hosted refresh: PASS; "
+        "SH-7 native conformance and tooling independence: PASS; "
         f"conformance={conformance_report.get('passed')}/"
         f"{conformance_report.get('total')} "
         f"maintained={maintained_passed}/{len(PROGRAMS)} "

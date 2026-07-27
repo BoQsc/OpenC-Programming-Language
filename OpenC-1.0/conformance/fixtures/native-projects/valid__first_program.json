@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/first_program/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/first_program",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

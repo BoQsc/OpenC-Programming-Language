@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/unsafe_provenance_not_forged/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/unsafe_provenance_not_forged",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

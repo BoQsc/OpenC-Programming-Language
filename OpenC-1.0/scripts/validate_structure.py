@@ -4,6 +4,8 @@ import hashlib
 import json
 import re
 from pathlib import Path
+import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
@@ -20,11 +22,15 @@ required = [
     "CONTRIBUTING.md", "SECURITY.md", "TRADEMARKS.md",
     "release/RELEASE_AUTHORITY.md", "release/RELEASE_SCOPE_1.0.md",
     "release/ERRATA_POLICY.md", "release/SUPPORT_POLICY.md",
+    "release/SH7_NATIVE_CONFORMANCE_EVIDENCE.md",
     "compiler/selfhost/SELF_HOSTING.md", "compiler/selfhost/SELF_HOSTING_STATE.json",
     "compiler/selfhost/source/main.p", "compiler/selfhost/bootstrap.py",
     "compiler/selfhost/lexer_parity.py", "compiler/selfhost/bootstrap_d_parity.py",
     "compiler/selfhost/bootstrap_closure.py",
     "scripts/complete_conformance_coverage.py",
+    "scripts/generate_native_conformance_plan.py",
+    "compiler/selfhost/source/native_conformance.p",
+    "conformance/fixtures/NATIVE_PLAN.tsv",
     "standard/core/OpenC_Core_Current.md",
     "standard/core/grammar/OpenC_Core_Grammar.ebnf",
     "standard/core/metadata/OpenC_Core_Rule_Index.json",
@@ -34,6 +40,28 @@ errors = []
 for item in required:
     if not (ROOT / item).is_file():
         errors.append(f"missing: {item}")
+native_plan_check = subprocess.run(
+    [
+        sys.executable,
+        str(ROOT / "scripts/generate_native_conformance_plan.py"),
+        "--check",
+    ],
+    cwd=ROOT,
+    text=True,
+    capture_output=True,
+)
+if native_plan_check.returncode != 0:
+    errors.append(
+        "native conformance plan is stale: "
+        + (native_plan_check.stderr or native_plan_check.stdout).strip()
+    )
+standalone_verifier = (
+    ROOT / "release/verify_standalone_windows.py"
+).read_text(encoding="utf-8")
+if 'str(stage3),\n            "validate"' not in standalone_verifier:
+    errors.append("standalone conformance gate must invoke native Stage 3")
+if 'str(seed),\n            "validate"' in standalone_verifier:
+    errors.append("standalone conformance gate must not invoke the retained D seed")
 for path in ROOT.rglob("*.json"):
     if "build-output" in path.relative_to(ROOT).parts:
         continue
@@ -246,6 +274,16 @@ if self_host_gates.get("SH-5") == "PASS" and (
         or not self_hosting.get("claims", {}).get("vendored_windows_backend")
         or not self_hosting.get("claims", {}).get("public_openc_build")):
     errors.append("SH-5 PASS requires C backend, vendored backend, and public build claims")
+if self_host_gates.get("SH-7") != "PASS":
+    errors.append("native conformance and tooling-independence SH-7 gate must pass")
+if self_host_gates.get("SH-7") == "PASS" and (
+        not self_hosting.get("claims", {}).get("native_openc_validate")
+        or not self_hosting.get("claims", {}).get("native_conformance_278")
+        or self_hosting.get("claims", {}).get("required_conformance_uses_d_seed")):
+    errors.append(
+        "SH-7 PASS requires native openc validate, 278 fixtures, and no "
+        "required D-seed conformance dependency"
+    )
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

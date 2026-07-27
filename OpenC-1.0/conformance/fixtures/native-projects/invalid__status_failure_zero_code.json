@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/status_failure_zero_code/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/status_failure_zero_code",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

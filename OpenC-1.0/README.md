@@ -22,11 +22,12 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 
 - all 9 canonical D targets build and link in debug and release modes;
 - all 8 D test commands and all 4 Python bootstrap tests pass;
-- all 278 authored conformance fixtures pass, including 35 runtime fixtures;
+- the OpenC-authored `openc validate` passes all 278 fixtures, including 35
+  runtime fixtures, without executing the retained D audit seed;
 - all 4 maintained programs check, build, and run successfully;
 - all 281 migrated OpenC library, program, and fixture sources use `.p`; with
   the expanded compiler-in-OpenC and conformance source, the current tree has
-  383 `.p` files;
+  384 `.p` files;
 - the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
   lexer parity on 288 canonical `.p` sources plus 16 probes (304/304), SH-2C
   exact parser parity on those sources plus 15 parser probes (303/303), and
@@ -49,7 +50,8 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   packages that compiler and complete source in a relocatable deterministic
   archive; RC9 proves packaged Stage-2/Stage-3 byte closure, passes 278/278
   conformance fixtures plus all 4 maintained programs from the package, and
-  is published as `v1.0.0-rc.9`;
+  is published as `v1.0.0-rc.9`; post-RC9 SH-7 moves that complete gate into
+  the OpenC-native compiler and makes the D seed an optional audit oracle;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
@@ -66,10 +68,11 @@ welcome and may produce errata; it is not a prerequisite for the
 owner-maintained initial release.
 
 The public RC8 package evidence remains the immutable 268-fixture historical
-record described above. RC9 is the published 278-fixture successor. The next
-engineering milestone is SH-7 native conformance and tooling independence:
-make the packaged native compiler own the complete conformance gate without
-the retained D audit seed.
+record described above. RC9 is the published 278-fixture successor. SH-7
+native conformance and tooling independence is complete on mainline. The next
+engineering milestone is SH-8 native developer and release workflow hardening:
+make the native compiler the default Windows Hosted compiler-under-test and
+establish measured validation/rebuild regression budgets.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
 `LICENSE_POLICY.md`, `standard/core/OpenC_Core_Current.md`, and

@@ -1,0 +1,13 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "app.main": [
+      "../invalid/module_duplicate_top_level/sources/a.p",
+      "../invalid/module_duplicate_top_level/sources/b.p"
+    ]
+  },
+  "name": "native-conformance-invalid/module_duplicate_top_level",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

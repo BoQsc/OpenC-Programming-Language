@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/plain_struct_hides_owning_pointer/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/plain_struct_hides_owning_pointer",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

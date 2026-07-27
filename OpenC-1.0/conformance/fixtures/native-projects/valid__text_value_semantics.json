@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/text_value_semantics/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/text_value_semantics",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

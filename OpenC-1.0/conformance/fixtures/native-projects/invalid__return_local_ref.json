@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/return_local_ref/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/return_local_ref",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

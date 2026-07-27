@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/write_borrow/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/write_borrow",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

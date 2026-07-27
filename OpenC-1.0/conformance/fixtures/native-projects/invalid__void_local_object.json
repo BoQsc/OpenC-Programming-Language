@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/void_local_object/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/void_local_object",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

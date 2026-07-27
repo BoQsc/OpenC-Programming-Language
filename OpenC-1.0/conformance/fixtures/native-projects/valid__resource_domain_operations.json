@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/resource_domain_operations/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/resource_domain_operations",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

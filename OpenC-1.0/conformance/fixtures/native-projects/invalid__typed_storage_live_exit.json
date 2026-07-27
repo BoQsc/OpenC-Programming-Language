@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/typed_storage_live_exit/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/typed_storage_live_exit",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

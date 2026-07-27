@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/reinterpret_u32_f32/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/reinterpret_u32_f32",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

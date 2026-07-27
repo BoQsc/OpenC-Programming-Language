@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/ref_const_whole_assignment/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/ref_const_whole_assignment",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/typed_storage/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/typed_storage",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/own_plain_integer/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/own_plain_integer",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

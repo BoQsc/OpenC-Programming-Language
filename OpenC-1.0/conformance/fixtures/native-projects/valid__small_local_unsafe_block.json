@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/small_local_unsafe_block/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/small_local_unsafe_block",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,18 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "app": [
+      "../invalid/module_short_qualifier_ambiguous/sources/main.p"
+    ],
+    "debug.io": [
+      "../invalid/module_short_qualifier_ambiguous/sources/dbg.p"
+    ],
+    "system.io": [
+      "../invalid/module_short_qualifier_ambiguous/sources/sys.p"
+    ]
+  },
+  "name": "native-conformance-invalid/module_short_qualifier_ambiguous",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

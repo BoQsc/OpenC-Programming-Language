@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/eval_call_left_to_right/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/eval_call_left_to_right",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

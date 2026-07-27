@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/typed_storage_old_ref_after_reconstruct/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/typed_storage_old_ref_after_reconstruct",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

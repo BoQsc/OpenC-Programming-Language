@@ -62,7 +62,7 @@ unsafe i32 build_default_windows(
 unsafe i32 main() {
     usize arguments = process.argument_count();
     if arguments != 1 && arguments != 2 && arguments != 3 && arguments != 8 {
-        io.error("usage: openc-selfhost-frontend [--parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json | --semantic-flow-safety openc.project.json | --semantic-ir openc.project.json | --emit-d PROJECT OUTPUT-DIRECTORY | --bootstrap-emit-d PROJECT OUTPUT-DIRECTORY | --bootstrap-build PROJECT OUTPUT-EXE GENERATED-DIR RUNTIME-DIR LIBRARY-DIR RECORD D-COMPILER]\n");
+        io.error("usage: openc [build --project=PROJECT --output=OUTPUT-EXE | validate --manifest=MANIFEST --output=REPORT | --parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json | --semantic-flow-safety openc.project.json | --semantic-ir openc.project.json]\n");
         return 64;
     }
     if arguments == 8 {
@@ -85,6 +85,23 @@ unsafe i32 main() {
     }
 
     if arguments == 3 {
+        if process.argument(0) == "validate" {
+            text manifest_path = process.argument(1);
+            text report_path = process.argument(2);
+            if cli_has_prefix(manifest_path, "--manifest=") {
+                manifest_path = cli_remove_prefix(
+                    manifest_path, "--manifest="
+                );
+            }
+            if cli_has_prefix(report_path, "--output=") {
+                report_path = cli_remove_prefix(
+                    report_path, "--output="
+                );
+            }
+            return validate_native_conformance(
+                manifest_path, report_path
+            );
+        }
         if process.argument(0) == "build" {
             text project_path = process.argument(1);
             text output_executable = process.argument(2);
@@ -120,7 +137,7 @@ unsafe i32 main() {
                 process.argument(1), process.argument(2)
             );
         }
-        io.error("usage: openc [build [--project=]PROJECT [--output=]OUTPUT-EXE | --emit-d | --bootstrap-emit-d | --emit-c | --bootstrap-emit-c] openc.project.json OUTPUT\n");
+        io.error("usage: openc [build --project=PROJECT --output=OUTPUT-EXE | validate --manifest=MANIFEST --output=REPORT | --emit-d | --bootstrap-emit-d | --emit-c | --bootstrap-emit-c] INPUT OUTPUT\n");
         return 64;
     }
 

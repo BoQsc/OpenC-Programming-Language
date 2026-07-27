@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/fixed_width_values/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/fixed_width_values",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

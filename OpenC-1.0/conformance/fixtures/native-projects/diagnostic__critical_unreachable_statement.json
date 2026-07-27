@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../diagnostic/critical_unreachable_statement/main.p"
+    ]
+  },
+  "name": "native-conformance-diagnostic/critical_unreachable_statement",
+  "profile": "critical",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

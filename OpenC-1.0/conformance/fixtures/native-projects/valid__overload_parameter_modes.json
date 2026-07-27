@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/overload_parameter_modes/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/overload_parameter_modes",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

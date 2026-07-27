@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/unchecked_float_to_integer/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/unchecked_float_to_integer",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

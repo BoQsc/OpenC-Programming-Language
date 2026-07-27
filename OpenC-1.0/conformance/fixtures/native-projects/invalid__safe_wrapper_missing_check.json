@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/safe_wrapper_missing_check/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/safe_wrapper_missing_check",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

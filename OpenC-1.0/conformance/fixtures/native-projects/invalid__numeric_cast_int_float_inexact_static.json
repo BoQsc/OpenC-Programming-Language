@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/numeric_cast_int_float_inexact_static/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/numeric_cast_int_float_inexact_static",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

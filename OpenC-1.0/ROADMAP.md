@@ -8,13 +8,12 @@ Native-provider verification remain optional future target work.
 
 ## Completed self-hosting path
 
-SH-0 through SH-6 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-7 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
-validates its internal manifest, passes native semantic/IR parity, passes all
-278 current conformance fixtures, and builds and executes all 4 maintained
-programs. The immutable RC8 baseline is recorded in
-`release/SH6_STANDALONE_EVIDENCE.md`; the published RC9 refresh is recorded in
-`release/RC9_STANDALONE_EVIDENCE.md`.
+validates its internal manifest, passes all 278 current conformance fixtures,
+and builds and executes all 4 maintained programs. The immutable RC8 baseline
+is recorded in `release/SH6_STANDALONE_EVIDENCE.md`; the published RC9 refresh
+is recorded in `release/RC9_STANDALONE_EVIDENCE.md`.
 
 SH-4 is complete. SH-4A matches all 28 generated D files across the canonical
 compiler and A/B/C projects byte for byte. SH-4B has Stage 1 invoke the
@@ -34,6 +33,12 @@ The extracted compiler locates its runtime and backend relative to its own
 executable, rebuilds from a foreign working directory, and reaches exact
 packaged/Stage-2/Stage-3 executable closure. The supported package mode is
 Windows x86-64 Hosted with the six compiler-provided system modules.
+
+SH-7 is complete. The OpenC-authored compiler exposes native `openc validate`
+and executes the complete 278-fixture plan: 278 pass, all 35 runtime fixtures
+build and execute, all 153 diagnostic contracts match, and infrastructure
+failures are zero. The required relocated-package gate calls native Stage 3;
+the retained D seed is packaged only as an optional comparison oracle.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -85,22 +90,15 @@ IR reach closure. Exact evidence and reproduction commands are in
 
 ## What comes next
 
-1. **SH-7 native conformance and tooling independence — next engineering
+1. **SH-8 native developer and release workflow hardening — next engineering
    milestone**
-   - implement native `openc validate`, or an equivalent OpenC-authored
-     conformance runner, for the complete 278-fixture manifest;
-   - reproduce exact acceptance, diagnostic, and runtime outcomes through the
-     packaged OpenC-native compiler;
-   - remove the retained D audit seed from the required packaged conformance
-     gate while retaining it as an optional comparison oracle;
-   - preserve byte-identical native Stage-2/Stage-3 closure, reproducible
-     archives, and the 4/4 maintained-program gate.
-2. **Native developer-workflow hardening**
    - make the OpenC-native compiler the default compiler-under-test for Windows
      Hosted development gates;
    - profile native validation and rebuild paths, establish regression budgets,
-     and remove avoidable full-corpus work where measurements justify it.
-3. **Seek independent review**
+     and remove avoidable full-corpus work where measurements justify it;
+   - keep the optional D oracle out of required everyday and release execution,
+     while retaining a separately invocable audit comparison.
+2. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.
 

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/slice_const_to_mutable/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/slice_const_to_mutable",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

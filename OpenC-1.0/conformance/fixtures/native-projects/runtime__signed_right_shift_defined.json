@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/signed_right_shift_defined/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/signed_right_shift_defined",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

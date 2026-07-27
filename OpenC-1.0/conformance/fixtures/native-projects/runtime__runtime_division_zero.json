@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/runtime_division_zero/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/runtime_division_zero",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

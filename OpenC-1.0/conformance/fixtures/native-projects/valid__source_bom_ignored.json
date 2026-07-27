@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/source_bom_ignored/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/source_bom_ignored",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

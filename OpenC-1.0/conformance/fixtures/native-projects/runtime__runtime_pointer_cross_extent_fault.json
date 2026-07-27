@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/runtime_pointer_cross_extent_fault/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/runtime_pointer_cross_extent_fault",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

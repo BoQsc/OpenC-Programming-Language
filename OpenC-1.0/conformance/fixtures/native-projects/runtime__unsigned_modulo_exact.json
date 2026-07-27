@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/unsigned_modulo_exact/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/unsigned_modulo_exact",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

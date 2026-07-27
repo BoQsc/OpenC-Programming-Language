@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/type_shapes_ref_ptr_optional_array_slice_storage/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/type_shapes_ref_ptr_optional_array_slice_storage",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

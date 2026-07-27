@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/cleanup_owner_registered_once/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/cleanup_owner_registered_once",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

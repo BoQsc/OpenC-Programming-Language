@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/misaligned_typed_deref/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/misaligned_typed_deref",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

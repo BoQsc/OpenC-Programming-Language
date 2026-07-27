@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/destroy_with_active_borrow/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/destroy_with_active_borrow",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

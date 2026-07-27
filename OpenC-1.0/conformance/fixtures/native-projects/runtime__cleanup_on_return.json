@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/cleanup_on_return/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/cleanup_on_return",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

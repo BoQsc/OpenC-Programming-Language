@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/pointer_one_past_compare/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/pointer_one_past_compare",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

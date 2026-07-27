@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/missing_braces/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/missing_braces",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

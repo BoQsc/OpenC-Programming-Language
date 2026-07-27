@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/typed_storage_scope_destroy_use/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/typed_storage_scope_destroy_use",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

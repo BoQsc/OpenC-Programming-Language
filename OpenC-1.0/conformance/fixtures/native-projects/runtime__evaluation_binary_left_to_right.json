@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/evaluation_binary_left_to_right/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/evaluation_binary_left_to_right",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

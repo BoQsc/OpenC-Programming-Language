@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/ptr_length/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/ptr_length",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

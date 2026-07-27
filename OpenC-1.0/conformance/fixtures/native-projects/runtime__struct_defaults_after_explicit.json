@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/struct_defaults_after_explicit/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/struct_defaults_after_explicit",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

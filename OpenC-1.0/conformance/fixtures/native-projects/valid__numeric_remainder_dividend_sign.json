@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/numeric_remainder_dividend_sign/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/numeric_remainder_dividend_sign",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

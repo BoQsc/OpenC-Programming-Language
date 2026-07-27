@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/numeric_unconstrained_too_large/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/numeric_unconstrained_too_large",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

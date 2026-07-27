@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/flow_continue_skips_init/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/flow_continue_skips_init",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

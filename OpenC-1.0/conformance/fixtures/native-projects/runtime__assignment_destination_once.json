@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/assignment_destination_once/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/assignment_destination_once",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

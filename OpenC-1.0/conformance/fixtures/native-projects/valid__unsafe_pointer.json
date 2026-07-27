@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/unsafe_pointer/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/unsafe_pointer",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/reinterpret_struct_value/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/reinterpret_struct_value",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

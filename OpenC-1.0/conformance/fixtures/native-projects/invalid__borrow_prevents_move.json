@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/borrow_prevents_move/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/borrow_prevents_move",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

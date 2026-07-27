@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/ref_assigns_referent/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/ref_assigns_referent",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -30,9 +30,33 @@ unsafe void c_put_call_argument(
     ref IrContext context,
     ref DBuffer buffer,
     usize instruction,
-    usize index
+    usize index,
+    ptr byte value_types
 ) {
     usize parameter = c_call_parameter(context, instruction, index);
+    usize value = d_operand_value(context, instruction, index);
+    if parameter < context.symbols.length {
+        usize expected_type = read_record_field(
+            context.symbol_data, parameter, 4
+        );
+        usize actual_type = c_value_type(value_types, value);
+        if actual_type < context.types.length &&
+            expected_type < context.types.length &&
+            read_record_field(context.type_data, actual_type, 0) == 10 &&
+            read_record_field(context.type_data, expected_type, 0) == 11 {
+            d_put(buffer, "(");
+            c_put_type(context, buffer, expected_type);
+            d_put(buffer, "){v");
+            d_put_usize(buffer, value);
+            d_put(buffer, ".data, ");
+            d_put_usize(
+                buffer,
+                read_record_field(context.type_data, actual_type, 2)
+            );
+            d_put(buffer, "}");
+            return;
+        }
+    }
     if parameter < context.symbols.length {
         usize mode = read_record_field(context.detail_data, parameter, 3);
         usize type_id = read_record_field(context.symbol_data, parameter, 4);
@@ -294,7 +318,9 @@ unsafe void c_emit_instruction(
         usize index = 0;
         while index < count {
             if index != 0 { d_put(buffer, ", "); }
-            c_put_call_argument(context, buffer, instruction, index);
+            c_put_call_argument(
+                context, buffer, instruction, index, value_types
+            );
             index = index + 1;
         }
         d_put(buffer, ");\n");
@@ -397,12 +423,29 @@ unsafe void c_emit_instruction(
     if opcode == ir_op_aggregate_field() {
         usize base = d_operand_value(context, instruction, 0);
         usize base_type = c_value_type(value_types, base);
+        usize base_kind = read_record_field(
+            context.type_data, base_type, 0
+        );
+        if base_kind == 14 &&
+            d_instruction_text_is(context, instruction, "value") {
+            d_put(buffer, "    if (!v");
+            d_put_usize(buffer, base);
+            d_put(buffer, ".present) { ");
+            d_put(buffer, "ocb_checked_failure(OC_TEXT_LITERAL(");
+            d_put(buffer, "\"optional has no value\")); }\n");
+        }
         c_put_lhs(buffer, result);
         if d_instruction_address_field(context, instruction) { d_put(buffer, "&"); }
         if base_type == semantic_type_status() &&
             d_instruction_text_is(context, instruction, "ok") {
             d_put(buffer, "(v"); d_put_usize(buffer, base);
             d_put(buffer, ".code == 0)");
+        } else if base_kind == 10 &&
+            d_instruction_text_is(context, instruction, "length") {
+            d_put_usize(
+                buffer,
+                read_record_field(context.type_data, base_type, 2)
+            );
         } else if d_instruction_text_is(context, instruction, "index") ||
             (read_record_field(context.instruction_detail, instruction, 0) == 2 &&
              read_record_field(context.instruction_detail, instruction, 1) == 4) {
@@ -485,9 +528,43 @@ unsafe void c_emit_instruction(
     if opcode == ir_op_bounds() {
         usize aggregate = d_operand_value(context, instruction, 0);
         usize index = d_operand_value(context, instruction, 1);
+        usize aggregate_type = c_value_type(value_types, aggregate);
+        bool fixed_array = aggregate_type < context.types.length &&
+            read_record_field(context.type_data, aggregate_type, 0) == 10;
+        if guard_count != 0 {
+            d_put(buffer, "    if (v");
+            d_put_usize(buffer, index);
+            d_put(buffer, " >= ");
+            if fixed_array {
+                d_put_usize(
+                    buffer,
+                    read_record_field(context.type_data, aggregate_type, 2)
+                );
+            } else {
+                d_put(buffer, "v");
+                d_put_usize(buffer, aggregate);
+                d_put(buffer, ".length");
+            }
+            d_put(buffer, ") {\n");
+            c_emit_cleanup_guards(
+                context, buffer, instruction_order,
+                reference_storage, value_types, guard_count
+            );
+            d_put(buffer, "    }\n");
+        }
         d_put(buffer, "    (void)oc_bounds_index(v");
-        d_put_usize(buffer, index); d_put(buffer, ", v");
-        d_put_usize(buffer, aggregate); d_put(buffer, ".length, 0);\n");
+        d_put_usize(buffer, index); d_put(buffer, ", ");
+        if fixed_array {
+            d_put_usize(
+                buffer,
+                read_record_field(context.type_data, aggregate_type, 2)
+            );
+        } else {
+            d_put(buffer, "v");
+            d_put_usize(buffer, aggregate);
+            d_put(buffer, ".length");
+        }
+        d_put(buffer, ", 0);\n");
         return;
     }
     if opcode == ir_op_target_fault() {

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/numeric_div_min_negative_one_static/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/numeric_div_min_negative_one_static",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

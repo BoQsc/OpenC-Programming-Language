@@ -129,6 +129,12 @@ def main() -> int:
         / "source"
         / "tcc-0.9.27.tar.bz2",
         output_tree / "conformance" / "fixtures" / "MANIFEST.json",
+        output_tree / "conformance" / "fixtures" / "NATIVE_PLAN.tsv",
+        output_tree
+        / "compiler"
+        / "selfhost"
+        / "source"
+        / "native_conformance.p",
     )
     missing = [str(path.relative_to(output_tree)) for path in required if not path.is_file()]
     if missing:
@@ -145,11 +151,17 @@ def main() -> int:
             "public_build_command": (
                 "openc.exe build --project=PROJECT --output=OUTPUT-EXE"
             ),
+            "public_validate_command": (
+                "openc.exe validate --manifest=MANIFEST --output=REPORT"
+            ),
         },
         "bootstrap_seed": {
             "path": "bootstrap/openc-stage0.exe",
             "implementation_language": "D",
-            "role": "retained audit and conformance seed; not a native build dependency",
+            "role": (
+                "optional retained D comparison oracle; not a native build "
+                "or required conformance dependency"
+            ),
             "sha256": sha256(bootstrap / "openc-stage0.exe"),
         },
         "backend": {
@@ -177,8 +189,17 @@ def main() -> int:
             ),
             "authored_native_provider_status": (
                 "included for future Native-provider work; outside the "
-                "Windows Hosted SH-6 gate"
+                "Windows Hosted SH-7 gate"
             ),
+        },
+        "required_conformance_runner": {
+            "command": (
+                "openc.exe validate --manifest=conformance/fixtures/MANIFEST.json "
+                "--output=conformance-report.json"
+            ),
+            "implementation_language": "OpenC",
+            "fixtures": 278,
+            "retained_d_seed_required": False,
         },
         "linux_and_freestanding_gate": False,
     }

@@ -24,10 +24,10 @@ full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
 bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
 bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
-self-hosted compiler:                 YES; SH-6 PASS, STANDALONE WINDOWS
+self-hosted compiler:                 YES; SH-7 PASS, NATIVE CONFORMANCE
 self-host performance milestone:     PASS; 45.5% FASTER, >=92.5% LESS PRIVATE MEMORY
 coverage-granularity milestone:      PASS; 466/466 RULES, 174/174 GRAMMAR PAIRS
-next engineering milestone:          SH-7 NATIVE CONFORMANCE/TOOLING INDEPENDENCE
+next engineering milestone:          SH-8 NATIVE DEVELOPMENT/RELEASE WORKFLOW
 DMD-independent self-host compiler:  YES; PUBLIC `openc build`, VENDORED TCC
 standalone compiler distribution:    YES; RELOCATABLE, REPRODUCIBLE, VERIFIED
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED
@@ -36,7 +36,7 @@ build/test/release source:           SOURCE-COMPLETE; EXECUTED
 
 D targets compiled/linked:           9/9 DEBUG; 9/9 RELEASE ON WINDOWS
 implementation tests:               8/8 D COMMANDS; 4/4 PYTHON TESTS
-conformance fixtures:                278/278 PASS; 0 INFRASTRUCTURE FAILURES
+conformance fixtures:                NATIVE 278/278 PASS; 0 INFRASTRUCTURE FAILURES
 diagnostic matching:                 EXACT CURRENT; PRIOR 93 COMPATIBILITY DISCLOSED
 runtime fixtures:                    35/35 BUILT AND EXECUTED
 maintained programs:                 4/4 CHECKED, BUILT, AND RUN
@@ -72,6 +72,8 @@ release-candidate record. RC9 reproduces the expanded 278-fixture corpus and
 native compiler closure from the relocated package and is published at
 `https://github.com/BoQsc/OpenC-Programming-Language/releases/tag/v1.0.0-rc.9`.
 
-The next engineering milestone is SH-7: move the complete conformance and
-release-tooling path onto the OpenC-native compiler so the packaged 278-fixture
-gate no longer depends on the retained D audit seed.
+SH-7 moves the complete 278-fixture packaged gate onto the OpenC-native
+compiler; the retained D seed is now an optional comparison oracle and is not
+executed by the required gate. SH-8 is next: make native validation the default
+Windows Hosted development/release workflow and add measured regression
+budgets. Linux and freestanding remain optional future targets.

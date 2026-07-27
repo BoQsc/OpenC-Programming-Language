@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/call_argument_count/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/call_argument_count",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

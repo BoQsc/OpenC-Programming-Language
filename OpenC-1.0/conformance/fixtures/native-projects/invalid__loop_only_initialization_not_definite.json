@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/loop_only_initialization_not_definite/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/loop_only_initialization_not_definite",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

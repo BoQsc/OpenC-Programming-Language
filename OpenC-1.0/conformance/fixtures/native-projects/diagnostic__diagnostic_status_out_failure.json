@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../diagnostic/diagnostic_status_out_failure/main.p"
+    ]
+  },
+  "name": "native-conformance-diagnostic/diagnostic_status_out_failure",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

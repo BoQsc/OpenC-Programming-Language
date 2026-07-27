@@ -1,0 +1,279 @@
+openc.native_conformance_plan.v1	1	278
+command/machine_integer_width_reported	command	accept				0		command/machine_integer_width_reported/command.json
+command/target_context_complete	command	accept				0		command/target_context_complete/command.json
+command/target_layout_report	command	accept				0		command/target_layout_report/command.json
+command/unsafe_history_in_diagnostic	command	accept				0		command/unsafe_history_in_diagnostic/command.json
+diagnostic/critical_unreachable_statement	diagnostic	reject	OPENC-STMT-UNREACHABLE-001	native-projects/diagnostic__critical_unreachable_statement.json	diagnostic/critical_unreachable_statement/main.p	0		
+diagnostic/diagnostic_flow_path_locations	diagnostic	reject	OPENC-SAFE-INIT-001	native-projects/diagnostic__diagnostic_flow_path_locations.json	diagnostic/diagnostic_flow_path_locations/main.p	0		
+diagnostic/diagnostic_status_out_failure	diagnostic	reject	OPENC-SAFE-INIT-001	native-projects/diagnostic__diagnostic_status_out_failure.json	diagnostic/diagnostic_status_out_failure/main.p	0		
+invalid/address_outside_unsafe	invalid	reject	OPENC-PTR-ADDRESS-UNSAFE-001	native-projects/invalid__address_outside_unsafe.json	invalid/address_outside_unsafe/main.p	0		
+invalid/arithmetic_type_mismatch	invalid	reject	OPENC-EXPR-TYPE-001	native-projects/invalid__arithmetic_type_mismatch.json	invalid/arithmetic_type_mismatch/main.p	0		
+invalid/array_no_pointer_decay	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__array_no_pointer_decay.json	invalid/array_no_pointer_decay/main.p	0		
+invalid/array_out_of_bounds	invalid	reject	OPENC-ARRAY-INDEX-001	native-projects/invalid__array_out_of_bounds.json	invalid/array_out_of_bounds/main.p	0		
+invalid/arrow_function	invalid	reject	OPENC-SYNTAX-BRACES-001	native-projects/invalid__arrow_function.json	invalid/arrow_function/main.p	0		
+invalid/assignment_conversion_checked	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__assignment_conversion_checked.json	invalid/assignment_conversion_checked/main.p	0		
+invalid/assignment_target_required	invalid	reject	OPENC-ASSIGN-LVALUE-001	native-projects/invalid__assignment_target_required.json	invalid/assignment_target_required/main.p	0		
+invalid/block_local_escape	invalid	reject	OPENC-NAME-UNKNOWN-001	native-projects/invalid__block_local_escape.json	invalid/block_local_escape/main.p	0		
+invalid/borrow_prevents_move	invalid	reject	OPENC-OWN-EXIT-001	native-projects/invalid__borrow_prevents_move.json	invalid/borrow_prevents_move/main.p	0		
+invalid/break_outside_loop	invalid	reject	OPENC-LOOP-CONTEXT-001	native-projects/invalid__break_outside_loop.json	invalid/break_outside_loop/main.p	0		
+invalid/byte_not_text_or_arithmetic	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__byte_not_text_or_arithmetic.json	invalid/byte_not_text_or_arithmetic/main.p	0		
+invalid/c_array_decl	invalid	reject	OPENC-SYNTAX-SEMICOLON-001	native-projects/invalid__c_array_decl.json	invalid/c_array_decl/main.p	0		
+invalid/c_pointer_decl	invalid	reject	OPENC-NAME-UNKNOWN-001	native-projects/invalid__c_pointer_decl.json	invalid/c_pointer_decl/main.p	0		
+invalid/c_reference_decl	invalid	reject	OPENC-SYNTAX-IDENTIFIER-001	native-projects/invalid__c_reference_decl.json	invalid/c_reference_decl/main.p	0		
+invalid/call_argument_count	invalid	reject	OPENC-CALL-NOMATCH-001	native-projects/invalid__call_argument_count.json	invalid/call_argument_count/main.p	0		
+invalid/checked_cast_requires_exact_value	runtime	checked_failure		native-projects/invalid__checked_cast_requires_exact_value.json	invalid/checked_cast_requires_exact_value/main.p	0		
+invalid/cleanup_owner_registered_once	invalid	reject	OPENC-SYNTAX-TOP-DECL-001	native-projects/invalid__cleanup_owner_registered_once.json	invalid/cleanup_owner_registered_once/main.p	0		
+invalid/cleanup_reference_must_live	invalid	reject	OPENC-REF-INIT-001	native-projects/invalid__cleanup_reference_must_live.json	invalid/cleanup_reference_must_live/main.p	0		
+invalid/const_reassignment_rejected	invalid	reject	OPENC-CONST-ASSIGN-001	native-projects/invalid__const_reassignment_rejected.json	invalid/const_reassignment_rejected/main.p	0		
+invalid/const_resource_owner	invalid	reject	OPENC-RESOURCE-NOCONSTOWNER-001	native-projects/invalid__const_resource_owner.json	invalid/const_resource_owner/main.p	0		
+invalid/construct_twice	invalid	reject	OPENC-CONSTRUCT-DOUBLE-001	native-projects/invalid__construct_twice.json	invalid/construct_twice/main.p	0		
+invalid/current_question_optional	invalid	reject	OPENC-SYNTAX-OPTIONAL-001	native-projects/invalid__current_question_optional.json	invalid/current_question_optional/main.p	0		
+invalid/declaration_requires_type	invalid	reject	OPENC-NAME-UNKNOWN-001	native-projects/invalid__declaration_requires_type.json	invalid/declaration_requires_type/main.p	0		
+invalid/deref_outside_unsafe	invalid	reject	OPENC-PTR-DEREF-UNSAFE-001	native-projects/invalid__deref_outside_unsafe.json	invalid/deref_outside_unsafe/main.p	0		
+invalid/destroy_with_active_borrow	invalid	reject	OPENC-DESTROY-BORROW-001	native-projects/invalid__destroy_with_active_borrow.json	invalid/destroy_with_active_borrow/main.p	0		
+invalid/enum_duplicate_value	invalid	reject	OPENC-ENUM-DUPLICATE-001	native-projects/invalid__enum_duplicate_value.json	invalid/enum_duplicate_value/main.p	0		
+invalid/fallible_scope_action_rejected	invalid	reject	OPENC-SCOPE-NOFAIL-001	native-projects/invalid__fallible_scope_action_rejected.json	invalid/fallible_scope_action_rejected/main.p	0		
+invalid/float_integer_no_implicit	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__float_integer_no_implicit.json	invalid/float_integer_no_implicit/main.p	0		
+invalid/flow_borrow_and_destroyed_state	invalid	reject	OPENC-FLOW-DESTROYED-001	native-projects/invalid__flow_borrow_and_destroyed_state.json	invalid/flow_borrow_and_destroyed_state/main.p	0		
+invalid/flow_break_path_merge	invalid	reject	OPENC-SAFE-INIT-001	native-projects/invalid__flow_break_path_merge.json	invalid/flow_break_path_merge/main.p	0		
+invalid/flow_continue_skips_init	invalid	reject	OPENC-SAFE-INIT-001	native-projects/invalid__flow_continue_skips_init.json	invalid/flow_continue_skips_init/main.p	0		
+invalid/flow_for_not_guaranteed	invalid	reject	OPENC-SAFE-INIT-001	native-projects/invalid__flow_for_not_guaranteed.json	invalid/flow_for_not_guaranteed/main.p	0		
+invalid/flow_if_missing_else	invalid	reject	OPENC-SAFE-INIT-001	native-projects/invalid__flow_if_missing_else.json	invalid/flow_if_missing_else/main.p	0		
+invalid/flow_move_one_branch	invalid	reject	OPENC-OWN-USE-AFTER-MOVE-001	native-projects/invalid__flow_move_one_branch.json	invalid/flow_move_one_branch/main.p	0		
+invalid/flow_optional_proof_invalidated	invalid	reject	OPENC-SYNTAX-TOP-DECL-001	native-projects/invalid__flow_optional_proof_invalidated.json	invalid/flow_optional_proof_invalidated/main.p	0		
+invalid/flow_unreachable_after_return	invalid	warning	OPENC-FLOW-REACHABLE-001	native-projects/invalid__flow_unreachable_after_return.json	invalid/flow_unreachable_after_return/main.p	0		
+invalid/flow_while_only_initialization	invalid	reject	OPENC-SAFE-INIT-001	native-projects/invalid__flow_while_only_initialization.json	invalid/flow_while_only_initialization/main.p	0		
+invalid/for_variable_scope	invalid	reject	OPENC-NAME-UNKNOWN-001	native-projects/invalid__for_variable_scope.json	invalid/for_variable_scope/main.p	0		
+invalid/historical_int_type_rejected	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__historical_int_type_rejected.json	invalid/historical_int_type_rejected/main.p	0		
+invalid/ignored_status	invalid	reject	OPENC-STATUS-FIELD-001	native-projects/invalid__ignored_status.json	invalid/ignored_status/main.p	0		
+invalid/implicit_narrow	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__implicit_narrow.json	invalid/implicit_narrow/main.p	0		
+invalid/integer_condition	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__integer_condition.json	invalid/integer_condition/main.p	0		
+invalid/integer_literal_destination_range	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__integer_literal_destination_range.json	invalid/integer_literal_destination_range/main.p	0		
+invalid/invalid_utf8_source	invalid	reject	OPENC-SOURCE-INVALID-001	native-projects/invalid__invalid_utf8_source.json	invalid/invalid_utf8_source/main.p	0		
+invalid/local_not_zero_initialized	invalid	reject	OPENC-SAFE-INIT-001	native-projects/invalid__local_not_zero_initialized.json	invalid/local_not_zero_initialized/main.p	0		
+invalid/loop_only_initialization_not_definite	invalid	reject	OPENC-SAFE-INIT-001	native-projects/invalid__loop_only_initialization_not_definite.json	invalid/loop_only_initialization_not_definite/main.p	0		
+invalid/misaligned_typed_deref	runtime	target_fault		native-projects/invalid__misaligned_typed_deref.json	invalid/misaligned_typed_deref/main.p	0		
+invalid/missing_braces	invalid	reject	OPENC-SYNTAX-BRACES-001	native-projects/invalid__missing_braces.json	invalid/missing_braces/main.p	0		
+invalid/missing_semicolon	invalid	reject	OPENC-SYNTAX-SEMICOLON-001	native-projects/invalid__missing_semicolon.json	invalid/missing_semicolon/main.p	0		
+invalid/missing_struct_field	invalid	reject	OPENC-STRUCT-INIT-MISSING-001	native-projects/invalid__missing_struct_field.json	invalid/missing_struct_field/main.p	0		
+invalid/module_duplicate_top_level	invalid	reject	OPENC-MODULE-DUPLICATE-001	native-projects/invalid__module_duplicate_top_level.json	invalid/module_duplicate_top_level/sources/a.p|invalid/module_duplicate_top_level/sources/b.p	0		
+invalid/module_import_cycle	invalid	reject	OPENC-MODULE-CYCLE-001	native-projects/invalid__module_import_cycle.json	invalid/module_import_cycle/sources/a.p|invalid/module_import_cycle/sources/b.p	0		
+invalid/module_import_not_shared	invalid	reject	OPENC-MODULE-IMPORTLOCAL-001	native-projects/invalid__module_import_not_shared.json	invalid/module_import_not_shared/sources/a.p|invalid/module_import_not_shared/sources/b.p	0		
+invalid/module_private_access	invalid	reject	OPENC-MODULE-PRIVATE-001	native-projects/invalid__module_private_access.json	invalid/module_private_access/sources/main.p|invalid/module_private_access/sources/math.p	0		
+invalid/module_short_qualifier_ambiguous	invalid	reject	OPENC-MODULE-QUALIFIER-AMBIGUOUS-001	native-projects/invalid__module_short_qualifier_ambiguous.json	invalid/module_short_qualifier_ambiguous/sources/dbg.p|invalid/module_short_qualifier_ambiguous/sources/main.p|invalid/module_short_qualifier_ambiguous/sources/sys.p	0		
+invalid/mutable_global_rejected	invalid	reject	OPENC-SYNTAX-TOP-DECL-001	native-projects/invalid__mutable_global_rejected.json	invalid/mutable_global_rejected/main.p	0		
+invalid/nonvoid_missing_path	invalid	reject	OPENC-FUNCTION-RETURN-001	native-projects/invalid__nonvoid_missing_path.json	invalid/nonvoid_missing_path/main.p	0		
+invalid/numeric_cast_float_fraction	invalid	reject	OPENC-NUM-CAST-FLOATINT-001	native-projects/invalid__numeric_cast_float_fraction.json	invalid/numeric_cast_float_fraction/main.p	0		
+invalid/numeric_cast_int_float_inexact_static	invalid	reject	OPENC-NUM-CAST-INTFLOAT-001	native-projects/invalid__numeric_cast_int_float_inexact_static.json	invalid/numeric_cast_int_float_inexact_static/main.p	0		
+invalid/numeric_div_min_negative_one_static	invalid	reject	OPENC-NUM-DIV-MIN-001	native-projects/invalid__numeric_div_min_negative_one_static.json	invalid/numeric_div_min_negative_one_static/main.p	0		
+invalid/numeric_literal_suffix	invalid	reject	OPENC-LEX-NUMBER-SUFFIX-001	native-projects/invalid__numeric_literal_suffix.json	invalid/numeric_literal_suffix/main.p	0		
+invalid/numeric_separator_doubled	invalid	reject	OPENC-LEX-NUMBER-SEPARATOR-001	native-projects/invalid__numeric_separator_doubled.json	invalid/numeric_separator_doubled/main.p	0		
+invalid/numeric_shift_width	invalid	reject	OPENC-NUM-SHIFT-001	native-projects/invalid__numeric_shift_width.json	invalid/numeric_shift_width/main.p	0		
+invalid/numeric_signed_bitwise	invalid	reject	OPENC-NUM-BITWISE-001	native-projects/invalid__numeric_signed_bitwise.json	invalid/numeric_signed_bitwise/main.p	0		
+invalid/numeric_unconstrained_too_large	invalid	reject	OPENC-NUM-LITERAL-DEFAULT-001	native-projects/invalid__numeric_unconstrained_too_large.json	invalid/numeric_unconstrained_too_large/main.p	0		
+invalid/optional_contains_resource	invalid	reject	OPENC-TYPE-RESOURCEOPTIONAL-001	native-projects/invalid__optional_contains_resource.json	invalid/optional_contains_resource/main.p	0		
+invalid/optional_present_readonly	invalid	reject	OPENC-SYNTAX-TOP-DECL-001	native-projects/invalid__optional_present_readonly.json	invalid/optional_present_readonly/main.p	0		
+invalid/optional_proof_invalidated	invalid	reject	OPENC-FLOW-OPTIONAL-INVALIDATE-001	native-projects/invalid__optional_proof_invalidated.json	invalid/optional_proof_invalidated/main.p	0		
+invalid/optional_question_syntax	invalid	reject	OPENC-SYNTAX-OPTIONAL-001	native-projects/invalid__optional_question_syntax.json	invalid/optional_question_syntax/main.p	0		
+invalid/optional_slice	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__optional_slice.json	invalid/optional_slice/main.p	0		
+invalid/out_failure_partial_exposure	invalid	reject	OPENC-FUNCTION-OUTFAIL-001	native-projects/invalid__out_failure_partial_exposure.json	invalid/out_failure_partial_exposure/main.p	0		
+invalid/out_field_target	invalid	reject	OPENC-SYNTAX-PAREN-001	native-projects/invalid__out_field_target.json	invalid/out_field_target/main.p	0		
+invalid/out_initialized_target	invalid	reject	OPENC-OUT-TARGET-001	native-projects/invalid__out_initialized_target.json	invalid/out_initialized_target/main.p	0		
+invalid/out_nonstatus_function	invalid	reject	OPENC-OUT-FUNCTION-STATUS-001	native-projects/invalid__out_nonstatus_function.json	invalid/out_nonstatus_function/main.p	0		
+invalid/out_own_pointer_missing_contract	invalid	reject	OPENC-STATUS-FIELD-001	native-projects/invalid__out_own_pointer_missing_contract.json	invalid/out_own_pointer_missing_contract/main.p	0		
+invalid/out_read_inside_callee	invalid	reject	OPENC-STATUS-FIELD-001	native-projects/invalid__out_read_inside_callee.json	invalid/out_read_inside_callee/main.p	0		
+invalid/out_reference_parameter	invalid	reject	OPENC-STATUS-FIELD-001	native-projects/invalid__out_reference_parameter.json	invalid/out_reference_parameter/main.p	0		
+invalid/out_success_without_init	invalid	reject	OPENC-STATUS-FIELD-001	native-projects/invalid__out_success_without_init.json	invalid/out_success_without_init/main.p	0		
+invalid/overload_conversion_ambiguity	invalid	reject	OPENC-OVERLOAD-AMBIGUOUS-001	native-projects/invalid__overload_conversion_ambiguity.json	invalid/overload_conversion_ambiguity/main.p	0		
+invalid/overload_lossless_ambiguous	invalid	reject	OPENC-OVERLOAD-NORANK-001	native-projects/invalid__overload_lossless_ambiguous.json	invalid/overload_lossless_ambiguous/main.p	0		
+invalid/overload_return_only	invalid	reject	OPENC-OVERLOAD-RETURN-001	native-projects/invalid__overload_return_only.json	invalid/overload_return_only/main.p	0		
+invalid/own_plain_integer	invalid	reject	OPENC-PARAM-OWNTYPE-001	native-projects/invalid__own_plain_integer.json	invalid/own_plain_integer/main.p	0		
+invalid/owning_pointer_copy	invalid	reject	OPENC-SYNTAX-IDENTIFIER-001	native-projects/invalid__owning_pointer_copy.json	invalid/owning_pointer_copy/main.p	0		
+invalid/plain_struct_hides_owning_pointer	invalid	reject	OPENC-PTR-OWNCONTAIN-001	native-projects/invalid__plain_struct_hides_owning_pointer.json	invalid/plain_struct_hides_owning_pointer/main.p	0		
+invalid/pointer_arithmetic_outside_unsafe	invalid	reject	OPENC-PTR-ARITH-UNSAFE-001	native-projects/invalid__pointer_arithmetic_outside_unsafe.json	invalid/pointer_arithmetic_outside_unsafe/main.p	0		
+invalid/pointer_cross_allocation_subtract	runtime	target_fault		native-projects/invalid__pointer_cross_allocation_subtract.json	invalid/pointer_cross_allocation_subtract/main.p	0		
+invalid/pointer_deref_one_past	invalid	reject	OPENC-PTR-ONEPAST-001	native-projects/invalid__pointer_deref_one_past.json	invalid/pointer_deref_one_past/main.p	0		
+invalid/pointer_integer_conversion_not_plain	invalid	reject	OPENC-TARGET-PTRINT-001	native-projects/invalid__pointer_integer_conversion_not_plain.json	invalid/pointer_integer_conversion_not_plain/main.p	0		
+invalid/pointer_order_cross_allocation	invalid	reject	OPENC-TARGET-PTRCOMPARE-001	native-projects/invalid__pointer_order_cross_allocation.json	invalid/pointer_order_cross_allocation/main.p	0		
+invalid/pointer_typed_deref_requires_lifetime	runtime	target_fault		native-projects/invalid__pointer_typed_deref_requires_lifetime.json	invalid/pointer_typed_deref_requires_lifetime/main.p	0		
+invalid/positional_struct	invalid	reject	OPENC-SYNTAX-IDENTIFIER-001	native-projects/invalid__positional_struct.json	invalid/positional_struct/main.p	0		
+invalid/predeclared_typeword_binding	invalid	reject	OPENC-SYNTAX-SEMICOLON-001	native-projects/invalid__predeclared_typeword_binding.json	invalid/predeclared_typeword_binding/main.p	0		
+invalid/ptr_const_to_mutable	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__ptr_const_to_mutable.json	invalid/ptr_const_to_mutable/main.p	0		
+invalid/ptr_const_write	invalid	reject	OPENC-CONST-ASSIGN-001	native-projects/invalid__ptr_const_write.json	invalid/ptr_const_write/main.p	0		
+invalid/ptr_length	invalid	reject	OPENC-NAME-UNKNOWN-001	native-projects/invalid__ptr_length.json	invalid/ptr_length/main.p	0		
+invalid/read_uninitialized	invalid	reject	OPENC-SAFE-INIT-001	native-projects/invalid__read_uninitialized.json	invalid/read_uninitialized/main.p	0		
+invalid/ref_const_to_mutable	invalid	reject	OPENC-CALL-NOMATCH-001	native-projects/invalid__ref_const_to_mutable.json	invalid/ref_const_to_mutable/main.p	0		
+invalid/ref_const_whole_assignment	invalid	reject	OPENC-CONST-ASSIGN-001	native-projects/invalid__ref_const_whole_assignment.json	invalid/ref_const_whole_assignment/main.p	0		
+invalid/ref_field	invalid	reject	OPENC-FIELD-TYPE-001	native-projects/invalid__ref_field.json	invalid/ref_field/main.p	0		
+invalid/ref_local_without_initializer	invalid	reject	OPENC-REF-INIT-001	native-projects/invalid__ref_local_without_initializer.json	invalid/ref_local_without_initializer/main.p	0		
+invalid/ref_resource_whole_assignment	invalid	reject	OPENC-OWN-EXIT-001	native-projects/invalid__ref_resource_whole_assignment.json	invalid/ref_resource_whole_assignment/main.p	0		
+invalid/reinterpret_pointer_no_new_lifetime	runtime	target_fault		native-projects/invalid__reinterpret_pointer_no_new_lifetime.json	invalid/reinterpret_pointer_no_new_lifetime/main.p	0		
+invalid/reinterpret_size_mismatch	invalid	reject	OPENC-REINTERPRET-SIZE-001	native-projects/invalid__reinterpret_size_mismatch.json	invalid/reinterpret_size_mismatch/main.p	0		
+invalid/reinterpret_struct_value	invalid	reject	OPENC-REINTERPRET-VALUE-001	native-projects/invalid__reinterpret_struct_value.json	invalid/reinterpret_struct_value/main.p	0		
+invalid/reinterpret_unrelated_layout_rejected	invalid	reject	OPENC-REINTERPRET-UNSAFE-001	native-projects/invalid__reinterpret_unrelated_layout_rejected.json	invalid/reinterpret_unrelated_layout_rejected/main.p	0		
+invalid/resource_copy	invalid	reject	OPENC-NAME-UNKNOWN-001	native-projects/invalid__resource_copy.json	invalid/resource_copy/main.p	0		
+invalid/resource_equality_rejected	invalid	reject	OPENC-EQUALITY-RESOURCE-001	native-projects/invalid__resource_equality_rejected.json	invalid/resource_equality_rejected/main.p	0		
+invalid/resource_field_state_rejections	invalid	reject	OPENC-OWN-USE-AFTER-MOVE-001	native-projects/invalid__resource_field_state_rejections.json	invalid/resource_field_state_rejections/main.p	0		
+invalid/resource_obligation_not_discharged	invalid	reject	OPENC-OWN-EXIT-001	native-projects/invalid__resource_obligation_not_discharged.json	invalid/resource_obligation_not_discharged/main.p	0		
+invalid/resource_reinitialize_live	invalid	reject	OPENC-OWN-OVERWRITE-001	native-projects/invalid__resource_reinitialize_live.json	invalid/resource_reinitialize_live/main.p	0		
+invalid/return_local_ref	invalid	reject	OPENC-LIFETIME-RETURNLOCAL-001	native-projects/invalid__return_local_ref.json	invalid/return_local_ref/main.p	0		
+invalid/return_local_reference	invalid	reject	OPENC-RETURN-LIFETIME-001	native-projects/invalid__return_local_reference.json	invalid/return_local_reference/main.p	0		
+invalid/return_type_mismatch	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__return_type_mismatch.json	invalid/return_type_mismatch/main.p	0		
+invalid/safe_wrapper_missing_check	invalid	reject	OPENC-UNSAFE-WRAPPER-001	native-projects/invalid__safe_wrapper_missing_check.json	invalid/safe_wrapper_missing_check/main.p	0		
+invalid/same_scope_duplicate	invalid	reject	OPENC-SCOPE-DUPLICATE-001	native-projects/invalid__same_scope_duplicate.json	invalid/same_scope_duplicate/main.p	0		
+invalid/scope_cancel_not_supported	invalid	reject	OPENC-SYNTAX-SEMICOLON-001	native-projects/invalid__scope_cancel_not_supported.json	invalid/scope_cancel_not_supported/main.p	0		
+invalid/scope_destroy_early	invalid	reject	OPENC-OWN-DOUBLE-DISCHARGE-001	native-projects/invalid__scope_destroy_early.json	invalid/scope_destroy_early/main.p	0		
+invalid/scope_double_consuming_action	invalid	reject	OPENC-SCOPE-OWNER-STATE-001	native-projects/invalid__scope_double_consuming_action.json	invalid/scope_double_consuming_action/main.p	0		
+invalid/scope_move_reserved_owner	invalid	reject	OPENC-OWN-CLEANUP-RESERVED-001	native-projects/invalid__scope_move_reserved_owner.json	invalid/scope_move_reserved_owner/main.p	0		
+invalid/scope_nested_fallible_argument	invalid	reject	OPENC-CALL-NOMATCH-001	native-projects/invalid__scope_nested_fallible_argument.json	invalid/scope_nested_fallible_argument/main.p	0		
+invalid/scope_out_argument	invalid	reject	OPENC-SCOPE-NOFAIL-001	native-projects/invalid__scope_out_argument.json	invalid/scope_out_argument/main.p	0		
+invalid/scope_reassign_reserved_owner	invalid	reject	OPENC-OWN-OVERWRITE-001	native-projects/invalid__scope_reassign_reserved_owner.json	invalid/scope_reassign_reserved_owner/main.p	0		
+invalid/shadowing	invalid	reject	OPENC-SCOPE-SHADOW-001	native-projects/invalid__shadowing.json	invalid/shadowing/main.p	0		
+invalid/size_of_expression	invalid	reject	OPENC-TYPE-QUERY-INCOMPLETE-001	native-projects/invalid__size_of_expression.json	invalid/size_of_expression/main.p	0		
+invalid/size_of_void	invalid	reject	OPENC-TYPE-QUERY-INCOMPLETE-001	native-projects/invalid__size_of_void.json	invalid/size_of_void/main.p	0		
+invalid/slice_alias_mutation_conflict	invalid	reject	OPENC-SLICE-ALIAS-001	native-projects/invalid__slice_alias_mutation_conflict.json	invalid/slice_alias_mutation_conflict/main.p	0		
+invalid/slice_const_to_mutable	invalid	reject	OPENC-SLICE-CONSTVIEW-001	native-projects/invalid__slice_const_to_mutable.json	invalid/slice_const_to_mutable/main.p	0		
+invalid/slice_field	invalid	reject	OPENC-FIELD-TYPE-001	native-projects/invalid__slice_field.json	invalid/slice_field/main.p	0		
+invalid/slice_outlives_owner	invalid	reject	OPENC-LIFETIME-SLICE-001	native-projects/invalid__slice_outlives_owner.json	invalid/slice_outlives_owner/main.p	0		
+invalid/slice_range_checked	invalid	reject	OPENC-SLICE-RANGE-CHECK-001	native-projects/invalid__slice_range_checked.json	invalid/slice_range_checked/main.p	0		
+invalid/source_bom_repeated	invalid	reject	OPENC-LEX-TOKEN-001	native-projects/invalid__source_bom_repeated.json	invalid/source_bom_repeated/main.p	0		
+invalid/status_failure_zero_code	invalid	reject	OPENC-STATUS-FIELD-001	native-projects/invalid__status_failure_zero_code.json	invalid/status_failure_zero_code/main.p	0		
+invalid/status_success_nonzero_code	invalid	reject	OPENC-STATUS-FIELD-001	native-projects/invalid__status_success_nonzero_code.json	invalid/status_success_nonzero_code/main.p	0		
+invalid/storage_field	invalid	reject	OPENC-FIELD-TYPE-001	native-projects/invalid__storage_field.json	invalid/storage_field/main.p	0		
+invalid/storage_read_before_construct	invalid	reject	OPENC-NAME-UNKNOWN-001	native-projects/invalid__storage_read_before_construct.json	invalid/storage_read_before_construct/main.p	0		
+invalid/storage_resource_type	invalid	reject	OPENC-STORAGE-NORESOURCE-001	native-projects/invalid__storage_resource_type.json	invalid/storage_resource_type/main.p	0		
+invalid/struct_trailing_semicolon	invalid	reject	OPENC-SYNTAX-TOP-DECL-001	native-projects/invalid__struct_trailing_semicolon.json	invalid/struct_trailing_semicolon/main.p	0		
+invalid/switch_implicit_fallthrough	invalid	reject	OPENC-SYNTAX-BRACES-001	native-projects/invalid__switch_implicit_fallthrough.json	invalid/switch_implicit_fallthrough/main.p	0		
+invalid/text_byte_conversion_explicit	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__text_byte_conversion_explicit.json	invalid/text_byte_conversion_explicit/main.p	0		
+invalid/text_index	invalid	reject	OPENC-INDEX-BASE-001	native-projects/invalid__text_index.json	invalid/text_index/main.p	0		
+invalid/textual_include_rejected	invalid	reject	OPENC-LEX-TOKEN-001	native-projects/invalid__textual_include_rejected.json	invalid/textual_include_rejected/main.p	0		
+invalid/two_write_borrows	invalid	reject	OPENC-BORROW-CONFLICT-001	native-projects/invalid__two_write_borrows.json	invalid/two_write_borrows/main.p	0		
+invalid/typed_storage_live_exit	invalid	reject	OPENC-STORAGE-LIVEEXIT-001	native-projects/invalid__typed_storage_live_exit.json	invalid/typed_storage_live_exit/main.p	0		
+invalid/typed_storage_old_ref_after_reconstruct	invalid	reject	OPENC-STORAGE-REFINVALID-001	native-projects/invalid__typed_storage_old_ref_after_reconstruct.json	invalid/typed_storage_old_ref_after_reconstruct/main.p	0		
+invalid/unchecked_float_to_integer	invalid	reject	OPENC-TYPE-MISMATCH-001	native-projects/invalid__unchecked_float_to_integer.json	invalid/unchecked_float_to_integer/main.p	0		
+invalid/unicode_escape_surrogate	invalid	reject	OPENC-LITERAL-UNICODE-001	native-projects/invalid__unicode_escape_surrogate.json	invalid/unicode_escape_surrogate/main.p	0		
+invalid/unknown_member	invalid	reject	OPENC-NAME-UNKNOWN-001	native-projects/invalid__unknown_member.json	invalid/unknown_member/main.p	0		
+invalid/unsafe_call_requires_boundary	invalid	reject	OPENC-UNSAFE-CALL-001	native-projects/invalid__unsafe_call_requires_boundary.json	invalid/unsafe_call_requires_boundary/main.p	0		
+invalid/unsafe_contract_caller_responsibility	invalid	reject	OPENC-CALL-NOMATCH-001	native-projects/invalid__unsafe_contract_caller_responsibility.json	invalid/unsafe_contract_caller_responsibility/main.p	0		
+invalid/unsafe_function_call_outside_unsafe	invalid	reject	OPENC-UNSAFE-CALL-001	native-projects/invalid__unsafe_function_call_outside_unsafe.json	invalid/unsafe_function_call_outside_unsafe/main.p	0		
+invalid/unsafe_provenance_not_forged	invalid	reject	OPENC-UNSAFE-PROVENANCE-001	native-projects/invalid__unsafe_provenance_not_forged.json	invalid/unsafe_provenance_not_forged/main.p	0		
+invalid/unterminated_block_comment	invalid	reject	OPENC-LEX-COMMENT-001	native-projects/invalid__unterminated_block_comment.json	invalid/unterminated_block_comment/main.p	0		
+invalid/use_after_move	invalid	reject	OPENC-NAME-UNKNOWN-001	native-projects/invalid__use_after_move.json	invalid/use_after_move/main.p	0		
+invalid/void_local_object	invalid	reject	OPENC-TYPE-VOIDOBJECT-001	native-projects/invalid__void_local_object.json	invalid/void_local_object/main.p	0		
+invalid/when_token_fragment_rejected	invalid	reject	OPENC-SYNTAX-TOP-DECL-001	native-projects/invalid__when_token_fragment_rejected.json	invalid/when_token_fragment_rejected/main.p	0		
+records/diagnostic_structure_quality	record	accept				0		records/diagnostic_structure_quality/record.json
+runtime/assignment_destination_once	runtime	accept		native-projects/runtime__assignment_destination_once.json	runtime/assignment_destination_once/main.p	1	1	
+runtime/boolean_short_circuit	runtime	accept		native-projects/runtime__boolean_short_circuit.json	runtime/boolean_short_circuit/main.p	1		
+runtime/bounds_trap	runtime	checked_failure		native-projects/runtime__bounds_trap.json	runtime/bounds_trap/main.p	0		
+runtime/break_and_scope_registration_order	runtime	accept		native-projects/runtime__break_and_scope_registration_order.json	runtime/break_and_scope_registration_order/main.p	0		
+runtime/callee_then_arguments_order	runtime	accept		native-projects/runtime__callee_then_arguments_order.json	runtime/callee_then_arguments_order/main.p	0		
+runtime/checked_addition	runtime	accept		native-projects/runtime__checked_addition.json	runtime/checked_addition/main.p	0		
+runtime/cleanup_on_return	runtime	accept		native-projects/runtime__cleanup_on_return.json	runtime/cleanup_on_return/main.p	0		
+runtime/cleanup_registration_capture	runtime	accept		native-projects/runtime__cleanup_registration_capture.json	runtime/cleanup_registration_capture/main.p	0		
+runtime/construct_and_return_order	runtime	accept		native-projects/runtime__construct_and_return_order.json	runtime/construct_and_return_order/main.p	0		
+runtime/evaluation_binary_left_to_right	runtime	accept		native-projects/runtime__evaluation_binary_left_to_right.json	runtime/evaluation_binary_left_to_right/main.p	1	12	
+runtime/fatal_allocation_defined	runtime	checked_failure		native-projects/runtime__fatal_allocation_defined.json	runtime/fatal_allocation_defined/main.p	0		
+runtime/fixed_width_values	runtime	accept		native-projects/runtime__fixed_width_values.json	runtime/fixed_width_values/main.p	1	-128255	
+runtime/function_arguments_left_to_right	runtime	accept		native-projects/runtime__function_arguments_left_to_right.json	runtime/function_arguments_left_to_right/main.p	1	12	
+runtime/left_shift_checked	runtime	accept		native-projects/runtime__left_shift_checked.json	runtime/left_shift_checked/main.p	0		
+runtime/null_pointer_equality	runtime	accept		native-projects/runtime__null_pointer_equality.json	runtime/null_pointer_equality/main.p	1	true	
+runtime/optional_trap	runtime	checked_failure		native-projects/runtime__optional_trap.json	runtime/optional_trap/main.p	0		
+runtime/pointer_provenance_target_fault	runtime	target_fault		native-projects/runtime__pointer_provenance_target_fault.json	runtime/pointer_provenance_target_fault/main.p	0		
+runtime/runtime_cast_float_fraction	runtime	checked_failure		native-projects/runtime__runtime_cast_float_fraction.json	runtime/runtime_cast_float_fraction/main.p	0		
+runtime/runtime_cast_integer_range	runtime	checked_failure		native-projects/runtime__runtime_cast_integer_range.json	runtime/runtime_cast_integer_range/main.p	0		
+runtime/runtime_checked_failure_runs_cleanup	runtime	checked_failure		native-projects/runtime__runtime_checked_failure_runs_cleanup.json	runtime/runtime_checked_failure_runs_cleanup/main.p	1	cleanup	
+runtime/runtime_division_min_negative_one	runtime	checked_failure		native-projects/runtime__runtime_division_min_negative_one.json	runtime/runtime_division_min_negative_one/main.p	0		
+runtime/runtime_division_zero	runtime	checked_failure		native-projects/runtime__runtime_division_zero.json	runtime/runtime_division_zero/main.p	0		
+runtime/runtime_float_nan_comparison	runtime	accept		native-projects/runtime__runtime_float_nan_comparison.json	runtime/runtime_float_nan_comparison/main.p	0		
+runtime/runtime_pointer_cross_extent_fault	runtime	target_fault		native-projects/runtime__runtime_pointer_cross_extent_fault.json	runtime/runtime_pointer_cross_extent_fault/main.p	0		
+runtime/runtime_scope_lifo	runtime	accept		native-projects/runtime__runtime_scope_lifo.json	runtime/runtime_scope_lifo/main.p	1	secondfirst	
+runtime/signed_right_shift_defined	runtime	accept		native-projects/runtime__signed_right_shift_defined.json	runtime/signed_right_shift_defined/main.p	0		
+runtime/struct_defaults_after_explicit	runtime	accept		native-projects/runtime__struct_defaults_after_explicit.json	runtime/struct_defaults_after_explicit/main.p	1	12	
+runtime/unary_operand_once	runtime	accept		native-projects/runtime__unary_operand_once.json	runtime/unary_operand_once/main.p	0		
+runtime/unsafe_fault_target_bounded	runtime	target_fault		native-projects/runtime__unsafe_fault_target_bounded.json	runtime/unsafe_fault_target_bounded/main.p	0		
+runtime/unsigned_modulo_exact	runtime	accept		native-projects/runtime__unsigned_modulo_exact.json	runtime/unsigned_modulo_exact/main.p	0		
+valid/array_init_length_copy	valid	accept		native-projects/valid__array_init_length_copy.json	valid/array_init_length_copy/main.p	0		
+valid/bool_condition	valid	accept		native-projects/valid__bool_condition.json	valid/bool_condition/main.p	0		
+valid/byte_pointer_object_representation	valid	accept		native-projects/valid__byte_pointer_object_representation.json	valid/byte_pointer_object_representation/main.p	0		
+valid/checked_cast	valid	accept		native-projects/valid__checked_cast.json	valid/checked_cast/main.p	0		
+valid/comments_preserve_tokens	valid	accept		native-projects/valid__comments_preserve_tokens.json	valid/comments_preserve_tokens/main.p	0		
+valid/const_binding_readonly	valid	accept		native-projects/valid__const_binding_readonly.json	valid/const_binding_readonly/main.p	0		
+valid/const_view_conversions	valid	accept		native-projects/valid__const_view_conversions.json	valid/const_view_conversions/main.p	0		
+valid/constant_expression_same_numeric_rules	valid	accept		native-projects/valid__constant_expression_same_numeric_rules.json	valid/constant_expression_same_numeric_rules/main.p	0		
+valid/current_optional	valid	accept		native-projects/valid__current_optional.json	valid/current_optional/main.p	0		
+valid/current_resource	valid	accept		native-projects/valid__current_resource.json	valid/current_resource/main.p	0		
+valid/disjoint_mutable_slices	valid	accept		native-projects/valid__disjoint_mutable_slices.json	valid/disjoint_mutable_slices/main.p	0		
+valid/domain_own_call	valid	accept		native-projects/valid__domain_own_call.json	valid/domain_own_call/main.p	0		
+valid/enum_switch	valid	accept		native-projects/valid__enum_switch.json	valid/enum_switch/main.p	0		
+valid/eval_call_left_to_right	valid	accept		native-projects/valid__eval_call_left_to_right.json	valid/eval_call_left_to_right/main.p	0		
+valid/eval_compound_target_once	valid	accept		native-projects/valid__eval_compound_target_once.json	valid/eval_compound_target_once/main.p	0		
+valid/eval_struct_initializer_order	valid	accept		native-projects/valid__eval_struct_initializer_order.json	valid/eval_struct_initializer_order/main.p	0		
+valid/first_program	valid	accept		native-projects/valid__first_program.json	valid/first_program/main.p	0		
+valid/fixed_array	valid	accept		native-projects/valid__fixed_array.json	valid/fixed_array/main.p	0		
+valid/float_binary_types	valid	accept		native-projects/valid__float_binary_types.json	valid/float_binary_types/main.p	0		
+valid/floating_literal_default_f64	valid	accept		native-projects/valid__floating_literal_default_f64.json	valid/floating_literal_default_f64/main.p	0		
+valid/flow_if_all_paths	valid	accept		native-projects/valid__flow_if_all_paths.json	valid/flow_if_all_paths/main.p	0		
+valid/flow_loop_preinitialized	valid	accept		native-projects/valid__flow_loop_preinitialized.json	valid/flow_loop_preinitialized/main.p	0		
+valid/flow_optional_early_return	valid	accept		native-projects/valid__flow_optional_early_return.json	valid/flow_optional_early_return/main.p	0		
+valid/flow_out_early_return	valid	accept		native-projects/valid__flow_out_early_return.json	valid/flow_out_early_return/main.p	0		
+valid/flow_state_branch_merge	valid	accept		native-projects/valid__flow_state_branch_merge.json	valid/flow_state_branch_merge/main.p	0		
+valid/flow_status_copy_proof	valid	accept		native-projects/valid__flow_status_copy_proof.json	valid/flow_status_copy_proof/main.p	0		
+valid/flow_switch_exhaustive	valid	accept		native-projects/valid__flow_switch_exhaustive.json	valid/flow_switch_exhaustive/main.p	0		
+valid/function_add	valid	accept		native-projects/valid__function_add.json	valid/function_add/main.p	0		
+valid/function_recursion	valid	accept		native-projects/valid__function_recursion.json	valid/function_recursion/main.p	0		
+valid/global_const_valid	valid	accept		native-projects/valid__global_const_valid.json	valid/global_const_valid/main.p	0		
+valid/identifier_case_sensitive	valid	accept		native-projects/valid__identifier_case_sensitive.json	valid/identifier_case_sensitive/main.p	0		
+valid/initialized_local	valid	accept		native-projects/valid__initialized_local.json	valid/initialized_local/main.p	0		
+valid/integer_literal_exact_context	valid	accept		native-projects/valid__integer_literal_exact_context.json	valid/integer_literal_exact_context/main.p	0		
+valid/many_read_borrows_last_use	valid	accept		native-projects/valid__many_read_borrows_last_use.json	valid/many_read_borrows_last_use/main.p	0		
+valid/module_multi_source_overload	valid	accept		native-projects/valid__module_multi_source_overload.json	valid/module_multi_source_overload/sources/a.p|valid/module_multi_source_overload/sources/b.p	0		
+valid/module_repeated_import_idempotent	valid	accept		native-projects/valid__module_repeated_import_idempotent.json	valid/module_repeated_import_idempotent/sources/main.p|valid/module_repeated_import_idempotent/sources/math.p	0		
+valid/module_short_and_full_qualifier	valid	accept		native-projects/valid__module_short_and_full_qualifier.json	valid/module_short_and_full_qualifier/sources/main.p	0		
+valid/negative_literal_context	valid	accept		native-projects/valid__negative_literal_context.json	valid/negative_literal_context/main.p	0		
+valid/numeric_division_toward_zero	valid	accept		native-projects/valid__numeric_division_toward_zero.json	valid/numeric_division_toward_zero/main.p	0		
+valid/numeric_remainder_dividend_sign	valid	accept		native-projects/valid__numeric_remainder_dividend_sign.json	valid/numeric_remainder_dividend_sign/main.p	0		
+valid/numeric_saturating_add	valid	accept		native-projects/valid__numeric_saturating_add.json	valid/numeric_saturating_add/main.p	0		
+valid/numeric_separator_valid	valid	accept		native-projects/valid__numeric_separator_valid.json	valid/numeric_separator_valid/main.p	0		
+valid/optional_checked	valid	accept		native-projects/valid__optional_checked.json	valid/optional_checked/main.p	0		
+valid/optional_none_and_copy	valid	accept		native-projects/valid__optional_none_and_copy.json	valid/optional_none_and_copy/main.p	0		
+valid/overload_exact_preferred	valid	accept		native-projects/valid__overload_exact_preferred.json	valid/overload_exact_preferred/main.p	0		
+valid/overload_parameter_modes	valid	accept		native-projects/valid__overload_parameter_modes.json	valid/overload_parameter_modes/main.p	0		
+valid/parameter_modes_visible	valid	accept		native-projects/valid__parameter_modes_visible.json	valid/parameter_modes_visible/main.p	0		
+valid/plain_copy_independent	valid	accept		native-projects/valid__plain_copy_independent.json	valid/plain_copy_independent/main.p	0		
+valid/pointer_one_past_compare	valid	accept		native-projects/valid__pointer_one_past_compare.json	valid/pointer_one_past_compare/main.p	0		
+valid/read_borrow	valid	accept		native-projects/valid__read_borrow.json	valid/read_borrow/main.p	0		
+valid/ref_assigns_referent	valid	accept		native-projects/valid__ref_assigns_referent.json	valid/ref_assigns_referent/main.p	0		
+valid/reinterpret_u32_f32	valid	accept		native-projects/valid__reinterpret_u32_f32.json	valid/reinterpret_u32_f32/main.p	0		
+valid/resource_contains_resource	valid	accept		native-projects/valid__resource_contains_resource.json	valid/resource_contains_resource/main.p	0		
+valid/resource_domain_operations	valid	accept		native-projects/valid__resource_domain_operations.json	valid/resource_domain_operations/main.p	0		
+valid/resource_initializer_lifecycle	valid	accept		native-projects/valid__resource_initializer_lifecycle.json	valid/resource_initializer_lifecycle/main.p	0		
+valid/resource_return_transfers	valid	accept		native-projects/valid__resource_return_transfers.json	valid/resource_return_transfers/main.p	0		
+valid/scope_bound_owner_borrow	valid	accept		native-projects/valid__scope_bound_owner_borrow.json	valid/scope_bound_owner_borrow/main.p	0		
+valid/scope_nested_lifo	valid	accept		native-projects/valid__scope_nested_lifo.json	valid/scope_nested_lifo/main.p	0		
+valid/scope_value_capture	valid	accept		native-projects/valid__scope_value_capture.json	valid/scope_value_capture/main.p	0		
+valid/slice_empty_and_default_ranges	valid	accept		native-projects/valid__slice_empty_and_default_ranges.json	valid/slice_empty_and_default_ranges/main.p	0		
+valid/slice_length_and_mutation	valid	accept		native-projects/valid__slice_length_and_mutation.json	valid/slice_length_and_mutation/main.p	0		
+valid/slice_sum	valid	accept		native-projects/valid__slice_sum.json	valid/slice_sum/main.p	0		
+valid/small_local_unsafe_block	valid	accept		native-projects/valid__small_local_unsafe_block.json	valid/small_local_unsafe_block/main.p	0		
+valid/source_bom_ignored	valid	accept		native-projects/valid__source_bom_ignored.json	valid/source_bom_ignored/main.p	0		
+valid/status_invariant_success	valid	accept		native-projects/valid__status_invariant_success.json	valid/status_invariant_success/main.p	0		
+valid/status_message_not_control_flow	valid	accept		native-projects/valid__status_message_not_control_flow.json	valid/status_message_not_control_flow/main.p	0		
+valid/status_proof_initializes_out	valid	accept		native-projects/valid__status_proof_initializes_out.json	valid/status_proof_initializes_out/main.p	0		
+valid/struct_defaults	valid	accept		native-projects/valid__struct_defaults.json	valid/struct_defaults/main.p	0		
+valid/struct_equality	valid	accept		native-projects/valid__struct_equality.json	valid/struct_equality/main.p	0		
+valid/struct_named_fields_and_copy	valid	accept		native-projects/valid__struct_named_fields_and_copy.json	valid/struct_named_fields_and_copy/main.p	0		
+valid/struct_named_init	valid	accept		native-projects/valid__struct_named_init.json	valid/struct_named_init/main.p	0		
+valid/subslice	valid	accept		native-projects/valid__subslice.json	valid/subslice/main.p	0		
+valid/text_module_typeword_qualifier	valid	accept		native-projects/valid__text_module_typeword_qualifier.json	valid/text_module_typeword_qualifier/main.p	0		
+valid/text_value_semantics	valid	accept		native-projects/valid__text_value_semantics.json	valid/text_value_semantics/main.p	0		
+valid/type_shapes_ref_ptr_optional_array_slice_storage	valid	accept		native-projects/valid__type_shapes_ref_ptr_optional_array_slice_storage.json	valid/type_shapes_ref_ptr_optional_array_slice_storage/main.p	0		
+valid/type_size_alignment	valid	accept		native-projects/valid__type_size_alignment.json	valid/type_size_alignment/main.p	0		
+valid/typed_storage	valid	accept		native-projects/valid__typed_storage.json	valid/typed_storage/main.p	0		
+valid/typed_storage_reconstruct_after_destroy	valid	accept		native-projects/valid__typed_storage_reconstruct_after_destroy.json	valid/typed_storage_reconstruct_after_destroy/main.p	0		
+valid/typed_storage_scope_destroy_use	valid	accept		native-projects/valid__typed_storage_scope_destroy_use.json	valid/typed_storage_scope_destroy_use/main.p	0		
+valid/unary_minus_signed_only	valid	accept		native-projects/valid__unary_minus_signed_only.json	valid/unary_minus_signed_only/main.p	0		
+valid/unchecked_integer_cast	valid	accept		native-projects/valid__unchecked_integer_cast.json	valid/unchecked_integer_cast/main.p	0		
+valid/unsafe_pointer	valid	accept		native-projects/valid__unsafe_pointer.json	valid/unsafe_pointer/main.p	0		
+valid/utf8_source_valid	valid	accept		native-projects/valid__utf8_source_valid.json	valid/utf8_source_valid/main.p	0		
+valid/when_context_expression	valid	accept		native-projects/valid__when_context_expression.json	valid/when_context_expression/main.p	0		
+valid/write_borrow	valid	accept		native-projects/valid__write_borrow.json	valid/write_borrow/main.p	0		

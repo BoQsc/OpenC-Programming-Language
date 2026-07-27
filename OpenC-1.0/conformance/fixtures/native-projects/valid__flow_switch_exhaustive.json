@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/flow_switch_exhaustive/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/flow_switch_exhaustive",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

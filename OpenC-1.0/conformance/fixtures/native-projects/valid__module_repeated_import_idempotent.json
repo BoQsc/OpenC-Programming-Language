@@ -1,0 +1,15 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "app": [
+      "../valid/module_repeated_import_idempotent/sources/main.p"
+    ],
+    "math": [
+      "../valid/module_repeated_import_idempotent/sources/math.p"
+    ]
+  },
+  "name": "native-conformance-valid/module_repeated_import_idempotent",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

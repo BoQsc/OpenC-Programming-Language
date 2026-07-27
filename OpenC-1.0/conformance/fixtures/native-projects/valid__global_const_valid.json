@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/global_const_valid/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/global_const_valid",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

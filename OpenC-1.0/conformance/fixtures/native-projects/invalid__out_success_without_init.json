@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/out_success_without_init/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/out_success_without_init",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

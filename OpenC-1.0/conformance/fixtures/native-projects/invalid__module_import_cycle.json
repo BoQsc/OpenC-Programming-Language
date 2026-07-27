@@ -1,0 +1,15 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "a": [
+      "../invalid/module_import_cycle/sources/a.p"
+    ],
+    "b": [
+      "../invalid/module_import_cycle/sources/b.p"
+    ]
+  },
+  "name": "native-conformance-invalid/module_import_cycle",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

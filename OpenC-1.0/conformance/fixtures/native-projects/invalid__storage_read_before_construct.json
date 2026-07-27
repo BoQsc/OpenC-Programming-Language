@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/storage_read_before_construct/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/storage_read_before_construct",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

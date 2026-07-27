@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/storage_resource_type/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/storage_resource_type",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/negative_literal_context/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/negative_literal_context",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

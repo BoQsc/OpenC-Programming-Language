@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "app": [
+      "../valid/module_short_and_full_qualifier/sources/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/module_short_and_full_qualifier",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

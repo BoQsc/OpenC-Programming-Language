@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/many_read_borrows_last_use/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/many_read_borrows_last_use",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

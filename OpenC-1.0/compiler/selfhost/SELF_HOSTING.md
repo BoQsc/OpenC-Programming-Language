@@ -5,7 +5,8 @@ DMD-independent Windows self-compilation through deterministic C11 emission
 and the shipped TinyCC 0.9.27 Win64 backend. The existing D implementation
 remains the auditable stage-0 bootstrap seed; it is not deleted after closure.
 SH-6 packages the native compiler and complete source in a relocatable,
-manifested distribution and proves closure from that package.
+manifested distribution and proves closure from that package. SH-7 makes that
+OpenC-native compiler own the required 278-fixture conformance gate.
 
 The supported initial target is Windows x86-64 Hosted. Linux and freestanding
 do not gate this program.
@@ -260,16 +261,33 @@ canonical-IR comparisons, 153 exact semantic rejections, 278/278 conformance,
 and all 4 maintained programs. Full hashes, commands, authorization, and
 publication evidence are in `release/RC9_STANDALONE_EVIDENCE.md`.
 
-SH-7 native conformance and tooling independence is next. It removes the
-retained D audit seed from the required packaged conformance gate while
-preserving that implementation as an optional comparison oracle.
+## SH-7 — native conformance and tooling independence
+
+The OpenC-authored compiler now exposes
+`openc validate --manifest=MANIFEST --output=REPORT`. A deterministic generated
+plan materializes the canonical 278-fixture manifest into 273 project records
+plus command/record inputs consumable without a JSON parser in the runtime
+gate. Native execution passes 278/278 with zero infrastructure failures,
+including 35/35 built and executed runtime fixtures and 153/153 exact
+diagnostic contracts.
+
+The result distinguishes 81 expected rules observed directly in native
+frontend/semantic diagnostics from 72 canonical fixture-contract rule matches
+paired with a native rejection. This distinction is explicit in every result;
+neither path uses the historical edition-compatibility fallback. The 93
+historical compatibility matches remain disclosed in `CHANGELOG.md`.
 
 The supported library mode is the six compiler-provided
 `system.file`/`io`/`memory`/`path`/`process`/`text` modules backed by the
 packaged Windows C runtime and native shim. Authored Native-provider `.p`
-sources are included but remain outside this gate. The retained D seed supplies
-audit observations and the legacy conformance adapter; Python orchestrates
-evidence only and neither is a native build dependency.
+sources are included but remain outside this gate. The required standalone
+verifier invokes native Stage 3 for conformance. The retained D seed is an
+optional comparison oracle selected only with `--audit-seed`; Python
+orchestrates evidence and is not a native build dependency.
+
+Linux and freestanding are not SH-7 gates and remain optional future targets.
+Complete commands and immutable hashes are recorded in
+`release/SH7_NATIVE_CONFORMANCE_EVIDENCE.md`.
 
 Status: **PASS**
 
@@ -299,7 +317,9 @@ deterministic C11 writing, Hosted process invocation, the shipped Windows
 compiler/linker backend, build records, and DMD-independent closure. SH-6
 packages these pieces into a relocatable distribution and verifies that
 distribution against the compiler, runtime/library, conformance, and
-maintained-program gates.
+maintained-program gates. SH-7 moves the required conformance execution into
+that OpenC-native compiler and demotes the retained D seed to an optional audit
+oracle.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

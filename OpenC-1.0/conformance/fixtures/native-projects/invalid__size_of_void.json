@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/size_of_void/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/size_of_void",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

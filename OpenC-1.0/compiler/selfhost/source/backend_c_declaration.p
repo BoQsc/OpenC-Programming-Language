@@ -239,7 +239,9 @@ unsafe void c_emit_scope_action(
     usize index = 0;
     while index < count {
         if index != 0 { d_put(buffer, ", "); }
-        c_put_call_argument(context, buffer, instruction, index);
+        c_put_call_argument(
+            context, buffer, instruction, index, value_types
+        );
         index = index + 1;
     }
     d_put(buffer, ")");

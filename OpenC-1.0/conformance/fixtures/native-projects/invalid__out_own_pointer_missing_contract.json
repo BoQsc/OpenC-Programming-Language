@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/out_own_pointer_missing_contract/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/out_own_pointer_missing_contract",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

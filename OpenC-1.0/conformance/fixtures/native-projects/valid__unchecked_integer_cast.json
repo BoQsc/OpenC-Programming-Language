@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/unchecked_integer_cast/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/unchecked_integer_cast",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/slice_length_and_mutation/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/slice_length_and_mutation",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

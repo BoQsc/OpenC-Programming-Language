@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/c_pointer_decl/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/c_pointer_decl",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/scope_out_argument/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/scope_out_argument",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

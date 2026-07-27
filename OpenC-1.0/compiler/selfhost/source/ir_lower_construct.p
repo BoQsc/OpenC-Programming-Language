@@ -4,6 +4,38 @@ import system.memory;
 import system.path;
 import system.text;
 
+unsafe usize ir_field_default_node(
+    ref IrContext context,
+    usize field_symbol
+) {
+    if read_record_field(context.symbol_data, field_symbol, 1) !=
+        context.source_record {
+        return context.syntax.length;
+    }
+    usize declaration = read_record_field(
+        context.detail_data, field_symbol, 1
+    );
+    if declaration >= context.syntax.length {
+        return context.syntax.length;
+    }
+    usize start = read_record_field(
+        context.syntax_data, declaration, 1
+    );
+    usize end = start + read_record_field(
+        context.syntax_data, declaration, 2
+    );
+    usize cursor = start;
+    while cursor < end {
+        if byte_at_or_zero(context.source, cursor) == 61 {
+            return ir_root_in_bounds(
+                context, cursor + 1, end
+            );
+        }
+        cursor = cursor + 1;
+    }
+    return context.syntax.length;
+}
+
 unsafe usize ir_lower_construct(
     ref IrContext context,
     usize node,
@@ -81,6 +113,53 @@ unsafe usize ir_lower_construct(
                 field_count = field_count + 1;
             }
             field = field + 1;
+        }
+        if aggregate_symbol < context.symbols.length {
+            usize field_symbol = 0;
+            while field_symbol < context.symbols.length {
+                if read_record_field(
+                        context.symbol_data, field_symbol, 0
+                    ) == resolution_symbol_field() &&
+                    read_record_field(
+                        context.detail_data, field_symbol, 2
+                    ) == aggregate_symbol + 1 &&
+                    !acceptance_field_supplied(
+                        context, node, field_symbol
+                    ) &&
+                    acceptance_field_default(context, field_symbol) {
+                    usize default_node = ir_field_default_node(
+                        context, field_symbol
+                    );
+                    if default_node < context.syntax.length {
+                        usize value = ir_lower_expected(
+                            context, default_node,
+                            read_record_field(
+                                context.symbol_data, field_symbol, 4
+                            )
+                        );
+                        write_record_field(
+                            field_values, field_count, 0, value
+                        );
+                        write_record_field(
+                            field_values, field_count, 1,
+                            read_record_field(
+                                context.symbol_data, field_symbol, 2
+                            )
+                        );
+                        write_record_field(
+                            field_values, field_count, 2,
+                            read_record_field(
+                                context.symbol_data, field_symbol, 3
+                            )
+                        );
+                        write_record_field(
+                            field_values, field_count, 3, 0
+                        );
+                        field_count = field_count + 1;
+                    }
+                }
+                field_symbol = field_symbol + 1;
+            }
         }
         usize first = context.operands.length;
         field = 0;

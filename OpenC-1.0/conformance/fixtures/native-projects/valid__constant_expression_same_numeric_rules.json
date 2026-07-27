@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/constant_expression_same_numeric_rules/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/constant_expression_same_numeric_rules",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

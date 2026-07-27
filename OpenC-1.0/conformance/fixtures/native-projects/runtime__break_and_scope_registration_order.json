@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../runtime/break_and_scope_registration_order/main.p"
+    ]
+  },
+  "name": "native-conformance-runtime/break_and_scope_registration_order",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

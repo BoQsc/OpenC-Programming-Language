@@ -17,14 +17,21 @@ its own executable. DMD, DUB, and Python are not compiler or backend
 dependencies.
 
 The retained D bootstrap seed is
-`bootstrap/openc-stage0.exe`. It is included for reproducibility audits and the
-complete legacy conformance adapter. It is not invoked by `openc.exe build`.
+`bootstrap/openc-stage0.exe`. It is included only as an optional comparison
+oracle for reproducibility audits. It is not invoked by `openc.exe build` or by
+the required conformance gate.
+
+Run the OpenC-authored conformance gate with:
+
+```text
+openc.exe validate --manifest=conformance/fixtures/MANIFEST.json --output=conformance-report.json
+```
 
 For the supported Windows Hosted mode, `openc.exe` provides the six
 `system.file`, `system.io`, `system.memory`, `system.path`, `system.process`,
 and `system.text` modules and links them to the packaged C runtime/native shim.
 The authored `.p` Native-provider library sources are included for future
-Native work; that separately scoped provider is not part of the SH-6 gate.
+Native work; that separately scoped provider is not part of the SH-7 gate.
 
 Package integrity is recorded in `STANDALONE-MANIFEST.sha256`; component roles,
 input paths, and compiler/backend hashes are in `STANDALONE-RELEASE.json`.

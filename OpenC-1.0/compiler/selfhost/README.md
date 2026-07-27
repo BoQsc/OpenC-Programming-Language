@@ -19,7 +19,9 @@ Windows x86-64 Hosted. It emits deterministic C11, invokes the shipped TinyCC
 0.9.27 Win64 backend, links the next compiler stage, and reaches byte-exact
 Stage-2/Stage-3 source and executable closure. SH-6 packages it with its source,
 runtime, library inputs, backend, bootstrap audit seed, licenses, and integrity
-records in a relocatable distribution. The gate contract is in
+records in a relocatable distribution. SH-7 adds OpenC-authored native
+conformance and removes the retained D seed from the required package gate. The
+gate contract is in
 `SELF_HOSTING.md`; the machine-readable gate state is
 `SELF_HOSTING_STATE.json`. Post-SH-6 native self-rebuild measurements and
 reproduction instructions are in `PERFORMANCE.md`.
@@ -57,6 +59,12 @@ The resulting native compiler exposes the public build command:
 openc build --project=path/to/openc.project.json --output=path/to/program.exe
 ```
 
+It also exposes the public native conformance command:
+
+```text
+openc validate --manifest=conformance/fixtures/MANIFEST.json --output=conformance-report.json
+```
+
 Run the SH-4 proofs with a built Stage-1 executable and configured DMD:
 
 ```text
@@ -74,6 +82,6 @@ rejections from the relocated package. Its native compiler is byte-identical
 through Stage 2 and Stage 3 at SHA-256
 `5924db13e20464d392dd563a086d35c95c61dafc6862ad7ba0fc767c0cdae4a6`.
 
-The next engineering milestone is SH-7 native conformance and tooling
-independence: move the complete packaged conformance gate off the retained D
-audit seed and onto the OpenC-native compiler.
+SH-7 native conformance and tooling independence is **PASS**; complete evidence
+is in `release/SH7_NATIVE_CONFORMANCE_EVIDENCE.md`. SH-8 native developer and
+release workflow hardening is next.

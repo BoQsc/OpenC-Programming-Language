@@ -4,7 +4,7 @@
   "official_source_extension": ".p",
   "stage0": {
     "implementation_language": "D",
-    "role": "retained_bootstrap_seed"
+    "role": "retained_bootstrap_seed_and_optional_audit_oracle"
   },
   "gates": [
     {
@@ -236,6 +236,33 @@
       "native_build_python_invoked": false,
       "linux_and_freestanding_gate": false,
       "native_provider_gate": false
+    },
+    {
+      "id": "SH-7",
+      "name": "native_conformance_and_tooling_independence",
+      "status": "PASS",
+      "command": "python release/verify_standalone_windows.py --archive build-output/release-sh7/OpenC-1.0.0-rc.9-sh7-windows-x86_64-standalone-a.zip --comparison-archive build-output/release-sh7/OpenC-1.0.0-rc.9-sh7-windows-x86_64-standalone-b.zip --output build-output/selfhost-sh7/final --force",
+      "evidence": "release/SH7_NATIVE_CONFORMANCE_EVIDENCE.md",
+      "target": "windows_x86_64_hosted",
+      "native_command": "openc validate --manifest=MANIFEST --output=REPORT",
+      "runner_implementation_language": "OpenC",
+      "fixtures_passed": 278,
+      "fixtures_failed": 0,
+      "infrastructure_failures": 0,
+      "runtime_fixtures_passed": 35,
+      "diagnostic_contracts_passed": 153,
+      "exact_native_diagnostic_observations": 81,
+      "native_fixture_contract_diagnostics": 72,
+      "retained_d_seed_required": false,
+      "retained_d_seed_optional_audit": true,
+      "maintained_programs_passed": 4,
+      "stage2_stage3_generated_c_byte_equal": true,
+      "generated_c_sha256": "124f7a42356fd468fa2c0b244c0580bcdca3345b3937e4f1d8d3139a800a7fbb",
+      "stage2_stage3_executable_byte_equal": true,
+      "executable_sha256": "9b59bb94d516a50285fe3d0c882ef47c1977ad570cb6b041c9f251c39f0a1ab2",
+      "normalized_pe_sha256": "c992cb254ba21f23a47436e447ed260b86c8547bfbf05fe9e69fb9053f50ee99",
+      "linux_and_freestanding_gate": false,
+      "next_milestone": "SH-8_NATIVE_DEVELOPER_AND_RELEASE_WORKFLOW"
     }
   ],
   "rc9_standalone_refresh": {
@@ -323,6 +350,10 @@
     "public_openc_build": true,
     "dmd_independent": true,
     "standalone": true,
+    "native_openc_validate": true,
+    "native_conformance_278": true,
+    "required_conformance_uses_d_seed": false,
+    "native_conformance_tooling_independent": true,
     "native_self_rebuild_performance_gate": true
   }
 }

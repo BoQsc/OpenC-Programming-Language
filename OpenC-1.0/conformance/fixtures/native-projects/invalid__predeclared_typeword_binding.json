@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/predeclared_typeword_binding/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/predeclared_typeword_binding",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

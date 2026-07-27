@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/flow_for_not_guaranteed/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/flow_for_not_guaranteed",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

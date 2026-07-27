@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/storage_field/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/storage_field",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

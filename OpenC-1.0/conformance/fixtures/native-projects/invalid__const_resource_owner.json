@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/const_resource_owner/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/const_resource_owner",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

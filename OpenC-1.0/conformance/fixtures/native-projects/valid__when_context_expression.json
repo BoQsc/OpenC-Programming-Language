@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/when_context_expression/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/when_context_expression",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/pointer_arithmetic_outside_unsafe/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/pointer_arithmetic_outside_unsafe",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

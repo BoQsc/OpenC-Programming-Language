@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/numeric_cast_float_fraction/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/numeric_cast_float_fraction",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

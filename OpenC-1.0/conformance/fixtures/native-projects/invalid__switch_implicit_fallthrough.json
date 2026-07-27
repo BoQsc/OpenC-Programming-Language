@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/switch_implicit_fallthrough/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/switch_implicit_fallthrough",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

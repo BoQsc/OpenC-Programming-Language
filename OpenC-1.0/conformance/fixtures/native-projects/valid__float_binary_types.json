@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/float_binary_types/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/float_binary_types",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

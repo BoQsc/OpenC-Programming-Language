@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../valid/comments_preserve_tokens/main.p"
+    ]
+  },
+  "name": "native-conformance-valid/comments_preserve_tokens",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

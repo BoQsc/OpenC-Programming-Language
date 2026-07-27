@@ -1,5 +1,28 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-7 native conformance and tooling independence
+
+- added OpenC-authored native `openc validate` and a deterministic materialized
+  plan covering all 278 canonical fixtures;
+- passed 278/278 native fixtures with zero infrastructure failures, including
+  35/35 built/executed runtime contracts and 153/153 diagnostic contracts;
+- recorded 81 diagnostic rules observed directly from native output and 72
+  canonical fixture-contract rule matches paired with native rejections;
+- kept zero current edition-compatibility fallback matches while preserving
+  this changelog's explicit disclosure of the 93 historical matches;
+- removed the retained D compiler from the required packaged conformance and
+  semantic-tooling gates while retaining an explicit optional `--audit-seed`
+  comparison;
+- corrected native C lowering for fixed-array bounds, fixed-array-to-slice call
+  arguments, optional access, scope cleanup before bounds failure, aggregate
+  field defaults, and runtime failure-marker capture;
+- preserved byte-identical native Stage-2/Stage-3 generated C, executables,
+  normalized PE, lexer behavior, and canonical IR, plus all 4 maintained
+  program contracts;
+- made SH-8 native developer and release workflow hardening the next
+  engineering milestone. Linux and freestanding remain optional future
+  targets.
+
 ## 1.0.0-rc.9 — expanded standalone conformance candidate
 
 - advanced the canonical compiler, Core metadata, release templates, and

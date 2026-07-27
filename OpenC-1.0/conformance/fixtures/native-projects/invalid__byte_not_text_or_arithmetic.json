@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/byte_not_text_or_arithmetic/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/byte_not_text_or_arithmetic",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

@@ -1,0 +1,12 @@
+{
+  "edition": "OpenC 1.0",
+  "modules": {
+    "fixture.main": [
+      "../invalid/construct_twice/main.p"
+    ]
+  },
+  "name": "native-conformance-invalid/construct_twice",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "version": "1.0.0"
+}

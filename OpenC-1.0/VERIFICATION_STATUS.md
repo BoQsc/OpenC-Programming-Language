@@ -28,9 +28,9 @@ are outside the supported 1.0 scope.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
-  compiler-in-OpenC and conformance expansion brings the current tree to 383
+  compiler-in-OpenC and conformance expansion brings the current tree to 384
   `.p` files,
-  including 90 compiler source units. The migrated fixture corpus retains
+  including 91 compiler source units. The migrated fixture corpus retains
   278/278 passes and zero infrastructure failures. SH-2 records the exact
   288-file corpus used for that milestone; SH-4A covers the complete current
   compiler project through byte-exact generated output.
@@ -104,6 +104,12 @@ are outside the supported 1.0 scope.
   It passes 240 flow/safety comparisons, 123 exact canonical-IR comparisons,
   and 153 exact semantic rejections. Two standalone builds are byte-identical
   at `c215e8c5b0847657573204e19493f54c71d2c5ad8c3a95fe1523f21f1bc66344`.
+- SH-7 native conformance passes. OpenC-authored `openc validate` executes all
+  278 fixtures with zero failures and zero infrastructure failures. All 35
+  runtime fixtures build and execute, and all 153 diagnostic contracts match;
+  the report separates 81 directly observed native rules from 72 canonical
+  fixture-contract matches. The required relocated-package gate invokes native
+  Stage 3 and does not execute the retained D seed.
 - The post-SH-6 native performance milestone passes. A closed Stage 3 rebuilds
   the compiler in 381.049 seconds versus 698.918 seconds before the changes,
   with 11.37 MiB peak working set and 161.55 MiB peak private memory. Optimized
@@ -140,15 +146,16 @@ python build/build_all.py --build debug --tools --compiler dmd
 python build/build_all.py --build release --tools --compiler dmd
 python tests/run_all.py
 PYTHONPATH=compiler/bootstrap/python python -m unittest discover -s tests/python
-compiler/openc validate --manifest=conformance/fixtures/MANIFEST.json
+build-output/selfhost-sh7/final/stage3-distribution/openc.exe validate --manifest=conformance/fixtures/MANIFEST.json --output=build-output/selfhost-sh7/native-conformance.json
 python tests/run_maintained.py
 python scripts/complete_conformance_coverage.py --check
+python scripts/generate_native_conformance_plan.py --check
 python compiler/selfhost/bootstrap.py
 python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh4/closure-final/openc-stage1.exe --output build-output/selfhost-sh4/parity-final
 python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final
 python compiler/selfhost/bootstrap_windows_closure.py
 python compiler/selfhost/benchmark_windows_rebuild.py --compiler build-output/selfhost-performance/closure/stage3/openc.exe
-python release/verify_standalone_windows.py --archive build-output/release/OpenC-1.0.0-rc.9-windows-x86_64-standalone-a.zip --comparison-archive build-output/release/OpenC-1.0.0-rc.9-windows-x86_64-standalone-b.zip --output build-output/selfhost-rc9/final-v2 --jobs 8 --force
+python release/verify_standalone_windows.py --archive build-output/release-sh7/OpenC-1.0.0-rc.9-sh7-windows-x86_64-standalone-a.zip --comparison-archive build-output/release-sh7/OpenC-1.0.0-rc.9-sh7-windows-x86_64-standalone-b.zip --output build-output/selfhost-sh7/final --force
 python scripts/validate_structure.py
 python scripts/source_completeness.py
 ```
@@ -168,11 +175,14 @@ native OpenC compiler uses its C11 backend and shipped TinyCC to build the next
 native compiler with no DMD, DUB, or Python available to the build. SH-6
 extends that result to a deterministic, relocatable standalone distribution
 and passes the full packaged compiler, semantic/IR, conformance, and maintained
-program gates. Self-hosting SH-0 through SH-6 is complete for the declared
-Windows x86-64 Hosted scope.
+program gates. SH-7 moves the required 278-fixture conformance execution into
+the OpenC-authored native compiler and removes the D seed from the required
+gate. Self-hosting SH-0 through SH-7 is complete for the declared Windows
+x86-64 Hosted scope.
 
 The immutable RC8 standalone record remains at 268 fixtures. RC9 packages and
 executes the current 278-fixture corpus, reaches byte-identical native closure,
-and publishes the verified artifact set. The next engineering milestone is
-SH-7 native conformance and tooling independence: remove the retained D audit
-seed from the required packaged conformance gate.
+and publishes the verified artifact set. SH-7 is the verified post-RC9
+mainline successor. The next engineering milestone is SH-8 native developer
+and release workflow hardening. Linux and freestanding remain optional future
+targets.
