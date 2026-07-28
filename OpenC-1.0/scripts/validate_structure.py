@@ -343,6 +343,22 @@ if self_host_gates.get("SH-9") == "PASS" and (
         "diagnostics, information/rule commands, direct demo CLI use, "
         "and no required D-seed execution"
     )
+if self_host_gates.get("SH-10") != "PASS":
+    errors.append("native project workflow completeness SH-10 gate must pass")
+if self_host_gates.get("SH-10") == "PASS" and (
+        not self_hosting.get("claims", {}).get("public_native_format")
+        or not self_hosting.get("claims", {}).get("public_native_info")
+        or not self_hosting.get("claims", {}).get("public_native_test")
+        or not self_hosting.get("claims", {}).get(
+            "stable_native_project_workflow_records"
+        )
+        or self_hosting.get("claims", {}).get(
+            "required_workflows_use_d_seed"
+        )):
+    errors.append(
+        "SH-10 PASS requires native fmt/info/test, stable records, and no "
+        "required D-seed execution"
+    )
 
 budgets = json.loads((
     ROOT / "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json"
@@ -375,8 +391,12 @@ if "--audit-seed" in native_release:
     errors.append("required native release workflow must not audit the D seed")
 if '"native_cli_12_of_12"' not in standalone_verifier:
     errors.append("standalone release must verify the complete SH-9 CLI contract")
-if '"openc.windows_native_workflow.v2"' not in native_workflow:
-    errors.append("native workflow must record the SH-9 workflow schema")
+if '"native_project_workflow_21_of_21"' not in standalone_verifier:
+    errors.append(
+        "standalone release must verify the complete SH-10 project workflow"
+    )
+if '"openc.windows_native_workflow.v3"' not in native_workflow:
+    errors.append("native workflow must record the SH-10 workflow schema")
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

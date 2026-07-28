@@ -27,6 +27,19 @@ openc.exe run --project=C:\path\to\project\openc.project.json -- arguments
 machine streams in `openc.check.v1`. `version`, `target`, and
 `explain RULE-ID` provide compiler, target, and canonical rule information.
 
+Format, inspect, or test a project directly:
+
+```text
+openc.exe fmt --check --project=C:\path\to\project\openc.project.json
+openc.exe fmt --write C:\path\to\project\source\main.p
+openc.exe info --project=C:\path\to\project\openc.project.json --json
+openc.exe test --manifest=C:\path\to\project\openc.tests.json --report=test-result.json
+```
+
+These commands emit stable `openc.format.v1`, `openc.tool_context.v1`, and
+`openc.test_result.v1` records. Test discovery and execution are name-sorted;
+language, runtime-assertion, and infrastructure failures remain distinct.
+
 The retained D bootstrap seed is
 `bootstrap/openc-stage0.exe`. It is included only as an optional comparison
 oracle for reproducibility audits. It is not invoked by `openc.exe build` or by
@@ -42,7 +55,7 @@ For the supported Windows Hosted mode, `openc.exe` provides the six
 `system.file`, `system.io`, `system.memory`, `system.path`, `system.process`,
 and `system.text` modules and links them to the packaged C runtime/native shim.
 The authored `.p` Native-provider library sources are included for future
-Native work; that separately scoped provider is not part of the SH-9 gate.
+Native work; that separately scoped provider is not part of the SH-10 gate.
 
 Package integrity is recorded in `STANDALONE-MANIFEST.sha256`; component roles,
 input paths, and compiler/backend hashes are in `STANDALONE-RELEASE.json`.

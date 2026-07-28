@@ -172,6 +172,19 @@ def main() -> int:
             "public_run_command": (
                 "openc.exe run --project=PROJECT [-- PROGRAM-ARGUMENTS...]"
             ),
+            "public_format_commands": [
+                "openc.exe fmt --check (--project=PROJECT|SOURCE.p)",
+                "openc.exe fmt --write (--project=PROJECT|SOURCE.p)",
+            ],
+            "public_project_info_command": (
+                "openc.exe info --project=PROJECT "
+                "[--context|--sources|--modules|--limits|--dependencies|"
+                "--target|--types] [--json]"
+            ),
+            "public_test_command": (
+                "openc.exe test (--manifest=TESTS.json|--project=PROJECT) "
+                "[--list] [--filter=TEXT] [--jobs=N] [--no-run]"
+            ),
             "public_validate_command": (
                 "openc.exe validate --manifest=MANIFEST --output=REPORT"
             ),

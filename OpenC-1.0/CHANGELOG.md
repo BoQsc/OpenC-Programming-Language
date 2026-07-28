@@ -1,5 +1,24 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-10 native project workflow completeness
+
+- added OpenC-authored native `openc fmt --check` and `openc fmt --write` for
+  explicit `.p` files and every source in a project, with UTF-8/LF/four-space
+  canonical output, syntax rejection before writes, and `openc.format.v1`
+  records;
+- added native `openc info` context, source, module, limit, dependency, target,
+  and type views with human or JSON output in `openc.tool_context.v1`;
+- added native `openc test` for explicit manifests and direct projects, with
+  name-sorted discovery, filtering, check-only mode, isolated outputs, stable
+  source hashes, and distinct language/assertion/infrastructure failures in
+  `openc.test_result.v1`;
+- added a 21-case native verifier to daily, full, and relocated standalone
+  release gates without executing the retained D seed;
+- preserved the declared Windows x86-64 Hosted scope and explicit disclosure
+  of the 93 historical rule-ID compatibility matches;
+- made SH-11 native language-service completeness the next engineering
+  milestone. Linux and freestanding remain optional future targets.
+
 ## Post-RC9 — SH-9 native CLI and diagnostic usability
 
 - added OpenC-authored public native `openc check` and `openc run`, including

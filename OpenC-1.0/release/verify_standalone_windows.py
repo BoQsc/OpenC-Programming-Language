@@ -101,7 +101,7 @@ def run(
     environment: dict[str, str],
     label: str,
 ) -> subprocess.CompletedProcess[str]:
-    print(f"[SH-9] {label}", flush=True)
+    print(f"[SH-10] {label}", flush=True)
     completed = subprocess.run(
         command,
         cwd=cwd,
@@ -278,11 +278,37 @@ def main() -> int:
     )
     cli_report = json.loads(cli_report_path.read_text(encoding="utf-8"))
 
+    project_workflow_report_path = (
+        output
+        / "native-project-workflow"
+        / "sh10-project-workflow-verification.json"
+    )
+    project_workflow = run(
+        [
+            sys.executable,
+            str(
+                distribution
+                / "scripts"
+                / "verify_sh10_project_workflow.py"
+            ),
+            "--compiler",
+            str(stage3),
+            "--output",
+            str(output / "native-project-workflow"),
+        ],
+        distribution,
+        environment,
+        "native formatter, project inspection, and deterministic test contract",
+    )
+    project_workflow_report = json.loads(
+        project_workflow_report_path.read_text(encoding="utf-8")
+    )
+
     parity_output = output / "semantic-parity"
     parity_stdout = ""
     parity_report: dict[str, object] = {
         "status": "NOT_RUN_OPTIONAL",
-        "reason": "retained D seed is not part of the required SH-9 gate",
+        "reason": "retained D seed is not part of the required SH-10 gate",
     }
     if args.audit_seed:
         parity = run(
@@ -362,6 +388,13 @@ def main() -> int:
             and cli_report.get("failed") == 0
             and cli_report.get("retained_d_seed_executed") is False
         ),
+        "native_project_workflow_21_of_21": (
+            project_workflow_report.get("status") == "PASS"
+            and project_workflow_report.get("passed") == 21
+            and project_workflow_report.get("failed") == 0
+            and project_workflow_report.get("retained_d_seed_executed")
+            is False
+        ),
         "native_openc_validate_278_of_278": (
             conformance_report.get("schema") == "openc.conformance_result.v2"
             and conformance_report.get("evidence_state") == "EXECUTED_NATIVE"
@@ -394,8 +427,8 @@ def main() -> int:
         "required_conformance_command_uses_native_stage3": True,
     }
     result = {
-        "schema": "openc.self_host_standalone_release.v2",
-        "stage": "SH9_NATIVE_CLI_AND_DIAGNOSTIC_USABILITY",
+        "schema": "openc.self_host_standalone_release.v3",
+        "stage": "SH10_NATIVE_PROJECT_WORKFLOW_COMPLETENESS",
         "status": "PASS" if all(checks.values()) else "FAIL",
         "checks": checks,
         "roles": {
@@ -409,7 +442,7 @@ def main() -> int:
             ),
             "bootstrap_seed": (
                 "optional retained D comparison oracle; packaged for audit "
-                "continuity but never executed by the required SH-9 gate"
+                "continuity but never executed by the required SH-10 gate"
             ),
             "python": "external evidence harness only",
         },
@@ -445,6 +478,9 @@ def main() -> int:
             ),
             "conformance_report": str(conformance_report_path),
             "native_cli_report": str(cli_report_path),
+            "native_project_workflow_report": str(
+                project_workflow_report_path
+            ),
         },
         "optional_seed_audit": {
             "executed": args.audit_seed,
@@ -479,6 +515,14 @@ def main() -> int:
                 "retained_d_seed_executed"
             ),
         },
+        "native_project_workflow": {
+            "total": project_workflow_report.get("total"),
+            "passed": project_workflow_report.get("passed"),
+            "failed": project_workflow_report.get("failed"),
+            "retained_d_seed_executed": project_workflow_report.get(
+                "retained_d_seed_executed"
+            ),
+        },
         "optional_seed_audit_stdout": parity_stdout,
         "conformance_harness_stdout": conformance.stdout,
         "normalization": [
@@ -494,9 +538,9 @@ def main() -> int:
     )
     if result["status"] != "PASS":
         failed = [name for name, passed in checks.items() if not passed]
-        raise SystemExit("SH-9 standalone gate failed: " + ", ".join(failed))
+        raise SystemExit("SH-10 standalone gate failed: " + ", ".join(failed))
     print(
-        "SH-9 native CLI and diagnostic usability: PASS; "
+        "SH-10 native project workflow completeness: PASS; "
         f"conformance={conformance_report.get('passed')}/"
         f"{conformance_report.get('total')} "
         f"maintained={maintained_passed}/{len(PROGRAMS)} "

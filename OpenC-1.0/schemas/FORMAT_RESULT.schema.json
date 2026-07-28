@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openc.example/schemas/FORMAT_RESULT.schema.json",
+  "title": "OpenC native formatter result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "mode",
+    "input",
+    "files",
+    "changed",
+    "errors",
+    "canonical"
+  ],
+  "properties": {
+    "schema": {
+      "const": "openc.format.v1"
+    },
+    "status": {
+      "enum": ["PASS", "WOULD_CHANGE", "ERROR"]
+    },
+    "mode": {
+      "enum": ["check", "write"]
+    },
+    "input": {
+      "type": "string"
+    },
+    "files": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "changed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "errors": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "canonical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "encoding",
+        "line_ending",
+        "indent_spaces",
+        "source_extension"
+      ],
+      "properties": {
+        "encoding": {
+          "const": "UTF-8"
+        },
+        "line_ending": {
+          "const": "LF"
+        },
+        "indent_spaces": {
+          "const": 4
+        },
+        "source_extension": {
+          "const": ".p"
+        }
+      }
+    }
+  }
+}

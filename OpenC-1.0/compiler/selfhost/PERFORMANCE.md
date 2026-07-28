@@ -76,13 +76,21 @@ shipped TinyCC directory.
 SH-8 replaces descriptive-only performance history with the enforceable
 budgets in `WINDOWS_NATIVE_BUDGETS.json`.
 
-The current 278-fixture native validation baseline is 35.489 seconds with
-6,414,336 bytes peak private memory. Its ceiling is 50 seconds and 16 MiB.
-The current byte-identical native self-rebuild baseline is 494.985 seconds
-with 175,722,496 bytes peak private memory. Its ceiling is 620 seconds and
-256 MiB. The wider rebuild time than the earlier 381.049-second milestone
-reflects the larger post-SH-7 compiler source and is the authored SH-8
-baseline, not a comparison to the older source snapshot.
+The SH-10 live-desktop 278-fixture native validation baseline is 68.471
+seconds with 6,520,832 bytes peak private memory. Its reviewed ceiling is
+90 seconds and 16 MiB. The SH-10 byte-identical native self-rebuild baseline
+is 744.926 seconds with 196,796,416 bytes peak private memory. Its reviewed
+ceiling is 900 seconds and 256 MiB.
+
+The prior SH-8 baselines were 35.489 seconds for validation and 494.985 seconds
+for the 92-source self-rebuild, whose ceiling was 620 seconds. The 94-source
+SH-10 compiler adds the native formatter, project inspector, and test runner.
+Repeated identical SH-10 executions on the live reference desktop ranged from
+29.803 to 68.471 seconds for validation and from 574.050 to 744.926 seconds for
+self-rebuild. Every validation passed 278/278; every completed rebuild was
+byte-identical; memory remained stable and below the original ceilings. The
+authored SH-10 review records those ranges, sets 31.4%/20.8% wall-time
+headroom, and retains both original memory ceilings.
 
 Run and enforce both budgets with:
 

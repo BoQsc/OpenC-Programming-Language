@@ -330,6 +330,50 @@
       "retained_d_seed_executed_by_required_workflow": false,
       "linux_and_freestanding_gate": false,
       "next_milestone": "SH-10_NATIVE_PROJECT_WORKFLOW_COMPLETENESS"
+    },
+    {
+      "id": "SH-10",
+      "name": "native_project_workflow_completeness",
+      "status": "PASS",
+      "command": "python scripts/verify_sh10_project_workflow.py",
+      "full_command": "python scripts/windows_native_workflow.py full",
+      "release_command": "python release/windows_native_release.py --force",
+      "evidence": "release/SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md",
+      "target": "windows_x86_64_hosted",
+      "compiler_implementation_language": "OpenC",
+      "native_compiler_source_files": 94,
+      "native_compiler_sha256": "8d20438e3e3debbe6fb700c41cb74a07553f4f6c64ce24cd9fcb21f4baa9ae71",
+      "public_format_check": true,
+      "public_format_write": true,
+      "public_project_info": true,
+      "public_project_test": true,
+      "format_record_schema": "openc.format.v1",
+      "context_record_schema": "openc.tool_context.v1",
+      "test_record_schema": "openc.test_result.v1",
+      "project_workflow_contracts_passed": 21,
+      "full_workflow_tasks_passed": 11,
+      "standalone_archive_sha256": "5742c5e5a8ab95c556810874b9aef0797787b26d79a80d16667d0e3a908a821a",
+      "standalone_manifest_entries": 1492,
+      "generated_c_sha256": "60c6c1476c505f24d0cd1d345aa2773e4147e7e715a6d4b2b5cf97936d55ca86",
+      "normalized_pe_sha256": "1fb5b93cee53b61eb646c909934a030fbb254ec28bcd35f93756147c2002486e",
+      "native_validation_elapsed_seconds": 68.471,
+      "native_validation_budget_seconds": 90.0,
+      "native_self_rebuild_elapsed_seconds": 744.926,
+      "native_self_rebuild_budget_seconds": 900.0,
+      "native_self_rebuild_byte_equal": true,
+      "live_desktop_performance_variability_reviewed": true,
+      "daily_cache_hit_seconds": 0.002,
+      "daily_cache_hit_fixtures_executed": 0,
+      "deterministic_test_execution_order": "name_sorted",
+      "test_failure_classes": [
+        "language",
+        "assertion",
+        "infrastructure"
+      ],
+      "retained_d_seed_required": false,
+      "retained_d_seed_executed_by_required_workflow": false,
+      "linux_and_freestanding_gate": false,
+      "next_milestone": "SH-11_NATIVE_LANGUAGE_SERVICE_COMPLETENESS"
     }
   ],
   "rc9_standalone_refresh": {
@@ -433,6 +477,11 @@
     "human_and_machine_diagnostics": true,
     "native_version_target_explain": true,
     "demos_use_public_native_cli": true,
-    "native_cli_and_diagnostic_usability": true
+    "native_cli_and_diagnostic_usability": true,
+    "public_native_format": true,
+    "public_native_info": true,
+    "public_native_test": true,
+    "stable_native_project_workflow_records": true,
+    "native_project_workflow_completeness": true
   }
 }

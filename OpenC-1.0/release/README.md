@@ -36,6 +36,12 @@ requires all 12 public CLI cases, including `check` machine records, human
 diagnostics, `run` argument forwarding, and active/historical rule
 explanation. Evidence is in `SH9_NATIVE_CLI_EVIDENCE.md`.
 
+SH-10 native project workflows are implemented in the OpenC-authored compiler
+and verified by `scripts/verify_sh10_project_workflow.py`. The standalone
+verifier requires all 21 formatter, context-inspection, deterministic
+discovery/execution, stable-record, and failure-classification cases. Evidence
+is in `SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md`.
+
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by
 `verify_release_artifacts.py`. The builder emits the artifact layout, mandatory

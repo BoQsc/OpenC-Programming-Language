@@ -6,6 +6,9 @@
     "candidate": {
       "type": "string"
     },
+    "build_context": {
+      "type": "object"
+    },
     "canonical_source_extension": {
       "const": ".p"
     },
@@ -30,8 +33,17 @@
     "implementation": {
       "type": "object"
     },
+    "dependencies": {
+      "type": "array"
+    },
+    "limits": {
+      "type": "object"
+    },
     "module_map": {
       "type": "object"
+    },
+    "modules": {
+      "type": "array"
     },
     "overrides": {
       "items": {
@@ -49,7 +61,8 @@
     "project": {
       "type": [
         "string",
-        "null"
+        "null",
+        "object"
       ]
     },
     "schema": {
@@ -79,23 +92,51 @@
       },
       "type": "array"
     },
+    "sources": {
+      "type": "array"
+    },
     "target": {
       "type": "object"
+    },
+    "types": {
+      "type": "array"
+    },
+    "view": {
+      "enum": [
+        "context",
+        "sources",
+        "modules",
+        "limits",
+        "dependencies",
+        "target",
+        "types"
+      ]
     }
   },
   "required": [
     "schema",
-    "candidate",
     "canonical_source_extension",
     "implementation",
-    "command",
-    "project",
-    "target",
-    "profile",
-    "extensions",
-    "source_units",
-    "module_map",
-    "effective_options"
+    "project"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "candidate",
+        "command",
+        "target",
+        "profile",
+        "extensions",
+        "source_units",
+        "module_map",
+        "effective_options"
+      ]
+    },
+    {
+      "required": [
+        "view"
+      ]
+    }
   ],
   "title": "OpenC active tool context",
   "type": "object"

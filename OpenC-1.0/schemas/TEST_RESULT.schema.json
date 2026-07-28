@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openc.example/schemas/TEST_RESULT.schema.json",
+  "title": "OpenC native project test result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "implementation",
+    "target",
+    "manifest",
+    "command",
+    "mode",
+    "requested_jobs",
+    "execution_order",
+    "results",
+    "summary",
+    "status"
+  ],
+  "properties": {
+    "schema": {
+      "const": "openc.test_result.v1"
+    },
+    "implementation": {
+      "type": "object",
+      "required": ["name", "version", "language"],
+      "properties": {
+        "name": {"type": "string"},
+        "version": {"type": "string"},
+        "language": {"const": "OpenC"}
+      }
+    },
+    "target": {
+      "const": "windows-x86_64-hosted"
+    },
+    "manifest": {
+      "type": "string"
+    },
+    "command": {
+      "const": "openc test"
+    },
+    "mode": {
+      "enum": ["list", "no-run", "run"]
+    },
+    "requested_jobs": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "execution_order": {
+      "const": "name-sorted"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "project", "expected_exit", "status"],
+        "properties": {
+          "name": {"type": "string"},
+          "project": {"type": "string"},
+          "expected_exit": {"type": "integer", "minimum": 0},
+          "status": {
+            "enum": [
+              "DISCOVERED",
+              "PASS",
+              "LANGUAGE_FAILURE",
+              "ASSERTION_FAILURE",
+              "INFRASTRUCTURE_FAILURE"
+            ]
+          },
+          "source_hash": {
+            "type": "object",
+            "required": ["algorithm", "value"],
+            "properties": {
+              "algorithm": {"const": "openc-stable32"},
+              "value": {"type": "string", "pattern": "^[0-9a-f]{16}$"}
+            }
+          },
+          "exit_code": {"type": "integer"},
+          "stdout": {"type": "string"},
+          "diagnostics": {"type": "string"}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "selected",
+        "passed",
+        "language_failures",
+        "assertion_failures",
+        "infrastructure_failures"
+      ],
+      "properties": {
+        "selected": {"type": "integer", "minimum": 0},
+        "passed": {"type": "integer", "minimum": 0},
+        "language_failures": {"type": "integer", "minimum": 0},
+        "assertion_failures": {"type": "integer", "minimum": 0},
+        "infrastructure_failures": {"type": "integer", "minimum": 0}
+      }
+    },
+    "status": {
+      "enum": ["PASS", "FAIL", "NO_TESTS"]
+    }
+  }
+}

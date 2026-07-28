@@ -16,6 +16,7 @@ G10 licensing/governance/checksum/publication authority  PASS
 G11 standalone self-hosted distribution (SH-6)           PASS
 G12 native default workflow and regression budgets (SH-8) PASS
 G13 native public CLI and diagnostic usability (SH-9)    PASS 12/12
+G14 native project workflow completeness (SH-10)         PASS 21/21
 ```
 
 There are no open P0/P1 findings in the maintainer release review. Independent
@@ -57,6 +58,12 @@ contracts: `check`, `run`, version, target, active/historical rule
 explanation, concise human failures, stable `openc.check.v1` machine records,
 and program-argument forwarding. All six demos execute through the public
 native CLI. The D seed remains absent.
+
+SH-10 requires relocated native Stage 3 to pass all 21 native project-workflow
+contracts: syntax-preserving formatter check/write, deterministic context
+views, name-sorted test discovery/execution, stable machine records, and
+distinct language, assertion, and infrastructure outcomes. The D seed remains
+absent.
 
 The SH-6 268-fixture package count is the immutable RC8 historical result.
 RC9 completes the mandatory successor gate: the relocated package executes the

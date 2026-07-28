@@ -85,6 +85,15 @@ unsafe i32 main() {
     if arguments == 2 && process.argument(0) == "explain" {
         return cli_explain(process.argument(1));
     }
+    if arguments >= 2 && process.argument(0) == "fmt" {
+        return cli_format_command();
+    }
+    if arguments >= 2 && process.argument(0) == "info" {
+        return cli_info_command();
+    }
+    if arguments >= 2 && process.argument(0) == "test" {
+        return cli_test_command();
+    }
     if (arguments == 2 || arguments == 3) &&
         process.argument(0) == "check" {
         text project_path = process.argument(1);

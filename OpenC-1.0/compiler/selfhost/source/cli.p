@@ -95,6 +95,9 @@ void cli_print_help() {
     io.println("  openc check --project=PROJECT [--output=CHECK-RECORD.json]");
     io.println("  openc build --project=PROJECT --output=OUTPUT.exe");
     io.println("  openc run --project=PROJECT [-- PROGRAM-ARGUMENTS...]");
+    io.println("  openc fmt (--check|--write) (--project=PROJECT|SOURCE.p) [--output=FORMAT-RECORD.json]");
+    io.println("  openc info --project=PROJECT [--context|--sources|--modules|--limits|--dependencies|--target|--types] [--json] [--output=CONTEXT.json]");
+    io.println("  openc test (--manifest=TESTS.json|--project=PROJECT) [--list] [--filter=TEXT] [--jobs=N] [--target=TARGET] [--report=RESULT.json] [--no-run]");
     io.println("  openc validate --manifest=MANIFEST --output=REPORT.json");
     io.println("  openc version");
     io.println("  openc target");

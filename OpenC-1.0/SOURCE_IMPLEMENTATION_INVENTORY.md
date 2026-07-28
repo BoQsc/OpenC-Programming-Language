@@ -15,7 +15,9 @@ command driver.
 The self-hosted OpenC compiler contains the complete native Windows frontend,
 semantic/IR pipeline, deterministic C11 backend, conformance runner, and the
 SH-9 public `check`, `run`, version, target, rule-explanation, and
-human/machine diagnostic surface in canonical `.p` source.
+human/machine diagnostic surface plus the SH-10 native formatter,
+project-context inspector, and deterministic test runner in canonical `.p`
+source.
 
 ## Informative bootstrap
 
@@ -53,9 +55,9 @@ normalization.
 
 Authored D and Python tests, 278 imported/current Core fixtures, four
 maintained programs, six demo projects, native daily/full/release workflows,
-performance budgets, the 12-case public native CLI verifier, build scripts,
-test drivers, release scripts, schemas, and source-completeness contracts are
-included.
+performance budgets, the 12-case public native CLI verifier, the 21-case
+native project-workflow verifier, build scripts, test drivers, release scripts,
+schemas, and source-completeness contracts are included.
 
 ## Machine-readable inventory
 

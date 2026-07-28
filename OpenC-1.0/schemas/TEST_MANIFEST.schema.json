@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openc.example/schemas/TEST_MANIFEST.schema.json",
+  "title": "OpenC project test manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "tests"],
+  "properties": {
+    "schema": {
+      "const": "openc.test_manifest.v1"
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "project", "expected_exit"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "project": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_exit": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}

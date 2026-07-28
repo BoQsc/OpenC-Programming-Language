@@ -23,7 +23,9 @@ records in a relocatable distribution. SH-7 adds OpenC-authored native
 conformance and removes the retained D seed from the required package gate.
 SH-8 makes the native compiler the default Windows compiler-under-test and
 adds exact-cache and performance-budget gates. SH-9 adds the OpenC-authored
-public developer CLI and human/machine diagnostic surface. The
+public developer CLI and human/machine diagnostic surface. SH-10 adds
+OpenC-authored native formatting, project-context inspection, and deterministic
+project testing. The
 gate contract is in
 `SELF_HOSTING.md`; the machine-readable gate state is
 `SELF_HOSTING_STATE.json`. Post-SH-6 native self-rebuild measurements and
@@ -83,6 +85,20 @@ openc explain OPENC-LEX-COMMENT-001
 streams in an `openc.check.v1` record. Verify the complete 12-case surface
 with `python scripts/verify_sh9_cli.py`.
 
+SH-10 adds the native project-workflow commands:
+
+```text
+openc fmt --check (--project=path/to/openc.project.json|source.p)
+openc fmt --write (--project=path/to/openc.project.json|source.p)
+openc info --project=path/to/openc.project.json [--json]
+openc test --manifest=path/to/openc.tests.json [--list] [--no-run]
+openc test --project=path/to/openc.project.json
+```
+
+They produce stable `openc.format.v1`, `openc.tool_context.v1`, and
+`openc.test_result.v1` records. Verify all 21 cases with
+`python scripts/verify_sh10_project_workflow.py`.
+
 Run the SH-4 proofs with a built Stage-1 executable and configured DMD:
 
 ```text
@@ -105,4 +121,6 @@ developer and release workflow hardening is also **PASS**; complete evidence
 is in `release/SH8_NATIVE_WORKFLOW_EVIDENCE.md`. SH-9 native CLI and diagnostic
 usability is **PASS**; its evidence is in
 `release/SH9_NATIVE_CLI_EVIDENCE.md`. SH-10 native project workflow
-completeness is next.
+completeness is **PASS**; its evidence is in
+`release/SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md`. SH-11 native
+language-service completeness is next.

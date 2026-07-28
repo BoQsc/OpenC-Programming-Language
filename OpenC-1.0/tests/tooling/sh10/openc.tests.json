@@ -1,0 +1,20 @@
+{
+  "schema": "openc.test_manifest.v1",
+  "tests": [
+    {
+      "name": "calculator",
+      "project": "../../../demos/calculator/openc.project.json",
+      "expected_exit": 0
+    },
+    {
+      "name": "hello",
+      "project": "../../../demos/hello/openc.project.json",
+      "expected_exit": 0
+    },
+    {
+      "name": "ownership",
+      "project": "../../../demos/ownership/openc.project.json",
+      "expected_exit": 0
+    }
+  ]
+}

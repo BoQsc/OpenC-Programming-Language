@@ -19,3 +19,7 @@ trailing comma in multiline aggregate/array/enum lists
 ```
 
 The formatter parses valid Core source and prints from the syntax tree. It does not repair invalid source silently. `openc fmt --check` exits nonzero when output would change.
+
+The SH-10 native implementation accepts an explicit `.p` path or
+`--project=openc.project.json`. `--output=PATH` writes the stable
+`openc.format.v1` record defined by `schemas/FORMAT_RESULT.schema.json`.

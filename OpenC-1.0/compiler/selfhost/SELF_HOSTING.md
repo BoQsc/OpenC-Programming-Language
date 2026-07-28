@@ -345,6 +345,30 @@ Complete commands and hashes are in
 
 Status: **PASS**
 
+## SH-10 — native project workflow completeness
+
+The OpenC-authored compiler now exposes deterministic `fmt --check` and
+`fmt --write`, resolved project-context `info` views, and manifest or
+direct-project `test`. The formatter validates syntax before mutation and
+normalizes UTF-8, LF, four-space indentation, comments, and terminal newlines.
+Inspection resolves normalized project, target, source/module, dependency,
+limit, and type context without consulting ambient environment inputs.
+
+Tests are discovered in name-sorted order, checked before execution, built to
+isolated outputs, and record target, implementation, source hash, command,
+stdout, diagnostics, and distinct language/assertion/infrastructure outcomes.
+The requested jobs value is recorded; execution remains deliberately
+name-sorted and deterministic. All 21 native contracts pass against relocated
+Stage 3 using `openc.format.v1`, `openc.tool_context.v1`, and
+`openc.test_result.v1`.
+
+The compiler contains 94 canonical `.p` source units. Required daily, full,
+and relocated release verification executes no retained D seed. Linux and
+freestanding remain outside the required gate. Complete commands and hashes
+are in `release/SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md`.
+
+Status: **PASS**
+
 ## Post-SH-6 — native self-rebuild performance
 
 The closed OpenC-native compiler rebuilds its complete 90-source compiler
@@ -376,7 +400,8 @@ that OpenC-native compiler and demotes the retained D seed to an optional audit
 oracle. SH-8 makes the native compiler the default compiler-under-test and
 enforces exact-cache and performance-budget policy. SH-9 supplies the public
 native developer CLI and preserves machine diagnostic evidence beside its
-human output.
+human output. SH-10 supplies deterministic native formatting, project-context
+inspection, and project test execution with stable records.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

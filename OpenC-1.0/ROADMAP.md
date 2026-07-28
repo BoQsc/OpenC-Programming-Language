@@ -8,7 +8,7 @@ Native-provider verification remain optional future target work.
 
 ## Completed self-hosting path
 
-SH-0 through SH-9 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-10 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -52,6 +52,12 @@ SH-9 is complete. The OpenC-authored public CLI exposes `check`, `run`,
 observation streams in `openc.check.v1`; all 466 active rules are explainable,
 the 93 historical compatibility identities remain disclosed, and all six
 demos execute directly through public `openc run`.
+
+SH-10 is complete. The OpenC-authored compiler exposes deterministic
+`fmt --check` and `fmt --write`, resolved project-context `info` views, and
+name-sorted manifest/direct-project `test` execution. Stable
+`openc.format.v1`, `openc.tool_context.v1`, and `openc.test_result.v1`
+records are enforced by the relocated standalone release gate.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -117,12 +123,18 @@ IR reach closure. Exact evidence and reproduction commands are in
    - concise human diagnostics preserve stable machine records;
    - version, target, and rule-explanation commands pass;
    - all six demos execute directly through the public native CLI.
-3. **SH-10 native project workflow completeness — next engineering milestone**
-   - add native `openc fmt --check` and `openc fmt --write`;
-   - add native `openc info` for project, target, and dependency inspection;
-   - add native `openc test` with deterministic discovery and exit records;
-   - include those commands in standalone release verification.
-4. **Seek independent review**
+3. **SH-10 native project workflow completeness — complete**
+   - native `openc fmt --check` and `openc fmt --write` pass;
+   - native `openc info` project, target, and dependency inspection passes;
+   - native `openc test` deterministic discovery and exit records pass;
+   - all commands pass relocated standalone release verification.
+4. **SH-11 native language-service completeness — next engineering milestone**
+   - add native `openc lsp --stdio` lifecycle and capability negotiation;
+   - publish document diagnostics from the SH-9 check pipeline;
+   - route document formatting through the SH-10 native formatter;
+   - verify deterministic protocol transcripts from the relocated standalone
+     package.
+5. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.
 

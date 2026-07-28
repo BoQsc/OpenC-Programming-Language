@@ -18,3 +18,7 @@ environment inputs actually consulted
 ```
 
 `openc info --sources`, `--modules`, `--types`, `--limits`, and `--dependencies` are filtered views of the same resolved context. The output is deterministic after path normalization.
+
+The SH-10 native implementation also exposes `--target`; `--json` writes the
+selected view to standard output, and `--output=PATH` preserves the same
+`openc.tool_context.v1` record.

@@ -115,12 +115,12 @@
       "sha256": "bb9ad845dedbf919582508fd9e5baf248a76437a8224fdd03a67cffe02686828"
     },
     {
-      "bytes": 9055,
+      "bytes": 9674,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "release/build_standalone_windows.py",
       "present": true,
-      "sha256": "41343eab97ddca48ee65eecef3e6eba0207e5585af8ba7da9eda722247086564"
+      "sha256": "c565c684cae73dd9277d3c803778dc643ec321437cc9b1d1d3d7566b570af36d"
     },
     {
       "bytes": 9046,
@@ -139,20 +139,20 @@
       "sha256": "dda44428375a06085136d20b96410f66a10443419ec54f7ca43bb00b7151ced2"
     },
     {
-      "bytes": 18228,
+      "bytes": 19768,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "release/verify_standalone_windows.py",
       "present": true,
-      "sha256": "fffe7079ce24e837f3aaa46865393169b8fa629df7015407122d55a04f69419b"
+      "sha256": "c6fea7665cfa3d0886dadf9c6439bfdf74df2387814ea23e9b27155473aebd8e"
     },
     {
-      "bytes": 6859,
+      "bytes": 7209,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "release/windows_native_release.py",
       "present": true,
-      "sha256": "055901d0dae6a11d618f1e3e7f5c232aba650441bdb76c6e76ac38ccc5607950"
+      "sha256": "71295799f3f4725febfe1213995ace0a7bc078be48ba1e43b165bd9040bfb67c"
     },
     {
       "bytes": 26168,
@@ -211,12 +211,20 @@
       "sha256": "83872bc5b5927b207bc4926956a0b3316fab9e66961bfafc4584cf74e57f1915"
     },
     {
-      "bytes": 20125,
+      "bytes": 21035,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/validate_structure.py",
       "present": true,
-      "sha256": "74938a7e1f04d5e581597e3b761dafba06ad96b5b248d6e0937d25fa7a71bf6a"
+      "sha256": "e1f34e2a12b663a43f66be1a4a23bee639944158f48a133ade662e0a1ce2eb04"
+    },
+    {
+      "bytes": 13368,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "scripts/verify_sh10_project_workflow.py",
+      "present": true,
+      "sha256": "30a8dd295feb8d8382c7519d30fef699cd4e45099e4afc23f512972fe7fc0fbc"
     },
     {
       "bytes": 8807,
@@ -227,12 +235,12 @@
       "sha256": "11dd517a880bf5a729adc91552dd53243fa25f8858c30a9099d45bfdf7f1e3f8"
     },
     {
-      "bytes": 16180,
+      "bytes": 16582,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/windows_native_workflow.py",
       "present": true,
-      "sha256": "bf0d0304ac9a9f28c200b519a817452ef826e24b6d1250b9fb9b8c031967bd9b"
+      "sha256": "c5f2bcb34dbdad87f3e186d1b16644fdba4e5e6b8a8e2b99ffabb6933541f74d"
     },
     {
       "bytes": 14740,
@@ -1139,12 +1147,28 @@
       "sha256": "eaf4316920c225347e64164f1e93544fca0f9742d66107709d1405646a6399b1"
     },
     {
-      "bytes": 16308,
+      "bytes": 16734,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli.p",
       "present": true,
-      "sha256": "7d0286d1e9fb995c66a05236f15e853a8780cd50d6004100eba090ec3043b9f4"
+      "sha256": "46d4dd765816a0099bfd8b786bb4da1e716ff7dde7f27dc551b836f1362cc2d4"
+    },
+    {
+      "bytes": 11361,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/cli_format.p",
+      "present": true,
+      "sha256": "1e2455c07136fa5314026eef97ec042f43a3e53452afac370be2a514f6100876"
+    },
+    {
+      "bytes": 40195,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/cli_project_workflow.p",
+      "present": true,
+      "sha256": "124a2855f5dea203c0e573c28edd74758ad0b217b076a16ee063dee9db410299"
     },
     {
       "bytes": 8120,
@@ -1403,12 +1427,12 @@
       "sha256": "de261e7fca079e671953bee9b707a1e9563a0df43a578d103d03d2062c7244da"
     },
     {
-      "bytes": 11353,
+      "bytes": 11648,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/main_driver.p",
       "present": true,
-      "sha256": "adcd393899fd739dbf3284f8dc7a444df430e5fb34f8e76e2150fbc48ea966d3"
+      "sha256": "b190a63fcfa270eaddc13213ea1e9e02c17ab5ed535eb1c1bc3bc9fc59f54d4c"
     },
     {
       "bytes": 6299,
@@ -2011,12 +2035,20 @@
       "sha256": "cbca276f9c6509052b140d0554d5cf37c641e0d37d49ee5c2ce38a0909a0ee30"
     },
     {
-      "bytes": 5462,
+      "bytes": 5794,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "tests_python",
       "path": "tests/python/test_native_workflow.py",
       "present": true,
-      "sha256": "eb67e7f715ba8f8d1d03482c4fc362b3ed155528d005c5182ac52d3debed21b4"
+      "sha256": "356896af411ec8e46a2cfda88911921fae6e6064ff40d75b5f8d0884dc94ff5f"
+    },
+    {
+      "bytes": 3699,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tests_python",
+      "path": "tests/python/test_sh10_project_workflow.py",
+      "present": true,
+      "sha256": "aeb173d26e888e4721e104ebb7f256404141f4c5060778d455f1003ae1f4b958"
     },
     {
       "bytes": 2088,
@@ -2174,9 +2206,9 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 1999000,
+    "bytes": 2072497,
     "empty": 0,
-    "files": 271,
+    "files": 275,
     "missing": 0
   },
   "version": "1.0.0-rc.9"
