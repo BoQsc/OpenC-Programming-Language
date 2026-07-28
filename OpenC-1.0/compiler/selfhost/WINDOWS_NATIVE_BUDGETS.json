@@ -1,0 +1,50 @@
+{
+  "schema": "openc.windows_native_performance_budgets.v1",
+  "milestone": "SH-8_NATIVE_DEVELOPER_AND_RELEASE_WORKFLOW",
+  "target": "windows-x86_64-hosted",
+  "reference_host": {
+    "operating_system": "Windows 10.0.19045",
+    "architecture": "AMD64",
+    "measurement_date": "2026-07-28"
+  },
+  "baselines": {
+    "validation": {
+      "elapsed_seconds": 35.489,
+      "peak_private_bytes": 6414336,
+      "peak_working_set_bytes": 8372224,
+      "fixtures": 278
+    },
+    "self_rebuild": {
+      "elapsed_seconds": 494.985,
+      "peak_private_bytes": 175722496,
+      "peak_working_set_bytes": 12238848,
+      "output_compiler_byte_equal_to_input": true
+    }
+  },
+  "budgets": {
+    "validation": {
+      "max_elapsed_seconds": 50.0,
+      "max_peak_private_bytes": 16777216,
+      "max_peak_working_set_bytes": 16777216,
+      "elapsed_headroom_percent": 40.9
+    },
+    "self_rebuild": {
+      "max_elapsed_seconds": 620.0,
+      "max_peak_private_bytes": 268435456,
+      "max_peak_working_set_bytes": 33554432,
+      "elapsed_headroom_percent": 25.3
+    },
+    "daily_cache_hit": {
+      "max_elapsed_seconds": 2.0,
+      "max_fixtures_executed": 0
+    }
+  },
+  "policy": {
+    "daily_workflow_may_reuse_exact_fingerprint": true,
+    "full_workflow_forces_native_validation": true,
+    "release_workflow_forces_native_validation": true,
+    "budget_change_requires_authored_review": true,
+    "retained_d_seed_required": false,
+    "linux_and_freestanding_gate": false
+  }
+}

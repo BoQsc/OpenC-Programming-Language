@@ -8,7 +8,7 @@ Native-provider verification remain optional future target work.
 
 ## Completed self-hosting path
 
-SH-0 through SH-7 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-8 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -39,6 +39,13 @@ and executes the complete 278-fixture plan: 278 pass, all 35 runtime fixtures
 build and execute, all 153 diagnostic contracts match, and infrastructure
 failures are zero. The required relocated-package gate calls native Stage 3;
 the retained D seed is packaged only as an optional comparison oracle.
+
+SH-8 is complete. The provenance-verified OpenC-native compiler is the default
+Windows compiler-under-test. Complete validation and byte-identical
+self-rebuild paths have enforced time/memory budgets; unchanged daily inputs
+reuse exact conformance evidence without executing fixtures, while full and
+release workflows force all 278 fixtures. The retained D seed remains a
+separate optional audit.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -90,15 +97,21 @@ IR reach closure. Exact evidence and reproduction commands are in
 
 ## What comes next
 
-1. **SH-8 native developer and release workflow hardening — next engineering
-   milestone**
-   - make the OpenC-native compiler the default compiler-under-test for Windows
-     Hosted development gates;
-   - profile native validation and rebuild paths, establish regression budgets,
-     and remove avoidable full-corpus work where measurements justify it;
-   - keep the optional D oracle out of required everyday and release execution,
-     while retaining a separately invocable audit comparison.
-2. **Seek independent review**
+1. **SH-8 native developer and release workflow hardening — complete**
+   - the OpenC-native compiler is the default compiler-under-test for Windows
+     Hosted development and release gates;
+   - validation and self-rebuild paths have enforced elapsed-time and memory
+     budgets;
+   - exact-input daily caching removes unchanged 278-fixture re-execution,
+     while full and release gates force fresh evidence;
+   - the optional D oracle is separately invocable and absent from required
+     daily, full, and release execution.
+2. **SH-9 native CLI and diagnostic usability — next engineering milestone**
+   - add public native `openc check` and `openc run`;
+   - provide concise human diagnostics beside stable machine records;
+   - add version, target, and rule-explanation commands;
+   - make the demo projects directly usable through the public native CLI.
+3. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.
 

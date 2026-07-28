@@ -110,6 +110,14 @@ are outside the supported 1.0 scope.
   the report separates 81 directly observed native rules from 72 canonical
   fixture-contract matches. The required relocated-package gate invokes native
   Stage 3 and does not execute the retained D seed.
+- SH-8 native developer and release workflow passes. The default
+  compiler-under-test is the provenance-verified OpenC-native standalone
+  compiler. Complete validation measures 35.489 seconds against a 50-second
+  budget; the byte-identical self-rebuild measures 494.985 seconds against a
+  620-second budget. An unchanged daily cache hit takes 0.001 seconds and
+  executes zero fixtures. Full and release modes force fresh native
+  validation. All 4 maintained programs and all 6 demos pass native build and
+  execution, and the required workflow does not execute the retained D seed.
 - The post-SH-6 native performance milestone passes. A closed Stage 3 rebuilds
   the compiler in 381.049 seconds versus 698.918 seconds before the changes,
   with 11.37 MiB peak working set and 161.55 MiB peak private memory. Optimized
@@ -145,17 +153,21 @@ accepting fixture and an executed rejecting fixture.
 python build/build_all.py --build debug --tools --compiler dmd
 python build/build_all.py --build release --tools --compiler dmd
 python tests/run_all.py
-PYTHONPATH=compiler/bootstrap/python python -m unittest discover -s tests/python
-build-output/selfhost-sh7/final/stage3-distribution/openc.exe validate --manifest=conformance/fixtures/MANIFEST.json --output=build-output/selfhost-sh7/native-conformance.json
+python -m unittest discover -s tests/python
+python scripts/native_toolchain.py status
+python scripts/windows_native_workflow.py daily
+python scripts/windows_native_workflow.py full
 python tests/run_maintained.py
+python demos/run_all.py
 python scripts/complete_conformance_coverage.py --check
 python scripts/generate_native_conformance_plan.py --check
 python compiler/selfhost/bootstrap.py
 python compiler/selfhost/bootstrap_d_parity.py --stage1 build-output/selfhost-sh4/closure-final/openc-stage1.exe --output build-output/selfhost-sh4/parity-final
 python compiler/selfhost/bootstrap_closure.py --output build-output/selfhost-sh4/closure-final
 python compiler/selfhost/bootstrap_windows_closure.py
-python compiler/selfhost/benchmark_windows_rebuild.py --compiler build-output/selfhost-performance/closure/stage3/openc.exe
-python release/verify_standalone_windows.py --archive build-output/release-sh7/OpenC-1.0.0-rc.9-sh7-windows-x86_64-standalone-a.zip --comparison-archive build-output/release-sh7/OpenC-1.0.0-rc.9-sh7-windows-x86_64-standalone-b.zip --output build-output/selfhost-sh7/final --force
+python compiler/selfhost/benchmark_windows_validate.py
+python compiler/selfhost/benchmark_windows_rebuild.py
+python release/windows_native_release.py --force
 python scripts/validate_structure.py
 python scripts/source_completeness.py
 ```
@@ -177,12 +189,13 @@ extends that result to a deterministic, relocatable standalone distribution
 and passes the full packaged compiler, semantic/IR, conformance, and maintained
 program gates. SH-7 moves the required 278-fixture conformance execution into
 the OpenC-authored native compiler and removes the D seed from the required
-gate. Self-hosting SH-0 through SH-7 is complete for the declared Windows
+gate. SH-8 makes the native compiler the default Windows compiler-under-test,
+adds validation/rebuild regression budgets, and removes redundant unchanged
+daily corpus execution. Self-hosting SH-0 through SH-8 is complete for the declared Windows
 x86-64 Hosted scope.
 
 The immutable RC8 standalone record remains at 268 fixtures. RC9 packages and
 executes the current 278-fixture corpus, reaches byte-identical native closure,
-and publishes the verified artifact set. SH-7 is the verified post-RC9
-mainline successor. The next engineering milestone is SH-8 native developer
-and release workflow hardening. Linux and freestanding remain optional future
-targets.
+and publishes the verified artifact set. SH-8 is the verified post-RC9
+mainline successor. The next engineering milestone is SH-9 native CLI and
+diagnostic usability. Linux and freestanding remain optional future targets.

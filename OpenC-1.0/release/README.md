@@ -24,6 +24,12 @@ packaged conformance gate to 278/278. Its published evidence and successor
 milestone are in `RC9_STANDALONE_EVIDENCE.md`. Package-user instructions are
 in `STANDALONE_WINDOWS_README.md`.
 
+SH-8 native developer/release hardening is implemented by
+`scripts/windows_native_workflow.py` and `windows_native_release.py`. The
+native compiler is resolved by default, full/release validation is fresh, and
+the retained D seed is not executed. Commands, budgets, and measurements are
+recorded in `SH8_NATIVE_WORKFLOW_EVIDENCE.md`.
+
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by
 `verify_release_artifacts.py`. The builder emits the artifact layout, mandatory

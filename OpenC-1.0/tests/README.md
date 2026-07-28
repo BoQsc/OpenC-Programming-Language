@@ -1,6 +1,9 @@
 # Test execution status
 
-On 2026-07-20, all eight canonical D test commands and all four informative Python bootstrap tests passed on the recorded Windows host. `run_all.py` records the D matrix; `run_maintained.py` builds, executes, and records the four maintained OpenC programs.
+All eight canonical D test commands and all ten Python source tests pass on
+the recorded Windows host. `run_all.py` records the D matrix;
+`run_maintained.py` uses the verified native compiler by default and records
+native build/execution of the four maintained OpenC programs.
 
 On 2026-07-26, SH-5 native Windows closure also passed: public `openc build`
 rebuilt the OpenC compiler with the shipped TinyCC backend while DMD, DUB, and
@@ -26,6 +29,13 @@ On 2026-07-27, SH-7 moved the complete gate to the OpenC-authored native
 `openc validate`: 278/278 fixtures pass with zero infrastructure failures,
 including 35/35 runtime executions and 153/153 diagnostic contracts. The
 required package gate does not execute the retained D seed.
+
+On 2026-07-28, SH-8 made the OpenC-native compiler the default
+compiler-under-test. The native daily workflow passes structure, source
+completeness, coverage, 10/10 Python tests, 278/278 conformance, 4/4 maintained
+programs, and 6/6 demos. Its unchanged-input cache reruns zero fixtures. Full
+and release workflows force fresh native validation; the D seed remains an
+explicit optional audit only.
 
 Conformance execution is recorded separately by the canonical `openc validate`
 command. Local success is not evidence for untested targets or independent

@@ -4,11 +4,13 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 from pathlib import Path
 import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from native_toolchain import resolve_native_compiler, validate_native_compiler
 
 CASES = (
     ("A_COMPUTATION", 32, (), ""),
@@ -25,8 +27,11 @@ CASES = (
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    default_compiler = ROOT / "compiler" / ("openc.exe" if os.name == "nt" else "openc")
-    parser.add_argument("--compiler", type=Path, default=default_compiler)
+    parser.add_argument(
+        "--compiler",
+        type=Path,
+        help="verified OpenC-native compiler; defaults to the installed toolchain",
+    )
     parser.add_argument(
         "--report",
         type=Path,
@@ -34,36 +39,62 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    compiler = resolve_native_compiler(args.compiler)
+    native = validate_native_compiler(compiler)
+    output_directory = args.report.resolve().parent / "maintained"
+    output_directory.mkdir(parents=True, exist_ok=True)
     results = []
     for name, expected_exit, program_args, expected_stdout in CASES:
         project = ROOT / "programs" / name / "openc.project.json"
-        command = [
-            str(args.compiler.resolve()),
-            "run",
+        executable = output_directory / f"{name}.exe"
+        build_command = [
+            str(compiler),
+            "build",
             f"--project={project.resolve()}",
-            *program_args,
+            f"--output={executable}",
         ]
-        completed = subprocess.run(command, cwd=ROOT, text=True, capture_output=True)
+        built = subprocess.run(
+            build_command, cwd=ROOT, text=True, capture_output=True
+        )
+        run_command = [str(executable), *program_args]
+        completed = (
+            subprocess.run(
+                run_command, cwd=ROOT, text=True, capture_output=True
+            )
+            if built.returncode == 0 and executable.is_file()
+            else None
+        )
         passed = (
-            completed.returncode == expected_exit
+            built.returncode == 0
+            and completed is not None
+            and completed.returncode == expected_exit
             and completed.stdout == expected_stdout
         )
         results.append(
             {
                 "program": name,
-                "command": command,
+                "build_command": build_command,
+                "build_exit_code": built.returncode,
+                "build_stdout": built.stdout,
+                "build_stderr": built.stderr,
+                "run_command": run_command,
                 "expected_exit_code": expected_exit,
-                "actual_exit_code": completed.returncode,
+                "actual_exit_code": completed.returncode if completed else None,
                 "expected_stdout": expected_stdout,
-                "stdout": completed.stdout,
-                "stderr": completed.stderr,
+                "stdout": completed.stdout if completed else "",
+                "stderr": completed.stderr if completed else "",
                 "passed": passed,
             }
         )
 
     report = {
-        "schema": "openc.maintained_program_execution.v1",
+        "schema": "openc.maintained_program_execution.v2",
         "evidence_state": "EXECUTED",
+        "compiler_under_test": {
+            **native,
+            "implementation_language": "OpenC",
+        },
+        "retained_d_seed_executed": False,
         "total": len(results),
         "passed": sum(result["passed"] for result in results),
         "failed": sum(not result["passed"] for result in results),

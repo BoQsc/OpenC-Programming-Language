@@ -291,6 +291,34 @@ Complete commands and immutable hashes are recorded in
 
 Status: **PASS**
 
+## SH-8 — native developer and release workflow
+
+The provenance-verified standalone OpenC compiler is now the default
+compiler-under-test for Windows Hosted daily, full, maintained-program, demo,
+benchmark, packaging, and relocated-release workflows. Its source fingerprint
+must match the exact current 91-source compiler, native library, runtime, and
+backend inputs.
+
+Complete native conformance measures 35.489 seconds against a 50-second
+budget. A byte-identical full self-rebuild measures 494.985 seconds against a
+620-second budget. Time, peak private memory, and peak working set are enforced
+by `WINDOWS_NATIVE_BUDGETS.json`.
+
+Ordinary unchanged daily validation may reuse a report only when the compiler,
+fixture tree, Windows runtime, native shim, and TinyCC fingerprint is exact.
+The reference hit takes 0.001 seconds and executes zero fixtures. Full and
+release workflows force all 278 fixtures. All 4 maintained programs and all 6
+demos build and execute with the native compiler.
+
+The retained D seed is absent from required execution and is available only
+through the explicit `audit-seed` mode. Linux and freestanding are not SH-8
+gates.
+
+Complete commands and measurements are in
+`release/SH8_NATIVE_WORKFLOW_EVIDENCE.md`.
+
+Status: **PASS**
+
 ## Post-SH-6 — native self-rebuild performance
 
 The closed OpenC-native compiler rebuilds its complete 90-source compiler
@@ -319,7 +347,8 @@ packages these pieces into a relocatable distribution and verifies that
 distribution against the compiler, runtime/library, conformance, and
 maintained-program gates. SH-7 moves the required conformance execution into
 that OpenC-native compiler and demotes the retained D seed to an optional audit
-oracle.
+oracle. SH-8 makes the native compiler the default compiler-under-test and
+enforces exact-cache and performance-budget policy.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

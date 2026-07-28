@@ -70,3 +70,27 @@ python compiler/selfhost/benchmark_windows_rebuild.py --compiler build-output/se
 The benchmark harness is external evidence orchestration. The measured native
 compiler child receives a clean PATH containing only Windows System32 and the
 shipped TinyCC directory.
+
+## SH-8 enforced regression budgets
+
+SH-8 replaces descriptive-only performance history with the enforceable
+budgets in `WINDOWS_NATIVE_BUDGETS.json`.
+
+The current 278-fixture native validation baseline is 35.489 seconds with
+6,414,336 bytes peak private memory. Its ceiling is 50 seconds and 16 MiB.
+The current byte-identical native self-rebuild baseline is 494.985 seconds
+with 175,722,496 bytes peak private memory. Its ceiling is 620 seconds and
+256 MiB. The wider rebuild time than the earlier 381.049-second milestone
+reflects the larger post-SH-7 compiler source and is the authored SH-8
+baseline, not a comparison to the older source snapshot.
+
+Run and enforce both budgets with:
+
+```text
+python scripts/windows_native_workflow.py full
+```
+
+Ordinary `daily` mode may reuse a passing 278-fixture report only when the
+compiler, fixture tree, runtime, native shim, and TinyCC fingerprint is exact.
+The recorded unchanged lookup takes 0.001 seconds and executes zero fixtures.
+Full and release modes always execute the complete native corpus.

@@ -86,6 +86,13 @@
         "build_release_source"
       ],
       "id": "build.and.release"
+    },
+    {
+      "description": "Windows Hosted native-compiler demo projects and deterministic execution harness",
+      "groups": [
+        "demos"
+      ],
+      "id": "demos.windows_hosted"
     }
   ],
   "claim": "SOURCE_COMPLETE_BY_AUTHORED_INVENTORY",
@@ -118,13 +125,16 @@
       "release/verify_release_artifacts.py",
       "release/verify_source_archive.py",
       "release/verify_standalone_windows.py",
+      "release/windows_native_release.py",
       "scripts/complete_conformance_coverage.py",
       "scripts/generate_native_conformance_plan.py",
       "scripts/generate_manifest.py",
+      "scripts/native_toolchain.py",
       "scripts/source_completeness.py",
       "scripts/source_inventory.py",
       "scripts/update_authority_index.py",
-      "scripts/validate_structure.py"
+      "scripts/validate_structure.py",
+      "scripts/windows_native_workflow.py"
     ],
     "compiler_d": [
       "compiler/source/app/main.d",
@@ -202,6 +212,7 @@
     ],
     "compiler_selfhost": [
       "compiler/selfhost/benchmark_windows_rebuild.py",
+      "compiler/selfhost/benchmark_windows_validate.py",
       "compiler/selfhost/bootstrap.py",
       "compiler/selfhost/bootstrap_closure.py",
       "compiler/selfhost/bootstrap_d_parity.py",
@@ -210,11 +221,13 @@
       "compiler/selfhost/native_runtime/openc_sh5_runtime.c",
       "compiler/selfhost/native_runtime/openc_sh5_runtime.h",
       "compiler/selfhost/parser_parity.py",
+      "compiler/selfhost/performance_budget.py",
       "compiler/selfhost/project_parity.py",
       "compiler/selfhost/semantic_declaration_parity.py",
       "compiler/selfhost/semantic_flow_safety_parity.py",
       "compiler/selfhost/semantic_ir_parity.py",
       "compiler/selfhost/semantic_resolution_parity.py",
+      "compiler/selfhost/windows_process_measure.py",
       "compiler/selfhost/source/acceptance.p",
       "compiler/selfhost/source/acceptance_conditions.p",
       "compiler/selfhost/source/acceptance_conditions_part2.p",
@@ -309,6 +322,15 @@
       "compiler/selfhost/tests/unbalanced.p",
       "compiler/selfhost/tests/unterminated_string.p"
     ],
+    "demos": [
+      "demos/calculator/main.p",
+      "demos/hello/main.p",
+      "demos/ownership/main.p",
+      "demos/run_all.py",
+      "demos/strings/main.p",
+      "demos/types/main.p",
+      "demos/unsafe/main.p"
+    ],
     "runtime_c": [
       "runtime/common/source/openc_runtime.c",
       "runtime/common/source/openc_runtime.h",
@@ -354,6 +376,7 @@
     ],
     "tests_python": [
       "tests/python/test_bootstrap_source.py",
+      "tests/python/test_native_workflow.py",
       "tests/run_all.py",
       "tests/run_maintained.py"
     ],
@@ -406,9 +429,24 @@
     "schemas/FIXTURE.schema.json",
     "compiler/selfhost/openc.project.json",
     "compiler/selfhost/PERFORMANCE.md",
+    "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json",
     "compiler/selfhost/README.md",
     "compiler/selfhost/SELF_HOSTING.md",
-    "compiler/selfhost/SELF_HOSTING_STATE.json"
+    "compiler/selfhost/SELF_HOSTING_STATE.json",
+    "release/SH8_NATIVE_WORKFLOW_EVIDENCE.md",
+    "demos/README.md",
+    "demos/calculator/EXPECTED.md",
+    "demos/calculator/openc.project.json",
+    "demos/hello/EXPECTED.md",
+    "demos/hello/openc.project.json",
+    "demos/ownership/EXPECTED.md",
+    "demos/ownership/openc.project.json",
+    "demos/strings/EXPECTED.md",
+    "demos/strings/openc.project.json",
+    "demos/types/EXPECTED.md",
+    "demos/types/openc.project.json",
+    "demos/unsafe/EXPECTED.md",
+    "demos/unsafe/openc.project.json"
   ],
   "schema": "openc.source_completeness_contract.v2",
   "version": "1.0.0-rc.9"

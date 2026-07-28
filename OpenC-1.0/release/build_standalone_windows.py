@@ -7,12 +7,16 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import sys
 import zipfile
 
 from build_source_archive import included_files
 
 
 EPOCH = (1980, 1, 1, 0, 0, 0)
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from native_toolchain import resolve_native_compiler, validate_native_compiler
 
 
 def sha256(path: Path) -> str:
@@ -70,7 +74,11 @@ def main() -> int:
     parser.add_argument(
         "--tree", type=Path, default=Path(__file__).resolve().parents[1]
     )
-    parser.add_argument("--compiler", type=Path, required=True)
+    parser.add_argument(
+        "--compiler",
+        type=Path,
+        help="verified OpenC-native compiler; defaults to the installed toolchain",
+    )
     parser.add_argument("--bootstrap-seed", type=Path)
     parser.add_argument("--version")
     parser.add_argument("--output-tree", type=Path, required=True)
@@ -79,7 +87,8 @@ def main() -> int:
     args = parser.parse_args()
 
     source = args.tree.resolve()
-    compiler = args.compiler.resolve()
+    compiler = resolve_native_compiler(args.compiler)
+    native_compiler = validate_native_compiler(compiler)
     seed = (
         args.bootstrap_seed.resolve()
         if args.bootstrap_seed
@@ -102,6 +111,10 @@ def main() -> int:
     source_files = copy_source_tree(source, output_tree)
 
     shutil.copyfile(compiler, output_tree / "openc.exe")
+    shutil.copyfile(
+        Path(str(compiler) + ".build.json"),
+        output_tree / "openc.exe.build.json",
+    )
     bootstrap = output_tree / "bootstrap"
     bootstrap.mkdir(exist_ok=True)
     shutil.copyfile(seed, bootstrap / "openc-stage0.exe")
@@ -148,6 +161,7 @@ def main() -> int:
             "path": "openc.exe",
             "implementation_language": "OpenC",
             "sha256": sha256(output_tree / "openc.exe"),
+            "native_build_record_sha256": native_compiler["build_record_sha256"],
             "public_build_command": (
                 "openc.exe build --project=PROJECT --output=OUTPUT-EXE"
             ),
@@ -163,6 +177,7 @@ def main() -> int:
                 "or required conformance dependency"
             ),
             "sha256": sha256(bootstrap / "openc-stage0.exe"),
+            "executed_during_packaging": False,
         },
         "backend": {
             "name": "TinyCC 0.9.27 Win64",
@@ -189,7 +204,7 @@ def main() -> int:
             ),
             "authored_native_provider_status": (
                 "included for future Native-provider work; outside the "
-                "Windows Hosted SH-7 gate"
+                "Windows Hosted SH-8 gate"
             ),
         },
         "required_conformance_runner": {

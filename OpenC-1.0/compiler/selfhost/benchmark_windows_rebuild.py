@@ -3,39 +3,21 @@
 from __future__ import annotations
 
 import argparse
-import ctypes
-from ctypes import wintypes
 from datetime import datetime, timezone
 import hashlib
 import json
 import os
 from pathlib import Path
 import platform
-import subprocess
-import time
+import sys
+
+from performance_budget import load_budget, measurement_checks
+from windows_process_measure import run_measured
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
-PROCESS_VM_READ = 0x0010
-
-
-class ProcessMemoryCountersEx(ctypes.Structure):
-    """Windows PROCESS_MEMORY_COUNTERS_EX."""
-
-    _fields_ = [
-        ("cb", wintypes.DWORD),
-        ("PageFaultCount", wintypes.DWORD),
-        ("PeakWorkingSetSize", ctypes.c_size_t),
-        ("WorkingSetSize", ctypes.c_size_t),
-        ("QuotaPeakPagedPoolUsage", ctypes.c_size_t),
-        ("QuotaPagedPoolUsage", ctypes.c_size_t),
-        ("QuotaPeakNonPagedPoolUsage", ctypes.c_size_t),
-        ("QuotaNonPagedPoolUsage", ctypes.c_size_t),
-        ("PagefileUsage", ctypes.c_size_t),
-        ("PeakPagefileUsage", ctypes.c_size_t),
-        ("PrivateUsage", ctypes.c_size_t),
-    ]
+sys.path.insert(0, str(ROOT / "scripts"))
+from native_toolchain import resolve_native_compiler
 
 
 def sha256(path: Path) -> str:
@@ -60,43 +42,6 @@ def clean_child_environment(tcc: Path) -> tuple[dict[str, str], list[str]]:
     return environment, path_entries
 
 
-def open_process(pid: int) -> int:
-    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
-    kernel32.OpenProcess.argtypes = [
-        wintypes.DWORD,
-        wintypes.BOOL,
-        wintypes.DWORD,
-    ]
-    kernel32.OpenProcess.restype = wintypes.HANDLE
-    handle = kernel32.OpenProcess(
-        PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_VM_READ,
-        False,
-        pid,
-    )
-    if not handle:
-        raise ctypes.WinError(ctypes.get_last_error())
-    return handle
-
-
-def process_memory(handle: int) -> ProcessMemoryCountersEx:
-    psapi = ctypes.WinDLL("psapi", use_last_error=True)
-    psapi.GetProcessMemoryInfo.argtypes = [
-        wintypes.HANDLE,
-        ctypes.c_void_p,
-        wintypes.DWORD,
-    ]
-    psapi.GetProcessMemoryInfo.restype = wintypes.BOOL
-    counters = ProcessMemoryCountersEx()
-    counters.cb = ctypes.sizeof(counters)
-    if not psapi.GetProcessMemoryInfo(
-        handle,
-        ctypes.byref(counters),
-        counters.cb,
-    ):
-        raise ctypes.WinError(ctypes.get_last_error())
-    return counters
-
-
 def main() -> int:
     if os.name != "nt":
         raise SystemExit("native self-rebuild measurement is Windows-only")
@@ -105,12 +50,7 @@ def main() -> int:
     parser.add_argument(
         "--compiler",
         type=Path,
-        default=ROOT
-        / "build-output"
-        / "selfhost-sh6"
-        / "final"
-        / "stage3-distribution"
-        / "openc.exe",
+        help="verified OpenC-native compiler; defaults to the installed toolchain",
     )
     parser.add_argument(
         "--project",
@@ -140,10 +80,16 @@ def main() -> int:
         / "native-self-rebuild"
         / "measurement.json",
     )
+    parser.add_argument(
+        "--budget",
+        type=Path,
+        default=ROOT / "compiler" / "selfhost" / "WINDOWS_NATIVE_BUDGETS.json",
+    )
+    parser.add_argument("--no-budget", action="store_true")
     parser.add_argument("--sample-interval", type=float, default=0.1)
     args = parser.parse_args()
 
-    compiler = args.compiler.resolve()
+    compiler = resolve_native_compiler(args.compiler)
     project = args.project.resolve()
     tcc = args.tcc.resolve()
     output = args.output.resolve()
@@ -172,47 +118,12 @@ def main() -> int:
     ]
 
     started_at = datetime.now(timezone.utc)
-    started = time.perf_counter()
-    process = subprocess.Popen(
+    measured = run_measured(
         command,
         cwd=ROOT,
-        env=environment,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        encoding="utf-8",
+        environment=environment,
+        sample_interval=args.sample_interval,
     )
-    handle = open_process(process.pid)
-    peak_working_set = 0
-    peak_pagefile = 0
-    peak_private = 0
-    samples = 0
-    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
-    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
-    kernel32.CloseHandle.restype = wintypes.BOOL
-    try:
-        while process.poll() is None:
-            counters = process_memory(handle)
-            peak_working_set = max(
-                peak_working_set, counters.PeakWorkingSetSize
-            )
-            peak_pagefile = max(peak_pagefile, counters.PeakPagefileUsage)
-            peak_private = max(peak_private, counters.PrivateUsage)
-            samples += 1
-            time.sleep(args.sample_interval)
-        stdout, stderr = process.communicate()
-        try:
-            counters = process_memory(handle)
-            peak_working_set = max(
-                peak_working_set, counters.PeakWorkingSetSize
-            )
-            peak_pagefile = max(peak_pagefile, counters.PeakPagefileUsage)
-            peak_private = max(peak_private, counters.PrivateUsage)
-        except OSError:
-            pass
-    finally:
-        kernel32.CloseHandle(handle)
-    elapsed = time.perf_counter() - started
 
     artifacts: dict[str, object] = {}
     for name, path in (
@@ -228,9 +139,29 @@ def main() -> int:
             "bytes": path.stat().st_size if path.is_file() else 0,
             "sha256": sha256(path) if path.is_file() else None,
         }
+    budget_document = None
+    budget = None
+    checks = {
+        "output_executable_present": output.is_file(),
+        "generated_c_present": generated.is_file(),
+        "native_build_record_present": record.is_file(),
+        "output_compiler_byte_equal_to_input": (
+            output.is_file() and output.read_bytes() == compiler.read_bytes()
+        ),
+    }
+    if not args.no_budget:
+        budget_document, budget = load_budget(
+            args.budget.resolve(), "self_rebuild"
+        )
+        checks.update(measurement_checks(measured, budget))
+    status = (
+        "PASS"
+        if measured["exit_code"] == 0 and all(checks.values())
+        else "FAIL"
+    )
     result = {
-        "schema": "openc.native_self_rebuild_measurement.v1",
-        "status": "PASS" if process.returncode == 0 else "FAIL",
+        "schema": "openc.native_self_rebuild_measurement.v2",
+        "status": status,
         "measured_at_utc": started_at.isoformat().replace("+00:00", "Z"),
         "platform": {
             "system": platform.system(),
@@ -245,29 +176,38 @@ def main() -> int:
             "python_available_to_native_build": False,
         },
         "measurement": {
-            "elapsed_seconds": round(elapsed, 3),
-            "sample_interval_seconds": args.sample_interval,
-            "samples": samples,
-            "peak_working_set_bytes": peak_working_set,
-            "peak_pagefile_bytes": peak_pagefile,
-            "peak_private_bytes": peak_private,
+            key: value
+            for key, value in measured.items()
+            if key not in {"exit_code", "stdout", "stderr"}
         },
         "process": {
-            "exit_code": process.returncode,
-            "stdout": stdout,
-            "stderr": stderr,
+            "exit_code": measured["exit_code"],
+            "stdout": measured["stdout"],
+            "stderr": measured["stderr"],
         },
         "artifacts": artifacts,
+        "budget": budget,
+        "budget_schema": budget_document.get("schema") if budget_document else None,
+        "checks": checks,
+        "retained_d_seed_executed": False,
     }
     report.write_text(
         json.dumps(result, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
         newline="\n",
     )
-    print(json.dumps(result["measurement"], sort_keys=True))
-    if process.returncode != 0:
-        print(stderr, end="", file=os.sys.stderr)
-    return process.returncode
+    print(
+        f"native self-rebuild benchmark: {status}; "
+        f"elapsed={result['measurement']['elapsed_seconds']}s "
+        f"private={result['measurement']['peak_private_bytes']} "
+        f"report={report}"
+    )
+    if status != "PASS":
+        failed = [name for name, passed in checks.items() if not passed]
+        if measured["stderr"]:
+            print(measured["stderr"], end="", file=os.sys.stderr)
+        raise SystemExit("native self-rebuild benchmark failed: " + ", ".join(failed))
+    return 0
 
 
 if __name__ == "__main__":

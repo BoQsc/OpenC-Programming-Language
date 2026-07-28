@@ -263,6 +263,40 @@
       "normalized_pe_sha256": "c992cb254ba21f23a47436e447ed260b86c8547bfbf05fe9e69fb9053f50ee99",
       "linux_and_freestanding_gate": false,
       "next_milestone": "SH-8_NATIVE_DEVELOPER_AND_RELEASE_WORKFLOW"
+    },
+    {
+      "id": "SH-8",
+      "name": "native_developer_and_release_workflow",
+      "status": "PASS",
+      "command": "python scripts/windows_native_workflow.py full",
+      "release_command": "python release/windows_native_release.py --force",
+      "evidence": "release/SH8_NATIVE_WORKFLOW_EVIDENCE.md",
+      "target": "windows_x86_64_hosted",
+      "default_compiler_under_test": "OpenC-native",
+      "native_compiler_sha256": "9b59bb94d516a50285fe3d0c882ef47c1977ad570cb6b041c9f251c39f0a1ab2",
+      "native_compiler_source_files": 91,
+      "native_validation_fixtures_passed": 278,
+      "native_validation_baseline_seconds": 35.489,
+      "native_validation_budget_seconds": 50.0,
+      "native_validation_peak_private_bytes": 6414336,
+      "native_validation_peak_private_budget_bytes": 16777216,
+      "native_self_rebuild_baseline_seconds": 494.985,
+      "native_self_rebuild_budget_seconds": 620.0,
+      "native_self_rebuild_peak_private_bytes": 175722496,
+      "native_self_rebuild_peak_private_budget_bytes": 268435456,
+      "native_self_rebuild_byte_equal": true,
+      "generated_c_sha256": "124f7a42356fd468fa2c0b244c0580bcdca3345b3937e4f1d8d3139a800a7fbb",
+      "daily_cache_fingerprint_exact": true,
+      "daily_cache_hit_seconds": 0.001,
+      "daily_cache_hit_fixtures_executed": 0,
+      "full_and_release_force_native_validation": true,
+      "maintained_programs_passed": 4,
+      "demo_programs_passed": 6,
+      "retained_d_seed_required": false,
+      "retained_d_seed_optional_audit": true,
+      "retained_d_seed_executed_by_required_workflow": false,
+      "linux_and_freestanding_gate": false,
+      "next_milestone": "SH-9_NATIVE_CLI_AND_DIAGNOSTIC_USABILITY"
     }
   ],
   "rc9_standalone_refresh": {
@@ -354,6 +388,12 @@
     "native_conformance_278": true,
     "required_conformance_uses_d_seed": false,
     "native_conformance_tooling_independent": true,
-    "native_self_rebuild_performance_gate": true
+    "native_self_rebuild_performance_gate": true,
+    "native_default_windows_compiler_under_test": true,
+    "native_validation_regression_budget": true,
+    "native_self_rebuild_regression_budget": true,
+    "native_daily_exact_input_cache": true,
+    "required_workflows_use_d_seed": false,
+    "native_developer_release_workflow": true
   }
 }

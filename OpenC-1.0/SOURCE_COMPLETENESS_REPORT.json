@@ -3,9 +3,9 @@
   "empty": [],
   "evidence_state": "STRUCTURAL_SOURCE_CHECK_ONLY",
   "missing": [],
-  "required_files": 284,
-  "required_non_source_files": 30,
-  "required_source_files": 254,
+  "required_files": 313,
+  "required_non_source_files": 45,
+  "required_source_files": 268,
   "schema": "openc.source_completeness_result.v2",
   "source_complete_by_inventory": true,
   "version": "1.0.0-rc.9"

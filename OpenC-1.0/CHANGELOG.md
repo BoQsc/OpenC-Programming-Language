@@ -1,5 +1,26 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-8 native developer and release workflow
+
+- made a provenance-verified OpenC-native standalone compiler the default
+  compiler-under-test for Windows Hosted daily, full, maintained-program,
+  demo, benchmark, packaging, and relocated-release workflows;
+- measured complete 278-fixture native validation at 35.489 seconds and a
+  byte-identical native self-rebuild at 494.985 seconds on the reference host;
+- established enforced 50-second validation and 620-second rebuild ceilings
+  plus private-memory and working-set ceilings;
+- added exact-input conformance caching: the unchanged reference run completed
+  lookup in 0.001 seconds and re-executed zero fixtures, while full and release
+  modes force a fresh 278-fixture run;
+- retained the D implementation only behind the explicit optional
+  `audit-seed` workflow and did not execute it in required SH-8 evidence;
+- made native builds and exact-output execution pass for all 4 maintained
+  programs and all 6 demo programs;
+- preserved zero current edition-compatibility fallback matches and the
+  explicit disclosure of the 93 historical rule-ID compatibility matches;
+- made SH-9 native CLI and diagnostic usability the next engineering
+  milestone. Linux and freestanding remain optional future targets.
+
 ## Post-RC9 — SH-7 native conformance and tooling independence
 
 - added OpenC-authored native `openc validate` and a deterministic materialized

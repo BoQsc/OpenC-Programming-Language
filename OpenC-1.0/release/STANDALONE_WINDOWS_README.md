@@ -31,7 +31,7 @@ For the supported Windows Hosted mode, `openc.exe` provides the six
 `system.file`, `system.io`, `system.memory`, `system.path`, `system.process`,
 and `system.text` modules and links them to the packaged C runtime/native shim.
 The authored `.p` Native-provider library sources are included for future
-Native work; that separately scoped provider is not part of the SH-7 gate.
+Native work; that separately scoped provider is not part of the SH-8 gate.
 
 Package integrity is recorded in `STANDALONE-MANIFEST.sha256`; component roles,
 input paths, and compiler/backend hashes are in `STANDALONE-RELEASE.json`.

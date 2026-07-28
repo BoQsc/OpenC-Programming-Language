@@ -15,17 +15,23 @@ A collection of demo programs showcasing various features of the OpenC programmi
 
 ## Building and running
 
-Each demo is a standalone OpenC project. From the demo directory:
+Install a verified native standalone compiler, then build and execute all
+demos with exact output checks:
 
 ```
-openc run main.p
+python scripts/native_toolchain.py install --distribution PATH/TO/DISTRIBUTION
+python demos/run_all.py
 ```
 
-Or with the full path to the compiler:
+Build one demo directly with the public native compiler:
 
 ```
-<openc-root>/compiler/openc.exe run main.p
+openc.exe build --project=demos/hello/openc.project.json --output=hello.exe
+hello.exe
 ```
+
+`run-all.cmd` and `run-all.ps1` are thin compatibility launchers for the
+Python harness. No script contains a machine-specific compiler path.
 
 ## Structure
 

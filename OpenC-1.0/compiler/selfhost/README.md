@@ -20,7 +20,9 @@ Windows x86-64 Hosted. It emits deterministic C11, invokes the shipped TinyCC
 Stage-2/Stage-3 source and executable closure. SH-6 packages it with its source,
 runtime, library inputs, backend, bootstrap audit seed, licenses, and integrity
 records in a relocatable distribution. SH-7 adds OpenC-authored native
-conformance and removes the retained D seed from the required package gate. The
+conformance and removes the retained D seed from the required package gate.
+SH-8 makes the native compiler the default Windows compiler-under-test and
+adds exact-cache and performance-budget gates. The
 gate contract is in
 `SELF_HOSTING.md`; the machine-readable gate state is
 `SELF_HOSTING_STATE.json`. Post-SH-6 native self-rebuild measurements and
@@ -47,10 +49,11 @@ Run the SH-5 DMD-independent Windows closure proof with:
 python compiler/selfhost/bootstrap_windows_closure.py
 ```
 
-Measure a closed native compiler rebuilding the complete compiler project with:
+Run the native daily or full SH-8 workflow with:
 
 ```text
-python compiler/selfhost/benchmark_windows_rebuild.py --compiler=path/to/closed/stage3/openc.exe
+python scripts/windows_native_workflow.py daily
+python scripts/windows_native_workflow.py full
 ```
 
 The resulting native compiler exposes the public build command:
@@ -82,6 +85,7 @@ rejections from the relocated package. Its native compiler is byte-identical
 through Stage 2 and Stage 3 at SHA-256
 `5924db13e20464d392dd563a086d35c95c61dafc6862ad7ba0fc767c0cdae4a6`.
 
-SH-7 native conformance and tooling independence is **PASS**; complete evidence
-is in `release/SH7_NATIVE_CONFORMANCE_EVIDENCE.md`. SH-8 native developer and
-release workflow hardening is next.
+SH-7 native conformance and tooling independence is **PASS**. SH-8 native
+developer and release workflow hardening is also **PASS**; complete evidence
+is in `release/SH8_NATIVE_WORKFLOW_EVIDENCE.md`. SH-9 native CLI and diagnostic
+usability is next.

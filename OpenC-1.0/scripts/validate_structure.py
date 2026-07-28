@@ -23,12 +23,18 @@ required = [
     "release/RELEASE_AUTHORITY.md", "release/RELEASE_SCOPE_1.0.md",
     "release/ERRATA_POLICY.md", "release/SUPPORT_POLICY.md",
     "release/SH7_NATIVE_CONFORMANCE_EVIDENCE.md",
+    "release/SH8_NATIVE_WORKFLOW_EVIDENCE.md",
+    "release/windows_native_release.py",
     "compiler/selfhost/SELF_HOSTING.md", "compiler/selfhost/SELF_HOSTING_STATE.json",
     "compiler/selfhost/source/main.p", "compiler/selfhost/bootstrap.py",
     "compiler/selfhost/lexer_parity.py", "compiler/selfhost/bootstrap_d_parity.py",
     "compiler/selfhost/bootstrap_closure.py",
     "scripts/complete_conformance_coverage.py",
     "scripts/generate_native_conformance_plan.py",
+    "scripts/native_toolchain.py",
+    "scripts/windows_native_workflow.py",
+    "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json",
+    "compiler/selfhost/benchmark_windows_validate.py",
     "compiler/selfhost/source/native_conformance.p",
     "conformance/fixtures/NATIVE_PLAN.tsv",
     "standard/core/OpenC_Core_Current.md",
@@ -212,6 +218,12 @@ for project_path in [
     ROOT / "programs/D_HOSTED_CLI/openc.project.json",
     ROOT / "standard_library/openc.project.json",
     ROOT / "compiler/selfhost/openc.project.json",
+    ROOT / "demos/hello/openc.project.json",
+    ROOT / "demos/calculator/openc.project.json",
+    ROOT / "demos/types/openc.project.json",
+    ROOT / "demos/strings/openc.project.json",
+    ROOT / "demos/ownership/openc.project.json",
+    ROOT / "demos/unsafe/openc.project.json",
 ]:
     project = json.loads(project_path.read_text(encoding="utf-8"))
     for sources in project.get("modules", {}).values():
@@ -284,6 +296,58 @@ if self_host_gates.get("SH-7") == "PASS" and (
         "SH-7 PASS requires native openc validate, 278 fixtures, and no "
         "required D-seed conformance dependency"
     )
+if self_host_gates.get("SH-8") != "PASS":
+    errors.append("native developer/release workflow SH-8 gate must pass")
+if self_host_gates.get("SH-8") == "PASS" and (
+        not self_hosting.get("claims", {}).get(
+            "native_default_windows_compiler_under_test"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "native_validation_regression_budget"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "native_self_rebuild_regression_budget"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "native_daily_exact_input_cache"
+        )
+        or self_hosting.get("claims", {}).get(
+            "required_workflows_use_d_seed"
+        )):
+    errors.append(
+        "SH-8 PASS requires native-default testing, validation/rebuild "
+        "budgets, exact-input caching, and no required D-seed execution"
+    )
+
+budgets = json.loads((
+    ROOT / "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json"
+).read_text(encoding="utf-8"))
+if budgets.get("schema") != "openc.windows_native_performance_budgets.v1":
+    errors.append("Windows native performance budget schema is invalid")
+for section in ("validation", "self_rebuild"):
+    baseline = budgets.get("baselines", {}).get(section, {})
+    budget = budgets.get("budgets", {}).get(section, {})
+    if baseline.get("elapsed_seconds", float("inf")) > \
+            budget.get("max_elapsed_seconds", 0):
+        errors.append(f"{section} elapsed baseline exceeds SH-8 budget")
+    if baseline.get("peak_private_bytes", 2**63) > \
+            budget.get("max_peak_private_bytes", 0):
+        errors.append(f"{section} private-memory baseline exceeds SH-8 budget")
+if budgets.get("budgets", {}).get("daily_cache_hit", {}).get(
+        "max_fixtures_executed") != 0:
+    errors.append("SH-8 unchanged daily cache budget must execute zero fixtures")
+
+native_workflow = (
+    ROOT / "scripts/windows_native_workflow.py"
+).read_text(encoding="utf-8")
+native_release = (
+    ROOT / "release/windows_native_release.py"
+).read_text(encoding="utf-8")
+if '"audit-seed"' not in native_workflow or \
+        '"retained_d_seed_executed": False' not in native_workflow:
+    errors.append("D-seed audit must be explicit and outside native workflows")
+if "--audit-seed" in native_release:
+    errors.append("required SH-8 native release workflow must not audit the D seed")
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

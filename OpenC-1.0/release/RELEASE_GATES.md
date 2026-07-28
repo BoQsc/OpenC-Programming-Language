@@ -14,6 +14,7 @@ G8  maintainer documentation/usability release review    PASS
 G9  deterministic clean source rebuild/archive checks    PASS
 G10 licensing/governance/checksum/publication authority  PASS
 G11 standalone self-hosted distribution (SH-6)           PASS
+G12 native default workflow and regression budgets (SH-8) PASS
 ```
 
 There are no open P0/P1 findings in the maintainer release review. Independent
@@ -44,6 +45,11 @@ native Stage 2 builds a byte-identical native Stage 3 through public
 DMD, DUB, and Python hidden. SH-6 standalone packaging also passes: two
 independent package builds are byte-identical, the extracted compiler is
 relocatable, and packaged Stage 2 and Stage 3 are byte-identical.
+
+SH-8 makes the native compiler the default release compiler-under-test. Native
+validation and self-rebuild elapsed time and memory are budgeted, unchanged
+daily conformance may use an exact-input cache, and the required full/release
+paths force fresh 278-fixture validation. The D seed is not executed.
 
 The SH-6 268-fixture package count is the immutable RC8 historical result.
 RC9 completes the mandatory successor gate: the relocated package executes the
