@@ -1,0 +1,9 @@
+{
+  "name": "demo-types",
+  "version": "1.0.0",
+  "edition": "OpenC 1.0",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "modules": { "app.main": ["main.p"] },
+  "output_directory": "build"
+}
