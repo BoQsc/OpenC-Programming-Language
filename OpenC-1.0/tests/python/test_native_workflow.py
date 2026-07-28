@@ -135,6 +135,12 @@ class ReleaseSummaryTests(unittest.TestCase):
                 "deterministic_transcript_bytes": True,
                 "retained_d_seed_executed": False,
             },
+            "native_semantic_language_service": {
+                "passed": 23,
+                "failed": 0,
+                "open_order_independent": True,
+                "retained_d_seed_executed": False,
+            },
             "environment": {"retained_d_seed_executed": False},
         }
         self.assertTrue(all(verifier_summary_checks(result).values()))
@@ -158,6 +164,12 @@ class ReleaseSummaryTests(unittest.TestCase):
                 "passed": 19,
                 "failed": 0,
                 "deterministic_transcript_bytes": True,
+                "retained_d_seed_executed": False,
+            },
+            "native_semantic_language_service": {
+                "passed": 23,
+                "failed": 0,
+                "open_order_independent": True,
                 "retained_d_seed_executed": False,
             },
             "environment": {"retained_d_seed_executed": True},

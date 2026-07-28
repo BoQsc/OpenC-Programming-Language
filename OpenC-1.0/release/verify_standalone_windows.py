@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the extracted SH-11 OpenC standalone Windows distribution."""
+"""Verify the extracted SH-12 OpenC standalone Windows distribution."""
 from __future__ import annotations
 
 import argparse
@@ -101,7 +101,7 @@ def run(
     environment: dict[str, str],
     label: str,
 ) -> subprocess.CompletedProcess[str]:
-    print(f"[SH-11] {label}", flush=True)
+    print(f"[SH-12] {label}", flush=True)
     completed = subprocess.run(
         command,
         cwd=cwd,
@@ -327,11 +327,38 @@ def main() -> int:
         language_service_report_path.read_text(encoding="utf-8")
     )
 
+    semantic_language_service_report_path = (
+        output
+        / "native-semantic-language-service"
+        / "sh12-semantic-lsp-verification.json"
+    )
+    run(
+        [
+            sys.executable,
+            str(
+                distribution
+                / "scripts"
+                / "verify_sh12_semantic_lsp.py"
+            ),
+            "--compiler",
+            str(stage3),
+            "--output",
+            str(output / "native-semantic-language-service"),
+            "--force",
+        ],
+        distribution,
+        environment,
+        "native project symbols, navigation, completion, and safe rename",
+    )
+    semantic_language_service_report = json.loads(
+        semantic_language_service_report_path.read_text(encoding="utf-8")
+    )
+
     parity_output = output / "semantic-parity"
     parity_stdout = ""
     parity_report: dict[str, object] = {
         "status": "NOT_RUN_OPTIONAL",
-        "reason": "retained D seed is not part of the required SH-11 gate",
+        "reason": "retained D seed is not part of the required SH-12 gate",
     }
     if args.audit_seed:
         parity = run(
@@ -429,6 +456,19 @@ def main() -> int:
             and language_service_report.get("retained_d_seed_executed")
             is False
         ),
+        "native_semantic_language_service_23_of_23": (
+            semantic_language_service_report.get("status") == "PASS"
+            and semantic_language_service_report.get("passed") == 23
+            and semantic_language_service_report.get("failed") == 0
+            and semantic_language_service_report.get(
+                "open_order_independent"
+            )
+            is True
+            and semantic_language_service_report.get(
+                "retained_d_seed_executed"
+            )
+            is False
+        ),
         "native_openc_validate_278_of_278": (
             conformance_report.get("schema") == "openc.conformance_result.v2"
             and conformance_report.get("evidence_state") == "EXECUTED_NATIVE"
@@ -461,8 +501,8 @@ def main() -> int:
         "required_conformance_command_uses_native_stage3": True,
     }
     result = {
-        "schema": "openc.self_host_standalone_release.v4",
-        "stage": "SH11_NATIVE_LANGUAGE_SERVICE_COMPLETENESS",
+        "schema": "openc.self_host_standalone_release.v5",
+        "stage": "SH12_NATIVE_SEMANTIC_LANGUAGE_INTELLIGENCE",
         "status": "PASS" if all(checks.values()) else "FAIL",
         "checks": checks,
         "roles": {
@@ -476,7 +516,7 @@ def main() -> int:
             ),
             "bootstrap_seed": (
                 "optional retained D comparison oracle; packaged for audit "
-                "continuity but never executed by the required SH-11 gate"
+                "continuity but never executed by the required SH-12 gate"
             ),
             "python": "external evidence harness only",
         },
@@ -517,6 +557,9 @@ def main() -> int:
             ),
             "native_language_service_report": str(
                 language_service_report_path
+            ),
+            "native_semantic_language_service_report": str(
+                semantic_language_service_report_path
             ),
         },
         "optional_seed_audit": {
@@ -574,6 +617,20 @@ def main() -> int:
                 "retained_d_seed_executed"
             ),
         },
+        "native_semantic_language_service": {
+            "total": semantic_language_service_report.get("total"),
+            "passed": semantic_language_service_report.get("passed"),
+            "failed": semantic_language_service_report.get("failed"),
+            "transcript_sha256": semantic_language_service_report.get(
+                "transcript_sha256"
+            ),
+            "open_order_independent": semantic_language_service_report.get(
+                "open_order_independent"
+            ),
+            "retained_d_seed_executed": semantic_language_service_report.get(
+                "retained_d_seed_executed"
+            ),
+        },
         "optional_seed_audit_stdout": parity_stdout,
         "conformance_harness_stdout": conformance.stdout,
         "normalization": [
@@ -589,9 +646,9 @@ def main() -> int:
     )
     if result["status"] != "PASS":
         failed = [name for name, passed in checks.items() if not passed]
-        raise SystemExit("SH-11 standalone gate failed: " + ", ".join(failed))
+        raise SystemExit("SH-12 standalone gate failed: " + ", ".join(failed))
     print(
-        "SH-11 native language-service completeness: PASS; "
+        "SH-12 native semantic language intelligence: PASS; "
         f"conformance={conformance_report.get('passed')}/"
         f"{conformance_report.get('total')} "
         f"maintained={maintained_passed}/{len(PROGRAMS)} "

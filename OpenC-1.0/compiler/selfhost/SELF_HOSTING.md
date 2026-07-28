@@ -395,6 +395,29 @@ are in `release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md`.
 
 Status: **PASS**
 
+## SH-12 — native semantic language intelligence
+
+The OpenC-authored server now owns a bounded synchronized project workspace
+and a deterministic declaration-semantic index over its native token stream.
+It publishes document symbols and typed hover, resolves definitions and
+references across open project documents, returns complete name-sorted
+completion, validates prepare-rename, and rejects keyword or
+declaration-colliding rename operations.
+
+All 23 semantic capability, multi-document, symbol, type, navigation,
+completion, safe-rename, lifecycle, standalone-provenance, schema, and
+open-order determinism contracts pass. Opposite document-open orders produce
+byte-identical `openc.semantic_lsp_transcript.v1` records. Closing a document
+immediately removes its declarations from synchronized project context, and
+documents outside `initialize.rootUri` do not contribute symbols.
+
+The compiler contains 96 canonical `.p` source units. Required daily, full,
+and relocated release verification executes no retained D seed. Linux and
+freestanding remain outside the required gate. Complete commands and hashes
+are in `release/SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md`.
+
+Status: **PASS**
+
 ## Post-SH-6 — native self-rebuild performance
 
 The closed OpenC-native compiler rebuilds its complete 90-source compiler
@@ -429,7 +452,9 @@ native developer CLI and preserves machine diagnostic evidence beside its
 human output. SH-10 supplies deterministic native formatting, project-context
 inspection, and project test execution with stable records. SH-11 supplies the
 native stdio language-service lifecycle, compiler diagnostics, SH-10 document
-formatting, and deterministic transcript records.
+formatting, and deterministic transcript records. SH-12 supplies native
+project symbols, typed navigation, deterministic completion, safe rename, and
+open-order-independent project-semantic transcript records.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

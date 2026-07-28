@@ -58,6 +58,15 @@ formatting, protocol error states, shutdown/exit semantics, byte-accurate
 transcript schema and five focused Python tests pass; required execution does
 not invoke the retained D seed.
 
+On 2026-07-28, SH-12 added a bounded synchronized project workspace and seven
+native semantic methods. The 23/23 contract covers document symbols, typed
+hover, cross-document definition and references, deterministic completion,
+prepare-rename, safe project rename, rejection of keywords and declaration
+collisions, project-root isolation, synchronized close, transcript-schema
+validation, and byte-identical semantic responses under opposite document-open
+orders. Three focused Python tests cover the fixture, schema, and verifier
+helpers.
+
 Conformance execution is recorded separately by the canonical `openc validate`
 command. Local success is not evidence for untested targets or independent
 review.

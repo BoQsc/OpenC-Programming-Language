@@ -18,6 +18,7 @@ G12 native default workflow and regression budgets (SH-8) PASS
 G13 native public CLI and diagnostic usability (SH-9)    PASS 12/12
 G14 native project workflow completeness (SH-10)         PASS 21/21
 G15 native language-service completeness (SH-11)         PASS 19/19
+G16 native semantic language intelligence (SH-12)        PASS 23/23
 ```
 
 There are no open P0/P1 findings in the maintainer release review. Independent
@@ -71,6 +72,13 @@ language-service contracts: JSON-RPC lifecycle/capabilities, full-document
 synchronization, stable rule-ID diagnostics, SH-10 formatting, negative
 protocol states, shutdown/exit behavior, bounded UTF-8 framing, and
 byte-identical independent transcripts. The D seed remains absent.
+
+SH-12 requires relocated native Stage 3 to pass all 23 project-semantic
+contracts: document symbols and typed hover, cross-document definition and
+references, name-sorted completion, validated collision-safe rename,
+project-root isolation, synchronized close, published transcript-schema
+validation, and byte-identical semantic transcripts under opposite document
+open orders. The D seed remains absent.
 
 The SH-6 268-fixture package count is the immutable RC8 historical result.
 RC9 completes the mandatory successor gate: the relocated package executes the

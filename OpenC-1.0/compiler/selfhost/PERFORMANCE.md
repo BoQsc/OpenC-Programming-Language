@@ -76,11 +76,12 @@ shipped TinyCC directory.
 SH-8 replaces descriptive-only performance history with the enforceable
 budgets in `WINDOWS_NATIVE_BUDGETS.json`.
 
-The SH-11 live-desktop 278-fixture native validation baseline is 39.664
-seconds with 6,422,528 bytes peak private memory. Its reviewed ceiling is
-90 seconds and 16 MiB. The SH-11 byte-identical 95-source native self-rebuild
-baseline is 945.439 seconds with 201,244,672 bytes peak private memory. Its
-reviewed ceiling is 1,050 seconds and 256 MiB.
+The SH-12 live-desktop 278-fixture native validation baseline is 28.872
+seconds with 6,860,800 bytes peak private memory. Its reviewed ceiling is
+90 seconds and 16 MiB. The SH-12 byte-identical 96-source native self-rebuild
+baseline is 780.621 seconds with 208,019,456 bytes peak private memory. Its
+reviewed ceiling remains 1,050 seconds and 256 MiB; the 13,787,136-byte peak
+working set remains below the unchanged 32 MiB ceiling.
 
 The prior SH-8 baselines were 35.489 seconds for validation and 494.985 seconds
 for the 92-source self-rebuild, whose ceiling was 620 seconds. The 94-source
@@ -98,6 +99,10 @@ differed from the rebuilt `openc.exe`; rebuilding and installing the stable
 raises only the elapsed ceiling to 1,050 seconds (11.1% baseline headroom) and
 retains the existing memory ceilings.
 
+SH-12 adds the project-semantic language-service source and finishes below the
+existing ceilings, so no budget increase is required. The current baseline
+provides 211.7% validation elapsed headroom and 34.5% rebuild elapsed headroom.
+
 Run and enforce both budgets with:
 
 ```text
@@ -106,5 +111,5 @@ python scripts/windows_native_workflow.py full
 
 Ordinary `daily` mode may reuse a passing 278-fixture report only when the
 compiler, fixture tree, runtime, native shim, and TinyCC fingerprint is exact.
-The recorded unchanged lookup takes 0.001 seconds and executes zero fixtures.
+The recorded unchanged lookup takes 0.002 seconds and executes zero fixtures.
 Full and release modes always execute the complete native corpus.

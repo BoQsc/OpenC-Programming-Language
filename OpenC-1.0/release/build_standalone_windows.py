@@ -230,7 +230,7 @@ def main() -> int:
             ),
             "authored_native_provider_status": (
                 "included for future Native-provider work; outside the "
-                "Windows Hosted SH-8 gate"
+                "Windows Hosted SH-12 gate"
             ),
         },
         "required_conformance_runner": {

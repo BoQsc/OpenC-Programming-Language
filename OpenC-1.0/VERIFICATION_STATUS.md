@@ -23,14 +23,14 @@ are outside the supported 1.0 scope.
 - 9 of 9 canonical D targets build and link in debug mode.
 - 9 of 9 canonical D targets build and link in release mode.
 - 8 of 8 authored D test commands pass.
-- 26 of 26 Python source tests pass; bytecode checks pass.
+- 29 of 29 Python source tests pass; bytecode checks pass.
 - 278 of 278 conformance fixtures pass with zero infrastructure failures.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
-  compiler-in-OpenC and SH-11 expansion brings the current tree to 394
+  compiler-in-OpenC and SH-12 expansion brings the current tree to 395
   `.p` files,
-  including 95 compiler source units. The migrated fixture corpus retains
+  including 96 compiler source units. The migrated fixture corpus retains
   278/278 passes and zero infrastructure failures. SH-2 records the exact
   288-file corpus used for that milestone; SH-4A covers the complete current
   compiler project through byte-exact generated output.
@@ -155,6 +155,26 @@ are outside the supported 1.0 scope.
   Relocated Stage 3 passes SH-11 19/19, SH-10 21/21, SH-9 12/12, conformance
   278/278, runtime 35/35, diagnostic contracts 153/153, and maintained
   programs 4/4.
+- SH-12 native semantic language intelligence passes. The OpenC-authored
+  server synchronizes a bounded project workspace and provides document
+  symbols, typed hover, cross-document definition and references, complete
+  name-sorted completion, prepare-rename, and collision-checked safe rename.
+  All 23 semantic contracts pass. Opposite document-open orders produce
+  byte-identical `openc.semantic_lsp_transcript.v1` records at SHA-256
+  `47467cb5d9cd6f0dcedcb3c94426bc10b480d05357f32d5c2adc3a061e39a454`.
+  The same compiler passes the complete SH-11 19/19 regression contract and
+  executes no retained D seed. The complete workflow passes 13/13 tasks;
+  fresh native validation passes 278/278 in 28.872 seconds, and the
+  byte-identical 96-source rebuild completes in 780.621 seconds. Peak private
+  memory is 208,019,456 bytes and peak working set is 13,787,136 bytes, both
+  within the unchanged SH-11 ceilings. Two independently assembled archives
+  are byte-identical at SHA-256
+  `038fc6a0e1566df93fed06cd806857df0b1894cd1ce82d01429daf66f60fc4f7`.
+  Packaged compiler, relocated Stage 2, and relocated Stage 3 are
+  byte-identical at
+  `e5fd8b31cf5e2809d1a3ed564038dadf70f497cd05c357c7c02b5af2b13c9a76`;
+  relocated Stage 3 passes SH-12 23/23 plus every retained SH-11/10/9,
+  conformance, runtime, diagnostic, and maintained-program gate.
 - The post-SH-6 native performance milestone passes. A closed Stage 3 rebuilds
   the compiler in 381.049 seconds versus 698.918 seconds before the changes,
   with 11.37 MiB peak working set and 161.55 MiB peak private memory. Optimized
@@ -234,13 +254,15 @@ daily corpus execution. SH-9 adds the public developer CLI and human/machine
 diagnostic surface. SH-10 adds native formatting, project-context inspection,
 and deterministic project testing. SH-11 adds the native language-service
 lifecycle, synchronized diagnostics, formatting, and deterministic protocol
-transcripts. Self-hosting SH-0 through SH-11 is complete for the declared
+transcripts. SH-12 adds native project symbols, typed navigation,
+deterministic completion, safe rename, and open-order-independent semantic
+transcripts. Self-hosting SH-0 through SH-12 is complete for the declared
 Windows x86-64 Hosted scope.
 
 The immutable RC8 standalone record remains at 268 fixtures. RC9 packages and
 executes the current 278-fixture corpus, reaches byte-identical native closure,
-and publishes the verified artifact set. SH-11 is the verified post-RC9
-mainline successor. The next engineering milestone is SH-12 native semantic
-language intelligence: symbols, hover, navigation, references, completion,
-safe rename, and multi-document/project-aware resolution. Linux and
-freestanding remain optional future targets.
+and publishes the verified artifact set. SH-12 is the verified post-RC9
+mainline successor. The next engineering milestone is SH-13 native editor
+integration and language-service resilience: a first-party editor client,
+incremental/versioned synchronization, cancellation/workspace lifecycle, and
+bounded stress. Linux and freestanding remain optional future targets.

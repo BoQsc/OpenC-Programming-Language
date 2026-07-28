@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and verify the complete SH-11 Windows-native release workflow."""
+"""Build and verify the complete SH-12 Windows-native release workflow."""
 from __future__ import annotations
 
 import argparse
@@ -91,6 +91,24 @@ def verifier_summary_checks(result: dict) -> dict[str, bool]:
             )
             is False
         ),
+        "native_semantic_language_service_23": (
+            result.get("native_semantic_language_service", {}).get(
+                "passed"
+            )
+            == 23
+            and result.get(
+                "native_semantic_language_service", {}
+            ).get("failed")
+            == 0
+            and result.get(
+                "native_semantic_language_service", {}
+            ).get("open_order_independent")
+            is True
+            and result.get(
+                "native_semantic_language_service", {}
+            ).get("retained_d_seed_executed")
+            is False
+        ),
         "retained_d_seed_not_executed": (
             result.get("environment", {}).get("retained_d_seed_executed")
             is False
@@ -104,12 +122,12 @@ def main() -> int:
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "build-output" / "release-sh11",
+        default=ROOT / "build-output" / "release-sh12",
     )
     parser.add_argument(
         "--verification-output",
         type=Path,
-        default=ROOT / "build-output" / "selfhost-sh11" / "release",
+        default=ROOT / "build-output" / "selfhost-sh12" / "release",
     )
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
@@ -120,7 +138,7 @@ def main() -> int:
     verification_output = args.verification_output.resolve()
     output.mkdir(parents=True, exist_ok=True)
     version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-    base = f"OpenC-{version}-sh11-windows-x86_64-standalone"
+    base = f"OpenC-{version}-sh12-windows-x86_64-standalone"
     archive_root = f"OpenC-{version}"
     archive_a = output / f"{base}-a.zip"
     archive_b = output / f"{base}-b.zip"
@@ -188,8 +206,8 @@ def main() -> int:
     }
     passed = all(task["passed"] for task in tasks) and all(checks.values())
     result = {
-        "schema": "openc.windows_native_release_workflow.v4",
-        "milestone": "SH-11_NATIVE_LANGUAGE_SERVICE_COMPLETENESS",
+        "schema": "openc.windows_native_release_workflow.v5",
+        "milestone": "SH-12_NATIVE_SEMANTIC_LANGUAGE_INTELLIGENCE",
         "status": "PASS" if passed else "FAIL",
         "completed_at_utc": datetime.now(timezone.utc)
         .isoformat()
@@ -216,7 +234,7 @@ def main() -> int:
         newline="\n",
     )
     print(
-        f"SH-11 native release workflow: {result['status']}; "
+        f"SH-12 native release workflow: {result['status']}; "
         f"archive={result['artifacts']['archive_sha256']} "
         f"seed_executed=false result={result_path}"
     )

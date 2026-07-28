@@ -1,0 +1,28 @@
+{
+  "schema": "openc.semantic_lsp_session.v1",
+  "root_uri": "file:///workspace",
+  "documents": {
+    "types": {
+      "uri": "file:///workspace/types.p",
+      "source": "struct Point {\n    i32 x;\n}\n\nconst i32 origin = 0;\n"
+    },
+    "main": {
+      "uri": "file:///workspace/main.p",
+      "source": "i32 area(Point point) {\n    return point.x;\n}\n\ni32 main() {\n    Point point;\n    return area(point);\n}\n"
+    },
+    "outside": {
+      "uri": "file:///vendor/foreign.p",
+      "source": "struct Foreign {\n    i32 value;\n}\n"
+    }
+  },
+  "positions": {
+    "point_use": {
+      "line": 0,
+      "character": 10
+    },
+    "area_declaration": {
+      "line": 0,
+      "character": 5
+    }
+  }
+}

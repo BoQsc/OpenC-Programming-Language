@@ -112,6 +112,21 @@ SH-10 formatting, shutdown/exit semantics, and deterministic
 `openc.lsp_transcript.v1` evidence. Verify all 19 cases with
 `python scripts/verify_sh11_lsp.py --force`.
 
+SH-12 adds native project-semantic methods:
+
+```text
+textDocument/documentSymbol
+textDocument/hover
+textDocument/definition
+textDocument/references
+textDocument/completion
+textDocument/prepareRename
+textDocument/rename
+```
+
+Verify all 23 cases, including opposite document-open orders, with
+`python scripts/verify_sh12_semantic_lsp.py --force`.
+
 Run the SH-4 proofs with a built Stage-1 executable and configured DMD:
 
 ```text
@@ -138,4 +153,6 @@ completeness is **PASS**; its evidence is in
 `release/SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md`. SH-11 native
 language-service completeness is **PASS**; its evidence is in
 `release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md`. SH-12 native semantic
-language intelligence comes next.
+language intelligence is **PASS**; its evidence is in
+`release/SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md`. SH-13 native editor
+integration and language-service resilience comes next.

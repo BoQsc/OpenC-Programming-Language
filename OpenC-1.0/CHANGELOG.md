@@ -1,5 +1,28 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-12 native semantic language intelligence
+
+- replaced the native language server's single-document state with a bounded
+  synchronized project workspace while preserving full-document change
+  compatibility and SH-11 diagnostics/formatting;
+- added OpenC-authored document symbols, typed hover, cross-document
+  definition and references, complete name-sorted completion, prepare-rename,
+  and collision-checked safe project rename;
+- isolated semantic context to `initialize.rootUri`, sorted project operations
+  by URI and source position, and removed declarations immediately on close;
+- published `openc.semantic_lsp_transcript.v1`, a three-document fixture, three
+  focused Python tests, and a 23-case native semantic verifier;
+- integrated SH-12 into native workflow schema v5 and relocated standalone
+  release schema v5 without executing the retained D seed;
+- passed the 13/13 full workflow, 12/12 daily workflow, byte-identical
+  96-source rebuild, and deterministic two-archive relocated release proof;
+  relocated Stage 3 passes SH-12 23/23 plus all retained SH-11/10/9,
+  conformance, runtime, diagnostic, and maintained-program gates;
+- preserved the declared Windows x86-64 Hosted scope and explicit disclosure
+  of the 93 historical rule-ID compatibility matches;
+- made SH-13 native editor integration and language-service resilience the
+  next milestone. Linux and freestanding remain optional future targets.
+
 ## Post-RC9 — SH-11 native language-service completeness
 
 - added OpenC-authored native `openc lsp --stdio` using JSON-RPC 2.0

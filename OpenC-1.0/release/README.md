@@ -49,6 +49,13 @@ JSON-RPC lifecycle, synchronization, rule-ID diagnostic, SH-10 formatting,
 error-state, framing, and deterministic-transcript cases. Evidence is in
 `SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md`.
 
+SH-12 native semantic language intelligence is implemented in the
+OpenC-authored compiler and verified by
+`scripts/verify_sh12_semantic_lsp.py`. The standalone verifier requires all 23
+project symbol, typed hover, definition/reference, completion, safe-rename,
+root-isolation, synchronization, schema, and open-order determinism cases.
+Evidence is in `SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md`.
+
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by
 `verify_release_artifacts.py`. The builder emits the artifact layout, mandatory

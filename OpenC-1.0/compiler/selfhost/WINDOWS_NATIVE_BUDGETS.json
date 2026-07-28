@@ -1,6 +1,6 @@
 {
   "schema": "openc.windows_native_performance_budgets.v1",
-  "milestone": "SH-11_NATIVE_LANGUAGE_SERVICE_COMPLETENESS",
+  "milestone": "SH-12_NATIVE_SEMANTIC_LANGUAGE_INTELLIGENCE",
   "target": "windows-x86_64-hosted",
   "reference_host": {
     "operating_system": "Windows 10.0.19045",
@@ -9,15 +9,15 @@
   },
   "baselines": {
     "validation": {
-      "elapsed_seconds": 39.664,
-      "peak_private_bytes": 6422528,
-      "peak_working_set_bytes": 8384512,
+      "elapsed_seconds": 28.872,
+      "peak_private_bytes": 6860800,
+      "peak_working_set_bytes": 8495104,
       "fixtures": 278
     },
     "self_rebuild": {
-      "elapsed_seconds": 945.439,
-      "peak_private_bytes": 201244672,
-      "peak_working_set_bytes": 13348864,
+      "elapsed_seconds": 780.621,
+      "peak_private_bytes": 208019456,
+      "peak_working_set_bytes": 13787136,
       "output_compiler_byte_equal_to_input": true
     }
   },
@@ -26,13 +26,13 @@
       "max_elapsed_seconds": 90.0,
       "max_peak_private_bytes": 16777216,
       "max_peak_working_set_bytes": 16777216,
-      "elapsed_headroom_percent": 126.9
+      "elapsed_headroom_percent": 211.7
     },
     "self_rebuild": {
       "max_elapsed_seconds": 1050.0,
       "max_peak_private_bytes": 268435456,
       "max_peak_working_set_bytes": 33554432,
-      "elapsed_headroom_percent": 11.1
+      "elapsed_headroom_percent": 34.5
     },
     "daily_cache_hit": {
       "max_elapsed_seconds": 2.0,
@@ -48,18 +48,18 @@
     "linux_and_freestanding_gate": false
   },
   "authored_review": {
-    "milestone": "SH-11",
-    "reason": "the live reference desktop produced a 905.429-second successful native build after adding the 95th compiler source while generated C and memory remained stable; the initial executable comparison used a differently named PE seed, which was corrected to the stable openc.exe basename before closure was rerun",
-    "previous_validation_baseline_seconds": 35.489,
-    "previous_self_rebuild_baseline_seconds": 494.985,
-    "previous_self_rebuild_ceiling_seconds": 900.0,
-    "new_measurement_record": "build-output/selfhost-sh11/full-workflow-stable/performance/rebuild-measurement.json",
-    "observed_validation_elapsed_range_seconds": [29.803, 68.471],
+    "milestone": "SH-12",
+    "reason": "the 96-source semantic language-service compiler completed a monitored byte-identical native rebuild and fresh 278-fixture validation within the existing SH-11 ceilings; no ceiling increase is required",
+    "previous_validation_baseline_seconds": 39.664,
+    "previous_self_rebuild_baseline_seconds": 945.439,
+    "previous_self_rebuild_ceiling_seconds": 1050.0,
+    "new_measurement_record": "build-output/selfhost-sh12/full-workflow/performance/rebuild-measurement.json",
+    "observed_validation_elapsed_range_seconds": [28.872, 68.471],
     "observed_self_rebuild_elapsed_range_seconds": [574.05, 945.439],
-    "elapsed_ceiling_changed": true,
+    "elapsed_ceiling_changed": false,
     "validation_ceiling_seconds": 90.0,
     "self_rebuild_ceiling_seconds": 1050.0,
-    "elapsed_regression_disclosed": true,
+    "elapsed_regression_disclosed": false,
     "memory_ceiling_changed": false
   }
 }

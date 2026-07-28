@@ -8,7 +8,7 @@ Native-provider verification remain optional future target work.
 
 ## Completed self-hosting path
 
-SH-0 through SH-11 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-12 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -65,6 +65,13 @@ shutdown/exit lifecycle, full-document synchronization, compiler rule-ID
 diagnostics, and SH-10 document formatting. All 19 native contracts pass,
 including byte-identical independent transcripts and relocated standalone
 verification.
+
+SH-12 is complete. The native server synchronizes a bounded project document
+set and publishes document symbols, typed hover, definition and reference
+navigation, complete name-sorted completion, prepare-rename, and
+collision-checked project rename. All 23 semantic contracts pass, including
+opposite document-open orders producing byte-identical project-semantic
+transcripts from the relocated standalone package.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -141,14 +148,20 @@ IR reach closure. Exact evidence and reproduction commands are in
    - document formatting routes through the SH-10 native formatter;
    - deterministic protocol transcripts pass from the relocated standalone
      package.
-5. **SH-12 native semantic language intelligence — next engineering milestone**
+5. **SH-12 native semantic language intelligence — complete**
    - publish native document symbols and typed hover information;
    - add definition and reference navigation over synchronized project
      context;
    - add deterministic completion and validated safe rename;
    - verify multi-document/project-aware semantic transcripts from the
      relocated standalone package.
-6. **Seek independent review**
+6. **SH-13 native editor integration and language-service resilience — next**
+   - ship a first-party editor client that launches the packaged native server;
+   - add incremental, monotonic-version document synchronization;
+   - add cancellation, workspace lifecycle, and bounded resource handling;
+   - verify editor launch plus protocol stress from the relocated standalone
+     package.
+7. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.
 

@@ -18,7 +18,9 @@ SH-9 public `check`, `run`, version, target, rule-explanation, and
 human/machine diagnostic surface plus the SH-10 native formatter,
 project-context inspector, and deterministic test runner, and the SH-11 native
 stdio JSON-RPC lifecycle, synchronized diagnostics, and document formatter in
-canonical `.p` source.
+canonical `.p` source. SH-12 adds the bounded synchronized project workspace,
+document symbols, typed hover, project navigation/references, deterministic
+completion, and validated safe rename in canonical `.p` source.
 
 ## Informative bootstrap
 

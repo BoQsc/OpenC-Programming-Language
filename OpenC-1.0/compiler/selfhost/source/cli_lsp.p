@@ -3,13 +3,224 @@ import system.io;
 import system.memory;
 import system.text;
 
-struct LspState {
-    bool initialized;
-    bool shutdown_requested;
-    bool document_open;
+struct LspDocument {
+    bool open;
     usize version;
     DBuffer uri;
     DBuffer source;
+}
+
+struct LspState {
+    bool initialized;
+    bool shutdown_requested;
+    DBuffer root_uri;
+    LspDocument document0;
+    LspDocument document1;
+    LspDocument document2;
+    LspDocument document3;
+    LspDocument document4;
+    LspDocument document5;
+    LspDocument document6;
+    LspDocument document7;
+}
+
+usize lsp_max_documents() {
+    return 8;
+}
+
+unsafe LspDocument lsp_document_create() {
+    return LspDocument{
+        open = false,
+        version = 0,
+        uri = d_buffer_create(16384),
+        source = d_buffer_create(4194304)
+    };
+}
+
+unsafe void lsp_document_destroy(ref LspDocument document) {
+    d_buffer_destroy(document.source);
+    d_buffer_destroy(document.uri);
+}
+
+unsafe void lsp_state_destroy(ref LspState state) {
+    lsp_document_destroy(state.document7);
+    lsp_document_destroy(state.document6);
+    lsp_document_destroy(state.document5);
+    lsp_document_destroy(state.document4);
+    lsp_document_destroy(state.document3);
+    lsp_document_destroy(state.document2);
+    lsp_document_destroy(state.document1);
+    lsp_document_destroy(state.document0);
+    d_buffer_destroy(state.root_uri);
+}
+
+unsafe bool lsp_document_open(ref LspState state, usize index) {
+    if index == 0 { return state.document0.open; }
+    if index == 1 { return state.document1.open; }
+    if index == 2 { return state.document2.open; }
+    if index == 3 { return state.document3.open; }
+    if index == 4 { return state.document4.open; }
+    if index == 5 { return state.document5.open; }
+    if index == 6 { return state.document6.open; }
+    if index == 7 { return state.document7.open; }
+    return false;
+}
+
+unsafe text lsp_document_uri(ref LspState state, usize index) {
+    if index == 0 { return d_buffer_text(state.document0.uri); }
+    if index == 1 { return d_buffer_text(state.document1.uri); }
+    if index == 2 { return d_buffer_text(state.document2.uri); }
+    if index == 3 { return d_buffer_text(state.document3.uri); }
+    if index == 4 { return d_buffer_text(state.document4.uri); }
+    if index == 5 { return d_buffer_text(state.document5.uri); }
+    if index == 6 { return d_buffer_text(state.document6.uri); }
+    return d_buffer_text(state.document7.uri);
+}
+
+unsafe text lsp_document_source(ref LspState state, usize index) {
+    if index == 0 { return d_buffer_text(state.document0.source); }
+    if index == 1 { return d_buffer_text(state.document1.source); }
+    if index == 2 { return d_buffer_text(state.document2.source); }
+    if index == 3 { return d_buffer_text(state.document3.source); }
+    if index == 4 { return d_buffer_text(state.document4.source); }
+    if index == 5 { return d_buffer_text(state.document5.source); }
+    if index == 6 { return d_buffer_text(state.document6.source); }
+    return d_buffer_text(state.document7.source);
+}
+
+unsafe usize lsp_document_version(ref LspState state, usize index) {
+    if index == 0 { return state.document0.version; }
+    if index == 1 { return state.document1.version; }
+    if index == 2 { return state.document2.version; }
+    if index == 3 { return state.document3.version; }
+    if index == 4 { return state.document4.version; }
+    if index == 5 { return state.document5.version; }
+    if index == 6 { return state.document6.version; }
+    return state.document7.version;
+}
+
+unsafe void lsp_document_close(ref LspState state, usize index) {
+    if index == 0 {
+        state.document0.open = false;
+        state.document0.source.length = 0;
+    } else if index == 1 {
+        state.document1.open = false;
+        state.document1.source.length = 0;
+    } else if index == 2 {
+        state.document2.open = false;
+        state.document2.source.length = 0;
+    } else if index == 3 {
+        state.document3.open = false;
+        state.document3.source.length = 0;
+    } else if index == 4 {
+        state.document4.open = false;
+        state.document4.source.length = 0;
+    } else if index == 5 {
+        state.document5.open = false;
+        state.document5.source.length = 0;
+    } else if index == 6 {
+        state.document6.open = false;
+        state.document6.source.length = 0;
+    } else if index == 7 {
+        state.document7.open = false;
+        state.document7.source.length = 0;
+    }
+}
+
+unsafe bool lsp_text_has_prefix(text value, text prefix) {
+    usize prefix_length = text.byte_length(prefix);
+    if prefix_length == 0 { return true; }
+    if text.byte_length(value) < prefix_length { return false; }
+    usize cursor = 0;
+    while cursor < prefix_length {
+        if byte_at_or_zero(value, cursor) !=
+            byte_at_or_zero(prefix, cursor) {
+            return false;
+        }
+        cursor = cursor + 1;
+    }
+    return true;
+}
+
+unsafe bool lsp_document_in_project(
+    ref LspState state,
+    usize index
+) {
+    return lsp_document_open(state, index) && lsp_text_has_prefix(
+        lsp_document_uri(state, index), d_buffer_text(state.root_uri)
+    );
+}
+
+unsafe usize lsp_find_document(ref LspState state, text uri) {
+    usize index = 0;
+    while index < lsp_max_documents() {
+        if lsp_document_open(state, index) &&
+            text.equal(lsp_document_uri(state, index), uri) {
+            return index;
+        }
+        index = index + 1;
+    }
+    return lsp_max_documents();
+}
+
+unsafe usize lsp_free_document(ref LspState state) {
+    usize index = 0;
+    while index < lsp_max_documents() {
+        if !lsp_document_open(state, index) { return index; }
+        index = index + 1;
+    }
+    return lsp_max_documents();
+}
+
+unsafe bool lsp_store_document(
+    ref LspDocument document,
+    text uri,
+    text source,
+    usize version
+) {
+    document.uri.length = 0;
+    document.uri.ok = true;
+    d_put(document.uri, uri);
+    document.source.length = 0;
+    document.source.ok = true;
+    d_put(document.source, source);
+    document.version = version;
+    document.open = document.uri.ok && document.source.ok;
+    return document.open;
+}
+
+unsafe bool lsp_store_document_at(
+    ref LspState state,
+    usize index,
+    text uri,
+    text source,
+    usize version
+) {
+    if index == 0 {
+        return lsp_store_document(state.document0, uri, source, version);
+    }
+    if index == 1 {
+        return lsp_store_document(state.document1, uri, source, version);
+    }
+    if index == 2 {
+        return lsp_store_document(state.document2, uri, source, version);
+    }
+    if index == 3 {
+        return lsp_store_document(state.document3, uri, source, version);
+    }
+    if index == 4 {
+        return lsp_store_document(state.document4, uri, source, version);
+    }
+    if index == 5 {
+        return lsp_store_document(state.document5, uri, source, version);
+    }
+    if index == 6 {
+        return lsp_store_document(state.document6, uri, source, version);
+    }
+    if index == 7 {
+        return lsp_store_document(state.document7, uri, source, version);
+    }
+    return false;
 }
 
 bool lsp_json_space(u8 value) {
@@ -277,15 +488,25 @@ unsafe void lsp_respond_error(
 }
 
 unsafe void lsp_respond_initialize(
+    ref LspState state,
     text request,
     TextSpan id
 ) {
+    state.root_uri.length = 0;
+    state.root_uri.ok = true;
+    lsp_json_string(request, "rootUri", state.root_uri);
     DBuffer payload = d_buffer_create(65536);
     lsp_put_response_start(payload, request, id);
     d_put(payload, ",\"result\":{\"capabilities\":{");
     d_put(payload, "\"positionEncoding\":\"utf-8\",");
     d_put(payload, "\"textDocumentSync\":{\"openClose\":true,\"change\":1},");
-    d_put(payload, "\"documentFormattingProvider\":true");
+    d_put(payload, "\"documentFormattingProvider\":true,");
+    d_put(payload, "\"documentSymbolProvider\":true,");
+    d_put(payload, "\"hoverProvider\":true,");
+    d_put(payload, "\"definitionProvider\":true,");
+    d_put(payload, "\"referencesProvider\":true,");
+    d_put(payload, "\"completionProvider\":{\"resolveProvider\":false},");
+    d_put(payload, "\"renameProvider\":{\"prepareProvider\":true}");
     d_put(payload, "},\"serverInfo\":{\"name\":\"openc-lsp\",\"version\":");
     cli_json_text(payload, cli_version());
     d_put(payload, "}}}");
@@ -389,108 +610,118 @@ unsafe usize lsp_put_diagnostics(
     return diagnostics.length;
 }
 
-unsafe void lsp_publish_diagnostics(ref LspState state) {
+unsafe void lsp_publish_diagnostics(
+    ref LspState state,
+    usize document
+) {
+    text source = lsp_document_source(state, document);
     DBuffer payload = d_buffer_create(
-        state.source.length * 16 + 65536
+        text.byte_length(source) * 16 + 65536
     );
     d_put(payload, "{\"jsonrpc\":\"2.0\",\"method\":");
     cli_json_text(payload, "textDocument/publishDiagnostics");
     d_put(payload, ",\"params\":{\"uri\":");
-    cli_json_text(payload, d_buffer_text(state.uri));
+    cli_json_text(payload, lsp_document_uri(state, document));
     d_put(payload, ",\"version\":");
-    d_put_usize(payload, state.version);
+    d_put_usize(payload, lsp_document_version(state, document));
     d_put(payload, ",\"diagnostics\":[");
-    lsp_put_diagnostics(payload, d_buffer_text(state.source));
+    lsp_put_diagnostics(payload, source);
     d_put(payload, "]}}");
     if payload.ok { lsp_send(payload); }
     d_buffer_destroy(payload);
 }
 
-unsafe void lsp_publish_empty_diagnostics(ref LspState state) {
+unsafe void lsp_publish_empty_diagnostics(
+    ref LspState state,
+    usize document
+) {
     DBuffer payload = d_buffer_create(65536);
     d_put(payload, "{\"jsonrpc\":\"2.0\",\"method\":");
     cli_json_text(payload, "textDocument/publishDiagnostics");
     d_put(payload, ",\"params\":{\"uri\":");
-    cli_json_text(payload, d_buffer_text(state.uri));
+    cli_json_text(payload, lsp_document_uri(state, document));
     d_put(payload, ",\"version\":");
-    d_put_usize(payload, state.version);
+    d_put_usize(payload, lsp_document_version(state, document));
     d_put(payload, ",\"diagnostics\":[]}}");
     if payload.ok { lsp_send(payload); }
     d_buffer_destroy(payload);
 }
 
-unsafe bool lsp_update_document(
+unsafe usize lsp_update_document(
     ref LspState state,
-    text request
+    text request,
+    bool opening
 ) {
     DBuffer uri = d_buffer_create(16384);
     DBuffer source = d_buffer_create(4194304);
     bool decoded = lsp_json_string(request, "uri", uri) &&
         lsp_json_string(request, "text", source);
+    usize document = lsp_max_documents();
     if decoded {
-        state.uri.length = 0;
-        state.uri.ok = true;
-        d_put(state.uri, d_buffer_text(uri));
-        state.source.length = 0;
-        state.source.ok = true;
-        d_put(state.source, d_buffer_text(source));
-        state.version = lsp_json_usize(
-            request, "version", state.version
-        );
-        state.document_open = state.uri.ok && state.source.ok;
-        decoded = state.document_open;
+        document = lsp_find_document(state, d_buffer_text(uri));
+        if document == lsp_max_documents() && opening {
+            document = lsp_free_document(state);
+        }
+        if document < lsp_max_documents() {
+            usize prior_version = lsp_document_version(
+                state, document
+            );
+            usize version = lsp_json_usize(
+                request, "version", prior_version
+            );
+            if !lsp_store_document_at(
+                state, document, d_buffer_text(uri),
+                d_buffer_text(source), version
+            ) {
+                document = lsp_max_documents();
+            }
+        }
     }
     d_buffer_destroy(source);
     d_buffer_destroy(uri);
-    return decoded;
+    return document;
 }
 
-unsafe bool lsp_uri_matches(
+unsafe usize lsp_request_document(
     ref LspState state,
     text request
 ) {
     DBuffer uri = d_buffer_create(16384);
     bool decoded = lsp_json_string(request, "uri", uri);
-    bool matches = decoded && state.document_open &&
-        text.equal(d_buffer_text(uri), d_buffer_text(state.uri));
+    usize document = lsp_max_documents();
+    if decoded {
+        document = lsp_find_document(state, d_buffer_text(uri));
+    }
     d_buffer_destroy(uri);
-    return matches;
+    return document;
 }
 
 unsafe void lsp_respond_formatting(
     ref LspState state,
+    usize document,
     text request,
     TextSpan id
 ) {
+    text source = lsp_document_source(state, document);
     DBuffer payload = d_buffer_create(
-        state.source.length * 16 + 65536
+        text.byte_length(source) * 16 + 65536
     );
     lsp_put_response_start(payload, request, id);
     d_put(payload, ",\"result\":[");
     DBuffer diagnostics = d_buffer_create(
-        state.source.length * 16 + 65536
+        text.byte_length(source) * 16 + 65536
     );
-    usize errors = lsp_put_diagnostics(
-        diagnostics, d_buffer_text(state.source)
-    );
+    usize errors = lsp_put_diagnostics(diagnostics, source);
     d_buffer_destroy(diagnostics);
     if errors == 0 {
         DBuffer formatted = d_buffer_create(1);
-        if cli_format_source_text(
-            d_buffer_text(state.source), formatted
-        ) {
-            if !text.equal(
-                d_buffer_text(state.source),
-                d_buffer_text(formatted)
-            ) {
+        if cli_format_source_text(source, formatted) {
+            if !text.equal(source, d_buffer_text(formatted)) {
                 d_put(payload, "{\"range\":{\"start\":");
-                lsp_put_position(
-                    payload, d_buffer_text(state.source), 0
-                );
+                lsp_put_position(payload, source, 0);
                 d_put(payload, ",\"end\":");
                 lsp_put_position(
-                    payload, d_buffer_text(state.source),
-                    state.source.length
+                    payload, source, text.byte_length(source)
                 );
                 d_put(payload, "},\"newText\":");
                 cli_json_text(payload, d_buffer_text(formatted));
@@ -549,7 +780,7 @@ unsafe i32 lsp_handle_message(
             );
         } else {
             state.initialized = true;
-            lsp_respond_initialize(request, id);
+            lsp_respond_initialize(state, request, id);
         }
     } else if !state.initialized {
         if has_id {
@@ -564,30 +795,52 @@ unsafe i32 lsp_handle_message(
             lsp_respond_null(request, id);
         }
     } else if name == "textDocument/didOpen" {
-        if lsp_update_document(state, request) {
-            lsp_publish_diagnostics(state);
+        usize document = lsp_update_document(state, request, true);
+        if document < lsp_max_documents() {
+            lsp_publish_diagnostics(state, document);
         }
     } else if name == "textDocument/didChange" {
-        if lsp_uri_matches(state, request) &&
-            lsp_update_document(state, request) {
-            lsp_publish_diagnostics(state);
+        usize document = lsp_update_document(state, request, false);
+        if document < lsp_max_documents() {
+            lsp_publish_diagnostics(state, document);
         }
     } else if name == "textDocument/didClose" {
-        if lsp_uri_matches(state, request) {
-            lsp_publish_empty_diagnostics(state);
-            state.document_open = false;
-            state.source.length = 0;
+        usize document = lsp_request_document(state, request);
+        if document < lsp_max_documents() {
+            lsp_publish_empty_diagnostics(state, document);
+            lsp_document_close(state, document);
         }
     } else if name == "textDocument/formatting" {
         if has_id {
-            if lsp_uri_matches(state, request) {
-                lsp_respond_formatting(state, request, id);
+            usize document = lsp_request_document(state, request);
+            if document < lsp_max_documents() {
+                lsp_respond_formatting(
+                    state, document, request, id
+                );
             } else {
                 lsp_respond_error(
                     request, id, -32602, "document is not open"
                 );
             }
         }
+    } else if name == "textDocument/documentSymbol" {
+        if has_id {
+            lsp_respond_document_symbols(state, request, id);
+        }
+    } else if name == "textDocument/hover" {
+        if has_id { lsp_respond_hover(state, request, id); }
+    } else if name == "textDocument/definition" {
+        if has_id { lsp_respond_definition(state, request, id); }
+    } else if name == "textDocument/references" {
+        if has_id { lsp_respond_references(state, request, id); }
+    } else if name == "textDocument/completion" {
+        if has_id { lsp_respond_completion(state, request, id); }
+    } else if name == "textDocument/prepareRename" {
+        if has_id {
+            lsp_respond_prepare_rename(state, request, id);
+        }
+    } else if name == "textDocument/rename" {
+        if has_id { lsp_respond_rename(state, request, id); }
     } else if has_id {
         lsp_respond_error(
             request, id, -32601, "method not implemented"
@@ -601,10 +854,15 @@ unsafe i32 cli_lsp_stdio() {
     LspState state = LspState{
         initialized = false,
         shutdown_requested = false,
-        document_open = false,
-        version = 0,
-        uri = d_buffer_create(16384),
-        source = d_buffer_create(4194304)
+        root_uri = d_buffer_create(16384),
+        document0 = lsp_document_create(),
+        document1 = lsp_document_create(),
+        document2 = lsp_document_create(),
+        document3 = lsp_document_create(),
+        document4 = lsp_document_create(),
+        document5 = lsp_document_create(),
+        document6 = lsp_document_create(),
+        document7 = lsp_document_create()
     };
     while true {
         text request;
@@ -612,14 +870,12 @@ unsafe i32 cli_lsp_stdio() {
             "@openc-internal:lsp-stdio-frame", out request
         );
         if !read.ok || text.byte_length(request) == 0 {
-            d_buffer_destroy(state.source);
-            d_buffer_destroy(state.uri);
+            lsp_state_destroy(state);
             return 0;
         }
         i32 action = lsp_handle_message(state, request);
         if action != -2 {
-            d_buffer_destroy(state.source);
-            d_buffer_destroy(state.uri);
+            lsp_state_destroy(state);
             return action;
         }
     }

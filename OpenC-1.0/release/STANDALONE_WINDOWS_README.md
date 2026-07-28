@@ -46,12 +46,13 @@ Start the native language server for an editor client with:
 openc.exe lsp --stdio
 ```
 
-SH-11 supports JSON-RPC lifecycle/capability negotiation, full-document
-open/change/close synchronization, stable OpenC rule-ID diagnostics, and
-SH-10 document formatting over `Content-Length` framed UTF-8 messages.
-Protocol transcripts use `openc.lsp_transcript.v1`. SH-12 will add native
-symbols, hover, definition, references, completion, safe rename, and
-multi-document/project-aware resolution.
+SH-12 supports JSON-RPC lifecycle/capability negotiation, bounded
+multi-document open/change/close synchronization, stable OpenC rule-ID
+diagnostics, SH-10 document formatting, native document symbols and typed
+hover, project definition/reference navigation, deterministic completion,
+and validated safe rename over `Content-Length` framed UTF-8 messages.
+Baseline transcripts use `openc.lsp_transcript.v1`; project-semantic
+transcripts use `openc.semantic_lsp_transcript.v1`.
 
 The retained D bootstrap seed is
 `bootstrap/openc-stage0.exe`. It is included only as an optional comparison
@@ -68,7 +69,7 @@ For the supported Windows Hosted mode, `openc.exe` provides the six
 `system.file`, `system.io`, `system.memory`, `system.path`, `system.process`,
 and `system.text` modules and links them to the packaged C runtime/native shim.
 The authored `.p` Native-provider library sources are included for future
-Native work; that separately scoped provider is not part of the SH-11 gate.
+Native work; that separately scoped provider is not part of the SH-12 gate.
 
 Package integrity is recorded in `STANDALONE-MANIFEST.sha256`; component roles,
 input paths, and compiler/backend hashes are in `STANDALONE-RELEASE.json`.

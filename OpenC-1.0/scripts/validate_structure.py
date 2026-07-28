@@ -27,6 +27,7 @@ required = [
     "release/SH9_NATIVE_CLI_EVIDENCE.md",
     "release/SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md",
     "release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md",
+    "release/SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md",
     "release/windows_native_release.py",
     "compiler/selfhost/SELF_HOSTING.md", "compiler/selfhost/SELF_HOSTING_STATE.json",
     "compiler/selfhost/source/main.p", "compiler/selfhost/bootstrap.py",
@@ -38,15 +39,19 @@ required = [
     "scripts/verify_sh9_cli.py",
     "scripts/verify_sh10_project_workflow.py",
     "scripts/verify_sh11_lsp.py",
+    "scripts/verify_sh12_semantic_lsp.py",
     "scripts/windows_native_workflow.py",
     "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json",
     "compiler/selfhost/benchmark_windows_validate.py",
     "compiler/selfhost/source/native_conformance.p",
     "compiler/selfhost/source/cli.p",
     "compiler/selfhost/source/cli_lsp.p",
+    "compiler/selfhost/source/cli_lsp_semantic.p",
     "conformance/fixtures/NATIVE_PLAN.tsv",
     "schemas/LSP_TRANSCRIPT.schema.json",
+    "schemas/SEMANTIC_LSP_TRANSCRIPT.schema.json",
     "tests/tooling/sh11/session.json",
+    "tests/tooling/sh12/session.json",
     "standard/core/OpenC_Core_Current.md",
     "standard/core/grammar/OpenC_Core_Grammar.ebnf",
     "standard/core/metadata/OpenC_Core_Rule_Index.json",
@@ -390,6 +395,32 @@ if self_host_gates.get("SH-11") == "PASS" and (
         "SH-10 formatting, deterministic transcripts, and no required "
         "D-seed execution"
     )
+if self_host_gates.get("SH-12") != "PASS":
+    errors.append("native semantic language intelligence SH-12 gate must pass")
+if self_host_gates.get("SH-12") == "PASS" and (
+        not self_hosting.get("claims", {}).get(
+            "native_lsp_document_symbols_and_typed_hover"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "native_lsp_project_definition_and_references"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "deterministic_native_lsp_completion"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "validated_native_lsp_safe_rename"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "deterministic_project_semantic_lsp_transcripts"
+        )
+        or self_hosting.get("claims", {}).get(
+            "required_workflows_use_d_seed"
+        )):
+    errors.append(
+        "SH-12 PASS requires project symbols, typed hover, navigation, "
+        "references, deterministic completion, safe rename, semantic "
+        "transcripts, and no required D-seed execution"
+    )
 
 budgets = json.loads((
     ROOT / "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json"
@@ -431,8 +462,13 @@ if '"native_language_service_19_of_19"' not in standalone_verifier:
         "standalone release must verify the complete SH-11 language-service "
         "contract"
     )
-if '"openc.windows_native_workflow.v4"' not in native_workflow:
-    errors.append("native workflow must record the SH-11 workflow schema")
+if '"native_semantic_language_service_23_of_23"' not in standalone_verifier:
+    errors.append(
+        "standalone release must verify the complete SH-12 semantic "
+        "language-service contract"
+    )
+if '"openc.windows_native_workflow.v5"' not in native_workflow:
+    errors.append("native workflow must record the SH-12 workflow schema")
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

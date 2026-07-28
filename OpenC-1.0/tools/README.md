@@ -23,6 +23,8 @@ The self-hosted public driver is
 implements `openc lsp --stdio` lifecycle, full-document synchronization,
 rule-ID diagnostics, and SH-10 document formatting, with deterministic
 JSON-RPC transcript verification from the relocated standalone compiler.
+SH-12 adds project symbols, typed hover, definition/references, sorted
+completion, safe rename, and open-order-independent semantic transcripts.
 
-SH-12 comes next: native document symbols, hover, definition, references,
-completion, safe rename, and multi-document/project-aware resolution.
+SH-13 comes next: first-party editor integration, incremental/versioned
+synchronization, cancellation/workspace lifecycle, and bounded stress.

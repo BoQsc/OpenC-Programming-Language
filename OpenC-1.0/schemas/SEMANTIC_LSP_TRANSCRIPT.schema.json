@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openc-lang.org/schemas/SEMANTIC_LSP_TRANSCRIPT.schema.json",
+  "title": "OpenC deterministic project-semantic LSP transcript",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "server",
+    "target",
+    "transport",
+    "projectRoot",
+    "documents",
+    "semanticMethods",
+    "messages"
+  ],
+  "properties": {
+    "schema": {
+      "const": "openc.semantic_lsp_transcript.v1"
+    },
+    "server": {
+      "const": "openc-lsp"
+    },
+    "target": {
+      "const": "windows-x86_64-hosted"
+    },
+    "transport": {
+      "const": "stdio-content-length"
+    },
+    "projectRoot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "semanticMethods": {
+      "type": "array",
+      "minItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "textDocument/documentSymbol",
+          "textDocument/hover",
+          "textDocument/definition",
+          "textDocument/references",
+          "textDocument/completion",
+          "textDocument/prepareRename",
+          "textDocument/rename"
+        ]
+      }
+    },
+    "messages": {
+      "type": "array",
+      "minItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "direction",
+          "message"
+        ],
+        "properties": {
+          "direction": {
+            "enum": [
+              "client-to-server",
+              "server-to-client"
+            ]
+          },
+          "message": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

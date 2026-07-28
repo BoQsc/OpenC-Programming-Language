@@ -62,7 +62,10 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   stable machine records and relocated standalone verification; SH-11 adds
   native `openc lsp --stdio`, JSON-RPC lifecycle and capability negotiation,
   synchronized-document rule-ID diagnostics, SH-10 formatting, and
-  deterministic 19/19 transcript verification;
+  deterministic 19/19 transcript verification; SH-12 adds a bounded
+  synchronized project workspace, document symbols, typed hover,
+  definition/reference navigation, sorted completion, collision-checked safe
+  rename, and deterministic 23/23 project-semantic transcript verification;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
@@ -79,11 +82,12 @@ welcome and may produce errata; it is not a prerequisite for the
 owner-maintained initial release.
 
 The public RC8 package evidence remains the immutable 268-fixture historical
-record described above. RC9 is the published 278-fixture successor. SH-11
-native language-service completeness is complete on mainline. The next
-engineering milestone is SH-12 native semantic language intelligence:
-document symbols, hover, definition, references, completion, safe rename, and
-multi-document/project-aware resolution.
+record described above. RC9 is the published 278-fixture successor. SH-12
+native semantic language intelligence is complete on mainline. The next
+engineering milestone is SH-13 native editor integration and language-service
+resilience: a first-party editor client, incremental/versioned synchronization,
+cancellation and workspace lifecycle handling, and bounded stress evidence
+from the relocated standalone package.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
 `LICENSE_POLICY.md`, `standard/core/OpenC_Core_Current.md`, and
