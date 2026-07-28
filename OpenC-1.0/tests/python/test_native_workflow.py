@@ -129,6 +129,12 @@ class ReleaseSummaryTests(unittest.TestCase):
                 "failed": 0,
                 "retained_d_seed_executed": False,
             },
+            "native_language_service": {
+                "passed": 19,
+                "failed": 0,
+                "deterministic_transcript_bytes": True,
+                "retained_d_seed_executed": False,
+            },
             "environment": {"retained_d_seed_executed": False},
         }
         self.assertTrue(all(verifier_summary_checks(result).values()))
@@ -146,6 +152,12 @@ class ReleaseSummaryTests(unittest.TestCase):
             "native_project_workflow": {
                 "passed": 21,
                 "failed": 0,
+                "retained_d_seed_executed": False,
+            },
+            "native_language_service": {
+                "passed": 19,
+                "failed": 0,
+                "deterministic_transcript_bytes": True,
                 "retained_d_seed_executed": False,
             },
             "environment": {"retained_d_seed_executed": True},

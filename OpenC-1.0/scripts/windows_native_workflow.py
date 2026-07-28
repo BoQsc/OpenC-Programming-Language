@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SH-10 native-first Windows development and verification workflow."""
+"""SH-11 native-first Windows development and verification workflow."""
 from __future__ import annotations
 
 import argparse
@@ -447,6 +447,21 @@ def main() -> int:
     )
     tasks.append(
         run_task(
+            "native_language_service",
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "verify_sh11_lsp.py"),
+                "--compiler",
+                str(compiler),
+                "--output",
+                str(output / "native-language-service"),
+                "--force",
+            ],
+            task_output,
+        )
+    )
+    tasks.append(
+        run_task(
             "maintained_programs",
             [
                 sys.executable,
@@ -476,8 +491,8 @@ def main() -> int:
     )
     passed = all(task["passed"] for task in tasks)
     result = {
-        "schema": "openc.windows_native_workflow.v3",
-        "milestone": "SH-10_NATIVE_PROJECT_WORKFLOW_COMPLETENESS",
+        "schema": "openc.windows_native_workflow.v4",
+        "milestone": "SH-11_NATIVE_LANGUAGE_SERVICE_COMPLETENESS",
         "mode": args.mode.upper(),
         "status": "PASS" if passed else "FAIL",
         "started_at_utc": started_at.isoformat().replace("+00:00", "Z"),
@@ -501,7 +516,7 @@ def main() -> int:
         newline="\n",
     )
     print(
-        f"SH-10 {args.mode} workflow: {result['status']}; "
+        f"SH-11 {args.mode} workflow: {result['status']}; "
         f"compiler=OpenC-native tasks={sum(task['passed'] for task in tasks)}/"
         f"{len(tasks)} seed_executed=false result={result_path}"
     )

@@ -40,6 +40,19 @@ These commands emit stable `openc.format.v1`, `openc.tool_context.v1`, and
 `openc.test_result.v1` records. Test discovery and execution are name-sorted;
 language, runtime-assertion, and infrastructure failures remain distinct.
 
+Start the native language server for an editor client with:
+
+```text
+openc.exe lsp --stdio
+```
+
+SH-11 supports JSON-RPC lifecycle/capability negotiation, full-document
+open/change/close synchronization, stable OpenC rule-ID diagnostics, and
+SH-10 document formatting over `Content-Length` framed UTF-8 messages.
+Protocol transcripts use `openc.lsp_transcript.v1`. SH-12 will add native
+symbols, hover, definition, references, completion, safe rename, and
+multi-document/project-aware resolution.
+
 The retained D bootstrap seed is
 `bootstrap/openc-stage0.exe`. It is included only as an optional comparison
 oracle for reproducibility audits. It is not invoked by `openc.exe build` or by
@@ -55,7 +68,7 @@ For the supported Windows Hosted mode, `openc.exe` provides the six
 `system.file`, `system.io`, `system.memory`, `system.path`, `system.process`,
 and `system.text` modules and links them to the packaged C runtime/native shim.
 The authored `.p` Native-provider library sources are included for future
-Native work; that separately scoped provider is not part of the SH-10 gate.
+Native work; that separately scoped provider is not part of the SH-11 gate.
 
 Package integrity is recorded in `STANDALONE-MANIFEST.sha256`; component roles,
 input paths, and compiler/backend hashes are in `STANDALONE-RELEASE.json`.

@@ -1,0 +1,7 @@
+{
+  "schema": "openc.lsp_session.v1",
+  "uri": "file:///workspace/main.p",
+  "invalid_source": "i32 main( {",
+  "valid_source": "i32 main(){return 0;}",
+  "formatted_source": "i32 main(){\n    return 0;\n}\n"
+}

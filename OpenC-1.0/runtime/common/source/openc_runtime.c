@@ -361,6 +361,122 @@ void oc_io_print_i64(int64_t value) { char buffer[64]; int n = snprintf(buffer, 
 void oc_io_print_u64(uint64_t value) { char buffer[64]; int n = snprintf(buffer, sizeof(buffer), "%" PRIu64, value); if (n > 0) oc_platform_write_stdout((const uint8_t *)buffer, (uintptr_t)n); }
 void oc_io_print_bool(bool value) { oc_io_print_text(value ? OC_TEXT_LITERAL("true") : OC_TEXT_LITERAL("false")); }
 
+static bool oc_io_header_is_content_length(const char *line) {
+    static const char expected[] = "content-length:";
+    size_t index = 0u;
+    if (strlen(line) < sizeof(expected) - 1u) return false;
+    while (expected[index] != '\0') {
+        unsigned char value = (unsigned char)line[index];
+        if (value >= (unsigned char)'A' && value <= (unsigned char)'Z') {
+            value = (unsigned char)(value + ('a' - 'A'));
+        }
+        if (value != (unsigned char)expected[index]) return false;
+        ++index;
+    }
+    return true;
+}
+
+static oc_status oc_io_read_message_status(oc_text *out_message) {
+    char line[8192];
+    uintptr_t content_length = 0u;
+    bool saw_header = false;
+    if (out_message == NULL) {
+        return (oc_status){
+            OC_STATUS_INVALID_ARGUMENT,
+            OC_TEXT_LITERAL("message output is null")
+        };
+    }
+    *out_message = OC_TEXT_EMPTY;
+    for (;;) {
+        size_t length;
+        char *read = fgets(line, (int)sizeof(line), stdin);
+        if (read == NULL) {
+            return (oc_status){
+                saw_header ? OC_STATUS_IO_ERROR : OC_STATUS_NOT_FOUND,
+                saw_header
+                    ? OC_TEXT_LITERAL("unexpected end of LSP headers")
+                    : OC_TEXT_LITERAL("standard input is closed")
+            };
+        }
+        saw_header = true;
+        length = strlen(line);
+        if (length == 0u || line[length - 1u] != '\n') {
+            return (oc_status){
+                OC_STATUS_INVALID_ARGUMENT,
+                OC_TEXT_LITERAL("LSP header line is too long")
+            };
+        }
+        while (length != 0u && (
+            line[length - 1u] == '\n' || line[length - 1u] == '\r'
+        )) {
+            line[--length] = '\0';
+        }
+        if (length == 0u) break;
+        if (oc_io_header_is_content_length(line)) {
+            const char *value = line + sizeof("content-length:") - 1u;
+            uintptr_t parsed = 0u;
+            bool any = false;
+            while (*value == ' ' || *value == '\t') ++value;
+            while (*value >= '0' && *value <= '9') {
+                uintptr_t digit = (uintptr_t)(*value - '0');
+                any = true;
+                if (parsed > (16777216u - digit) / 10u) {
+                    parsed = 16777217u;
+                    break;
+                }
+                parsed = parsed * 10u + digit;
+                ++value;
+            }
+            while (*value == ' ' || *value == '\t') ++value;
+            if (!any || *value != '\0' || parsed == 0u ||
+                parsed > 16777216u) {
+                return (oc_status){
+                    OC_STATUS_INVALID_ARGUMENT,
+                    OC_TEXT_LITERAL("invalid LSP Content-Length")
+                };
+            }
+            content_length = (uintptr_t)parsed;
+        }
+    }
+    if (content_length == 0u) {
+        return (oc_status){
+            OC_STATUS_INVALID_ARGUMENT,
+            OC_TEXT_LITERAL("missing LSP Content-Length")
+        };
+    }
+    {
+        uint8_t *data = (uint8_t *)oc_memory_allocate(
+            content_length + 1u, 1u
+        );
+        size_t read = fread(data, 1u, (size_t)content_length, stdin);
+        if (read != (size_t)content_length) {
+            oc_memory_release(data);
+            return (oc_status){
+                OC_STATUS_IO_ERROR,
+                OC_TEXT_LITERAL("unexpected end of LSP message")
+            };
+        }
+        data[content_length] = 0u;
+        *out_message = (oc_text){data, content_length};
+        if (!oc_text_is_valid_utf8(*out_message)) {
+            oc_memory_release(data);
+            *out_message = OC_TEXT_EMPTY;
+            return (oc_status){
+                OC_STATUS_INVALID_UTF8,
+                OC_TEXT_LITERAL("LSP message is not UTF-8")
+            };
+        }
+    }
+    return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
+}
+
+oc_text oc_io_read_message(void) {
+    oc_text message = OC_TEXT_EMPTY;
+    oc_status read = oc_io_read_message_status(&message);
+    if (!oc_status_ok(read)) return OC_TEXT_EMPTY;
+    return message;
+}
+
 oc_status oc_file_open_read(oc_text path, oc_file *out_file) {
     char *name = oc_c_string(path);
     FILE *handle = fopen(name, "rb");

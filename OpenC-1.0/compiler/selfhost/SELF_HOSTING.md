@@ -369,6 +369,32 @@ are in `release/SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md`.
 
 Status: **PASS**
 
+## SH-11 — native language-service completeness
+
+The OpenC-authored compiler now exposes `openc lsp --stdio` with JSON-RPC 2.0
+`Content-Length` framing. The OpenC layer owns protocol parsing, lifecycle
+state, deterministic serialization, full-document synchronization,
+diagnostics, and formatting; the Windows Hosted runtime supplies only bounded
+framed UTF-8 input/output transport.
+
+Initialization advertises UTF-8 positions, full synchronization, and document
+formatting. Opening or changing a document runs the native compiler frontend
+and publishes stable rule IDs, severity, ranges, messages, and byte-span data.
+Closing clears diagnostics. Formatting calls the SH-10 formatter and refuses
+invalid or unopened source.
+
+All 19 lifecycle, capability, diagnostic, formatting, error-state, exit,
+framing, and deterministic-transcript contracts pass. Independent sessions
+produce byte-identical `openc.lsp_transcript.v1` records at SHA-256
+`78cd47ec56903c7ade4dc90fb3e1b8a0892ea71468ebe1fd7a185f83e32e5dff`.
+
+The compiler contains 95 canonical `.p` source units. Required daily, full,
+and relocated release verification executes no retained D seed. Linux and
+freestanding remain outside the required gate. Complete commands and hashes
+are in `release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md`.
+
+Status: **PASS**
+
 ## Post-SH-6 — native self-rebuild performance
 
 The closed OpenC-native compiler rebuilds its complete 90-source compiler
@@ -401,7 +427,9 @@ oracle. SH-8 makes the native compiler the default compiler-under-test and
 enforces exact-cache and performance-budget policy. SH-9 supplies the public
 native developer CLI and preserves machine diagnostic evidence beside its
 human output. SH-10 supplies deterministic native formatting, project-context
-inspection, and project test execution with stable records.
+inspection, and project test execution with stable records. SH-11 supplies the
+native stdio language-service lifecycle, compiler diagnostics, SH-10 document
+formatting, and deterministic transcript records.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

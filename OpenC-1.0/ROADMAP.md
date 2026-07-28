@@ -8,7 +8,7 @@ Native-provider verification remain optional future target work.
 
 ## Completed self-hosting path
 
-SH-0 through SH-10 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-11 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -58,6 +58,13 @@ SH-10 is complete. The OpenC-authored compiler exposes deterministic
 name-sorted manifest/direct-project `test` execution. Stable
 `openc.format.v1`, `openc.tool_context.v1`, and `openc.test_result.v1`
 records are enforced by the relocated standalone release gate.
+
+SH-11 is complete. The OpenC-authored compiler exposes `openc lsp --stdio`
+with JSON-RPC 2.0 `Content-Length` framing, initialization/capability and
+shutdown/exit lifecycle, full-document synchronization, compiler rule-ID
+diagnostics, and SH-10 document formatting. All 19 native contracts pass,
+including byte-identical independent transcripts and relocated standalone
+verification.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -128,13 +135,20 @@ IR reach closure. Exact evidence and reproduction commands are in
    - native `openc info` project, target, and dependency inspection passes;
    - native `openc test` deterministic discovery and exit records pass;
    - all commands pass relocated standalone release verification.
-4. **SH-11 native language-service completeness — next engineering milestone**
-   - add native `openc lsp --stdio` lifecycle and capability negotiation;
-   - publish document diagnostics from the SH-9 check pipeline;
-   - route document formatting through the SH-10 native formatter;
-   - verify deterministic protocol transcripts from the relocated standalone
+4. **SH-11 native language-service completeness — complete**
+   - native `openc lsp --stdio` lifecycle and capability negotiation pass;
+   - synchronized document diagnostics use stable compiler rule IDs;
+   - document formatting routes through the SH-10 native formatter;
+   - deterministic protocol transcripts pass from the relocated standalone
      package.
-5. **Seek independent review**
+5. **SH-12 native semantic language intelligence — next engineering milestone**
+   - publish native document symbols and typed hover information;
+   - add definition and reference navigation over synchronized project
+     context;
+   - add deterministic completion and validated safe rename;
+   - verify multi-document/project-aware semantic transcripts from the
+     relocated standalone package.
+6. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.
 

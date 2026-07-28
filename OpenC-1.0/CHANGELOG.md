@@ -1,5 +1,35 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-11 native language-service completeness
+
+- added OpenC-authored native `openc lsp --stdio` using JSON-RPC 2.0
+  `Content-Length` framing, initialization/capability negotiation, full
+  document synchronization, shutdown, and LSP exit semantics;
+- published lexer/parser/check diagnostics with stable OpenC rule IDs,
+  severity, UTF-8 ranges, messages, and byte-span data on document open and
+  change, with deterministic clearing on valid change and close;
+- routed `textDocument/formatting` through the SH-10 native formatter and
+  rejected formatting of invalid or unopened documents;
+- added the `openc.lsp_transcript.v1` schema, an authored session fixture, five
+  focused Python tests, and a 19-case native verifier covering positive and
+  negative lifecycle states, diagnostics, formatting, framing, and
+  byte-identical independent transcripts;
+- integrated the 19-case contract into daily, full, and relocated standalone
+  release gates without executing the retained D seed;
+- passed the complete 12/12 full workflow and deterministic two-archive
+  relocated release proof; packaged compiler, Stage 2, and Stage 3 are
+  byte-identical, and relocated Stage 3 passes SH-11 19/19, SH-10 21/21,
+  SH-9 12/12, conformance 278/278, and maintained programs 4/4;
+- disclosed the live-desktop 945.439-second 95-source rebuild and raised only
+  its reviewed elapsed ceiling to 1,050 seconds while retaining the existing
+  memory ceilings;
+- preserved the declared Windows x86-64 Hosted scope and explicit disclosure
+  of the 93 historical rule-ID compatibility matches;
+- made SH-12 native semantic language intelligence the next milestone:
+  document symbols, hover, definition, references, completion, safe rename,
+  and multi-document/project-aware resolution. Linux and freestanding remain
+  optional future targets.
+
 ## Post-RC9 — SH-10 native project workflow completeness
 
 - added OpenC-authored native `openc fmt --check` and `openc fmt --write` for

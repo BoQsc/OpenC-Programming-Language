@@ -140,6 +140,7 @@ OC_API void oc_io_print_i64(int64_t value);
 OC_API void oc_io_print_u64(uint64_t value);
 OC_API void oc_io_print_bool(bool value);
 OC_API void oc_io_error_text(oc_text value);
+OC_API oc_text oc_io_read_message(void);
 
 OC_API oc_status oc_file_open_read(oc_text path, oc_file *out_file);
 OC_API oc_status oc_file_open_write(oc_text path, bool truncate, oc_file *out_file);

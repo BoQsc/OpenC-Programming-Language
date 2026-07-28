@@ -185,6 +185,7 @@ def main() -> int:
                 "openc.exe test (--manifest=TESTS.json|--project=PROJECT) "
                 "[--list] [--filter=TEXT] [--jobs=N] [--no-run]"
             ),
+            "public_language_service_command": "openc.exe lsp --stdio",
             "public_validate_command": (
                 "openc.exe validate --manifest=MANIFEST --output=REPORT"
             ),

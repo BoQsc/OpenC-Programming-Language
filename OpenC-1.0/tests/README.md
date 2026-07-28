@@ -50,6 +50,14 @@ name-sorted discovery, filtering, no-run checks, direct and manifest execution,
 stable hashes, failure classification, and target rejection. The same contract
 runs against relocated Stage 3; 21/21 Python source tests pass.
 
+On 2026-07-28, SH-11 added OpenC-authored `openc lsp --stdio`. The 19/19
+contract covers lifecycle and capability negotiation, full-document open,
+change, and close synchronization, native rule-ID diagnostics, SH-10
+formatting, protocol error states, shutdown/exit semantics, byte-accurate
+`Content-Length` framing, and byte-identical independent transcripts. The
+transcript schema and five focused Python tests pass; required execution does
+not invoke the retained D seed.
+
 Conformance execution is recorded separately by the canonical `openc validate`
 command. Local success is not evidence for untested targets or independent
 review.

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openc-lang.org/schemas/LSP_TRANSCRIPT.schema.json",
+  "title": "OpenC deterministic LSP transcript",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "server",
+    "target",
+    "transport",
+    "messages"
+  ],
+  "properties": {
+    "schema": {
+      "const": "openc.lsp_transcript.v1"
+    },
+    "server": {
+      "const": "openc-lsp"
+    },
+    "target": {
+      "const": "windows-x86_64-hosted"
+    },
+    "transport": {
+      "const": "stdio-content-length"
+    },
+    "messages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "direction",
+          "message"
+        ],
+        "properties": {
+          "direction": {
+            "enum": [
+              "client-to-server",
+              "server-to-client"
+            ]
+          },
+          "message": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

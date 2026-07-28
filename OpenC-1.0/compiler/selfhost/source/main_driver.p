@@ -94,6 +94,11 @@ unsafe i32 main() {
     if arguments >= 2 && process.argument(0) == "test" {
         return cli_test_command();
     }
+    if arguments == 2 &&
+        process.argument(0) == "lsp" &&
+        process.argument(1) == "--stdio" {
+        return cli_lsp_stdio();
+    }
     if (arguments == 2 || arguments == 3) &&
         process.argument(0) == "check" {
         text project_path = process.argument(1);

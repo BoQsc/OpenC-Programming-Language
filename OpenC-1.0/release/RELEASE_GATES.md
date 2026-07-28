@@ -17,6 +17,7 @@ G11 standalone self-hosted distribution (SH-6)           PASS
 G12 native default workflow and regression budgets (SH-8) PASS
 G13 native public CLI and diagnostic usability (SH-9)    PASS 12/12
 G14 native project workflow completeness (SH-10)         PASS 21/21
+G15 native language-service completeness (SH-11)         PASS 19/19
 ```
 
 There are no open P0/P1 findings in the maintainer release review. Independent
@@ -64,6 +65,12 @@ contracts: syntax-preserving formatter check/write, deterministic context
 views, name-sorted test discovery/execution, stable machine records, and
 distinct language, assertion, and infrastructure outcomes. The D seed remains
 absent.
+
+SH-11 requires relocated native Stage 3 to pass all 19 native
+language-service contracts: JSON-RPC lifecycle/capabilities, full-document
+synchronization, stable rule-ID diagnostics, SH-10 formatting, negative
+protocol states, shutdown/exit behavior, bounded UTF-8 framing, and
+byte-identical independent transcripts. The D seed remains absent.
 
 The SH-6 268-fixture package count is the immutable RC8 historical result.
 RC9 completes the mandatory successor gate: the relocated package executes the

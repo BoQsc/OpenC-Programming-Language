@@ -2,7 +2,7 @@
   "compiled": true,
   "executed": true,
   "schema": "openc.tooling.work_matrix.v1",
-  "source_authoring_state": "SOURCE_AUTHORED_WINDOWS_X86_64_RC6_VERIFIED",
+  "source_authoring_state": "SOURCE_AUTHORED_WINDOWS_X86_64_SH11_VERIFIED",
   "tools": [
     {
       "contracts": [
@@ -121,15 +121,22 @@
     },
     {
       "contracts": [
-        "language_server"
+        "stdio_json_rpc_lifecycle",
+        "full_document_sync",
+        "rule_id_diagnostics",
+        "document_formatting",
+        "deterministic_transcripts"
       ],
-      "evidence_status": "IMPLEMENTATION_TEST_SUITE_PASS",
+      "evidence_status": "SH11_NATIVE_19_OF_19_PASS",
       "required_for": "Tooling_1.0",
       "source_paths": [
+        "compiler/selfhost/source/main_driver.p",
+        "compiler/selfhost/source/cli_lsp.p",
+        "runtime/common/source/openc_runtime.c",
         "compiler/source/app/main.d",
         "tools/source/openc/tools/lsp.d"
       ],
-      "status": "BUILT_WINDOWS_X86_64_RC6",
+      "status": "NATIVE_BUILT_WINDOWS_X86_64_SH11",
       "tool": "openc lsp"
     }
   ]

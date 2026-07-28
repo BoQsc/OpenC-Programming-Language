@@ -17,7 +17,8 @@ Use `python scripts/windows_native_workflow.py daily` for ordinary work and
 `python scripts/windows_native_workflow.py full` for the forced validation and
 self-rebuild budget gate. These workflows include the complete 12-case SH-9
 public native CLI contract, the 21-case SH-10 formatter/info/test contract,
-and all six demos through `openc run`. The
+the 19-case SH-11 language-service contract, and all six demos through
+`openc run`. The
 required release path is:
 
 ```text

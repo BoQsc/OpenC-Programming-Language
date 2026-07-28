@@ -63,6 +63,7 @@ static ocb_path_fast_entry ocb_path_fast_cache[OCB_FAST_CACHE_CAPACITY];
 static ocb_file_fast_entry ocb_file_fast_cache[OCB_FAST_CACHE_CAPACITY];
 static uintptr_t ocb_fast_cache_generation = 1u;
 static oc_text ocb_executable_directory_value;
+static oc_text ocb_lsp_message;
 
 static oc_text ocb_copy_text(oc_text value) {
     uint8_t *data = (uint8_t *)oc_memory_allocate(
@@ -322,6 +323,10 @@ void ocb_process_initialize(int argc, char **argv) {
 
 void ocb_process_finalize(void) {
     ocb_release_caches();
+    if (ocb_lsp_message.data != NULL) {
+        oc_memory_release((void *)ocb_lsp_message.data);
+        ocb_lsp_message = OC_TEXT_EMPTY;
+    }
     if (ocb_executable_directory_value.data != NULL) {
         oc_memory_release((void *)ocb_executable_directory_value.data);
         ocb_executable_directory_value = OC_TEXT_EMPTY;
@@ -422,6 +427,22 @@ oc_status ocb_file_read_text(oc_text path, oc_text *value) {
     oc_status read;
     if (value == NULL) {
         return ocb_failure(OC_STATUS_INVALID_ARGUMENT, "text output is null");
+    }
+    if (oc_text_equal(
+        path, OC_TEXT_LITERAL("@openc-internal:lsp-stdio-frame")
+    )) {
+        if (ocb_lsp_message.data != NULL) {
+            oc_memory_release((void *)ocb_lsp_message.data);
+            ocb_lsp_message = OC_TEXT_EMPTY;
+        }
+        ocb_lsp_message = oc_io_read_message();
+        if (ocb_lsp_message.length == 0u) {
+            return ocb_failure(
+                OC_STATUS_NOT_FOUND, "standard input is closed"
+            );
+        }
+        *value = ocb_lsp_message;
+        return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
     }
     opened = oc_file_open_read(path, &file);
     if (!oc_status_ok(opened)) return opened;

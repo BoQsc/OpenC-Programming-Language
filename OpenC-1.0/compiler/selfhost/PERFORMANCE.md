@@ -76,11 +76,11 @@ shipped TinyCC directory.
 SH-8 replaces descriptive-only performance history with the enforceable
 budgets in `WINDOWS_NATIVE_BUDGETS.json`.
 
-The SH-10 live-desktop 278-fixture native validation baseline is 68.471
-seconds with 6,520,832 bytes peak private memory. Its reviewed ceiling is
-90 seconds and 16 MiB. The SH-10 byte-identical native self-rebuild baseline
-is 744.926 seconds with 196,796,416 bytes peak private memory. Its reviewed
-ceiling is 900 seconds and 256 MiB.
+The SH-11 live-desktop 278-fixture native validation baseline is 39.664
+seconds with 6,422,528 bytes peak private memory. Its reviewed ceiling is
+90 seconds and 16 MiB. The SH-11 byte-identical 95-source native self-rebuild
+baseline is 945.439 seconds with 201,244,672 bytes peak private memory. Its
+reviewed ceiling is 1,050 seconds and 256 MiB.
 
 The prior SH-8 baselines were 35.489 seconds for validation and 494.985 seconds
 for the 92-source self-rebuild, whose ceiling was 620 seconds. The 94-source
@@ -89,8 +89,14 @@ Repeated identical SH-10 executions on the live reference desktop ranged from
 29.803 to 68.471 seconds for validation and from 574.050 to 744.926 seconds for
 self-rebuild. Every validation passed 278/278; every completed rebuild was
 byte-identical; memory remained stable and below the original ceilings. The
-authored SH-10 review records those ranges, sets 31.4%/20.8% wall-time
-headroom, and retains both original memory ceilings.
+authored SH-10 review recorded those ranges and retained both original memory
+ceilings. SH-11 observed a wider successful-build range through 945.439
+seconds while generated C and memory remained stable. An initial executable
+comparison used a `final-openc.exe` seed whose embedded PE module basename
+differed from the rebuilt `openc.exe`; rebuilding and installing the stable
+`openc.exe` basename restored byte-exact closure. The authored SH-11 review
+raises only the elapsed ceiling to 1,050 seconds (11.1% baseline headroom) and
+retains the existing memory ceilings.
 
 Run and enforce both budgets with:
 

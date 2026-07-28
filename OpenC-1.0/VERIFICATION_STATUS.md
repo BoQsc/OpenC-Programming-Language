@@ -23,14 +23,14 @@ are outside the supported 1.0 scope.
 - 9 of 9 canonical D targets build and link in debug mode.
 - 9 of 9 canonical D targets build and link in release mode.
 - 8 of 8 authored D test commands pass.
-- 21 of 21 Python source tests pass; bytecode checks pass.
+- 26 of 26 Python source tests pass; bytecode checks pass.
 - 278 of 278 conformance fixtures pass with zero infrastructure failures.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
-  compiler-in-OpenC and SH-10 expansion brings the current tree to 393
+  compiler-in-OpenC and SH-11 expansion brings the current tree to 394
   `.p` files,
-  including 94 compiler source units. The migrated fixture corpus retains
+  including 95 compiler source units. The migrated fixture corpus retains
   278/278 passes and zero infrastructure failures. SH-2 records the exact
   288-file corpus used for that milestone; SH-4A covers the complete current
   compiler project through byte-exact generated output.
@@ -135,6 +135,26 @@ are outside the supported 1.0 scope.
   278/278 and every completed rebuild is byte-identical. An authored SH-10
   variability review records 90/900-second elapsed ceilings while retaining
   the original memory ceilings.
+- SH-11 native language-service completeness passes. OpenC-authored
+  `openc lsp --stdio` implements JSON-RPC 2.0 `Content-Length` framing,
+  initialization/capability negotiation, full-document open/change/close
+  synchronization, shutdown/exit semantics, compiler rule-ID diagnostics, and
+  SH-10 document formatting. All 19 native contracts pass. Independent
+  sessions produce byte-identical `openc.lsp_transcript.v1` records at
+  SHA-256
+  `78cd47ec56903c7ade4dc90fb3e1b8a0892ea71468ebe1fd7a185f83e32e5dff`.
+  The required workflow does not execute the retained D seed. The complete
+  SH-11 workflow passes 12/12 tasks; fresh validation takes 39.664 seconds
+  under its 90-second ceiling, and the byte-identical 95-source rebuild takes
+  945.439 seconds under its reviewed 1,050-second ceiling. Peak private and
+  working-set memory remain below the unchanged limits. Two independently
+  assembled standalone archives are byte-identical at SHA-256
+  `6c73a64de6c16d33e34b5e3162678e8d8cfb2f63cbc12f7d30323fd0c6ca29a0`;
+  packaged compiler, Stage 2, and Stage 3 are byte-identical at
+  `a0a53c463a157dc671a77de95c2f2e7aad8d82563a264e551e6af219ba8bb318`.
+  Relocated Stage 3 passes SH-11 19/19, SH-10 21/21, SH-9 12/12, conformance
+  278/278, runtime 35/35, diagnostic contracts 153/153, and maintained
+  programs 4/4.
 - The post-SH-6 native performance milestone passes. A closed Stage 3 rebuilds
   the compiler in 381.049 seconds versus 698.918 seconds before the changes,
   with 11.37 MiB peak working set and 161.55 MiB peak private memory. Optimized
@@ -175,6 +195,7 @@ python scripts/native_toolchain.py status
 python scripts/windows_native_workflow.py daily
 python scripts/windows_native_workflow.py full
 python scripts/verify_sh10_project_workflow.py
+python scripts/verify_sh11_lsp.py --force
 python tests/run_maintained.py
 python demos/run_all.py
 python scripts/complete_conformance_coverage.py --check
@@ -211,12 +232,15 @@ gate. SH-8 makes the native compiler the default Windows compiler-under-test,
 adds validation/rebuild regression budgets, and removes redundant unchanged
 daily corpus execution. SH-9 adds the public developer CLI and human/machine
 diagnostic surface. SH-10 adds native formatting, project-context inspection,
-and deterministic project testing. Self-hosting SH-0 through SH-10 is complete for the
-declared Windows x86-64 Hosted scope.
+and deterministic project testing. SH-11 adds the native language-service
+lifecycle, synchronized diagnostics, formatting, and deterministic protocol
+transcripts. Self-hosting SH-0 through SH-11 is complete for the declared
+Windows x86-64 Hosted scope.
 
 The immutable RC8 standalone record remains at 268 fixtures. RC9 packages and
 executes the current 278-fixture corpus, reaches byte-identical native closure,
-and publishes the verified artifact set. SH-10 is the verified post-RC9
-mainline successor. The next engineering milestone is SH-11 native
-language-service completeness. Linux and freestanding remain optional future
-targets.
+and publishes the verified artifact set. SH-11 is the verified post-RC9
+mainline successor. The next engineering milestone is SH-12 native semantic
+language intelligence: symbols, hover, navigation, references, completion,
+safe rename, and multi-document/project-aware resolution. Linux and
+freestanding remain optional future targets.

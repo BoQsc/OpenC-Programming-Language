@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the extracted OpenC standalone Windows distribution."""
+"""Verify the extracted SH-11 OpenC standalone Windows distribution."""
 from __future__ import annotations
 
 import argparse
@@ -101,7 +101,7 @@ def run(
     environment: dict[str, str],
     label: str,
 ) -> subprocess.CompletedProcess[str]:
-    print(f"[SH-10] {label}", flush=True)
+    print(f"[SH-11] {label}", flush=True)
     completed = subprocess.run(
         command,
         cwd=cwd,
@@ -304,11 +304,34 @@ def main() -> int:
         project_workflow_report_path.read_text(encoding="utf-8")
     )
 
+    language_service_report_path = (
+        output
+        / "native-language-service"
+        / "sh11-lsp-verification.json"
+    )
+    run(
+        [
+            sys.executable,
+            str(distribution / "scripts" / "verify_sh11_lsp.py"),
+            "--compiler",
+            str(stage3),
+            "--output",
+            str(output / "native-language-service"),
+            "--force",
+        ],
+        distribution,
+        environment,
+        "native JSON-RPC lifecycle, diagnostics, formatting, and transcript",
+    )
+    language_service_report = json.loads(
+        language_service_report_path.read_text(encoding="utf-8")
+    )
+
     parity_output = output / "semantic-parity"
     parity_stdout = ""
     parity_report: dict[str, object] = {
         "status": "NOT_RUN_OPTIONAL",
-        "reason": "retained D seed is not part of the required SH-10 gate",
+        "reason": "retained D seed is not part of the required SH-11 gate",
     }
     if args.audit_seed:
         parity = run(
@@ -395,6 +418,17 @@ def main() -> int:
             and project_workflow_report.get("retained_d_seed_executed")
             is False
         ),
+        "native_language_service_19_of_19": (
+            language_service_report.get("status") == "PASS"
+            and language_service_report.get("passed") == 19
+            and language_service_report.get("failed") == 0
+            and language_service_report.get(
+                "deterministic_transcript_bytes"
+            )
+            is True
+            and language_service_report.get("retained_d_seed_executed")
+            is False
+        ),
         "native_openc_validate_278_of_278": (
             conformance_report.get("schema") == "openc.conformance_result.v2"
             and conformance_report.get("evidence_state") == "EXECUTED_NATIVE"
@@ -427,8 +461,8 @@ def main() -> int:
         "required_conformance_command_uses_native_stage3": True,
     }
     result = {
-        "schema": "openc.self_host_standalone_release.v3",
-        "stage": "SH10_NATIVE_PROJECT_WORKFLOW_COMPLETENESS",
+        "schema": "openc.self_host_standalone_release.v4",
+        "stage": "SH11_NATIVE_LANGUAGE_SERVICE_COMPLETENESS",
         "status": "PASS" if all(checks.values()) else "FAIL",
         "checks": checks,
         "roles": {
@@ -442,7 +476,7 @@ def main() -> int:
             ),
             "bootstrap_seed": (
                 "optional retained D comparison oracle; packaged for audit "
-                "continuity but never executed by the required SH-10 gate"
+                "continuity but never executed by the required SH-11 gate"
             ),
             "python": "external evidence harness only",
         },
@@ -480,6 +514,9 @@ def main() -> int:
             "native_cli_report": str(cli_report_path),
             "native_project_workflow_report": str(
                 project_workflow_report_path
+            ),
+            "native_language_service_report": str(
+                language_service_report_path
             ),
         },
         "optional_seed_audit": {
@@ -523,6 +560,20 @@ def main() -> int:
                 "retained_d_seed_executed"
             ),
         },
+        "native_language_service": {
+            "total": language_service_report.get("total"),
+            "passed": language_service_report.get("passed"),
+            "failed": language_service_report.get("failed"),
+            "transcript_sha256": language_service_report.get(
+                "transcript_sha256"
+            ),
+            "deterministic_transcript_bytes": language_service_report.get(
+                "deterministic_transcript_bytes"
+            ),
+            "retained_d_seed_executed": language_service_report.get(
+                "retained_d_seed_executed"
+            ),
+        },
         "optional_seed_audit_stdout": parity_stdout,
         "conformance_harness_stdout": conformance.stdout,
         "normalization": [
@@ -538,9 +589,9 @@ def main() -> int:
     )
     if result["status"] != "PASS":
         failed = [name for name, passed in checks.items() if not passed]
-        raise SystemExit("SH-10 standalone gate failed: " + ", ".join(failed))
+        raise SystemExit("SH-11 standalone gate failed: " + ", ".join(failed))
     print(
-        "SH-10 native project workflow completeness: PASS; "
+        "SH-11 native language-service completeness: PASS; "
         f"conformance={conformance_report.get('passed')}/"
         f"{conformance_report.get('total')} "
         f"maintained={maintained_passed}/{len(PROGRAMS)} "

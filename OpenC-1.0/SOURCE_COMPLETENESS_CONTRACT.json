@@ -33,7 +33,7 @@
       "id": "compiler.backend"
     },
     {
-      "description": "executable compiler-in-OpenC frontend, complete semantic acceptance, canonical IR, native public CLI, exact parity harnesses, and bootstrap gates",
+      "description": "executable compiler-in-OpenC frontend, complete semantic acceptance, canonical IR, native public CLI and language service, exact parity harnesses, and bootstrap gates",
       "groups": [
         "compiler_selfhost"
       ],
@@ -135,6 +135,7 @@
       "scripts/update_authority_index.py",
       "scripts/validate_structure.py",
       "scripts/verify_sh10_project_workflow.py",
+      "scripts/verify_sh11_lsp.py",
       "scripts/verify_sh9_cli.py",
       "scripts/windows_native_workflow.py"
     ],
@@ -259,6 +260,7 @@
       "compiler/selfhost/source/backend_part2.p",
       "compiler/selfhost/source/cli.p",
       "compiler/selfhost/source/cli_format.p",
+      "compiler/selfhost/source/cli_lsp.p",
       "compiler/selfhost/source/cli_project_workflow.p",
       "compiler/selfhost/source/flow.p",
       "compiler/selfhost/source/flow_expressions.p",
@@ -383,6 +385,7 @@
       "tests/python/test_bootstrap_source.py",
       "tests/python/test_native_workflow.py",
       "tests/python/test_sh10_project_workflow.py",
+      "tests/python/test_sh11_lsp.py",
       "tests/python/test_sh9_cli.py",
       "tests/run_all.py",
       "tests/run_maintained.py"
@@ -436,6 +439,7 @@
     "schemas/TEST_MANIFEST.schema.json",
     "schemas/TEST_RESULT.schema.json",
     "schemas/TOOL_CONTEXT.schema.json",
+    "schemas/LSP_TRANSCRIPT.schema.json",
     "schemas/DIAGNOSTIC.schema.json",
     "schemas/FIXTURE.schema.json",
     "compiler/selfhost/openc.project.json",
@@ -447,7 +451,9 @@
     "release/SH8_NATIVE_WORKFLOW_EVIDENCE.md",
     "release/SH9_NATIVE_CLI_EVIDENCE.md",
     "release/SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md",
+    "release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md",
     "tests/tooling/sh10/openc.tests.json",
+    "tests/tooling/sh11/session.json",
     "demos/README.md",
     "demos/calculator/EXPECTED.md",
     "demos/calculator/openc.project.json",

@@ -42,6 +42,13 @@ verifier requires all 21 formatter, context-inspection, deterministic
 discovery/execution, stable-record, and failure-classification cases. Evidence
 is in `SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md`.
 
+SH-11 native language-service lifecycle, diagnostics, and formatting are
+implemented in the OpenC-authored compiler and verified by
+`scripts/verify_sh11_lsp.py`. The standalone verifier requires all 19
+JSON-RPC lifecycle, synchronization, rule-ID diagnostic, SH-10 formatting,
+error-state, framing, and deterministic-transcript cases. Evidence is in
+`SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md`.
+
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by
 `verify_release_artifacts.py`. The builder emits the artifact layout, mandatory

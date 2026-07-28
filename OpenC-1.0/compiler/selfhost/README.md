@@ -25,7 +25,8 @@ SH-8 makes the native compiler the default Windows compiler-under-test and
 adds exact-cache and performance-budget gates. SH-9 adds the OpenC-authored
 public developer CLI and human/machine diagnostic surface. SH-10 adds
 OpenC-authored native formatting, project-context inspection, and deterministic
-project testing. The
+project testing. SH-11 adds OpenC-authored stdio JSON-RPC lifecycle,
+synchronized compiler diagnostics, and document formatting. The
 gate contract is in
 `SELF_HOSTING.md`; the machine-readable gate state is
 `SELF_HOSTING_STATE.json`. Post-SH-6 native self-rebuild measurements and
@@ -99,6 +100,18 @@ They produce stable `openc.format.v1`, `openc.tool_context.v1`, and
 `openc.test_result.v1` records. Verify all 21 cases with
 `python scripts/verify_sh10_project_workflow.py`.
 
+SH-11 adds the native language-service command:
+
+```text
+openc lsp --stdio
+```
+
+It provides initialization/capability negotiation, full-document
+open/change/close synchronization, stable compiler rule-ID diagnostics,
+SH-10 formatting, shutdown/exit semantics, and deterministic
+`openc.lsp_transcript.v1` evidence. Verify all 19 cases with
+`python scripts/verify_sh11_lsp.py --force`.
+
 Run the SH-4 proofs with a built Stage-1 executable and configured DMD:
 
 ```text
@@ -123,4 +136,6 @@ usability is **PASS**; its evidence is in
 `release/SH9_NATIVE_CLI_EVIDENCE.md`. SH-10 native project workflow
 completeness is **PASS**; its evidence is in
 `release/SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md`. SH-11 native
-language-service completeness is next.
+language-service completeness is **PASS**; its evidence is in
+`release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md`. SH-12 native semantic
+language intelligence comes next.
