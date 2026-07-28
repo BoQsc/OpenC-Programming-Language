@@ -24,6 +24,7 @@ required = [
     "release/ERRATA_POLICY.md", "release/SUPPORT_POLICY.md",
     "release/SH7_NATIVE_CONFORMANCE_EVIDENCE.md",
     "release/SH8_NATIVE_WORKFLOW_EVIDENCE.md",
+    "release/SH9_NATIVE_CLI_EVIDENCE.md",
     "release/windows_native_release.py",
     "compiler/selfhost/SELF_HOSTING.md", "compiler/selfhost/SELF_HOSTING_STATE.json",
     "compiler/selfhost/source/main.p", "compiler/selfhost/bootstrap.py",
@@ -32,10 +33,12 @@ required = [
     "scripts/complete_conformance_coverage.py",
     "scripts/generate_native_conformance_plan.py",
     "scripts/native_toolchain.py",
+    "scripts/verify_sh9_cli.py",
     "scripts/windows_native_workflow.py",
     "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json",
     "compiler/selfhost/benchmark_windows_validate.py",
     "compiler/selfhost/source/native_conformance.p",
+    "compiler/selfhost/source/cli.p",
     "conformance/fixtures/NATIVE_PLAN.tsv",
     "standard/core/OpenC_Core_Current.md",
     "standard/core/grammar/OpenC_Core_Grammar.ebnf",
@@ -318,6 +321,28 @@ if self_host_gates.get("SH-8") == "PASS" and (
         "SH-8 PASS requires native-default testing, validation/rebuild "
         "budgets, exact-input caching, and no required D-seed execution"
     )
+if self_host_gates.get("SH-9") != "PASS":
+    errors.append("native CLI and diagnostic usability SH-9 gate must pass")
+if self_host_gates.get("SH-9") == "PASS" and (
+        not self_hosting.get("claims", {}).get("public_native_check")
+        or not self_hosting.get("claims", {}).get("public_native_run")
+        or not self_hosting.get("claims", {}).get(
+            "human_and_machine_diagnostics"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "native_version_target_explain"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "demos_use_public_native_cli"
+        )
+        or self_hosting.get("claims", {}).get(
+            "required_workflows_use_d_seed"
+        )):
+    errors.append(
+        "SH-9 PASS requires public native check/run, human and machine "
+        "diagnostics, information/rule commands, direct demo CLI use, "
+        "and no required D-seed execution"
+    )
 
 budgets = json.loads((
     ROOT / "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json"
@@ -347,7 +372,11 @@ if '"audit-seed"' not in native_workflow or \
         '"retained_d_seed_executed": False' not in native_workflow:
     errors.append("D-seed audit must be explicit and outside native workflows")
 if "--audit-seed" in native_release:
-    errors.append("required SH-8 native release workflow must not audit the D seed")
+    errors.append("required native release workflow must not audit the D seed")
+if '"native_cli_12_of_12"' not in standalone_verifier:
+    errors.append("standalone release must verify the complete SH-9 CLI contract")
+if '"openc.windows_native_workflow.v2"' not in native_workflow:
+    errors.append("native workflow must record the SH-9 workflow schema")
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

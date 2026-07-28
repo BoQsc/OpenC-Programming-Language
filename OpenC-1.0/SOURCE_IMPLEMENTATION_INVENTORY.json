@@ -115,12 +115,12 @@
       "sha256": "bb9ad845dedbf919582508fd9e5baf248a76437a8224fdd03a67cffe02686828"
     },
     {
-      "bytes": 8597,
+      "bytes": 9055,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "release/build_standalone_windows.py",
       "present": true,
-      "sha256": "e86cae91a50c49f0f1ec8e4004391a6b3cb806921cfa3c4e6b05d691ebac3b1f"
+      "sha256": "41343eab97ddca48ee65eecef3e6eba0207e5585af8ba7da9eda722247086564"
     },
     {
       "bytes": 9046,
@@ -139,20 +139,20 @@
       "sha256": "dda44428375a06085136d20b96410f66a10443419ec54f7ca43bb00b7151ced2"
     },
     {
-      "bytes": 17113,
+      "bytes": 18228,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "release/verify_standalone_windows.py",
       "present": true,
-      "sha256": "7ef5a645d55f4443273cb9b444b1b2512c9662d97e8f3a4123f76aa16bdea205"
+      "sha256": "fffe7079ce24e837f3aaa46865393169b8fa629df7015407122d55a04f69419b"
     },
     {
-      "bytes": 6570,
+      "bytes": 6859,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "release/windows_native_release.py",
       "present": true,
-      "sha256": "0037459099926daf7cf9931dd939aad30fe34e6edd869b8c17497b7655b80f9b"
+      "sha256": "055901d0dae6a11d618f1e3e7f5c232aba650441bdb76c6e76ac38ccc5607950"
     },
     {
       "bytes": 26168,
@@ -179,12 +179,12 @@
       "sha256": "0f933e20c382832363ecb6c9f713e0f32f02ea6d81534465dc7620a236f71016"
     },
     {
-      "bytes": 11344,
+      "bytes": 11824,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/native_toolchain.py",
       "present": true,
-      "sha256": "c44f1893b135595b68a23e7553026e6ae1b245eead5ca26b543853ed3bab93b2"
+      "sha256": "d569a0fd81afec86f127b34f73fb80c07e6af0d986285ee61a0188014dfbdcf2"
     },
     {
       "bytes": 2095,
@@ -211,20 +211,28 @@
       "sha256": "83872bc5b5927b207bc4926956a0b3316fab9e66961bfafc4584cf74e57f1915"
     },
     {
-      "bytes": 18805,
+      "bytes": 20125,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/validate_structure.py",
       "present": true,
-      "sha256": "291727b8d6c57880311c5e84ff0eb6546fb9da12aea0362efe9cc1ef80164d49"
+      "sha256": "74938a7e1f04d5e581597e3b761dafba06ad96b5b248d6e0937d25fa7a71bf6a"
     },
     {
-      "bytes": 15824,
+      "bytes": 8807,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "scripts/verify_sh9_cli.py",
+      "present": true,
+      "sha256": "11dd517a880bf5a729adc91552dd53243fa25f8858c30a9099d45bfdf7f1e3f8"
+    },
+    {
+      "bytes": 16180,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/windows_native_workflow.py",
       "present": true,
-      "sha256": "cb07f16134126c12eac13c3b1eadcff12641053a71df5ed58399e4c7dad1e16c"
+      "sha256": "bf0d0304ac9a9f28c200b519a817452ef826e24b6d1250b9fb9b8c031967bd9b"
     },
     {
       "bytes": 14740,
@@ -1019,12 +1027,12 @@
       "sha256": "822a62d907a03c1c50608c94886447d488385b123d6986199cffe5b3475ecbef"
     },
     {
-      "bytes": 9266,
+      "bytes": 10329,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/acceptance_ranges_part3.p",
       "present": true,
-      "sha256": "2cb5ffa97ce378b7e72dbcaa903c2bc91937d0a98e4364b6e2ab750c6fb67012"
+      "sha256": "5d2daa30decb453246d495eede813b7d6b10c5f9889fc213421401fb4659edd3"
     },
     {
       "bytes": 16807,
@@ -1129,6 +1137,14 @@
       "path": "compiler/selfhost/source/backend_part2.p",
       "present": true,
       "sha256": "eaf4316920c225347e64164f1e93544fca0f9742d66107709d1405646a6399b1"
+    },
+    {
+      "bytes": 16308,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/cli.p",
+      "present": true,
+      "sha256": "7d0286d1e9fb995c66a05236f15e853a8780cd50d6004100eba090ec3043b9f4"
     },
     {
       "bytes": 8120,
@@ -1387,12 +1403,12 @@
       "sha256": "de261e7fca079e671953bee9b707a1e9563a0df43a578d103d03d2062c7244da"
     },
     {
-      "bytes": 9517,
+      "bytes": 11353,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/main_driver.p",
       "present": true,
-      "sha256": "3dde6f254294063fd9e7eb98844831cd96dbf4f6b9629a8195cc069da2108814"
+      "sha256": "adcd393899fd739dbf3284f8dc7a444df430e5fb34f8e76e2150fbc48ea966d3"
     },
     {
       "bytes": 6299,
@@ -1691,12 +1707,12 @@
       "sha256": "793f3133fd134a1bb3edd1feae6a1ad1be5c36ed501e53b05ac727861e98ac22"
     },
     {
-      "bytes": 4703,
+      "bytes": 3927,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "demos",
       "path": "demos/run_all.py",
       "present": true,
-      "sha256": "5b5acb6e69608b7da95cd1e3503e257d07829f632ad92b712891451ac86ed671"
+      "sha256": "444671e9a01ef5a392997705fa24e0cba468407054a0914cfb204517ae00a0c7"
     },
     {
       "bytes": 361,
@@ -1995,12 +2011,20 @@
       "sha256": "cbca276f9c6509052b140d0554d5cf37c641e0d37d49ee5c2ce38a0909a0ee30"
     },
     {
-      "bytes": 5155,
+      "bytes": 5462,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "tests_python",
       "path": "tests/python/test_native_workflow.py",
       "present": true,
-      "sha256": "9824f6fd131ad275ce9750a8b0ad8dfaaafd99e3555d922018f5d372eaa15d52"
+      "sha256": "eb67e7f715ba8f8d1d03482c4fc362b3ed155528d005c5182ac52d3debed21b4"
+    },
+    {
+      "bytes": 2088,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tests_python",
+      "path": "tests/python/test_sh9_cli.py",
+      "present": true,
+      "sha256": "3ae4c76d79d70741d806c6556378241b043ee499fdb4896a4f17d529587e0c5d"
     },
     {
       "bytes": 1843,
@@ -2150,9 +2174,9 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 1965349,
+    "bytes": 1999000,
     "empty": 0,
-    "files": 268,
+    "files": 271,
     "missing": 0
   },
   "version": "1.0.0-rc.9"

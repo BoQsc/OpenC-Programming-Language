@@ -1,6 +1,6 @@
 # Test execution status
 
-All eight canonical D test commands and all ten Python source tests pass on
+All eight canonical D test commands and all fifteen Python source tests pass on
 the recorded Windows host. `run_all.py` records the D matrix;
 `run_maintained.py` uses the verified native compiler by default and records
 native build/execution of the four maintained OpenC programs.
@@ -36,6 +36,12 @@ completeness, coverage, 10/10 Python tests, 278/278 conformance, 4/4 maintained
 programs, and 6/6 demos. Its unchanged-input cache reruns zero fixtures. Full
 and release workflows force fresh native validation; the D seed remains an
 explicit optional audit only.
+
+On 2026-07-28, SH-9 added the OpenC-authored public native CLI. The 12/12
+command contract covers help, version, target, active and historical rule
+explanation, valid and invalid `check` records, lexical/flow/semantic human
+diagnostics, `run`, and argument forwarding. All 6 demos now execute through
+public `openc run`; 15/15 Python source tests pass.
 
 Conformance execution is recorded separately by the canonical `openc validate`
 command. Local success is not evidence for untested targets or independent

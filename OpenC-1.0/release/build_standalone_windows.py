@@ -165,9 +165,21 @@ def main() -> int:
             "public_build_command": (
                 "openc.exe build --project=PROJECT --output=OUTPUT-EXE"
             ),
+            "public_check_command": (
+                "openc.exe check --project=PROJECT "
+                "[--output=CHECK-RECORD.json]"
+            ),
+            "public_run_command": (
+                "openc.exe run --project=PROJECT [-- PROGRAM-ARGUMENTS...]"
+            ),
             "public_validate_command": (
                 "openc.exe validate --manifest=MANIFEST --output=REPORT"
             ),
+            "public_information_commands": [
+                "openc.exe version",
+                "openc.exe target",
+                "openc.exe explain RULE-ID",
+            ],
         },
         "bootstrap_seed": {
             "path": "bootstrap/openc-stage0.exe",

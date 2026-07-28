@@ -12,6 +12,11 @@ Core IR, D bootstrap generation, JSON IR, Native candidate declarations,
 diagnostics, conformance adaptation, toolchain integration, and the unified
 command driver.
 
+The self-hosted OpenC compiler contains the complete native Windows frontend,
+semantic/IR pipeline, deterministic C11 backend, conformance runner, and the
+SH-9 public `check`, `run`, version, target, rule-explanation, and
+human/machine diagnostic surface in canonical `.p` source.
+
 ## Informative bootstrap
 
 A standard-library-only Python implementation covers the same principal
@@ -48,8 +53,9 @@ normalization.
 
 Authored D and Python tests, 278 imported/current Core fixtures, four
 maintained programs, six demo projects, native daily/full/release workflows,
-performance budgets, build scripts, test drivers, release scripts, schemas,
-and source-completeness contracts are included.
+performance budgets, the 12-case public native CLI verifier, build scripts,
+test drivers, release scripts, schemas, and source-completeness contracts are
+included.
 
 ## Machine-readable inventory
 

@@ -33,7 +33,7 @@
       "id": "compiler.backend"
     },
     {
-      "description": "executable compiler-in-OpenC frontend, complete semantic acceptance, canonical IR, exact parity harnesses, and bootstrap gates",
+      "description": "executable compiler-in-OpenC frontend, complete semantic acceptance, canonical IR, native public CLI, exact parity harnesses, and bootstrap gates",
       "groups": [
         "compiler_selfhost"
       ],
@@ -134,6 +134,7 @@
       "scripts/source_inventory.py",
       "scripts/update_authority_index.py",
       "scripts/validate_structure.py",
+      "scripts/verify_sh9_cli.py",
       "scripts/windows_native_workflow.py"
     ],
     "compiler_d": [
@@ -255,6 +256,7 @@
       "compiler/selfhost/source/backend_declaration_part2.p",
       "compiler/selfhost/source/backend_instruction.p",
       "compiler/selfhost/source/backend_part2.p",
+      "compiler/selfhost/source/cli.p",
       "compiler/selfhost/source/flow.p",
       "compiler/selfhost/source/flow_expressions.p",
       "compiler/selfhost/source/flow_expressions_part2.p",
@@ -377,6 +379,7 @@
     "tests_python": [
       "tests/python/test_bootstrap_source.py",
       "tests/python/test_native_workflow.py",
+      "tests/python/test_sh9_cli.py",
       "tests/run_all.py",
       "tests/run_maintained.py"
     ],
@@ -434,6 +437,7 @@
     "compiler/selfhost/SELF_HOSTING.md",
     "compiler/selfhost/SELF_HOSTING_STATE.json",
     "release/SH8_NATIVE_WORKFLOW_EVIDENCE.md",
+    "release/SH9_NATIVE_CLI_EVIDENCE.md",
     "demos/README.md",
     "demos/calculator/EXPECTED.md",
     "demos/calculator/openc.project.json",

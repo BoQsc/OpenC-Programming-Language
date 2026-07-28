@@ -263,7 +263,17 @@ def install_distribution(
 def installed_provenance(compiler: Path) -> dict[str, object]:
     path = compiler.resolve().parent / PROVENANCE_NAME
     if path.is_file():
-        return json.loads(path.read_text(encoding="utf-8"))
+        provenance = json.loads(path.read_text(encoding="utf-8"))
+        distribution_fingerprint = compiler_source_fingerprint(
+            compiler.resolve().parent
+        )
+        current_fingerprint = compiler_source_fingerprint(ROOT)
+        provenance["compiler_source_fingerprint"] = distribution_fingerprint
+        provenance["current_source_fingerprint"] = current_fingerprint
+        provenance["source_matches_current_tree"] = (
+            distribution_fingerprint == current_fingerprint
+        )
+        return provenance
     distribution_fingerprint = compiler_source_fingerprint(compiler.resolve().parent)
     current_fingerprint = compiler_source_fingerprint(ROOT)
     return {

@@ -1,5 +1,25 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-9 native CLI and diagnostic usability
+
+- added OpenC-authored public native `openc check` and `openc run`, including
+  program-argument forwarding and program exit-code propagation;
+- added concise human lexical, syntax, project, flow, and semantic diagnostic
+  rendering beside stable `openc.check.v1` machine records that retain the
+  existing native observation streams;
+- added native help, version, Windows target, and canonical rule-explanation
+  commands covering all 466 active rules;
+- explicitly identify the 93 prior rule-ID matches as historical compatibility
+  diagnostics and do not present them as active normative rule entries;
+- moved all 6 demos to direct public `openc check`/`openc run` verification
+  with exact output;
+- repaired an import-alias false positive where a parameter or local named
+  `file` was mistaken for the built-in `system.file` qualifier;
+- added a 12-case native CLI verifier to daily, full, and relocated standalone
+  release gates without executing the retained D seed;
+- made SH-10 native project workflow completeness the next engineering
+  milestone. Linux and freestanding remain optional future targets.
+
 ## Post-RC9 — SH-8 native developer and release workflow
 
 - made a provenance-verified OpenC-native standalone compiler the default

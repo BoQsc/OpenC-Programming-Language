@@ -8,7 +8,7 @@ Native-provider verification remain optional future target work.
 
 ## Completed self-hosting path
 
-SH-0 through SH-8 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-9 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -46,6 +46,12 @@ self-rebuild paths have enforced time/memory budgets; unchanged daily inputs
 reuse exact conformance evidence without executing fixtures, while full and
 release workflows force all 278 fixtures. The retained D seed remains a
 separate optional audit.
+
+SH-9 is complete. The OpenC-authored public CLI exposes `check`, `run`,
+`version`, `target`, and `explain`. Human diagnostics retain stable machine
+observation streams in `openc.check.v1`; all 466 active rules are explainable,
+the 93 historical compatibility identities remain disclosed, and all six
+demos execute directly through public `openc run`.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -106,12 +112,17 @@ IR reach closure. Exact evidence and reproduction commands are in
      while full and release gates force fresh evidence;
    - the optional D oracle is separately invocable and absent from required
      daily, full, and release execution.
-2. **SH-9 native CLI and diagnostic usability — next engineering milestone**
-   - add public native `openc check` and `openc run`;
-   - provide concise human diagnostics beside stable machine records;
-   - add version, target, and rule-explanation commands;
-   - make the demo projects directly usable through the public native CLI.
-3. **Seek independent review**
+2. **SH-9 native CLI and diagnostic usability — complete**
+   - public native `openc check` and `openc run` pass;
+   - concise human diagnostics preserve stable machine records;
+   - version, target, and rule-explanation commands pass;
+   - all six demos execute directly through the public native CLI.
+3. **SH-10 native project workflow completeness — next engineering milestone**
+   - add native `openc fmt --check` and `openc fmt --write`;
+   - add native `openc info` for project, target, and dependency inspection;
+   - add native `openc test` with deterministic discovery and exit records;
+   - include those commands in standalone release verification.
+4. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.
 

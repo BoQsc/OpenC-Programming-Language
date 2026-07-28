@@ -1,6 +1,6 @@
 # OpenC 1.0.0-rc.9 verification status
 
-Date: 2026-07-26
+Date: 2026-07-28
 Host: Windows 10.0.19045, x86-64
 
 ## Verified scope
@@ -23,14 +23,14 @@ are outside the supported 1.0 scope.
 - 9 of 9 canonical D targets build and link in debug mode.
 - 9 of 9 canonical D targets build and link in release mode.
 - 8 of 8 authored D test commands pass.
-- 4 of 4 Python bootstrap tests pass; bytecode and CLI smoke checks pass.
+- 15 of 15 Python source tests pass; bytecode checks pass.
 - 278 of 278 conformance fixtures pass with zero infrastructure failures.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
-  compiler-in-OpenC and conformance expansion brings the current tree to 384
+  compiler-in-OpenC and conformance expansion brings the current tree to 391
   `.p` files,
-  including 91 compiler source units. The migrated fixture corpus retains
+  including 92 compiler source units. The migrated fixture corpus retains
   278/278 passes and zero infrastructure failures. SH-2 records the exact
   288-file corpus used for that milestone; SH-4A covers the complete current
   compiler project through byte-exact generated output.
@@ -118,6 +118,12 @@ are outside the supported 1.0 scope.
   executes zero fixtures. Full and release modes force fresh native
   validation. All 4 maintained programs and all 6 demos pass native build and
   execution, and the required workflow does not execute the retained D seed.
+- SH-9 native CLI and diagnostic usability passes. The OpenC-authored compiler
+  exposes public `check`, `run`, `version`, `target`, and `explain`; all 12
+  command contracts pass. Human failures preserve stable native stage streams
+  in `openc.check.v1`, all 466 active rules are explainable, the prior 93
+  compatibility identities remain disclosed, all 6 demos execute through
+  public `openc run`, and the required workflow does not execute the D seed.
 - The post-SH-6 native performance milestone passes. A closed Stage 3 rebuilds
   the compiler in 381.049 seconds versus 698.918 seconds before the changes,
   with 11.37 MiB peak working set and 161.55 MiB peak private memory. Optimized
@@ -191,11 +197,12 @@ program gates. SH-7 moves the required 278-fixture conformance execution into
 the OpenC-authored native compiler and removes the D seed from the required
 gate. SH-8 makes the native compiler the default Windows compiler-under-test,
 adds validation/rebuild regression budgets, and removes redundant unchanged
-daily corpus execution. Self-hosting SH-0 through SH-8 is complete for the declared Windows
-x86-64 Hosted scope.
+daily corpus execution. SH-9 adds the public developer CLI and human/machine
+diagnostic surface. Self-hosting SH-0 through SH-9 is complete for the
+declared Windows x86-64 Hosted scope.
 
 The immutable RC8 standalone record remains at 268 fixtures. RC9 packages and
 executes the current 278-fixture corpus, reaches byte-identical native closure,
-and publishes the verified artifact set. SH-8 is the verified post-RC9
-mainline successor. The next engineering milestone is SH-9 native CLI and
-diagnostic usability. Linux and freestanding remain optional future targets.
+and publishes the verified artifact set. SH-9 is the verified post-RC9
+mainline successor. The next engineering milestone is SH-10 native project
+workflow completeness. Linux and freestanding remain optional future targets.

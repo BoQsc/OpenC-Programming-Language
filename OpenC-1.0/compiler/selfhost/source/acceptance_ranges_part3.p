@@ -65,6 +65,38 @@ unsafe bool acceptance_builtin_alias(
         span_equals_ascii(source, start, length, "process");
 }
 
+unsafe bool acceptance_value_shadows_builtin_alias(
+    ref IrContext context,
+    usize start,
+    usize length
+) {
+    usize symbol = 0;
+    while symbol < context.symbols.length {
+        usize kind = read_record_field(
+            context.symbol_data, symbol, 0
+        );
+        if (kind == resolution_symbol_parameter() ||
+            kind == resolution_symbol_variable()) &&
+            read_record_field(
+                context.symbol_data, symbol, 1
+            ) == context.source_record &&
+            resolution_symbol_name_equals(
+                context.project_source,
+                context.project_root,
+                context.source_data,
+                context.symbol_data,
+                symbol,
+                context.source,
+                start,
+                length
+            ) {
+            return true;
+        }
+        symbol = symbol + 1;
+    }
+    return false;
+}
+
 unsafe usize acceptance_validate_import_aliases(ref IrContext context) {
     usize errors = 0;
     usize node = 0;
@@ -82,7 +114,11 @@ unsafe usize acceptance_validate_import_aliases(ref IrContext context) {
                     context, start, dot
                 );
                 if aliases > 1 || (aliases == 0 &&
-                    acceptance_builtin_alias(context.source, start, dot)) {
+                    acceptance_builtin_alias(
+                        context.source, start, dot
+                    ) && !acceptance_value_shadows_builtin_alias(
+                        context, start, dot
+                    )) {
                     errors = errors + 1;
                 }
             }

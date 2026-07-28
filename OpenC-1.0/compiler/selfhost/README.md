@@ -22,7 +22,8 @@ runtime, library inputs, backend, bootstrap audit seed, licenses, and integrity
 records in a relocatable distribution. SH-7 adds OpenC-authored native
 conformance and removes the retained D seed from the required package gate.
 SH-8 makes the native compiler the default Windows compiler-under-test and
-adds exact-cache and performance-budget gates. The
+adds exact-cache and performance-budget gates. SH-9 adds the OpenC-authored
+public developer CLI and human/machine diagnostic surface. The
 gate contract is in
 `SELF_HOSTING.md`; the machine-readable gate state is
 `SELF_HOSTING_STATE.json`. Post-SH-6 native self-rebuild measurements and
@@ -68,6 +69,20 @@ It also exposes the public native conformance command:
 openc validate --manifest=conformance/fixtures/MANIFEST.json --output=conformance-report.json
 ```
 
+SH-9 adds the public developer commands:
+
+```text
+openc check --project=path/to/openc.project.json [--output=check-record.json]
+openc run --project=path/to/openc.project.json [-- arguments...]
+openc version
+openc target
+openc explain OPENC-LEX-COMMENT-001
+```
+
+`check` renders human diagnostics and can preserve the stable native stage
+streams in an `openc.check.v1` record. Verify the complete 12-case surface
+with `python scripts/verify_sh9_cli.py`.
+
 Run the SH-4 proofs with a built Stage-1 executable and configured DMD:
 
 ```text
@@ -88,4 +103,6 @@ through Stage 2 and Stage 3 at SHA-256
 SH-7 native conformance and tooling independence is **PASS**. SH-8 native
 developer and release workflow hardening is also **PASS**; complete evidence
 is in `release/SH8_NATIVE_WORKFLOW_EVIDENCE.md`. SH-9 native CLI and diagnostic
-usability is next.
+usability is **PASS**; its evidence is in
+`release/SH9_NATIVE_CLI_EVIDENCE.md`. SH-10 native project workflow
+completeness is next.

@@ -16,6 +16,17 @@ The compiler locates its runtime, native runtime shim, and backend relative to
 its own executable. DMD, DUB, and Python are not compiler or backend
 dependencies.
 
+Check or run a project directly:
+
+```text
+openc.exe check --project=C:\path\to\project\openc.project.json --output=check-record.json
+openc.exe run --project=C:\path\to\project\openc.project.json -- arguments
+```
+
+`check` prints concise human diagnostics and optionally preserves stable
+machine streams in `openc.check.v1`. `version`, `target`, and
+`explain RULE-ID` provide compiler, target, and canonical rule information.
+
 The retained D bootstrap seed is
 `bootstrap/openc-stage0.exe`. It is included only as an optional comparison
 oracle for reproducibility audits. It is not invoked by `openc.exe build` or by
@@ -31,7 +42,7 @@ For the supported Windows Hosted mode, `openc.exe` provides the six
 `system.file`, `system.io`, `system.memory`, `system.path`, `system.process`,
 and `system.text` modules and links them to the packaged C runtime/native shim.
 The authored `.p` Native-provider library sources are included for future
-Native work; that separately scoped provider is not part of the SH-8 gate.
+Native work; that separately scoped provider is not part of the SH-9 gate.
 
 Package integrity is recorded in `STANDALONE-MANIFEST.sha256`; component roles,
 input paths, and compiler/backend hashes are in `STANDALONE-RELEASE.json`.

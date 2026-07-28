@@ -297,6 +297,39 @@
       "retained_d_seed_executed_by_required_workflow": false,
       "linux_and_freestanding_gate": false,
       "next_milestone": "SH-9_NATIVE_CLI_AND_DIAGNOSTIC_USABILITY"
+    },
+    {
+      "id": "SH-9",
+      "name": "native_cli_and_diagnostic_usability",
+      "status": "PASS",
+      "command": "python scripts/verify_sh9_cli.py",
+      "full_command": "python scripts/windows_native_workflow.py full",
+      "release_command": "python release/windows_native_release.py --force",
+      "evidence": "release/SH9_NATIVE_CLI_EVIDENCE.md",
+      "target": "windows_x86_64_hosted",
+      "compiler_implementation_language": "OpenC",
+      "native_compiler_sha256": "573a9e41a95d964cb437e84302922aa78ee422a7ca925862f9d1d87f44aa0f09",
+      "native_compiler_source_files": 92,
+      "public_check": true,
+      "public_run": true,
+      "human_diagnostics": true,
+      "stable_machine_check_record": "openc.check.v1",
+      "active_rules_explainable": 466,
+      "historical_rule_id_matches_disclosed": 93,
+      "version_command": true,
+      "target_command": true,
+      "cli_contracts_passed": 12,
+      "full_workflow_tasks_passed": 10,
+      "native_validation_fixtures_passed": 278,
+      "native_validation_elapsed_seconds": 27.181,
+      "native_self_rebuild_elapsed_seconds": 437.734,
+      "native_self_rebuild_byte_equal": true,
+      "demo_programs_using_public_cli": 6,
+      "demo_programs_passed": 6,
+      "retained_d_seed_required": false,
+      "retained_d_seed_executed_by_required_workflow": false,
+      "linux_and_freestanding_gate": false,
+      "next_milestone": "SH-10_NATIVE_PROJECT_WORKFLOW_COMPLETENESS"
     }
   ],
   "rc9_standalone_refresh": {
@@ -394,6 +427,12 @@
     "native_self_rebuild_regression_budget": true,
     "native_daily_exact_input_cache": true,
     "required_workflows_use_d_seed": false,
-    "native_developer_release_workflow": true
+    "native_developer_release_workflow": true,
+    "public_native_check": true,
+    "public_native_run": true,
+    "human_and_machine_diagnostics": true,
+    "native_version_target_explain": true,
+    "demos_use_public_native_cli": true,
+    "native_cli_and_diagnostic_usability": true
   }
 }

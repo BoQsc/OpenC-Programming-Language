@@ -30,6 +30,12 @@ native compiler is resolved by default, full/release validation is fresh, and
 the retained D seed is not executed. Commands, budgets, and measurements are
 recorded in `SH8_NATIVE_WORKFLOW_EVIDENCE.md`.
 
+SH-9 native CLI and diagnostics are implemented in the OpenC-authored
+compiler and verified by `scripts/verify_sh9_cli.py`. The standalone verifier
+requires all 12 public CLI cases, including `check` machine records, human
+diagnostics, `run` argument forwarding, and active/historical rule
+explanation. Evidence is in `SH9_NATIVE_CLI_EVIDENCE.md`.
+
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by
 `verify_release_artifacts.py`. The builder emits the artifact layout, mandatory

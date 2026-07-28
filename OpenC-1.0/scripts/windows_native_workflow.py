@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SH-8 native-first Windows development and verification workflow."""
+"""SH-9 native-first Windows development and verification workflow."""
 from __future__ import annotations
 
 import argparse
@@ -419,6 +419,20 @@ def main() -> int:
     maintained_report = output / "maintained-program-report.json"
     tasks.append(
         run_task(
+            "native_cli",
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "verify_sh9_cli.py"),
+                "--compiler",
+                str(compiler),
+                "--output",
+                str(output / "native-cli"),
+            ],
+            task_output,
+        )
+    )
+    tasks.append(
+        run_task(
             "maintained_programs",
             [
                 sys.executable,
@@ -448,8 +462,8 @@ def main() -> int:
     )
     passed = all(task["passed"] for task in tasks)
     result = {
-        "schema": "openc.windows_native_workflow.v1",
-        "milestone": "SH-8_NATIVE_DEVELOPER_AND_RELEASE_WORKFLOW",
+        "schema": "openc.windows_native_workflow.v2",
+        "milestone": "SH-9_NATIVE_CLI_AND_DIAGNOSTIC_USABILITY",
         "mode": args.mode.upper(),
         "status": "PASS" if passed else "FAIL",
         "started_at_utc": started_at.isoformat().replace("+00:00", "Z"),
@@ -473,7 +487,7 @@ def main() -> int:
         newline="\n",
     )
     print(
-        f"SH-8 {args.mode} workflow: {result['status']}; "
+        f"SH-9 {args.mode} workflow: {result['status']}; "
         f"compiler=OpenC-native tasks={sum(task['passed'] for task in tasks)}/"
         f"{len(tasks)} seed_executed=false result={result_path}"
     )

@@ -23,12 +23,16 @@ python scripts/native_toolchain.py install --distribution PATH/TO/DISTRIBUTION
 python demos/run_all.py
 ```
 
-Build one demo directly with the public native compiler:
+Check or run one demo directly with the public native compiler:
 
 ```
-openc.exe build --project=demos/hello/openc.project.json --output=hello.exe
-hello.exe
+openc.exe check --project=demos/hello/openc.project.json
+openc.exe run --project=demos/hello/openc.project.json
 ```
+
+`run_all.py` invokes those public commands. In normal mode all six demos run
+through `openc run` and must match their exact output; `--check-only` uses
+`openc check`.
 
 `run-all.cmd` and `run-all.ps1` are thin compatibility launchers for the
 Python harness. No script contains a machine-specific compiler path.

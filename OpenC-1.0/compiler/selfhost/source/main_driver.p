@@ -61,8 +61,70 @@ unsafe i32 build_default_windows(
 
 unsafe i32 main() {
     usize arguments = process.argument_count();
+    if arguments == 0 {
+        cli_print_help();
+        return 0;
+    }
+    if arguments == 1 {
+        if process.argument(0) == "help" ||
+            process.argument(0) == "--help" ||
+            process.argument(0) == "-h" {
+            cli_print_help();
+            return 0;
+        }
+        if process.argument(0) == "version" ||
+            process.argument(0) == "--version" {
+            cli_print_version();
+            return 0;
+        }
+        if process.argument(0) == "target" {
+            cli_print_target();
+            return 0;
+        }
+    }
+    if arguments == 2 && process.argument(0) == "explain" {
+        return cli_explain(process.argument(1));
+    }
+    if (arguments == 2 || arguments == 3) &&
+        process.argument(0) == "check" {
+        text project_path = process.argument(1);
+        if cli_has_prefix(project_path, "--project=") {
+            project_path = cli_remove_prefix(
+                project_path, "--project="
+            );
+        }
+        text output_path = "";
+        if arguments == 3 {
+            output_path = process.argument(2);
+            if cli_has_prefix(output_path, "--output=") {
+                output_path = cli_remove_prefix(
+                    output_path, "--output="
+                );
+            } else {
+                io.error("usage: openc check --project=PROJECT [--output=CHECK-RECORD.json]\n");
+                return 64;
+            }
+        }
+        return cli_check_project(project_path, output_path, true);
+    }
+    if arguments >= 2 && process.argument(0) == "run" {
+        text project_path = process.argument(1);
+        if cli_has_prefix(project_path, "--project=") {
+            project_path = cli_remove_prefix(
+                project_path, "--project="
+            );
+        }
+        usize argument_start = 2;
+        if arguments > 2 && process.argument(2) == "--" {
+            argument_start = 3;
+        } else if arguments > 2 {
+            io.error("usage: openc run --project=PROJECT [-- PROGRAM-ARGUMENTS...]\n");
+            return 64;
+        }
+        return cli_run_project(project_path, argument_start);
+    }
     if arguments != 1 && arguments != 2 && arguments != 3 && arguments != 8 {
-        io.error("usage: openc [build --project=PROJECT --output=OUTPUT-EXE | validate --manifest=MANIFEST --output=REPORT | --parse SOURCE.p | --project openc.project.json | --semantic-decl openc.project.json | --semantic-resolve openc.project.json | --semantic-flow-safety openc.project.json | --semantic-ir openc.project.json]\n");
+        io.error("usage: openc help\n");
         return 64;
     }
     if arguments == 8 {

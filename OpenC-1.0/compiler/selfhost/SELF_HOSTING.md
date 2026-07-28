@@ -319,6 +319,32 @@ Complete commands and measurements are in
 
 Status: **PASS**
 
+## SH-9 — native CLI and diagnostic usability
+
+The OpenC-authored compiler now exposes public native `check`, `run`,
+`version`, `target`, and `explain` commands. `check` composes the existing
+native project, flow-safety, and semantic-IR stages, renders concise human
+diagnostics, and optionally writes a stable `openc.check.v1` record containing
+the underlying observation streams. `run` checks, builds with the packaged
+C11/TinyCC backend, forwards arguments after `--`, executes, and returns the
+program exit code without adding compiler progress to successful output.
+
+All 466 active rules are explainable from the canonical packaged rule index.
+The 93 historical diagnostic matches remain explicitly marked as
+compatibility identities. The 12/12 CLI contract and all 6/6 demos through
+public `openc run` pass. The direct demo gate also repaired a semantic false
+positive where a parameter named `file` was mistaken for a missing
+`system.file` import alias.
+
+The compiler contains 92 canonical `.p` source units. Required daily, full,
+and relocated release verification executes no retained D seed. Linux and
+freestanding remain outside the required gate.
+
+Complete commands and hashes are in
+`release/SH9_NATIVE_CLI_EVIDENCE.md`.
+
+Status: **PASS**
+
 ## Post-SH-6 — native self-rebuild performance
 
 The closed OpenC-native compiler rebuilds its complete 90-source compiler
@@ -348,7 +374,9 @@ distribution against the compiler, runtime/library, conformance, and
 maintained-program gates. SH-7 moves the required conformance execution into
 that OpenC-native compiler and demotes the retained D seed to an optional audit
 oracle. SH-8 makes the native compiler the default compiler-under-test and
-enforces exact-cache and performance-budget policy.
+enforces exact-cache and performance-budget policy. SH-9 supplies the public
+native developer CLI and preserves machine diagnostic evidence beside its
+human output.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

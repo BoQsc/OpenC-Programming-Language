@@ -1,4 +1,4 @@
-"""Unit tests for the SH-8 native toolchain and performance contracts."""
+"""Unit tests for native toolchain, performance, and release contracts."""
 from __future__ import annotations
 
 import json
@@ -119,6 +119,11 @@ class ReleaseSummaryTests(unittest.TestCase):
             "status": "PASS",
             "conformance": {"passed": 278, "failed": 0},
             "maintained_programs": [{"passed": True} for _ in range(4)],
+            "native_cli": {
+                "passed": 12,
+                "failed": 0,
+                "retained_d_seed_executed": False,
+            },
             "environment": {"retained_d_seed_executed": False},
         }
         self.assertTrue(all(verifier_summary_checks(result).values()))
@@ -128,6 +133,11 @@ class ReleaseSummaryTests(unittest.TestCase):
             "status": "PASS",
             "conformance": {"passed": 278, "failed": 0},
             "maintained_programs": [{"passed": True} for _ in range(4)],
+            "native_cli": {
+                "passed": 12,
+                "failed": 0,
+                "retained_d_seed_executed": False,
+            },
             "environment": {"retained_d_seed_executed": True},
         }
         self.assertFalse(

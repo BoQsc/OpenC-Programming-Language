@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and execute every OpenC demo with the verified native compiler."""
+"""Check or run every OpenC demo through the public native CLI."""
 from __future__ import annotations
 
 import argparse
@@ -67,51 +67,30 @@ def main() -> int:
     compiler = resolve_native_compiler(args.compiler)
     native = validate_native_compiler(compiler)
     report_path = args.report.resolve()
-    output_directory = report_path.parent / "executables"
-    output_directory.mkdir(parents=True, exist_ok=True)
     results = []
     for name, expected_stdout in CASES.items():
         project = ROOT / "demos" / name / "openc.project.json"
-        executable = output_directory / f"{name}.exe"
-        build_command = [
+        command = [
             str(compiler),
-            "build",
+            "check" if args.check_only else "run",
             f"--project={project.resolve()}",
-            f"--output={executable}",
         ]
-        built = subprocess.run(
-            build_command, cwd=ROOT, text=True, capture_output=True
+        completed = subprocess.run(
+            command, cwd=ROOT, text=True, capture_output=True
         )
-        run_command = [str(executable)]
-        executed = (
-            subprocess.run(
-                run_command, cwd=ROOT, text=True, capture_output=True
-            )
-            if not args.check_only
-            and built.returncode == 0
-            and executable.is_file()
-            else None
-        )
-        passed = built.returncode == 0 and (
-            args.check_only
-            or (
-                executed is not None
-                and executed.returncode == 0
-                and executed.stdout == expected_stdout
-            )
+        passed = completed.returncode == 0 and (
+            (args.check_only and completed.stdout == "OpenC check: PASS\n")
+            or (not args.check_only and completed.stdout == expected_stdout)
         )
         results.append(
             {
                 "demo": name,
-                "build_command": build_command,
-                "build_exit_code": built.returncode,
-                "build_stdout": built.stdout,
-                "build_stderr": built.stderr,
-                "run_command": run_command if not args.check_only else None,
-                "run_exit_code": executed.returncode if executed else None,
+                "public_cli_command": command,
+                "command": "check" if args.check_only else "run",
+                "exit_code": completed.returncode,
                 "expected_stdout": expected_stdout if not args.check_only else None,
-                "stdout": executed.stdout if executed else None,
-                "stderr": executed.stderr if executed else None,
+                "stdout": completed.stdout,
+                "stderr": completed.stderr,
                 "passed": passed,
             }
         )
@@ -119,7 +98,7 @@ def main() -> int:
     report = {
         "schema": "openc.demo_execution.v1",
         "status": "PASS" if all(item["passed"] for item in results) else "FAIL",
-        "mode": "CHECK_ONLY" if args.check_only else "BUILD_AND_EXECUTE",
+        "mode": "PUBLIC_CHECK" if args.check_only else "PUBLIC_RUN",
         "compiler_under_test": {
             **native,
             "implementation_language": "OpenC",
