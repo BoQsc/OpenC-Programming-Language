@@ -54,10 +54,10 @@ and validated safe rename over `Content-Length` framed UTF-8 messages.
 Baseline transcripts use `openc.lsp_transcript.v1`; project-semantic
 transcripts use `openc.semantic_lsp_transcript.v1`.
 
-The retained D bootstrap seed is
-`bootstrap/openc-stage0.exe`. It is included only as an optional comparison
-oracle for reproducibility audits. It is not invoked by `openc.exe build` or by
-the required conformance gate.
+The optional bootstrap seed at `bootstrap/openc-stage0.exe` is a previous
+OpenC-native compiler binary retained for bootstrap continuity. It is not
+invoked by `openc.exe build` or by the required conformance gate. Legacy D and
+Python implementation source is not shipped in this standalone distribution.
 
 Run the OpenC-authored conformance gate with:
 
@@ -69,7 +69,7 @@ For the supported Windows Hosted mode, `openc.exe` provides the six
 `system.file`, `system.io`, `system.memory`, `system.path`, `system.process`,
 and `system.text` modules and links them to the packaged C runtime/native shim.
 The authored `.p` Native-provider library sources are included for future
-Native work; that separately scoped provider is not part of the SH-12 gate.
+Native work; that separately scoped provider is not part of the SH-13 gate.
 
 Package integrity is recorded in `STANDALONE-MANIFEST.sha256`; component roles,
 input paths, and compiler/backend hashes are in `STANDALONE-RELEASE.json`.

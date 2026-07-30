@@ -1,18 +1,12 @@
 # OpenC compiler in OpenC
 
-This directory contains the self-hosting implementation in canonical `.p`
-source. The stage-0 D compiler builds `source/main.p` into a native Windows
-executable. That executable implements the stage-0 byte-exact lexer and source
-encoding rejection in OpenC. It performs one lexical pass, stores tokens and
-diagnostics in OpenC-owned buffers, and attaches byte-accurate source
-positions. The OpenC parser consumes those owned records and stores final
-syntax records in a third owned buffer. Its lexical and parser observation
-streams match stage 0 on every canonical `.p` source and focused probe. The
-project frontend also loads JSON project records, resolves ordered source
-units, composes logical modules/imports, and emits exact graph observations.
-The semantic stages build OpenC-owned declaration, symbol, canonical type,
-lexical-scope, constant-value, overload-selection, flow/safety, acceptance,
-and canonical IR state and emit exact observations.
+This directory contains the canonical self-hosting implementation in `.p`
+source. A previous OpenC compiler builds `source/main.p` into the next native
+Windows compiler, which implements the complete frontend, semantic pipeline,
+deterministic IR, C11 emission, public CLI, and language service in OpenC.
+The retained D and Python implementations are historical bootstrap/reference
+material only: they are not compiler authority, are not invoked by normal
+native builds, and are excluded from the standalone compiler distribution.
 
 This is now a standalone, DMD-independent executable self-hosted compiler on
 Windows x86-64 Hosted. It emits deterministic C11, invokes the shipped TinyCC
@@ -154,5 +148,6 @@ completeness is **PASS**; its evidence is in
 language-service completeness is **PASS**; its evidence is in
 `release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md`. SH-12 native semantic
 language intelligence is **PASS**; its evidence is in
-`release/SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md`. SH-13 native editor
-integration and language-service resilience comes next.
+`release/SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md`. SH-13 native compiler
+throughput and implementation independence is **PASS**; native editor
+integration and language-service resilience moves forward to SH-14.

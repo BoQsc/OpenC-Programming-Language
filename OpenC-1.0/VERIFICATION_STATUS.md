@@ -20,8 +20,8 @@ are outside the supported 1.0 scope.
 
 ## Executed evidence
 
-- 9 of 9 canonical D targets build and link in debug mode.
-- 9 of 9 canonical D targets build and link in release mode.
+- 9 of 9 legacy D audit targets build and link in debug mode.
+- 9 of 9 legacy D audit targets build and link in release mode.
 - 8 of 8 authored D test commands pass.
 - 29 of 29 Python source tests pass; bytecode checks pass.
 - 278 of 278 conformance fixtures pass with zero infrastructure failures.
@@ -256,13 +256,16 @@ and deterministic project testing. SH-11 adds the native language-service
 lifecycle, synchronized diagnostics, formatting, and deterministic protocol
 transcripts. SH-12 adds native project symbols, typed navigation,
 deterministic completion, safe rename, and open-order-independent semantic
-transcripts. Self-hosting SH-0 through SH-12 is complete for the declared
-Windows x86-64 Hosted scope.
+transcripts. SH-13 adds native build-phase measurements and indexed lowering,
+preserves byte-identical closure, establishes OpenC `.p` as the sole canonical
+compiler authority, and excludes D/Python source and DUB manifests from the
+standalone compiler. Self-hosting SH-0 through SH-13 is complete for the
+declared Windows x86-64 Hosted scope.
 
 The immutable RC8 standalone record remains at 268 fixtures. RC9 packages and
 executes the current 278-fixture corpus, reaches byte-identical native closure,
-and publishes the verified artifact set. SH-12 is the verified post-RC9
-mainline successor. The next engineering milestone is SH-13 native editor
+and publishes the verified artifact set. SH-13 is the verified post-RC9
+mainline successor. The next engineering milestone is SH-14 native editor
 integration and language-service resilience: a first-party editor client,
 incremental/versioned synchronization, cancellation/workspace lifecycle, and
 bounded stress. Linux and freestanding remain optional future targets.

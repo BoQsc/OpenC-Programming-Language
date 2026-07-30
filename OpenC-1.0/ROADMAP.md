@@ -8,7 +8,7 @@ Native-provider verification remain optional future target work.
 
 ## Completed self-hosting path
 
-SH-0 through SH-12 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-13 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -72,6 +72,15 @@ navigation, complete name-sorted completion, prepare-rename, and
 collision-checked project rename. All 23 semantic contracts pass, including
 opposite document-open orders producing byte-identical project-semantic
 transcripts from the relocated standalone package.
+
+SH-13 is complete. Native build phase records attribute 98.2% of the closed
+compiler rebuild to OpenC-owned lowering/C emission and only 0.2% to TinyCC.
+Indexed syntax, expression, declaration, and symbol lookups reduce the
+96-source closed rebuild from 780.621 to 557.985 seconds while preserving
+byte-identical generated C and compiler executables. OpenC `.p` is the sole
+canonical compiler authority; standalone archives contain no D/Python source,
+Python bytecode, or DUB manifests. TinyCC remains an explicit backend
+dependency and the remaining D/C-class throughput gap stays open.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -155,13 +164,23 @@ IR reach closure. Exact evidence and reproduction commands are in
    - add deterministic completion and validated safe rename;
    - verify multi-document/project-aware semantic transcripts from the
      relocated standalone package.
-6. **SH-13 native editor integration and language-service resilience — next**
+6. **SH-13 native compiler throughput and implementation independence — complete**
+   - keep canonical compiler authority exclusively in OpenC `.p` source;
+   - publish native phase timings and enforce materially lower rebuild budgets;
+   - replace repeated semantic/IR scans with indexed lookups while preserving
+     byte-identical self-host closure;
+   - exclude D and Python source from the standalone compiler distribution;
+   - keep Python only as an external release-evidence orchestrator, never a
+     runtime or compiler requirement;
+   - measure the TinyCC phase separately and disclose it as the remaining
+     temporary native-code backend dependency.
+7. **SH-14 native editor integration and language-service resilience — next**
    - ship a first-party editor client that launches the packaged native server;
    - add incremental, monotonic-version document synchronization;
    - add cancellation, workspace lifecycle, and bounded resource handling;
    - verify editor launch plus protocol stress from the relocated standalone
      package.
-7. **Seek independent review**
+8. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.
 

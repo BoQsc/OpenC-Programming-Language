@@ -1,6 +1,6 @@
 # OpenC backends
 
-Canonical D source backend modules:
+Legacy D bootstrap/reference backend modules:
 
 ```text
 compiler/source/openc/backend.d

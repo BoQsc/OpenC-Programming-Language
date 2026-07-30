@@ -123,6 +123,30 @@ unsafe usize ir_node_type(
     usize node,
     usize expected
 ) {
+    bool cacheable = expected == semantic_type_error() &&
+        context.type_cache != null && node < context.syntax.length;
+    if cacheable {
+        usize cached = read_usize(
+            context.type_cache, node * size_of(usize)
+        );
+        if cached != 0 { return cached - 1; }
+    }
+    usize resolved = ir_node_type_uncached(context, node, expected);
+    if cacheable {
+        write_usize(
+            context.type_cache,
+            node * size_of(usize),
+            resolved + 1
+        );
+    }
+    return resolved;
+}
+
+unsafe usize ir_node_type_uncached(
+    ref IrContext context,
+    usize node,
+    usize expected
+) {
     if node >= context.syntax.length { return semantic_type_error(); }
     ir_select_node_function(context, node);
     usize kind = read_record_field(context.syntax_data, node, 0);
@@ -191,8 +215,8 @@ unsafe usize ir_node_type(
     }
     if kind == 35 {
         usize operator_start = read_record_field(context.syntax_data, node, 3);
-        usize child = resolution_right_expression(
-            context.syntax_data, node,
+        usize child = ir_right_expression(
+            context, node,
             operator_start + read_record_field(context.syntax_data, node, 4)
         );
         usize child_type = ir_node_type(context, child, expected);
@@ -222,12 +246,12 @@ unsafe usize ir_node_type(
             flow_node_operator(context.source, context.syntax_data, node, "||") {
             return semantic_type_bool();
         }
-        usize left = resolution_left_expression(
-            context.syntax_data, node,
+        usize left = ir_left_expression(
+            context, node,
             read_record_field(context.syntax_data, node, 3)
         );
-        usize right = resolution_right_expression(
-            context.syntax_data, node,
+        usize right = ir_right_expression(
+            context, node,
             read_record_field(context.syntax_data, node, 3) +
             read_record_field(context.syntax_data, node, 4)
         );
@@ -256,8 +280,8 @@ unsafe usize ir_node_type(
         return ir_node_type(context, left, expected);
     }
     if kind == 37 {
-        usize left = resolution_left_expression(
-            context.syntax_data, node,
+        usize left = ir_left_expression(
+            context, node,
             read_record_field(context.syntax_data, node, 1) +
             read_record_field(context.syntax_data, node, 2)
         );
@@ -324,6 +348,12 @@ unsafe usize ir_node_type(
             ) || span_equals_ascii(
                 context.source, callee_start, callee_length,
                 "system.process.argument_count"
+            ) || span_equals_ascii(
+                context.source, callee_start, callee_length,
+                "process.monotonic_milliseconds"
+            ) || span_equals_ascii(
+                context.source, callee_start, callee_length,
+                "system.process.monotonic_milliseconds"
             ) { return semantic_builtin_type("usize", 0, 5); }
             if span_equals_ascii(
                 context.source, callee_start, callee_length,
@@ -472,9 +502,7 @@ unsafe usize ir_node_type(
         );
     }
     if kind == 44 {
-        usize storage_name = flow_event_first_name(
-            context.syntax_data, context.syntax, node
-        );
+        usize storage_name = ir_first_name(context, node);
         usize storage_type = ir_node_type(
             context, storage_name, semantic_type_error()
         );
@@ -491,9 +519,7 @@ unsafe usize ir_node_type(
     if kind == 46 { return semantic_builtin_type("usize", 0, 5); }
     if kind == 47 { return semantic_type_status(); }
     if kind == 48 {
-        usize name = flow_event_first_name(
-            context.syntax_data, context.syntax, node
-        );
+        usize name = ir_first_name(context, node);
         return ir_node_type(context, name, expected);
     }
     if kind == 50 {

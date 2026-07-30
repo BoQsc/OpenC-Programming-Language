@@ -5,12 +5,41 @@ import system.path;
 import system.process;
 import system.text;
 
+struct BuildTimings {
+    usize project_load_ms;
+    usize declarations_ms;
+    usize resolution_ms;
+    usize validation_ms;
+    usize lowering_emit_ms;
+    usize backend_ms;
+    usize total_ms;
+    usize source_files;
+    usize source_bytes;
+}
+
+BuildTimings build_timings_empty() {
+    return BuildTimings{
+        project_load_ms = 0,
+        declarations_ms = 0,
+        resolution_ms = 0,
+        validation_ms = 0,
+        lowering_emit_ms = 0,
+        backend_ms = 0,
+        total_ms = 0,
+        source_files = 0,
+        source_bytes = 0
+    };
+}
+
 unsafe i32 emit_bootstrap_d_mode(
     text project_path,
     text output_directory,
     bool validate_semantics,
-    bool c_backend
+    bool c_backend,
+    ref BuildTimings timings
 ) {
+    usize total_started = process.monotonic_milliseconds();
+    usize phase_started = total_started;
     text project_source;
     status loaded_project = file.read_text(project_path, out project_source);
     if !loaded_project.ok { return 1; }
@@ -48,6 +77,10 @@ unsafe i32 emit_bootstrap_d_mode(
         }
         module_index = module_index + 1;
     }
+    timings.project_load_ms =
+        process.monotonic_milliseconds() - phase_started;
+    timings.source_files = sources.length;
+    timings.source_bytes = total_source_length;
 
     usize semantic_capacity = total_source_length + project_length + 65536;
     usize output_capacity = total_source_length * 8 + project_length + 65536;
@@ -70,6 +103,7 @@ unsafe i32 emit_bootstrap_d_mode(
     scope memory.free(error_data);
     semantic_initialize_types(type_data, types);
 
+    phase_started = process.monotonic_milliseconds();
     module_index = 0;
     while module_index < modules.length {
         usize first = read_record_field(module_data, module_index, 2);
@@ -85,6 +119,9 @@ unsafe i32 emit_bootstrap_d_mode(
         }
         module_index = module_index + 1;
     }
+    timings.declarations_ms =
+        process.monotonic_milliseconds() - phase_started;
+    phase_started = process.monotonic_milliseconds();
     module_index = 0;
     while module_index < modules.length {
         usize first = read_record_field(module_data, module_index, 2);
@@ -101,6 +138,9 @@ unsafe i32 emit_bootstrap_d_mode(
         }
         module_index = module_index + 1;
     }
+    timings.resolution_ms =
+        process.monotonic_milliseconds() - phase_started;
+    phase_started = process.monotonic_milliseconds();
     usize acceptance_errors = 0;
     if validate_semantics {
         module_index = 0;
@@ -132,6 +172,8 @@ unsafe i32 emit_bootstrap_d_mode(
             symbol_data, detail_data, symbols
         );
     }
+    timings.validation_ms =
+        process.monotonic_milliseconds() - phase_started;
     if errors.length + acceptance_errors != 0 { return 1; }
 
     usize entry = ir_entry_module(
@@ -164,6 +206,24 @@ unsafe i32 emit_bootstrap_d_mode(
         function_local_end = 0,
         name_cache = null,
         call_cache = null,
+        type_cache = null,
+        left_expression_cache = null,
+        right_expression_cache = null,
+        block_parent_cache = null,
+        control_parent_cache = null,
+        statement_nodes = null,
+        statement_count = 0,
+        block_nodes = null,
+        block_count = 0,
+        control_nodes = null,
+        control_count = 0,
+        expression_nodes = null,
+        expression_count = 0,
+        name_nodes = null,
+        name_count = 0,
+        declaration_symbol_cache = null,
+        top_symbols = null,
+        top_symbol_count = 0,
         local_values = null,
         block_data = null,
         blocks = PackedBuffer{ length = 0, capacity = 0 },
@@ -179,10 +239,16 @@ unsafe i32 emit_bootstrap_d_mode(
         current_block = 0,
         next_value = next_value
     };
+    phase_started = process.monotonic_milliseconds();
     if c_backend {
-        return c_emit_project(
+        i32 c_result = c_emit_project(
             base, output_directory, output_capacity, entry
         );
+        timings.lowering_emit_ms =
+            process.monotonic_milliseconds() - phase_started;
+        timings.total_ms =
+            process.monotonic_milliseconds() - total_started;
+        return c_result;
     }
     module_index = 0;
     while module_index < modules.length {
@@ -303,6 +369,24 @@ unsafe i32 emit_bootstrap_d_mode(
                 function_local_end = 0,
                 name_cache = ir_pointer_alias(name_cache),
                 call_cache = ir_pointer_alias(call_cache),
+                type_cache = null,
+                left_expression_cache = null,
+                right_expression_cache = null,
+                block_parent_cache = null,
+                control_parent_cache = null,
+                statement_nodes = null,
+                statement_count = 0,
+                block_nodes = null,
+                block_count = 0,
+                control_nodes = null,
+                control_count = 0,
+                expression_nodes = null,
+                expression_count = 0,
+                name_nodes = null,
+                name_count = 0,
+                declaration_symbol_cache = null,
+                top_symbols = null,
+                top_symbol_count = 0,
                 local_values = ir_pointer_alias(local_values),
                 block_data = ir_pointer_alias(block_data),
                 blocks = blocks,
@@ -321,12 +405,9 @@ unsafe i32 emit_bootstrap_d_mode(
             usize node = 0;
             while node < syntax.length {
                 if read_record_field(syntax_data, node, 0) == 2 {
-                    usize body = flow_largest_direct_block(
-                        syntax_data, syntax, node
-                    );
-                    usize owner = resolution_find_owner_symbol(
-                        symbol_data, detail_data, symbols,
-                        source_record, node,
+                    usize body = ir_largest_direct_block(context, node);
+                    usize owner = ir_owner_symbol(
+                        context, node,
                         resolution_symbol_function(), 0
                     );
                     if body >= syntax.length || owner == 0 || byte_at_or_zero(
@@ -401,5 +482,9 @@ unsafe i32 emit_bootstrap_d_mode(
         !d_emit_builtin_module(base, output_directory, "system.text") {
         return 1;
     }
+    timings.lowering_emit_ms =
+        process.monotonic_milliseconds() - phase_started;
+    timings.total_ms =
+        process.monotonic_milliseconds() - total_started;
     return 0;
 }

@@ -18,6 +18,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from native_toolchain import resolve_native_compiler, validate_native_compiler
 
+STANDALONE_EXCLUDED_SUFFIXES = {".d", ".py", ".pyc"}
+STANDALONE_EXCLUDED_NAMES = {"dub.json", "dub.selections.json"}
+
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -37,6 +40,12 @@ def copy_source_tree(source: Path, destination: Path) -> int:
     count = 0
     for path in included_files(source):
         relative = path.relative_to(source)
+        if (
+            path.suffix.lower() in STANDALONE_EXCLUDED_SUFFIXES
+            or path.name.lower() in STANDALONE_EXCLUDED_NAMES
+            or "__pycache__" in relative.parts
+        ):
+            continue
         target = destination / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(path, target)
@@ -197,10 +206,10 @@ def main() -> int:
         },
         "bootstrap_seed": {
             "path": "bootstrap/openc-stage0.exe",
-            "implementation_language": "D",
+            "implementation_language": "OpenC",
             "role": (
-                "optional retained D comparison oracle; not a native build "
-                "or required conformance dependency"
+                "optional previous OpenC binary bootstrap seed; not a "
+                "normal build or required conformance dependency"
             ),
             "sha256": sha256(bootstrap / "openc-stage0.exe"),
             "executed_during_packaging": False,
@@ -214,6 +223,10 @@ def main() -> int:
             "corresponding_source_included": True,
         },
         "source_files_copied": source_files,
+        "source_exclusions": {
+            "D": "legacy implementation source is not packaged",
+            "Python": "external audit/release harness source is not packaged",
+        },
         "runtime_inputs": [
             "runtime/common/source/openc_runtime.c",
             "runtime/windows/source/openc_platform_windows.c",
@@ -224,13 +237,13 @@ def main() -> int:
                 "six compiler-provided system modules exercised while "
                 "rebuilding the compiler and maintained programs"
             ),
-            "bootstrap_seed_mode": "standard_library/source/openc/std/*.d",
+            "bootstrap_seed_mode": "previous packaged OpenC binary",
             "authored_native_provider_sources": (
                 "standard_library/system.*/source/*.p"
             ),
             "authored_native_provider_status": (
                 "included for future Native-provider work; outside the "
-                "Windows Hosted SH-12 gate"
+                "Windows Hosted SH-13 gate"
             ),
         },
         "required_conformance_runner": {

@@ -117,12 +117,17 @@ unsafe usize semantic_token_at_or_after(
     ref PackedBuffer tokens,
     usize start
 ) {
-    usize token = 0;
-    while token < tokens.length &&
-        read_record_field(token_data, token, 1) < start {
-        token = token + 1;
+    usize lower = 0;
+    usize upper = tokens.length;
+    while lower < upper {
+        usize middle = lower + (upper - lower) / 2;
+        if read_record_field(token_data, middle, 1) < start {
+            lower = middle + 1;
+        } else {
+            upper = middle;
+        }
     }
-    return token;
+    return lower;
 }
 
 unsafe usize semantic_array_length(

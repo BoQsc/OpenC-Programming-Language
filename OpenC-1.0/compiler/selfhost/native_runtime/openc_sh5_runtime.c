@@ -603,6 +603,10 @@ uintptr_t ocb_process_argument_count(void) {
     return oc_process_argument_count();
 }
 
+uintptr_t ocb_process_monotonic_milliseconds(void) {
+    return (uintptr_t)GetTickCount();
+}
+
 oc_text ocb_process_argument(uintptr_t index) {
     return oc_process_argument(index, 0);
 }

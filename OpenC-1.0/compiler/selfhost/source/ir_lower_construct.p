@@ -50,9 +50,7 @@ unsafe usize ir_lower_construct(
             (context.syntax.length + 1) * record_stride()
         );
         usize field_count = 0;
-        usize aggregate_name = flow_event_first_name(
-            context.syntax_data, context.syntax, node
-        );
+        usize aggregate_name = ir_first_name(context, node);
         usize aggregate_symbol = context.symbols.length;
         usize candidate = 0;
         while candidate < context.symbols.length {

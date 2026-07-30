@@ -176,12 +176,8 @@ unsafe usize ir_resolve_name(ref IrContext context, usize node) {
                 }
             }
         }
-        resolved = resolution_find_nonlocal_name(
-            context.project_source, context.project_root,
-            context.module_data, context.modules, context.source_data,
-            context.symbol_data, context.detail_data, context.symbols,
-            context.module_index, context.source_record, context.source,
-            start, length, first_length
+        resolved = ir_find_nonlocal_name(
+            context, start, length, first_length
         );
     } else {
         resolved = flow_name_symbol(

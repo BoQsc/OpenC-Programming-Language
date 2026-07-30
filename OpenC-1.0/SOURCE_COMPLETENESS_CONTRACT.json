@@ -137,6 +137,7 @@
       "scripts/verify_sh10_project_workflow.py",
       "scripts/verify_sh11_lsp.py",
       "scripts/verify_sh12_semantic_lsp.py",
+      "scripts/verify_sh13_throughput_independence.py",
       "scripts/verify_sh9_cli.py",
       "scripts/windows_native_workflow.py"
     ],

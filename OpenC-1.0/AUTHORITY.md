@@ -17,7 +17,13 @@
 
 ## Implementation authority
 
-The canonical authored reference implementation is the D source under `compiler/source/`. The Python source under `compiler/bootstrap/python/` is an informative bootstrap and cross-check path. Neither implementation overrides the standard.
+The canonical authored compiler implementation is the OpenC source under
+`compiler/selfhost/source/`, assembled by
+`compiler/selfhost/openc.project.json`. The D source under `compiler/source/`
+and Python source under `compiler/bootstrap/python/` are retained legacy
+bootstrap and comparison material. They are not implementation authorities,
+are not required by `openc build`, and are excluded from the standalone
+compiler distribution. No implementation overrides the standard.
 
 When implementation behavior conflicts with the standard, the implementation contains a defect. When implementation work reveals an ambiguity or contradiction, maintainers record a specification finding rather than silently choosing new language behavior.
 
@@ -29,6 +35,7 @@ changes/      accepted changes not fully integrated
 history/      superseded and explanatory material
 examples/     informative unless explicitly incorporated by a rule
 compiler/bootstrap/python/  informative bootstrap, not canonical implementation
+compiler/source/            legacy D bootstrap/reference snapshot
 ```
 
 ## Release authority

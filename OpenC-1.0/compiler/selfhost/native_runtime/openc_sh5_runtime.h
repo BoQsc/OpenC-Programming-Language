@@ -46,6 +46,7 @@ oc_text ocb_path_join(oc_text left, oc_text right);
 oc_text ocb_path_directory(oc_text value);
 
 uintptr_t ocb_process_argument_count(void);
+uintptr_t ocb_process_monotonic_milliseconds(void);
 oc_text ocb_process_argument(uintptr_t index);
 oc_text ocb_process_executable_directory(void);
 oc_status ocb_process_run(

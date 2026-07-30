@@ -82,8 +82,18 @@ unsafe usize ir_root_in_bounds(
 ) {
     usize selected = context.syntax.length;
     usize selected_length = 0;
-    usize record = 0;
-    while record < context.syntax.length {
+    usize index = 0;
+    usize candidate_count = context.syntax.length;
+    if context.expression_nodes != null {
+        candidate_count = context.expression_count;
+    }
+    while index < candidate_count {
+        usize record = index;
+        if context.expression_nodes != null {
+            record = read_usize(
+                context.expression_nodes, index * size_of(usize)
+            );
+        }
         usize kind = read_record_field(context.syntax_data, record, 0);
         usize node_start = read_record_field(context.syntax_data, record, 1);
         usize node_end = node_start +
@@ -96,7 +106,7 @@ unsafe usize ir_root_in_bounds(
                 selected_length = length;
             }
         }
-        record = record + 1;
+        index = index + 1;
     }
     return selected;
 }

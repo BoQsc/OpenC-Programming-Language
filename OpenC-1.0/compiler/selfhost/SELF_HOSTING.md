@@ -2,10 +2,11 @@
 
 The canonical compiler is written in OpenC and completes standalone,
 DMD-independent Windows self-compilation through deterministic C11 emission
-and the shipped TinyCC 0.9.27 Win64 backend. The existing D implementation
-remains the auditable stage-0 bootstrap seed; it is not deleted after closure.
-SH-6 packages the native compiler and complete source in a relocatable,
-manifested distribution and proves closure from that package. SH-7 makes that
+and the shipped TinyCC 0.9.27 Win64 backend. The existing D and Python
+implementations remain optional historical audit material in the repository;
+they are not compiler authority or normal build dependencies. SH-6 packages
+the native compiler and required source in a relocatable, manifested
+distribution and proves closure from that package. SH-7 makes that
 OpenC-native compiler own the required 278-fixture conformance gate.
 
 The supported initial target is Windows x86-64 Hosted. Linux and freestanding
@@ -418,6 +419,27 @@ are in `release/SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md`.
 
 Status: **PASS**
 
+## SH-13 — native throughput and implementation independence
+
+The OpenC `.p` compiler is the sole canonical authored implementation. Native
+builds, checks, conformance, CLI commands, project tooling, and language
+services invoke neither D nor Python. The standalone package excludes D and
+Python source, Python bytecode, and DUB manifests. A previous OpenC-native
+binary remains as the optional bootstrap seed.
+
+The public build command accepts `--timings=RECORD.json` and writes
+`openc.native_build_timings.v1`. The closed 96-source rebuild measures 557.985
+seconds versus the SH-12 780.621-second baseline, with byte-identical compiler
+and generated-C closure. TinyCC accounts for 0.938 seconds; the dominant
+548.172 seconds remains OpenC-owned lowering and C emission.
+
+The vendored TinyCC backend is still a required, separately licensed
+dependency. SH-13 therefore establishes D/Python implementation independence
+but does not claim a first-party native-code backend or D/C-class compilation
+speed. Both remain explicit future engineering work.
+
+Status: **PASS**
+
 ## Post-SH-6 — native self-rebuild performance
 
 The closed OpenC-native compiler rebuilds its complete 90-source compiler
@@ -454,7 +476,9 @@ inspection, and project test execution with stable records. SH-11 supplies the
 native stdio language-service lifecycle, compiler diagnostics, SH-10 document
 formatting, and deterministic transcript records. SH-12 supplies native
 project symbols, typed navigation, deterministic completion, safe rename, and
-open-order-independent project-semantic transcript records.
+open-order-independent project-semantic transcript records. SH-13 makes OpenC
+the sole implementation authority, publishes native phase timings, tightens
+the rebuild budget, and removes D/Python source from the standalone compiler.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

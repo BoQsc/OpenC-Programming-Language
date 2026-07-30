@@ -95,8 +95,8 @@ unsafe usize ir_lower_primary(
     if kind == 35 {
         usize operator_start = read_record_field(context.syntax_data, node, 3);
         usize operator_length = read_record_field(context.syntax_data, node, 4);
-        usize child = resolution_right_expression(
-            context.syntax_data, node, operator_start + operator_length
+        usize child = ir_right_expression(
+            context, node, operator_start + operator_length
         );
         if flow_node_operator(context.source, context.syntax_data, node, "-") &&
             child < context.syntax.length && read_record_field(

@@ -57,8 +57,8 @@ unsafe usize ir_direct_else_if(ref IrContext context, usize parent) {
                 context.syntax_data, record, 0
             ) == 14 && semantic_node_contains(
                 context.syntax_data, parent, record
-            ) && flow_control_parent(
-                context.syntax_data, context.syntax, record
+            ) && ir_control_parent(
+                context, record
             ) == parent && read_record_field(
                 context.syntax_data, record, 1
             ) >= after_then {
@@ -130,21 +130,19 @@ unsafe void ir_lower_block(ref IrContext context, usize block) {
             requested_start = 0;
             requested_record = 0;
         }
-        usize statement = flow_next_direct_statement(
-            context.syntax_data, context.syntax, block,
+        usize statement = ir_next_direct_statement(
+            context, block,
             requested_start, requested_record
         );
         if statement >= context.syntax.length { break; }
         usize kind = read_record_field(context.syntax_data, statement, 0);
-        usize control_parent = flow_control_parent(
-            context.syntax_data, context.syntax, statement
-        );
+        usize control_parent = ir_control_parent(context, statement);
         bool header_statement = false;
         if control_parent < context.syntax.length && read_record_field(
             context.syntax_data, control_parent, 0
         ) == 16 {
-            usize control_body = flow_largest_direct_block(
-                context.syntax_data, context.syntax, control_parent
+            usize control_body = ir_largest_direct_block(
+                context, control_parent
             );
             if control_body < context.syntax.length {
                 header_statement = read_record_field(
@@ -197,16 +195,12 @@ unsafe void ir_lower_block(ref IrContext context, usize block) {
                 }
             }
         } else if kind == 13 {
-            usize expression = flow_root_expression(
-                context.syntax_data, context.syntax, statement
-            );
+            usize expression = ir_root_expression(context, statement);
             ir_lower_node(
                 context, expression, semantic_type_error(), 0
             );
         } else if kind == 22 {
-            usize expression = flow_root_expression(
-                context.syntax_data, context.syntax, statement
-            );
+            usize expression = ir_root_expression(context, statement);
             if expression < context.syntax.length {
                 usize value = ir_lower_expected(
                     context, expression, context.function_result
@@ -224,9 +218,7 @@ unsafe void ir_lower_block(ref IrContext context, usize block) {
                 );
             }
         } else if kind == 23 {
-            usize action = flow_root_expression(
-                context.syntax_data, context.syntax, statement
-            );
+            usize action = ir_root_expression(context, statement);
             ptr byte scope_values = memory.alloc(
                 (context.syntax.length + 1) * size_of(usize)
             );
@@ -283,9 +275,7 @@ unsafe void ir_lower_block(ref IrContext context, usize block) {
             ) == 45 {
                 text_kind = 2;
                 text_one = 8;
-                usize owner_node = flow_event_first_name(
-                    context.syntax_data, context.syntax, action
-                );
+                usize owner_node = ir_first_name(context, action);
                 write_usize(
                     scope_values, scope_count * size_of(usize),
                     ir_lower_node(
@@ -313,9 +303,7 @@ unsafe void ir_lower_block(ref IrContext context, usize block) {
         } else if kind == 15 {
             usize body = ir_direct_block(context, statement, 0);
             if body >= context.syntax.length {
-                body = flow_largest_direct_block(
-                    context.syntax_data, context.syntax, statement
-                );
+                body = ir_largest_direct_block(context, statement);
             }
             usize header_block = ir_add_block(context, 5);
             usize body_block = ir_add_block(context, 6);
@@ -363,9 +351,7 @@ unsafe void ir_lower_block(ref IrContext context, usize block) {
             );
             context.current_block = after_block;
         } else if kind == 16 {
-            usize body = flow_largest_direct_block(
-                context.syntax_data, context.syntax, statement
-            );
+            usize body = ir_largest_direct_block(context, statement);
             usize body_start = read_record_field(
                 context.syntax_data, body, 1
             );
@@ -632,9 +618,7 @@ unsafe void ir_lower_block(ref IrContext context, usize block) {
         } else if kind == 11 || kind == 24 || kind == 25 {
             usize nested = statement;
             if kind == 24 || kind == 25 {
-                nested = flow_largest_direct_block(
-                    context.syntax_data, context.syntax, statement
-                );
+                nested = ir_largest_direct_block(context, statement);
             }
             if nested < context.syntax.length {
                 ir_lower_block(context, nested);

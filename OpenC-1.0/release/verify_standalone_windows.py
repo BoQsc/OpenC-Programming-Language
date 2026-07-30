@@ -14,6 +14,7 @@ import sys
 import zipfile
 
 
+ROOT = Path(__file__).resolve().parents[1]
 PROGRAMS = (
     ("A_COMPUTATION", 32, (), ""),
     ("B_FLOW_OWNERSHIP", 0, (), ""),
@@ -149,7 +150,7 @@ def main() -> int:
     parser.add_argument(
         "--audit-seed",
         action="store_true",
-        help="run the optional retained-D semantic/IR comparison oracle",
+        help="run the optional previous-OpenC semantic/IR comparison",
     )
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
@@ -266,7 +267,7 @@ def main() -> int:
     cli = run(
         [
             sys.executable,
-            str(distribution / "scripts" / "verify_sh9_cli.py"),
+            str(ROOT / "scripts" / "verify_sh9_cli.py"),
             "--compiler",
             str(stage3),
             "--output",
@@ -287,7 +288,7 @@ def main() -> int:
         [
             sys.executable,
             str(
-                distribution
+                ROOT
                 / "scripts"
                 / "verify_sh10_project_workflow.py"
             ),
@@ -312,7 +313,7 @@ def main() -> int:
     run(
         [
             sys.executable,
-            str(distribution / "scripts" / "verify_sh11_lsp.py"),
+            str(ROOT / "scripts" / "verify_sh11_lsp.py"),
             "--compiler",
             str(stage3),
             "--output",
@@ -336,7 +337,7 @@ def main() -> int:
         [
             sys.executable,
             str(
-                distribution
+                ROOT
                 / "scripts"
                 / "verify_sh12_semantic_lsp.py"
             ),
@@ -358,14 +359,17 @@ def main() -> int:
     parity_stdout = ""
     parity_report: dict[str, object] = {
         "status": "NOT_RUN_OPTIONAL",
-        "reason": "retained D seed is not part of the required SH-12 gate",
+        "reason": (
+            "previous OpenC bootstrap seed is not part of the required "
+            "standalone release gate"
+        ),
     }
     if args.audit_seed:
         parity = run(
             [
                 sys.executable,
                 str(
-                    distribution
+                    ROOT
                     / "compiler"
                     / "selfhost"
                     / "semantic_ir_parity.py"
@@ -381,7 +385,7 @@ def main() -> int:
             ],
             distribution,
             environment,
-            "optional retained-D semantic/IR audit",
+            "optional previous-OpenC semantic/IR audit",
         )
         parity_stdout = parity.stdout
         parity_report = json.loads(
@@ -418,6 +422,12 @@ def main() -> int:
     checks = {
         "independent_archive_builds_byte_equal": True,
         "archive_manifest_valid": not manifest_failures,
+        "package_excludes_d_and_python_source": not any(
+            path.suffix.lower() in {".d", ".py", ".pyc"}
+            or path.name.lower() in {"dub.json", "dub.selections.json"}
+            for path in distribution.rglob("*")
+            if path.is_file()
+        ),
         "package_is_relocatable_from_foreign_cwd": stage2.is_file(),
         "packaged_compiler_builds_stage2": stage2.is_file(),
         "stage2_builds_stage3": stage3.is_file(),
@@ -515,10 +525,14 @@ def main() -> int:
                 "packaged but outside the Windows Hosted gate"
             ),
             "bootstrap_seed": (
-                "optional retained D comparison oracle; packaged for audit "
-                "continuity but never executed by the required SH-12 gate"
+                "optional previous OpenC binary seed; packaged for bootstrap "
+                "continuity but never executed by the required standalone "
+                "release gate"
             ),
-            "python": "external evidence harness only",
+            "python": (
+                "external evidence harness only; absent from the standalone "
+                "compiler package"
+            ),
         },
         "environment": {
             "native_child_path": clean_path,

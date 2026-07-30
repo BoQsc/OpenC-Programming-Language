@@ -13,16 +13,66 @@ unsafe void c_put_response_path(
     d_put(response, "\"\n");
 }
 
-unsafe i32 build_windows_c(
+unsafe bool write_build_timings(
+    text timing_path,
+    ref BuildTimings timings,
+    bool passed
+) {
+    if text.byte_length(timing_path) == 0 { return true; }
+    DBuffer output = d_buffer_create(2048);
+    d_put(output, "{\n  \"schema\": \"openc.native_build_timings.v1\",\n");
+    d_put(output, "  \"status\": \"");
+    if passed { d_put(output, "PASS"); } else { d_put(output, "FAIL"); }
+    d_put(output, "\",\n  \"clock\": \"windows-monotonic-milliseconds\",\n");
+    d_put(output, "  \"source_files\": ");
+    d_put_usize(output, timings.source_files);
+    d_put(output, ",\n  \"source_bytes\": ");
+    d_put_usize(output, timings.source_bytes);
+    d_put(output, ",\n  \"phases_ms\": {\n");
+    d_put(output, "    \"project_load\": ");
+    d_put_usize(output, timings.project_load_ms);
+    d_put(output, ",\n    \"declarations\": ");
+    d_put_usize(output, timings.declarations_ms);
+    d_put(output, ",\n    \"resolution\": ");
+    d_put_usize(output, timings.resolution_ms);
+    d_put(output, ",\n    \"validation\": ");
+    d_put_usize(output, timings.validation_ms);
+    d_put(output, ",\n    \"lowering_and_c_emission\": ");
+    d_put_usize(output, timings.lowering_emit_ms);
+    d_put(output, ",\n    \"tinycc\": ");
+    d_put_usize(output, timings.backend_ms);
+    d_put(output, "\n  },\n  \"total_ms\": ");
+    d_put_usize(output, timings.total_ms);
+    d_put(output, "\n}\n");
+    if !output.ok {
+        d_buffer_destroy(output);
+        return false;
+    }
+    status written = file.write_text(
+        timing_path, d_buffer_text(output)
+    );
+    d_buffer_destroy(output);
+    return written.ok;
+}
+
+unsafe i32 build_windows_c_timed(
     text project_path,
     text output_executable,
     text generated_source,
     text runtime_root,
     text native_runtime_directory,
     text record_path,
-    text tcc_executable
+    text tcc_executable,
+    text timing_path
 ) {
-    if emit_trusted_windows_c(project_path, generated_source) != 0 {
+    BuildTimings timings = build_timings_empty();
+    usize total_started = process.monotonic_milliseconds();
+    if emit_trusted_windows_c_timed(
+        project_path, generated_source, timings
+    ) != 0 {
+        timings.total_ms =
+            process.monotonic_milliseconds() - total_started;
+        write_build_timings(timing_path, timings, false);
         return 1;
     }
 
@@ -73,14 +123,20 @@ unsafe i32 build_windows_c(
     }
     i32 exit_code;
     text process_output;
+    usize backend_started = process.monotonic_milliseconds();
     status ran = process.run(
         d_buffer_text(command), out exit_code, out process_output
     );
+    timings.backend_ms =
+        process.monotonic_milliseconds() - backend_started;
+    timings.total_ms =
+        process.monotonic_milliseconds() - total_started;
     d_buffer_destroy(command);
 
     text result = "{\n  \"schema\": \"openc-sh5-windows-build-v1\",\n  \"status\": \"FAILED\",\n  \"backend\": \"c11-tinycc-win64\",\n  \"dmd_invoked\": false,\n  \"dub_invoked\": false,\n  \"python_invoked\": false\n}\n";
     if !ran.ok {
         file.write_text(record_path, result);
+        write_build_timings(timing_path, timings, false);
         return 1;
     }
     if exit_code == 0 {
@@ -89,6 +145,26 @@ unsafe i32 build_windows_c(
         io.error(process_output);
     }
     status record_written = file.write_text(record_path, result);
-    if !record_written.ok || exit_code != 0 { return 1; }
+    bool passed = record_written.ok && exit_code == 0;
+    if !write_build_timings(timing_path, timings, passed) {
+        return 1;
+    }
+    if !passed { return 1; }
     return 0;
+}
+
+unsafe i32 build_windows_c(
+    text project_path,
+    text output_executable,
+    text generated_source,
+    text runtime_root,
+    text native_runtime_directory,
+    text record_path,
+    text tcc_executable
+) {
+    return build_windows_c_timed(
+        project_path, output_executable, generated_source,
+        runtime_root, native_runtime_directory, record_path,
+        tcc_executable, ""
+    );
 }

@@ -21,7 +21,7 @@ The post-SH-6 conformance-evidence granularity milestone passes:
 The fixture corpus adds direct evidence for initial UTF-8 BOM removal,
 repeated-BOM rejection, unterminated block-comment rejection, `when`
 contexts, text value semantics, function recursion, and struct equality.
-Initial BOM normalization is implemented in the canonical D compiler, the
+Initial BOM normalization was implemented in the legacy D compiler, the
 informative Python bootstrap, and the OpenC-owned self-hosted compiler.
 The corpus also adds a resource-initializer lifecycle case with an explicit
 stable-owner transfer, a plain-field default, whole-resource consumption, and

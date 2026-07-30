@@ -74,10 +74,60 @@ unsafe bool c_emit_source_record(
     ptr byte call_cache = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
+    ptr byte type_cache = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte left_expression_cache = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte right_expression_cache = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte block_parent_cache = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte control_parent_cache = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte statement_nodes = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte block_nodes = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte control_nodes = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte expression_nodes = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte name_nodes = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte declaration_symbol_cache = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    ptr byte top_symbols = memory.alloc(
+        (base.symbols.length + 1) * size_of(usize)
+    );
+    ir_initialize_parent_caches(
+        syntax, block_parent_cache, control_parent_cache
+    );
     usize cache_node = 0;
     while cache_node <= syntax.length {
         write_usize(name_cache, cache_node * size_of(usize), 0);
         write_usize(call_cache, cache_node * size_of(usize), 0);
+        write_usize(type_cache, cache_node * size_of(usize), 0);
+        write_usize(
+            left_expression_cache,
+            cache_node * size_of(usize),
+            syntax.length + 1
+        );
+        write_usize(
+            right_expression_cache,
+            cache_node * size_of(usize),
+            syntax.length + 1
+        );
         cache_node = cache_node + 1;
     }
     ptr byte break_data = memory.alloc(
@@ -111,6 +161,26 @@ unsafe bool c_emit_source_record(
         function_local_end = 0,
         name_cache = ir_pointer_alias(name_cache),
         call_cache = ir_pointer_alias(call_cache),
+        type_cache = ir_pointer_alias(type_cache),
+        left_expression_cache = ir_pointer_alias(left_expression_cache),
+        right_expression_cache = ir_pointer_alias(right_expression_cache),
+        block_parent_cache = ir_pointer_alias(block_parent_cache),
+        control_parent_cache = ir_pointer_alias(control_parent_cache),
+        statement_nodes = ir_pointer_alias(statement_nodes),
+        statement_count = 0,
+        block_nodes = ir_pointer_alias(block_nodes),
+        block_count = 0,
+        control_nodes = ir_pointer_alias(control_nodes),
+        control_count = 0,
+        expression_nodes = ir_pointer_alias(expression_nodes),
+        expression_count = 0,
+        name_nodes = ir_pointer_alias(name_nodes),
+        name_count = 0,
+        declaration_symbol_cache = ir_pointer_alias(
+            declaration_symbol_cache
+        ),
+        top_symbols = ir_pointer_alias(top_symbols),
+        top_symbol_count = 0,
         local_values = ir_pointer_alias(local_values),
         block_data = ir_pointer_alias(block_data),
         blocks = blocks,
@@ -126,15 +196,14 @@ unsafe bool c_emit_source_record(
         current_block = 0,
         next_value = base.next_value
     };
+    ir_initialize_node_indexes(context);
+    ir_initialize_declaration_symbols(context);
     usize node = 0;
     while node < syntax.length {
         if read_record_field(syntax_data, node, 0) == 2 {
-            usize body = flow_largest_direct_block(
-                syntax_data, syntax, node
-            );
-            usize owner = resolution_find_owner_symbol(
-                base.symbol_data, base.detail_data, base.symbols,
-                source_record, node,
+            usize body = ir_largest_direct_block(context, node);
+            usize owner = ir_owner_symbol(
+                context, node,
                 resolution_symbol_function(), 0
             );
             if body >= syntax.length || owner == 0 || byte_at_or_zero(
@@ -148,6 +217,18 @@ unsafe bool c_emit_source_record(
                 io.print(" owner="); io.println(owner);
                 memory.free(continue_data);
                 memory.free(break_data);
+                memory.free(top_symbols);
+                memory.free(declaration_symbol_cache);
+                memory.free(name_nodes);
+                memory.free(expression_nodes);
+                memory.free(control_nodes);
+                memory.free(block_nodes);
+                memory.free(statement_nodes);
+                memory.free(control_parent_cache);
+                memory.free(block_parent_cache);
+                memory.free(right_expression_cache);
+                memory.free(left_expression_cache);
+                memory.free(type_cache);
                 memory.free(call_cache);
                 memory.free(name_cache);
                 memory.free(local_values);
@@ -171,6 +252,18 @@ unsafe bool c_emit_source_record(
     base.types = context.types;
     memory.free(continue_data);
     memory.free(break_data);
+    memory.free(top_symbols);
+    memory.free(declaration_symbol_cache);
+    memory.free(name_nodes);
+    memory.free(expression_nodes);
+    memory.free(control_nodes);
+    memory.free(block_nodes);
+    memory.free(statement_nodes);
+    memory.free(control_parent_cache);
+    memory.free(block_parent_cache);
+    memory.free(right_expression_cache);
+    memory.free(left_expression_cache);
+    memory.free(type_cache);
     memory.free(call_cache);
     memory.free(name_cache);
     memory.free(local_values);

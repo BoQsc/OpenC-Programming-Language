@@ -1,7 +1,7 @@
 # Test execution status
 
-All eight canonical D test commands and all twenty-one Python source tests pass on
-the recorded Windows host. `run_all.py` records the D matrix;
+All eight legacy D audit commands and all twenty-one Python evidence tests pass
+on the recorded Windows host. `run_all.py` records the optional D matrix;
 `run_maintained.py` uses the verified native compiler by default and records
 native build/execution of the four maintained OpenC programs.
 

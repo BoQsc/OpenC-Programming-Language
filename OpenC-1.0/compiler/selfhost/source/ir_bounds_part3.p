@@ -58,9 +58,8 @@ unsafe usize ir_switch_case_expression(
 }
 
 unsafe usize ir_local_symbol(ref IrContext context, usize declaration) {
-    usize found = resolution_find_owner_symbol(
-        context.symbol_data, context.detail_data, context.symbols,
-        context.source_record, declaration,
+    usize found = ir_owner_symbol(
+        context, declaration,
         resolution_symbol_variable(), resolution_symbol_parameter()
     );
     if found == 0 { return context.symbols.length; }
@@ -107,9 +106,7 @@ unsafe bool ir_pointer_deref_fault(
     if operand >= context.syntax.length { return false; }
     usize kind = read_record_field(context.syntax_data, operand, 0);
     if kind == 33 { return true; }
-    usize name = flow_event_first_name(
-        context.syntax_data, context.syntax, operand
-    );
+    usize name = ir_first_name(context, operand);
     if kind == 27 { name = operand; }
     if name >= context.syntax.length { return false; }
     usize symbol = ir_resolve_name(context, name);
@@ -165,9 +162,7 @@ unsafe bool ir_pointer_binary_fault(
             read_record_field(context.syntax_data, right_node, 1),
             read_record_field(context.syntax_data, right_node, 2)
         );
-        usize left_name_add = flow_event_first_name(
-            context.syntax_data, context.syntax, left_node
-        );
+        usize left_name_add = ir_first_name(context, left_node);
         if read_record_field(context.syntax_data, left_node, 0) == 27 {
             left_name_add = left_node;
         }
@@ -279,12 +274,8 @@ unsafe bool ir_pointer_binary_fault(
         read_record_field(context.type_data, right_type, 0) != 13 {
         return false;
     }
-    usize left_name = flow_event_first_name(
-        context.syntax_data, context.syntax, left_node
-    );
-    usize right_name = flow_event_first_name(
-        context.syntax_data, context.syntax, right_node
-    );
+    usize left_name = ir_first_name(context, left_node);
+    usize right_name = ir_first_name(context, right_node);
     if read_record_field(context.syntax_data, left_node, 0) == 27 {
         left_name = left_node;
     }

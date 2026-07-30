@@ -7,13 +7,13 @@ Two bootstrap runtime layers are included:
 
 ```text
 runtime/source/openc/runtime/*.d
-    canonical D bootstrap/runtime library used by the D-source backend
+    legacy bootstrap/runtime library used by the retained D-source backend
 
 runtime/common/source/openc_runtime.[ch]
-    portable C ABI runtime used as an alternative native bootstrap boundary
+    required C ABI runtime used by the standalone OpenC compiler
 ```
 
-Both are implementation mechanisms. The D layer is the verified Windows
-bootstrap runtime; the portable C ABI layer remains an alternative,
-out-of-scope provider. Neither defines OpenC semantics independently of the
-current standard.
+Both are implementation mechanisms. The C ABI layer plus the Windows provider
+is the verified standalone runtime path. The D layer is optional historical
+audit material. Neither defines OpenC semantics independently of the current
+standard.

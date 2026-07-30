@@ -23,7 +23,8 @@ unsafe text cli_remove_prefix(text value, text prefix) {
 
 unsafe i32 build_default_windows(
     text project_path,
-    text output_executable
+    text output_executable,
+    text timing_path
 ) {
     text distribution_root = process.executable_directory();
     DBuffer generated = d_buffer_create(
@@ -41,7 +42,7 @@ unsafe i32 build_default_windows(
         d_buffer_destroy(generated);
         return 1;
     }
-    i32 result = build_windows_c(
+    i32 result = build_windows_c_timed(
         project_path,
         output_executable,
         d_buffer_text(generated),
@@ -52,7 +53,8 @@ unsafe i32 build_default_windows(
         d_buffer_text(record),
         path.join(
             distribution_root, "third_party/tinycc-win64/tcc.exe"
-        )
+        ),
+        timing_path
     );
     d_buffer_destroy(record);
     d_buffer_destroy(generated);
@@ -137,6 +139,32 @@ unsafe i32 main() {
         }
         return cli_run_project(project_path, argument_start);
     }
+    if arguments == 4 && process.argument(0) == "build" {
+        text project_path = process.argument(1);
+        text output_executable = process.argument(2);
+        text timing_path = process.argument(3);
+        if cli_has_prefix(project_path, "--project=") {
+            project_path = cli_remove_prefix(
+                project_path, "--project="
+            );
+        }
+        if cli_has_prefix(output_executable, "--output=") {
+            output_executable = cli_remove_prefix(
+                output_executable, "--output="
+            );
+        }
+        if cli_has_prefix(timing_path, "--timings=") {
+            timing_path = cli_remove_prefix(
+                timing_path, "--timings="
+            );
+        } else {
+            io.error("usage: openc build --project=PROJECT --output=OUTPUT-EXE --timings=TIMINGS.json\n");
+            return 64;
+        }
+        return build_default_windows(
+            project_path, output_executable, timing_path
+        );
+    }
     if arguments != 1 && arguments != 2 && arguments != 3 && arguments != 8 {
         io.error("usage: openc help\n");
         return 64;
@@ -192,7 +220,7 @@ unsafe i32 main() {
                 );
             }
             return build_default_windows(
-                project_path, output_executable
+                project_path, output_executable, ""
             );
         }
         if process.argument(0) == "--emit-d" {

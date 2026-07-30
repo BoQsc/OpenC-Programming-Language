@@ -279,6 +279,9 @@ unsafe void c_put_call_name(
     if c_builtin_is(context, instruction, "process.argument_count", "system.process.argument_count") {
         d_put(buffer, "ocb_process_argument_count"); return;
     }
+    if c_builtin_is(context, instruction, "process.monotonic_milliseconds", "system.process.monotonic_milliseconds") {
+        d_put(buffer, "ocb_process_monotonic_milliseconds"); return;
+    }
     if c_builtin_is(context, instruction, "process.argument", "system.process.argument") {
         d_put(buffer, "ocb_process_argument"); return;
     }

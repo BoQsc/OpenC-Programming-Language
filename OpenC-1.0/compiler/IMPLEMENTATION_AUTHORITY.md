@@ -2,17 +2,24 @@
 
 ## Canonical reference source
 
-The canonical authored OpenC 1.0 reference implementation is written in D and lives under:
+The canonical authored OpenC 1.0 compiler is written in OpenC and lives under:
 
 ```text
-compiler/source/
+compiler/selfhost/source/
 ```
 
-Its public entry point is `compiler/source/app/main.d`, and its compiler library is under `compiler/source/openc/`.
+Its project manifest is `compiler/selfhost/openc.project.json`; its public
+entry point and compiler subsystems are the canonical `.p` sources named by
+that manifest.
 
-## Bootstrap source
+## Legacy bootstrap and comparison source
 
-The Python source under `compiler/bootstrap/python/` is informative bootstrap material. It is preserved because it may help future bring-up and cross-checking, but it is not a second current implementation authority.
+The D source under `compiler/source/` records the earlier stage-0 reference
+implementation. The Python source under `compiler/bootstrap/python/` records
+an earlier informative bootstrap. Both may help historical audit, bring-up,
+and differential investigation, but neither is a current implementation
+authority or a required compiler dependency. Both are excluded from the
+standalone compiler distribution.
 
 ## Authority boundary
 
@@ -28,9 +35,11 @@ When the implementation reveals an ambiguity or contradiction in the standard, m
 ## Evidence state
 
 ```text
-D source authored:           yes
-D source compiled here:      no
-D tests executed here:       no
-Python bootstrap executed:   no
-platform behavior verified:  no
+OpenC compiler source:       canonical
+OpenC native closure:        verified on Windows x86-64 Hosted
+D source:                    retained legacy bootstrap/reference snapshot
+D required by native build:  no
+Python source:               retained informative bootstrap/audit material
+Python required by openc:    no
+TinyCC backend:              required temporary packaged backend
 ```

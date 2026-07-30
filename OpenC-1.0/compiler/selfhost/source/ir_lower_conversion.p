@@ -34,9 +34,7 @@ unsafe usize ir_lower_conversion(
         );
     }
     if kind == 44 {
-        usize storage_node = flow_event_first_name(
-            context.syntax_data, context.syntax, node
-        );
+        usize storage_node = ir_first_name(context, node);
         usize value_node = ir_expression_child_after(
             context, node,
             read_record_field(context.syntax_data, storage_node, 1) +
@@ -64,9 +62,7 @@ unsafe usize ir_lower_conversion(
         );
     }
     if kind == 45 {
-        usize owner_node = flow_event_first_name(
-            context.syntax_data, context.syntax, node
-        );
+        usize owner_node = ir_first_name(context, node);
         usize owner = ir_lower_node(
             context, owner_node, semantic_type_error(), 0
         );

@@ -166,9 +166,7 @@ unsafe usize ir_direct_block(
         while record < context.syntax.length {
             if read_record_field(context.syntax_data, record, 0) == 11 &&
                 semantic_node_contains(context.syntax_data, parent, record) &&
-                flow_control_parent(
-                    context.syntax_data, context.syntax, record
-                ) == parent {
+                ir_control_parent(context, record) == parent {
                 usize start = read_record_field(context.syntax_data, record, 1);
                 bool after = first || start > previous_start ||
                     (start == previous_start && record > previous_record);

@@ -1,6 +1,6 @@
 # OpenC runtime source
 
-Status: **D RUNTIME BUILT, TESTED, AND EXECUTED ON WINDOWS; ALTERNATIVE C PROVIDERS UNVERIFIED**
+Status: **WINDOWS C RUNTIME BUILT AND EXECUTED; LEGACY D RUNTIME RETAINED FOR AUDIT**
 
 The runtime source includes:
 
@@ -15,6 +15,7 @@ Linux and Windows startup modules
 freestanding hook installation
 ```
 
-The canonical D runtime is exercised by unit tests, runtime fixtures, and
-maintained programs on Windows. The separate common-C, Linux, Windows-C, and
+The common/Windows C runtime is the required standalone compiler provider and
+is exercised by native compiler, runtime-fixture, and maintained-program
+gates. The D runtime remains legacy bootstrap/reference source. Linux and
 freestanding providers remain outside the supported 1.0 verification claim.

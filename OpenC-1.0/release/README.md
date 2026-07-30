@@ -56,6 +56,13 @@ project symbol, typed hover, definition/reference, completion, safe-rename,
 root-isolation, synchronization, schema, and open-order determinism cases.
 Evidence is in `SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md`.
 
+SH-13 native throughput and implementation independence adds first-party build
+phase records, indexed OpenC lowering, a tightened byte-identical rebuild
+budget, canonical OpenC-only compiler authority, and standalone packages that
+exclude D/Python source and DUB manifests. TinyCC remains an explicit packaged
+backend dependency. Evidence is in
+`SH13_NATIVE_THROUGHPUT_INDEPENDENCE_EVIDENCE.md`.
+
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by
 `verify_release_artifacts.py`. The builder emits the artifact layout, mandatory

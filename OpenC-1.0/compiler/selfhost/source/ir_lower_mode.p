@@ -69,8 +69,8 @@ unsafe usize ir_lower_mode(
             usize operator_start = read_record_field(
                 context.syntax_data, node, 3
             );
-            usize child = resolution_right_expression(
-                context.syntax_data, node,
+            usize child = ir_right_expression(
+                context, node,
                 operator_start + read_record_field(
                     context.syntax_data, node, 4
                 )
@@ -80,8 +80,8 @@ unsafe usize ir_lower_mode(
             );
         }
         if kind == 40 {
-            usize base = resolution_left_expression(
-                context.syntax_data, node,
+            usize base = ir_left_expression(
+                context, node,
                 read_record_field(context.syntax_data, node, 3)
             );
             usize right = ir_root_in_bounds(
@@ -115,8 +115,8 @@ unsafe usize ir_lower_mode(
             usize member_start = read_record_field(
                 context.syntax_data, node, 3
             );
-            usize base = resolution_left_expression(
-                context.syntax_data, node, member_start
+            usize base = ir_left_expression(
+                context, node, member_start
             );
             usize aggregate = ir_lower_node(
                 context, base, semantic_type_error(), 1

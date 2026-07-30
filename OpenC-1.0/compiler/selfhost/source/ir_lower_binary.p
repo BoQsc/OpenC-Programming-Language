@@ -16,11 +16,11 @@ unsafe usize ir_lower_binary(
     if kind == 36 {
         usize operator_start = read_record_field(context.syntax_data, node, 3);
         usize operator_length = read_record_field(context.syntax_data, node, 4);
-        usize left_node = resolution_left_expression(
-            context.syntax_data, node, operator_start
+        usize left_node = ir_left_expression(
+            context, node, operator_start
         );
-        usize right_node = resolution_right_expression(
-            context.syntax_data, node, operator_start + operator_length
+        usize right_node = ir_right_expression(
+            context, node, operator_start + operator_length
         );
         usize operand_expected = ir_node_type(
             context, left_node, semantic_type_error()
@@ -150,11 +150,11 @@ unsafe usize ir_lower_binary(
     if kind == 37 {
         usize operator_start = read_record_field(context.syntax_data, node, 3);
         usize operator_length = read_record_field(context.syntax_data, node, 4);
-        usize left_node = resolution_left_expression(
-            context.syntax_data, node, operator_start
+        usize left_node = ir_left_expression(
+            context, node, operator_start
         );
-        usize right_node = resolution_right_expression(
-            context.syntax_data, node, operator_start + operator_length
+        usize right_node = ir_right_expression(
+            context, node, operator_start + operator_length
         );
         usize destination = ir_lower_node(
             context, left_node, semantic_type_error(), 1

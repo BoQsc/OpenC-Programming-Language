@@ -20,14 +20,14 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 
 ## Verified state
 
-- all 9 canonical D targets build and link in debug and release modes;
-- all 8 D test commands and all 26 Python source tests pass;
+- the canonical compiler is authored in OpenC `.p`; the 9 legacy D targets
+  and Python bootstrap tests remain optional historical audit material;
 - the OpenC-authored `openc validate` passes all 278 fixtures, including 35
   runtime fixtures, without executing the retained D audit seed;
 - all 4 maintained programs check, build, and run successfully;
 - all 281 migrated OpenC library, program, and fixture sources use `.p`; with
   the expanded compiler-in-OpenC and conformance source, the current tree has
-  394 `.p` files;
+  395 `.p` files;
 - the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
   lexer parity on 288 canonical `.p` sources plus 16 probes (304/304), SH-2C
   exact parser parity on those sources plus 15 parser probes (303/303), and
@@ -66,6 +66,10 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   synchronized project workspace, document symbols, typed hover,
   definition/reference navigation, sorted completion, collision-checked safe
   rename, and deterministic 23/23 project-semantic transcript verification;
+  SH-13 adds native phase timing, indexed lowering lookups, byte-identical
+  557.985-second self-rebuild closure, canonical OpenC-only implementation
+  authority, and standalone distributions without D/Python source or DUB
+  manifests;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
@@ -83,11 +87,11 @@ owner-maintained initial release.
 
 The public RC8 package evidence remains the immutable 268-fixture historical
 record described above. RC9 is the published 278-fixture successor. SH-12
-native semantic language intelligence is complete on mainline. The next
-engineering milestone is SH-13 native editor integration and language-service
-resilience: a first-party editor client, incremental/versioned synchronization,
-cancellation and workspace lifecycle handling, and bounded stress evidence
-from the relocated standalone package.
+native semantic language intelligence is complete on mainline. SH-13 now
+completes native compiler throughput and implementation-independence work.
+SH-14 comes next: a first-party editor client, incremental/versioned
+synchronization, cancellation and workspace lifecycle handling, and bounded
+stress evidence from the relocated standalone package.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
 `LICENSE_POLICY.md`, `standard/core/OpenC_Core_Current.md`, and

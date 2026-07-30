@@ -1,5 +1,37 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-13 native throughput and implementation independence
+
+- made the OpenC `.p` compiler tree the sole canonical implementation
+  authority; retained D and Python implementations are legacy audit material,
+  not required compiler components;
+- added public `openc build --timings=RECORD.json` phase evidence separating
+  project loading, declarations, resolution, validation, OpenC IR/C emission,
+  and TinyCC compilation/linking;
+- added bounded type, expression-child, syntax-parent, syntax-kind, declaration
+  symbol, and module-top-symbol indexes to replace repeated full-table scans in
+  native lowering;
+- reduced the closed 96-source self-rebuild from the SH-12 780.621-second
+  baseline to 557.985 seconds on the reference host, a 28.5% reduction, while
+  preserving byte-identical generated C and native compiler closure;
+- passed the tightened 900-second/256 MiB/32 MiB monitored-rebuild budget in
+  500.311 seconds with 214,630,400 bytes peak private memory and 14,274,560
+  bytes peak working set;
+- measured TinyCC at 0.938 seconds of the 557.985-second closed rebuild,
+  demonstrating that the remaining throughput gap is in OpenC-owned
+  lowering/emission and generated-code quality rather than the final backend
+  invocation;
+- excluded `.d`, `.py`, `.pyc`, and DUB manifests from the standalone compiler
+  distribution; Python remains an external evidence orchestrator only;
+- retained the vendored TinyCC backend, its corresponding source, and its
+  LGPL/MIT/public-domain notices as an explicitly disclosed remaining backend
+  dependency rather than claiming full backend independence;
+- preserved 278/278 native conformance, the explicit disclosure of all 93
+  historical rule-ID compatibility matches, and the Windows x86-64 Hosted
+  release scope;
+- moved native editor integration and language-service resilience from SH-13
+  to SH-14. Linux and freestanding remain optional future targets.
+
 ## Post-RC9 — SH-12 native semantic language intelligence
 
 - replaced the native language server's single-document state with a bounded

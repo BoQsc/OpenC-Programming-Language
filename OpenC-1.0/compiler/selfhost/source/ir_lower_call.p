@@ -195,8 +195,8 @@ unsafe usize ir_lower_call_range(
     }
     if kind == 39 {
         usize member_start = read_record_field(context.syntax_data, node, 3);
-        usize base_node = resolution_left_expression(
-            context.syntax_data, node, member_start
+        usize base_node = ir_left_expression(
+            context, node, member_start
         );
         usize base = ir_lower_node(
             context, base_node, semantic_type_error(), 0
@@ -211,8 +211,8 @@ unsafe usize ir_lower_call_range(
     }
     if kind == 40 {
         usize operator_start = read_record_field(context.syntax_data, node, 3);
-        usize base_node = resolution_left_expression(
-            context.syntax_data, node, operator_start
+        usize base_node = ir_left_expression(
+            context, node, operator_start
         );
         usize index_node = ir_root_in_bounds(
             context, operator_start + 1, start + length - 1
@@ -239,8 +239,8 @@ unsafe usize ir_lower_call_range(
         usize bracket_start = read_record_field(
             context.syntax_data, node, 3
         );
-        usize base_node = resolution_left_expression(
-            context.syntax_data, node, bracket_start
+        usize base_node = ir_left_expression(
+            context, node, bracket_start
         );
         usize dots_start = start + length;
         usize close_start = start + length;

@@ -421,6 +421,29 @@ if self_host_gates.get("SH-12") == "PASS" and (
         "references, deterministic completion, safe rename, semantic "
         "transcripts, and no required D-seed execution"
     )
+if self_host_gates.get("SH-13") != "PASS":
+    errors.append(
+        "native throughput and implementation-independence SH-13 gate "
+        "must pass"
+    )
+if self_host_gates.get("SH-13") == "PASS" and (
+        not self_hosting.get("claims", {}).get(
+            "native_throughput_and_implementation_independence"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "canonical_compiler_implementation_is_openc"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "standalone_excludes_d_and_python_source"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "tinycc_backend_dependency_disclosed"
+        )):
+    errors.append(
+        "SH-13 PASS requires measured native throughput, canonical OpenC "
+        "compiler authority, standalone D/Python-source exclusion, and "
+        "explicit TinyCC dependency disclosure"
+    )
 
 budgets = json.loads((
     ROOT / "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json"

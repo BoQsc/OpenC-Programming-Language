@@ -4,7 +4,13 @@
   "official_source_extension": ".p",
   "stage0": {
     "implementation_language": "D",
-    "role": "retained_bootstrap_seed_and_optional_audit_oracle"
+    "role": "historical_original_bootstrap_and_optional_audit_oracle",
+    "required_by_current_build_or_release": false
+  },
+  "standalone_bootstrap_seed": {
+    "implementation_language": "OpenC",
+    "role": "previous_openc_binary_for_bootstrap_continuity",
+    "required_by_normal_build_or_conformance": false
   },
   "gates": [
     {
@@ -468,7 +474,46 @@
       "retained_d_seed_required": false,
       "retained_d_seed_executed_by_required_workflow": false,
       "linux_and_freestanding_gate": false,
-      "next_milestone": "SH-13_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
+      "next_milestone": "SH-13_NATIVE_THROUGHPUT_AND_IMPLEMENTATION_INDEPENDENCE"
+    },
+    {
+      "id": "SH-13",
+      "name": "native_throughput_and_implementation_independence",
+      "status": "PASS",
+      "command": "python scripts/verify_sh13_throughput_independence.py",
+      "evidence": "release/SH13_NATIVE_THROUGHPUT_INDEPENDENCE_EVIDENCE.md",
+      "target": "windows_x86_64_hosted",
+      "compiler_implementation_language": "OpenC",
+      "native_compiler_source_files": 96,
+      "native_compiler_sha256": "006ffed8768aeb9050cdb690e3b8db2d835f3a939c82c75f8e40ff46b9628d9e",
+      "timing_schema": "openc.native_build_timings.v1",
+      "sh12_self_rebuild_seconds": 780.621,
+      "phase_timed_self_rebuild_elapsed_seconds": 557.985,
+      "monitored_self_rebuild_elapsed_seconds": 500.311,
+      "native_self_rebuild_reduction_percent": 28.5,
+      "native_self_rebuild_budget_seconds": 900.0,
+      "native_self_rebuild_peak_private_bytes": 214630400,
+      "native_self_rebuild_peak_working_set_bytes": 14274560,
+      "native_validation_elapsed_seconds": 32.612,
+      "native_validation_peak_private_bytes": 6434816,
+      "native_validation_peak_working_set_bytes": 8413184,
+      "lowering_and_c_emission_seconds": 548.172,
+      "tinycc_seconds": 0.938,
+      "native_self_rebuild_byte_equal": true,
+      "generated_c_sha256": "cbba2415d0d3e231a458a49f7aa4b3672a19ff41917a5f122e48cdf12659b58c",
+      "native_conformance_fixtures_passed": 278,
+      "standalone_archive_sha256": "9d344204f97f626cd63c60215c6df43f0c87c849b2e2f5b6962f5d6c42179d98",
+      "standalone_archive_builds_byte_equal": true,
+      "standalone_manifest_entries": 1346,
+      "standalone_excludes_d_python_source_and_dub": true,
+      "dmd_required": false,
+      "dub_required": false,
+      "python_required": false,
+      "tinycc_backend_required": true,
+      "first_party_native_code_backend_complete": false,
+      "historical_rule_id_matches_disclosed": 93,
+      "linux_and_freestanding_gate": false,
+      "next_milestone": "SH-14_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
     }
   ],
   "rc9_standalone_refresh": {
@@ -589,6 +634,10 @@
     "deterministic_native_lsp_completion": true,
     "validated_native_lsp_safe_rename": true,
     "deterministic_project_semantic_lsp_transcripts": true,
-    "native_semantic_language_intelligence": true
+    "native_semantic_language_intelligence": true,
+    "native_throughput_and_implementation_independence": true,
+    "canonical_compiler_implementation_is_openc": true,
+    "standalone_excludes_d_and_python_source": true,
+    "tinycc_backend_dependency_disclosed": true
   }
 }

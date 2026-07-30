@@ -5,8 +5,9 @@ import system.process;
 import system.text;
 
 unsafe i32 emit_bootstrap_d(text project_path, text output_directory) {
+    BuildTimings timings = build_timings_empty();
     return emit_bootstrap_d_mode(
-        project_path, output_directory, true, false
+        project_path, output_directory, true, false, timings
     );
 }
 
@@ -14,20 +15,33 @@ unsafe i32 emit_trusted_bootstrap_d(
     text project_path,
     text output_directory
 ) {
+    BuildTimings timings = build_timings_empty();
     return emit_bootstrap_d_mode(
-        project_path, output_directory, false, false
+        project_path, output_directory, false, false, timings
     );
 }
 
 unsafe i32 emit_windows_c(text project_path, text output_source) {
+    BuildTimings timings = build_timings_empty();
     return emit_bootstrap_d_mode(
-        project_path, output_source, true, true
+        project_path, output_source, true, true, timings
     );
 }
 
 unsafe i32 emit_trusted_windows_c(text project_path, text output_source) {
+    BuildTimings timings = build_timings_empty();
     return emit_bootstrap_d_mode(
-        project_path, output_source, false, true
+        project_path, output_source, false, true, timings
+    );
+}
+
+unsafe i32 emit_trusted_windows_c_timed(
+    text project_path,
+    text output_source,
+    ref BuildTimings timings
+) {
+    return emit_bootstrap_d_mode(
+        project_path, output_source, false, true, timings
     );
 }
 

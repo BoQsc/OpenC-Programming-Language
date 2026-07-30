@@ -4,6 +4,47 @@ Date: 2026-07-26
 Host: Windows 10.0.19045, x86-64
 Scope: OpenC-native compiler rebuilding `compiler/selfhost/openc.project.json`
 
+## SH-13 closed native measurement
+
+Date: 2026-07-30
+
+The closed 96-source compiler rebuilds itself in 557.985 seconds, down from the
+SH-12 baseline of 780.621 seconds. That is a 28.5% elapsed-time reduction.
+Input compiler, output compiler, and the next rebuilt compiler are
+byte-identical at SHA-256
+`006ffed8768aeb9050cdb690e3b8db2d835f3a939c82c75f8e40ff46b9628d9e`.
+Generated C is byte-identical at SHA-256
+`cbba2415d0d3e231a458a49f7aa4b3672a19ff41917a5f122e48cdf12659b58c`.
+
+The native `openc build --timings=...` record separates the work:
+
+| Phase | Milliseconds | Share |
+| --- | ---: | ---: |
+| Project load | 32 | <0.1% |
+| Declarations | 1,546 | 0.3% |
+| Resolution | 7,297 | 1.3% |
+| Validation | 0 | 0.0% |
+| OpenC lowering and C emission | 548,172 | 98.2% |
+| TinyCC compile/link | 938 | 0.2% |
+| Total | 557,985 | 100.0% |
+
+SH-13 adds lazy type and expression-child caches plus indexed statements,
+blocks, controls, expressions, names, declaration symbols, and module-top
+symbols. These remove repeated full syntax/symbol-table scans while preserving
+deterministic closure.
+
+A separate 50 ms PSAPI-monitored budget run completed in 500.311 seconds with
+214,630,400 bytes peak private memory and 14,274,560 bytes peak working set.
+Its compiler and generated C have the same hashes shown above. All elapsed and
+memory checks pass the tightened SH-13 budget.
+
+This result is materially better but is not D/ISO-C-class compilation speed.
+The remaining gap is explicitly open: it lies primarily in OpenC-owned
+lowering/C emission and in the execution quality of the generated compiler,
+not in the sub-second TinyCC invocation. Replacing TinyCC with a first-party
+object/link backend remains future architecture work; SH-13 does not claim
+that backend independence is complete.
+
 ## Result
 
 The post-SH-6 native compiler completes a full self-rebuild in 381.049 seconds,
@@ -76,12 +117,13 @@ shipped TinyCC directory.
 SH-8 replaces descriptive-only performance history with the enforceable
 budgets in `WINDOWS_NATIVE_BUDGETS.json`.
 
-The SH-12 live-desktop 278-fixture native validation baseline is 28.872
-seconds with 6,860,800 bytes peak private memory. Its reviewed ceiling is
-90 seconds and 16 MiB. The SH-12 byte-identical 96-source native self-rebuild
-baseline is 780.621 seconds with 208,019,456 bytes peak private memory. Its
-reviewed ceiling remains 1,050 seconds and 256 MiB; the 13,787,136-byte peak
-working set remains below the unchanged 32 MiB ceiling.
+The SH-13 live-desktop 278-fixture native validation baseline is 32.612
+seconds with 6,434,816 bytes peak private memory and 8,413,184 bytes peak
+working set. Its reviewed ceiling is 90 seconds and 16 MiB. The SH-13
+byte-identical 96-source native self-rebuild
+baseline is 500.311 seconds with 214,630,400 bytes peak private memory and
+14,274,560 bytes peak working set. Its tightened ceiling is 900 seconds; the
+256 MiB private-memory and 32 MiB working-set ceilings remain unchanged.
 
 The prior SH-8 baselines were 35.489 seconds for validation and 494.985 seconds
 for the 92-source self-rebuild, whose ceiling was 620 seconds. The 94-source
@@ -99,9 +141,10 @@ differed from the rebuilt `openc.exe`; rebuilding and installing the stable
 raises only the elapsed ceiling to 1,050 seconds (11.1% baseline headroom) and
 retains the existing memory ceilings.
 
-SH-12 adds the project-semantic language-service source and finishes below the
-existing ceilings, so no budget increase is required. The current baseline
-provides 211.7% validation elapsed headroom and 34.5% rebuild elapsed headroom.
+SH-12 added the project-semantic language-service source without requiring a
+budget increase. SH-13 indexed the dominant OpenC lowering lookups and reduced
+the monitored rebuild from 780.621 to 500.311 seconds. The current baselines
+provide 176.0% validation elapsed headroom and 79.9% rebuild elapsed headroom.
 
 Run and enforce both budgets with:
 

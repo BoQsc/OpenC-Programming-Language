@@ -1,23 +1,23 @@
 {
   "schema": "openc.windows_native_performance_budgets.v1",
-  "milestone": "SH-12_NATIVE_SEMANTIC_LANGUAGE_INTELLIGENCE",
+  "milestone": "SH-13_NATIVE_THROUGHPUT_AND_IMPLEMENTATION_INDEPENDENCE",
   "target": "windows-x86_64-hosted",
   "reference_host": {
     "operating_system": "Windows 10.0.19045",
     "architecture": "AMD64",
-    "measurement_date": "2026-07-28"
+    "measurement_date": "2026-07-30"
   },
   "baselines": {
     "validation": {
-      "elapsed_seconds": 28.872,
-      "peak_private_bytes": 6860800,
-      "peak_working_set_bytes": 8495104,
+      "elapsed_seconds": 32.612,
+      "peak_private_bytes": 6434816,
+      "peak_working_set_bytes": 8413184,
       "fixtures": 278
     },
     "self_rebuild": {
-      "elapsed_seconds": 780.621,
-      "peak_private_bytes": 208019456,
-      "peak_working_set_bytes": 13787136,
+      "elapsed_seconds": 500.311,
+      "peak_private_bytes": 214630400,
+      "peak_working_set_bytes": 14274560,
       "output_compiler_byte_equal_to_input": true
     }
   },
@@ -26,13 +26,13 @@
       "max_elapsed_seconds": 90.0,
       "max_peak_private_bytes": 16777216,
       "max_peak_working_set_bytes": 16777216,
-      "elapsed_headroom_percent": 211.7
+      "elapsed_headroom_percent": 176.0
     },
     "self_rebuild": {
-      "max_elapsed_seconds": 1050.0,
+      "max_elapsed_seconds": 900.0,
       "max_peak_private_bytes": 268435456,
       "max_peak_working_set_bytes": 33554432,
-      "elapsed_headroom_percent": 34.5
+      "elapsed_headroom_percent": 79.9
     },
     "daily_cache_hit": {
       "max_elapsed_seconds": 2.0,
@@ -48,17 +48,18 @@
     "linux_and_freestanding_gate": false
   },
   "authored_review": {
-    "milestone": "SH-12",
-    "reason": "the 96-source semantic language-service compiler completed a monitored byte-identical native rebuild and fresh 278-fixture validation within the existing SH-11 ceilings; no ceiling increase is required",
-    "previous_validation_baseline_seconds": 39.664,
-    "previous_self_rebuild_baseline_seconds": 945.439,
+    "milestone": "SH-13",
+    "reason": "indexed OpenC-owned lowering reduced the monitored closed 96-source byte-identical rebuild from 780.621 to 500.311 seconds; the separate phase-timed closure completed in 557.985 seconds; fresh validation completed in 32.612 seconds with 278/278; the rebuild ceiling is tightened while retaining live-desktop variability and the existing memory ceilings",
+    "previous_validation_baseline_seconds": 28.872,
+    "previous_self_rebuild_baseline_seconds": 780.621,
     "previous_self_rebuild_ceiling_seconds": 1050.0,
-    "new_measurement_record": "build-output/selfhost-sh12/full-workflow/performance/rebuild-measurement.json",
+    "new_validation_measurement_record": "build-output/selfhost-sh13/performance/validation-measurement.json",
+    "new_measurement_record": "build-output/selfhost-sh13/performance/rebuild-measurement.json",
     "observed_validation_elapsed_range_seconds": [28.872, 68.471],
-    "observed_self_rebuild_elapsed_range_seconds": [574.05, 945.439],
-    "elapsed_ceiling_changed": false,
+    "observed_self_rebuild_elapsed_range_seconds": [472.703, 557.985],
+    "elapsed_ceiling_changed": true,
     "validation_ceiling_seconds": 90.0,
-    "self_rebuild_ceiling_seconds": 1050.0,
+    "self_rebuild_ceiling_seconds": 900.0,
     "elapsed_regression_disclosed": false,
     "memory_ceiling_changed": false
   }
