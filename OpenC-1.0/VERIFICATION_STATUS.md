@@ -265,7 +265,9 @@ declared Windows x86-64 Hosted scope.
 The immutable RC8 standalone record remains at 268 fixtures. RC9 packages and
 executes the current 278-fixture corpus, reaches byte-identical native closure,
 and publishes the verified artifact set. SH-13 is the verified post-RC9
-mainline successor. The next engineering milestone is SH-14 native editor
-integration and language-service resilience: a first-party editor client,
-incremental/versioned synchronization, cancellation/workspace lifecycle, and
-bounded stress. Linux and freestanding remain optional future targets.
+mainline successor. SH-14 compiler throughput convergence and stability is the
+blocking next milestone: clean-build D-class comparison, small/incremental
+latency, near-linear scaling, byte-identical closure, and a 20-run stability
+gate. Windows-native backend work begins only after SH-14 passes; editor
+integration is deferred to SH-23. Linux and freestanding remain optional
+future targets.

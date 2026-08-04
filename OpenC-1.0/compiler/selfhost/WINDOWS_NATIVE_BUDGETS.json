@@ -47,6 +47,21 @@
     "retained_d_seed_required": false,
     "linux_and_freestanding_gate": false
   },
+  "sh14_exit_targets": {
+    "status": "PENDING_BLOCKING",
+    "plan": "compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md",
+    "clean_runs": 5,
+    "clean_median_max_seconds": 30.0,
+    "clean_each_run_max_seconds": 45.0,
+    "relative_to_pinned_d_reference_max": 1.25,
+    "small_build_median_max_seconds": 0.25,
+    "small_build_each_max_seconds": 0.5,
+    "one_source_rebuild_median_max_seconds": 1.0,
+    "consecutive_closed_rebuilds": 20,
+    "max_peak_private_bytes": 268435456,
+    "max_peak_working_set_bytes": 33554432,
+    "current_900_second_ceiling_is_not_sh14_acceptance": true
+  },
   "authored_review": {
     "milestone": "SH-13",
     "reason": "indexed OpenC-owned lowering reduced the monitored closed 96-source byte-identical rebuild from 780.621 to 500.311 seconds; the separate phase-timed closure completed in 557.985 seconds; fresh validation completed in 32.612 seconds with 278/278; the rebuild ceiling is tightened while retaining live-desktop variability and the existing memory ceilings",

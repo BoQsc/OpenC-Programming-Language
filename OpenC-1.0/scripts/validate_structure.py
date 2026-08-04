@@ -445,6 +445,40 @@ if self_host_gates.get("SH-13") == "PASS" and (
         "explicit TinyCC dependency disclosure"
     )
 
+planned = self_hosting.get("planned_milestones", {})
+active_plan = planned.get("active", {})
+if (
+    active_plan.get("id") != "SH-14"
+    or active_plan.get("name")
+    != "compiler_throughput_convergence_and_stability"
+    or active_plan.get("status") != "PENDING_BLOCKING"
+    or not active_plan.get(
+        "blocks_all_new_feature_and_platform_implementation"
+    )
+    or active_plan.get("clean_five_run_median_max_seconds") != 30.0
+    or active_plan.get("clean_each_run_max_seconds") != 45.0
+    or active_plan.get("consecutive_closed_rebuilds_required") != 20
+):
+    errors.append(
+        "SH-14 must remain the blocking measured throughput/stability plan"
+    )
+development_self_hosting = development.get("self_hosting", {})
+if development_self_hosting.get("next_milestone") != (
+    "SH-14_COMPILER_THROUGHPUT_CONVERGENCE_AND_STABILITY"
+):
+    errors.append("development state must name throughput/stability as SH-14")
+windows_plan = planned.get("windows_independence_plan", {})
+if (
+    not windows_plan.get("implementation_blocked_until_sh14_pass")
+    or windows_plan.get("sequence", [None])[0]
+    != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
+    or windows_plan.get("sequence", [None])[-1]
+    != "SH-23_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
+):
+    errors.append(
+        "Windows independence and editor work must remain sequenced after SH-14"
+    )
+
 budgets = json.loads((
     ROOT / "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json"
 ).read_text(encoding="utf-8"))
@@ -462,6 +496,17 @@ for section in ("validation", "self_rebuild"):
 if budgets.get("budgets", {}).get("daily_cache_hit", {}).get(
         "max_fixtures_executed") != 0:
     errors.append("SH-8 unchanged daily cache budget must execute zero fixtures")
+sh14_targets = budgets.get("sh14_exit_targets", {})
+if (
+    sh14_targets.get("status") != "PENDING_BLOCKING"
+    or sh14_targets.get("clean_median_max_seconds") != 30.0
+    or sh14_targets.get("clean_each_run_max_seconds") != 45.0
+    or sh14_targets.get("consecutive_closed_rebuilds") != 20
+    or not sh14_targets.get(
+        "current_900_second_ceiling_is_not_sh14_acceptance"
+    )
+):
+    errors.append("SH-14 throughput exit targets are missing or weakened")
 
 native_workflow = (
     ROOT / "scripts/windows_native_workflow.py"

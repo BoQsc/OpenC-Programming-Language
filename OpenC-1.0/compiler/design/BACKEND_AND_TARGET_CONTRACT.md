@@ -13,13 +13,21 @@ target fault outcomes
 object/executable emission support
 ```
 
-The backend preserves checked failures and all sequenced observable effects. A bootstrap backend may lower to D, LLVM IR, C, or another representation only when inserted checks make OpenC behavior authoritative. Such a backend is an implementation technique, not source compatibility.
+The backend preserves checked failures and all sequenced observable effects. A
+bootstrap backend may lower to D, LLVM IR, C, or another representation only
+when inserted checks make OpenC behavior authoritative. Such a backend is an
+implementation technique, not source compatibility. The active Windows
+independence path replaces the C/TinyCC bootstrap backend with first-party x64
+machine-code and PE/COFF writers after the blocking SH-14 throughput/stability
+gate passes.
 
-Recommended initial targets:
+Active initial target:
 
 ```text
-linux-x86_64
 windows-x86_64
 ```
 
-Core execution can begin with an interpreter; Hosted console/filesystem support is a later separate claim.
+Linux and other targets remain optional future work. Core execution can begin
+with an interpreter; Hosted console/filesystem support is a later separate
+claim. ABI, native artifact, runtime, and dependency-exit requirements are in
+`WINDOWS_NATIVE_INDEPENDENCE.md`.

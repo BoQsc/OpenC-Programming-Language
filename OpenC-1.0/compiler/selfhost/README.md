@@ -149,5 +149,8 @@ language-service completeness is **PASS**; its evidence is in
 `release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md`. SH-12 native semantic
 language intelligence is **PASS**; its evidence is in
 `release/SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md`. SH-13 native compiler
-throughput and implementation independence is **PASS**; native editor
-integration and language-service resilience moves forward to SH-14.
+throughput instrumentation and implementation independence is **PASS**. The
+remaining 500.311-second clean rebuild is not accepted as D/C-class
+throughput; convergence and stability are the blocking SH-14 milestone.
+Native editor integration and language-service resilience are deferred to
+SH-23.

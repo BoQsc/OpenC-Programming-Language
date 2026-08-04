@@ -130,6 +130,8 @@ The composed machine result is
 
 ## Next milestone
 
-SH-14 is native editor integration and language-service resilience:
-first-party editor launch, incremental monotonic-version synchronization,
-cancellation and workspace lifecycle, and bounded protocol/resource stress.
+The subsequent priority review makes SH-14 compiler throughput convergence and
+stability the blocking milestone. The 500.311-second clean rebuild must reach
+the objective D-class, small/incremental, scaling, closure, memory, and 20-run
+stability gates before Windows-native backend implementation. Editor
+integration and language-service resilience are deferred to SH-23.

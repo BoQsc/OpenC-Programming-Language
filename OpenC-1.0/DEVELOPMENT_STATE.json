@@ -40,7 +40,35 @@
     "native_semantic_language_intelligence": "SH-12_PASS_PROJECT_SYMBOLS_TYPED_NAVIGATION_COMPLETION_SAFE_RENAME_DETERMINISTIC_TRANSCRIPTS",
     "native_throughput_implementation_independence": "SH-13_PASS_INDEXED_LOWERING_PHASE_TIMINGS_OPENC_AUTHORITY_NO_D_PYTHON_SOURCE_PACKAGE",
     "public_language_service_command": "openc lsp --stdio",
-    "next_milestone": "SH-14_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE",
+    "next_milestone": "SH-14_COMPILER_THROUGHPUT_CONVERGENCE_AND_STABILITY",
+    "blocking_priority": "NO_NEW_FEATURE_OR_PLATFORM_IMPLEMENTATION_BEFORE_SH14_PASS",
+    "throughput_plan": "compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md",
+    "windows_independence_plan": "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md",
+    "sh14_acceptance": {
+      "status": "PENDING_BLOCKING",
+      "current_monitored_clean_rebuild_seconds": 500.311,
+      "preliminary_same_host_d_reference_seconds": 25.462,
+      "formal_comparator_harness_required": true,
+      "clean_five_run_median_max_seconds": 30.0,
+      "clean_each_run_max_seconds": 45.0,
+      "relative_to_pinned_d_reference_max": 1.25,
+      "small_build_median_max_seconds": 0.25,
+      "one_source_rebuild_median_max_seconds": 1.0,
+      "consecutive_closed_rebuilds_required": 20,
+      "byte_identical_closure_required": true,
+      "native_conformance_required": 278
+    },
+    "post_sh14_sequence": [
+      "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE",
+      "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME",
+      "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION",
+      "SH-18_IDIOMATIC_WINDOWS_MODULES",
+      "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT",
+      "SH-20_OPENC_NATIVE_WORKFLOWS_AND_BOOTSTRAP_BOUNDARY",
+      "SH-21_PE_COFF_ECOSYSTEM_COMPLETENESS",
+      "SH-22_OPTIONAL_COM_AND_WINRT",
+      "SH-23_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
+    ],
     "standalone_self_hosted_release": "SH-6_RC8_HISTORICAL_BASELINE_AND_RC9_REFRESH_PASS",
     "standalone_archive_sha256": "c215e8c5b0847657573204e19493f54c71d2c5ad8c3a95fe1523f21f1bc66344",
     "standalone_compiler_sha256": "5924db13e20464d392dd563a086d35c95c61dafc6862ad7ba0fc767c0cdae4a6",
@@ -241,7 +269,7 @@
       "tinycc_backend_required": true,
       "first_party_native_code_backend_complete": false,
       "historical_rule_id_matches_disclosed": 93,
-      "next_milestone": "SH-14_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
+      "next_milestone": "SH-14_COMPILER_THROUGHPUT_CONVERGENCE_AND_STABILITY"
     },
     "sh10_native_project_workflow": {
       "status": "PASS",

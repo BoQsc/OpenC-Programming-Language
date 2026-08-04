@@ -35,3 +35,9 @@ source bytes
 - Lowering preserves left-to-right evaluation, transactional commits, and complete LIFO cleanup.
 
 A compiler may combine phases for performance, but evidence and diagnostics must remain attributable to the normative phase taxonomy.
+
+SH-14 additionally requires each hot phase to expose deterministic work
+counters and near-linear scaling evidence. The typed Core IR, target record,
+runtime boundary, and build-record contracts freeze before first-party backend
+implementation. See `../selfhost/THROUGHPUT_CONVERGENCE_PLAN.md` and
+`WINDOWS_NATIVE_INDEPENDENCE.md`.

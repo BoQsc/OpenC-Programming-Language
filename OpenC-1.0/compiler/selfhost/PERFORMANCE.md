@@ -45,6 +45,23 @@ not in the sub-second TinyCC invocation. Replacing TinyCC with a first-party
 object/link backend remains future architecture work; SH-13 does not claim
 that backend independence is complete.
 
+## SH-14 blocking convergence target
+
+The existing 900-second regression ceiling prevents further deterioration; it
+is not an acceptable compiler-speed target. A preliminary same-host forced
+release build of the retained D reference completed in 25.462 seconds on
+2026-08-04, compared with OpenC's 500.311-second monitored clean rebuild. The
+formal SH-14 comparator harness must reproduce both measurements with pinned
+inputs and tools.
+
+SH-14 requires a five-run clean OpenC median no greater than 30 seconds, every
+clean run no greater than 45 seconds, and a median no greater than 1.25x the
+pinned D reference. It also requires <=250 ms median small builds, <=1 second
+median one-source rebuilds, near-linear scaling, existing memory ceilings,
+byte-identical closure, and 20 consecutive stable clean rebuilds. No editor or
+new platform implementation precedes that gate. The full work plan is
+`THROUGHPUT_CONVERGENCE_PLAN.md`.
+
 ## Result
 
 The post-SH-6 native compiler completes a full self-rebuild in 381.049 seconds,

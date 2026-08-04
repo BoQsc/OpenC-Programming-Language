@@ -28,6 +28,7 @@ SH-12 adds project symbols, typed hover, definition/references, sorted
 completion, safe rename, and open-order-independent semantic transcripts.
 
 SH-13 completes native throughput instrumentation and implementation-authority
-cleanup. SH-14 comes next: first-party editor integration,
-incremental/versioned synchronization, cancellation/workspace lifecycle, and
-bounded stress.
+cleanup. SH-14 is now the blocking compiler throughput/stability milestone;
+the 500.311-second clean rebuild must reach the objective D-class, incremental,
+scaling, closure, and stability gates before new tool features. First-party
+editor integration is deferred to SH-23.

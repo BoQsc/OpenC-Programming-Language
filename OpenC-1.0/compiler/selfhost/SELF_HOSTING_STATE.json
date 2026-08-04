@@ -513,9 +513,55 @@
       "first_party_native_code_backend_complete": false,
       "historical_rule_id_matches_disclosed": 93,
       "linux_and_freestanding_gate": false,
-      "next_milestone": "SH-14_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
+      "next_milestone": "SH-14_COMPILER_THROUGHPUT_CONVERGENCE_AND_STABILITY"
     }
   ],
+  "planned_milestones": {
+    "active": {
+      "id": "SH-14",
+      "name": "compiler_throughput_convergence_and_stability",
+      "status": "PENDING_BLOCKING",
+      "plan": "compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md",
+      "blocks_all_new_feature_and_platform_implementation": true,
+      "current_monitored_clean_rebuild_seconds": 500.311,
+      "preliminary_same_host_d_reference_seconds": 25.462,
+      "formal_comparator_harness_required": true,
+      "clean_five_run_median_max_seconds": 30.0,
+      "clean_each_run_max_seconds": 45.0,
+      "relative_to_pinned_d_reference_max": 1.25,
+      "small_build_median_max_seconds": 0.25,
+      "one_source_rebuild_median_max_seconds": 1.0,
+      "consecutive_closed_rebuilds_required": 20,
+      "native_conformance_required": 278,
+      "maintained_programs_required": 4,
+      "byte_identical_closure_required": true
+    },
+    "windows_independence_plan": {
+      "architecture": "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md",
+      "implementation_blocked_until_sh14_pass": true,
+      "sequence": [
+        "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE",
+        "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME",
+        "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION",
+        "SH-18_IDIOMATIC_WINDOWS_MODULES",
+        "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT",
+        "SH-20_OPENC_NATIVE_WORKFLOWS_AND_BOOTSTRAP_BOUNDARY",
+        "SH-21_PE_COFF_ECOSYSTEM_COMPLETENESS",
+        "SH-22_OPTIONAL_COM_AND_WINRT",
+        "SH-23_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
+      ],
+      "normal_toolchain_independence_target": {
+        "tinycc_required": false,
+        "python_required": false,
+        "d_required": false,
+        "c_headers_required": false,
+        "c_runtime_required": false,
+        "external_assembler_required": false,
+        "external_linker_required": false,
+        "optional_first_binary_bootstrap_lane_retained": true
+      }
+    }
+  },
   "rc9_standalone_refresh": {
     "status": "PASS_PUBLISHED",
     "command": "python release/verify_standalone_windows.py --archive build-output/release/OpenC-1.0.0-rc.9-windows-x86_64-standalone-a.zip --comparison-archive build-output/release/OpenC-1.0.0-rc.9-windows-x86_64-standalone-b.zip --output build-output/selfhost-rc9/final-v2 --jobs 8 --force",

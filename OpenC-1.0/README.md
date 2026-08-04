@@ -88,10 +88,19 @@ owner-maintained initial release.
 The public RC8 package evidence remains the immutable 268-fixture historical
 record described above. RC9 is the published 278-fixture successor. SH-12
 native semantic language intelligence is complete on mainline. SH-13 now
-completes native compiler throughput and implementation-independence work.
-SH-14 comes next: a first-party editor client, incremental/versioned
-synchronization, cancellation and workspace lifecycle handling, and bounded
-stress evidence from the relocated standalone package.
+establishes phase evidence and implementation authority, but its 500.311-second
+clean compiler rebuild is not D/C-class throughput. SH-14 is therefore the
+blocking next milestone: clean-build convergence, incremental responsiveness,
+near-linear scaling, byte-identical closure, and a 20-run stability gate. No
+editor or platform feature work takes priority over it.
+
+After SH-14, the Windows independence path proceeds through a first-party x64
+ABI/machine encoder, CRT-free PE32+ runtime, OpenC Win32 Metadata reader, raw
+and friendly Windows modules, compiler-capable native backend and TinyCC exit,
+then OpenC-native replacement of required Python/D workflow tooling. Native
+editor integration is deferred to SH-23. See
+`compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md` and
+`compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
 `LICENSE_POLICY.md`, `standard/core/OpenC_Core_Current.md`, and

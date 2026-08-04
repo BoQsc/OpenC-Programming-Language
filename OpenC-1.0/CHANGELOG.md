@@ -1,5 +1,29 @@
 # OpenC development changelog
 
+## Post-RC9 — throughput-first Windows independence roadmap
+
+- made SH-14 compiler throughput convergence and stability the sole active
+  engineering priority; its clean self-rebuild must reach a five-run median of
+  at most 30 seconds, remain within 45 seconds on every run, stay within 1.25x
+  of the pinned same-host D reference, and pass 20 consecutive byte-identical
+  closures before new feature or platform implementation begins;
+- recorded the preliminary 2026-08-04 same-host forced D-reference build at
+  25.462 seconds and required a reproducible cross-compiler benchmark before
+  treating that observation as formal evidence;
+- specified the post-SH-14 Windows path: Microsoft x64 ABI and machine encoder,
+  direct PE32+ emission, CRT-free OpenC runtime, OpenC Win32 Metadata reader,
+  generated raw bindings, idiomatic UTF-8 Windows modules, full compiler
+  self-hosting through the native backend, and removal of TinyCC from required
+  builds;
+- required OpenC-native replacement of required Python build/test/release
+  orchestration and isolation of D/Python to an optional historical
+  first-binary bootstrap/audit lane;
+- deferred native editor integration to SH-23 and kept COM, WinRT, ARM64,
+  Linux, and freestanding outside the throughput blocking path;
+- prohibited Windows C-header copying, normal direct syscalls, Core-language
+  Win32 types, and premature dependence on an external or standalone
+  assembler; the first backend reuses one typed x64 instruction encoder.
+
 ## Post-RC9 — SH-13 native throughput and implementation independence
 
 - made the OpenC `.p` compiler tree the sole canonical implementation

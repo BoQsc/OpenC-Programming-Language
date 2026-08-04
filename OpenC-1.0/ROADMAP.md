@@ -6,6 +6,21 @@ owner-authorized, tagged, and published as `v1.0.0-rc.9`. Its complete
 as 14 GitHub release assets. Linux, freestanding, Native, and standalone
 Native-provider verification remain optional future target work.
 
+## Critical-path priority
+
+Compiler throughput and stability are the only active engineering priority.
+SH-13 reduced the measured rebuild but left a 500.311-second clean self-build,
+roughly twenty times the preliminary 25.462-second same-host forced D reference
+build. That is not release-quality compiler responsiveness. SH-14 must close
+the gap under objective clean, small, incremental, scaling, memory, closure,
+and 20-run stability gates before implementation begins on the native backend,
+Windows bindings, editor, GUI, COM, WinRT, ARM64, Linux, or freestanding work.
+
+The blocking acceptance contract and engineering sequence are in
+`compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md`. The post-SH-14 Windows
+independence architecture is in
+`compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
+
 ## Completed self-hosting path
 
 SH-0 through SH-13 pass. The deterministic standalone package is relocatable,
@@ -81,6 +96,8 @@ byte-identical generated C and compiler executables. OpenC `.p` is the sole
 canonical compiler authority; standalone archives contain no D/Python source,
 Python bytecode, or DUB manifests. TinyCC remains an explicit backend
 dependency and the remaining D/C-class throughput gap stays open.
+That gap is the blocking SH-14 milestone; the SH-13 result is a profiling and
+algorithmic foundation, not permission to treat multi-minute builds as done.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -174,18 +191,87 @@ IR reach closure. Exact evidence and reproduction commands are in
      runtime or compiler requirement;
    - measure the TinyCC phase separately and disclose it as the remaining
      temporary native-code backend dependency.
-7. **SH-14 native editor integration and language-service resilience — next**
-   - ship a first-party editor client that launches the packaged native server;
-   - add incremental, monotonic-version document synchronization;
-   - add cancellation, workspace lifecycle, and bounded resource handling;
-   - verify editor launch plus protocol stress from the relocated standalone
-     package.
-8. **Seek independent review**
+7. **SH-14 compiler throughput convergence and stability — next; blocking**
+   - replace the preliminary comparison with a reproducible same-host OpenC,
+     D-reference, and generated-C benchmark suite;
+   - reduce the five-run clean self-rebuild median to at most 30 seconds and
+     every clean run to at most 45 seconds;
+   - require the clean median to be no more than 1.25x the pinned D-reference
+     build, small builds to complete within 250 ms median, and one-source
+     rebuilds within 1 second median;
+   - remove remaining superlinear scans, repeated parsing/validation, transient
+     allocation, copying, and generated-compiler execution penalties;
+   - enforce near-linear input scaling, exact dependency fingerprints, full
+     conformance, byte-identical closure, memory ceilings, and 20 consecutive
+     stable clean rebuilds;
+   - freeze typed Core IR, target, runtime, ownership, and build-record
+     contracts before first-party native backend implementation begins.
+8. **SH-15 Windows x64 ABI and machine-code substrate — blocked by SH-14**
+   - implement the Microsoft x64 register/stack convention, LLP64 layout,
+     aggregates, callbacks, variadics, nonvolatile registers, and unwind rules;
+   - add a typed x64 instruction encoder, register/stack assignment, and
+     relocations without requiring an external assembler;
+   - keep Windows names and types in libraries, not the Core language.
+9. **SH-16 minimal PE32+ executable and CRT-free OpenC runtime**
+   - emit a complete deterministic PE32+ image, imports, relocations, sections,
+     subsystem fields, and x64 `.pdata`/`.xdata` directly;
+   - own entry, initialization, command line, environment, exit, allocation,
+     cleanup, TLS contract, and panic reporting without the Microsoft CRT;
+   - pass the first independent executable proof: UTF-8 output, memory, and
+     files using only documented Windows system DLLs, with no C headers,
+     compiler, runtime, assembler, or linker.
+10. **SH-17 OpenC Win32 Metadata reader and raw projection**
+    - read the required ECMA-335 metadata tables and custom attributes from a
+      pinned `Windows.Win32.winmd` using purpose-built OpenC code;
+    - generate deterministic `windows.raw.*` `.p` modules for exact functions,
+      constants, types, layouts, cleanup contracts, and documentation IDs;
+    - never require the compiler to parse Windows C headers or regenerate
+      bindings during ordinary builds.
+11. **SH-18 idiomatic Windows modules**
+    - layer `windows.*` over `windows.raw.*` with typed handles, ownership and
+      exact cleanup, slices, optionals, OpenC errors, and safer defaults;
+    - keep OpenC text UTF-8 and convert to UTF-16 for Unicode `W` APIs at the
+      Windows boundary;
+    - cover files, memory, processes, threads, console, windowing, graphics,
+      resources, networking, registry, and shell incrementally.
+12. **SH-19 compiler-capable first-party backend and TinyCC exit**
+    - lower all compiler-reachable Core IR through the OpenC x64/PE backend;
+    - achieve compiler Stage-2/Stage-3 byte closure and all conformance/runtime
+      gates without generated C, TinyCC, C headers, a C runtime, assembler, or
+      external linker;
+    - retain the C/TinyCC path only as an optional differential audit.
+13. **SH-20 OpenC-native build/test/release and bootstrap boundary**
+    - replace every required Python build, benchmark, validation, packaging,
+      inspection, and release orchestrator with OpenC-native tooling;
+    - isolate D and Python to a separately named optional historical
+      first-binary bootstrap/audit kit;
+    - prove normal build, test, release, and package verification with only a
+      previous OpenC compiler plus canonical source.
+14. **SH-21 PE/COFF ecosystem completeness**
+    - add COFF objects, DLL imports/exports, OpenC DLLs, static/import
+      libraries, resources, manifests, console/GUI subsystems, and secure
+      run-time linking;
+    - support optional C-ABI libraries in both directions without making C an
+      OpenC language or toolchain dependency;
+    - add a standalone assembler only if evidence shows the shared x64 encoder
+      and runtime/intrinsic facilities are insufficient.
+15. **SH-22 optional COM and WinRT projections**
+    - add GUIDs, vtables, `IUnknown`, `QueryInterface`, reference counting,
+      `HRESULT`, apartment initialization, metadata projection, and ABI tests;
+    - keep COM and WinRT outside the Core language and earlier backend gates.
+16. **SH-23 native editor integration and language-service resilience — deferred**
+    - ship a first-party editor client that launches the packaged native server;
+    - add incremental monotonic-version synchronization, cancellation,
+      workspace lifecycle, bounded resource handling, and protocol stress;
+    - begin only after throughput and required Windows independence milestones.
+17. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.
 
-Linux, freestanding, Native, and Native-provider target records remain optional
-future work and begin only when those targets become active priorities.
+ARM64 begins only after the Windows x64 backend and independent release loop
+are stable. Linux, freestanding, Native, and Native-provider target records
+remain optional future work and begin only when those targets become active
+priorities.
 
 Future language changes continue through the proposal and accepted-change
 process. Provisional concurrency remains outside the Core 1.0 blocking path.

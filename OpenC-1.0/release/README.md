@@ -63,6 +63,13 @@ exclude D/Python source and DUB manifests. TinyCC remains an explicit packaged
 backend dependency. Evidence is in
 `SH13_NATIVE_THROUGHPUT_INDEPENDENCE_EVIDENCE.md`.
 
+SH-14 compiler throughput convergence and stability is the blocking current
+milestone. Native backend, Windows projection, editor, and additional-platform
+implementation do not begin until its absolute/relative clean-build,
+small/incremental, scaling, closure, memory, and 20-run stability gates pass.
+The post-SH-14 dependency-removal sequence is specified in
+`../compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
+
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by
 `verify_release_artifacts.py`. The builder emits the artifact layout, mandatory

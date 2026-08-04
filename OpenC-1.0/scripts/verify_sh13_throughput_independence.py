@@ -167,8 +167,8 @@ def main() -> int:
             and "canonical authored OpenC 1.0 compiler is written in OpenC"
             in implementation_authority
         ),
-        "sh14_is_next": (
-            "SH-14 native editor integration" in roadmap
+        "sh14_throughput_is_next": (
+            "SH-14 compiler throughput convergence and stability" in roadmap
         ),
     }
     failed = [name for name, passed in checks.items() if not passed]
