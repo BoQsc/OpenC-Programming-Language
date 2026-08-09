@@ -282,6 +282,23 @@ oc_status oc_text_scalar_at(oc_text value, uintptr_t index, uint32_t *out_scalar
 
 uintptr_t oc_text_byte_length(oc_text value) { return value.length; }
 
+void oc_text_copy_utf8_unchecked(void *destination, oc_text value) {
+    if (value.length != 0u) {
+        memcpy(destination, value.data, value.length);
+    }
+}
+
+void oc_text_copy_utf8_slice_unchecked(
+    void *destination,
+    oc_text value,
+    uintptr_t start,
+    uintptr_t length
+) {
+    if (length != 0u) {
+        memcpy(destination, value.data + start, length);
+    }
+}
+
 oc_status oc_text_byte_at(oc_text value, uintptr_t index, uint8_t *out_byte) {
     if (!out_byte) return (oc_status){OC_STATUS_INVALID_ARGUMENT, OC_TEXT_LITERAL("byte output is null")};
     if (index >= value.length)

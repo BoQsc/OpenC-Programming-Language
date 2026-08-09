@@ -62,6 +62,49 @@ and report median, minimum, maximum, and scaling ratios. Python may orchestrate
 the initial evidence while it remains external to the compiler package, but an
 OpenC-native replacement is required by SH-20.
 
+`benchmark_throughput_suite.py` is the authoritative clean OpenC/D comparator.
+It accepts `--enforce` for the release gate and may run without that option to
+retain a failed optimization baseline. Small, incremental, scaling, and
+contention-rejection lanes remain required before SH-14 can pass.
+
+## 2026-08-09 indexed-lowering checkpoint
+
+The current 96-source, 1,085,893-byte compiler closes byte-for-byte at stage
+101. The closed rebuild completed in 80.149 seconds (80.047 seconds in the
+compiler timing record), with 67.718 seconds in IR lowering, 9.747 seconds in
+C emission, and 0.328 seconds in TinyCC. Peak private memory was 262,389,760
+bytes and peak working set was 19,030,016 bytes, both inside the existing
+ceilings. Native validation passes 278/278 and all 4 maintained programs pass.
+
+This checkpoint is a large improvement over SH-13 but is **not SH-14 PASS**:
+it is 50.149 seconds over the clean-rebuild median target and no five-run,
+D-relative, scaling, incremental, or 20-build soak evidence has passed yet.
+
+The indexed tranche now provides source-ordered statement, control, block,
+initializer-field, array-element, expression-start, call-argument, declaration,
+local/parameter, aggregate-field, and enum-value lookup. Compared with the
+stage-74 trace, counted statement/parent/expression/syntax/symbol candidates
+fell from 4,293,471 to 349,741 (91.9%). Compiler-private C primitives also
+remove generated call layers from packed-buffer access, checked arithmetic,
+IR construction, type derivation, span comparison, and C-output buffering.
+
+That work exposes the next blocker: even after lookup convergence, IR lowering
+alone still takes 67.718 seconds. SH-14 therefore continues with generated-code
+quality and parallel-unit architecture. The next implementation tranche is:
+
+1. emit smaller independently compilable C units and eliminate the giant
+   SSA-temporary stack shape;
+2. add deterministic value-lifetime reuse and direct structured control flow;
+3. freeze shared semantic/type state, then lower independent source units in
+   parallel into ordered private output buffers;
+4. rerun the five-sample absolute/D-relative suite only after an ordinary
+   closed rebuild is at or below 30 seconds.
+
+A DMD ImportC experiment was rejected: optimizing the generated frontend took
+113.656 seconds before runtime compilation/linking, and its objects were not
+link-compatible with the bundled TinyCC runtime objects. It is not an SH-14
+implementation path and no DMD dependency was added.
+
 ## Engineering sequence
 
 ### SH-14A: measurement integrity

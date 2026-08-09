@@ -65,6 +65,38 @@ static uintptr_t ocb_fast_cache_generation = 1u;
 static oc_text ocb_executable_directory_value;
 static oc_text ocb_lsp_message;
 
+uintptr_t ocb_compiler_semantic_derived_type_impl(
+    uint8_t *type_data,
+    uintptr_t *type_count,
+    uintptr_t kind,
+    uintptr_t element,
+    uintptr_t array_length,
+    bool const_qualified,
+    bool preserve_name
+) {
+    uintptr_t flags = (const_qualified ? 1u : 0u) |
+        (preserve_name ? 8u : 0u);
+    uintptr_t type_id;
+    uintptr_t *records = (uintptr_t *)type_data;
+    for (type_id = 0u; type_id < *type_count; ++type_id) {
+        uintptr_t *record = records + type_id * 5u;
+        if (record[0] == kind && record[1] == element &&
+            record[2] == array_length && record[4] == flags &&
+            (kind >= 10u || preserve_name)) {
+            return type_id;
+        }
+    }
+    records += *type_count * 5u;
+    records[0] = kind;
+    records[1] = element;
+    records[2] = array_length;
+    records[3] = 0u;
+    records[4] = flags;
+    type_id = *type_count;
+    *type_count = type_id + 1u;
+    return type_id;
+}
+
 static oc_text ocb_copy_text(oc_text value) {
     uint8_t *data = (uint8_t *)oc_memory_allocate(
         value.length == 0u ? 1u : value.length,

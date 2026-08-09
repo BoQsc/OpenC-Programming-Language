@@ -24,6 +24,7 @@ unsafe bool write_build_timings(
     d_put(output, "  \"status\": \"");
     if passed { d_put(output, "PASS"); } else { d_put(output, "FAIL"); }
     d_put(output, "\",\n  \"clock\": \"windows-monotonic-milliseconds\",\n");
+    d_put(output, "  \"throughput_trace_schema\": \"openc.throughput_trace.v1\",\n");
     d_put(output, "  \"source_files\": ");
     d_put_usize(output, timings.source_files);
     d_put(output, ",\n  \"source_bytes\": ");
@@ -43,7 +44,84 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.backend_ms);
     d_put(output, "\n  },\n  \"total_ms\": ");
     d_put_usize(output, timings.total_ms);
-    d_put(output, "\n}\n");
+    d_put(output, ",\n  \"compiler_owned\": {\n");
+    d_put(output, "    \"lex_parse_ms\": ");
+    d_put_usize(output, timings.lex_parse_ms);
+    d_put(output, ",\n    \"index_ms\": ");
+    d_put_usize(output, timings.index_ms);
+    d_put(output, ",\n    \"ir_lower_ms\": ");
+    d_put_usize(output, timings.ir_lower_ms);
+    d_put(output, ",\n    \"c_emit_ms\": ");
+    d_put_usize(output, timings.c_emit_ms);
+    d_put(output, "\n  },\n  \"work\": {\n");
+    d_put(output, "    \"syntax_nodes\": ");
+    d_put_usize(output, timings.syntax_nodes);
+    d_put(output, ",\n    \"functions\": ");
+    d_put_usize(output, timings.functions);
+    d_put(output, ",\n    \"instructions\": ");
+    d_put_usize(output, timings.instructions);
+    d_put(output, ",\n    \"output_bytes\": ");
+    d_put_usize(output, timings.output_bytes);
+    d_put(output, "\n  },\n  \"candidate_totals\": {\n");
+    d_put(output, "    \"statement_candidates\": ");
+    d_put_usize(output, timings.total_statement_candidates);
+    d_put(output, ",\n    \"parent_candidates\": ");
+    d_put_usize(output, timings.total_parent_candidates);
+    d_put(output, ",\n    \"expression_positions\": ");
+    d_put_usize(output, timings.total_expression_positions);
+    d_put(output, ",\n    \"syntax_candidates\": ");
+    d_put_usize(output, timings.total_syntax_candidates);
+    d_put(output, ",\n    \"symbol_candidates\": ");
+    d_put_usize(output, timings.total_symbol_candidates);
+    d_put(output, "\n  },\n  \"slowest_function\": {\n");
+    d_put(output, "    \"milliseconds\": ");
+    d_put_usize(output, timings.slow_function_ms);
+    d_put(output, ",\n    \"source_record\": ");
+    d_put_usize(output, timings.slow_function_source);
+    d_put(output, ",\n    \"syntax_node\": ");
+    d_put_usize(output, timings.slow_function_node);
+    d_put(output, ",\n    \"symbol\": ");
+    d_put_usize(output, timings.slow_function_symbol);
+    d_put(output, ",\n    \"name_start\": ");
+    d_put_usize(output, timings.slow_function_name_start);
+    d_put(output, ",\n    \"name_length\": ");
+    d_put_usize(output, timings.slow_function_name_length);
+    d_put(output, ",\n    \"statement_candidates\": ");
+    d_put_usize(output, timings.slow_statement_candidates);
+    d_put(output, ",\n    \"parent_candidates\": ");
+    d_put_usize(output, timings.slow_parent_candidates);
+    d_put(output, ",\n    \"expression_positions\": ");
+    d_put_usize(output, timings.slow_expression_positions);
+    d_put(output, ",\n    \"syntax_candidates\": ");
+    d_put_usize(output, timings.slow_syntax_candidates);
+    d_put(output, ",\n    \"symbol_candidates\": ");
+    d_put_usize(output, timings.slow_symbol_candidates);
+    d_put(output, "\n  },\n  \"next_slowest_functions\": [\n");
+    d_put(output, "    {\"milliseconds\": ");
+    d_put_usize(output, timings.second_function_ms);
+    d_put(output, ", \"source_record\": ");
+    d_put_usize(output, timings.second_function_source);
+    d_put(output, ", \"syntax_node\": ");
+    d_put_usize(output, timings.second_function_node);
+    d_put(output, ", \"symbol\": ");
+    d_put_usize(output, timings.second_function_symbol);
+    d_put(output, ", \"name_start\": ");
+    d_put_usize(output, timings.second_function_name_start);
+    d_put(output, ", \"name_length\": ");
+    d_put_usize(output, timings.second_function_name_length);
+    d_put(output, "},\n    {\"milliseconds\": ");
+    d_put_usize(output, timings.third_function_ms);
+    d_put(output, ", \"source_record\": ");
+    d_put_usize(output, timings.third_function_source);
+    d_put(output, ", \"syntax_node\": ");
+    d_put_usize(output, timings.third_function_node);
+    d_put(output, ", \"symbol\": ");
+    d_put_usize(output, timings.third_function_symbol);
+    d_put(output, ", \"name_start\": ");
+    d_put_usize(output, timings.third_function_name_start);
+    d_put(output, ", \"name_length\": ");
+    d_put_usize(output, timings.third_function_name_length);
+    d_put(output, "}\n  ]\n}\n");
     if !output.ok {
         d_buffer_destroy(output);
         return false;
@@ -162,9 +240,12 @@ unsafe i32 build_windows_c(
     text record_path,
     text tcc_executable
 ) {
+    text timing_path = path.join(
+        path.directory(record_path), "openc-build.timings.json"
+    );
     return build_windows_c_timed(
         project_path, output_executable, generated_source,
         runtime_root, native_runtime_directory, record_path,
-        tcc_executable, ""
+        tcc_executable, timing_path
     );
 }

@@ -36,6 +36,39 @@ unsafe usize ir_field_default_node(
     return context.syntax.length;
 }
 
+unsafe bool ir_collected_field_supplied(
+    ref IrContext context,
+    ptr byte field_values,
+    usize field_count,
+    usize field_symbol
+) {
+    text field_source = context.source;
+    usize field_source_record = read_record_field(
+        context.symbol_data, field_symbol, 1
+    );
+    if field_source_record != context.source_record {
+        status loaded = project_read_source_record(
+            context.project_source, context.project_root,
+            context.source_data, field_source_record,
+            out field_source
+        );
+        if !loaded.ok { return false; }
+    }
+    usize field = 0;
+    while field < field_count {
+        if semantic_spans_equal(
+            context.source,
+            read_record_field(field_values, field, 1),
+            read_record_field(field_values, field, 2),
+            field_source,
+            read_record_field(context.symbol_data, field_symbol, 2),
+            read_record_field(context.symbol_data, field_symbol, 3)
+        ) { return true; }
+        field = field + 1;
+    }
+    return false;
+}
+
 unsafe usize ir_lower_construct(
     ref IrContext context,
     usize node,
@@ -51,25 +84,19 @@ unsafe usize ir_lower_construct(
         );
         usize field_count = 0;
         usize aggregate_name = ir_first_name(context, node);
-        usize aggregate_symbol = context.symbols.length;
-        usize candidate = 0;
-        while candidate < context.symbols.length {
-            usize candidate_kind = read_record_field(
-                context.symbol_data, candidate, 0
-            );
-            if (candidate_kind == resolution_symbol_struct() ||
-                candidate_kind == resolution_symbol_resource()) &&
-                read_record_field(
-                    context.symbol_data, candidate, 4
-                ) == type_id {
-                aggregate_symbol = candidate;
-                break;
-            }
-            candidate = candidate + 1;
-        }
+        usize aggregate_symbol = ir_aggregate_for_type(context, type_id);
+        bool indexed_fields = context.initializer_field_first != null &&
+            context.initializer_field_next != null;
         usize field = 0;
+        if indexed_fields {
+            field = ir_first_initializer_field(context, node);
+        } else {
+            context.profile_syntax_candidates =
+                context.profile_syntax_candidates + context.syntax.length;
+        }
         while field < context.syntax.length {
-            if ir_initializer_direct_field(context, node, field) {
+            if indexed_fields ||
+                ir_initializer_direct_field(context, node, field) {
                 usize value_node = ir_initializer_field_value(
                     context, node, field
                 );
@@ -110,19 +137,30 @@ unsafe usize ir_lower_construct(
                 );
                 field_count = field_count + 1;
             }
-            field = field + 1;
+            if indexed_fields {
+                field = ir_next_initializer_field(context, field);
+            } else { field = field + 1; }
         }
+        usize supplied_field_count = field_count;
         if aggregate_symbol < context.symbols.length {
             usize field_symbol = 0;
+            if context.aggregate_field_first != null {
+                field_symbol = ir_first_aggregate_field(
+                    context, aggregate_symbol
+                );
+            }
             while field_symbol < context.symbols.length {
+                context.profile_symbol_candidates =
+                    context.profile_symbol_candidates + 1;
                 if read_record_field(
                         context.symbol_data, field_symbol, 0
                     ) == resolution_symbol_field() &&
                     read_record_field(
                         context.detail_data, field_symbol, 2
                     ) == aggregate_symbol + 1 &&
-                    !acceptance_field_supplied(
-                        context, node, field_symbol
+                    !ir_collected_field_supplied(
+                        context, field_values,
+                        supplied_field_count, field_symbol
                     ) &&
                     acceptance_field_default(context, field_symbol) {
                     usize default_node = ir_field_default_node(
@@ -156,7 +194,13 @@ unsafe usize ir_lower_construct(
                         field_count = field_count + 1;
                     }
                 }
-                field_symbol = field_symbol + 1;
+                if context.aggregate_field_first != null {
+                    field_symbol = ir_next_aggregate_field(
+                        context, field_symbol
+                    );
+                } else {
+                    field_symbol = field_symbol + 1;
+                }
             }
         }
         usize first = context.operands.length;
@@ -184,6 +228,24 @@ unsafe usize ir_lower_construct(
         );
     }
     if kind == 50 {
+        if context.array_element_first != null &&
+            context.array_element_next != null {
+            usize first = context.operands.length;
+            usize child = ir_first_array_element(context, node);
+            while child < context.syntax.length {
+                ir_operand_empty(
+                    context,
+                    ir_lower_node(
+                        context, child, semantic_type_error(), 0
+                    )
+                );
+                child = ir_next_array_element(context, child);
+            }
+            return ir_emit_value(
+                context, ir_op_array_create(), type_id, node,
+                0, 0, 0, first, context.operands.length - first
+            );
+        }
         ptr byte element_values = memory.alloc(
             (context.syntax.length + 1) * size_of(usize)
         );
@@ -194,8 +256,20 @@ unsafe usize ir_lower_construct(
         while true {
             usize child = context.syntax.length;
             usize child_start = cast(usize, 4294967295);
-            usize record = 0;
-            while record < context.syntax.length {
+            usize index = 0;
+            usize candidate_count = context.syntax.length;
+            if context.expression_nodes != null {
+                candidate_count = context.expression_count;
+            }
+            context.profile_syntax_candidates =
+                context.profile_syntax_candidates + candidate_count;
+            while index < candidate_count {
+                usize record = index;
+                if context.expression_nodes != null {
+                    record = read_usize(
+                        context.expression_nodes, index * size_of(usize)
+                    );
+                }
                 usize child_kind = read_record_field(
                     context.syntax_data, record, 0
                 );
@@ -214,7 +288,7 @@ unsafe usize ir_lower_construct(
                     child = record;
                     child_start = record_start;
                 }
-                record = record + 1;
+                index = index + 1;
             }
             if child >= context.syntax.length { break; }
             write_usize(

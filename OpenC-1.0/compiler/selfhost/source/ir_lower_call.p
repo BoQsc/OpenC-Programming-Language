@@ -21,31 +21,30 @@ unsafe usize ir_lower_call_range(
         );
         usize argument = 0;
         while argument < argument_count {
-            IrBounds argument_bounds = ir_argument_bounds(
+            usize child = ir_call_argument_node(
                 context, node, argument
             );
-            if argument_bounds.valid {
-                usize child = ir_root_in_bounds(
-                    context, argument_bounds.start, argument_bounds.end
+            if child >= context.syntax.length {
+                IrBounds argument_bounds = ir_argument_bounds(
+                    context, node, argument
                 );
+                if argument_bounds.valid {
+                    child = ir_root_in_bounds(
+                        context,
+                        argument_bounds.start, argument_bounds.end
+                    );
+                }
+            }
+            if child < context.syntax.length {
                 usize argument_expected = semantic_type_error();
                 if selected < context.symbols.length {
-                    usize parameter = 0;
-                    usize found = 0;
-                    while parameter < context.symbols.length {
-                        if read_record_field(context.symbol_data, parameter, 0) ==
-                                resolution_symbol_parameter() &&
-                            read_record_field(context.detail_data, parameter, 2) ==
-                                selected + 1 {
-                            if found == argument {
-                                argument_expected = read_record_field(
-                                    context.symbol_data, parameter, 4
-                                );
-                                break;
-                            }
-                            found = found + 1;
-                        }
-                        parameter = parameter + 1;
+                    usize parameter = ir_parameter_at(
+                        context, selected, argument
+                    );
+                    if parameter < context.symbols.length {
+                        argument_expected = read_record_field(
+                            context.symbol_data, parameter, 4
+                        );
                     }
                 }
                 usize builtin_callee = read_record_field(
@@ -154,27 +153,38 @@ unsafe usize ir_lower_call_range(
             } else if selected >= context.symbols.length && ir_intrinsic_call(
                 context.source, call_start, call_length
             ) {
-                usize intrinsic_symbol = context.symbols.length;
-                usize intrinsic_candidate = 0;
-                while intrinsic_candidate < context.symbols.length {
-                    if read_record_field(
-                        context.symbol_data, intrinsic_candidate, 0
-                    ) == resolution_symbol_function() &&
-                        read_record_field(
-                            context.detail_data, intrinsic_candidate, 0
-                        ) == context.module_index &&
-                        read_record_field(
-                            context.detail_data, intrinsic_candidate, 2
-                        ) == 0 && resolution_symbol_name_equals(
-                            context.project_source, context.project_root,
-                            context.source_data, context.symbol_data,
-                            intrinsic_candidate, context.source,
-                            call_start, call_length
-                        ) {
-                        intrinsic_symbol = intrinsic_candidate;
-                        break;
+                usize intrinsic_symbol = ir_find_top_unqualified(
+                    context, context.module_index,
+                    call_start, call_length
+                );
+                if intrinsic_symbol < context.symbols.length &&
+                    read_record_field(
+                        context.symbol_data, intrinsic_symbol, 0
+                    ) != resolution_symbol_function() {
+                    intrinsic_symbol = context.symbols.length;
+                }
+                if intrinsic_symbol >= context.symbols.length {
+                    usize intrinsic_candidate = 0;
+                    while intrinsic_candidate < context.symbols.length {
+                        if read_record_field(
+                            context.symbol_data, intrinsic_candidate, 0
+                        ) == resolution_symbol_function() &&
+                            read_record_field(
+                                context.detail_data, intrinsic_candidate, 0
+                            ) == context.module_index &&
+                            read_record_field(
+                                context.detail_data, intrinsic_candidate, 2
+                            ) == 0 && resolution_symbol_name_equals(
+                                context.project_source, context.project_root,
+                                context.source_data, context.symbol_data,
+                                intrinsic_candidate, context.source,
+                                call_start, call_length
+                            ) {
+                            intrinsic_symbol = intrinsic_candidate;
+                            break;
+                        }
+                        intrinsic_candidate = intrinsic_candidate + 1;
                     }
-                    intrinsic_candidate = intrinsic_candidate + 1;
                 }
                 if intrinsic_symbol < context.symbols.length {
                     text_kind = 3;

@@ -220,6 +220,184 @@ unsafe void c_put_call_name(
     usize instruction,
     ptr byte value_types
 ) {
+    usize kind = read_record_field(
+        context.instruction_detail, instruction, 0
+    );
+    usize one = read_record_field(
+        context.instruction_detail, instruction, 1
+    );
+    usize two = read_record_field(
+        context.instruction_detail, instruction, 2
+    );
+    bool compiler_constant = d_compiler_call_prefix_is(
+        context, kind, one, two, "ir_op_"
+    );
+    if !compiler_constant && d_compiler_call_prefix_is(
+        context, kind, one, two, "flow_rule_"
+    ) {
+        compiler_constant = !d_compiler_call_is(
+            context, kind, one, two, "flow_rule_text"
+        );
+    }
+    if !compiler_constant && d_compiler_call_prefix_is(
+        context, kind, one, two, "flow_phase_"
+    ) {
+        compiler_constant = !d_compiler_call_is(
+            context, kind, one, two, "flow_phase_text"
+        );
+    }
+    if !compiler_constant && d_compiler_call_prefix_is(
+        context, kind, one, two, "resolution_symbol_"
+    ) {
+        compiler_constant = !d_compiler_call_is(
+            context, kind, one, two, "resolution_symbol_name_equals"
+        ) && !d_compiler_call_is(
+            context, kind, one, two, "resolution_symbol_kind_name"
+        );
+    }
+    if compiler_constant {
+        d_put(buffer, "ocb_compiler_");
+        d_put_compiler_call_short_name(context, buffer, kind, one, two);
+        return;
+    }
+    if d_compiler_call_is(
+        context, kind, one, two, "semantic_type_error"
+    ) { d_put(buffer, "ocb_compiler_semantic_type_error"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "semantic_type_void"
+    ) { d_put(buffer, "ocb_compiler_semantic_type_void"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "semantic_type_bool"
+    ) { d_put(buffer, "ocb_compiler_semantic_type_bool"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "semantic_type_byte"
+    ) { d_put(buffer, "ocb_compiler_semantic_type_byte"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "semantic_type_text"
+    ) { d_put(buffer, "ocb_compiler_semantic_type_text"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "semantic_type_status"
+    ) { d_put(buffer, "ocb_compiler_semantic_type_status"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "semantic_builtin_type"
+    ) { d_put(buffer, "ocb_compiler_semantic_builtin_type"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "semantic_derived_type"
+    ) { d_put(buffer, "ocb_compiler_semantic_derived_type"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "flow_statement_kind"
+    ) { d_put(buffer, "ocb_compiler_flow_statement_kind"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "flow_expression_kind"
+    ) { d_put(buffer, "ocb_compiler_flow_expression_kind"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "resolution_expression_kind"
+    ) { d_put(buffer, "ocb_compiler_resolution_expression_kind"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "flow_node_operator"
+    ) { d_put(buffer, "ocb_compiler_flow_node_operator"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_type_element"
+    ) { d_put(buffer, "ocb_compiler_ir_type_element"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "acceptance_kind"
+    ) { d_put(buffer, "ocb_compiler_acceptance_kind"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "acceptance_integer"
+    ) { d_put(buffer, "ocb_compiler_acceptance_integer"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "d_put_byte"
+    ) { d_put(buffer, "ocb_compiler_d_put_byte"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "d_put"
+    ) { d_put(buffer, "ocb_compiler_d_put"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "d_put_slice"
+    ) { d_put(buffer, "ocb_compiler_d_put_slice"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "d_put_mangled_slice"
+    ) { d_put(buffer, "ocb_compiler_d_put_mangled_slice"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "d_put_usize"
+    ) { d_put(buffer, "ocb_compiler_d_put_usize"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "record_stride"
+    ) { d_put(buffer, "ocb_compiler_record_stride"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "read_usize"
+    ) { d_put(buffer, "ocb_compiler_read_usize"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "write_usize"
+    ) { d_put(buffer, "ocb_compiler_write_usize"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "read_record_field"
+    ) { d_put(buffer, "ocb_compiler_read_record_field"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "write_record_field"
+    ) { d_put(buffer, "ocb_compiler_write_record_field"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "byte_at_or_zero"
+    ) { d_put(buffer, "ocb_compiler_byte_at_or_zero"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "semantic_node_contains"
+    ) { d_put(buffer, "ocb_compiler_node_contains"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "starts_with_ascii"
+    ) { d_put(buffer, "ocb_compiler_starts_with_ascii"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "span_equals_ascii"
+    ) { d_put(buffer, "ocb_compiler_span_equals_ascii"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "semantic_spans_equal"
+    ) { d_put(buffer, "ocb_compiler_semantic_spans_equal"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "flow_span_has_byte"
+    ) { d_put(buffer, "ocb_compiler_flow_span_has_byte"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "resolution_pack_span"
+    ) { d_put(buffer, "ocb_compiler_pack_span"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_add_block"
+    ) { d_put(buffer, "ocb_compiler_ir_add_block"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_add_operand"
+    ) { d_put(buffer, "ocb_compiler_ir_add_operand"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_operand_empty"
+    ) { d_put(buffer, "ocb_compiler_ir_operand_empty"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_operand_block"
+    ) { d_put(buffer, "ocb_compiler_ir_operand_block"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_emit_instruction"
+    ) { d_put(buffer, "ocb_compiler_ir_emit_instruction"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_emit_value"
+    ) { d_put(buffer, "ocb_compiler_ir_emit_value"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_emit_void"
+    ) { d_put(buffer, "ocb_compiler_ir_emit_void"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_block_parent"
+    ) { d_put(buffer, "ocb_compiler_ir_block_parent"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_control_parent"
+    ) { d_put(buffer, "ocb_compiler_ir_control_parent"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_resolve_name"
+    ) { d_put(buffer, "ocb_compiler_ir_resolve_name"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_select_call"
+    ) { d_put(buffer, "ocb_compiler_ir_select_call"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_node_type"
+    ) { d_put(buffer, "ocb_compiler_ir_node_type"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_left_expression"
+    ) { d_put(buffer, "ocb_compiler_ir_left_expression"); return; }
+    if d_compiler_call_is(
+        context, kind, one, two, "ir_right_expression"
+    ) { d_put(buffer, "ocb_compiler_ir_right_expression"); return; }
     if c_builtin_is(context, instruction, "io.print", "system.io.print") {
         c_put_io_name(context, buffer, instruction, value_types, false);
         return;
@@ -248,6 +426,12 @@ unsafe void c_put_call_name(
     }
     if c_builtin_is(context, instruction, "text.byte_at_unchecked", "system.text.byte_at_unchecked") {
         d_put(buffer, "ocb_text_byte_at_unchecked"); return;
+    }
+    if c_builtin_is(context, instruction, "text.copy_utf8_unchecked", "system.text.copy_utf8_unchecked") {
+        d_put(buffer, "oc_text_copy_utf8_unchecked"); return;
+    }
+    if c_builtin_is(context, instruction, "text.copy_utf8_slice_unchecked", "system.text.copy_utf8_slice_unchecked") {
+        d_put(buffer, "oc_text_copy_utf8_slice_unchecked"); return;
     }
     if c_builtin_is(context, instruction, "text.from_utf8", "system.text.from_utf8") {
         d_put(buffer, "ocb_text_from_utf8"); return;
@@ -291,15 +475,6 @@ unsafe void c_put_call_name(
     if c_builtin_is(context, instruction, "process.run", "system.process.run") {
         d_put(buffer, "ocb_process_run"); return;
     }
-    usize kind = read_record_field(
-        context.instruction_detail, instruction, 0
-    );
-    usize one = read_record_field(
-        context.instruction_detail, instruction, 1
-    );
-    usize two = read_record_field(
-        context.instruction_detail, instruction, 2
-    );
     if kind == 3 {
         c_put_qualified_symbol(context, buffer, one);
     } else if kind == 8 {

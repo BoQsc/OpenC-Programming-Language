@@ -92,9 +92,18 @@ unsafe usize ir_lower_conversion(
             (context.syntax.length + 1) * record_stride()
         );
         usize status_count = 0;
+        bool indexed_fields = context.initializer_field_first != null &&
+            context.initializer_field_next != null;
         usize field = 0;
+        if indexed_fields {
+            field = ir_first_initializer_field(context, node);
+        } else {
+            context.profile_syntax_candidates =
+                context.profile_syntax_candidates + context.syntax.length;
+        }
         while field < context.syntax.length {
-            if ir_initializer_direct_field(context, node, field) {
+            if indexed_fields ||
+                ir_initializer_direct_field(context, node, field) {
                 usize value_node = ir_initializer_field_value(
                     context, node, field
                 );
@@ -112,7 +121,9 @@ unsafe usize ir_lower_conversion(
                 );
                 status_count = status_count + 1;
             }
-            field = field + 1;
+            if indexed_fields {
+                field = ir_next_initializer_field(context, field);
+            } else { field = field + 1; }
         }
         usize first = context.operands.length;
         field = 0;

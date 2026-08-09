@@ -15,6 +15,42 @@ struct BuildTimings {
     usize total_ms;
     usize source_files;
     usize source_bytes;
+    usize lex_parse_ms;
+    usize index_ms;
+    usize ir_lower_ms;
+    usize c_emit_ms;
+    usize syntax_nodes;
+    usize functions;
+    usize instructions;
+    usize output_bytes;
+    usize slow_function_ms;
+    usize slow_function_source;
+    usize slow_function_node;
+    usize slow_function_symbol;
+    usize slow_function_name_start;
+    usize slow_function_name_length;
+    usize second_function_ms;
+    usize second_function_source;
+    usize second_function_node;
+    usize second_function_symbol;
+    usize second_function_name_start;
+    usize second_function_name_length;
+    usize third_function_ms;
+    usize third_function_source;
+    usize third_function_node;
+    usize third_function_symbol;
+    usize third_function_name_start;
+    usize third_function_name_length;
+    usize slow_statement_candidates;
+    usize slow_parent_candidates;
+    usize slow_expression_positions;
+    usize slow_syntax_candidates;
+    usize slow_symbol_candidates;
+    usize total_statement_candidates;
+    usize total_parent_candidates;
+    usize total_expression_positions;
+    usize total_syntax_candidates;
+    usize total_symbol_candidates;
 }
 
 BuildTimings build_timings_empty() {
@@ -27,7 +63,43 @@ BuildTimings build_timings_empty() {
         backend_ms = 0,
         total_ms = 0,
         source_files = 0,
-        source_bytes = 0
+        source_bytes = 0,
+        lex_parse_ms = 0,
+        index_ms = 0,
+        ir_lower_ms = 0,
+        c_emit_ms = 0,
+        syntax_nodes = 0,
+        functions = 0,
+        instructions = 0,
+        output_bytes = 0,
+        slow_function_ms = 0,
+        slow_function_source = 0,
+        slow_function_node = 0,
+        slow_function_symbol = 0,
+        slow_function_name_start = 0,
+        slow_function_name_length = 0,
+        second_function_ms = 0,
+        second_function_source = 0,
+        second_function_node = 0,
+        second_function_symbol = 0,
+        second_function_name_start = 0,
+        second_function_name_length = 0,
+        third_function_ms = 0,
+        third_function_source = 0,
+        third_function_node = 0,
+        third_function_symbol = 0,
+        third_function_name_start = 0,
+        third_function_name_length = 0,
+        slow_statement_candidates = 0,
+        slow_parent_candidates = 0,
+        slow_expression_positions = 0,
+        slow_syntax_candidates = 0,
+        slow_symbol_candidates = 0,
+        total_statement_candidates = 0,
+        total_parent_candidates = 0,
+        total_expression_positions = 0,
+        total_syntax_candidates = 0,
+        total_symbol_candidates = 0
     };
 }
 
@@ -205,25 +277,60 @@ unsafe i32 emit_bootstrap_d_mode(
         function_local_first = 0,
         function_local_end = 0,
         name_cache = null,
+        spelling_cache = null,
+        spelling_cache_capacity = 0,
         call_cache = null,
+        call_argument_first = null,
+        call_argument_last = null,
+        argument_next = null,
         type_cache = null,
+        resolved_type_ref_cache = null,
         left_expression_cache = null,
         right_expression_cache = null,
         block_parent_cache = null,
         control_parent_cache = null,
         statement_nodes = null,
         statement_count = 0,
+        block_statement_first = null,
+        statement_next = null,
+        control_block_first = null,
+        block_next = null,
+        control_child_first = null,
+        control_child_next = null,
+        initializer_field_first = null,
+        initializer_field_next = null,
+        initializer_field_owner = null,
+        array_element_first = null,
+        array_element_next = null,
         block_nodes = null,
         block_count = 0,
         control_nodes = null,
         control_count = 0,
         expression_nodes = null,
         expression_count = 0,
+        expression_start_heads = null,
+        expression_start_capacity = 0,
+        expression_start_next = null,
+        expression_next_start = null,
         name_nodes = null,
         name_count = 0,
+        type_ref_nodes = null,
+        type_ref_count = 0,
         declaration_symbol_cache = null,
         top_symbols = null,
         top_symbol_count = 0,
+        function_bucket_heads = null,
+        function_bucket_capacity = 0,
+        function_bucket_next = null,
+        function_parameter_first = null,
+        function_parameter_count = null,
+        parameter_next = null,
+        function_local_range_first = null,
+        function_local_range_end = null,
+        type_aggregate_symbols = null,
+        aggregate_field_first = null,
+        field_next = null,
+        enum_item_value = null,
         local_values = null,
         block_data = null,
         blocks = PackedBuffer{ length = 0, capacity = 0 },
@@ -237,12 +344,17 @@ unsafe i32 emit_bootstrap_d_mode(
         continue_data = null,
         continue_depth = 0,
         current_block = 0,
-        next_value = next_value
+        next_value = next_value,
+        profile_statement_candidates = 0,
+        profile_parent_candidates = 0,
+        profile_expression_positions = 0,
+        profile_syntax_candidates = 0,
+        profile_symbol_candidates = 0
     };
     phase_started = process.monotonic_milliseconds();
     if c_backend {
         i32 c_result = c_emit_project(
-            base, output_directory, output_capacity, entry
+            base, output_directory, output_capacity, entry, timings
         );
         timings.lowering_emit_ms =
             process.monotonic_milliseconds() - phase_started;
@@ -368,25 +480,60 @@ unsafe i32 emit_bootstrap_d_mode(
                 function_local_first = 0,
                 function_local_end = 0,
                 name_cache = ir_pointer_alias(name_cache),
+                spelling_cache = null,
+                spelling_cache_capacity = 0,
                 call_cache = ir_pointer_alias(call_cache),
+                call_argument_first = null,
+                call_argument_last = null,
+                argument_next = null,
                 type_cache = null,
+                resolved_type_ref_cache = null,
                 left_expression_cache = null,
                 right_expression_cache = null,
                 block_parent_cache = null,
                 control_parent_cache = null,
                 statement_nodes = null,
                 statement_count = 0,
+                block_statement_first = null,
+                statement_next = null,
+                control_block_first = null,
+                block_next = null,
+                control_child_first = null,
+                control_child_next = null,
+                initializer_field_first = null,
+                initializer_field_next = null,
+                initializer_field_owner = null,
+                array_element_first = null,
+                array_element_next = null,
                 block_nodes = null,
                 block_count = 0,
                 control_nodes = null,
                 control_count = 0,
                 expression_nodes = null,
                 expression_count = 0,
+                expression_start_heads = null,
+                expression_start_capacity = 0,
+                expression_start_next = null,
+                expression_next_start = null,
                 name_nodes = null,
                 name_count = 0,
+                type_ref_nodes = null,
+                type_ref_count = 0,
                 declaration_symbol_cache = null,
                 top_symbols = null,
                 top_symbol_count = 0,
+                function_bucket_heads = null,
+                function_bucket_capacity = 0,
+                function_bucket_next = null,
+                function_parameter_first = null,
+                function_parameter_count = null,
+                parameter_next = null,
+                function_local_range_first = null,
+                function_local_range_end = null,
+                type_aggregate_symbols = null,
+                aggregate_field_first = null,
+                field_next = null,
+                enum_item_value = null,
                 local_values = ir_pointer_alias(local_values),
                 block_data = ir_pointer_alias(block_data),
                 blocks = blocks,
@@ -400,8 +547,14 @@ unsafe i32 emit_bootstrap_d_mode(
                 continue_data = ir_pointer_alias(continue_data),
                 continue_depth = 0,
                 current_block = 0,
-                next_value = next_value
+                next_value = next_value,
+                profile_statement_candidates = 0,
+                profile_parent_candidates = 0,
+                profile_expression_positions = 0,
+                profile_syntax_candidates = 0,
+                profile_symbol_candidates = 0
             };
+            ir_initialize_local_values(context);
             usize node = 0;
             while node < syntax.length {
                 if read_record_field(syntax_data, node, 0) == 2 {

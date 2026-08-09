@@ -53,6 +53,14 @@ def main() -> int:
         help="verified OpenC-native compiler; defaults to the installed toolchain",
     )
     parser.add_argument(
+        "--allow-iteration-compiler",
+        action="store_true",
+        help=(
+            "allow an explicit compiler outside a complete distribution; "
+            "intended only for SH-14 Stage-N optimization measurements"
+        ),
+    )
+    parser.add_argument(
         "--project",
         type=Path,
         default=ROOT / "compiler" / "selfhost" / "openc.project.json",
@@ -89,7 +97,12 @@ def main() -> int:
     parser.add_argument("--sample-interval", type=float, default=0.1)
     args = parser.parse_args()
 
-    compiler = resolve_native_compiler(args.compiler)
+    if args.allow_iteration_compiler:
+        if args.compiler is None:
+            raise SystemExit("--allow-iteration-compiler requires --compiler")
+        compiler = args.compiler.resolve()
+    else:
+        compiler = resolve_native_compiler(args.compiler)
     project = args.project.resolve()
     tcc = args.tcc.resolve()
     output = args.output.resolve()
@@ -104,6 +117,7 @@ def main() -> int:
     report.parent.mkdir(parents=True, exist_ok=True)
     generated = Path(str(output) + ".openc.c")
     record = Path(str(output) + ".build.json")
+    timings = output.parent / "openc-build.timings.json"
     environment, child_path = clean_child_environment(tcc)
     command = [
         str(compiler),
@@ -132,6 +146,7 @@ def main() -> int:
         ("output_executable", output),
         ("generated_c", generated),
         ("build_record", record),
+        ("compiler_timings", timings),
     ):
         artifacts[name] = {
             "path": str(path),

@@ -51,8 +51,41 @@ unsafe usize ir_direct_else_if(ref IrContext context, usize parent) {
             context.syntax_data, first_block, 1
         ) + read_record_field(context.syntax_data, first_block, 2);
     }
-    usize record = 0;
-    while record < context.syntax.length {
+    if context.control_child_first != null &&
+        context.control_child_next != null &&
+        parent < context.syntax.length {
+        usize encoded = read_usize(
+            context.control_child_first,
+            parent * size_of(usize)
+        );
+        while encoded != 0 {
+            usize record = encoded - 1;
+            if read_record_field(context.syntax_data, record, 0) == 14 &&
+                read_record_field(context.syntax_data, record, 1) >=
+                    after_then {
+                return record;
+            }
+            encoded = read_usize(
+                context.control_child_next,
+                record * size_of(usize)
+            );
+        }
+        return context.syntax.length;
+    }
+    usize index = 0;
+    usize candidate_count = context.syntax.length;
+    if context.control_nodes != null {
+        candidate_count = context.control_count;
+    }
+    context.profile_parent_candidates =
+        context.profile_parent_candidates + candidate_count;
+    while index < candidate_count {
+        usize record = index;
+        if context.control_nodes != null {
+            record = read_usize(
+                context.control_nodes, index * size_of(usize)
+            );
+        }
         if record != parent && read_record_field(
                 context.syntax_data, record, 0
             ) == 14 && semantic_node_contains(
@@ -68,7 +101,7 @@ unsafe usize ir_direct_else_if(ref IrContext context, usize parent) {
                 selected_start = start;
             }
         }
-        record = record + 1;
+        index = index + 1;
     }
     return selected;
 }
@@ -170,8 +203,8 @@ unsafe void ir_lower_block(ref IrContext context, usize block) {
                 write_usize(
                     context.local_values, symbol * size_of(usize), address
                 );
-                usize initializer = flow_local_initializer_root(
-                    context.syntax_data, context.syntax, statement
+                usize initializer = ir_local_initializer_root(
+                    context, statement
                 );
                 if initializer < context.syntax.length && flow_span_has_byte(
                     context.source,
@@ -414,8 +447,8 @@ unsafe void ir_lower_block(ref IrContext context, usize block) {
                         context.local_values,
                         local_symbol * size_of(usize), address
                     );
-                    usize initializer = flow_local_initializer_root(
-                        context.syntax_data, context.syntax, local_node
+                    usize initializer = ir_local_initializer_root(
+                        context, local_node
                     );
                     if initializer < context.syntax.length {
                         usize initial_value = ir_lower_node(

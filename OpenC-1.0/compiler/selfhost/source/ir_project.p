@@ -20,16 +20,16 @@ unsafe void ir_lower_function(
     context.operands.length = 0;
     context.break_depth = 0;
     context.continue_depth = 0;
-    usize symbol = 0;
-    while symbol < context.symbols.length {
+    usize symbol = context.function_local_first;
+    while symbol < context.function_local_end {
         write_usize(
             context.local_values, symbol * size_of(usize), 0
         );
         symbol = symbol + 1;
     }
     context.current_block = ir_add_block(context, 1);
-    symbol = 0;
-    while symbol < context.symbols.length {
+    symbol = context.function_local_first;
+    while symbol < context.function_local_end {
         if read_record_field(context.symbol_data, symbol, 0) ==
                 resolution_symbol_parameter() &&
             read_record_field(context.detail_data, symbol, 2) ==
@@ -513,8 +513,14 @@ unsafe i32 observe_semantic_ir(text project_path) {
                 function_local_first = 0,
                 function_local_end = 0,
                 name_cache = ir_pointer_alias(name_cache),
+                spelling_cache = null,
+                spelling_cache_capacity = 0,
                 call_cache = ir_pointer_alias(call_cache),
+                call_argument_first = null,
+                call_argument_last = null,
+                argument_next = null,
                 type_cache = ir_pointer_alias(type_cache),
+                resolved_type_ref_cache = null,
                 left_expression_cache = ir_pointer_alias(
                     left_expression_cache
                 ),
@@ -525,19 +531,48 @@ unsafe i32 observe_semantic_ir(text project_path) {
                 control_parent_cache = ir_pointer_alias(control_parent_cache),
                 statement_nodes = ir_pointer_alias(statement_nodes),
                 statement_count = 0,
+                block_statement_first = null,
+                statement_next = null,
+                control_block_first = null,
+                block_next = null,
+                control_child_first = null,
+                control_child_next = null,
+                initializer_field_first = null,
+                initializer_field_next = null,
+                initializer_field_owner = null,
+                array_element_first = null,
+                array_element_next = null,
                 block_nodes = ir_pointer_alias(block_nodes),
                 block_count = 0,
                 control_nodes = ir_pointer_alias(control_nodes),
                 control_count = 0,
                 expression_nodes = ir_pointer_alias(expression_nodes),
                 expression_count = 0,
+                expression_start_heads = null,
+                expression_start_capacity = 0,
+                expression_start_next = null,
+                expression_next_start = null,
                 name_nodes = ir_pointer_alias(name_nodes),
                 name_count = 0,
+                type_ref_nodes = null,
+                type_ref_count = 0,
                 declaration_symbol_cache = ir_pointer_alias(
                     declaration_symbol_cache
                 ),
                 top_symbols = ir_pointer_alias(top_symbols),
                 top_symbol_count = 0,
+                function_bucket_heads = null,
+                function_bucket_capacity = 0,
+                function_bucket_next = null,
+                function_parameter_first = null,
+                function_parameter_count = null,
+                parameter_next = null,
+                function_local_range_first = null,
+                function_local_range_end = null,
+                type_aggregate_symbols = null,
+                aggregate_field_first = null,
+                field_next = null,
+                enum_item_value = null,
                 local_values = ir_pointer_alias(local_values),
                 block_data = ir_pointer_alias(block_data),
                 blocks = blocks,
@@ -551,8 +586,14 @@ unsafe i32 observe_semantic_ir(text project_path) {
                 continue_data = ir_pointer_alias(continue_data),
                 continue_depth = 0,
                 current_block = 0,
-                next_value = next_value
+                next_value = next_value,
+                profile_statement_candidates = 0,
+                profile_parent_candidates = 0,
+                profile_expression_positions = 0,
+                profile_syntax_candidates = 0,
+                profile_symbol_candidates = 0
             };
+            ir_initialize_local_values(context);
             ir_initialize_node_indexes(context);
             ir_initialize_declaration_symbols(context);
             usize node = 0;

@@ -192,6 +192,17 @@ unsafe void resolution_collect_parsed_source_symbols(
     ptr byte syntax_data,
     ref PackedBuffer syntax
 ) {
+    ptr byte owner_symbols = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    scope memory.free(owner_symbols);
+    usize owner_record = 0;
+    while owner_record <= syntax.length {
+        write_usize(
+            owner_symbols, owner_record * size_of(usize), 0
+        );
+        owner_record = owner_record + 1;
+    }
     usize record = 0;
     while record < syntax.length {
         usize syntax_kind = read_record_field(syntax_data, record, 0);
@@ -224,6 +235,9 @@ unsafe void resolution_collect_parsed_source_symbols(
                 symbol_kind, module_index, source_record,
                 name_start, name_length, type_id, record, 0
             );
+            write_usize(
+                owner_symbols, record * size_of(usize), added + 1
+            );
             write_record_field(
                 detail_data, added, 4,
                 resolution_pack_span(
@@ -246,11 +260,11 @@ unsafe void resolution_collect_parsed_source_symbols(
             parent = resolution_smallest_parent(
                 syntax_data, syntax, record, 2, 0, 0
             );
-            owner = resolution_find_owner_symbol(
-                symbol_data, detail_data, symbols,
-                source_record, parent,
-                resolution_symbol_function(), 0
-            );
+            if parent < syntax.length {
+                owner = read_usize(
+                    owner_symbols, parent * size_of(usize)
+                );
+            }
             if syntax_kind == 10 {
                 symbol_kind = resolution_symbol_parameter();
             } else { symbol_kind = resolution_symbol_variable(); }
@@ -264,11 +278,11 @@ unsafe void resolution_collect_parsed_source_symbols(
             parent = resolution_smallest_parent(
                 syntax_data, syntax, record, 3, 4, 0
             );
-            owner = resolution_find_owner_symbol(
-                symbol_data, detail_data, symbols,
-                source_record, parent,
-                resolution_symbol_struct(), resolution_symbol_resource()
-            );
+            if parent < syntax.length {
+                owner = read_usize(
+                    owner_symbols, parent * size_of(usize)
+                );
+            }
             symbol_kind = resolution_symbol_field();
             type_id = resolution_declaration_type(
                 project_source, project_root,
@@ -280,11 +294,11 @@ unsafe void resolution_collect_parsed_source_symbols(
             parent = resolution_smallest_parent(
                 syntax_data, syntax, record, 5, 0, 0
             );
-            owner = resolution_find_owner_symbol(
-                symbol_data, detail_data, symbols,
-                source_record, parent,
-                resolution_symbol_enum(), 0
-            );
+            if parent < syntax.length {
+                owner = read_usize(
+                    owner_symbols, parent * size_of(usize)
+                );
+            }
             symbol_kind = resolution_symbol_enum_item();
             if owner != 0 {
                 type_id = read_record_field(symbol_data, owner - 1, 4);

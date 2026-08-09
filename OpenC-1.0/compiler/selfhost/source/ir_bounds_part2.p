@@ -10,20 +10,10 @@ unsafe usize ir_field_symbol(
     usize name_start,
     usize name_length
 ) {
-    usize symbol = 0;
-    while symbol < context.symbols.length {
-        if read_record_field(context.symbol_data, symbol, 0) ==
-                resolution_symbol_field() &&
-            read_record_field(context.detail_data, symbol, 2) ==
-                aggregate_symbol + 1 &&
-            resolution_symbol_name_equals(
-                context.project_source, context.project_root,
-                context.source_data, context.symbol_data, symbol,
-                context.source, name_start, name_length
-            ) { return symbol; }
-        symbol = symbol + 1;
-    }
-    return context.symbols.length;
+    return ir_indexed_find_member(
+        context, aggregate_symbol + 1,
+        resolution_symbol_field(), name_start, name_length
+    );
 }
 
 unsafe usize ir_qualified_member_type(
@@ -72,22 +62,9 @@ unsafe usize ir_qualified_member_type(
             ) { current_type = semantic_builtin_type("i32", 0, 3); }
             else { current_type = semantic_type_text(); }
         } else {
-            usize aggregate_symbol = context.symbols.length;
-            usize candidate = 0;
-            while candidate < context.symbols.length {
-                usize candidate_kind = read_record_field(
-                    context.symbol_data, candidate, 0
-                );
-                if (candidate_kind == resolution_symbol_struct() ||
-                    candidate_kind == resolution_symbol_resource()) &&
-                    read_record_field(
-                        context.symbol_data, candidate, 4
-                    ) == current_type {
-                    aggregate_symbol = candidate;
-                    break;
-                }
-                candidate = candidate + 1;
-            }
+            usize aggregate_symbol = ir_aggregate_for_type(
+                context, current_type
+            );
             if aggregate_symbol >= context.symbols.length {
                 return semantic_type_error();
             }
@@ -110,14 +87,22 @@ unsafe usize ir_qualified_member_type(
 unsafe usize ir_first_block_start(ref IrContext context, usize parent) {
     usize selected = read_record_field(context.syntax_data, parent, 1) +
         read_record_field(context.syntax_data, parent, 2);
-    usize record = 0;
-    while record < context.syntax.length {
+    usize index = 0;
+    usize count = context.syntax.length;
+    if context.block_nodes != null { count = context.block_count; }
+    while index < count {
+        usize record = index;
+        if context.block_nodes != null {
+            record = read_usize(
+                context.block_nodes, index * size_of(usize)
+            );
+        }
         if read_record_field(context.syntax_data, record, 0) == 11 &&
             semantic_node_contains(context.syntax_data, parent, record) {
             usize start = read_record_field(context.syntax_data, record, 1);
             if start < selected { selected = start; }
         }
-        record = record + 1;
+        index = index + 1;
     }
     return selected;
 }
@@ -127,6 +112,58 @@ unsafe usize ir_largest_expression_before(
     usize parent,
     usize before
 ) {
+    if context.expression_start_heads != null &&
+        context.expression_start_next != null &&
+        context.expression_start_capacity != 0 {
+        usize selected = context.syntax.length;
+        usize selected_length = 0;
+        usize cursor = read_record_field(
+            context.syntax_data, parent, 1
+        );
+        if before > cursor && context.expression_next_start == null {
+            context.profile_expression_positions =
+                context.profile_expression_positions + before - cursor;
+        }
+        while cursor < before &&
+            cursor < context.expression_start_capacity {
+            if context.expression_next_start != null {
+                usize next_encoded = read_usize(
+                    context.expression_next_start,
+                    cursor * size_of(usize)
+                );
+                if next_encoded == 0 { break; }
+                cursor = next_encoded - 1;
+                if cursor >= before { break; }
+                context.profile_expression_positions =
+                    context.profile_expression_positions + 1;
+            }
+            usize encoded = read_usize(
+                context.expression_start_heads,
+                cursor * size_of(usize)
+            );
+            while encoded != 0 {
+                usize record = encoded - 1;
+                usize length = read_record_field(
+                    context.syntax_data, record, 2
+                );
+                if record != parent && cursor + length <= before &&
+                    semantic_node_contains(
+                        context.syntax_data, parent, record
+                    ) && (selected == context.syntax.length ||
+                        length > selected_length ||
+                        (length == selected_length && record < selected)) {
+                    selected = record;
+                    selected_length = length;
+                }
+                encoded = read_usize(
+                    context.expression_start_next,
+                    record * size_of(usize)
+                );
+            }
+            cursor = cursor + 1;
+        }
+        return selected;
+    }
     usize selected = context.syntax.length;
     usize selected_length = 0;
     usize record = 0;
@@ -154,6 +191,23 @@ unsafe usize ir_direct_block(
     usize parent,
     usize requested
 ) {
+    if context.control_block_first != null &&
+        context.block_next != null && parent < context.syntax.length {
+        usize encoded = read_usize(
+            context.control_block_first,
+            parent * size_of(usize)
+        );
+        usize count = 0;
+        while encoded != 0 {
+            usize block = encoded - 1;
+            if count == requested { return block; }
+            count = count + 1;
+            encoded = read_usize(
+                context.block_next, block * size_of(usize)
+            );
+        }
+        return context.syntax.length;
+    }
     usize count = 0;
     usize previous_start = 0;
     usize previous_record = 0;
@@ -162,8 +216,20 @@ unsafe usize ir_direct_block(
         usize selected = context.syntax.length;
         usize selected_start = cast(usize, 4294967295);
         usize selected_record = cast(usize, 4294967295);
-        usize record = 0;
-        while record < context.syntax.length {
+        usize index = 0;
+        usize candidate_count = context.syntax.length;
+        if context.block_nodes != null {
+            candidate_count = context.block_count;
+        }
+        context.profile_parent_candidates =
+            context.profile_parent_candidates + candidate_count;
+        while index < candidate_count {
+            usize record = index;
+            if context.block_nodes != null {
+                record = read_usize(
+                    context.block_nodes, index * size_of(usize)
+                );
+            }
             if read_record_field(context.syntax_data, record, 0) == 11 &&
                 semantic_node_contains(context.syntax_data, parent, record) &&
                 ir_control_parent(context, record) == parent {
@@ -178,7 +244,7 @@ unsafe usize ir_direct_block(
                     selected_record = record;
                 }
             }
-            record = record + 1;
+            index = index + 1;
         }
         if selected >= context.syntax.length { return context.syntax.length; }
         if count == requested { return selected; }
@@ -195,19 +261,53 @@ unsafe usize ir_switch_item(
     usize switch_node,
     usize requested
 ) {
+    if context.control_child_first != null &&
+        context.control_child_next != null &&
+        switch_node < context.syntax.length {
+        usize count = 0;
+        usize encoded = read_usize(
+            context.control_child_first,
+            switch_node * size_of(usize)
+        );
+        while encoded != 0 {
+            usize record = encoded - 1;
+            usize kind = read_record_field(
+                context.syntax_data, record, 0
+            );
+            if kind == 18 || kind == 19 {
+                if count == requested { return record; }
+                count = count + 1;
+            }
+            encoded = read_usize(
+                context.control_child_next,
+                record * size_of(usize)
+            );
+        }
+        return context.syntax.length;
+    }
     usize count = 0;
-    usize record = 0;
-    while record < context.syntax.length {
+    usize index = 0;
+    usize candidate_count = context.syntax.length;
+    if context.control_nodes != null {
+        candidate_count = context.control_count;
+    }
+    context.profile_parent_candidates =
+        context.profile_parent_candidates + candidate_count;
+    while index < candidate_count {
+        usize record = index;
+        if context.control_nodes != null {
+            record = read_usize(
+                context.control_nodes, index * size_of(usize)
+            );
+        }
         usize kind = read_record_field(context.syntax_data, record, 0);
         if (kind == 18 || kind == 19) && semantic_node_contains(
             context.syntax_data, switch_node, record
-        ) && resolution_smallest_parent(
-            context.syntax_data, context.syntax, record, 17, 999, 998
-        ) == switch_node {
+        ) && ir_control_parent(context, record) == switch_node {
             if count == requested { return record; }
             count = count + 1;
         }
-        record = record + 1;
+        index = index + 1;
     }
     return context.syntax.length;
 }

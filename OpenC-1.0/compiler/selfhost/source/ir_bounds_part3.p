@@ -117,9 +117,7 @@ unsafe bool ir_pointer_deref_fault(
     usize declaration = read_record_field(
         context.detail_data, symbol, 1
     );
-    usize initializer = flow_local_initializer_root(
-        context.syntax_data, context.syntax, declaration
-    );
+    usize initializer = ir_local_initializer_root(context, declaration);
     if initializer >= context.syntax.length { return false; }
     usize initializer_kind = read_record_field(
         context.syntax_data, initializer, 0
@@ -169,86 +167,49 @@ unsafe bool ir_pointer_binary_fault(
         if !amount.valid || left_name_add >= context.syntax.length {
             return false;
         }
-        usize function_start = read_record_field(
-            context.syntax_data, context.function_node, 1
-        );
-        usize function_end = function_start + read_record_field(
-            context.syntax_data, context.function_node, 2
-        );
-        usize scan = function_start;
-        while scan + 13 < function_end {
-            if starts_with_ascii(context.source, scan, "memory.alloc(") {
-                usize number_cursor = scan + 13;
-                while number_cursor < function_end && byte_at_or_zero(
-                    context.source, number_cursor
-                ) == 32 { number_cursor = number_cursor + 1; }
-                usize allocation_size = 0;
-                bool has_digit = false;
-                while number_cursor < function_end {
-                    usize digit = cast(usize, byte_at_or_zero(
-                        context.source, number_cursor
-                    ));
-                    if digit < 48 || digit > 57 { break; }
-                    allocation_size = allocation_size * 10 + digit - 48;
-                    has_digit = true;
-                    number_cursor = number_cursor + 1;
-                }
-                if has_digit && amount.value > cast(i64, allocation_size) {
-                    return true;
-                }
-            }
-            scan = scan + 1;
-        }
-        usize allocation_call = 0;
-        while allocation_call < context.syntax.length {
-            if read_record_field(
-                context.syntax_data, allocation_call, 0
-            ) == 38 && semantic_node_contains(
-                context.syntax_data, context.function_node, allocation_call
-            ) {
-                usize allocation_callee = read_record_field(
-                    context.syntax_data, allocation_call, 3
+        if read_record_field(
+            context.syntax_data, left_node, 0
+        ) == 38 {
+            usize allocation_callee = read_record_field(
+                context.syntax_data, left_node, 3
+            );
+            if allocation_callee < context.syntax.length &&
+                (span_equals_ascii(
+                    context.source,
+                    read_record_field(
+                        context.syntax_data, allocation_callee, 1
+                    ),
+                    read_record_field(
+                        context.syntax_data, allocation_callee, 2
+                    ), "memory.alloc"
+                ) || span_equals_ascii(
+                    context.source,
+                    read_record_field(
+                        context.syntax_data, allocation_callee, 1
+                    ),
+                    read_record_field(
+                        context.syntax_data, allocation_callee, 2
+                    ), "system.memory.alloc"
+                )) {
+                usize allocation_literal = ir_nth_child_kind(
+                    context, left_node, 29, 0
                 );
-                if allocation_callee < context.syntax.length &&
-                    (span_equals_ascii(
-                        context.source,
-                        read_record_field(
-                            context.syntax_data, allocation_callee, 1
-                        ),
-                        read_record_field(
-                            context.syntax_data, allocation_callee, 2
-                        ), "memory.alloc"
-                    ) || span_equals_ascii(
-                        context.source,
-                        read_record_field(
-                            context.syntax_data, allocation_callee, 1
-                        ),
-                        read_record_field(
-                            context.syntax_data, allocation_callee, 2
-                        ), "system.memory.alloc"
-                    )) {
-                    usize allocation_literal = ir_nth_child_kind(
-                        context, allocation_call, 29, 0
-                    );
-                    if allocation_literal < context.syntax.length {
-                        ResolutionInteger allocation_capacity =
-                            resolution_parse_integer(
-                                context.source,
-                                read_record_field(
-                                    context.syntax_data, allocation_literal, 1
-                                ),
-                                read_record_field(
-                                    context.syntax_data, allocation_literal, 2
-                                )
-                            );
-                        if allocation_capacity.valid &&
-                            amount.value > allocation_capacity.value {
-                            return true;
-                        }
-                    }
+                if allocation_literal >= context.syntax.length {
+                    return false;
                 }
+                ResolutionInteger allocation_capacity =
+                    resolution_parse_integer(
+                        context.source,
+                        read_record_field(
+                            context.syntax_data, allocation_literal, 1
+                        ),
+                        read_record_field(
+                            context.syntax_data, allocation_literal, 2
+                        )
+                    );
+                return allocation_capacity.valid &&
+                    amount.value > allocation_capacity.value;
             }
-            allocation_call = allocation_call + 1;
         }
         usize left_symbol_add = ir_resolve_name(context, left_name_add);
         if left_symbol_add >= context.symbols.length { return false; }

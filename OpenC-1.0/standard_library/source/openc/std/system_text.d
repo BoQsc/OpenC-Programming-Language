@@ -47,6 +47,25 @@ u8 byte_at_unchecked(OpenCText text, usize index) {
     return cast(u8) text[index];
 }
 
+pragma(inline, true)
+void copy_utf8_unchecked(void* destination, OpenCText text) {
+    if (text.length != 0) {
+        (cast(char*) destination)[0 .. text.length] = text[];
+    }
+}
+
+pragma(inline, true)
+void copy_utf8_slice_unchecked(
+    void* destination,
+    OpenCText text,
+    usize start,
+    usize length
+) {
+    if (length != 0) {
+        (cast(char*) destination)[0 .. length] = text[start .. start + length];
+    }
+}
+
 Status slice(OpenCText text, usize lower, usize upper, out OpenCText result) {
     if (lower > upper) return Status.failure(10, "invalid text range");
     auto output = appender!string();

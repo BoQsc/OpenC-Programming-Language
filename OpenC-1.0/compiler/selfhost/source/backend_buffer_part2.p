@@ -202,16 +202,7 @@ unsafe bool d_parameter_owned(ref IrContext context, usize parameter) {
 }
 
 unsafe usize d_parameter_count(ref IrContext context, usize function_symbol) {
-    usize count = 0;
-    usize symbol = 0;
-    while symbol < context.symbols.length {
-        if read_record_field(context.symbol_data, symbol, 0) ==
-                resolution_symbol_parameter() &&
-            read_record_field(context.detail_data, symbol, 2) ==
-                function_symbol + 1 { count = count + 1; }
-        symbol = symbol + 1;
-    }
-    return count;
+    return ir_parameter_count(context, function_symbol);
 }
 
 unsafe usize d_parameter_at(
@@ -219,19 +210,7 @@ unsafe usize d_parameter_at(
     usize function_symbol,
     usize requested
 ) {
-    usize found = 0;
-    usize symbol = 0;
-    while symbol < context.symbols.length {
-        if read_record_field(context.symbol_data, symbol, 0) ==
-                resolution_symbol_parameter() &&
-            read_record_field(context.detail_data, symbol, 2) ==
-                function_symbol + 1 {
-            if found == requested { return symbol; }
-            found = found + 1;
-        }
-        symbol = symbol + 1;
-    }
-    return context.symbols.length;
+    return ir_parameter_at(context, function_symbol, requested);
 }
 
 unsafe usize d_call_parameter_type(

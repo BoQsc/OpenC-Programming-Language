@@ -6,6 +6,8 @@ external(c, "oc_text_scalar_length") usize runtime_scalar_length(text value, u32
 external(c, "oc_text_scalar_at") status runtime_scalar_at(text value, usize index, out u32 scalar);
 external(c, "oc_text_byte_length") usize runtime_byte_length(text value);
 external(c, "oc_text_byte_at") status runtime_byte_at(text value, usize index, out u8 byte_value);
+external(c, "oc_text_copy_utf8_unchecked") unsafe void copy_utf8_unchecked(ptr byte destination, text value);
+external(c, "oc_text_copy_utf8_slice_unchecked") unsafe void copy_utf8_slice_unchecked(ptr byte destination, text value, usize start, usize length);
 external(c, "oc_text_equal") bool runtime_equal(text left, text right);
 external(c, "oc_text_compare") i32 runtime_compare(text left, text right);
 external(c, "oc_text_from_utf8_view") unsafe text from_utf8(ptr byte data, usize length);

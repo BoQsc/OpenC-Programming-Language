@@ -41,11 +41,13 @@ unsafe void d_put_byte(ref DBuffer buffer, u8 value) {
 
 unsafe void d_put(ref DBuffer buffer, text value) {
     usize length = text.byte_length(value);
-    usize index = 0;
-    while index < length {
-        d_put_byte(buffer, byte_at_or_zero(value, index));
-        index = index + 1;
+    if !buffer.ok || buffer.length > buffer.capacity ||
+        length > buffer.capacity - buffer.length {
+        buffer.ok = false;
+        return;
     }
+    text.copy_utf8_unchecked(buffer.data + buffer.length, value);
+    buffer.length = buffer.length + length;
 }
 
 unsafe void d_put_slice(
@@ -54,11 +56,15 @@ unsafe void d_put_slice(
     usize start,
     usize length
 ) {
-    usize index = 0;
-    while index < length {
-        d_put_byte(buffer, byte_at_or_zero(value, start + index));
-        index = index + 1;
+    if !buffer.ok || buffer.length > buffer.capacity ||
+        length > buffer.capacity - buffer.length {
+        buffer.ok = false;
+        return;
     }
+    text.copy_utf8_slice_unchecked(
+        buffer.data + buffer.length, value, start, length
+    );
+    buffer.length = buffer.length + length;
 }
 
 unsafe void d_put_mangled_slice(
@@ -142,6 +148,99 @@ unsafe bool d_symbol_name_is(
         read_record_field(context.symbol_data, symbol, 3),
         expected
     );
+}
+
+unsafe bool d_module_name_is(
+    ref IrContext context,
+    usize module_index,
+    text expected
+) {
+    if module_index >= context.modules.length { return false; }
+    return span_equals_ascii(
+        context.project_source,
+        read_record_field(context.module_data, module_index, 0),
+        read_record_field(context.module_data, module_index, 1),
+        expected
+    );
+}
+
+unsafe bool d_symbol_module_name_is(
+    ref IrContext context,
+    usize symbol,
+    text expected
+) {
+    if symbol >= context.symbols.length { return false; }
+    return d_module_name_is(
+        context,
+        read_record_field(context.detail_data, symbol, 0),
+        expected
+    );
+}
+
+unsafe bool d_compiler_primitive_is(
+    ref IrContext context,
+    usize symbol,
+    text expected
+) {
+    return d_symbol_module_name_is(
+        context, symbol, "openc.selfhost.main"
+    ) && d_symbol_name_is(context, symbol, expected);
+}
+
+unsafe bool d_compiler_call_is(
+    ref IrContext context,
+    usize kind,
+    usize one,
+    usize two,
+    text expected
+) {
+    if kind == 3 {
+        return d_compiler_primitive_is(context, one, expected);
+    }
+    if !d_module_name_is(
+        context, context.module_index, "openc.selfhost.main"
+    ) { return false; }
+    if kind == 2 { return ir_static_text(one) == expected; }
+    if kind != 1 && kind != 7 && kind != 8 { return false; }
+    return span_equals_ascii(context.source, one, two, expected);
+}
+
+unsafe bool d_compiler_call_prefix_is(
+    ref IrContext context,
+    usize kind,
+    usize one,
+    usize two,
+    text expected
+) {
+    text source = context.source;
+    usize start = one;
+    usize length = two;
+    if kind == 3 {
+        if !d_symbol_module_name_is(
+            context, one, "openc.selfhost.main"
+        ) { return false; }
+        source = d_symbol_source(context, one);
+        start = read_record_field(context.symbol_data, one, 2);
+        length = read_record_field(context.symbol_data, one, 3);
+    } else {
+        if kind != 1 && kind != 7 && kind != 8 { return false; }
+        if !d_module_name_is(
+            context, context.module_index, "openc.selfhost.main"
+        ) { return false; }
+    }
+    return length >= text.byte_length(expected) &&
+        starts_with_ascii(source, start, expected);
+}
+
+unsafe void d_put_compiler_call_short_name(
+    ref IrContext context,
+    ref DBuffer buffer,
+    usize kind,
+    usize one,
+    usize two
+) {
+    if kind == 3 { d_put_symbol_name(context, buffer, one); }
+    else { d_put_slice(buffer, context.source, one, two); }
 }
 
 unsafe void d_put_module_name(

@@ -154,3 +154,21 @@ remaining 500.311-second clean rebuild is not accepted as D/C-class
 throughput; convergence and stability are the blocking SH-14 milestone.
 Native editor integration and language-service resilience are deferred to
 SH-23.
+
+The in-progress SH-14 indexed-lowering checkpoint now closes byte-for-byte in
+80.149 seconds for 96 sources, passes 278/278 conformance and 4/4 maintained
+programs, and remains explicitly **not complete**. IR lowering still consumes
+67.718 seconds, so generated-code quality and deterministic parallel source
+lowering are next; the <=30-second clean-rebuild gate is unchanged.
+
+The same-host SH-14 clean-build comparator is:
+
+```text
+python compiler/selfhost/benchmark_throughput_suite.py --compiler PATH/TO/openc.exe --output build-output/selfhost-sh14/throughput-suite.json --runs 5 --enforce
+```
+
+It writes `openc.throughput_suite.v1`, retains every raw OpenC and forced
+release D sample, fingerprints both input trees and tool versions, verifies
+repeat-build byte closure, and enforces the absolute and D-relative clean-build
+gates together. Omit `--enforce` when recording a failing optimization
+baseline; command failures still return a nonzero status.

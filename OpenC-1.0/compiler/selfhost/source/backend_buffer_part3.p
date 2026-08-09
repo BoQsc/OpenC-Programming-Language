@@ -7,8 +7,8 @@ unsafe bool d_local_is_parameter(
     ref IrContext context,
     usize instruction
 ) {
-    usize symbol = 0;
-    while symbol < context.symbols.length {
+    usize symbol = context.function_local_first;
+    while symbol < context.function_local_end {
         if read_record_field(context.symbol_data, symbol, 0) ==
                 resolution_symbol_parameter() &&
             read_record_field(context.detail_data, symbol, 2) ==
@@ -84,15 +84,8 @@ unsafe void d_analyze_values(
     ref IrContext context,
     ptr byte value_types,
     ptr byte reference_storage,
-    ptr byte instruction_order,
-    usize capacity
+    ptr byte instruction_order
 ) {
-    usize index = 0;
-    while index < capacity {
-        write_usize(value_types, index * size_of(usize), 0);
-        write_usize(reference_storage, index * size_of(usize), 0);
-        index = index + 1;
-    }
     usize ordered = 0;
     while ordered < context.instructions.length {
         usize instruction = read_usize(
@@ -108,6 +101,9 @@ unsafe void d_analyze_values(
             write_usize(
                 value_types, result * size_of(usize),
                 read_record_field(context.instruction_data, instruction, 3)
+            );
+            write_usize(
+                reference_storage, result * size_of(usize), 0
             );
         }
         if opcode == ir_op_object_construct() && result != 0 {

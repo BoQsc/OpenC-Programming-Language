@@ -300,7 +300,7 @@ unsafe void c_emit_function(
     ptr byte instruction_order = d_instruction_order(context);
     d_analyze_values(
         context, value_types, reference_storage,
-        instruction_order, value_capacity
+        instruction_order
     );
 
     c_put_function_signature(

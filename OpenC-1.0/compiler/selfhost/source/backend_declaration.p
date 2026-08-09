@@ -115,7 +115,7 @@ unsafe void d_emit_function(
     ptr byte instruction_order = d_instruction_order(context);
     d_analyze_values(
         context, value_types, reference_storage,
-        instruction_order, value_capacity
+        instruction_order
     );
 
     d_put_type(context, buffer, context.function_result);

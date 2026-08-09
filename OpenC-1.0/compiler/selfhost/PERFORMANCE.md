@@ -62,6 +62,26 @@ byte-identical closure, and 20 consecutive stable clean rebuilds. No editor or
 new platform implementation precedes that gate. The full work plan is
 `THROUGHPUT_CONVERGENCE_PLAN.md`.
 
+### SH-14 indexed-lowering checkpoint (2026-08-09)
+
+Closed stage 101 rebuilds the current 96-source, 1,085,893-byte compiler in
+80.149 seconds and is byte-identical to its input. Its internal timing record
+reports 80.047 seconds total: 67.718 seconds IR lowering, 9.747 seconds C
+emission, 0.968 seconds resolution, 0.375 seconds declarations, 0.315 seconds
+lex/parse, 0.282 seconds index construction, and 0.328 seconds TinyCC.
+
+The same closed compiler passes 278/278 native conformance and 4/4 maintained
+programs. Peak private memory is 262,389,760 bytes and peak working set is
+19,030,016 bytes. Counted lowering candidates are 0 statements, 0 parents,
+112,607 expression positions, 152,945 syntax candidates, and 84,189 symbol
+candidates. This is 91.9% fewer counted candidates than stage 74.
+
+The checkpoint does not pass SH-14: it remains above the 30-second absolute
+gate, and the required five-run/D-relative/scaling/incremental/soak evidence is
+still open. With indexed lookup no longer dominant and TinyCC still sub-second,
+the next work is generated-code quality (smaller C units, SSA lifetime reuse,
+structured control flow) followed by deterministic parallel source lowering.
+
 ## Result
 
 The post-SH-6 native compiler completes a full self-rebuild in 381.049 seconds,

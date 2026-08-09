@@ -80,6 +80,55 @@ unsafe usize ir_root_in_bounds(
     usize start,
     usize end
 ) {
+    if context.expression_start_heads != null &&
+        context.expression_start_next != null &&
+        context.expression_start_capacity != 0 {
+        if context.expression_next_start == null {
+            context.profile_expression_positions =
+                context.profile_expression_positions + end - start;
+        }
+        usize selected = context.syntax.length;
+        usize selected_length = 0;
+        usize cursor = start;
+        while cursor < end && cursor < context.expression_start_capacity {
+            if context.expression_next_start != null {
+                usize next_encoded = read_usize(
+                    context.expression_next_start,
+                    cursor * size_of(usize)
+                );
+                if next_encoded == 0 { break; }
+                cursor = next_encoded - 1;
+                if cursor >= end { break; }
+                context.profile_expression_positions =
+                    context.profile_expression_positions + 1;
+            }
+            usize encoded = read_usize(
+                context.expression_start_heads,
+                cursor * size_of(usize)
+            );
+            while encoded != 0 {
+                usize record = encoded - 1;
+                usize node_end = cursor + read_record_field(
+                    context.syntax_data, record, 2
+                );
+                if node_end <= end {
+                    usize length = node_end - cursor;
+                    if selected == context.syntax.length ||
+                        length > selected_length ||
+                        (length == selected_length && record < selected) {
+                        selected = record;
+                        selected_length = length;
+                    }
+                }
+                encoded = read_usize(
+                    context.expression_start_next,
+                    record * size_of(usize)
+                );
+            }
+            cursor = cursor + 1;
+        }
+        return selected;
+    }
     usize selected = context.syntax.length;
     usize selected_length = 0;
     usize index = 0;
@@ -164,11 +213,20 @@ unsafe bool ir_initializer_direct_field(
     usize initializer,
     usize field
 ) {
+    if context.initializer_field_owner != null &&
+        field < context.syntax.length {
+        return read_usize(
+            context.initializer_field_owner,
+            field * size_of(usize)
+        ) == initializer + 1;
+    }
     if field >= context.syntax.length || read_record_field(
         context.syntax_data, field, 0
     ) != 49 || !semantic_node_contains(
         context.syntax_data, initializer, field
     ) { return false; }
+    context.profile_syntax_candidates =
+        context.profile_syntax_candidates + context.syntax.length;
     return resolution_smallest_parent(
         context.syntax_data, context.syntax, field, 47, 48, 999
     ) == initializer;
@@ -188,8 +246,20 @@ unsafe usize ir_nth_child_kind(
         usize selected = context.syntax.length;
         usize selected_start = cast(usize, 4294967295);
         usize selected_record = cast(usize, 4294967295);
-        usize record = 0;
-        while record < context.syntax.length {
+        usize index = 0;
+        usize candidate_count = context.syntax.length;
+        if context.expression_nodes != null {
+            candidate_count = context.expression_count;
+        }
+        context.profile_syntax_candidates =
+            context.profile_syntax_candidates + candidate_count;
+        while index < candidate_count {
+            usize record = index;
+            if context.expression_nodes != null {
+                record = read_usize(
+                    context.expression_nodes, index * size_of(usize)
+                );
+            }
             if read_record_field(context.syntax_data, record, 0) ==
                     requested_kind && record != parent &&
                 semantic_node_contains(context.syntax_data, parent, record) {
@@ -204,7 +274,7 @@ unsafe usize ir_nth_child_kind(
                     selected_record = record;
                 }
             }
-            record = record + 1;
+            index = index + 1;
         }
         if selected >= context.syntax.length { return context.syntax.length; }
         if count == requested { return selected; }
@@ -234,14 +304,9 @@ unsafe IrMemberBase ir_find_local_base(
     }
     usize member_start = start + dot + 1;
     usize member_length = length - dot - 1;
-    usize symbol = resolution_find_local(
-        context.project_source, context.project_root,
-        context.source_data, context.symbol_data, context.detail_data,
-        context.symbols,
-        context.function_local_first, context.function_local_end,
-        context.syntax_data, context.syntax,
-        context.source_record, context.function_symbol + 1,
-        context.source, start, dot, start
+    usize symbol = ir_indexed_find_local(
+        context, context.function_symbol + 1,
+        start, dot, start
     );
     if symbol < context.symbols.length && read_usize(
         context.local_values, symbol * size_of(usize)
