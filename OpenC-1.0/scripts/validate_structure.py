@@ -444,39 +444,78 @@ if self_host_gates.get("SH-13") == "PASS" and (
         "compiler authority, standalone D/Python-source exclusion, and "
         "explicit TinyCC dependency disclosure"
     )
+sh14_gate = next(
+    (gate for gate in self_hosting.get("gates", [])
+     if gate.get("id") == "SH-14"),
+    {},
+)
+if self_host_gates.get("SH-14") != "PASS":
+    errors.append("compiler throughput and stability SH-14 gate must pass")
+if self_host_gates.get("SH-14") == "PASS" and (
+        sh14_gate.get("clean_runs") != 5
+        or sh14_gate.get("clean_median_seconds", float("inf")) > 30.0
+        or sh14_gate.get("clean_maximum_seconds", float("inf")) > 45.0
+        or sh14_gate.get("relative_to_d_median", float("inf")) > 1.25
+        or sh14_gate.get("consecutive_closed_rebuilds") != 20
+        or sh14_gate.get("native_conformance_fixtures_passed") != 278
+        or sh14_gate.get("maintained_programs_passed") != 4
+        or not self_hosting.get("claims", {}).get(
+            "compiler_throughput_convergence_and_stability"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "d_class_clean_throughput"
+        )
+        or not self_hosting.get("claims", {}).get(
+            "sh14_twenty_build_closure"
+        )):
+    errors.append(
+        "SH-14 PASS requires D-class clean throughput, five bounded clean "
+        "runs, 20 closed rebuilds, conformance, and maintained programs"
+    )
 
 planned = self_hosting.get("planned_milestones", {})
 active_plan = planned.get("active", {})
 if (
-    active_plan.get("id") != "SH-14"
+    active_plan.get("id") != "SH-15"
     or active_plan.get("name")
-    != "compiler_throughput_convergence_and_stability"
-    or active_plan.get("status") != "PENDING_BLOCKING"
-    or not active_plan.get(
-        "blocks_all_new_feature_and_platform_implementation"
-    )
-    or active_plan.get("clean_five_run_median_max_seconds") != 30.0
-    or active_plan.get("clean_each_run_max_seconds") != 45.0
-    or active_plan.get("consecutive_closed_rebuilds_required") != 20
+    != "windows_x64_abi_and_machine_code_substrate"
+    or active_plan.get("status") != "NEXT_ACTIVE"
+    or active_plan.get("plan")
+    != "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md"
+    or active_plan.get("blocked_by_sh14")
+    or not active_plan.get("microsoft_x64_calling_convention_required")
+    or not active_plan.get("typed_x64_instruction_encoder_required")
+    or not active_plan.get("abi_probe_suite_required")
 ):
     errors.append(
-        "SH-14 must remain the blocking measured throughput/stability plan"
+        "SH-15 Windows x64 ABI and machine-code substrate must be active"
     )
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
-    "SH-14_COMPILER_THROUGHPUT_CONVERGENCE_AND_STABILITY"
+    "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
 ):
-    errors.append("development state must name throughput/stability as SH-14")
+    errors.append("development state must name Windows x64 ABI work as SH-15")
+development_sh14 = development_self_hosting.get("sh14_acceptance", {})
+if (
+    development_sh14.get("status") != "PASS"
+    or development_sh14.get("observed_clean_median_seconds", float("inf"))
+    > 30.0
+    or development_sh14.get("consecutive_closed_rebuilds_observed") != 20
+):
+    errors.append("development state must record the passed SH-14 evidence")
 windows_plan = planned.get("windows_independence_plan", {})
 if (
-    not windows_plan.get("implementation_blocked_until_sh14_pass")
+    windows_plan.get("implementation_blocked_until_sh14_pass")
+    or not windows_plan.get("implementation_unblocked_by_sh14_pass")
+    or windows_plan.get("active_milestone")
+    != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
     or windows_plan.get("sequence", [None])[0]
     != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
     or windows_plan.get("sequence", [None])[-1]
     != "SH-23_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
 ):
     errors.append(
-        "Windows independence and editor work must remain sequenced after SH-14"
+        "Windows independence must be unblocked at SH-15 with editor work last"
     )
 
 budgets = json.loads((
@@ -498,10 +537,14 @@ if budgets.get("budgets", {}).get("daily_cache_hit", {}).get(
     errors.append("SH-8 unchanged daily cache budget must execute zero fixtures")
 sh14_targets = budgets.get("sh14_exit_targets", {})
 if (
-    sh14_targets.get("status") != "PENDING_BLOCKING"
+    sh14_targets.get("status") != "PASS"
     or sh14_targets.get("clean_median_max_seconds") != 30.0
     or sh14_targets.get("clean_each_run_max_seconds") != 45.0
     or sh14_targets.get("consecutive_closed_rebuilds") != 20
+    or sh14_targets.get("observed_clean_median_seconds", float("inf")) > 30.0
+    or sh14_targets.get("observed_clean_maximum_seconds", float("inf")) > 45.0
+    or sh14_targets.get("observed_relative_to_d_median", float("inf")) > 1.25
+    or sh14_targets.get("observed_consecutive_closed_rebuilds") != 20
     or not sh14_targets.get(
         "current_900_second_ceiling_is_not_sh14_acceptance"
     )

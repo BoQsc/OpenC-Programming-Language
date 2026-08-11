@@ -196,12 +196,24 @@ unsafe void resolution_collect_parsed_source_symbols(
         (syntax.length + 1) * size_of(usize)
     );
     scope memory.free(owner_symbols);
+    usize source_length = text.byte_length(source);
+    ptr byte owner_positions = memory.alloc(
+        (source_length + 1) * size_of(usize)
+    );
+    scope memory.free(owner_positions);
     usize owner_record = 0;
     while owner_record <= syntax.length {
         write_usize(
             owner_symbols, owner_record * size_of(usize), 0
         );
         owner_record = owner_record + 1;
+    }
+    usize owner_position = 0;
+    while owner_position <= source_length {
+        write_usize(
+            owner_positions, owner_position * size_of(usize), 0
+        );
+        owner_position = owner_position + 1;
     }
     usize record = 0;
     while record < syntax.length {
@@ -238,6 +250,24 @@ unsafe void resolution_collect_parsed_source_symbols(
             write_usize(
                 owner_symbols, record * size_of(usize), added + 1
             );
+            usize declaration_start = read_record_field(
+                syntax_data, record, 1
+            );
+            usize declaration_end = declaration_start + read_record_field(
+                syntax_data, record, 2
+            );
+            if declaration_end > source_length {
+                declaration_end = source_length;
+            }
+            owner_position = declaration_start;
+            while owner_position < declaration_end {
+                write_usize(
+                    owner_positions,
+                    owner_position * size_of(usize),
+                    added + 1
+                );
+                owner_position = owner_position + 1;
+            }
             write_record_field(
                 detail_data, added, 4,
                 resolution_pack_span(
@@ -252,18 +282,22 @@ unsafe void resolution_collect_parsed_source_symbols(
     record = 0;
     while record < syntax.length {
         usize syntax_kind = read_record_field(syntax_data, record, 0);
-        usize parent = syntax.length;
         usize owner = 0;
         usize symbol_kind = 0;
         usize type_id = semantic_type_error();
         if (syntax_kind == 10 || syntax_kind == 12) {
-            parent = resolution_smallest_parent(
-                syntax_data, syntax, record, 2, 0, 0
+            usize node_start = read_record_field(
+                syntax_data, record, 1
             );
-            if parent < syntax.length {
+            if node_start <= source_length {
                 owner = read_usize(
-                    owner_symbols, parent * size_of(usize)
+                    owner_positions, node_start * size_of(usize)
                 );
+            }
+            if owner != 0 && read_record_field(
+                    symbol_data, owner - 1, 0
+                ) != resolution_symbol_function() {
+                owner = 0;
             }
             if syntax_kind == 10 {
                 symbol_kind = resolution_symbol_parameter();
@@ -275,13 +309,20 @@ unsafe void resolution_collect_parsed_source_symbols(
                 type_data, types
             );
         } else if (syntax_kind == 9) {
-            parent = resolution_smallest_parent(
-                syntax_data, syntax, record, 3, 4, 0
+            usize node_start = read_record_field(
+                syntax_data, record, 1
             );
-            if parent < syntax.length {
+            if node_start <= source_length {
                 owner = read_usize(
-                    owner_symbols, parent * size_of(usize)
+                    owner_positions, node_start * size_of(usize)
                 );
+            }
+            if owner != 0 && read_record_field(
+                    symbol_data, owner - 1, 0
+                ) != resolution_symbol_struct() && read_record_field(
+                    symbol_data, owner - 1, 0
+                ) != resolution_symbol_resource() {
+                owner = 0;
             }
             symbol_kind = resolution_symbol_field();
             type_id = resolution_declaration_type(
@@ -291,13 +332,18 @@ unsafe void resolution_collect_parsed_source_symbols(
                 type_data, types
             );
         } else if (syntax_kind == 6) {
-            parent = resolution_smallest_parent(
-                syntax_data, syntax, record, 5, 0, 0
+            usize node_start = read_record_field(
+                syntax_data, record, 1
             );
-            if parent < syntax.length {
+            if node_start <= source_length {
                 owner = read_usize(
-                    owner_symbols, parent * size_of(usize)
+                    owner_positions, node_start * size_of(usize)
                 );
+            }
+            if owner != 0 && read_record_field(
+                    symbol_data, owner - 1, 0
+                ) != resolution_symbol_enum() {
+                owner = 0;
             }
             symbol_kind = resolution_symbol_enum_item();
             if owner != 0 {

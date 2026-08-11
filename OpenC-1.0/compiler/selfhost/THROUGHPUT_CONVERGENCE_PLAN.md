@@ -1,6 +1,21 @@
 # SH-14 compiler throughput convergence and stability
 
-Status: **NEXT; BLOCKING ALL NEW FEATURE AND PLATFORM MILESTONES**
+Status: **PASS (2026-08-10); SH-15 IS NEXT**
+
+SH-14 is complete. The final five-run clean compiler median is 4.137 seconds
+against a 12.731-second pinned same-host D median (0.325x). The small-build
+median is 0.158 seconds, the exact-fingerprint one-source median is 0.158
+seconds, the worst 0.25/0.5/1/2 MiB doubling ratio is 2.112x, and 20 chained
+clean rebuilds preserve identical compiler and generated-source hashes. Peak
+private memory is 250,437,632 bytes and peak working set is 26,804,224 bytes.
+Native conformance passes 278/278, maintained programs pass 4/4, and the full
+native workflow passes 13/13 without executing the retained D seed.
+
+The decisive throughput correction was a compiler-private byte-slice path for
+byte-addressed source spans. It removed repeated scalar UTF-8 rescans. Static
+eight-way deterministic source lowering and a linear source-position owner
+index removed the remaining clean-build and scaling bottlenecks. Complete
+evidence is in `release/SH14_COMPILER_THROUGHPUT_CONVERGENCE_EVIDENCE.md`.
 
 SH-13 proved where the time is spent, but it did not make the compiler fast.
 The 96-source, 972,368-byte compiler rebuild took 500.311 seconds in the
@@ -9,10 +24,10 @@ monitored run and 557.985 seconds in the phase-timed run. Of the latter,
 0.938 seconds. Treating that result as acceptable would hide the project's
 largest engineering problem.
 
-No editor, GUI, COM, WinRT, ARM64, Linux, freestanding, or broad Windows API
-work may displace SH-14. Post-SH-14 native-backend planning may proceed on
-paper, but implementation begins only after the throughput and stability gate
-passes.
+During SH-14, no editor, GUI, COM, WinRT, ARM64, Linux, freestanding, or broad
+Windows API work was allowed to displace the blocking throughput work. With
+the throughput and stability gate passed, SH-15 native-backend implementation
+is now active while the deferred targets retain their documented sequence.
 
 ## Meaning of D/C-class throughput
 
@@ -65,7 +80,7 @@ OpenC-native replacement is required by SH-20.
 `benchmark_throughput_suite.py` is the authoritative clean OpenC/D comparator.
 It accepts `--enforce` for the release gate and may run without that option to
 retain a failed optimization baseline. Small, incremental, scaling, and
-contention-rejection lanes remain required before SH-14 can pass.
+contention-rejection lanes passed and remain required regression gates.
 
 ## 2026-08-09 indexed-lowering checkpoint
 
@@ -187,5 +202,6 @@ together.
 - Skipping correctness, safety, or closure checks to improve benchmark numbers
   is forbidden.
 
-After SH-14 passes, `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md` becomes
-the active implementation sequence.
+With SH-14 passed, `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md` is the
+active implementation sequence. SH-15 begins with the Windows x64 ABI and
+machine-code substrate; TinyCC removal remains targeted at SH-19.

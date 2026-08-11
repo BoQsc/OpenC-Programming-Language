@@ -1,23 +1,23 @@
 {
   "schema": "openc.windows_native_performance_budgets.v1",
-  "milestone": "SH-13_NATIVE_THROUGHPUT_AND_IMPLEMENTATION_INDEPENDENCE",
+  "milestone": "SH-14_COMPILER_THROUGHPUT_CONVERGENCE_AND_STABILITY",
   "target": "windows-x86_64-hosted",
   "reference_host": {
     "operating_system": "Windows 10.0.19045",
     "architecture": "AMD64",
-    "measurement_date": "2026-07-30"
+    "measurement_date": "2026-08-10"
   },
   "baselines": {
     "validation": {
-      "elapsed_seconds": 32.612,
-      "peak_private_bytes": 6434816,
-      "peak_working_set_bytes": 8413184,
+      "elapsed_seconds": 27.844,
+      "peak_private_bytes": 6733824,
+      "peak_working_set_bytes": 8519680,
       "fixtures": 278
     },
     "self_rebuild": {
-      "elapsed_seconds": 500.311,
-      "peak_private_bytes": 214630400,
-      "peak_working_set_bytes": 14274560,
+      "elapsed_seconds": 4.137,
+      "peak_private_bytes": 250437632,
+      "peak_working_set_bytes": 26804224,
       "output_compiler_byte_equal_to_input": true
     }
   },
@@ -26,13 +26,13 @@
       "max_elapsed_seconds": 90.0,
       "max_peak_private_bytes": 16777216,
       "max_peak_working_set_bytes": 16777216,
-      "elapsed_headroom_percent": 176.0
+      "elapsed_headroom_percent": 223.2
     },
     "self_rebuild": {
-      "max_elapsed_seconds": 900.0,
+      "max_elapsed_seconds": 30.0,
       "max_peak_private_bytes": 268435456,
       "max_peak_working_set_bytes": 33554432,
-      "elapsed_headroom_percent": 79.9
+      "elapsed_headroom_percent": 625.2
     },
     "daily_cache_hit": {
       "max_elapsed_seconds": 2.0,
@@ -48,7 +48,7 @@
     "linux_and_freestanding_gate": false
   },
   "sh14_exit_targets": {
-    "status": "PENDING_BLOCKING",
+    "status": "PASS",
     "plan": "compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md",
     "clean_runs": 5,
     "clean_median_max_seconds": 30.0,
@@ -60,21 +60,28 @@
     "consecutive_closed_rebuilds": 20,
     "max_peak_private_bytes": 268435456,
     "max_peak_working_set_bytes": 33554432,
-    "current_900_second_ceiling_is_not_sh14_acceptance": true
+    "current_900_second_ceiling_is_not_sh14_acceptance": true,
+    "observed_clean_median_seconds": 4.137,
+    "observed_clean_maximum_seconds": 4.854,
+    "observed_relative_to_d_median": 0.325,
+    "observed_small_build_median_seconds": 0.158,
+    "observed_one_source_median_seconds": 0.158,
+    "observed_worst_scaling_ratio": 2.112,
+    "observed_consecutive_closed_rebuilds": 20
   },
   "authored_review": {
-    "milestone": "SH-13",
-    "reason": "indexed OpenC-owned lowering reduced the monitored closed 96-source byte-identical rebuild from 780.621 to 500.311 seconds; the separate phase-timed closure completed in 557.985 seconds; fresh validation completed in 32.612 seconds with 278/278; the rebuild ceiling is tightened while retaining live-desktop variability and the existing memory ceilings",
-    "previous_validation_baseline_seconds": 28.872,
-    "previous_self_rebuild_baseline_seconds": 780.621,
-    "previous_self_rebuild_ceiling_seconds": 1050.0,
-    "new_validation_measurement_record": "build-output/selfhost-sh13/performance/validation-measurement.json",
-    "new_measurement_record": "build-output/selfhost-sh13/performance/rebuild-measurement.json",
-    "observed_validation_elapsed_range_seconds": [28.872, 68.471],
-    "observed_self_rebuild_elapsed_range_seconds": [472.703, 557.985],
+    "milestone": "SH-14",
+    "reason": "byte-addressed compiler slicing, deterministic parallel source lowering, native hot paths, and a linear resolution owner index reduced the five-run clean median from 500.311 to 4.137 seconds; the result is 0.325x the pinned D median, passes 20 chained closures, and retains the 256 MiB/32 MiB memory ceilings",
+    "previous_validation_baseline_seconds": 32.612,
+    "previous_self_rebuild_baseline_seconds": 500.311,
+    "previous_self_rebuild_ceiling_seconds": 900.0,
+    "new_validation_measurement_record": "build-output/selfhost-sh14/resolution-owner-index/correctness/validation-measurement.json",
+    "new_measurement_record": "build-output/selfhost-sh14/resolution-owner-index/final-throughput-suite.json",
+    "observed_validation_elapsed_range_seconds": [27.844, 37.67],
+    "observed_self_rebuild_elapsed_range_seconds": [3.864, 6.796],
     "elapsed_ceiling_changed": true,
     "validation_ceiling_seconds": 90.0,
-    "self_rebuild_ceiling_seconds": 900.0,
+    "self_rebuild_ceiling_seconds": 30.0,
     "elapsed_regression_disclosed": false,
     "memory_ceiling_changed": false
   }

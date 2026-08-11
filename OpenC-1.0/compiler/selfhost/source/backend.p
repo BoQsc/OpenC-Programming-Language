@@ -103,157 +103,20 @@ BuildTimings build_timings_empty() {
     };
 }
 
-unsafe i32 emit_bootstrap_d_mode(
-    text project_path,
-    text output_directory,
-    bool validate_semantics,
-    bool c_backend,
-    ref BuildTimings timings
+unsafe IrContext backend_base_context(
+    text project_source,
+    text project_root,
+    ptr byte module_data,
+    PackedBuffer modules,
+    ptr byte source_data,
+    ptr byte type_data,
+    PackedBuffer types,
+    ptr byte symbol_data,
+    ptr byte detail_data,
+    PackedBuffer symbols,
+    usize next_value
 ) {
-    usize total_started = process.monotonic_milliseconds();
-    usize phase_started = total_started;
-    text project_source;
-    status loaded_project = file.read_text(project_path, out project_source);
-    if !loaded_project.ok { return 1; }
-    usize project_length = text.byte_length(project_source);
-    PackedBuffer modules = PackedBuffer{
-        length = 0, capacity = project_length + 1
-    };
-    PackedBuffer sources = PackedBuffer{
-        length = 0, capacity = project_length + 1
-    };
-    ptr byte module_data = memory.alloc(modules.capacity * record_stride());
-    scope memory.free(module_data);
-    ptr byte source_data = memory.alloc(sources.capacity * record_stride());
-    scope memory.free(source_data);
-    if !project_parse_json(
-        project_source, module_data, modules, source_data, sources
-    ) { return 1; }
-    project_sort_modules(project_source, module_data, modules);
-    text project_root = path.directory(project_path);
-    usize total_source_length = 0;
-    usize module_index = 0;
-    while module_index < modules.length {
-        usize source_first = read_record_field(module_data, module_index, 2);
-        usize source_count = read_record_field(module_data, module_index, 3);
-        usize source_index = 0;
-        while source_index < source_count {
-            text source;
-            status loaded = project_read_source_record(
-                project_source, project_root, source_data,
-                source_first + source_index, out source
-            );
-            if !loaded.ok { return 1; }
-            total_source_length = total_source_length + text.byte_length(source);
-            source_index = source_index + 1;
-        }
-        module_index = module_index + 1;
-    }
-    timings.project_load_ms =
-        process.monotonic_milliseconds() - phase_started;
-    timings.source_files = sources.length;
-    timings.source_bytes = total_source_length;
-
-    usize semantic_capacity = total_source_length + project_length + 65536;
-    usize output_capacity = total_source_length * 8 + project_length + 65536;
-    PackedBuffer types = PackedBuffer{
-        length = 0, capacity = semantic_capacity
-    };
-    PackedBuffer symbols = PackedBuffer{
-        length = 0, capacity = semantic_capacity
-    };
-    PackedBuffer errors = PackedBuffer{
-        length = 0, capacity = semantic_capacity
-    };
-    ptr byte type_data = memory.alloc(types.capacity * record_stride());
-    scope memory.free(type_data);
-    ptr byte symbol_data = memory.alloc(symbols.capacity * record_stride());
-    scope memory.free(symbol_data);
-    ptr byte detail_data = memory.alloc(symbols.capacity * record_stride());
-    scope memory.free(detail_data);
-    ptr byte error_data = memory.alloc(errors.capacity * record_stride());
-    scope memory.free(error_data);
-    semantic_initialize_types(type_data, types);
-
-    phase_started = process.monotonic_milliseconds();
-    module_index = 0;
-    while module_index < modules.length {
-        usize first = read_record_field(module_data, module_index, 2);
-        usize count = read_record_field(module_data, module_index, 3);
-        usize index = 0;
-        while index < count {
-            usize source_record = first + index;
-            semantic_predeclare_source(
-                project_source, project_root, module_data, modules,
-                source_data, module_index, source_record, type_data, types
-            );
-            index = index + 1;
-        }
-        module_index = module_index + 1;
-    }
-    timings.declarations_ms =
-        process.monotonic_milliseconds() - phase_started;
-    phase_started = process.monotonic_milliseconds();
-    module_index = 0;
-    while module_index < modules.length {
-        usize first = read_record_field(module_data, module_index, 2);
-        usize count = read_record_field(module_data, module_index, 3);
-        usize index = 0;
-        while index < count {
-            usize source_record = first + index;
-            resolution_collect_source_symbols(
-                project_source, project_root, module_data, modules,
-                source_data, module_index, source_record,
-                type_data, types, symbol_data, detail_data, symbols
-            );
-            index = index + 1;
-        }
-        module_index = module_index + 1;
-    }
-    timings.resolution_ms =
-        process.monotonic_milliseconds() - phase_started;
-    phase_started = process.monotonic_milliseconds();
-    usize acceptance_errors = 0;
-    if validate_semantics {
-        module_index = 0;
-        while module_index < modules.length {
-            usize first = read_record_field(module_data, module_index, 2);
-            usize count = read_record_field(module_data, module_index, 3);
-            usize index = 0;
-            while index < count {
-                usize source_record = first + index;
-                flow_precheck_source(
-                    project_source, project_root, module_data, modules,
-                    source_data, module_index, source_record,
-                    type_data, symbol_data, detail_data, symbols,
-                    error_data, errors
-                );
-                flow_validate_source(
-                    project_source, project_root, module_data, modules,
-                    source_data, module_index, source_record,
-                    type_data, symbol_data, detail_data, symbols,
-                    error_data, errors
-                );
-                index = index + 1;
-            }
-            module_index = module_index + 1;
-        }
-        acceptance_errors = acceptance_validate_project(
-            project_source, project_root, module_data, modules,
-            source_data, sources, type_data, types,
-            symbol_data, detail_data, symbols
-        );
-    }
-    timings.validation_ms =
-        process.monotonic_milliseconds() - phase_started;
-    if errors.length + acceptance_errors != 0 { return 1; }
-
-    usize entry = ir_entry_module(
-        project_source, project_root, source_data,
-        symbol_data, detail_data, symbols, modules.length
-    );
-    usize next_value = 1;
-    IrContext base = IrContext{
+    return IrContext{
         project_source = project_source,
         project_root = project_root,
         source = "",
@@ -351,6 +214,168 @@ unsafe i32 emit_bootstrap_d_mode(
         profile_syntax_candidates = 0,
         profile_symbol_candidates = 0
     };
+}
+
+unsafe i32 emit_bootstrap_d_mode(
+    text project_path,
+    text output_directory,
+    bool validate_semantics,
+    bool c_backend,
+    ref BuildTimings timings
+) {
+    usize total_started = process.monotonic_milliseconds();
+    usize phase_started = total_started;
+    text project_source;
+    status loaded_project = file.read_text(project_path, out project_source);
+    if !loaded_project.ok { return 1; }
+    usize project_length = text.byte_length(project_source);
+    PackedBuffer modules = PackedBuffer{
+        length = 0, capacity = project_length + 1
+    };
+    PackedBuffer sources = PackedBuffer{
+        length = 0, capacity = project_length + 1
+    };
+    ptr byte module_data = memory.alloc(modules.capacity * record_stride());
+    scope memory.free(module_data);
+    ptr byte source_data = memory.alloc(sources.capacity * record_stride());
+    scope memory.free(source_data);
+    if !project_parse_json(
+        project_source, module_data, modules, source_data, sources
+    ) { return 1; }
+    project_sort_modules(project_source, module_data, modules);
+    text project_root = path.directory(project_path);
+    usize total_source_length = 0;
+    usize module_index = 0;
+    while module_index < modules.length {
+        usize source_first = read_record_field(module_data, module_index, 2);
+        usize source_count = read_record_field(module_data, module_index, 3);
+        usize source_index = 0;
+        while source_index < source_count {
+            text source;
+            status loaded = project_read_source_record(
+                project_source, project_root, source_data,
+                source_first + source_index, out source
+            );
+            if !loaded.ok { return 1; }
+            total_source_length = total_source_length + text.byte_length(source);
+            source_index = source_index + 1;
+        }
+        module_index = module_index + 1;
+    }
+    timings.project_load_ms =
+        process.monotonic_milliseconds() - phase_started;
+    timings.source_files = sources.length;
+    timings.source_bytes = total_source_length;
+
+    usize semantic_type_capacity =
+        total_source_length / 8 + project_length + 65536;
+    usize semantic_symbol_capacity =
+        total_source_length / 4 + project_length + 65536;
+    usize semantic_error_capacity =
+        total_source_length / 4 + project_length + 65536;
+    usize output_capacity = total_source_length * 8 + project_length + 65536;
+    PackedBuffer types = PackedBuffer{
+        length = 0, capacity = semantic_type_capacity
+    };
+    PackedBuffer symbols = PackedBuffer{
+        length = 0, capacity = semantic_symbol_capacity
+    };
+    PackedBuffer errors = PackedBuffer{
+        length = 0, capacity = semantic_error_capacity
+    };
+    ptr byte type_data = memory.alloc(types.capacity * record_stride());
+    scope memory.free(type_data);
+    ptr byte symbol_data = memory.alloc(symbols.capacity * record_stride());
+    scope memory.free(symbol_data);
+    ptr byte detail_data = memory.alloc(symbols.capacity * record_stride());
+    scope memory.free(detail_data);
+    ptr byte error_data = memory.alloc(errors.capacity * record_stride());
+    scope memory.free(error_data);
+    semantic_initialize_types(type_data, types);
+
+    phase_started = process.monotonic_milliseconds();
+    module_index = 0;
+    while module_index < modules.length {
+        usize first = read_record_field(module_data, module_index, 2);
+        usize count = read_record_field(module_data, module_index, 3);
+        usize index = 0;
+        while index < count {
+            usize source_record = first + index;
+            semantic_predeclare_source(
+                project_source, project_root, module_data, modules,
+                source_data, module_index, source_record, type_data, types
+            );
+            index = index + 1;
+        }
+        module_index = module_index + 1;
+    }
+    timings.declarations_ms =
+        process.monotonic_milliseconds() - phase_started;
+    phase_started = process.monotonic_milliseconds();
+    module_index = 0;
+    while module_index < modules.length {
+        usize first = read_record_field(module_data, module_index, 2);
+        usize count = read_record_field(module_data, module_index, 3);
+        usize index = 0;
+        while index < count {
+            usize source_record = first + index;
+            resolution_collect_source_symbols(
+                project_source, project_root, module_data, modules,
+                source_data, module_index, source_record,
+                type_data, types, symbol_data, detail_data, symbols
+            );
+            index = index + 1;
+        }
+        module_index = module_index + 1;
+    }
+    timings.resolution_ms =
+        process.monotonic_milliseconds() - phase_started;
+    phase_started = process.monotonic_milliseconds();
+    usize acceptance_errors = 0;
+    if validate_semantics {
+        module_index = 0;
+        while module_index < modules.length {
+            usize first = read_record_field(module_data, module_index, 2);
+            usize count = read_record_field(module_data, module_index, 3);
+            usize index = 0;
+            while index < count {
+                usize source_record = first + index;
+                flow_precheck_source(
+                    project_source, project_root, module_data, modules,
+                    source_data, module_index, source_record,
+                    type_data, symbol_data, detail_data, symbols,
+                    error_data, errors
+                );
+                flow_validate_source(
+                    project_source, project_root, module_data, modules,
+                    source_data, module_index, source_record,
+                    type_data, symbol_data, detail_data, symbols,
+                    error_data, errors
+                );
+                index = index + 1;
+            }
+            module_index = module_index + 1;
+        }
+        acceptance_errors = acceptance_validate_project(
+            project_source, project_root, module_data, modules,
+            source_data, sources, type_data, types,
+            symbol_data, detail_data, symbols
+        );
+    }
+    timings.validation_ms =
+        process.monotonic_milliseconds() - phase_started;
+    if errors.length + acceptance_errors != 0 { return 1; }
+
+    usize entry = ir_entry_module(
+        project_source, project_root, source_data,
+        symbol_data, detail_data, symbols, modules.length
+    );
+    usize next_value = 1;
+    IrContext base = backend_base_context(
+        project_source, project_root, module_data, modules,
+        source_data, type_data, types, symbol_data, detail_data,
+        symbols, next_value
+    );
     phase_started = process.monotonic_milliseconds();
     if c_backend {
         i32 c_result = c_emit_project(

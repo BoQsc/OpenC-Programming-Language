@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **PLANNED; IMPLEMENTATION BLOCKED ON SH-14**
+Status: **ACTIVE; SH-14 PASSED, SH-15 ACTIVE**
 
 OpenC's Windows path must preserve a strict separation:
 

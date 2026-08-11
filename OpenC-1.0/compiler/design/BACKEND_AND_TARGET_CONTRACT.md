@@ -18,8 +18,8 @@ bootstrap backend may lower to D, LLVM IR, C, or another representation only
 when inserted checks make OpenC behavior authoritative. Such a backend is an
 implementation technique, not source compatibility. The active Windows
 independence path replaces the C/TinyCC bootstrap backend with first-party x64
-machine-code and PE/COFF writers after the blocking SH-14 throughput/stability
-gate passes.
+machine-code and PE/COFF writers. The blocking SH-14 throughput/stability gate
+has passed, and SH-15 ABI/encoder implementation is active.
 
 Active initial target:
 

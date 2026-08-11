@@ -64,6 +64,97 @@ static ocb_file_fast_entry ocb_file_fast_cache[OCB_FAST_CACHE_CAPACITY];
 static uintptr_t ocb_fast_cache_generation = 1u;
 static oc_text ocb_executable_directory_value;
 static oc_text ocb_lsp_message;
+static CRITICAL_SECTION ocb_cache_lock;
+static volatile LONG ocb_parallel_active;
+static volatile LONG ocb_parallel_type_growth;
+static DWORD ocb_parallel_heap_tls = TLS_OUT_OF_INDEXES;
+
+static void ocb_fast_cache_invalidate(void);
+
+typedef struct ocb_parallel_job {
+    void *state;
+    uintptr_t worker;
+    ocb_compiler_parallel_callback callback;
+    int32_t result;
+} ocb_parallel_job;
+
+static void ocb_parallel_job_run(ocb_parallel_job *job) {
+    HANDLE private_heap = HeapCreate(HEAP_NO_SERIALIZE, 0u, 0u);
+    if (private_heap == NULL || ocb_parallel_heap_tls == TLS_OUT_OF_INDEXES ||
+        !TlsSetValue(ocb_parallel_heap_tls, private_heap)) {
+        if (private_heap != NULL) HeapDestroy(private_heap);
+        job->result = 3;
+        return;
+    }
+    job->result = job->callback(job->state, job->worker);
+    (void)TlsSetValue(ocb_parallel_heap_tls, NULL);
+    HeapDestroy(private_heap);
+}
+
+static DWORD WINAPI ocb_parallel_job_main(void *raw_job) {
+    ocb_parallel_job *job = (ocb_parallel_job *)raw_job;
+    ocb_parallel_job_run(job);
+    return 0u;
+}
+
+int32_t ocb_compiler_parallel_jobs(
+    void *state,
+    uintptr_t worker_count,
+    void *raw_callback
+) {
+    HANDLE handles[7];
+    ocb_parallel_job jobs[8];
+    uintptr_t created = 0u;
+    uintptr_t worker;
+    int32_t result = 0;
+    ocb_compiler_parallel_callback callback =
+        (ocb_compiler_parallel_callback)raw_callback;
+    if (callback == NULL || state == NULL) return 3;
+    if (worker_count > 8u) worker_count = 8u;
+    if (worker_count == 0u) return 0;
+    InterlockedExchange(&ocb_parallel_type_growth, 0);
+    InterlockedExchange(&ocb_parallel_active, 1);
+    for (worker = 0u; worker < worker_count; ++worker) {
+        jobs[worker].state = state;
+        jobs[worker].worker = worker;
+        jobs[worker].callback = callback;
+        jobs[worker].result = 3;
+    }
+    for (worker = 1u; worker < worker_count; ++worker) {
+        handles[created] = CreateThread(
+            NULL, 0u, ocb_parallel_job_main, &jobs[worker], 0u, NULL
+        );
+        if (handles[created] == NULL) {
+            result = 3;
+            break;
+        }
+        ++created;
+    }
+    ocb_parallel_job_run(&jobs[0]);
+    if (created != 0u) {
+        (void)WaitForMultipleObjects(
+            (DWORD)created, handles, TRUE, INFINITE
+        );
+        for (worker = 0u; worker < created; ++worker) {
+            CloseHandle(handles[worker]);
+        }
+    }
+    InterlockedExchange(&ocb_parallel_active, 0);
+    EnterCriticalSection(&ocb_cache_lock);
+    ocb_fast_cache_invalidate();
+    LeaveCriticalSection(&ocb_cache_lock);
+    if (InterlockedCompareExchange(
+            &ocb_parallel_type_growth, 0, 0
+        ) != 0) {
+        return 2;
+    }
+    for (worker = 0u; worker < worker_count; ++worker) {
+        if (jobs[worker].result != 0 && result == 0) {
+            result = jobs[worker].result;
+        }
+    }
+    return result;
+}
 
 uintptr_t ocb_compiler_semantic_derived_type_impl(
     uint8_t *type_data,
@@ -86,6 +177,10 @@ uintptr_t ocb_compiler_semantic_derived_type_impl(
             return type_id;
         }
     }
+    if (InterlockedCompareExchange(&ocb_parallel_active, 0, 0) != 0) {
+        InterlockedExchange(&ocb_parallel_type_growth, 1);
+        return 0u;
+    }
     records += *type_count * 5u;
     records[0] = kind;
     records[1] = element;
@@ -95,6 +190,171 @@ uintptr_t ocb_compiler_semantic_derived_type_impl(
     type_id = *type_count;
     *type_count = type_id + 1u;
     return type_id;
+}
+
+static bool ocb_compiler_ir_node_contains_impl(
+    const uintptr_t *records,
+    uintptr_t parent,
+    uintptr_t child
+) {
+    const uintptr_t *parent_record = records + parent * 5u;
+    const uintptr_t *child_record = records + child * 5u;
+    return child_record[1] >= parent_record[1] &&
+        child_record[1] + child_record[2] <=
+            parent_record[1] + parent_record[2];
+}
+
+static bool ocb_compiler_ir_expression_kind_impl(uintptr_t kind) {
+    return kind >= 27u && kind <= 52u && kind != 28u;
+}
+
+uintptr_t ocb_compiler_ir_root_in_bounds_impl(
+    uint8_t *syntax_data,
+    uintptr_t syntax_length,
+    uint8_t *expression_nodes,
+    uintptr_t expression_count,
+    uint8_t *expression_start_heads,
+    uint8_t *expression_start_next,
+    uintptr_t expression_start_capacity,
+    uint8_t *expression_next_start,
+    uintptr_t *profile_expression_positions,
+    uintptr_t start,
+    uintptr_t end
+) {
+    const uintptr_t *records = (const uintptr_t *)syntax_data;
+    if (expression_start_heads != NULL && expression_start_next != NULL &&
+        expression_start_capacity != 0u) {
+        const uintptr_t *heads = (const uintptr_t *)expression_start_heads;
+        const uintptr_t *next = (const uintptr_t *)expression_start_next;
+        const uintptr_t *next_start =
+            (const uintptr_t *)expression_next_start;
+        uintptr_t selected = syntax_length;
+        uintptr_t selected_length = 0u;
+        uintptr_t cursor = start;
+        if (next_start == NULL) {
+            *profile_expression_positions += end - start;
+        }
+        while (cursor < end && cursor < expression_start_capacity) {
+            uintptr_t encoded;
+            if (next_start != NULL) {
+                uintptr_t next_encoded = next_start[cursor];
+                if (next_encoded == 0u) break;
+                cursor = next_encoded - 1u;
+                if (cursor >= end) break;
+                *profile_expression_positions += 1u;
+            }
+            encoded = heads[cursor];
+            while (encoded != 0u) {
+                uintptr_t record = encoded - 1u;
+                uintptr_t node_end = cursor + records[record * 5u + 2u];
+                if (node_end <= end) {
+                    uintptr_t length = node_end - cursor;
+                    if (selected == syntax_length || length > selected_length ||
+                        (length == selected_length && record < selected)) {
+                        selected = record;
+                        selected_length = length;
+                    }
+                }
+                encoded = next[record];
+            }
+            cursor += 1u;
+        }
+        return selected;
+    }
+    {
+        const uintptr_t *nodes = (const uintptr_t *)expression_nodes;
+        uintptr_t selected = syntax_length;
+        uintptr_t selected_length = 0u;
+        uintptr_t candidate_count = expression_nodes != NULL
+            ? expression_count : syntax_length;
+        uintptr_t index;
+        for (index = 0u; index < candidate_count; ++index) {
+            uintptr_t record = expression_nodes != NULL ? nodes[index] : index;
+            uintptr_t node_start = records[record * 5u + 1u];
+            uintptr_t node_end = node_start + records[record * 5u + 2u];
+            if (ocb_compiler_ir_expression_kind_impl(
+                    records[record * 5u]
+                ) && node_start >= start && node_end <= end) {
+                uintptr_t length = node_end - node_start;
+                if (selected == syntax_length || length > selected_length) {
+                    selected = record;
+                    selected_length = length;
+                }
+            }
+        }
+        return selected;
+    }
+}
+
+uintptr_t ocb_compiler_ir_first_name_impl(
+    uint8_t *syntax_data,
+    uintptr_t syntax_length,
+    uint8_t *expression_start_heads,
+    uint8_t *expression_start_next,
+    uintptr_t expression_start_capacity,
+    uint8_t *expression_next_start,
+    uintptr_t *profile_expression_positions,
+    uint8_t *name_nodes,
+    uintptr_t name_count,
+    uintptr_t event
+) {
+    const uintptr_t *records = (const uintptr_t *)syntax_data;
+    if (expression_start_heads != NULL && expression_start_next != NULL &&
+        expression_start_capacity != 0u) {
+        const uintptr_t *heads = (const uintptr_t *)expression_start_heads;
+        const uintptr_t *next = (const uintptr_t *)expression_start_next;
+        const uintptr_t *next_start =
+            (const uintptr_t *)expression_next_start;
+        uintptr_t event_start = records[event * 5u + 1u];
+        uintptr_t event_end = event_start + records[event * 5u + 2u];
+        uintptr_t cursor = event_start;
+        if (next_start == NULL) {
+            *profile_expression_positions += event_end - event_start;
+        }
+        while (cursor < event_end && cursor < expression_start_capacity) {
+            uintptr_t encoded;
+            uintptr_t selected = syntax_length;
+            if (next_start != NULL) {
+                uintptr_t next_encoded = next_start[cursor];
+                if (next_encoded == 0u) break;
+                cursor = next_encoded - 1u;
+                if (cursor >= event_end) break;
+                *profile_expression_positions += 1u;
+            }
+            encoded = heads[cursor];
+            while (encoded != 0u) {
+                uintptr_t record = encoded - 1u;
+                if (records[record * 5u] == 27u &&
+                    ocb_compiler_ir_node_contains_impl(records, event, record) &&
+                    (selected == syntax_length || record < selected)) {
+                    selected = record;
+                }
+                encoded = next[record];
+            }
+            if (selected < syntax_length) return selected;
+            cursor += 1u;
+        }
+        return syntax_length;
+    }
+    {
+        const uintptr_t *nodes = (const uintptr_t *)name_nodes;
+        uintptr_t selected = syntax_length;
+        uintptr_t selected_start = UINTPTR_MAX;
+        uintptr_t candidate_count = name_nodes != NULL ? name_count : syntax_length;
+        uintptr_t index;
+        for (index = 0u; index < candidate_count; ++index) {
+            uintptr_t record = name_nodes != NULL ? nodes[index] : index;
+            if (records[record * 5u] == 27u &&
+                ocb_compiler_ir_node_contains_impl(records, event, record)) {
+                uintptr_t start = records[record * 5u + 1u];
+                if (start < selected_start) {
+                    selected = record;
+                    selected_start = start;
+                }
+            }
+        }
+        return selected;
+    }
 }
 
 static oc_text ocb_copy_text(oc_text value) {
@@ -303,6 +563,8 @@ static oc_status ocb_failure(int32_t code, const char *message) {
 }
 
 void ocb_process_initialize(int argc, char **argv) {
+    InitializeCriticalSection(&ocb_cache_lock);
+    ocb_parallel_heap_tls = TlsAlloc();
     if (argc > 0) {
         oc_process_initialize(argc - 1, argv + 1);
     } else {
@@ -364,14 +626,50 @@ void ocb_process_finalize(void) {
         ocb_executable_directory_value = OC_TEXT_EMPTY;
     }
     oc_process_finalize();
+    if (ocb_parallel_heap_tls != TLS_OUT_OF_INDEXES) {
+        TlsFree(ocb_parallel_heap_tls);
+        ocb_parallel_heap_tls = TLS_OUT_OF_INDEXES;
+    }
+    DeleteCriticalSection(&ocb_cache_lock);
 }
 
 void *ocb_memory_alloc(uintptr_t size) {
+    if (ocb_parallel_heap_tls != TLS_OUT_OF_INDEXES) {
+        HANDLE private_heap = (HANDLE)TlsGetValue(ocb_parallel_heap_tls);
+        if (private_heap != NULL) {
+            void *allocation = HeapAlloc(
+                private_heap, HEAP_NO_SERIALIZE,
+                (SIZE_T)(size == 0u ? 1u : size)
+            );
+            if (allocation == NULL) {
+                oc_checked_failure(
+                    OC_STATUS_OUT_OF_MEMORY,
+                    "OPENC-COMPILER-PARALLEL-ALLOC-001",
+                    "compiler worker scratch allocation failed",
+                    0
+                );
+            }
+            return allocation;
+        }
+    }
     return oc_memory_allocate(size, 1u);
 }
 
 void ocb_memory_free(void *allocation) {
-    ocb_fast_cache_invalidate();
+    if (ocb_parallel_heap_tls != TLS_OUT_OF_INDEXES) {
+        HANDLE private_heap = (HANDLE)TlsGetValue(ocb_parallel_heap_tls);
+        if (private_heap != NULL) {
+            if (allocation != NULL) {
+                (void)HeapFree(private_heap, HEAP_NO_SERIALIZE, allocation);
+            }
+            return;
+        }
+    }
+    if (InterlockedCompareExchange(&ocb_parallel_active, 0, 0) == 0) {
+        EnterCriticalSection(&ocb_cache_lock);
+        ocb_fast_cache_invalidate();
+        LeaveCriticalSection(&ocb_cache_lock);
+    }
     oc_memory_release(allocation);
 }
 
@@ -497,12 +795,30 @@ oc_status ocb_file_read_text_cached(oc_text path, oc_text *value) {
     if (value == NULL) {
         return ocb_failure(OC_STATUS_INVALID_ARGUMENT, "text output is null");
     }
+    if (InterlockedCompareExchange(&ocb_parallel_active, 0, 0) != 0) {
+        hash = ocb_hash_text(path);
+        if (ocb_text_cache_capacity != 0u) {
+            slot = ocb_text_cache_slot(
+                ocb_text_cache, ocb_text_cache_capacity, hash, path
+            );
+            if (ocb_text_cache[slot].path.data != NULL) {
+                *value = ocb_text_cache[slot].value;
+                return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
+            }
+        }
+        return ocb_failure(
+            OC_STATUS_NOT_FOUND,
+            "compiler parallel source cache miss"
+        );
+    }
+    EnterCriticalSection(&ocb_cache_lock);
     fast_slot = ocb_file_fast_slot(path);
     if (ocb_file_fast_cache[fast_slot].generation ==
             ocb_fast_cache_generation &&
         ocb_file_fast_cache[fast_slot].path_data == path.data &&
         ocb_file_fast_cache[fast_slot].path_length == path.length) {
         *value = ocb_file_fast_cache[fast_slot].value;
+        LeaveCriticalSection(&ocb_cache_lock);
         return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
     }
     hash = ocb_hash_text(path);
@@ -517,11 +833,15 @@ oc_status ocb_file_read_text_cached(oc_text path, oc_text *value) {
             ocb_file_fast_cache[fast_slot].path_data = path.data;
             ocb_file_fast_cache[fast_slot].path_length = path.length;
             ocb_file_fast_cache[fast_slot].value = *value;
+            LeaveCriticalSection(&ocb_cache_lock);
             return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
         }
     }
     result = ocb_file_read_text(path, value);
-    if (!oc_status_ok(result)) return result;
+    if (!oc_status_ok(result)) {
+        LeaveCriticalSection(&ocb_cache_lock);
+        return result;
+    }
     if (ocb_text_cache_capacity == 0u ||
         (ocb_text_cache_length + 1u) * 2u > ocb_text_cache_capacity) {
         ocb_text_cache_reserve(
@@ -541,6 +861,7 @@ oc_status ocb_file_read_text_cached(oc_text path, oc_text *value) {
     ocb_file_fast_cache[fast_slot].path_data = path.data;
     ocb_file_fast_cache[fast_slot].path_length = path.length;
     ocb_file_fast_cache[fast_slot].value = *value;
+    LeaveCriticalSection(&ocb_cache_lock);
     return result;
 }
 
@@ -561,13 +882,33 @@ oc_text ocb_path_join(oc_text left, oc_text right) {
     uintptr_t slot;
     oc_owned_bytes bytes;
     oc_status result;
+    if (InterlockedCompareExchange(&ocb_parallel_active, 0, 0) != 0) {
+        hash = ocb_hash_text_pair(left, right);
+        if (ocb_path_cache_capacity != 0u) {
+            slot = ocb_path_cache_slot(
+                ocb_path_cache, ocb_path_cache_capacity, hash, left, right
+            );
+            if (ocb_path_cache[slot].value.data != NULL) {
+                return ocb_path_cache[slot].value;
+            }
+        }
+        oc_checked_failure(
+            OC_STATUS_NOT_FOUND,
+            "OPENC-COMPILER-PARALLEL-CACHE-001",
+            "compiler parallel path cache miss",
+            0
+        );
+    }
+    EnterCriticalSection(&ocb_cache_lock);
     if (ocb_path_fast_cache[fast_slot].generation ==
             ocb_fast_cache_generation &&
         ocb_path_fast_cache[fast_slot].left_data == left.data &&
         ocb_path_fast_cache[fast_slot].left_length == left.length &&
         ocb_path_fast_cache[fast_slot].right_data == right.data &&
         ocb_path_fast_cache[fast_slot].right_length == right.length) {
-        return ocb_path_fast_cache[fast_slot].value;
+        oc_text value = ocb_path_fast_cache[fast_slot].value;
+        LeaveCriticalSection(&ocb_cache_lock);
+        return value;
     }
     hash = ocb_hash_text_pair(left, right);
     if (ocb_path_cache_capacity != 0u) {
@@ -583,7 +924,11 @@ oc_text ocb_path_join(oc_text left, oc_text right) {
             ocb_path_fast_cache[fast_slot].right_length = right.length;
             ocb_path_fast_cache[fast_slot].value =
                 ocb_path_cache[slot].value;
-            return ocb_path_cache[slot].value;
+            {
+                oc_text value = ocb_path_cache[slot].value;
+                LeaveCriticalSection(&ocb_cache_lock);
+                return value;
+            }
         }
     }
     result = oc_path_join(left, right, &bytes);
@@ -612,7 +957,11 @@ oc_text ocb_path_join(oc_text left, oc_text right) {
     ocb_path_fast_cache[fast_slot].right_data = right.data;
     ocb_path_fast_cache[fast_slot].right_length = right.length;
     ocb_path_fast_cache[fast_slot].value = ocb_path_cache[slot].value;
-    return ocb_path_cache[slot].value;
+    {
+        oc_text value = ocb_path_cache[slot].value;
+        LeaveCriticalSection(&ocb_cache_lock);
+        return value;
+    }
 }
 
 oc_text ocb_path_directory(oc_text value) {

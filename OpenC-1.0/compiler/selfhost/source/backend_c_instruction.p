@@ -33,6 +33,16 @@ unsafe void c_put_call_argument(
     usize index,
     ptr byte value_types
 ) {
+    if c_builtin_is(
+            context, instruction,
+            "c_parallel_jobs", "openc.selfhost.main.c_parallel_jobs"
+        ) && index == 2 {
+        d_put(
+            buffer,
+            "(void *)oc_openc_selfhost_main_c_emit_parallel_worker"
+        );
+        return;
+    }
     usize parameter = c_call_parameter(context, instruction, index);
     usize value = d_operand_value(context, instruction, index);
     if parameter < context.symbols.length {

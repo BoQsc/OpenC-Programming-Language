@@ -1,16 +1,28 @@
 # OpenC development changelog
 
-## Post-RC9 — throughput-first Windows independence roadmap
+## Post-RC9 — SH-14 compiler throughput convergence and stability
 
-- made SH-14 compiler throughput convergence and stability the sole active
-  engineering priority; its clean self-rebuild must reach a five-run median of
-  at most 30 seconds, remain within 45 seconds on every run, stay within 1.25x
-  of the pinned same-host D reference, and pass 20 consecutive byte-identical
-  closures before new feature or platform implementation begins;
-- recorded the preliminary 2026-08-04 same-host forced D-reference build at
-  25.462 seconds and required a reproducible cross-compiler benchmark before
-  treating that observation as formal evidence;
-- specified the post-SH-14 Windows path: Microsoft x64 ABI and machine encoder,
+- reduced the authoritative five-run clean OpenC-native self-rebuild median
+  from the SH-13 500.311-second baseline to 4.137 seconds, with a 4.854-second
+  maximum and deterministic generated source and executable output;
+- measured the pinned same-host D compiler at a 12.731-second median, making
+  the OpenC-native result 0.325x the D time and passing the D-class throughput
+  target with substantial margin;
+- added deterministic eight-worker source lowering, byte-addressed compiler
+  slicing, native lowering/emission hot paths, bounded memory storage, and a
+  direct resolution-owner index to remove repeated whole-project scans;
+- passed nine small builds at a 0.158-second median, seven exact-dependency
+  one-source rebuilds at a 0.158-second median, proportional scaling through
+  the full compiler, and 20 consecutive byte-identical closed rebuilds;
+- retained the 256 MiB private-memory and 32 MiB working-set ceilings, passing
+  at 250,437,632 and 26,804,224 bytes respectively;
+- preserved 278/278 native conformance, 4/4 maintained programs, all SH-9
+  through SH-12 workflow contracts, and the 13/13 full native workflow without
+  required D-seed execution;
+- completed SH-14 and activated SH-15 Microsoft x64 ABI and machine-code
+  substrate work as the first implementation stage of the Windows independence
+  path;
+- specified the subsequent Windows path: Microsoft x64 ABI and machine encoder,
   direct PE32+ emission, CRT-free OpenC runtime, OpenC Win32 Metadata reader,
   generated raw bindings, idiomatic UTF-8 Windows modules, full compiler
   self-hosting through the native backend, and removal of TinyCC from required

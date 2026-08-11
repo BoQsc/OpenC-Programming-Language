@@ -149,17 +149,13 @@ language-service completeness is **PASS**; its evidence is in
 `release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md`. SH-12 native semantic
 language intelligence is **PASS**; its evidence is in
 `release/SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md`. SH-13 native compiler
-throughput instrumentation and implementation independence is **PASS**. The
-remaining 500.311-second clean rebuild is not accepted as D/C-class
-throughput; convergence and stability are the blocking SH-14 milestone.
-Native editor integration and language-service resilience are deferred to
-SH-23.
-
-The in-progress SH-14 indexed-lowering checkpoint now closes byte-for-byte in
-80.149 seconds for 96 sources, passes 278/278 conformance and 4/4 maintained
-programs, and remains explicitly **not complete**. IR lowering still consumes
-67.718 seconds, so generated-code quality and deterministic parallel source
-lowering are next; the <=30-second clean-rebuild gate is unchanged.
+throughput instrumentation and implementation independence is **PASS**.
+SH-14 compiler throughput convergence and stability is also **PASS**: the
+five-run clean median is 4.137 seconds versus D's 12.731 seconds, small and
+one-source medians are 0.158 seconds, worst scaling is 2.112x, closure is
+20/20, native conformance is 278/278, and maintained programs are 4/4.
+SH-15 Windows x64 ABI and machine-code substrate is active. Native editor
+integration and language-service resilience remain deferred to SH-23.
 
 The same-host SH-14 clean-build comparator is:
 
@@ -172,3 +168,7 @@ release D sample, fingerprints both input trees and tool versions, verifies
 repeat-build byte closure, and enforces the absolute and D-relative clean-build
 gates together. Omit `--enforce` when recording a failing optimization
 baseline; command failures still return a nonzero status.
+
+The extended SH-14 regression gates are reproduced by
+`benchmark_sh14_extended.py`; complete evidence is recorded in
+`release/SH14_COMPILER_THROUGHPUT_CONVERGENCE_EVIDENCE.md`.

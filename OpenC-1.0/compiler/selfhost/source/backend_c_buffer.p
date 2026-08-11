@@ -229,175 +229,198 @@ unsafe void c_put_call_name(
     usize two = read_record_field(
         context.instruction_detail, instruction, 2
     );
+    text compiler_source;
+    usize compiler_start = 0;
+    usize compiler_length = 0;
+    bool compiler_name = d_compiler_call_span(
+        context, kind, one, two,
+        out compiler_source, out compiler_start, out compiler_length
+    );
     bool compiler_constant = d_compiler_call_prefix_is(
         context, kind, one, two, "ir_op_"
     );
     if !compiler_constant && d_compiler_call_prefix_is(
         context, kind, one, two, "flow_rule_"
     ) {
-        compiler_constant = !d_compiler_call_is(
-            context, kind, one, two, "flow_rule_text"
-        );
+        compiler_constant = !(compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "flow_rule_text"
+        ));
     }
     if !compiler_constant && d_compiler_call_prefix_is(
         context, kind, one, two, "flow_phase_"
     ) {
-        compiler_constant = !d_compiler_call_is(
-            context, kind, one, two, "flow_phase_text"
-        );
+        compiler_constant = !(compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "flow_phase_text"
+        ));
     }
     if !compiler_constant && d_compiler_call_prefix_is(
         context, kind, one, two, "resolution_symbol_"
     ) {
-        compiler_constant = !d_compiler_call_is(
-            context, kind, one, two, "resolution_symbol_name_equals"
-        ) && !d_compiler_call_is(
-            context, kind, one, two, "resolution_symbol_kind_name"
-        );
+        compiler_constant = !(compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "resolution_symbol_name_equals"
+        )) && !(compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "resolution_symbol_kind_name"
+        ));
     }
     if compiler_constant {
         d_put(buffer, "ocb_compiler_");
         d_put_compiler_call_short_name(context, buffer, kind, one, two);
         return;
     }
-    if d_compiler_call_is(
-        context, kind, one, two, "semantic_type_error"
-    ) { d_put(buffer, "ocb_compiler_semantic_type_error"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "semantic_type_void"
-    ) { d_put(buffer, "ocb_compiler_semantic_type_void"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "semantic_type_bool"
-    ) { d_put(buffer, "ocb_compiler_semantic_type_bool"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "semantic_type_byte"
-    ) { d_put(buffer, "ocb_compiler_semantic_type_byte"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "semantic_type_text"
-    ) { d_put(buffer, "ocb_compiler_semantic_type_text"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "semantic_type_status"
-    ) { d_put(buffer, "ocb_compiler_semantic_type_status"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "semantic_builtin_type"
-    ) { d_put(buffer, "ocb_compiler_semantic_builtin_type"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "semantic_derived_type"
-    ) { d_put(buffer, "ocb_compiler_semantic_derived_type"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "flow_statement_kind"
-    ) { d_put(buffer, "ocb_compiler_flow_statement_kind"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "flow_expression_kind"
-    ) { d_put(buffer, "ocb_compiler_flow_expression_kind"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "resolution_expression_kind"
-    ) { d_put(buffer, "ocb_compiler_resolution_expression_kind"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "flow_node_operator"
-    ) { d_put(buffer, "ocb_compiler_flow_node_operator"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_type_element"
-    ) { d_put(buffer, "ocb_compiler_ir_type_element"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "acceptance_kind"
-    ) { d_put(buffer, "ocb_compiler_acceptance_kind"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "acceptance_integer"
-    ) { d_put(buffer, "ocb_compiler_acceptance_integer"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "d_put_byte"
-    ) { d_put(buffer, "ocb_compiler_d_put_byte"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "d_put"
-    ) { d_put(buffer, "ocb_compiler_d_put"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "d_put_slice"
-    ) { d_put(buffer, "ocb_compiler_d_put_slice"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "d_put_mangled_slice"
-    ) { d_put(buffer, "ocb_compiler_d_put_mangled_slice"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "d_put_usize"
-    ) { d_put(buffer, "ocb_compiler_d_put_usize"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "record_stride"
-    ) { d_put(buffer, "ocb_compiler_record_stride"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "read_usize"
-    ) { d_put(buffer, "ocb_compiler_read_usize"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "write_usize"
-    ) { d_put(buffer, "ocb_compiler_write_usize"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "read_record_field"
-    ) { d_put(buffer, "ocb_compiler_read_record_field"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "write_record_field"
-    ) { d_put(buffer, "ocb_compiler_write_record_field"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "byte_at_or_zero"
-    ) { d_put(buffer, "ocb_compiler_byte_at_or_zero"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "semantic_node_contains"
-    ) { d_put(buffer, "ocb_compiler_node_contains"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "starts_with_ascii"
-    ) { d_put(buffer, "ocb_compiler_starts_with_ascii"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "span_equals_ascii"
-    ) { d_put(buffer, "ocb_compiler_span_equals_ascii"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "semantic_spans_equal"
-    ) { d_put(buffer, "ocb_compiler_semantic_spans_equal"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "flow_span_has_byte"
-    ) { d_put(buffer, "ocb_compiler_flow_span_has_byte"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "resolution_pack_span"
-    ) { d_put(buffer, "ocb_compiler_pack_span"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_add_block"
-    ) { d_put(buffer, "ocb_compiler_ir_add_block"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_add_operand"
-    ) { d_put(buffer, "ocb_compiler_ir_add_operand"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_operand_empty"
-    ) { d_put(buffer, "ocb_compiler_ir_operand_empty"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_operand_block"
-    ) { d_put(buffer, "ocb_compiler_ir_operand_block"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_emit_instruction"
-    ) { d_put(buffer, "ocb_compiler_ir_emit_instruction"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_emit_value"
-    ) { d_put(buffer, "ocb_compiler_ir_emit_value"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_emit_void"
-    ) { d_put(buffer, "ocb_compiler_ir_emit_void"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_block_parent"
-    ) { d_put(buffer, "ocb_compiler_ir_block_parent"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_control_parent"
-    ) { d_put(buffer, "ocb_compiler_ir_control_parent"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_resolve_name"
-    ) { d_put(buffer, "ocb_compiler_ir_resolve_name"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_select_call"
-    ) { d_put(buffer, "ocb_compiler_ir_select_call"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_node_type"
-    ) { d_put(buffer, "ocb_compiler_ir_node_type"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_left_expression"
-    ) { d_put(buffer, "ocb_compiler_ir_left_expression"); return; }
-    if d_compiler_call_is(
-        context, kind, one, two, "ir_right_expression"
-    ) { d_put(buffer, "ocb_compiler_ir_right_expression"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "semantic_type_error"
+        )) { d_put(buffer, "ocb_compiler_semantic_type_error"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "semantic_type_void"
+        )) { d_put(buffer, "ocb_compiler_semantic_type_void"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "semantic_type_bool"
+        )) { d_put(buffer, "ocb_compiler_semantic_type_bool"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "semantic_type_byte"
+        )) { d_put(buffer, "ocb_compiler_semantic_type_byte"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "semantic_type_text"
+        )) { d_put(buffer, "ocb_compiler_semantic_type_text"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "semantic_type_status"
+        )) { d_put(buffer, "ocb_compiler_semantic_type_status"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "semantic_builtin_type"
+        )) { d_put(buffer, "ocb_compiler_semantic_builtin_type"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "semantic_derived_type"
+        )) { d_put(buffer, "ocb_compiler_semantic_derived_type"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "flow_statement_kind"
+        )) { d_put(buffer, "ocb_compiler_flow_statement_kind"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "flow_expression_kind"
+        )) { d_put(buffer, "ocb_compiler_flow_expression_kind"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "resolution_expression_kind"
+        )) { d_put(buffer, "ocb_compiler_resolution_expression_kind"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "flow_node_operator"
+        )) { d_put(buffer, "ocb_compiler_flow_node_operator"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_type_element"
+        )) { d_put(buffer, "ocb_compiler_ir_type_element"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "acceptance_kind"
+        )) { d_put(buffer, "ocb_compiler_acceptance_kind"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "acceptance_integer"
+        )) { d_put(buffer, "ocb_compiler_acceptance_integer"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "d_put_byte"
+        )) { d_put(buffer, "ocb_compiler_d_put_byte"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "d_put"
+        )) { d_put(buffer, "ocb_compiler_d_put"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "d_put_slice"
+        )) { d_put(buffer, "ocb_compiler_d_put_slice"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "d_put_mangled_slice"
+        )) { d_put(buffer, "ocb_compiler_d_put_mangled_slice"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "d_put_usize"
+        )) { d_put(buffer, "ocb_compiler_d_put_usize"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "record_stride"
+        )) { d_put(buffer, "ocb_compiler_record_stride"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "read_usize"
+        )) { d_put(buffer, "ocb_compiler_read_usize"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "write_usize"
+        )) { d_put(buffer, "ocb_compiler_write_usize"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "read_record_field"
+        )) { d_put(buffer, "ocb_compiler_read_record_field"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "write_record_field"
+        )) { d_put(buffer, "ocb_compiler_write_record_field"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "byte_at_or_zero"
+        )) { d_put(buffer, "ocb_compiler_byte_at_or_zero"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "semantic_node_contains"
+        )) { d_put(buffer, "ocb_compiler_node_contains"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "starts_with_ascii"
+        )) { d_put(buffer, "ocb_compiler_starts_with_ascii"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "span_equals_ascii"
+        )) { d_put(buffer, "ocb_compiler_span_equals_ascii"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "semantic_spans_equal"
+        )) { d_put(buffer, "ocb_compiler_semantic_spans_equal"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "flow_span_has_byte"
+        )) { d_put(buffer, "ocb_compiler_flow_span_has_byte"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "project_slice"
+        )) { d_put(buffer, "ocb_compiler_project_slice"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "resolution_pack_span"
+        )) { d_put(buffer, "ocb_compiler_pack_span"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_add_block"
+        )) { d_put(buffer, "ocb_compiler_ir_add_block"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_add_operand"
+        )) { d_put(buffer, "ocb_compiler_ir_add_operand"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_operand_empty"
+        )) { d_put(buffer, "ocb_compiler_ir_operand_empty"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_operand_block"
+        )) { d_put(buffer, "ocb_compiler_ir_operand_block"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_emit_instruction"
+        )) { d_put(buffer, "ocb_compiler_ir_emit_instruction"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_emit_value"
+        )) { d_put(buffer, "ocb_compiler_ir_emit_value"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_emit_void"
+        )) { d_put(buffer, "ocb_compiler_ir_emit_void"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_block_parent"
+        )) { d_put(buffer, "ocb_compiler_ir_block_parent"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_control_parent"
+        )) { d_put(buffer, "ocb_compiler_ir_control_parent"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_resolve_name"
+        )) { d_put(buffer, "ocb_compiler_ir_resolve_name"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_select_call"
+        )) { d_put(buffer, "ocb_compiler_ir_select_call"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_node_type"
+        )) { d_put(buffer, "ocb_compiler_ir_node_type"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_left_expression"
+        )) { d_put(buffer, "ocb_compiler_ir_left_expression"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_right_expression"
+        )) { d_put(buffer, "ocb_compiler_ir_right_expression"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_root_in_bounds"
+        )) { d_put(buffer, "ocb_compiler_ir_root_in_bounds"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "ir_first_name"
+        )) { d_put(buffer, "ocb_compiler_ir_first_name"); return; }
+    if (compiler_name && span_equals_ascii(
+            compiler_source, compiler_start, compiler_length, "c_parallel_jobs"
+        )) { d_put(buffer, "ocb_compiler_parallel_jobs"); return; }
+    if kind == 3 {
+        c_put_qualified_symbol(context, buffer, one);
+        return;
+    }
     if c_builtin_is(context, instruction, "io.print", "system.io.print") {
         c_put_io_name(context, buffer, instruction, value_types, false);
         return;

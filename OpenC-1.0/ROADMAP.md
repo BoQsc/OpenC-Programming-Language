@@ -8,22 +8,23 @@ Native-provider verification remain optional future target work.
 
 ## Critical-path priority
 
-Compiler throughput and stability are the only active engineering priority.
-SH-13 reduced the measured rebuild but left a 500.311-second clean self-build,
-roughly twenty times the preliminary 25.462-second same-host forced D reference
-build. That is not release-quality compiler responsiveness. SH-14 must close
-the gap under objective clean, small, incremental, scaling, memory, closure,
-and 20-run stability gates before implementation begins on the native backend,
-Windows bindings, editor, GUI, COM, WinRT, ARM64, Linux, or freestanding work.
+SH-14 closed the compiler-throughput gap: the five-run OpenC-native clean
+median is 4.137 seconds versus 12.731 seconds for the pinned same-host D
+reference, with small/incremental, proportional-scaling, bounded-memory,
+deterministic closure, and 20-run stability gates all passing. Those limits
+remain enforced as regression budgets.
 
-The blocking acceptance contract and engineering sequence are in
-`compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md`. The post-SH-14 Windows
+SH-15 Windows x64 ABI and machine-code substrate is the active engineering
+priority. It starts the first-party backend path without expanding the Core
+language with Windows-specific types and without making Linux or freestanding
+blocking targets. The completed throughput contract is in
+`compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md`; the active Windows
 independence architecture is in
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 ## Completed self-hosting path
 
-SH-0 through SH-13 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-14 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -95,9 +96,16 @@ Indexed syntax, expression, declaration, and symbol lookups reduce the
 byte-identical generated C and compiler executables. OpenC `.p` is the sole
 canonical compiler authority; standalone archives contain no D/Python source,
 Python bytecode, or DUB manifests. TinyCC remains an explicit backend
-dependency and the remaining D/C-class throughput gap stays open.
-That gap is the blocking SH-14 milestone; the SH-13 result is a profiling and
-algorithmic foundation, not permission to treat multi-minute builds as done.
+dependency. The SH-13 result was the profiling and algorithmic foundation for
+SH-14, not permission to treat multi-minute builds as done.
+
+SH-14 is complete. Deterministic parallel source lowering, byte-addressed
+compiler slicing, native hot paths, bounded memory, and direct resolution-owner
+indexing reduce the five-run clean median to 4.137 seconds, with a 4.854-second
+maximum and a 0.325 ratio to the pinned D median. Small and exact-dependency
+one-source builds both reach 0.158-second medians; the worst scaling doubling
+is 2.112x; 20 chained closures retain identical compiler/generated-source
+hashes; conformance remains 278/278 and maintained programs remain 4/4.
 
 SH-2A through SH-2D and full SH-2 pass. Lexer evidence covers 288 canonical
 `.p` sources plus 16 probes (304/304). Parser evidence covers those canonical
@@ -191,7 +199,7 @@ IR reach closure. Exact evidence and reproduction commands are in
      runtime or compiler requirement;
    - measure the TinyCC phase separately and disclose it as the remaining
      temporary native-code backend dependency.
-7. **SH-14 compiler throughput convergence and stability — next; blocking**
+7. **SH-14 compiler throughput convergence and stability — complete**
    - replace the preliminary comparison with a reproducible same-host OpenC,
      D-reference, and generated-C benchmark suite;
    - reduce the five-run clean self-rebuild median to at most 30 seconds and
@@ -206,7 +214,7 @@ IR reach closure. Exact evidence and reproduction commands are in
      stable clean rebuilds;
    - freeze typed Core IR, target, runtime, ownership, and build-record
      contracts before first-party native backend implementation begins.
-8. **SH-15 Windows x64 ABI and machine-code substrate — blocked by SH-14**
+8. **SH-15 Windows x64 ABI and machine-code substrate — next; active**
    - implement the Microsoft x64 register/stack convention, LLP64 layout,
      aggregates, callbacks, variadics, nonvolatile registers, and unwind rules;
    - add a typed x64 instruction encoder, register/stack assignment, and

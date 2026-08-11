@@ -205,6 +205,43 @@ unsafe bool d_compiler_call_is(
     return span_equals_ascii(context.source, one, two, expected);
 }
 
+unsafe bool d_compiler_call_span(
+    ref IrContext context,
+    usize kind,
+    usize one,
+    usize two,
+    out text source,
+    out usize start,
+    out usize length
+) {
+    source = "";
+    start = 0;
+    length = 0;
+    if kind == 3 {
+        if !d_symbol_module_name_is(
+            context, one, "openc.selfhost.main"
+        ) { return false; }
+        source = d_symbol_source(context, one);
+        if text.byte_length(source) == 0 { return false; }
+        start = read_record_field(context.symbol_data, one, 2);
+        length = read_record_field(context.symbol_data, one, 3);
+        return true;
+    }
+    if !d_module_name_is(
+        context, context.module_index, "openc.selfhost.main"
+    ) { return false; }
+    if kind == 2 {
+        source = ir_static_text(one);
+        length = text.byte_length(source);
+        return true;
+    }
+    if kind != 1 && kind != 7 && kind != 8 { return false; }
+    source = context.source;
+    start = one;
+    length = two;
+    return true;
+}
+
 unsafe bool d_compiler_call_prefix_is(
     ref IrContext context,
     usize kind,

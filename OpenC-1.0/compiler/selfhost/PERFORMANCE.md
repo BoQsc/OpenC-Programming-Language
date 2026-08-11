@@ -4,6 +4,31 @@ Date: 2026-07-26
 Host: Windows 10.0.19045, x86-64
 Scope: OpenC-native compiler rebuilding `compiler/selfhost/openc.project.json`
 
+## SH-14 D/C-class convergence (2026-08-10)
+
+SH-14 is **PASS**. The final closed 99-source compiler has SHA-256
+`cac25c7221a3b183fe4a9a1c66a8edb927af9dd4e08879c5cf7ed0cc7b3af8fc`;
+its deterministic generated C has SHA-256
+`2fbc757171dcec184cc8e7a151c911f932b3d51e66ec761f1715e044a927b141`.
+
+The enforced five-run clean median is 4.137 seconds (maximum 4.854 seconds),
+while the pinned same-host D reference median is 12.731 seconds. OpenC is
+0.325x the D time. Small builds have a 0.158-second median and 0.184-second
+maximum; exact-fingerprint one-source rebuilds have a 0.158-second median.
+The 0.25/0.5/1/2 MiB scaling ratios are 1.303x, 1.446x, and 2.112x.
+
+Twenty chained rebuilds preserve exact executable and generated-source hashes.
+Peak private memory is 250,437,632 bytes and peak working set is 26,804,224
+bytes, both within the 256 MiB/32 MiB ceilings. Native conformance is 278/278,
+maintained programs are 4/4, and the full native workflow is 13/13.
+
+The largest speedup came from preserving the compiler's byte-addressed source
+span model at `project_slice`: compiler-internal slices now use direct checked
+byte spans instead of repeatedly scanning UTF-8 scalar positions. Deterministic
+parallel source lowering and a linear source-position declaration-owner index
+complete the clean-build and scaling convergence. Full evidence is in
+`release/SH14_COMPILER_THROUGHPUT_CONVERGENCE_EVIDENCE.md`.
+
 ## SH-13 closed native measurement
 
 Date: 2026-07-30
@@ -45,7 +70,7 @@ not in the sub-second TinyCC invocation. Replacing TinyCC with a first-party
 object/link backend remains future architecture work; SH-13 does not claim
 that backend independence is complete.
 
-## SH-14 blocking convergence target
+## SH-14 convergence target (historical)
 
 The existing 900-second regression ceiling prevents further deterioration; it
 is not an acceptable compiler-speed target. A preliminary same-host forced

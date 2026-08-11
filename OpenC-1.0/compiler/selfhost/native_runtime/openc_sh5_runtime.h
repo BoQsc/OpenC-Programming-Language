@@ -18,6 +18,16 @@ void ocb_memory_free(void *allocation);
 uintptr_t ocb_memory_load_usize(const void *address);
 void ocb_memory_store_usize(void *address, uintptr_t value);
 
+typedef int32_t (*ocb_compiler_parallel_callback)(
+    void *state,
+    uintptr_t worker
+);
+int32_t ocb_compiler_parallel_jobs(
+    void *state,
+    uintptr_t worker_count,
+    void *callback
+);
+
 uintptr_t ocb_compiler_semantic_derived_type_impl(
     uint8_t *type_data,
     uintptr_t *type_count,
@@ -26,6 +36,32 @@ uintptr_t ocb_compiler_semantic_derived_type_impl(
     uintptr_t array_length,
     bool const_qualified,
     bool preserve_name
+);
+
+uintptr_t ocb_compiler_ir_root_in_bounds_impl(
+    uint8_t *syntax_data,
+    uintptr_t syntax_length,
+    uint8_t *expression_nodes,
+    uintptr_t expression_count,
+    uint8_t *expression_start_heads,
+    uint8_t *expression_start_next,
+    uintptr_t expression_start_capacity,
+    uint8_t *expression_next_start,
+    uintptr_t *profile_expression_positions,
+    uintptr_t start,
+    uintptr_t end
+);
+uintptr_t ocb_compiler_ir_first_name_impl(
+    uint8_t *syntax_data,
+    uintptr_t syntax_length,
+    uint8_t *expression_start_heads,
+    uint8_t *expression_start_next,
+    uintptr_t expression_start_capacity,
+    uint8_t *expression_next_start,
+    uintptr_t *profile_expression_positions,
+    uint8_t *name_nodes,
+    uintptr_t name_count,
+    uintptr_t event
 );
 
 /*
@@ -71,7 +107,12 @@ uintptr_t ocb_compiler_semantic_derived_type_impl(
     ((start) <= (source).length && \
      (span_length) <= (source).length - (start) && \
      (span_length) != 0u && memchr( \
-        (source).data + (start), (int)(expected), (span_length)) != NULL)
+         (source).data + (start), (int)(expected), (span_length)) != NULL)
+#define ocb_compiler_project_slice(source, start, span_length) \
+    (((start) > (source).length || \
+      (span_length) > (source).length - (start)) \
+        ? (oc_text){NULL, 0u} \
+        : (oc_text){(source).data + (start), (span_length)})
 
 /*
  * Compiler-private output-buffer primitives. The C emitter invokes these for
@@ -372,7 +413,7 @@ uintptr_t ocb_compiler_semantic_derived_type_impl(
     context, opcode, node, text_kind, text_one, text_two, operand_first, \
     operand_count) \
     ocb_compiler_ir_emit_instruction( \
-        (context), (opcode), 0u, \
+        (context), (opcode), ocb_compiler_semantic_type_void(), \
         ocb_compiler_read_record_field((context)->syntax_data, (node), 1u), \
         ocb_compiler_read_record_field((context)->syntax_data, (node), 2u), \
         (text_kind), (text_one), (text_two), (operand_first), \
@@ -447,8 +488,26 @@ uintptr_t ocb_compiler_semantic_derived_type_impl(
         ? ocb_compiler_read_usize( \
             (context)->right_expression_cache, \
             (parent) * sizeof(uintptr_t)) \
-        : oc_openc_selfhost_main_ir_right_expression( \
-            (context), (parent), (operator_end)))
+         : oc_openc_selfhost_main_ir_right_expression( \
+             (context), (parent), (operator_end)))
+#define ocb_compiler_ir_root_in_bounds(context, start, end) \
+    ocb_compiler_ir_root_in_bounds_impl( \
+        (context)->syntax_data, (context)->syntax.length, \
+        (context)->expression_nodes, (context)->expression_count, \
+        (context)->expression_start_heads, \
+        (context)->expression_start_next, \
+        (context)->expression_start_capacity, \
+        (context)->expression_next_start, \
+        &(context)->profile_expression_positions, (start), (end))
+#define ocb_compiler_ir_first_name(context, event) \
+    ocb_compiler_ir_first_name_impl( \
+        (context)->syntax_data, (context)->syntax.length, \
+        (context)->expression_start_heads, \
+        (context)->expression_start_next, \
+        (context)->expression_start_capacity, \
+        (context)->expression_next_start, \
+        &(context)->profile_expression_positions, \
+        (context)->name_nodes, (context)->name_count, (event))
 
 void ocb_io_print_text(oc_text value);
 void ocb_io_print_i64(int64_t value);
