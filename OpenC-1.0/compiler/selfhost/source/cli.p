@@ -103,6 +103,7 @@ void cli_print_help() {
     io.println("  openc version");
     io.println("  openc target");
     io.println("  openc explain RULE-ID");
+    io.println("  openc --windows-x64-substrate REPORT.json");
     io.println("  openc help");
 }
 

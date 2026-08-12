@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **ACTIVE; SH-14 PASSED, SH-15 ACTIVE**
+Status: **ACTIVE; SH-15 PASSED, SH-16 ACTIVE**
 
 OpenC's Windows path must preserve a strict separation:
 
@@ -41,6 +41,14 @@ package verification, or releases.
 
 ## SH-15: Windows x64 ABI and machine-code substrate
 
+Status: **PASS**. The canonical target record carries the Microsoft x64/LLP64
+contract, and 104 OpenC compiler source units now include the typed encoder,
+relocations, ABI classifier/layout engine, unwind generator, and deterministic
+probe emitter. The executable verifier passes 25/25 checks, including integer,
+floating, aggregate, callback, variadic, stack-alignment, nonvolatile-register,
+layout, relocation, and registered-unwind observations. Evidence is in
+`release/SH15_WINDOWS_X64_ABI_MACHINE_CODE_EVIDENCE.md`.
+
 The target record must encode Microsoft's x64 ABI, including:
 
 - integer/pointer arguments in `RCX`, `RDX`, `R8`, and `R9`;
@@ -75,6 +83,8 @@ non-leaf calls. Microsoft-produced objects or SDK probes may act as test
 oracles but are not shipped dependencies.
 
 ## SH-16: minimal PE32+ executable and OpenC runtime
+
+Status: **ACTIVE**.
 
 Implement a deterministic PE32+ image writer with the minimum complete set:
 

@@ -67,7 +67,10 @@ SH-14 compiler throughput convergence and stability is complete. Its
 absolute/relative clean-build, small/incremental, scaling, closure, memory,
 correctness, workflow, and 20-run stability gates pass; evidence is in
 `SH14_COMPILER_THROUGHPUT_CONVERGENCE_EVIDENCE.md`. SH-15 Windows x64 ABI and
-machine-code substrate is now the active milestone in
+machine-code substrate is also complete: its ABI, LLP64 layout, typed encoder,
+relocation, unwind, deterministic closure, and executable-probe gates pass
+25/25. Evidence is in `SH15_WINDOWS_X64_ABI_MACHINE_CODE_EVIDENCE.md`. SH-16
+PE32+ and CRT-free runtime work is now active in
 `../compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 The complete publication set is assembled by

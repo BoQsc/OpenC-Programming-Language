@@ -473,28 +473,60 @@ if self_host_gates.get("SH-14") == "PASS" and (
         "runs, 20 closed rebuilds, conformance, and maintained programs"
     )
 
+sh15_gate = next(
+    (gate for gate in self_hosting.get("gates", [])
+     if gate.get("id") == "SH-15"),
+    {},
+)
+sh15_claims = self_hosting.get("claims", {})
+if self_host_gates.get("SH-15") != "PASS":
+    errors.append("Windows x64 ABI and machine-code SH-15 gate must pass")
+if self_host_gates.get("SH-15") == "PASS" and (
+        sh15_gate.get("native_compiler_source_files") != 104
+        or sh15_gate.get("verification_checks_passed") != 25
+        or sh15_gate.get("verification_checks_total") != 25
+        or sh15_gate.get("native_conformance_fixtures_passed") != 278
+        or sh15_gate.get("maintained_programs_passed") != 4
+        or sh15_gate.get("full_workflow_tasks_passed") != 13
+        or not sh15_gate.get("stage2_stage3_executable_byte_equal")
+        or not sh15_gate.get("stage2_stage3_generated_c_byte_equal")
+        or sh15_gate.get("external_assembler_invoked")
+        or sh15_gate.get("external_linker_invoked_for_substrate")
+        or not sh15_claims.get("windows_x64_abi_and_machine_code_substrate")
+        or not sh15_claims.get("microsoft_x64_abi_model")
+        or not sh15_claims.get("typed_x64_instruction_encoder")
+        or not sh15_claims.get("first_party_x64_relocations")
+        or not sh15_claims.get("x64_unwind_version_one")
+        or not sh15_claims.get("sh15_executable_abi_probes")
+        or not sh15_claims.get("sh15_deterministic_substrate")):
+    errors.append(
+        "SH-15 PASS requires the OpenC x64 ABI model, encoder, relocations, "
+        "unwind records, deterministic executable probes, closure, and "
+        "Windows Hosted correctness gates"
+    )
+
 planned = self_hosting.get("planned_milestones", {})
 active_plan = planned.get("active", {})
 if (
-    active_plan.get("id") != "SH-15"
+    active_plan.get("id") != "SH-16"
     or active_plan.get("name")
-    != "windows_x64_abi_and_machine_code_substrate"
+    != "minimal_pe32_plus_and_crt_free_runtime"
     or active_plan.get("status") != "NEXT_ACTIVE"
     or active_plan.get("plan")
     != "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md"
-    or active_plan.get("blocked_by_sh14")
-    or not active_plan.get("microsoft_x64_calling_convention_required")
-    or not active_plan.get("typed_x64_instruction_encoder_required")
-    or not active_plan.get("abi_probe_suite_required")
+    or active_plan.get("blocked_by_sh15")
+    or not active_plan.get("deterministic_pe32_plus_writer_required")
+    or not active_plan.get("crt_free_entry_and_runtime_required")
+    or not active_plan.get("utf8_memory_and_file_proof_required")
 ):
     errors.append(
-        "SH-15 Windows x64 ABI and machine-code substrate must be active"
+        "SH-16 PE32+ and CRT-free OpenC runtime must be active"
     )
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
-    "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
+    "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME"
 ):
-    errors.append("development state must name Windows x64 ABI work as SH-15")
+    errors.append("development state must name PE32+ and runtime work as SH-16")
 development_sh14 = development_self_hosting.get("sh14_acceptance", {})
 if (
     development_sh14.get("status") != "PASS"
@@ -503,20 +535,46 @@ if (
     or development_sh14.get("consecutive_closed_rebuilds_observed") != 20
 ):
     errors.append("development state must record the passed SH-14 evidence")
+development_sh15 = development_self_hosting.get("sh15_acceptance", {})
+if (
+    development_sh15.get("status") != "PASS"
+    or development_sh15.get("verification_checks_passed") != 25
+    or development_sh15.get("verification_checks_total") != 25
+    or not development_sh15.get("stage2_stage3_byte_equal")
+):
+    errors.append("development state must record the passed SH-15 evidence")
 windows_plan = planned.get("windows_independence_plan", {})
 if (
     windows_plan.get("implementation_blocked_until_sh14_pass")
     or not windows_plan.get("implementation_unblocked_by_sh14_pass")
+    or not windows_plan.get("sh15_completed")
     or windows_plan.get("active_milestone")
-    != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
+    != "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME"
     or windows_plan.get("sequence", [None])[0]
     != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
     or windows_plan.get("sequence", [None])[-1]
     != "SH-23_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
 ):
     errors.append(
-        "Windows independence must be unblocked at SH-15 with editor work last"
+        "Windows independence must advance to SH-16 with editor work last"
     )
+
+windows_target = json.loads((
+    ROOT / "compiler/targets/windows-x86_64.json"
+).read_text(encoding="utf-8"))
+abi_contract = windows_target.get("abi_contract", {})
+if (
+    windows_target.get("abi") != "win64"
+    or abi_contract.get("schema") != "openc.windows_x64_abi.v1"
+    or abi_contract.get("data_model", {}).get("name") != "LLP64"
+    or abi_contract.get("arguments", {}).get("shadow_space_bytes") != 32
+    or abi_contract.get("stack", {}).get("body_alignment_bytes") != 16
+    or abi_contract.get("unwind", {}).get("version") != 1
+    or abi_contract.get("unwind", {}).get("runtime_function_entry_bytes") != 12
+    or windows_target.get("evidence_state")
+    != "SH15_ABI_ENCODER_RUNTIME_PROBES_PASS"
+):
+    errors.append("Windows x64 target record must contain the passed SH-15 ABI contract")
 
 budgets = json.loads((
     ROOT / "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json"

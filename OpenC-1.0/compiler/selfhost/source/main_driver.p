@@ -260,6 +260,10 @@ unsafe i32 main() {
     if arguments == 2 && process.argument(0) == "explain" {
         return cli_explain(process.argument(1));
     }
+    if arguments == 2 &&
+        process.argument(0) == "--windows-x64-substrate" {
+        return emit_windows_x64_substrate_report(process.argument(1));
+    }
     if arguments >= 2 && process.argument(0) == "fmt" {
         return cli_format_command();
     }

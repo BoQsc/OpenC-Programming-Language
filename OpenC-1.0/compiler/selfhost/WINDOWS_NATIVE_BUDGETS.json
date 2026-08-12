@@ -1,6 +1,6 @@
 {
   "schema": "openc.windows_native_performance_budgets.v1",
-  "milestone": "SH-14_COMPILER_THROUGHPUT_CONVERGENCE_AND_STABILITY",
+  "milestone": "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE",
   "target": "windows-x86_64-hosted",
   "reference_host": {
     "operating_system": "Windows 10.0.19045",
@@ -84,5 +84,19 @@
     "self_rebuild_ceiling_seconds": 30.0,
     "elapsed_regression_disclosed": false,
     "memory_ceiling_changed": false
+  },
+  "sh15_regression_observation": {
+    "status": "PASS",
+    "measurement_record": "build-output/selfhost-sh15/final-throughput-suite-v2.json",
+    "compiler_source_files": 104,
+    "clean_runs": 5,
+    "clean_median_seconds": 6.218,
+    "clean_maximum_seconds": 7.156,
+    "d_reference_median_seconds": 16.862,
+    "relative_to_d_median": 0.369,
+    "peak_private_bytes": 244424704,
+    "peak_working_set_bytes": 27963392,
+    "sh14_best_baseline_retained": true,
+    "all_existing_budgets_pass": true
   }
 }

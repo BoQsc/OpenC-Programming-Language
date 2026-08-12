@@ -4,6 +4,23 @@ Date: 2026-07-26
 Host: Windows 10.0.19045, x86-64
 Scope: OpenC-native compiler rebuilding `compiler/selfhost/openc.project.json`
 
+## SH-15 regression result (2026-08-12)
+
+The closed 104-source SH-15 compiler remains inside every SH-14 throughput and
+memory budget after adding the Microsoft x64 ABI model, encoder, relocations,
+unwind generator, and probes. Its five-run clean median is 6.218 seconds and
+maximum is 7.156 seconds, versus 16.862 seconds for the pinned same-host D
+reference (0.369x). Peak private memory is 244,424,704 bytes and peak working
+set is 27,963,392 bytes. Every compiler and generated C output is byte
+identical. The SH-14 4.137-second best baseline remains unchanged.
+
+The compiler SHA-256 is
+`b9edd79017cb92c2f1d3e87fab83c065460c3f966da0745fe602c61b5edcec1e`;
+generated C SHA-256 is
+`1b6fe066792f97299d25f76bc6fd1ef69fe1a04cd1e834262e545d2202c13350`.
+Complete evidence is in
+`release/SH15_WINDOWS_X64_ABI_MACHINE_CODE_EVIDENCE.md`.
+
 ## SH-14 D/C-class convergence (2026-08-10)
 
 SH-14 is **PASS**. The final closed 99-source compiler has SHA-256

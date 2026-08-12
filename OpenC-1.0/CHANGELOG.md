@@ -1,5 +1,31 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-15 Windows x64 ABI and machine-code substrate
+
+- added an OpenC-authored Microsoft x64 ABI classifier covering positional
+  integer/XMM arguments, stack slots, 32-byte shadow space, alignment,
+  aggregates, hidden returns, callbacks, function pointers, and variadics;
+- encoded the Windows LLP64 model plus natural/packed structures, explicit
+  offsets, unions, and bitfield storage in the canonical target contract;
+- added a typed first-party x64 instruction encoder, forward/backward relative
+  and absolute relocations, and deterministic machine-code output without an
+  external assembler or linker;
+- added version-one x64 unwind generation, ordered runtime-function records,
+  nonvolatile integer/vector saves, and Windows runtime registration/lookup;
+- executed emitted code for integer, float, aggregate, hidden-return, callback,
+  stack-alignment, `RBX`, `XMM6`, variadic, relocation, and unwind probes;
+- passed all 25/25 SH-15 checks, Stage 2/3 byte-identical compiler and generated
+  C closure, 278/278 conformance, 4/4 maintained programs, 35/35 Python tests,
+  and the 13/13 full native workflow without required D-seed execution;
+- retained every SH-14 performance budget at a 6.218-second five-run clean
+  median, 7.156-second maximum, 0.369x the pinned D median, and within the
+  256 MiB private/32 MiB working-set ceilings;
+- kept TinyCC explicitly required for the production C backend through SH-19;
+  its SH-15 ABI-oracle role is verification-only, while Linux/freestanding
+  remain optional future targets;
+- completed SH-15 and activated SH-16 deterministic PE32+ emission and the
+  CRT-free OpenC Windows runtime.
+
 ## Post-RC9 — SH-14 compiler throughput convergence and stability
 
 - reduced the authoritative five-run clean OpenC-native self-rebuild median

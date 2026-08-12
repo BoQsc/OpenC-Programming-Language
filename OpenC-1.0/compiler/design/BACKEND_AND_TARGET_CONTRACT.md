@@ -19,7 +19,8 @@ when inserted checks make OpenC behavior authoritative. Such a backend is an
 implementation technique, not source compatibility. The active Windows
 independence path replaces the C/TinyCC bootstrap backend with first-party x64
 machine-code and PE/COFF writers. The blocking SH-14 throughput/stability gate
-has passed, and SH-15 ABI/encoder implementation is active.
+and SH-15 ABI/encoder implementation have passed. SH-16 PE32+ and CRT-free
+runtime implementation is active.
 
 Active initial target:
 

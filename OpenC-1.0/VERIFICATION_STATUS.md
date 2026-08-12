@@ -262,7 +262,7 @@ compiler authority, and excludes D/Python source and DUB manifests from the
 standalone compiler. SH-14 reduces the five-run clean self-rebuild median to
 4.137 seconds, 0.325x the pinned same-host D median, while passing proportional
 scaling, bounded memory, exact-dependency incremental checks, and 20 consecutive
-byte-identical closures. Self-hosting SH-0 through SH-14 is complete for the
+byte-identical closures. Self-hosting SH-0 through SH-15 is complete for the
 declared Windows x86-64 Hosted scope.
 
 The immutable RC8 standalone record remains at 268 fixtures. RC9 packages and
@@ -271,7 +271,10 @@ and publishes the verified artifact set. SH-14 is the verified post-RC9
 mainline successor and its compiler throughput convergence and stability gate
 passes in full: clean-build D-class comparison, small/incremental latency,
 proportional scaling, byte-identical closure, and the 20-run stability gate.
-SH-15 Windows x64 ABI and machine-code substrate is now active. TinyCC remains
-the explicitly disclosed backend dependency until the later native-backend
-exit milestone; editor integration is deferred to SH-23. Linux and
-freestanding remain optional future targets.
+SH-15 Windows x64 ABI and machine-code substrate passes 25/25 checks covering
+the LLP64 model, arguments and returns, callbacks, variadics, layout,
+nonvolatile registers, typed instruction bytes, relocations, executable probes,
+and registered version-one unwind data. SH-16 PE32+ and CRT-free OpenC runtime
+work is now active. TinyCC remains the explicitly disclosed backend dependency
+until SH-19; editor integration is deferred to SH-23. Linux and freestanding
+remain optional future targets.

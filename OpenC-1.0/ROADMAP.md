@@ -14,17 +14,17 @@ reference, with small/incremental, proportional-scaling, bounded-memory,
 deterministic closure, and 20-run stability gates all passing. Those limits
 remain enforced as regression budgets.
 
-SH-15 Windows x64 ABI and machine-code substrate is the active engineering
-priority. It starts the first-party backend path without expanding the Core
-language with Windows-specific types and without making Linux or freestanding
-blocking targets. The completed throughput contract is in
-`compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md`; the active Windows
-independence architecture is in
+SH-15 now passes its 25/25 ABI, encoder, relocation, unwind, executable-probe,
+deterministic-closure, and performance-regression checks. SH-16 minimal PE32+
+and CRT-free runtime is the active engineering priority. It will turn that
+substrate into the first complete OpenC-owned Windows executable without
+expanding Core with Windows-specific types or making Linux/freestanding
+blocking targets. The Windows independence architecture is in
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 ## Completed self-hosting path
 
-SH-0 through SH-14 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-15 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -214,13 +214,13 @@ IR reach closure. Exact evidence and reproduction commands are in
      stable clean rebuilds;
    - freeze typed Core IR, target, runtime, ownership, and build-record
      contracts before first-party native backend implementation begins.
-8. **SH-15 Windows x64 ABI and machine-code substrate — next; active**
+8. **SH-15 Windows x64 ABI and machine-code substrate — complete**
    - implement the Microsoft x64 register/stack convention, LLP64 layout,
      aggregates, callbacks, variadics, nonvolatile registers, and unwind rules;
    - add a typed x64 instruction encoder, register/stack assignment, and
      relocations without requiring an external assembler;
    - keep Windows names and types in libraries, not the Core language.
-9. **SH-16 minimal PE32+ executable and CRT-free OpenC runtime**
+9. **SH-16 minimal PE32+ executable and CRT-free OpenC runtime — next; active**
    - emit a complete deterministic PE32+ image, imports, relocations, sections,
      subsystem fields, and x64 `.pdata`/`.xdata` directly;
    - own entry, initialization, command line, environment, exit, allocation,

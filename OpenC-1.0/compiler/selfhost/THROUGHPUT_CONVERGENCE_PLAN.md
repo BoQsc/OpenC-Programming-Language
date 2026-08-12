@@ -1,6 +1,6 @@
 # SH-14 compiler throughput convergence and stability
 
-Status: **PASS (2026-08-10); SH-15 IS NEXT**
+Status: **PASS (2026-08-10); SH-15 REGRESSION PASS, SH-16 ACTIVE**
 
 SH-14 is complete. The final five-run clean compiler median is 4.137 seconds
 against a 12.731-second pinned same-host D median (0.325x). The small-build
@@ -25,9 +25,11 @@ monitored run and 557.985 seconds in the phase-timed run. Of the latter,
 largest engineering problem.
 
 During SH-14, no editor, GUI, COM, WinRT, ARM64, Linux, freestanding, or broad
-Windows API work was allowed to displace the blocking throughput work. With
-the throughput and stability gate passed, SH-15 native-backend implementation
-is now active while the deferred targets retain their documented sequence.
+Windows API work was allowed to displace the blocking throughput work. SH-15
+subsequently passed the ABI/encoder milestone while retaining every throughput
+budget: its 104-source compiler has a 6.218-second five-run median, 7.156-second
+maximum, and 0.369x same-host D ratio. SH-16 PE32+ and CRT-free runtime work is
+now active while the deferred targets retain their documented sequence.
 
 ## Meaning of D/C-class throughput
 
@@ -202,6 +204,8 @@ together.
 - Skipping correctness, safety, or closure checks to improve benchmark numbers
   is forbidden.
 
-With SH-14 passed, `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md` is the
-active implementation sequence. SH-15 begins with the Windows x64 ABI and
-machine-code substrate; TinyCC removal remains targeted at SH-19.
+With SH-14 and SH-15 passed,
+`compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md` is the active implementation
+sequence. SH-16 now builds PE32+ emission and the CRT-free runtime on the
+completed Windows x64 ABI/machine-code substrate; TinyCC removal remains
+targeted at SH-19.

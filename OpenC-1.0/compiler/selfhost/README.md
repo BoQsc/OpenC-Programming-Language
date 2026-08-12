@@ -154,8 +154,11 @@ SH-14 compiler throughput convergence and stability is also **PASS**: the
 five-run clean median is 4.137 seconds versus D's 12.731 seconds, small and
 one-source medians are 0.158 seconds, worst scaling is 2.112x, closure is
 20/20, native conformance is 278/278, and maintained programs are 4/4.
-SH-15 Windows x64 ABI and machine-code substrate is active. Native editor
-integration and language-service resilience remain deferred to SH-23.
+SH-15 Windows x64 ABI and machine-code substrate is **PASS**: 104 OpenC source
+units implement the Microsoft x64/LLP64 model, typed encoder, relocations,
+unwind records, and deterministic probe report, with 25/25 static and
+executable checks. SH-16 PE32+ and CRT-free runtime work is active. Native
+editor integration and language-service resilience remain deferred to SH-23.
 
 The same-host SH-14 clean-build comparator is:
 
@@ -172,3 +175,12 @@ baseline; command failures still return a nonzero status.
 The extended SH-14 regression gates are reproduced by
 `benchmark_sh14_extended.py`; complete evidence is recorded in
 `release/SH14_COMPILER_THROUGHPUT_CONVERGENCE_EVIDENCE.md`.
+
+The complete SH-15 ABI and encoder gate is reproduced by:
+
+```text
+python scripts/verify_sh15_windows_x64.py --compiler PATH/TO/openc.exe --output build-output/selfhost-sh15/sh15-verification.json
+```
+
+Evidence is recorded in
+`release/SH15_WINDOWS_X64_ABI_MACHINE_CODE_EVIDENCE.md`.

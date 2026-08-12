@@ -16,7 +16,7 @@
       "source/acceptance.p", "source/acceptance_part2.p", "source/acceptance_part3.p", "source/acceptance_conditions.p", "source/acceptance_conditions_part2.p", "source/acceptance_conditions_part3.p", "source/acceptance_functions.p", "source/acceptance_project.p", "source/acceptance_project_part2.p", "source/acceptance_ranges.p", "source/acceptance_ranges_part2.p", "source/acceptance_ranges_part3.p", "source/acceptance_pointer.p", "source/acceptance_driver.p",
       "source/backend_buffer.p", "source/cli_format.p", "source/cli_lsp.p", "source/cli_lsp_semantic.p", "source/backend_buffer_part2.p", "source/backend_buffer_part3.p", "source/backend_instruction.p", "source/backend_declaration.p", "source/backend_declaration_part2.p",
       "source/backend_c_buffer.p", "source/backend_c_instruction.p", "source/backend_c_declaration.p", "source/backend_c_project.p", "source/backend_c_build.p",
-      "source/backend.p", "source/backend_c_parallel.p", "source/backend_c_parallel_timings.p", "source/backend_c_parallel_state.p", "source/backend_part2.p"
+      "source/backend.p", "source/backend_c_parallel.p", "source/backend_c_parallel_timings.p", "source/backend_c_parallel_state.p", "source/backend_x64_types.p", "source/backend_x64_abi.p", "source/backend_x64_encoder.p", "source/backend_x64_unwind.p", "source/backend_x64_probe.p", "source/backend_part2.p"
     ]
   },
   "standard_library_directory": "../../standard_library",

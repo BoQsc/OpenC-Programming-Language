@@ -6,7 +6,64 @@
   "pointer_width": 64,
   "endian": "little",
   "abi": "win64",
+  "abi_contract": {
+    "schema": "openc.windows_x64_abi.v1",
+    "data_model": {
+      "name": "LLP64",
+      "pointer_bits": 64,
+      "usize_bits": 64,
+      "windows_int_bits": 32,
+      "windows_long_bits": 32,
+      "windows_long_long_bits": 64,
+      "wchar_bits": 16
+    },
+    "arguments": {
+      "integer_registers": ["rcx", "rdx", "r8", "r9"],
+      "floating_registers": ["xmm0", "xmm1", "xmm2", "xmm3"],
+      "register_assignment": "parameter_position",
+      "shadow_space_bytes": 32,
+      "stack_slot_bytes": 8,
+      "stack_offset_base": "caller_rsp_before_call",
+      "first_stack_argument_offset": 32,
+      "aggregate_direct_sizes_bytes": [1, 2, 4, 8],
+      "other_aggregates": "indirect_caller_temporary_16_byte_aligned",
+      "vector128": "indirect_caller_temporary_16_byte_aligned",
+      "variadic_float_duplication": true
+    },
+    "returns": {
+      "integer_and_pointer_register": "rax",
+      "floating_and_vector_register": "xmm0",
+      "aggregate_direct_sizes_bytes": [1, 2, 4, 8],
+      "other_aggregates": "hidden_pointer_in_rcx_returned_in_rax",
+      "hidden_pointer_shifts_user_arguments": true
+    },
+    "registers": {
+      "volatile_integer": ["rax", "rcx", "rdx", "r8", "r9", "r10", "r11"],
+      "nonvolatile_integer": ["rbx", "rbp", "rsi", "rdi", "rsp", "r12", "r13", "r14", "r15"],
+      "volatile_vector": ["xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "xmm5"],
+      "nonvolatile_vector": ["xmm6", "xmm7", "xmm8", "xmm9", "xmm10", "xmm11", "xmm12", "xmm13", "xmm14", "xmm15"]
+    },
+    "stack": {
+      "body_alignment_bytes": 16,
+      "entry_rsp_modulo_16": 8,
+      "large_allocation_probe_threshold_bytes": 4096
+    },
+    "layout": {
+      "aggregate_alignment": "natural_capped_at_16_then_pack",
+      "explicit_offsets": true,
+      "unions": true,
+      "bitfield_storage_units_bytes": [1, 2, 4, 8]
+    },
+    "unwind": {
+      "version": 1,
+      "runtime_function_entry_bytes": 12,
+      "runtime_function_addresses": "image_relative_32",
+      "runtime_functions_sorted": true,
+      "xdata_alignment_bytes": 4,
+      "required_for": ["stack_allocation", "calls", "nonvolatile_register_changes"]
+    }
+  },
   "hosted": true,
   "runtime_provider": "runtime/windows",
-  "evidence_state": "BUILT_TESTED_RUNTIME_EXECUTED_RC1"
+  "evidence_state": "SH15_ABI_ENCODER_RUNTIME_PROBES_PASS"
 }
