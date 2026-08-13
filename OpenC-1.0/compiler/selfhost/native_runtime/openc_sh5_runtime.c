@@ -876,6 +876,29 @@ oc_status ocb_file_write_text(oc_text path, oc_text value) {
     return written;
 }
 
+oc_status ocb_file_write_bytes(
+    oc_text path,
+    const void *data,
+    uintptr_t length
+) {
+    oc_file file;
+    oc_status opened;
+    oc_status written;
+    if (data == NULL && length != 0u) {
+        return ocb_failure(
+            OC_STATUS_INVALID_ARGUMENT, "byte input is null"
+        );
+    }
+    opened = oc_file_open_write(path, true, &file);
+    if (!oc_status_ok(opened)) return opened;
+    written = oc_file_write_all(
+        &file, (oc_text){(const uint8_t *)data, length}
+    );
+    if (oc_status_ok(written)) written = oc_file_flush(&file);
+    oc_file_close(file);
+    return written;
+}
+
 oc_text ocb_path_join(oc_text left, oc_text right) {
     uintptr_t fast_slot = ocb_path_fast_slot(left, right);
     uintptr_t hash;

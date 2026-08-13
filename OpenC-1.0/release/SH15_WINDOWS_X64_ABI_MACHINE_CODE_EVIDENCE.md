@@ -105,9 +105,9 @@ The retained primary reports are:
 - `build-output/selfhost-sh15/final-throughput-suite-v2.json`;
 - `build-output/selfhost-sh15/full-workflow-final-v2/full-workflow-result.json`.
 
-## Next milestone
+## Subsequent milestone
 
-SH-16 is active: emit a deterministic PE32+ executable directly and supply the
-minimal CRT-free OpenC entry/runtime for UTF-8 output, process-heap allocation,
-and file access using documented Windows system DLLs. TinyCC removal remains
-SH-19, after the native path can rebuild the compiler itself.
+SH-16 has since passed its deterministic PE32+ and CRT-free runtime gate; its
+evidence is in `SH16_PE32_PLUS_CRT_FREE_RUNTIME_EVIDENCE.md`. SH-17 Win32
+Metadata and raw projection is active. TinyCC removal remains SH-19, after the
+native path can rebuild the compiler itself.

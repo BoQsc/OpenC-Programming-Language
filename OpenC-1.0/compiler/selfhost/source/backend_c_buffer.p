@@ -477,6 +477,9 @@ unsafe void c_put_call_name(
     if c_builtin_is(context, instruction, "file.write_text", "system.file.write_text") {
         d_put(buffer, "ocb_file_write_text"); return;
     }
+    if c_builtin_is(context, instruction, "file.write_bytes", "system.file.write_bytes") {
+        d_put(buffer, "ocb_file_write_bytes"); return;
+    }
     if c_builtin_is(context, instruction, "path.join", "system.path.join") {
         d_put(buffer, "ocb_path_join"); return;
     }

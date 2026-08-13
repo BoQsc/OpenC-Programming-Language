@@ -520,6 +520,12 @@ unsafe usize ir_node_type_uncached(
             ) || span_equals_ascii(
                 context.source, callee_start, callee_length,
                 "system.file.write_text"
+            ) || span_equals_ascii(
+                context.source, callee_start, callee_length,
+                "file.write_bytes"
+            ) || span_equals_ascii(
+                context.source, callee_start, callee_length,
+                "system.file.write_bytes"
             ) { return semantic_type_status(); }
             if span_equals_ascii(
                 context.source, callee_start, callee_length,

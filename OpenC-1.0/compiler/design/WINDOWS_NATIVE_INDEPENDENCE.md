@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **ACTIVE; SH-15 PASSED, SH-16 ACTIVE**
+Status: **ACTIVE; SH-16 PASSED, SH-17 ACTIVE**
 
 OpenC's Windows path must preserve a strict separation:
 
@@ -36,7 +36,7 @@ package verification, or releases.
 | TinyCC | required C compile/link backend | SH-19 self-hosts through the first-party x64/PE backend |
 | Python | external evidence orchestration | SH-20 replaces required workflows with OpenC-native tools |
 | D | historical bootstrap/audit material | SH-20 isolates it to an optional first-binary bootstrap lane |
-| C runtime/shim | current Hosted implementation substrate | SH-16/SH-19 replace required startup, allocation, I/O, and process paths |
+| C runtime/shim | still used by the general generated-C backend; absent from the SH-16 direct-PE proof | SH-19 moves all compiler-reachable native paths to the OpenC runtime |
 | Windows SDK | optional verification oracle | never a normal build or runtime dependency |
 
 ## SH-15: Windows x64 ABI and machine-code substrate
@@ -84,7 +84,10 @@ oracles but are not shipped dependencies.
 
 ## SH-16: minimal PE32+ executable and OpenC runtime
 
-Status: **ACTIVE**.
+Status: **PASS**. The canonical 107-source OpenC compiler writes a complete
+deterministic PE32+ image directly. The dedicated parser/execution verifier
+passes 34/34 checks. Evidence is in
+`release/SH16_PE32_PLUS_CRT_FREE_RUNTIME_EVIDENCE.md`.
 
 Implement a deterministic PE32+ image writer with the minimum complete set:
 
@@ -106,14 +109,30 @@ The first OpenC-owned runtime supplies:
 - panic/crash reporting;
 - the initial thread-local-storage contract.
 
-The blocking proof is one OpenC source program compiled by OpenC to a
+The completed blocking proof is one OpenC source program compiled by OpenC to a
 self-contained PE32+ executable that imports only documented Windows system
 DLLs, prints UTF-8 text, allocates/reallocates/frees memory, and reads/writes a
 file. It uses no C headers, C compiler, Microsoft CRT, external assembler, or
 external linker. The import audit rejects `ucrtbase.dll`, `vcruntime*.dll`,
 `msvcp*.dll`, and `msvcrt.dll`.
 
+The proof image is 6,144 bytes and imports only 15 functions from
+`KERNEL32.dll`. It contains deterministic `.text`, `.rdata`, `.data`,
+`.pdata`, `.xdata`, `.tls`, and `.reloc` sections, active TLS, version-one x64
+unwind records, `DIR64` relocations, and ASLR/NX/high-entropy flags. It executes
+Unicode-to-UTF-8 command-line conversion, environment access, process-heap
+allocation, file write/read, normal cleanup, and the panic path. Console and
+GUI subsystem selection are both verified.
+
+The direct backend is intentionally bounded to the SH-16 runtime-proof source
+profile. General compiler-reachable Core IR lowering remains SH-19 work, so
+ordinary compiler builds still use the disclosed generated-C/TinyCC route.
+This boundary prevents the milestone from implying that TinyCC has already
+left the normal toolchain.
+
 ## SH-17: purpose-built Win32 Metadata reader and raw projection
+
+Status: **ACTIVE**.
 
 Write the reader in OpenC. It consumes a pinned, checksummed
 `Windows.Win32.winmd` and implements only the ECMA-335 PE/CLI metadata streams,

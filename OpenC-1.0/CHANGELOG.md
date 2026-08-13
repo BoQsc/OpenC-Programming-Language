@@ -1,5 +1,29 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-16 PE32+ and CRT-free OpenC runtime
+
+- added OpenC-authored deterministic PE32+ header, section, import/IAT,
+  relocation, exception/unwind, TLS, console/GUI subsystem, and image writers;
+- added the first CRT-free OpenC Windows entry/runtime proof with global
+  initialization, UTF-16-to-UTF-8 command-line conversion, environment access,
+  process-heap allocate/reallocate/free, file write/read, cleanup, panic, and
+  `ExitProcess`;
+- imported only 15 documented `KERNEL32.dll` functions and rejected all
+  Microsoft CRT import families; the proof path uses no C headers, TinyCC,
+  assembler, or external linker;
+- added a dependency-free PE parser and native execution verifier passing
+  34/34 deterministic format, security, runtime, invalid-input, and write-failure checks;
+- added arbitrary binary writing to the Hosted file intrinsic and recorded the
+  one-generation bootstrap bridge needed to introduce that intrinsic honestly;
+- reached byte-identical Stage 3/4 compiler and generated-C closure, 278/278
+  conformance, 4/4 maintained programs, 38/38 Python source tests, and the
+  14/14 full native workflow without required D-seed execution;
+- retained every throughput budget at a 6.665-second five-run OpenC median,
+  7.302-second maximum, and 0.364x the pinned same-host D median; and
+- completed SH-16 and activated SH-17 purpose-built Win32 Metadata reading and
+  deterministic raw projection. General compiler builds still use the
+  disclosed TinyCC backend until SH-19; Linux/freestanding remain optional.
+
 ## Post-RC9 — SH-15 Windows x64 ABI and machine-code substrate
 
 - added an OpenC-authored Microsoft x64 ABI classifier covering positional

@@ -9,10 +9,10 @@ Core specification:                 1.0 RELEASE-CANDIDATE AUTHORITY
 Hosted specification:               1.0 RELEASE-CANDIDATE AUTHORITY
 Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
-canonical OpenC compiler source:     104 `.p` UNITS; SELF-HOSTED
+canonical OpenC compiler source:     107 `.p` UNITS; SELF-HOSTED
 legacy D reference source:           OPTIONAL AUDIT; NOT AUTHORITY
 legacy Python bootstrap source:      OPTIONAL AUDIT; NOT AUTHORITY
-official OpenC source extension:      .p; 281 MIGRATED, 403 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 407 TOTAL `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
@@ -25,24 +25,25 @@ full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
 bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
 bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
-self-hosted compiler:                 YES; SH-15 PASS, OPENC IMPLEMENTATION AUTHORITY
-self-host performance regression:    PASS; 6.218 S MEDIAN, 7.156 S MAXIMUM
-compiler throughput readiness:       PASS; 0.369x PINNED SAME-HOST D MEDIAN
-D-reference comparison:              OPENC 6.218 S; D 16.862 S; FIVE RUNS EACH
+self-hosted compiler:                 YES; SH-16 PASS, OPENC IMPLEMENTATION AUTHORITY
+self-host performance regression:    PASS; 6.665 S MEDIAN, 7.302 S MAXIMUM
+compiler throughput readiness:       PASS; 0.364x PINNED SAME-HOST D MEDIAN
+D-reference comparison:              OPENC 6.665 S; D 18.304 S; FIVE RUNS EACH
 coverage-granularity milestone:      PASS; 466/466 RULES, 174/174 GRAMMAR PAIRS
 native validation budget:            PASS; 27.844 S <= 90 S, 278/278
-native self-rebuild budget:          PASS; 6.218 S MEDIAN <= 30 S, BYTE-IDENTICAL
+native self-rebuild budget:          PASS; 6.665 S MEDIAN <= 30 S, BYTE-IDENTICAL
 unchanged daily conformance:         PASS; 0.002 S, 0 FIXTURES RE-EXECUTED
 public native CLI:                    SH-9 PASS; CHECK/RUN/VERSION/TARGET/EXPLAIN
 native project workflow:              SH-10 PASS; FMT/INFO/TEST, 21/21
 native language service:              SH-11 PASS; LIFECYCLE/DIAGNOSTICS/FMT, 19/19
 native semantic language service:     SH-12 PASS; SYMBOLS/NAV/COMPLETE/RENAME, 23/23
 human + machine diagnostics:          PASS; `openc.check.v1` + STABLE STREAMS
-completed engineering milestone:     SH-15 WINDOWS X64 ABI + MACHINE CODE
-next engineering milestone:          SH-16 PE32+ + CRT-FREE OPENC RUNTIME
+completed engineering milestone:     SH-16 PE32+ + CRT-FREE OPENC RUNTIME
+next engineering milestone:          SH-17 WIN32 METADATA + RAW PROJECTION
 SH-14 stability/scaling gate:         20/20 CLOSURE; WORST DOUBLING 2.112x
 SH-15 ABI/encoder verification:       PASS; 25/25 EXECUTABLE + STATIC CHECKS
-active critical path:                 PE/RUNTIME -> WINMD -> NATIVE BACKEND -> TCC EXIT
+SH-16 PE/runtime verification:        PASS; 34/34, KERNEL32-ONLY, NO MICROSOFT CRT
+active critical path:                 WINMD -> FRIENDLY WINDOWS -> NATIVE BACKEND -> TCC EXIT
 DMD-independent self-host compiler:  YES; PUBLIC `openc build`, VENDORED TCC
 standalone compiler distribution:    YES; RELOCATABLE; NO D/PYTHON SOURCE
 normal toolchain fully independent:   NO; TINYCC + EXTERNAL PYTHON EVIDENCE REMAIN
@@ -51,7 +52,7 @@ first-party tool source:             SOURCE-COMPLETE; BUILT AND TESTED
 build/test/release source:           SOURCE-COMPLETE; EXECUTED
 
 legacy D audit targets:              9/9 DEBUG; 9/9 RELEASE ON WINDOWS
-external evidence tests:            8/8 D AUDITS; 35/35 PYTHON TESTS
+external evidence tests:            8/8 D AUDITS; 38/38 PYTHON TESTS
 conformance fixtures:                NATIVE 278/278 PASS; 0 INFRASTRUCTURE FAILURES
 diagnostic matching:                 EXACT CURRENT; PRIOR 93 COMPATIBILITY DISCLOSED
 runtime fixtures:                    35/35 BUILT AND EXECUTED
@@ -109,10 +110,12 @@ standalone compiler. SH-14 then reduces the five-run clean median from the
 D-relative, small/incremental, scaling, memory, correctness, deterministic
 closure, and 20-run stability gate. SH-15 then adds the OpenC-authored
 Microsoft x64 ABI/LLP64 classifier, typed machine-code encoder, relocations,
-version-one unwind records, and 25/25 executable/static probes while retaining
-the throughput budgets. SH-16 CRT-free PE32+ runtime is active. It leads into
-Win32 Metadata
-raw projection, friendly Windows modules, compiler-capable native backend,
+version-one unwind records, and 25/25 executable/static probes. SH-16 adds the
+deterministic PE32+ writer and a CRT-free runtime proof with imports,
+relocations, TLS, unwind data, UTF-8 command-line conversion, process-heap
+allocation, file I/O, cleanup, and 34/34 verification checks while retaining
+the throughput budgets. SH-17 Win32 Metadata raw projection is active. It
+leads into friendly Windows modules, compiler-capable native backend,
 TinyCC exit, and OpenC-native replacement of required Python/D tooling. The
 editor-integration milestone is deferred to SH-23. Linux, freestanding, and
 ARM64 remain optional later targets.

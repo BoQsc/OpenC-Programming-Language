@@ -157,7 +157,11 @@ one-source medians are 0.158 seconds, worst scaling is 2.112x, closure is
 SH-15 Windows x64 ABI and machine-code substrate is **PASS**: 104 OpenC source
 units implement the Microsoft x64/LLP64 model, typed encoder, relocations,
 unwind records, and deterministic probe report, with 25/25 static and
-executable checks. SH-16 PE32+ and CRT-free runtime work is active. Native
+executable checks. SH-16 PE32+ and CRT-free runtime is **PASS**: 107 OpenC
+source units emit a deterministic PE32+ image directly, and 34/34 checks prove
+imports, relocations, TLS, unwind, UTF-8 conversion, process-heap allocation,
+file I/O, cleanup, and execution without the Microsoft CRT, an assembler, or
+an external linker. SH-17 Win32 Metadata and raw projection work is active. Native
 editor integration and language-service resilience remain deferred to SH-23.
 
 The same-host SH-14 clean-build comparator is:
@@ -184,3 +188,12 @@ python scripts/verify_sh15_windows_x64.py --compiler PATH/TO/openc.exe --output 
 
 Evidence is recorded in
 `release/SH15_WINDOWS_X64_ABI_MACHINE_CODE_EVIDENCE.md`.
+
+The complete SH-16 PE32+ and runtime gate is reproduced by:
+
+```text
+python scripts/verify_sh16_pe_runtime.py --compiler PATH/TO/openc.exe --output build-output/selfhost-sh16/sh16-verification.json
+```
+
+Evidence and the bounded direct-backend scope are recorded in
+`release/SH16_PE32_PLUS_CRT_FREE_RUNTIME_EVIDENCE.md`.

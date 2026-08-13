@@ -507,26 +507,62 @@ if self_host_gates.get("SH-15") == "PASS" and (
 
 planned = self_hosting.get("planned_milestones", {})
 active_plan = planned.get("active", {})
+sh16_gate = next(
+    (gate for gate in self_hosting.get("gates", [])
+     if gate.get("id") == "SH-16"),
+    {},
+)
+sh16_claims = self_hosting.get("claims", {})
+if self_host_gates.get("SH-16") != "PASS":
+    errors.append("PE32+ and CRT-free runtime SH-16 gate must pass")
+if self_host_gates.get("SH-16") == "PASS" and (
+        sh16_gate.get("native_compiler_source_files") != 107
+        or sh16_gate.get("verification_checks_passed") != 34
+        or sh16_gate.get("verification_checks_total") != 34
+        or sh16_gate.get("proof_image_bytes") != 6144
+        or sh16_gate.get("section_count") != 7
+        or sh16_gate.get("kernel32_import_count") != 15
+        or sh16_gate.get("microsoft_crt_imported")
+        or sh16_gate.get("tinycc_used_to_emit_proof_image")
+        or sh16_gate.get("external_assembler_invoked_for_proof_image")
+        or sh16_gate.get("external_linker_invoked_for_proof_image")
+        or not sh16_gate.get("stage3_stage4_executable_byte_equal")
+        or not sh16_gate.get("stage3_stage4_generated_c_byte_equal")
+        or sh16_gate.get("native_conformance_fixtures_passed") != 278
+        or sh16_gate.get("maintained_programs_passed") != 4
+        or sh16_gate.get("full_workflow_tasks_passed") != 14
+        or sh16_gate.get("bootstrap_tests_passed") != 38
+        or not sh16_claims.get("minimal_pe32_plus_and_crt_free_runtime")
+        or not sh16_claims.get("deterministic_first_party_pe32_plus_writer")
+        or not sh16_claims.get("crt_free_windows_entry_and_runtime")
+        or not sh16_claims.get("sh16_relocations_tls_and_unwind")
+        or not sh16_claims.get("sh16_executable_runtime_proof")
+        or not sh16_claims.get("sh16_deterministic_closure")):
+    errors.append(
+        "SH-16 PASS requires the deterministic first-party PE32+ writer, "
+        "CRT-free executable runtime proof, closure, and Windows Hosted gates"
+    )
 if (
-    active_plan.get("id") != "SH-16"
+    active_plan.get("id") != "SH-17"
     or active_plan.get("name")
-    != "minimal_pe32_plus_and_crt_free_runtime"
+    != "openc_win32_metadata_reader_and_raw_projection"
     or active_plan.get("status") != "NEXT_ACTIVE"
     or active_plan.get("plan")
     != "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md"
-    or active_plan.get("blocked_by_sh15")
-    or not active_plan.get("deterministic_pe32_plus_writer_required")
-    or not active_plan.get("crt_free_entry_and_runtime_required")
-    or not active_plan.get("utf8_memory_and_file_proof_required")
+    or active_plan.get("blocked_by_sh16")
+    or not active_plan.get("purpose_built_winmd_reader_required")
+    or not active_plan.get("ecma_335_pe_cli_metadata_required")
+    or not active_plan.get("deterministic_windows_raw_projection_required")
+    or not active_plan.get("c_header_parser_forbidden")
 ):
     errors.append(
-        "SH-16 PE32+ and CRT-free OpenC runtime must be active"
+        "SH-17 OpenC Win32 metadata reader and raw projection must be active"
     )
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
-    "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME"
+    "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION"
 ):
-    errors.append("development state must name PE32+ and runtime work as SH-16")
+    errors.append("development state must name Win32 metadata work as SH-17")
 development_sh14 = development_self_hosting.get("sh14_acceptance", {})
 if (
     development_sh14.get("status") != "PASS"
@@ -543,26 +579,39 @@ if (
     or not development_sh15.get("stage2_stage3_byte_equal")
 ):
     errors.append("development state must record the passed SH-15 evidence")
+development_sh16 = development_self_hosting.get("sh16_acceptance", {})
+if (
+    development_sh16.get("status") != "PASS"
+    or development_sh16.get("verification_checks_passed") != 34
+    or development_sh16.get("verification_checks_total") != 34
+    or development_sh16.get("proof_image_bytes") != 6144
+    or not development_sh16.get("stage3_stage4_byte_equal")
+    or development_sh16.get("microsoft_crt_imported")
+    or development_sh16.get("tinycc_used_to_emit_proof_image")
+):
+    errors.append("development state must record the passed SH-16 evidence")
 windows_plan = planned.get("windows_independence_plan", {})
 if (
     windows_plan.get("implementation_blocked_until_sh14_pass")
     or not windows_plan.get("implementation_unblocked_by_sh14_pass")
     or not windows_plan.get("sh15_completed")
+    or not windows_plan.get("sh16_completed")
     or windows_plan.get("active_milestone")
-    != "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME"
+    != "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION"
     or windows_plan.get("sequence", [None])[0]
     != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
     or windows_plan.get("sequence", [None])[-1]
     != "SH-23_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
 ):
     errors.append(
-        "Windows independence must advance to SH-16 with editor work last"
+        "Windows independence must advance to SH-17 with editor work last"
     )
 
 windows_target = json.loads((
     ROOT / "compiler/targets/windows-x86_64.json"
 ).read_text(encoding="utf-8"))
 abi_contract = windows_target.get("abi_contract", {})
+artifact_contract = windows_target.get("artifact_contract", {})
 if (
     windows_target.get("abi") != "win64"
     or abi_contract.get("schema") != "openc.windows_x64_abi.v1"
@@ -571,10 +620,23 @@ if (
     or abi_contract.get("stack", {}).get("body_alignment_bytes") != 16
     or abi_contract.get("unwind", {}).get("version") != 1
     or abi_contract.get("unwind", {}).get("runtime_function_entry_bytes") != 12
+    or artifact_contract.get("schema") != "openc.windows_pe32_runtime.v1"
+    or artifact_contract.get("format") != "PE32+"
+    or artifact_contract.get("machine") != "AMD64"
+    or artifact_contract.get("sections")
+    != [".text", ".rdata", ".data", ".pdata", ".xdata", ".tls", ".reloc"]
+    or artifact_contract.get("imports", {}).get("allowed_system_dlls")
+    != ["KERNEL32.dll"]
+    or not artifact_contract.get("imports", {}).get("microsoft_crt_forbidden")
+    or artifact_contract.get("unwind", {}).get("version") != 1
+    or not artifact_contract.get("runtime", {}).get("utf8_command_line")
     or windows_target.get("evidence_state")
-    != "SH15_ABI_ENCODER_RUNTIME_PROBES_PASS"
+    != "SH16_PE32_PLUS_CRT_FREE_RUNTIME_PASS"
 ):
-    errors.append("Windows x64 target record must contain the passed SH-15 ABI contract")
+    errors.append(
+        "Windows x64 target record must contain the passed SH-15 ABI and "
+        "SH-16 PE32+ runtime contracts"
+    )
 
 budgets = json.loads((
     ROOT / "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json"
@@ -608,6 +670,17 @@ if (
     )
 ):
     errors.append("SH-14 throughput exit targets are missing or weakened")
+sh16_observation = budgets.get("sh16_regression_observation", {})
+if (
+    budgets.get("milestone") != "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME"
+    or sh16_observation.get("status") != "PASS"
+    or sh16_observation.get("clean_runs") != 5
+    or sh16_observation.get("clean_median_seconds", float("inf")) > 30.0
+    or sh16_observation.get("clean_maximum_seconds", float("inf")) > 45.0
+    or sh16_observation.get("relative_to_d_median", float("inf")) > 1.25
+    or not sh16_observation.get("all_existing_budgets_pass")
+):
+    errors.append("SH-16 throughput regression observation is missing or failed")
 
 native_workflow = (
     ROOT / "scripts/windows_native_workflow.py"
@@ -636,8 +709,8 @@ if '"native_semantic_language_service_23_of_23"' not in standalone_verifier:
         "standalone release must verify the complete SH-12 semantic "
         "language-service contract"
     )
-if '"openc.windows_native_workflow.v5"' not in native_workflow:
-    errors.append("native workflow must record the SH-12 workflow schema")
+if '"openc.windows_native_workflow.v6"' not in native_workflow:
+    errors.append("native workflow must record the SH-16 workflow schema")
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

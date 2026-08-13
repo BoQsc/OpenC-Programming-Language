@@ -532,6 +532,30 @@ oc_status oc_file_write_all(oc_file *file, oc_text bytes) {
     return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
 }
 
+oc_status oc_file_write_bytes(
+    oc_text path,
+    const void *data,
+    uintptr_t length
+) {
+    oc_file file;
+    oc_status opened;
+    oc_status written;
+    if (data == NULL && length != 0u) {
+        return (oc_status){
+            OC_STATUS_INVALID_ARGUMENT,
+            OC_TEXT_LITERAL("byte input is null")
+        };
+    }
+    opened = oc_file_open_write(path, true, &file);
+    if (!oc_status_ok(opened)) return opened;
+    written = oc_file_write_all(
+        &file, (oc_text){(const uint8_t *)data, length}
+    );
+    if (oc_status_ok(written)) written = oc_file_flush(&file);
+    oc_file_close(file);
+    return written;
+}
+
 oc_status oc_file_flush(oc_file *file) {
     if (!file || !file->open || !file->handle) return (oc_status){OC_STATUS_INVALID_ARGUMENT, OC_TEXT_LITERAL("file is not open")};
     if (fflush((FILE *)file->handle) != 0) return (oc_status){OC_STATUS_IO_ERROR, oc_text_from_c_string(strerror(errno))};

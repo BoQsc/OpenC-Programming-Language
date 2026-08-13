@@ -153,6 +153,11 @@ OC_API oc_status oc_file_open_read(oc_text path, oc_file *out_file);
 OC_API oc_status oc_file_open_write(oc_text path, bool truncate, oc_file *out_file);
 OC_API oc_status oc_file_read_all(oc_file *file, oc_owned_bytes *out_bytes);
 OC_API oc_status oc_file_write_all(oc_file *file, oc_text bytes);
+OC_API oc_status oc_file_write_bytes(
+    oc_text path,
+    const void *data,
+    uintptr_t length
+);
 OC_API oc_status oc_file_flush(oc_file *file);
 OC_API void oc_file_close(oc_file file);
 

@@ -14,17 +14,18 @@ reference, with small/incremental, proportional-scaling, bounded-memory,
 deterministic closure, and 20-run stability gates all passing. Those limits
 remain enforced as regression budgets.
 
-SH-15 now passes its 25/25 ABI, encoder, relocation, unwind, executable-probe,
-deterministic-closure, and performance-regression checks. SH-16 minimal PE32+
-and CRT-free runtime is the active engineering priority. It will turn that
-substrate into the first complete OpenC-owned Windows executable without
-expanding Core with Windows-specific types or making Linux/freestanding
-blocking targets. The Windows independence architecture is in
+SH-16 now passes its 34/34 PE32+, imports, relocation, TLS, unwind, CRT-free
+runtime, execution, deterministic-closure, and performance-regression checks.
+It produces the first complete OpenC-owned Windows executable without C
+headers, a Microsoft CRT, an assembler, or an external linker. SH-17's
+purpose-built Win32 Metadata reader and raw projection is the active
+engineering priority. Windows concepts remain outside Core, and
+Linux/freestanding remain nonblocking targets. The architecture is in
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 ## Completed self-hosting path
 
-SH-0 through SH-15 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-16 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -220,7 +221,7 @@ IR reach closure. Exact evidence and reproduction commands are in
    - add a typed x64 instruction encoder, register/stack assignment, and
      relocations without requiring an external assembler;
    - keep Windows names and types in libraries, not the Core language.
-9. **SH-16 minimal PE32+ executable and CRT-free OpenC runtime — next; active**
+9. **SH-16 minimal PE32+ executable and CRT-free OpenC runtime — complete**
    - emit a complete deterministic PE32+ image, imports, relocations, sections,
      subsystem fields, and x64 `.pdata`/`.xdata` directly;
    - own entry, initialization, command line, environment, exit, allocation,
@@ -228,7 +229,7 @@ IR reach closure. Exact evidence and reproduction commands are in
    - pass the first independent executable proof: UTF-8 output, memory, and
      files using only documented Windows system DLLs, with no C headers,
      compiler, runtime, assembler, or linker.
-10. **SH-17 OpenC Win32 Metadata reader and raw projection**
+10. **SH-17 OpenC Win32 Metadata reader and raw projection — next; active**
     - read the required ECMA-335 metadata tables and custom attributes from a
       pinned `Windows.Win32.winmd` using purpose-built OpenC code;
     - generate deterministic `windows.raw.*` `.p` modules for exact functions,

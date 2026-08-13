@@ -236,6 +236,13 @@ unsafe i32 cli_observe_source_command(usize arguments) {
 
 unsafe i32 main() {
     usize arguments = process.argument_count();
+    if arguments == 5 &&
+        process.argument(0) == "--windows-pe32-runtime" {
+        return emit_windows_pe32_runtime(
+            process.argument(1), process.argument(2),
+            process.argument(3), process.argument(4)
+        );
+    }
     if arguments == 0 {
         cli_print_help();
         return 0;

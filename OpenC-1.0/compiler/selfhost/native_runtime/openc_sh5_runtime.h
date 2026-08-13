@@ -534,6 +534,11 @@ int32_t ocb_text_compare(oc_text left, oc_text right);
 oc_status ocb_file_read_text(oc_text path, oc_text *value);
 oc_status ocb_file_read_text_cached(oc_text path, oc_text *value);
 oc_status ocb_file_write_text(oc_text path, oc_text value);
+oc_status ocb_file_write_bytes(
+    oc_text path,
+    const void *data,
+    uintptr_t length
+);
 
 oc_text ocb_path_join(oc_text left, oc_text right);
 oc_text ocb_path_directory(oc_text value);

@@ -4,6 +4,23 @@ Date: 2026-07-26
 Host: Windows 10.0.19045, x86-64
 Scope: OpenC-native compiler rebuilding `compiler/selfhost/openc.project.json`
 
+## SH-16 regression result (2026-08-13)
+
+The closed 107-source SH-16 compiler remains inside every SH-14 throughput and
+memory budget after adding direct PE32+ emission and the CRT-free runtime
+proof. Its five-run clean median is 6.665 seconds and maximum is 7.302 seconds,
+versus 18.304 seconds for the pinned same-host D reference (0.364x). Peak
+private memory is 220,303,360 bytes and peak working set is 26,693,632 bytes.
+Every compiler and generated C output is byte-identical. The SH-14
+4.137-second best baseline remains unchanged.
+
+The compiler SHA-256 is
+`590c54823693af5f115d123555225ab0ad5e8863d25ee7da21824d6969c475dd`;
+generated C SHA-256 is
+`2557a5a967e9cee26b1bf32b5bc5ff47ced6a5da69b21f5c9ac1ae9f8708b84b`.
+Complete evidence is in
+`release/SH16_PE32_PLUS_CRT_FREE_RUNTIME_EVIDENCE.md`.
+
 ## SH-15 regression result (2026-08-12)
 
 The closed 104-source SH-15 compiler remains inside every SH-14 throughput and

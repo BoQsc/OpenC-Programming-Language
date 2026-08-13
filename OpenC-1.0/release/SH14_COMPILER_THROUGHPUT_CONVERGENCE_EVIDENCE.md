@@ -74,6 +74,7 @@ The retained reports are:
 
 At SH-14 closure, SH-15 became active. SH-15 has since passed its Microsoft x64
 ABI and typed machine-code/relocation substrate gates; its evidence is in
-`SH15_WINDOWS_X64_ABI_MACHINE_CODE_EVIDENCE.md`. SH-16 is now active and builds
-the first deterministic, CRT-free PE32+ executable directly; compiler-capable
-backend closure and TinyCC exit remain SH-19.
+`SH15_WINDOWS_X64_ABI_MACHINE_CODE_EVIDENCE.md`. SH-16 has also passed its
+deterministic, CRT-free PE32+ executable gate; SH-17 Win32 Metadata and raw
+projection is active. Compiler-capable backend closure and TinyCC exit remain
+SH-19.

@@ -12,6 +12,9 @@ external(c, "oc_file_read_all") status runtime_read_all(ref File file, out memor
 external(c, "oc_file_write_all") status runtime_write_all(ref File file, text value);
 external(c, "oc_file_flush") status runtime_flush(ref File file);
 external(c, "oc_file_close") void runtime_close(own File file);
+external(c, "oc_file_write_bytes") unsafe status runtime_write_bytes(
+    text path, ptr const byte data, usize length
+);
 
 export status open_read(text path, out File file) {
     return runtime_open_read(path, out file);
@@ -59,6 +62,14 @@ export status write_text(text path, text value) {
         return written;
     }
     return flush(ref file);
+}
+
+export unsafe status write_bytes(
+    text path,
+    ptr const byte data,
+    usize length
+) {
+    return runtime_write_bytes(path, data, length);
 }
 
 export status flush(ref File file) {

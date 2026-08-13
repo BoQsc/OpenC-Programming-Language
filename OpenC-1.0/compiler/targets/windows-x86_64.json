@@ -63,7 +63,50 @@
       "required_for": ["stack_allocation", "calls", "nonvolatile_register_changes"]
     }
   },
+  "artifact_contract": {
+    "schema": "openc.windows_pe32_runtime.v1",
+    "format": "PE32+",
+    "machine": "AMD64",
+    "image_base": "0x0000000140000000",
+    "file_alignment_bytes": 512,
+    "section_alignment_bytes": 4096,
+    "deterministic": {
+      "timestamp": 0,
+      "checksum": 0,
+      "stable_section_and_import_order": true
+    },
+    "sections": [".text", ".rdata", ".data", ".pdata", ".xdata", ".tls", ".reloc"],
+    "subsystems": ["windows_console", "windows_gui"],
+    "security_characteristics": ["dynamic_base", "nx_compatible", "high_entropy_va"],
+    "directories": ["imports", "exception", "base_relocations", "iat", "tls"],
+    "imports": {
+      "allowed_system_dlls": ["KERNEL32.dll"],
+      "microsoft_crt_forbidden": true,
+      "c_headers_required": false
+    },
+    "relocations": {
+      "type": "IMAGE_REL_BASED_DIR64",
+      "required_for_absolute_image_addresses": true
+    },
+    "unwind": {
+      "pdata_and_xdata_required_for_non_leaf_functions": true,
+      "version": 1
+    },
+    "runtime": {
+      "custom_entry_point": true,
+      "global_initialization": true,
+      "utf8_command_line": true,
+      "unicode_boundary": "UTF-16_to_UTF-8",
+      "environment_access": true,
+      "process_heap_allocator": true,
+      "file_read_write": true,
+      "panic_and_exit": true,
+      "normal_cleanup": true,
+      "tls_directory": true
+    },
+    "sh16_source_profile": "bounded_runtime_proof_pending_general_native_ir_lowering_in_sh19"
+  },
   "hosted": true,
   "runtime_provider": "runtime/windows",
-  "evidence_state": "SH15_ABI_ENCODER_RUNTIME_PROBES_PASS"
+  "evidence_state": "SH16_PE32_PLUS_CRT_FREE_RUNTIME_PASS"
 }

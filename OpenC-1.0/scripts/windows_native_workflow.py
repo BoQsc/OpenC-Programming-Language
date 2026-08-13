@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SH-12 native-first Windows development and verification workflow."""
+"""SH-16 native-first Windows development and verification workflow."""
 from __future__ import annotations
 
 import argparse
@@ -345,6 +345,20 @@ def main() -> int:
     )
     for name, command in commands:
         tasks.append(run_task(name, command, task_output))
+    tasks.append(
+        run_task(
+            "windows_pe32_runtime",
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "verify_sh16_pe_runtime.py"),
+                "--compiler",
+                str(compiler),
+                "--output",
+                str(output / "windows-pe32-runtime" / "sh16-verification.json"),
+            ],
+            task_output,
+        )
+    )
 
     performance: dict[str, object] = {}
     if args.mode == "full":
@@ -506,8 +520,8 @@ def main() -> int:
     )
     passed = all(task["passed"] for task in tasks)
     result = {
-        "schema": "openc.windows_native_workflow.v5",
-        "milestone": "SH-12_NATIVE_SEMANTIC_LANGUAGE_INTELLIGENCE",
+        "schema": "openc.windows_native_workflow.v6",
+        "milestone": "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME",
         "mode": args.mode.upper(),
         "status": "PASS" if passed else "FAIL",
         "started_at_utc": started_at.isoformat().replace("+00:00", "Z"),
@@ -531,7 +545,7 @@ def main() -> int:
         newline="\n",
     )
     print(
-        f"SH-12 {args.mode} workflow: {result['status']}; "
+        f"SH-16 {args.mode} workflow: {result['status']}; "
         f"compiler=OpenC-native tasks={sum(task['passed'] for task in tasks)}/"
         f"{len(tasks)} seed_executed=false result={result_path}"
     )

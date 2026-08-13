@@ -86,16 +86,14 @@ welcome and may produce errata; it is not a prerequisite for the
 owner-maintained initial release.
 
 The public RC8 package evidence remains the immutable 268-fixture historical
-record described above. RC9 is the published 278-fixture successor. SH-12
-native semantic language intelligence is complete on mainline. SH-13 now
-establishes phase evidence and implementation authority, but its 500.311-second
-clean compiler rebuild is not D/C-class throughput. SH-14 is therefore the
-blocking next milestone: clean-build convergence, incremental responsiveness,
-near-linear scaling, byte-identical closure, and a 20-run stability gate. No
-editor or platform feature work takes priority over it.
+record described above. RC9 is the published 278-fixture successor. Mainline
+now passes SH-14 D/C-class throughput, SH-15 Windows x64 ABI/machine-code, and
+SH-16 deterministic PE32+ plus CRT-free runtime. The current 107-source
+compiler rebuild median is 6.665 seconds, 0.364x the pinned same-host D median,
+and the direct proof executable passes 34/34 format and runtime checks.
 
-After SH-14, the Windows independence path proceeds through a first-party x64
-ABI/machine encoder, CRT-free PE32+ runtime, OpenC Win32 Metadata reader, raw
+The active SH-17 Windows independence work is a purpose-built OpenC Win32
+Metadata reader and deterministic raw projection. It proceeds through raw
 and friendly Windows modules, compiler-capable native backend and TinyCC exit,
 then OpenC-native replacement of required Python/D workflow tooling. Native
 editor integration is deferred to SH-23. See
