@@ -15,6 +15,12 @@ external(c, "oc_file_close") void runtime_close(own File file);
 external(c, "oc_file_write_bytes") unsafe status runtime_write_bytes(
     text path, ptr const byte data, usize length
 );
+external(c, "oc_file_read_bytes") status runtime_read_bytes(
+    text path, out memory.Bytes bytes
+);
+external(c, "oc_file_read_bytes_raw") unsafe status runtime_read_bytes_raw(
+    text path, out ptr byte data, out usize length
+);
 
 export status open_read(text path, out File file) {
     return runtime_open_read(path, out file);
@@ -70,6 +76,18 @@ export unsafe status write_bytes(
     usize length
 ) {
     return runtime_write_bytes(path, data, length);
+}
+
+export status read_bytes(text path, out memory.Bytes bytes) {
+    return runtime_read_bytes(path, out bytes);
+}
+
+export unsafe status read_bytes_raw(
+    text path,
+    out ptr byte data,
+    out usize length
+) {
+    return runtime_read_bytes_raw(path, out data, out length);
 }
 
 export status flush(ref File file) {

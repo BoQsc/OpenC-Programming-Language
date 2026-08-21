@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **ACTIVE; SH-16 PASSED, SH-17 ACTIVE**
+Status: **ACTIVE; SH-17 PASSED, SH-18 ACTIVE**
 
 OpenC's Windows path must preserve a strict separation:
 
@@ -132,7 +132,7 @@ left the normal toolchain.
 
 ## SH-17: purpose-built Win32 Metadata reader and raw projection
 
-Status: **ACTIVE**.
+Status: **PASS (2026-08-21)**.
 
 Write the reader in OpenC. It consumes a pinned, checksummed
 `Windows.Win32.winmd` and implements only the ECMA-335 PE/CLI metadata streams,
@@ -168,7 +168,17 @@ windows.raw.graphics
 Generated-source manifests record the metadata version/hash, generator
 version/hash, architecture filter, declarations, and output hashes.
 
+The completed implementation reads the pinned 24,355,840-byte
+`Microsoft.Windows.SDK.Win32Metadata` input in OpenC, projects 71,425 exact
+records into seven checked-in modules, and reproduces every module and manifest
+byte-for-byte across independent runs. The 30/30 gate verifies the PE/CLI
+streams and tables, preserved signatures/attributes/layouts/ownership, module
+syntax, hashes, and the absence of C-header or third-party metadata parsing.
+Evidence is in `../../release/SH17_WINMD_RAW_PROJECTION_EVIDENCE.md`.
+
 ## SH-18: idiomatic Windows modules
+
+Status: **ACTIVE**.
 
 Hand-reviewed OpenC modules wrap, but do not replace or distort, the raw
 projection:

@@ -556,6 +556,45 @@ oc_status oc_file_write_bytes(
     return written;
 }
 
+oc_status oc_file_read_bytes(oc_text path, oc_owned_bytes *value) {
+    oc_file file;
+    oc_status opened;
+    oc_status read;
+    if (value == NULL) {
+        return (oc_status){
+            OC_STATUS_INVALID_ARGUMENT,
+            OC_TEXT_LITERAL("byte output is null")
+        };
+    }
+    value->data = NULL;
+    value->length = 0u;
+    opened = oc_file_open_read(path, &file);
+    if (!oc_status_ok(opened)) return opened;
+    read = oc_file_read_all(&file, value);
+    oc_file_close(file);
+    return read;
+}
+
+oc_status oc_file_read_bytes_raw(
+    oc_text path,
+    uint8_t **data,
+    uintptr_t *length
+) {
+    oc_owned_bytes value;
+    oc_status result;
+    if (data == NULL || length == NULL) {
+        return (oc_status){
+            OC_STATUS_INVALID_ARGUMENT,
+            OC_TEXT_LITERAL("raw byte output is null")
+        };
+    }
+    result = oc_file_read_bytes(path, &value);
+    if (!oc_status_ok(result)) return result;
+    *data = value.data;
+    *length = value.length;
+    return result;
+}
+
 oc_status oc_file_flush(oc_file *file) {
     if (!file || !file->open || !file->handle) return (oc_status){OC_STATUS_INVALID_ARGUMENT, OC_TEXT_LITERAL("file is not open")};
     if (fflush((FILE *)file->handle) != 0) return (oc_status){OC_STATUS_IO_ERROR, oc_text_from_c_string(strerror(errno))};

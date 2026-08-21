@@ -1,6 +1,6 @@
 # SH-14 compiler throughput convergence and stability
 
-Status: **PASS (2026-08-10); SH-16 REGRESSION PASS, SH-17 ACTIVE**
+Status: **PASS (2026-08-10); SH-17 REGRESSION PASS, SH-18 ACTIVE**
 
 SH-14 is complete. The final five-run clean compiler median is 4.137 seconds
 against a 12.731-second pinned same-host D median (0.325x). The small-build
@@ -30,7 +30,10 @@ subsequently passed the ABI/encoder milestone while retaining every throughput
 budget. SH-16 also passes after adding the direct PE32+ and CRT-free runtime
 proof: its 107-source compiler has a 6.665-second five-run median,
 7.302-second maximum, and 0.364x same-host D ratio. SH-17 Win32 Metadata and raw
-projection work is now active while deferred targets retain their sequence.
+projection now passes without entering ordinary compiler builds; the 112-source
+compiler closes byte-identically with a 6.111-second median, 6.170-second
+maximum, and 0.338x same-host D ratio. SH-18 friendly Windows modules are now
+active while deferred targets retain their sequence.
 
 ## Meaning of D/C-class throughput
 

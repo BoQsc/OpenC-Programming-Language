@@ -1,6 +1,6 @@
 {
   "schema": "openc.windows_native_performance_budgets.v1",
-  "milestone": "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME",
+  "milestone": "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION",
   "target": "windows-x86_64-hosted",
   "reference_host": {
     "operating_system": "Windows 10.0.19045",
@@ -116,5 +116,21 @@
     "sh14_best_baseline_retained": true,
     "all_existing_budgets_pass": true,
     "performance_regression_blocks_sh16": false
+  },
+  "sh17_regression_observation": {
+    "status": "PASS",
+    "measurement_record": "build-output/selfhost-sh17/final/throughput-suite.json",
+    "compiler_source_files": 112,
+    "clean_runs": 5,
+    "clean_median_seconds": 6.111,
+    "clean_maximum_seconds": 6.17,
+    "d_reference_median_seconds": 18.085,
+    "relative_to_d_median": 0.338,
+    "peak_private_bytes": 253460480,
+    "peak_working_set_bytes": 28917760,
+    "ordinary_build_parses_winmd": false,
+    "sh14_best_baseline_retained": true,
+    "all_existing_budgets_pass": true,
+    "performance_regression_blocks_sh17": false
   }
 }

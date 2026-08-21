@@ -33,5 +33,7 @@ cleanup. SH-14 completes the compiler throughput/stability milestone at a
 incremental, scaling, closure, memory, and stability gates passing. SH-15
 Windows x64 ABI and machine-code substrate passes 25/25 static and executable
 checks. SH-16 PE32+ and CRT-free runtime passes 34/34 direct-image parsing and
-execution checks. SH-17 Win32 Metadata and raw projection work is active. First-party editor
+execution checks. SH-17 Win32 Metadata and raw projection passes 30/30 and
+checks in seven reproducible raw modules. SH-18 idiomatic Windows modules are
+active. First-party editor
 integration remains deferred to SH-23.

@@ -262,7 +262,7 @@ compiler authority, and excludes D/Python source and DUB manifests from the
 standalone compiler. SH-14 reduces the five-run clean self-rebuild median to
 4.137 seconds, 0.325x the pinned same-host D median, while passing proportional
 scaling, bounded memory, exact-dependency incremental checks, and 20 consecutive
-byte-identical closures. Self-hosting SH-0 through SH-16 is complete for the
+byte-identical closures. Self-hosting SH-0 through SH-17 is complete for the
 declared Windows x86-64 Hosted scope.
 
 The immutable RC8 standalone record remains at 268 fixtures. RC9 packages and
@@ -279,6 +279,8 @@ passes 34/34 checks covering deterministic headers and sections, system-DLL
 imports, `DIR64` relocations, TLS, version-one unwind, console/GUI subsystems,
 Unicode-to-UTF-8 conversion, process-heap allocation, file I/O, cleanup, panic,
 and native execution. The proof image has no Microsoft CRT, assembler, external
-linker, C header, or TinyCC dependency. The general compiler backend still
-uses TinyCC until SH-19; SH-17 Win32 Metadata and raw projection is active,
+linker, C header, or TinyCC dependency. SH-17 passes 30/30 checks over the real
+pinned Win32 Metadata input and reproduces seven checked-in raw OpenC modules
+byte-for-byte without C headers or a third-party metadata library. The general
+compiler backend still uses TinyCC until SH-19; SH-18 idiomatic Windows modules are active,
 editor integration is deferred to SH-23, and Linux/freestanding remain optional.

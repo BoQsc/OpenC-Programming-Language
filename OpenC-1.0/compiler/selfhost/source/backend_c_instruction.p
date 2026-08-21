@@ -17,6 +17,14 @@ unsafe bool c_call_builtin_out(
         )) && index == 1 { return true; }
     if c_builtin_is(
             context, instruction,
+            "file.read_bytes", "system.file.read_bytes"
+        ) && index == 1 { return true; }
+    if c_builtin_is(
+            context, instruction,
+            "file.read_bytes_raw", "system.file.read_bytes_raw"
+        ) && (index == 1 || index == 2) { return true; }
+    if c_builtin_is(
+            context, instruction,
             "text.slice", "system.text.slice"
         ) && index == 3 { return true; }
     if c_builtin_is(

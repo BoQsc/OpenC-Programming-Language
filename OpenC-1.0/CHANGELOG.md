@@ -1,5 +1,29 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-17 OpenC Win32 Metadata reader and raw projection
+
+- added a purpose-built OpenC PE/CLI and ECMA-335 metadata reader for the real,
+  pinned `Windows.Win32.winmd`; no C-header parser or third-party metadata
+  library is used;
+- pinned `Microsoft.Windows.SDK.Win32Metadata` `71.0.14-preview`, its 24,355,840-byte
+  metadata member, package, and MIT license hashes, with an exact acquisition
+  verifier;
+- generated seven deterministic `windows.raw.*` OpenC modules containing
+  71,425 exact records for types, fields, methods, parameters, imports,
+  constants, layouts, and custom attributes;
+- preserved DLL/export, calling/architecture/error flags, parameter and array
+  contracts, ANSI/Unicode variants, retained pointers, typed-handle cleanup,
+  invalid values, bitfields, offsets, and documentation identifiers;
+- reproduced the checked-in projection byte-for-byte across two real-input
+  runs and passed all 30/30 projection checks;
+- reached byte-identical Stage 2/3 compiler and generated-C closure with 112
+  OpenC compiler sources, 278/278 conformance, 4/4 maintained programs, 42/42
+  Python source tests, and the 15/15 full native workflow;
+- retained every throughput budget at a 6.111-second five-run OpenC median,
+  6.170-second maximum, and 0.338x the pinned same-host D median; and
+- completed SH-17 and activated SH-18 idiomatic Windows modules. TinyCC remains
+  disclosed until SH-19, while Linux/freestanding remain optional.
+
 ## Post-RC9 — SH-16 PE32+ and CRT-free OpenC runtime
 
 - added OpenC-authored deterministic PE32+ header, section, import/IAT,

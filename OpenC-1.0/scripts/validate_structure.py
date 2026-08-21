@@ -542,27 +542,64 @@ if self_host_gates.get("SH-16") == "PASS" and (
         "SH-16 PASS requires the deterministic first-party PE32+ writer, "
         "CRT-free executable runtime proof, closure, and Windows Hosted gates"
     )
+sh17_gate = next(
+    (gate for gate in self_hosting.get("gates", [])
+     if gate.get("id") == "SH-17"),
+    {},
+)
+sh17_claims = self_hosting.get("claims", {})
+if self_host_gates.get("SH-17") != "PASS":
+    errors.append("OpenC Win32 Metadata projection SH-17 gate must pass")
+if self_host_gates.get("SH-17") == "PASS" and (
+        sh17_gate.get("native_compiler_source_files") != 112
+        or sh17_gate.get("verification_checks_passed") != 30
+        or sh17_gate.get("verification_checks_total") != 30
+        or sh17_gate.get("metadata_bytes") != 24355840
+        or sh17_gate.get("raw_modules") != 7
+        or sh17_gate.get("projected_records") != 71425
+        or not sh17_gate.get("deterministic_projection_repeat_byte_equal")
+        or not sh17_gate.get("checked_in_projection_reproduced")
+        or sh17_gate.get("c_headers_parsed")
+        or sh17_gate.get("third_party_metadata_library_used")
+        or sh17_gate.get("ordinary_build_parses_winmd")
+        or not sh17_gate.get("stage2_stage3_executable_byte_equal")
+        or not sh17_gate.get("stage2_stage3_generated_c_byte_equal")
+        or sh17_gate.get("native_conformance_fixtures_passed") != 278
+        or sh17_gate.get("maintained_programs_passed") != 4
+        or sh17_gate.get("full_workflow_tasks_passed") != 15
+        or sh17_gate.get("bootstrap_tests_passed") != 42
+        or not sh17_claims.get(
+            "openc_win32_metadata_reader_and_raw_projection"
+        )
+        or not sh17_claims.get("purpose_built_openc_ecma335_reader")
+        or not sh17_claims.get("deterministic_windows_raw_projection")
+        or not sh17_claims.get("winmd_contract_metadata_preserved")
+        or not sh17_claims.get("sh17_deterministic_closure")):
+    errors.append(
+        "SH-17 PASS requires the real pinned WinMD reader, deterministic raw "
+        "projection, metadata preservation, closure, and Windows Hosted gates"
+    )
 if (
-    active_plan.get("id") != "SH-17"
+    active_plan.get("id") != "SH-18"
     or active_plan.get("name")
-    != "openc_win32_metadata_reader_and_raw_projection"
+    != "idiomatic_windows_modules"
     or active_plan.get("status") != "NEXT_ACTIVE"
     or active_plan.get("plan")
     != "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md"
-    or active_plan.get("blocked_by_sh16")
-    or not active_plan.get("purpose_built_winmd_reader_required")
-    or not active_plan.get("ecma_335_pe_cli_metadata_required")
-    or not active_plan.get("deterministic_windows_raw_projection_required")
-    or not active_plan.get("c_header_parser_forbidden")
+    or active_plan.get("blocked_by_sh17")
+    or not active_plan.get("raw_projection_available")
+    or not active_plan.get("typed_handles_and_exact_cleanup_required")
+    or not active_plan.get("utf8_to_utf16_boundary_required")
+    or not active_plan.get("slices_optionals_errors_and_safe_defaults_required")
 ):
     errors.append(
-        "SH-17 OpenC Win32 metadata reader and raw projection must be active"
+        "SH-18 idiomatic Windows modules must be active after SH-17"
     )
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
-    "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION"
+    "SH-18_IDIOMATIC_WINDOWS_MODULES"
 ):
-    errors.append("development state must name Win32 metadata work as SH-17")
+    errors.append("development state must name idiomatic Windows work as SH-18")
 development_sh14 = development_self_hosting.get("sh14_acceptance", {})
 if (
     development_sh14.get("status") != "PASS"
@@ -590,21 +627,35 @@ if (
     or development_sh16.get("tinycc_used_to_emit_proof_image")
 ):
     errors.append("development state must record the passed SH-16 evidence")
+development_sh17 = development_self_hosting.get("sh17_acceptance", {})
+if (
+    development_sh17.get("status") != "PASS"
+    or development_sh17.get("verification_checks_passed") != 30
+    or development_sh17.get("verification_checks_total") != 30
+    or development_sh17.get("raw_modules") != 7
+    or development_sh17.get("projected_records") != 71425
+    or not development_sh17.get("stage2_stage3_byte_equal")
+    or development_sh17.get("c_headers_parsed")
+    or development_sh17.get("third_party_metadata_library_used")
+    or development_sh17.get("ordinary_build_parses_winmd")
+):
+    errors.append("development state must record the passed SH-17 evidence")
 windows_plan = planned.get("windows_independence_plan", {})
 if (
     windows_plan.get("implementation_blocked_until_sh14_pass")
     or not windows_plan.get("implementation_unblocked_by_sh14_pass")
     or not windows_plan.get("sh15_completed")
     or not windows_plan.get("sh16_completed")
+    or not windows_plan.get("sh17_completed")
     or windows_plan.get("active_milestone")
-    != "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION"
+    != "SH-18_IDIOMATIC_WINDOWS_MODULES"
     or windows_plan.get("sequence", [None])[0]
     != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
     or windows_plan.get("sequence", [None])[-1]
     != "SH-23_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
 ):
     errors.append(
-        "Windows independence must advance to SH-17 with editor work last"
+        "Windows independence must advance to SH-18 with editor work last"
     )
 
 windows_target = json.loads((
@@ -670,17 +721,19 @@ if (
     )
 ):
     errors.append("SH-14 throughput exit targets are missing or weakened")
-sh16_observation = budgets.get("sh16_regression_observation", {})
+sh17_observation = budgets.get("sh17_regression_observation", {})
 if (
-    budgets.get("milestone") != "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME"
-    or sh16_observation.get("status") != "PASS"
-    or sh16_observation.get("clean_runs") != 5
-    or sh16_observation.get("clean_median_seconds", float("inf")) > 30.0
-    or sh16_observation.get("clean_maximum_seconds", float("inf")) > 45.0
-    or sh16_observation.get("relative_to_d_median", float("inf")) > 1.25
-    or not sh16_observation.get("all_existing_budgets_pass")
+    budgets.get("milestone")
+    != "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION"
+    or sh17_observation.get("status") != "PASS"
+    or sh17_observation.get("clean_runs") != 5
+    or sh17_observation.get("clean_median_seconds", float("inf")) > 30.0
+    or sh17_observation.get("clean_maximum_seconds", float("inf")) > 45.0
+    or sh17_observation.get("relative_to_d_median", float("inf")) > 1.25
+    or sh17_observation.get("ordinary_build_parses_winmd")
+    or not sh17_observation.get("all_existing_budgets_pass")
 ):
-    errors.append("SH-16 throughput regression observation is missing or failed")
+    errors.append("SH-17 throughput regression observation is missing or failed")
 
 native_workflow = (
     ROOT / "scripts/windows_native_workflow.py"
@@ -709,8 +762,8 @@ if '"native_semantic_language_service_23_of_23"' not in standalone_verifier:
         "standalone release must verify the complete SH-12 semantic "
         "language-service contract"
     )
-if '"openc.windows_native_workflow.v6"' not in native_workflow:
-    errors.append("native workflow must record the SH-16 workflow schema")
+if '"openc.windows_native_workflow.v7"' not in native_workflow:
+    errors.append("native workflow must record the SH-17 workflow schema")
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

@@ -1,0 +1,16 @@
+{
+  "schema": "openc.windows_win32_metadata_pin.v1",
+  "package": "Microsoft.Windows.SDK.Win32Metadata",
+  "version": "71.0.14-preview",
+  "package_url": "https://api.nuget.org/v3-flatcontainer/microsoft.windows.sdk.win32metadata/71.0.14-preview/microsoft.windows.sdk.win32metadata.71.0.14-preview.nupkg",
+  "package_sha256": "d698e1d0e28d3b1fbdc36842092eb680d22ab147f4f61c6eb1eea59efbe60fa2",
+  "member": "Windows.Win32.winmd",
+  "member_bytes": 24355840,
+  "member_sha256": "b64ee4818a7ed9f9d135038d58c51bd08369184d4d5ed428f20e9de55df8121d",
+  "license_member": "sdk_license.txt",
+  "license": "MIT",
+  "license_sha256": "0e97876eaa1fc79558e0d51dc0bee286d36dca8e95f7876259ffdf947396bca1",
+  "role": "pinned_projection_input_only",
+  "normal_compilation_dependency": false,
+  "runtime_dependency": false
+}

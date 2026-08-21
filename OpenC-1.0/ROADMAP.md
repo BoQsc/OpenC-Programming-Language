@@ -229,14 +229,14 @@ IR reach closure. Exact evidence and reproduction commands are in
    - pass the first independent executable proof: UTF-8 output, memory, and
      files using only documented Windows system DLLs, with no C headers,
      compiler, runtime, assembler, or linker.
-10. **SH-17 OpenC Win32 Metadata reader and raw projection — next; active**
+10. **SH-17 OpenC Win32 Metadata reader and raw projection — complete**
     - read the required ECMA-335 metadata tables and custom attributes from a
       pinned `Windows.Win32.winmd` using purpose-built OpenC code;
     - generate deterministic `windows.raw.*` `.p` modules for exact functions,
       constants, types, layouts, cleanup contracts, and documentation IDs;
     - never require the compiler to parse Windows C headers or regenerate
       bindings during ordinary builds.
-11. **SH-18 idiomatic Windows modules**
+11. **SH-18 idiomatic Windows modules — next; active**
     - layer `windows.*` over `windows.raw.*` with typed handles, ownership and
       exact cleanup, slices, optionals, OpenC errors, and safer defaults;
     - keep OpenC text UTF-8 and convert to UTF-16 for Unicode `W` APIs at the

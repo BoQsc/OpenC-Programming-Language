@@ -474,6 +474,12 @@ unsafe void c_put_call_name(
     if c_builtin_is(context, instruction, "file.read_text_cached", "system.file.read_text_cached") {
         d_put(buffer, "ocb_file_read_text_cached"); return;
     }
+    if c_builtin_is(context, instruction, "file.read_bytes", "system.file.read_bytes") {
+        d_put(buffer, "ocb_file_read_bytes"); return;
+    }
+    if c_builtin_is(context, instruction, "file.read_bytes_raw", "system.file.read_bytes_raw") {
+        d_put(buffer, "ocb_file_read_bytes_raw"); return;
+    }
     if c_builtin_is(context, instruction, "file.write_text", "system.file.write_text") {
         d_put(buffer, "ocb_file_write_text"); return;
     }

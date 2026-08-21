@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SH-16 native-first Windows development and verification workflow."""
+"""SH-17 native-first Windows development and verification workflow."""
 from __future__ import annotations
 
 import argparse
@@ -359,6 +359,20 @@ def main() -> int:
             task_output,
         )
     )
+    tasks.append(
+        run_task(
+            "windows_winmd_projection",
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "verify_sh17_winmd_projection.py"),
+                "--compiler",
+                str(compiler),
+                "--output",
+                str(output / "windows-winmd-projection" / "sh17-verification.json"),
+            ],
+            task_output,
+        )
+    )
 
     performance: dict[str, object] = {}
     if args.mode == "full":
@@ -520,8 +534,8 @@ def main() -> int:
     )
     passed = all(task["passed"] for task in tasks)
     result = {
-        "schema": "openc.windows_native_workflow.v6",
-        "milestone": "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME",
+        "schema": "openc.windows_native_workflow.v7",
+        "milestone": "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION",
         "mode": args.mode.upper(),
         "status": "PASS" if passed else "FAIL",
         "started_at_utc": started_at.isoformat().replace("+00:00", "Z"),
@@ -545,7 +559,7 @@ def main() -> int:
         newline="\n",
     )
     print(
-        f"SH-16 {args.mode} workflow: {result['status']}; "
+        f"SH-17 {args.mode} workflow: {result['status']}; "
         f"compiler=OpenC-native tasks={sum(task['passed'] for task in tasks)}/"
         f"{len(tasks)} seed_executed=false result={result_path}"
     )

@@ -533,6 +533,12 @@ int32_t ocb_text_compare(oc_text left, oc_text right);
 
 oc_status ocb_file_read_text(oc_text path, oc_text *value);
 oc_status ocb_file_read_text_cached(oc_text path, oc_text *value);
+oc_status ocb_file_read_bytes(oc_text path, oc_owned_bytes *value);
+oc_status ocb_file_read_bytes_raw(
+    oc_text path,
+    uint8_t **data,
+    uintptr_t *length
+);
 oc_status ocb_file_write_text(oc_text path, oc_text value);
 oc_status ocb_file_write_bytes(
     oc_text path,

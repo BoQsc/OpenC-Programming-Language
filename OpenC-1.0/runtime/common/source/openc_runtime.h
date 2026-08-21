@@ -158,6 +158,12 @@ OC_API oc_status oc_file_write_bytes(
     const void *data,
     uintptr_t length
 );
+OC_API oc_status oc_file_read_bytes(oc_text path, oc_owned_bytes *value);
+OC_API oc_status oc_file_read_bytes_raw(
+    oc_text path,
+    uint8_t **data,
+    uintptr_t *length
+);
 OC_API oc_status oc_file_flush(oc_file *file);
 OC_API void oc_file_close(oc_file file);
 

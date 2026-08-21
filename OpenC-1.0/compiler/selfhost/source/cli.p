@@ -105,6 +105,7 @@ void cli_print_help() {
     io.println("  openc explain RULE-ID");
     io.println("  openc --windows-x64-substrate REPORT.json");
     io.println("  openc --windows-pe32-runtime SOURCE.p OUTPUT.exe (console|windows) REPORT.json");
+    io.println("  openc --windows-winmd-project Windows.Win32.winmd OUTPUT_DIR MANIFEST.json");
     io.println("  openc help");
 }
 

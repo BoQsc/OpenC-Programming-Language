@@ -876,6 +876,41 @@ oc_status ocb_file_write_text(oc_text path, oc_text value) {
     return written;
 }
 
+oc_status ocb_file_read_bytes(oc_text path, oc_owned_bytes *value) {
+    oc_file file;
+    oc_status opened;
+    oc_status read;
+    if (value == NULL) {
+        return ocb_failure(OC_STATUS_INVALID_ARGUMENT, "byte output is null");
+    }
+    value->data = NULL;
+    value->length = 0u;
+    opened = oc_file_open_read(path, &file);
+    if (!oc_status_ok(opened)) return opened;
+    read = oc_file_read_all(&file, value);
+    oc_file_close(file);
+    return read;
+}
+
+oc_status ocb_file_read_bytes_raw(
+    oc_text path,
+    uint8_t **data,
+    uintptr_t *length
+) {
+    oc_owned_bytes value;
+    oc_status result;
+    if (data == NULL || length == NULL) {
+        return ocb_failure(
+            OC_STATUS_INVALID_ARGUMENT, "raw byte output is null"
+        );
+    }
+    result = ocb_file_read_bytes(path, &value);
+    if (!oc_status_ok(result)) return result;
+    *data = value.data;
+    *length = value.length;
+    return result;
+}
+
 oc_status ocb_file_write_bytes(
     oc_text path,
     const void *data,

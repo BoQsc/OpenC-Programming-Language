@@ -4,6 +4,22 @@ Date: 2026-07-26
 Host: Windows 10.0.19045, x86-64
 Scope: OpenC-native compiler rebuilding `compiler/selfhost/openc.project.json`
 
+## SH-17 regression result (2026-08-21)
+
+The closed 112-source SH-17 compiler remains inside every SH-14 throughput and
+memory budget after adding the purpose-built WinMD reader and raw projector.
+Its five-run clean median is 6.111 seconds and maximum is 6.170 seconds, versus
+18.085 seconds for the pinned same-host D reference (0.338x). Peak private
+memory is 253,460,480 bytes and peak working set is 28,917,760 bytes. Every
+compiler and generated C output is byte-identical. WinMD parsing is a separate
+offline generation command and does not run during ordinary compiler builds.
+
+The compiler SHA-256 is
+`027bd3258579bdac8aab5451cab13d1c1e4b5102b9fd1f15fb2907ac5df9a6b6`;
+generated C SHA-256 is
+`350a5a29e2190fe3faf5c1c83cb4bce0fc5b09ca61935b396735382794d51ce5`.
+Complete evidence is in `release/SH17_WINMD_RAW_PROJECTION_EVIDENCE.md`.
+
 ## SH-16 regression result (2026-08-13)
 
 The closed 107-source SH-16 compiler remains inside every SH-14 throughput and

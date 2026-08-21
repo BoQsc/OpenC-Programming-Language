@@ -161,7 +161,10 @@ executable checks. SH-16 PE32+ and CRT-free runtime is **PASS**: 107 OpenC
 source units emit a deterministic PE32+ image directly, and 34/34 checks prove
 imports, relocations, TLS, unwind, UTF-8 conversion, process-heap allocation,
 file I/O, cleanup, and execution without the Microsoft CRT, an assembler, or
-an external linker. SH-17 Win32 Metadata and raw projection work is active. Native
+an external linker. SH-17 Win32 Metadata and raw projection is **PASS**: 112
+OpenC compiler sources parse the real pinned metadata and generate seven
+byte-reproducible raw modules with 30/30 checks. SH-18 idiomatic Windows modules
+are active. Native
 editor integration and language-service resilience remain deferred to SH-23.
 
 The same-host SH-14 clean-build comparator is:
@@ -197,3 +200,12 @@ python scripts/verify_sh16_pe_runtime.py --compiler PATH/TO/openc.exe --output b
 
 Evidence and the bounded direct-backend scope are recorded in
 `release/SH16_PE32_PLUS_CRT_FREE_RUNTIME_EVIDENCE.md`.
+
+The complete SH-17 metadata projection gate is reproduced by:
+
+```text
+python scripts/verify_sh17_winmd_projection.py --compiler PATH/TO/openc.exe --input PATH/TO/Windows.Win32.winmd --regenerate --repeat 2 --output build-output/selfhost-sh17/sh17-verification.json
+```
+
+The exact input is acquired and checked with `scripts/acquire_sh17_winmd.py`.
+Evidence is recorded in `release/SH17_WINMD_RAW_PROJECTION_EVIDENCE.md`.

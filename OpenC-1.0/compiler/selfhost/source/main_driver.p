@@ -236,6 +236,12 @@ unsafe i32 cli_observe_source_command(usize arguments) {
 
 unsafe i32 main() {
     usize arguments = process.argument_count();
+    if arguments == 4 &&
+        process.argument(0) == "--windows-winmd-project" {
+        return emit_windows_winmd_projection(
+            process.argument(1), process.argument(2), process.argument(3)
+        );
+    }
     if arguments == 5 &&
         process.argument(0) == "--windows-pe32-runtime" {
         return emit_windows_pe32_runtime(

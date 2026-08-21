@@ -1,0 +1,43 @@
+{
+  "schema": "openc.windows_raw_projection_contract.v1",
+  "generator_version": "openc-winmd-projector-sh17.1",
+  "architecture": "x86_64",
+  "modules": [
+    "foundation",
+    "file",
+    "memory",
+    "process",
+    "thread",
+    "window",
+    "graphics"
+  ],
+  "record_kinds": {
+    "R": "TypeRef",
+    "D": "ModuleRef",
+    "T": "TypeDef",
+    "F": "Field",
+    "M": "MethodDef",
+    "P": "Param",
+    "X": "InterfaceImpl",
+    "I": "ImplMap",
+    "C": "Constant",
+    "L": "ClassLayout",
+    "O": "FieldLayout",
+    "A": "CustomAttribute"
+  },
+  "required_metadata": [
+    "dll_and_export_symbol",
+    "calling_convention",
+    "architecture_restrictions",
+    "get_last_error",
+    "parameter_direction_optional_array_and_length",
+    "ansi_and_unicode_variants",
+    "retained_pointer_lifetime",
+    "typed_handle_cleanup_and_invalid_value",
+    "enum_constant_union_bitfield_pack_and_offset",
+    "documentation_identifier"
+  ],
+  "c_header_parser": false,
+  "third_party_metadata_library": false,
+  "ordinary_build_parses_winmd": false
+}
