@@ -88,6 +88,81 @@ unsafe usize flow_name_symbol(
     );
 }
 
+unsafe usize flow_qualified_function_symbol(
+    text project_source,
+    text project_root,
+    ptr byte module_data,
+    ref PackedBuffer modules,
+    ptr byte source_data,
+    ptr byte symbol_data,
+    ptr byte detail_data,
+    ref PackedBuffer symbols,
+    text source,
+    usize start,
+    usize length
+) {
+    usize separator = length;
+    usize cursor = 0;
+    while cursor < length {
+        if byte_at_or_zero(source, start + cursor) == 46 {
+            separator = cursor;
+        }
+        cursor = cursor + 1;
+    }
+    if separator == length { return symbols.length; }
+    usize target_module = modules.length;
+    usize module_index = 0;
+    while module_index < modules.length {
+        usize module_start = read_record_field(
+            module_data, module_index, 0
+        );
+        usize module_length = read_record_field(
+            module_data, module_index, 1
+        );
+        usize short_start = module_start;
+        usize module_cursor = 0;
+        while module_cursor < module_length {
+            if byte_at_or_zero(
+                project_source, module_start + module_cursor
+            ) == 46 {
+                short_start = module_start + module_cursor + 1;
+            }
+            module_cursor = module_cursor + 1;
+        }
+        usize short_length = module_start + module_length - short_start;
+        bool full_match = semantic_spans_equal(
+            source, start, separator,
+            project_source,
+            module_start, module_length
+        );
+        bool short_match = semantic_spans_equal(
+            source, start, separator,
+            project_source, short_start, short_length
+        );
+        if full_match || short_match {
+            target_module = module_index;
+            break;
+        }
+        module_index = module_index + 1;
+    }
+    if target_module >= modules.length { return symbols.length; }
+    usize symbol = 0;
+    while symbol < symbols.length {
+        if read_record_field(symbol_data, symbol, 0) ==
+                resolution_symbol_function() &&
+            read_record_field(detail_data, symbol, 0) == target_module &&
+            resolution_symbol_name_equals(
+                project_source, project_root, source_data,
+                symbol_data, symbol, source,
+                start + separator + 1, length - separator - 1
+            ) {
+            return symbol;
+        }
+        symbol = symbol + 1;
+    }
+    return symbols.length;
+}
+
 unsafe usize flow_call_selection(
     text project_source,
     text project_root,
@@ -119,6 +194,16 @@ unsafe usize flow_call_selection(
         syntax_data, syntax, module_index, source_record,
         callee, source
     );
+    if first >= symbols.length {
+        first = flow_qualified_function_symbol(
+            project_source, project_root,
+            module_data, modules, source_data,
+            symbol_data, detail_data, symbols,
+            source,
+            read_record_field(syntax_data, callee, 1),
+            read_record_field(syntax_data, callee, 2)
+        );
+    }
     if first >= symbols.length { return symbols.length; }
     ResolutionCallSelection selection = resolution_select_call(
         project_source, project_root,
@@ -127,6 +212,25 @@ unsafe usize flow_call_selection(
         token_data, tokens, syntax_data, syntax,
         module_index, source_record, call, source, first
     );
+    if selection.ambiguous || selection.symbol >= symbols.length {
+        usize qualified = flow_qualified_function_symbol(
+            project_source, project_root,
+            module_data, modules, source_data,
+            symbol_data, detail_data, symbols,
+            source,
+            read_record_field(syntax_data, callee, 1),
+            read_record_field(syntax_data, callee, 2)
+        );
+        if qualified < symbols.length && qualified != first {
+            selection = resolution_select_call(
+                project_source, project_root,
+                module_data, modules, source_data,
+                type_data, symbol_data, detail_data, symbols,
+                token_data, tokens, syntax_data, syntax,
+                module_index, source_record, call, source, qualified
+            );
+        }
+    }
     if selection.ambiguous { return symbols.length; }
     return selection.symbol;
 }

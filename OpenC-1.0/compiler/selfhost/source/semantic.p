@@ -175,16 +175,33 @@ unsafe bool semantic_named_equals_span(
     );
     usize module_start = read_record_field(module_data, module_index, 0);
     usize module_length = read_record_field(module_data, module_index, 1);
-    if requested_length != module_length + 1 + name_length { return false; }
-    if !semantic_spans_equal(
-        requested_source, requested_start, module_length,
-        project_source, module_start, module_length
-    ) { return false; }
-    if byte_at_or_zero(requested_source, requested_start + module_length) != 46 {
-        return false;
+    usize short_start = module_start;
+    usize cursor = 0;
+    while cursor < module_length {
+        if byte_at_or_zero(project_source, module_start + cursor) == 46 {
+            short_start = module_start + cursor + 1;
+        }
+        cursor = cursor + 1;
     }
+    usize short_length = module_start + module_length - short_start;
+    usize qualifier_length = module_length;
+    bool full_match = requested_length == module_length + 1 + name_length &&
+        semantic_spans_equal(
+            requested_source, requested_start, module_length,
+            project_source, module_start, module_length
+        );
+    bool short_match = requested_length == short_length + 1 + name_length &&
+        semantic_spans_equal(
+            requested_source, requested_start, short_length,
+            project_source, short_start, short_length
+        );
+    if short_match { qualifier_length = short_length; }
+    if !full_match && !short_match { return false; }
+    if byte_at_or_zero(
+        requested_source, requested_start + qualifier_length
+    ) != 46 { return false; }
     return semantic_spans_equal(
-        requested_source, requested_start + module_length + 1, name_length,
+        requested_source, requested_start + qualifier_length + 1, name_length,
         declared_source, name_start, name_length
     );
 }

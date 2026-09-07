@@ -25,6 +25,7 @@ unsafe void parser_synchronize_top(ref ParserContext context) {
             return;
         }
         if parser_check(context, "export") ||
+            parser_check(context, "external") ||
             parser_check(context, "struct") ||
             parser_check(context, "resource") ||
             parser_check(context, "enum") ||
@@ -52,6 +53,13 @@ unsafe bool parser_looks_like_module_const(ref ParserContext context) {
 
 unsafe bool parser_looks_like_function(ref ParserContext context) {
     usize index = context.cursor;
+    if token_matches(context, index, "external") {
+        while index < context.token_count &&
+            !token_matches(context, index, ")") {
+            index = index + 1;
+        }
+        if index < context.token_count { index = index + 1; }
+    }
     if token_matches(context, index, "unsafe") { index = index + 1; }
     if token_matches(context, index, "own") { index = index + 1; }
     i32 nesting = 0;

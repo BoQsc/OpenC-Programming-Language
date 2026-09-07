@@ -109,6 +109,17 @@ unsafe NodeResult parse_parameter(ref ParserContext context) {
 unsafe NodeResult parse_function_declaration(ref ParserContext context) {
     usize start_token = current_token(context);
     usize start = token_start(context, start_token);
+    if parser_match(context, "external") {
+        parser_expect(context, "(", 23);
+        parser_expect_identifier(context, 20);
+        parser_expect(context, ",", 23);
+        if token_kind(context, current_token(context)) == 4 {
+            advance_token(context);
+        } else {
+            parser_error(context, 20, current_token(context));
+        }
+        parser_expect(context, ")", 23);
+    }
     parser_match(context, "unsafe");
     parser_match(context, "own");
     if parser_match(context, "void") {
@@ -174,7 +185,8 @@ unsafe NodeResult parse_top_declaration(
     } else if parser_check(context, "const") &&
         parser_looks_like_module_const(context) {
         declaration = parse_module_constant(context);
-    } else if parser_looks_like_function(context) {
+    } else if parser_check(context, "external") ||
+        parser_looks_like_function(context) {
         declaration = parse_function_declaration(context);
     } else {
         parser_error(context, 27, current_token(context));

@@ -215,7 +215,7 @@ unsafe usize resolution_argument_type(
         usize node_end = node_start + read_record_field(syntax_data, record, 2);
         if node_start >= start && node_end <= end &&
             (kind == 27 || kind == 29 || kind == 30 || kind == 31 ||
-             kind == 32 || kind == 48) {
+             kind == 32 || kind == 48 || kind == 51) {
             usize length = node_end - node_start;
             if best == syntax.length || length > best_length {
                 best = record;

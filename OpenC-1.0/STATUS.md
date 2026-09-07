@@ -38,13 +38,14 @@ native project workflow:              SH-10 PASS; FMT/INFO/TEST, 21/21
 native language service:              SH-11 PASS; LIFECYCLE/DIAGNOSTICS/FMT, 19/19
 native semantic language service:     SH-12 PASS; SYMBOLS/NAV/COMPLETE/RENAME, 23/23
 human + machine diagnostics:          PASS; `openc.check.v1` + STABLE STREAMS
-completed engineering milestone:     SH-17 WIN32 METADATA + RAW PROJECTION
-next engineering milestone:          SH-18 IDIOMATIC WINDOWS MODULES
+completed engineering milestone:     SH-18 IDIOMATIC WINDOWS MODULES
+next engineering milestone:          SH-19 NATIVE BACKEND + TINYCC EXIT
 SH-14 stability/scaling gate:         20/20 CLOSURE; WORST DOUBLING 2.112x
 SH-15 ABI/encoder verification:       PASS; 25/25 EXECUTABLE + STATIC CHECKS
 SH-16 PE/runtime verification:        PASS; 34/34, KERNEL32-ONLY, NO MICROSOFT CRT
 SH-17 WinMD projection verification: PASS; 30/30, 7 MODULES, 71,425 RECORDS
-active critical path:                 WINMD -> FRIENDLY WINDOWS -> NATIVE BACKEND -> TCC EXIT
+SH-18 friendly Windows verification: PASS; 27/27, 12 MODULES; 10.103 S REBUILD MEDIAN
+active critical path:                 NATIVE BACKEND -> TCC EXIT -> NATIVE WORKFLOWS
 DMD-independent self-host compiler:  YES; PUBLIC `openc build`, VENDORED TCC
 standalone compiler distribution:    YES; RELOCATABLE; NO D/PYTHON SOURCE
 normal toolchain fully independent:   NO; TINYCC + EXTERNAL PYTHON EVIDENCE REMAIN
@@ -117,7 +118,9 @@ relocations, TLS, unwind data, UTF-8 command-line conversion, process-heap
 allocation, file I/O, cleanup, and 34/34 verification checks while retaining
 the throughput budgets. SH-17 then parses the real pinned Win32 Metadata image
 in OpenC and reproducibly generates seven raw modules with 71,425 records and
-30/30 checks. SH-18 friendly Windows modules are active and lead into the compiler-capable native backend,
+30/30 checks. SH-18 adds twelve friendly Windows modules and passes 27/27 checks,
+278/278 conformance, and a 10.103-second clean rebuild median (0.481x the D reference).
+SH-19 is active for the compiler-capable native backend,
 TinyCC exit, and OpenC-native replacement of required Python/D tooling. The
 editor-integration milestone is deferred to SH-23. Linux, freestanding, and
 ARM64 remain optional later targets.

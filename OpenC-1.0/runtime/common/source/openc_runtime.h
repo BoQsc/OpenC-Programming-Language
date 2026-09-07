@@ -184,6 +184,116 @@ OC_API void oc_platform_release(void *allocation);
 OC_API oc_status oc_platform_current_directory(oc_owned_bytes *out_bytes);
 OC_API _Noreturn void oc_platform_exit(int32_t code);
 
+/* SH-18 Windows friendly-module provider. Public OpenC APIs wrap these
+ * primitive ABI functions with typed resources, ownership, and UTF-8 text. */
+OC_API oc_status ocw_utf16_encode(
+    oc_text value, uint8_t **data, uintptr_t *units
+);
+OC_API oc_status ocw_utf16_decode(
+    const uint8_t *data, uintptr_t units,
+    uint8_t **utf8_data, uintptr_t *utf8_length
+);
+OC_API void ocw_buffer_free(void *data);
+OC_API oc_text ocw_text_view(uint8_t *data, uintptr_t length);
+OC_API uint32_t ocw_last_error(void);
+OC_API oc_status ocw_format_error(
+    uint32_t code, uint8_t **utf8_data, uintptr_t *utf8_length
+);
+
+OC_API oc_status ocw_file_open(
+    const uint8_t *path, bool write, bool create, bool truncate,
+    bool exclusive, uintptr_t *handle
+);
+OC_API oc_status ocw_file_read(
+    uintptr_t handle, uint8_t **data, uintptr_t *length
+);
+OC_API oc_status ocw_file_write(
+    uintptr_t handle, const uint8_t *data, uintptr_t length
+);
+OC_API oc_status ocw_file_write_text(uintptr_t handle, oc_text value);
+OC_API oc_status ocw_file_write_byte(uintptr_t handle, uint8_t value);
+OC_API oc_status ocw_file_flush(uintptr_t handle);
+OC_API oc_status ocw_file_remove(const uint8_t *path);
+OC_API void ocw_close_handle(uintptr_t handle);
+
+OC_API oc_status ocw_heap_create(uintptr_t *heap);
+OC_API uintptr_t ocw_process_heap(void);
+OC_API oc_status ocw_heap_allocate(
+    uintptr_t heap, uintptr_t length, uint8_t **data
+);
+OC_API oc_status ocw_heap_resize(
+    uintptr_t heap, void *data, uintptr_t length, uint8_t **resized
+);
+OC_API void ocw_heap_free(uintptr_t heap, void *data);
+OC_API void ocw_heap_destroy(uintptr_t heap);
+
+OC_API oc_status ocw_process_start(
+    const uint8_t *command, const uint8_t *directory, bool has_directory,
+    bool hidden, uintptr_t *process_handle, uintptr_t *thread_handle,
+    uint32_t *process_id
+);
+OC_API oc_status ocw_wait_handle(
+    uintptr_t handle, uint32_t milliseconds, bool infinite, bool *timed_out
+);
+OC_API oc_status ocw_process_exit_code(uintptr_t handle, uint32_t *exit_code);
+OC_API oc_status ocw_event_create(
+    bool manual_reset, bool initially_signaled, uintptr_t *handle
+);
+OC_API oc_status ocw_event_set(uintptr_t handle);
+OC_API uint32_t ocw_current_thread_id(void);
+OC_API void ocw_sleep(uint32_t milliseconds);
+
+OC_API oc_status ocw_console_write(
+    const uint8_t *wide, uintptr_t units, oc_text utf8,
+    bool standard_error
+);
+OC_API oc_status ocw_window_desktop(uintptr_t *window);
+OC_API bool ocw_window_valid(uintptr_t window);
+OC_API oc_status ocw_window_title(
+    uintptr_t window, uint8_t **utf8_data, uintptr_t *utf8_length
+);
+OC_API oc_status ocw_message_box(
+    uintptr_t owner, const uint8_t *message, const uint8_t *title,
+    uint32_t flags, int32_t *selection
+);
+
+OC_API oc_status ocw_dc_acquire(uintptr_t window, uintptr_t *dc);
+OC_API void ocw_dc_release(uintptr_t window, uintptr_t dc);
+OC_API oc_status ocw_brush_create(uint32_t color, uintptr_t *brush);
+OC_API void ocw_gdi_delete(uintptr_t object);
+OC_API oc_status ocw_fill_rectangle(
+    uintptr_t dc, int32_t left, int32_t top, int32_t right, int32_t bottom,
+    uintptr_t brush
+);
+
+OC_API oc_status ocw_module_path(
+    uint8_t **utf8_data, uintptr_t *utf8_length
+);
+OC_API oc_status ocw_library_load_system(
+    const uint8_t *name, uintptr_t *module
+);
+OC_API void ocw_library_close(uintptr_t module);
+
+OC_API oc_status ocw_network_start(uintptr_t *module);
+OC_API void ocw_network_stop(uintptr_t module);
+OC_API oc_status ocw_network_host_name(
+    uintptr_t module, uint8_t **utf8_data, uintptr_t *utf8_length
+);
+
+OC_API oc_status ocw_registry_open_current_user(
+    const uint8_t *subkey, bool write, uintptr_t *key
+);
+OC_API oc_status ocw_registry_read_text(
+    uintptr_t key, const uint8_t *name,
+    uint8_t **utf8_data, uintptr_t *utf8_length
+);
+OC_API void ocw_registry_close(uintptr_t key);
+
+OC_API oc_status ocw_shell_local_app_data(
+    uint8_t **utf8_data, uintptr_t *utf8_length
+);
+OC_API oc_status ocw_shell_open(const uint8_t *target);
+
 #ifdef __cplusplus
 }
 #endif

@@ -580,26 +580,26 @@ if self_host_gates.get("SH-17") == "PASS" and (
         "projection, metadata preservation, closure, and Windows Hosted gates"
     )
 if (
-    active_plan.get("id") != "SH-18"
+    active_plan.get("id") != "SH-19"
     or active_plan.get("name")
-    != "idiomatic_windows_modules"
+    != "compiler_capable_native_backend_and_tinycc_exit"
     or active_plan.get("status") != "NEXT_ACTIVE"
     or active_plan.get("plan")
     != "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md"
-    or active_plan.get("blocked_by_sh17")
-    or not active_plan.get("raw_projection_available")
-    or not active_plan.get("typed_handles_and_exact_cleanup_required")
-    or not active_plan.get("utf8_to_utf16_boundary_required")
-    or not active_plan.get("slices_optionals_errors_and_safe_defaults_required")
+    or active_plan.get("blocked_by_sh18")
+    or not active_plan.get("compiler_reachable_core_ir_lowering_required")
+    or not active_plan.get("byte_identical_self_hosting_required")
+    or not active_plan.get("tinycc_and_generated_c_exit_required")
+    or not active_plan.get("throughput_regression_gate_required")
 ):
     errors.append(
-        "SH-18 idiomatic Windows modules must be active after SH-17"
+        "SH-19 native backend and TinyCC exit must be active after SH-18"
     )
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
-    "SH-18_IDIOMATIC_WINDOWS_MODULES"
+    "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT"
 ):
-    errors.append("development state must name idiomatic Windows work as SH-18")
+    errors.append("development state must name native backend work as SH-19")
 development_sh14 = development_self_hosting.get("sh14_acceptance", {})
 if (
     development_sh14.get("status") != "PASS"
@@ -641,21 +641,30 @@ if (
 ):
     errors.append("development state must record the passed SH-17 evidence")
 windows_plan = planned.get("windows_independence_plan", {})
+sh18 = development_self_hosting.get("sh18_acceptance", {})
+if (sh18.get("status") != "PASS" or sh18.get("friendly_modules") != 12
+        or sh18.get("verification_checks_passed") != 27
+        or sh18.get("verification_checks_total") != 27
+        or not sh18.get("stage2_stage3_byte_equal")
+        or sh18.get("native_conformance_fixtures_passed") != 278
+        or sh18.get("relative_to_d_median", float("inf")) > 1.25):
+    errors.append("SH-18 requires modules, behavior, closure, conformance and throughput evidence")
 if (
     windows_plan.get("implementation_blocked_until_sh14_pass")
     or not windows_plan.get("implementation_unblocked_by_sh14_pass")
     or not windows_plan.get("sh15_completed")
     or not windows_plan.get("sh16_completed")
     or not windows_plan.get("sh17_completed")
+    or not windows_plan.get("sh18_completed")
     or windows_plan.get("active_milestone")
-    != "SH-18_IDIOMATIC_WINDOWS_MODULES"
+    != "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT"
     or windows_plan.get("sequence", [None])[0]
     != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
     or windows_plan.get("sequence", [None])[-1]
     != "SH-23_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
 ):
     errors.append(
-        "Windows independence must advance to SH-18 with editor work last"
+        "Windows independence must advance to SH-19 with editor work last"
     )
 
 windows_target = json.loads((
@@ -762,8 +771,10 @@ if '"native_semantic_language_service_23_of_23"' not in standalone_verifier:
         "standalone release must verify the complete SH-12 semantic "
         "language-service contract"
     )
-if '"openc.windows_native_workflow.v7"' not in native_workflow:
-    errors.append("native workflow must record the SH-17 workflow schema")
+if '"openc.windows_native_workflow.v8"' not in native_workflow:
+    errors.append("native workflow must record the SH-18 workflow schema")
+if '"windows_friendly_modules"' not in native_workflow:
+    errors.append("native workflow must verify the SH-18 friendly modules")
 
 repository_text = "\n".join(
     path.read_text(encoding="utf-8", errors="replace")

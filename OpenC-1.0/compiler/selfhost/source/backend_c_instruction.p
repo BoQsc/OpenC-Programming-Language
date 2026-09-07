@@ -39,7 +39,8 @@ unsafe void c_put_call_argument(
     ref DBuffer buffer,
     usize instruction,
     usize index,
-    ptr byte value_types
+    ptr byte value_types,
+    ptr byte reference_storage
 ) {
     if c_builtin_is(
             context, instruction,
@@ -53,11 +54,11 @@ unsafe void c_put_call_argument(
     }
     usize parameter = c_call_parameter(context, instruction, index);
     usize value = d_operand_value(context, instruction, index);
+    usize actual_type = c_value_type(value_types, value);
     if parameter < context.symbols.length {
         usize expected_type = read_record_field(
             context.symbol_data, parameter, 4
         );
-        usize actual_type = c_value_type(value_types, value);
         if actual_type < context.types.length &&
             expected_type < context.types.length &&
             read_record_field(context.type_data, actual_type, 0) == 10 &&
@@ -78,8 +79,12 @@ unsafe void c_put_call_argument(
     if parameter < context.symbols.length {
         usize mode = read_record_field(context.detail_data, parameter, 3);
         usize type_id = read_record_field(context.symbol_data, parameter, 4);
-        if (mode == 1 || d_parameter_owned(context, parameter)) &&
-            !c_type_is_reference(context, type_id) {
+        bool address_owned = d_parameter_owned(context, parameter) &&
+            !c_type_is_pointer_like(context, type_id);
+        if (mode == 1 || address_owned) &&
+            !c_type_is_reference(context, type_id) && read_usize(
+                reference_storage, value * size_of(usize)
+            ) == 0 && !c_type_is_reference(context, actual_type) {
             d_put(buffer, "&");
         }
     } else if c_call_builtin_out(context, instruction, index) {
@@ -337,7 +342,8 @@ unsafe void c_emit_instruction(
         while index < count {
             if index != 0 { d_put(buffer, ", "); }
             c_put_call_argument(
-                context, buffer, instruction, index, value_types
+                context, buffer, instruction, index,
+                value_types, reference_storage
             );
             index = index + 1;
         }

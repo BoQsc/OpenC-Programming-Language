@@ -10,7 +10,26 @@
     "system.memory": ["system.memory/source/memory.p"],
     "system.path": ["system.path/source/path.p"],
     "system.process": ["system.process/source/process.p"],
-    "system.text": ["system.text/source/text.p"]
+    "system.text": ["system.text/source/text.p"],
+    "windows.raw.foundation": ["windows.raw/generated/windows.raw.foundation.p"],
+    "windows.raw.file": ["windows.raw/generated/windows.raw.file.p"],
+    "windows.raw.memory": ["windows.raw/generated/windows.raw.memory.p"],
+    "windows.raw.process": ["windows.raw/generated/windows.raw.process.p"],
+    "windows.raw.thread": ["windows.raw/generated/windows.raw.thread.p"],
+    "windows.raw.window": ["windows.raw/generated/windows.raw.window.p"],
+    "windows.raw.graphics": ["windows.raw/generated/windows.raw.graphics.p"],
+    "windows.foundation": ["windows.foundation/source/foundation.p"],
+    "windows.file": ["windows.file/source/file.p"],
+    "windows.memory": ["windows.memory/source/memory.p"],
+    "windows.process": ["windows.process/source/process.p"],
+    "windows.thread": ["windows.thread/source/thread.p"],
+    "windows.console": ["windows.console/source/console.p"],
+    "windows.window": ["windows.window/source/window.p"],
+    "windows.graphics": ["windows.graphics/source/graphics.p"],
+    "windows.resources": ["windows.resources/source/resources.p"],
+    "windows.network": ["windows.network/source/network.p"],
+    "windows.registry": ["windows.registry/source/registry.p"],
+    "windows.shell": ["windows.shell/source/shell.p"]
   },
   "output_directory": "build"
 }

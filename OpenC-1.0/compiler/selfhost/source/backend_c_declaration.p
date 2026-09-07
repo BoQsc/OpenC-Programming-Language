@@ -240,7 +240,8 @@ unsafe void c_emit_scope_action(
     while index < count {
         if index != 0 { d_put(buffer, ", "); }
         c_put_call_argument(
-            context, buffer, instruction, index, value_types
+            context, buffer, instruction, index,
+            value_types, reference_storage
         );
         index = index + 1;
     }

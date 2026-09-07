@@ -72,6 +72,40 @@ unsafe bool acceptance_lossless(
     }
     usize actual_kind = acceptance_kind(context, actual);
     usize expected_kind = acceptance_kind(context, expected);
+    if expected_kind == 12 && acceptance_const_type(context, actual) &&
+        !acceptance_const_type(context, expected) { return false; }
+    if read_record_field(context.type_data, actual, 4) / 8 % 2 == 1 {
+        usize preserved = read_record_field(context.type_data, actual, 1);
+        if preserved != actual {
+            return acceptance_lossless(context, preserved, expected);
+        }
+    }
+    if read_record_field(context.type_data, expected, 4) / 8 % 2 == 1 {
+        usize preserved = read_record_field(context.type_data, expected, 1);
+        if preserved != expected {
+            return acceptance_lossless(context, actual, preserved);
+        }
+    }
+    if expected_kind == 12 {
+        return acceptance_lossless(
+            context, actual,
+            read_record_field(context.type_data, expected, 1)
+        );
+    }
+    if actual_kind == 12 {
+        return acceptance_lossless(
+            context,
+            read_record_field(context.type_data, actual, 1), expected
+        );
+    }
+    if actual_kind == 9 && expected_kind == 9 {
+        return read_record_field(context.type_data, actual, 1) ==
+                read_record_field(context.type_data, expected, 1) &&
+            read_record_field(context.type_data, actual, 2) ==
+                read_record_field(context.type_data, expected, 2) &&
+            read_record_field(context.type_data, actual, 3) ==
+                read_record_field(context.type_data, expected, 3);
+    }
     if actual_kind == expected_kind && actual_kind >= 10 &&
         actual_kind <= 14 {
         usize actual_element = read_record_field(

@@ -2,7 +2,33 @@ import system.file;
 import system.memory;
 import system.text;
 
+unsafe void acceptance_mask_external_declarations(ref IrContext context) {
+    usize declaration = 0;
+    while declaration < context.syntax.length {
+        if read_record_field(context.syntax_data, declaration, 0) == 2 {
+            usize start = read_record_field(
+                context.syntax_data, declaration, 1
+            );
+            if starts_with_ascii(context.source, start, "external") {
+                usize child = 0;
+                while child < context.syntax.length {
+                    if child == declaration || semantic_node_contains(
+                        context.syntax_data, declaration, child
+                    ) {
+                        write_record_field(
+                            context.syntax_data, child, 0, 0
+                        );
+                    }
+                    child = child + 1;
+                }
+            }
+        }
+        declaration = declaration + 1;
+    }
+}
+
 unsafe usize acceptance_validate_context(ref IrContext context) {
+    acceptance_mask_external_declarations(context);
     usize errors = 0;
     errors = errors + acceptance_validate_type_refs(context);
     errors = errors + acceptance_validate_fields(context);

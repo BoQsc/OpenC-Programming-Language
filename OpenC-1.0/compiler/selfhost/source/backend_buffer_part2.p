@@ -184,7 +184,7 @@ unsafe void d_put_operand_immediate(
         d_put_usize(
             buffer, read_record_field(context.operand_data, operand, 2)
         );
-    } else if kind == 2 {
+    } else if kind == 2 || kind == 5 {
         d_put_slice(
             buffer, context.source,
             read_record_field(context.operand_data, operand, 2),

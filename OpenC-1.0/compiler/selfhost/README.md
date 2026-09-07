@@ -163,8 +163,8 @@ imports, relocations, TLS, unwind, UTF-8 conversion, process-heap allocation,
 file I/O, cleanup, and execution without the Microsoft CRT, an assembler, or
 an external linker. SH-17 Win32 Metadata and raw projection is **PASS**: 112
 OpenC compiler sources parse the real pinned metadata and generate seven
-byte-reproducible raw modules with 30/30 checks. SH-18 idiomatic Windows modules
-are active. Native
+byte-reproducible raw modules with 30/30 checks. SH-18 idiomatic Windows modules pass 27/27 checks across twelve modules.
+SH-19 compiler-capable native backend and TinyCC exit is active. Native
 editor integration and language-service resilience remain deferred to SH-23.
 
 The same-host SH-14 clean-build comparator is:

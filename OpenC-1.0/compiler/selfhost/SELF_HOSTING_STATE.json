@@ -730,23 +730,52 @@
       "historical_rule_id_matches_disclosed": 93,
       "linux_and_freestanding_gate": false,
       "next_milestone": "SH-18_IDIOMATIC_WINDOWS_MODULES"
+    },
+    {
+      "id": "SH-18",
+      "name": "idiomatic_windows_modules",
+      "status": "PASS",
+      "evidence": "release/SH18_IDIOMATIC_WINDOWS_MODULES_EVIDENCE.md",
+      "verification_schema": "openc.sh18_windows_modules.verification.v1",
+      "compiler_source_files": 112,
+      "verification_checks_passed": 27,
+      "verification_checks_total": 27,
+      "friendly_modules": 12,
+      "raw_backed_modules": 7,
+      "native_compiler_sha256": "0f7a345e5093a3f0d6b67d3dc088f1220f84adb5a238126d75df636852f40118",
+      "generated_c_sha256": "a41c3a09f4963027bd306c4e17c21efeb20a4948ca1ccae45521cfd3780adf1e",
+      "stage2_stage3_byte_equal": true,
+      "clean_runs": 5,
+      "clean_median_seconds": 10.103,
+      "clean_maximum_seconds": 12.219,
+      "d_reference_median_seconds": 20.995,
+      "relative_to_d_median": 0.481,
+      "native_conformance_fixtures_passed": 278,
+      "maintained_programs_passed": 4,
+      "full_workflow_tasks_passed": 15,
+      "integrated_sh18_workflow_tasks_passed": 16,
+      "dedicated_sh18_gate_passed": true,
+      "tinycc_backend_required_for_general_builds": true,
+      "legacy_msvcrt_imported": true,
+      "retained_d_seed_executed_by_required_workflow": false,
+      "historical_rule_id_matches_disclosed": 93,
+      "linux_and_freestanding_gate": false,
+      "next_milestone": "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT"
     }
   ],
   "planned_milestones": {
     "active": {
-      "id": "SH-18",
-      "name": "idiomatic_windows_modules",
+      "id": "SH-19",
+      "name": "compiler_capable_native_backend_and_tinycc_exit",
       "status": "NEXT_ACTIVE",
       "plan": "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md",
-      "blocked_by_sh17": false,
+      "blocked_by_sh18": false,
       "target": "windows_x86_64_hosted",
-      "raw_projection_available": true,
-      "typed_handles_and_exact_cleanup_required": true,
-      "utf8_to_utf16_boundary_required": true,
-      "slices_optionals_errors_and_safe_defaults_required": true,
-      "files_memory_process_threads_and_console_first": true,
-      "window_graphics_resources_network_registry_shell_follow": true,
-      "tinycc_removal_required_in_sh18": false
+      "compiler_reachable_core_ir_lowering_required": true,
+      "byte_identical_self_hosting_required": true,
+      "tinycc_and_generated_c_exit_required": true,
+      "crt_free_compiler_runtime_required": true,
+      "throughput_regression_gate_required": true
     },
     "windows_independence_plan": {
       "architecture": "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md",
@@ -755,7 +784,7 @@
       "sh15_completed": true,
       "sh16_completed": true,
       "sh17_completed": true,
-      "active_milestone": "SH-18_IDIOMATIC_WINDOWS_MODULES",
+      "active_milestone": "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT",
       "sequence": [
         "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE",
         "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME",
@@ -776,7 +805,8 @@
         "external_assembler_required": false,
         "external_linker_required": false,
         "optional_first_binary_bootstrap_lane_retained": true
-      }
+      },
+      "sh18_completed": true
     }
   },
   "rc9_standalone_refresh": {
@@ -930,6 +960,8 @@
     "deterministic_windows_raw_projection": true,
     "winmd_contract_metadata_preserved": true,
     "normal_compilation_excludes_winmd_and_c_headers": true,
-    "sh17_deterministic_closure": true
+    "sh17_deterministic_closure": true,
+    "idiomatic_windows_modules": true,
+    "sh18_deterministic_closure": true
   }
 }

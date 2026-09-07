@@ -84,6 +84,46 @@ unsafe usize resolution_find_local(
     return selected;
 }
 
+unsafe bool resolution_is_exported(
+    text project_source,
+    text project_root,
+    ptr byte source_data,
+    ptr byte symbol_data,
+    usize symbol
+) {
+    text source;
+    status loaded = project_read_source_record(
+        project_source, project_root, source_data,
+        read_record_field(symbol_data, symbol, 1), out source
+    );
+    if !loaded.ok { return false; }
+    usize name_start = read_record_field(symbol_data, symbol, 2);
+    PackedBuffer tokens = PackedBuffer{ length = 0, capacity = name_start + 2 };
+    PackedBuffer diagnostics = PackedBuffer{ length = 0, capacity = name_start * 4 + 8 };
+    ptr byte token_data = memory.alloc(tokens.capacity * record_stride());
+    scope memory.free(token_data);
+    ptr byte diagnostic_data = memory.alloc(diagnostics.capacity * record_stride());
+    scope memory.free(diagnostic_data);
+    lex_source(project_slice(source, 0, name_start), token_data, tokens,
+        diagnostic_data, diagnostics);
+    bool exported = false;
+    usize token = 0;
+    while token < tokens.length {
+        usize start = read_record_field(token_data, token, 1);
+        usize length = read_record_field(token_data, token, 2);
+        if span_equals_ascii(source, start, length, ";") ||
+            span_equals_ascii(source, start, length, "{") ||
+            span_equals_ascii(source, start, length, "}") {
+            exported = false;
+        }
+        if span_equals_ascii(source, start, length, "export") {
+            exported = true;
+        }
+        token = token + 1;
+    }
+    return exported;
+}
+
 unsafe usize resolution_find_top_unqualified(
     text project_source,
     text project_root,
@@ -210,20 +250,44 @@ unsafe usize resolution_find_nonlocal_name(
             usize module_length = read_record_field(
                 module_data, candidate_module, 1
             );
-            if module_length < length &&
+            usize qualifier_length = module_length;
+            usize module_start = read_record_field(
+                module_data, candidate_module, 0
+            );
+            usize short_start = module_start;
+            usize module_cursor = 0;
+            while module_cursor < module_length {
+                if byte_at_or_zero(
+                    project_source, module_start + module_cursor
+                ) == 46 {
+                    short_start = module_start + module_cursor + 1;
+                }
+                module_cursor = module_cursor + 1;
+            }
+            usize short_length = module_start + module_length - short_start;
+            bool full_qualifier = module_length < length &&
                 byte_at_or_zero(source, start + module_length) == 46 &&
                 resolution_module_name_equals(
                     project_source, module_data, candidate_module,
                     source, start, module_length
-                ) {
+                );
+            bool short_qualifier = short_length == first_length &&
+                first_length < length && semantic_spans_equal(
+                    source, start, first_length,
+                    project_source, short_start, short_length
+                );
+            if short_qualifier { qualifier_length = first_length; }
+            if full_qualifier || short_qualifier {
                 usize direct = resolution_find_top_unqualified(
                     project_source, project_root, source_data,
                     symbol_data, detail_data, symbols,
                     candidate_module, source_record, source,
-                    start + module_length + 1,
-                    length - module_length - 1
+                    start + qualifier_length + 1,
+                    length - qualifier_length - 1
                 );
-                if direct < symbols.length { return direct; }
+                if direct < symbols.length && (candidate_module == module_index ||
+                    resolution_is_exported(project_source, project_root,
+                        source_data, symbol_data, direct)) { return direct; }
             }
             candidate_module = candidate_module + 1;
         }

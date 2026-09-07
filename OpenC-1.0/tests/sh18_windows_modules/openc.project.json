@@ -1,0 +1,25 @@
+{
+  "name": "sh18-windows-modules",
+  "version": "1.0.0",
+  "edition": "OpenC 1.0",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "modules": {
+    "sh18.main": ["source/main.p"],
+    "windows.foundation": ["../../standard_library/windows.foundation/source/foundation.p"],
+    "windows.file": ["../../standard_library/windows.file/source/file.p"],
+    "windows.memory": ["../../standard_library/windows.memory/source/memory.p"],
+    "windows.process": ["../../standard_library/windows.process/source/process.p"],
+    "windows.thread": ["../../standard_library/windows.thread/source/thread.p"],
+    "windows.console": ["../../standard_library/windows.console/source/console.p"],
+    "windows.window": ["../../standard_library/windows.window/source/window.p"],
+    "windows.graphics": ["../../standard_library/windows.graphics/source/graphics.p"],
+    "windows.resources": ["../../standard_library/windows.resources/source/resources.p"],
+    "windows.network": ["../../standard_library/windows.network/source/network.p"],
+    "windows.registry": ["../../standard_library/windows.registry/source/registry.p"],
+    "windows.shell": ["../../standard_library/windows.shell/source/shell.p"]
+  },
+  "standard_library_directory": "../../standard_library",
+  "runtime_directory": "../../runtime",
+  "output_directory": "../../build-output/sh18-windows-modules"
+}

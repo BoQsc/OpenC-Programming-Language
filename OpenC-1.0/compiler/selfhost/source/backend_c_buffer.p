@@ -25,6 +25,31 @@ unsafe usize c_named_type_symbol(
             read_record_field(context.symbol_data, symbol, 4) == type_id {
             return symbol;
         }
+        if ((kind == resolution_symbol_struct() ||
+             kind == resolution_symbol_resource() ||
+             kind == resolution_symbol_enum()) &&
+            type_id < context.types.length && read_record_field(
+                context.type_data, type_id, 0
+            ) == 9 {
+            usize candidate = read_record_field(
+                context.symbol_data, symbol, 4
+            );
+            if candidate < context.types.length && read_record_field(
+                context.type_data, candidate, 0
+            ) == 9 && read_record_field(
+                context.type_data, candidate, 1
+            ) == read_record_field(
+                context.type_data, type_id, 1
+            ) && read_record_field(
+                context.type_data, candidate, 2
+            ) == read_record_field(
+                context.type_data, type_id, 2
+            ) && read_record_field(
+                context.type_data, candidate, 3
+            ) == read_record_field(
+                context.type_data, type_id, 3
+            ) { return symbol; }
+        }
         symbol = symbol + 1;
     }
     return context.symbols.length;
@@ -194,6 +219,46 @@ unsafe bool c_builtin_is(
         d_instruction_text_is(context, instruction, qualified_name);
 }
 
+unsafe bool c_external_link_span(
+    ref IrContext context,
+    usize function_symbol,
+    out usize name_start,
+    out usize name_length
+) {
+    name_start = 0;
+    name_length = 0;
+    if function_symbol >= context.symbols.length ||
+        read_record_field(context.symbol_data, function_symbol, 0) !=
+            resolution_symbol_function() ||
+        read_record_field(context.symbol_data, function_symbol, 1) !=
+            context.source_record {
+        return false;
+    }
+    usize declaration = read_record_field(
+        context.detail_data, function_symbol, 1
+    );
+    if declaration >= context.syntax.length { return false; }
+    usize start = read_record_field(context.syntax_data, declaration, 1);
+    usize length = read_record_field(context.syntax_data, declaration, 2);
+    if !starts_with_ascii(context.source, start, "external") {
+        return false;
+    }
+    usize cursor = start;
+    usize end = start + length;
+    while cursor < end && byte_at_or_zero(context.source, cursor) != 34 {
+        cursor = cursor + 1;
+    }
+    if cursor >= end { return false; }
+    name_start = cursor + 1;
+    cursor = name_start;
+    while cursor < end && byte_at_or_zero(context.source, cursor) != 34 {
+        cursor = cursor + 1;
+    }
+    if cursor >= end { return false; }
+    name_length = cursor - name_start;
+    return name_length != 0;
+}
+
 unsafe void c_put_io_name(
     ref IrContext context,
     ref DBuffer buffer,
@@ -229,6 +294,16 @@ unsafe void c_put_call_name(
     usize two = read_record_field(
         context.instruction_detail, instruction, 2
     );
+    usize external_start;
+    usize external_length;
+    if kind == 3 && c_external_link_span(
+        context, one, out external_start, out external_length
+    ) {
+        d_put_slice(
+            buffer, context.source, external_start, external_length
+        );
+        return;
+    }
     text compiler_source;
     usize compiler_start = 0;
     usize compiler_length = 0;

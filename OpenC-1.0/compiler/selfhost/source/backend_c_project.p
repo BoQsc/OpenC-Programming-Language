@@ -461,6 +461,19 @@ unsafe bool c_emit_source_record(
                 context, node,
                 resolution_symbol_function(), 0
             );
+            bool external_declaration = starts_with_ascii(
+                source,
+                read_record_field(syntax_data, node, 1),
+                "external"
+            );
+            if external_declaration && body < syntax.length &&
+                byte_at_or_zero(
+                    source,
+                    read_record_field(syntax_data, body, 1)
+                ) != 123 {
+                node = node + 1;
+                continue;
+            }
             if body >= syntax.length || owner == 0 || byte_at_or_zero(
                     source,
                     read_record_field(syntax_data, body, 1)

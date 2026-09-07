@@ -374,6 +374,16 @@ def main() -> int:
         )
     )
 
+    tasks.append(
+        run_task(
+            "windows_friendly_modules",
+            [sys.executable, str(ROOT / "scripts" / "verify_sh18_windows_modules.py"),
+             "--compiler", str(compiler), "--output",
+             str(output / "windows-friendly-modules" / "sh18-verification.json")],
+            task_output,
+        )
+    )
+
     performance: dict[str, object] = {}
     if args.mode == "full":
         validation_report = output / "performance" / "validation-measurement.json"
@@ -534,8 +544,8 @@ def main() -> int:
     )
     passed = all(task["passed"] for task in tasks)
     result = {
-        "schema": "openc.windows_native_workflow.v7",
-        "milestone": "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION",
+        "schema": "openc.windows_native_workflow.v8",
+        "milestone": "SH-18_IDIOMATIC_WINDOWS_MODULES",
         "mode": args.mode.upper(),
         "status": "PASS" if passed else "FAIL",
         "started_at_utc": started_at.isoformat().replace("+00:00", "Z"),
@@ -559,7 +569,7 @@ def main() -> int:
         newline="\n",
     )
     print(
-        f"SH-17 {args.mode} workflow: {result['status']}; "
+        f"SH-18 {args.mode} workflow: {result['status']}; "
         f"compiler=OpenC-native tasks={sum(task['passed'] for task in tasks)}/"
         f"{len(tasks)} seed_executed=false result={result_path}"
     )

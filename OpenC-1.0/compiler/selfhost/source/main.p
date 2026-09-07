@@ -146,6 +146,7 @@ bool span_equals_ascii(text source, usize start, usize length, text expected) {
 
 bool is_keyword(text source, usize start, usize length) {
     if span_equals_ascii(source, start, length, "import") { return true; }
+    if span_equals_ascii(source, start, length, "external") { return true; }
     if span_equals_ascii(source, start, length, "export") { return true; }
     if span_equals_ascii(source, start, length, "const") { return true; }
     if span_equals_ascii(source, start, length, "struct") { return true; }

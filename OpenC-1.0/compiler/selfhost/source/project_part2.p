@@ -141,5 +141,12 @@ bool project_builtin_module(text name) {
     if name == "system.text" { return true; }
     if name == "system.process" { return true; }
     if name == "system.path" { return true; }
-    return name == "system.file";
+    if name == "system.file" { return true; }
+    if name == "windows.raw.foundation" { return true; }
+    if name == "windows.raw.file" { return true; }
+    if name == "windows.raw.memory" { return true; }
+    if name == "windows.raw.process" { return true; }
+    if name == "windows.raw.thread" { return true; }
+    if name == "windows.raw.window" { return true; }
+    return name == "windows.raw.graphics";
 }

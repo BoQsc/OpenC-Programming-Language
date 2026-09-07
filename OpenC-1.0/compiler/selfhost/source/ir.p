@@ -549,9 +549,41 @@ unsafe usize ir_aggregate_for_type(
         );
         if encoded != 0 { return encoded - 1; }
     }
-    return resolution_find_aggregate_for_type(
+    usize exact = resolution_find_aggregate_for_type(
         context.symbol_data, context.symbols, type_id
     );
+    if exact < context.symbols.length { return exact; }
+    if type_id < context.types.length && read_record_field(
+        context.type_data, type_id, 0
+    ) == 9 {
+        usize symbol = 0;
+        while symbol < context.symbols.length {
+            usize kind = read_record_field(context.symbol_data, symbol, 0);
+            usize candidate = read_record_field(
+                context.symbol_data, symbol, 4
+            );
+            if (kind == resolution_symbol_struct() ||
+                kind == resolution_symbol_resource() ||
+                kind == resolution_symbol_enum()) &&
+                candidate < context.types.length && read_record_field(
+                    context.type_data, candidate, 0
+                ) == 9 && read_record_field(
+                    context.type_data, candidate, 1
+                ) == read_record_field(
+                    context.type_data, type_id, 1
+                ) && read_record_field(
+                    context.type_data, candidate, 2
+                ) == read_record_field(
+                    context.type_data, type_id, 2
+                ) && read_record_field(
+                    context.type_data, candidate, 3
+                ) == read_record_field(
+                    context.type_data, type_id, 3
+                ) { return symbol; }
+            symbol = symbol + 1;
+        }
+    }
+    return context.symbols.length;
 }
 
 unsafe usize ir_first_aggregate_field(
@@ -1429,18 +1461,44 @@ unsafe usize ir_find_nonlocal_name(
             usize module_length = read_record_field(
                 context.module_data, candidate_module, 1
             );
-            if module_length < length && byte_at_or_zero(
+            usize module_start = read_record_field(
+                context.module_data, candidate_module, 0
+            );
+            usize short_start = module_start;
+            usize module_cursor = 0;
+            while module_cursor < module_length {
+                if byte_at_or_zero(
+                    context.project_source, module_start + module_cursor
+                ) == 46 {
+                    short_start = module_start + module_cursor + 1;
+                }
+                module_cursor = module_cursor + 1;
+            }
+            usize short_length = module_start + module_length - short_start;
+            usize qualifier_length = module_length;
+            bool full_qualifier = module_length < length && byte_at_or_zero(
                 context.source, start + module_length
             ) == 46 && resolution_module_name_equals(
                 context.project_source, context.module_data,
                 candidate_module, context.source, start, module_length
-            ) {
+            );
+            bool short_qualifier = short_length == first_length &&
+                first_length < length && semantic_spans_equal(
+                    context.source, start, first_length,
+                    context.project_source, short_start, short_length
+                );
+            if short_qualifier { qualifier_length = first_length; }
+            if full_qualifier || short_qualifier {
                 usize direct = ir_find_top_unqualified(
                     context, candidate_module,
-                    start + module_length + 1,
-                    length - module_length - 1
+                    start + qualifier_length + 1,
+                    length - qualifier_length - 1
                 );
-                if direct < context.symbols.length { return direct; }
+                if direct < context.symbols.length &&
+                    (candidate_module == context.module_index ||
+                    resolution_is_exported(context.project_source,
+                        context.project_root, context.source_data,
+                        context.symbol_data, direct)) { return direct; }
             }
             candidate_module = candidate_module + 1;
         }

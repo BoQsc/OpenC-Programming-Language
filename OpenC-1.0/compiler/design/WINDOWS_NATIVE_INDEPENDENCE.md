@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **ACTIVE; SH-17 PASSED, SH-18 ACTIVE**
+Status: **ACTIVE; SH-18 PASSED, SH-19 ACTIVE**
 
 OpenC's Windows path must preserve a strict separation:
 
@@ -178,7 +178,11 @@ Evidence is in `../../release/SH17_WINMD_RAW_PROJECTION_EVIDENCE.md`.
 
 ## SH-18: idiomatic Windows modules
 
-Status: **ACTIVE**.
+Status: **PASS**. Twelve OpenC modules pass 27/27 dedicated checks, including
+an executable behavior probe. Compiler closure, all 278 conformance fixtures,
+and the five-run throughput regression gate pass. The supported initial API
+surface and ownership rules are documented in `standard_library/WINDOWS_MODULES.md`;
+results are in `release/SH18_IDIOMATIC_WINDOWS_MODULES_EVIDENCE.md`.
 
 Hand-reviewed OpenC modules wrap, but do not replace or distort, the raw
 projection:
@@ -206,7 +210,8 @@ modules do not silently depend on the active ANSI code page.
 
 SH-18 covers files, memory, processes, threads, console I/O, error capture,
 and cleanup first; windowing, graphics, resources, sockets, registry, and shell
-modules follow under the same raw/friendly separation.
+modules now provide the initial interfaces documented in the module guide.
+Complete GUI/event-loop and networking frameworks remain future library work.
 
 ## SH-19: compiler-capable first-party backend and TinyCC exit
 

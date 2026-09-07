@@ -236,14 +236,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       constants, types, layouts, cleanup contracts, and documentation IDs;
     - never require the compiler to parse Windows C headers or regenerate
       bindings during ordinary builds.
-11. **SH-18 idiomatic Windows modules — next; active**
+11. **SH-18 idiomatic Windows modules — complete**
     - layer `windows.*` over `windows.raw.*` with typed handles, ownership and
       exact cleanup, slices, optionals, OpenC errors, and safer defaults;
     - keep OpenC text UTF-8 and convert to UTF-16 for Unicode `W` APIs at the
       Windows boundary;
     - cover files, memory, processes, threads, console, windowing, graphics,
       resources, networking, registry, and shell incrementally.
-12. **SH-19 compiler-capable first-party backend and TinyCC exit**
+12. **SH-19 compiler-capable first-party backend and TinyCC exit — next; active**
     - lower all compiler-reachable Core IR through the OpenC x64/PE backend;
     - achieve compiler Stage-2/Stage-3 byte closure and all conformance/runtime
       gates without generated C, TinyCC, C headers, a C runtime, assembler, or

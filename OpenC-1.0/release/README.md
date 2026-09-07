@@ -75,8 +75,8 @@ emission, imports, relocations, TLS, unwind, UTF-8, heap, files, cleanup, and
 execution pass 34/34 without a Microsoft CRT, assembler, or external linker.
 Evidence is in `SH16_PE32_PLUS_CRT_FREE_RUNTIME_EVIDENCE.md`. SH-17 Win32
 Metadata and deterministic raw projection is complete; evidence is in
-`SH17_WINMD_RAW_PROJECTION_EVIDENCE.md`. SH-18 idiomatic Windows modules are
-active in `../compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
+`SH17_WINMD_RAW_PROJECTION_EVIDENCE.md`. SH-18 idiomatic Windows modules are complete; see
+`SH18_IDIOMATIC_WINDOWS_MODULES_EVIDENCE.md`. SH-19 native backend work is active in `../compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by

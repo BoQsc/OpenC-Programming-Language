@@ -87,16 +87,18 @@ owner-maintained initial release.
 
 The public RC8 package evidence remains the immutable 268-fixture historical
 record described above. RC9 is the published 278-fixture successor. Mainline
-now passes SH-14 D/C-class throughput, SH-15 Windows x64 ABI/machine-code,
+now passes the SH-14 throughput gates, SH-15 Windows x64 ABI/machine-code,
 SH-16 deterministic PE32+ plus CRT-free runtime, and SH-17 Win32 Metadata raw
-projection. The current 112-source compiler rebuild median is 6.111 seconds,
-0.338x the pinned same-host D median;
+projection, plus SH-18's twelve friendly Windows modules (27/27 checks).
+The current 112-source compiler rebuild median is 10.103 seconds,
+0.481x the pinned same-host D median;
 the direct proof executable passes 34/34 checks, and the real metadata
 projection passes 30/30 checks.
 
-The active SH-18 Windows independence work builds hand-reviewed, idiomatic
-Windows modules over the completed deterministic `windows.raw.*` projection.
-It proceeds through friendly Windows modules, the compiler-capable native backend and TinyCC exit,
+The active SH-19 Windows independence work extends the first-party native
+backend to compile the whole compiler and eliminate TinyCC and the C provider.
+The initial friendly module API is documented in `standard_library/WINDOWS_MODULES.md`.
+The sequence proceeds through the compiler-capable native backend and TinyCC exit,
 then OpenC-native replacement of required Python/D workflow tooling. Native
 editor integration is deferred to SH-23. See
 `compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md` and

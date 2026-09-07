@@ -52,9 +52,21 @@ unsafe bool acceptance_known_named_type(
         usize kind = read_record_field(context.symbol_data, symbol, 0);
         if (kind == resolution_symbol_struct() ||
             kind == resolution_symbol_resource() ||
-            kind == resolution_symbol_enum()) && read_record_field(
+            kind == resolution_symbol_enum()) {
+            usize declared = read_record_field(
                 context.symbol_data, symbol, 4
-            ) == type_id { return true; }
+            );
+            if (declared == type_id) { return true; }
+            if acceptance_kind(context, declared) == 9 &&
+                read_record_field(context.type_data, declared, 1) ==
+                    read_record_field(context.type_data, type_id, 1) &&
+                read_record_field(context.type_data, declared, 2) ==
+                    read_record_field(context.type_data, type_id, 2) &&
+                read_record_field(context.type_data, declared, 3) ==
+                    read_record_field(context.type_data, type_id, 3) {
+                return true;
+            }
+        }
         symbol = symbol + 1;
     }
     return false;

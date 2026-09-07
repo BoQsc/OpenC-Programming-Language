@@ -181,6 +181,12 @@ unsafe usize acceptance_validate_calls(ref IrContext context) {
                 context.syntax_data, call, 4
             );
             usize target = ir_select_call(context, call);
+            if target < context.symbols.length && read_record_field(
+                context.detail_data, target, 0
+            ) != context.module_index && !resolution_is_exported(
+                context.project_source, context.project_root,
+                context.source_data, context.symbol_data, target
+            ) { errors = errors + 1; }
             if target < context.symbols.length &&
                 acceptance_parameter_count(context, target) != argument_count {
                 errors = errors + 1;
@@ -227,7 +233,7 @@ unsafe usize acceptance_validate_calls(ref IrContext context) {
                             !acceptance_call_named(
                                 context, call, "memory.alloc"
                             ) && !acceptance_call_named(
-                                context, call, "system.memory.alloc"
+                            context, call, "system.memory.alloc"
                             ) { errors = errors + 1; }
                     }
                     if target < context.symbols.length &&
@@ -244,6 +250,15 @@ unsafe usize acceptance_validate_calls(ref IrContext context) {
                         usize actual = ir_node_type(
                             context, value, semantic_type_error()
                         );
+                        if acceptance_kind(context, expected) == 12 &&
+                            !acceptance_const_type(context, expected) &&
+                            read_record_field(context.syntax_data, value, 0) == 27 {
+                            usize argument_symbol = ir_resolve_name(context, value);
+                            if argument_symbol < context.symbols.length &&
+                                acceptance_const_type(context, read_record_field(
+                                    context.symbol_data, argument_symbol, 4
+                                )) { errors = errors + 1; }
+                        }
                         if !acceptance_can_initialize(
                             context, value, actual, expected
                         ) { errors = errors + 1; }

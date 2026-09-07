@@ -8,7 +8,7 @@
   "bootstrap_source": "source_complete_four_tests_and_cli_smoke_passed",
   "official_source_extension": ".p",
   "migrated_existing_p_sources": 281,
-  "canonical_p_sources": 419,
+  "canonical_p_sources": 432,
   "self_hosting": {
     "state_record": "compiler/selfhost/SELF_HOSTING_STATE.json",
     "source_convention_gate": "SH-0_PASS",
@@ -44,8 +44,8 @@
     "minimal_pe32_plus_and_crt_free_runtime": "SH-16_PASS_DETERMINISTIC_PE32_PLUS_KERNEL32_ONLY_RUNTIME_34_OF_34",
     "openc_win32_metadata_reader_and_raw_projection": "SH-17_PASS_REAL_PINNED_WINMD_SEVEN_RAW_MODULES_30_OF_30",
     "public_language_service_command": "openc lsp --stdio",
-    "next_milestone": "SH-18_IDIOMATIC_WINDOWS_MODULES",
-    "blocking_priority": "SH18_IDIOMATIC_WINDOWS_MODULES",
+    "next_milestone": "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT",
+    "blocking_priority": "SH19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT",
     "throughput_plan": "compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md",
     "windows_independence_plan": "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md",
     "sh14_acceptance": {
@@ -496,7 +496,39 @@
     },
     "self_hosted": true,
     "dmd_independent": true,
-    "standalone": true
+    "standalone": true,
+    "idiomatic_windows_modules": "SH-18_PASS_TWELVE_FRIENDLY_MODULES_27_OF_27",
+    "sh18_acceptance": {
+      "id": "SH-18",
+      "name": "idiomatic_windows_modules",
+      "status": "PASS",
+      "evidence": "release/SH18_IDIOMATIC_WINDOWS_MODULES_EVIDENCE.md",
+      "verification_schema": "openc.sh18_windows_modules.verification.v1",
+      "compiler_source_files": 112,
+      "verification_checks_passed": 27,
+      "verification_checks_total": 27,
+      "friendly_modules": 12,
+      "raw_backed_modules": 7,
+      "native_compiler_sha256": "0f7a345e5093a3f0d6b67d3dc088f1220f84adb5a238126d75df636852f40118",
+      "generated_c_sha256": "a41c3a09f4963027bd306c4e17c21efeb20a4948ca1ccae45521cfd3780adf1e",
+      "stage2_stage3_byte_equal": true,
+      "clean_runs": 5,
+      "clean_median_seconds": 10.103,
+      "clean_maximum_seconds": 12.219,
+      "d_reference_median_seconds": 20.995,
+      "relative_to_d_median": 0.481,
+      "native_conformance_fixtures_passed": 278,
+      "maintained_programs_passed": 4,
+      "full_workflow_tasks_passed": 15,
+      "integrated_sh18_workflow_tasks_passed": 16,
+      "dedicated_sh18_gate_passed": true,
+      "tinycc_backend_required_for_general_builds": true,
+      "legacy_msvcrt_imported": true,
+      "retained_d_seed_executed_by_required_workflow": false,
+      "historical_rule_id_matches_disclosed": 93,
+      "linux_and_freestanding_gate": false,
+      "next_milestone": "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT"
+    }
   },
   "runtime_source": "standalone_c_runtime_built_and_runtime_fixtures_passed_legacy_d_optional",
   "standard_library_source": "openc_hosted_modules_and_c_runtime_executed_legacy_d_optional",
@@ -506,8 +538,14 @@
   "linked": true,
   "standalone_c_providers_compiled": true,
   "standalone_c_provider_scope": "windows_hosted_sh16_pe32_plus_runtime_distribution_compiled_executed_relocated_rebuilt_and_natively_validated",
-  "implementation_test_commands": {"passed": 8, "failed": 0},
-  "bootstrap_tests": {"passed": 38, "failed": 0},
+  "implementation_test_commands": {
+    "passed": 8,
+    "failed": 0
+  },
+  "bootstrap_tests": {
+    "passed": 38,
+    "failed": 0
+  },
   "conformance_result": {
     "total": 278,
     "passed": 278,
@@ -524,7 +562,13 @@
   "active_rules_with_dedicated_fixtures": 466,
   "active_rules_without_dedicated_fixtures": 0,
   "grammar_productions_with_accepting_rejecting_pairs": 174,
-  "maintained_programs": {"total": 4, "accepted": 4, "built": 4, "run": 4, "passed": 4},
+  "maintained_programs": {
+    "total": 4,
+    "accepted": 4,
+    "built": 4,
+    "run": 4,
+    "passed": 4
+  },
   "windows_verification": "required_1_0_scope_passed",
   "linux_verification": "optional_future_target_out_of_1_0_scope",
   "freestanding_verification": "optional_future_target_out_of_1_0_scope",

@@ -1,5 +1,20 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-18 idiomatic Windows modules
+
+- added twelve hand-authored OpenC Windows modules with typed resources,
+  exact cleanup, UTF-8/UTF-16 boundaries, explicit options, and status results;
+- added Windows providers and an executable probe covering files, heaps,
+  child processes, events, console, desktop/GDI, modules, Winsock, registry,
+  and shell paths; the dedicated verifier passes 27/27 checks;
+- implemented external provider declarations and imported resource type
+  handling, while preserving module privacy and const-reference safety;
+- verified byte-identical Stage-2/Stage-3 compiler closure, 278/278 conformance,
+  maintained programs, and five clean rebuilds (10.103-second median, 0.481x D);
+- activated SH-19 native backend and TinyCC exit. The current general backend
+  still uses generated C, TinyCC, and `msvcrt.dll`; Python remains external
+  evidence orchestration. Linux/freestanding remain optional.
+
 ## Post-RC9 — SH-17 OpenC Win32 Metadata reader and raw projection
 
 - added a purpose-built OpenC PE/CLI and ECMA-335 metadata reader for the real,
