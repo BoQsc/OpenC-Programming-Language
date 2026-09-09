@@ -49,7 +49,9 @@ def main() -> int:
             pe = struct.unpack_from("<I", first, 0x3C)[0]
             optional = pe + 24
             pdata_rva, pdata_size = struct.unpack_from("<II", first, optional + 112 + 3 * 8)
-            checks["unwind_for_startup_failure_and_five_functions"] = pdata_rva != 0 and pdata_size == 84
+            checks["unwind_for_startup_failures_and_five_functions"] = (
+                pdata_rva != 0 and pdata_size == 96
+            )
             second = work / "scalars-again.exe"
             repeated = run([str(compiler), "--native-build", str(project), str(second)], work)
             checks["deterministic_pe_bytes"] = repeated.returncode == 0 and second.read_bytes() == first
@@ -57,7 +59,7 @@ def main() -> int:
             observations["executable_bytes"] = len(first)
         else:
             for name in ("recursion_loops_and_six_argument_abi", "system_dlls_only",
-                         "unwind_for_startup_failure_and_five_functions", "deterministic_pe_bytes"):
+                         "unwind_for_startup_failures_and_five_functions", "deterministic_pe_bytes"):
                 checks[name] = False
         probes = {
             "pointer_read_write": ("unsafe i32 main() { i32 x = 9; ptr i32 p = &x; *p = -7; return *p + 7; }", 0),

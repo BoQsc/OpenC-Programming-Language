@@ -1,4 +1,5 @@
 import system.file;
+import system.text;
 
 unsafe void pe32_put_u16(ref DBuffer output, usize value) {
     d_put_byte(output, cast(u8, value & 255));
@@ -149,6 +150,10 @@ unsafe DBuffer pe32_build_rdata(ref Pe32RuntimeLayout layout) {
     d_put(output, "OpenC native file PASS\n");
     pe32_pad_to(output, layout.panic_message_offset);
     d_put(output, "OpenC SH-16 runtime panic\n");
+    pe32_pad_to(output, layout.checked_message_offset);
+    d_put(output, "OpenC checked failure\n");
+    pe32_pad_to(output, layout.target_message_offset);
+    d_put(output, "OpenC target fault\n");
     pe32_pad_to(output, layout.tls_directory_offset);
     pe32_put_u64(output, layout.image_base + cast(u64, layout.tls_rva));
     pe32_put_u64(output, layout.image_base + cast(u64, layout.tls_rva + 8));
@@ -190,7 +195,7 @@ unsafe DBuffer pe32_build_relocations(ref Pe32RuntimeLayout layout) {
     pe32_put_u16(output, 0);
     pe32_put_u32(output, layout.data_rva);
     pe32_put_u32(output, 12);
-    pe32_put_u16(output, 40960 + 24);
+    pe32_put_u16(output, cast(usize, 40960 + 24));
     pe32_put_u16(output, 0);
     pe32_pad_to(output, 512);
     return output;

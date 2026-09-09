@@ -1,13 +1,13 @@
 # OpenC self-hosting and standalone compiler gates
 
-The canonical compiler is written in OpenC and completes standalone,
-DMD-independent Windows self-compilation through deterministic C11 emission
-and the shipped TinyCC 0.9.27 Win64 backend. The existing D and Python
-implementations remain optional historical audit material in the repository;
-they are not compiler authority or normal build dependencies. SH-6 packages
-the native compiler and required source in a relocatable, manifested
-distribution and proves closure from that package. SH-7 makes that
-OpenC-native compiler own the required 278-fixture conformance gate.
+The canonical compiler is written in OpenC and completes standalone Windows
+self-compilation through OpenC-owned x64 lowering and deterministic PE32+
+emission. Its SH-19 normal build and release path requires no generated C,
+TinyCC, D, Python, Microsoft CRT, assembler, or external linker. Retained C,
+D, Python, and TinyCC material is optional historical audit/bootstrap input,
+not compiler authority. SH-6 established relocatable package closure, SH-7
+moved required conformance into OpenC, and SH-19 closes the first-party native
+backend fixed point.
 
 The supported initial target is Windows x86-64 Hosted. Linux and freestanding
 do not gate this program.
@@ -440,6 +440,48 @@ speed. Both remain explicit future engineering work.
 
 Status: **PASS**
 
+## SH-14 through SH-18 — native substrate and Windows surface
+
+SH-14 closes the former generated-C throughput/stability gate with five clean
+builds, bounded small/incremental scaling, and 20 consecutive byte-identical
+rebuilds. SH-15 passes 25/25 Windows x64 ABI, LLP64, typed encoder, relocation,
+callback, variadic, and unwind checks. SH-16 passes 34/34 deterministic PE32+
+and CRT-free runtime checks. SH-17 passes the real Win32 Metadata reader and
+seven-module raw projection gate. SH-18 passes 27/27 checks across twelve
+idiomatic UTF-8 Windows modules.
+
+Status: **PASS**
+
+## SH-19 — compiler-capable native backend and TinyCC exit
+
+The normal public compiler now lowers the complete 116-source compiler project
+directly to x64 machine code and writes its own PE32+ executable. Two closed
+stages are byte-identical at SHA-256
+`277e5ee71bc7f366cfb921c8525a42fe9228221b9955a5fa099326c55fb994c4`.
+The gate passes 63/63 lowering/runtime probes, 6/6 memory guards, 278/278
+conformance fixtures, 4/4 maintained programs, all CLI/project/LSP checks, and
+20/20 relocated standalone-release checks.
+
+The standalone compiler contains no C, C headers, TinyCC, D, or Python and
+imports no Microsoft CRT. A trusted already-validated self-rebuild takes
+10.378 seconds within the 256 MiB private and 64 MiB working-set ceilings.
+Complete evidence is in
+`release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md`.
+
+Status: **PASS**
+
+## SH-20 — native public throughput convergence
+
+The independence gate is closed, but the fully validating public self-build is
+not yet C/D-class: it takes 109.328 seconds, including 97.828 seconds in
+semantic validation. SH-20 is therefore active and must reduce the five-run
+public-build median to at most 25 seconds and public validation to at most 15
+seconds without skipping checks, weakening diagnostics, breaking exact
+closure, or exceeding the SH-19 memory guards. See
+`SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md`.
+
+Status: **NEXT ACTIVE**
+
 ## Post-SH-6 — native self-rebuild performance
 
 The closed OpenC-native compiler rebuilds its complete 90-source compiler
@@ -479,6 +521,13 @@ project symbols, typed navigation, deterministic completion, safe rename, and
 open-order-independent project-semantic transcript records. SH-13 makes OpenC
 the sole implementation authority, publishes native phase timings, tightens
 the rebuild budget, and removes D/Python source from the standalone compiler.
+SH-14 closes the former throughput/stability gate. SH-15 through SH-18 supply
+the x64 ABI/encoder, direct PE32+ runtime, WinMD projection, and friendly
+Windows modules. SH-19 makes that backend compiler-capable and removes
+generated C, TinyCC, D, Python, the Microsoft CRT, assemblers, and external
+linkers from the required compiler and standalone-release path. External
+Python evidence orchestration remains until SH-21; it is not a compiler or
+packaged-runtime dependency.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

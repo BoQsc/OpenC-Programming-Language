@@ -168,19 +168,10 @@ unsafe bool c_emit_sources_parallel(
     usize entry_module,
     ref BuildTimings timings
 ) {
-    usize cut_one = 0;
-    usize cut_two = 0;
-    usize cut_three = 0;
-    usize cut_four = 0;
-    usize cut_five = 0;
-    usize cut_six = 0;
-    usize cut_seven = 0;
-    usize source_count = 0;
-    if !c_parallel_partitions(
-        base, timings.source_bytes,
-        out cut_one, out cut_two, out cut_three, out cut_four,
-        out cut_five, out cut_six, out cut_seven, out source_count
-    ) { return false; }
+    CParallelPartitions partitions = c_parallel_partitions(
+        base, timings.source_bytes
+    );
+    if !partitions.valid { return false; }
     // Workers own their output buffers. Do not retain a worst-case whole-
     // project reservation while their parser/IR arenas are live. Recombine
     // with the exact measured byte count after workers have finished.
@@ -192,8 +183,10 @@ unsafe bool c_emit_sources_parallel(
     }
     usize chunk_capacity = timings.source_bytes / 2 + 524288;
     CParallelState state = c_parallel_state_create(
-        base, cut_one, cut_two, cut_three, cut_four,
-        cut_five, cut_six, cut_seven, source_count,
+        base, partitions.cut_one, partitions.cut_two,
+        partitions.cut_three, partitions.cut_four,
+        partitions.cut_five, partitions.cut_six,
+        partitions.cut_seven, partitions.source_count,
         chunk_capacity, entry_module
     );
     i32 parallel_result = c_parallel_jobs(state, 8, null);

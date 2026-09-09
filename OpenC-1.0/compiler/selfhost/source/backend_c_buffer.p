@@ -3,6 +3,12 @@ import system.memory;
 import system.path;
 import system.text;
 
+struct CExternalLinkSpan {
+    bool found;
+    usize start;
+    usize length;
+}
+
 unsafe void c_put_qualified_symbol(
     ref IrContext context,
     ref DBuffer buffer,
@@ -219,44 +225,44 @@ unsafe bool c_builtin_is(
         d_instruction_text_is(context, instruction, qualified_name);
 }
 
-unsafe bool c_external_link_span(
+unsafe CExternalLinkSpan c_external_link_span(
     ref IrContext context,
-    usize function_symbol,
-    out usize name_start,
-    out usize name_length
+    usize function_symbol
 ) {
-    name_start = 0;
-    name_length = 0;
+    CExternalLinkSpan result = CExternalLinkSpan{
+        found = false, start = 0, length = 0
+    };
     if function_symbol >= context.symbols.length ||
         read_record_field(context.symbol_data, function_symbol, 0) !=
             resolution_symbol_function() ||
         read_record_field(context.symbol_data, function_symbol, 1) !=
             context.source_record {
-        return false;
+        return result;
     }
     usize declaration = read_record_field(
         context.detail_data, function_symbol, 1
     );
-    if declaration >= context.syntax.length { return false; }
+    if declaration >= context.syntax.length { return result; }
     usize start = read_record_field(context.syntax_data, declaration, 1);
     usize length = read_record_field(context.syntax_data, declaration, 2);
     if !starts_with_ascii(context.source, start, "external") {
-        return false;
+        return result;
     }
     usize cursor = start;
     usize end = start + length;
     while cursor < end && byte_at_or_zero(context.source, cursor) != 34 {
         cursor = cursor + 1;
     }
-    if cursor >= end { return false; }
-    name_start = cursor + 1;
-    cursor = name_start;
+    if cursor >= end { return result; }
+    result.start = cursor + 1;
+    cursor = result.start;
     while cursor < end && byte_at_or_zero(context.source, cursor) != 34 {
         cursor = cursor + 1;
     }
-    if cursor >= end { return false; }
-    name_length = cursor - name_start;
-    return name_length != 0;
+    if cursor >= end { return result; }
+    result.length = cursor - result.start;
+    result.found = result.length != 0;
+    return result;
 }
 
 unsafe void c_put_io_name(
@@ -294,23 +300,20 @@ unsafe void c_put_call_name(
     usize two = read_record_field(
         context.instruction_detail, instruction, 2
     );
-    usize external_start;
-    usize external_length;
-    if kind == 3 && c_external_link_span(
-        context, one, out external_start, out external_length
-    ) {
+    CExternalLinkSpan external_span = c_external_link_span(context, one);
+    if kind == 3 && external_span.found {
         d_put_slice(
-            buffer, context.source, external_start, external_length
+            buffer, context.source, external_span.start, external_span.length
         );
         return;
     }
-    text compiler_source;
-    usize compiler_start = 0;
-    usize compiler_length = 0;
-    bool compiler_name = d_compiler_call_span(
-        context, kind, one, two,
-        out compiler_source, out compiler_start, out compiler_length
+    DCompilerCallSpan compiler = d_compiler_call_span(
+        context, kind, one, two
     );
+    bool compiler_name = compiler.found;
+    text compiler_source = compiler.source;
+    usize compiler_start = compiler.start;
+    usize compiler_length = compiler.length;
     bool compiler_constant = d_compiler_call_prefix_is(
         context, kind, one, two, "ir_op_"
     );

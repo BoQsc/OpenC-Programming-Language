@@ -120,10 +120,10 @@ void cli_print_target() {
     io.println("target: windows-x86_64-hosted");
     io.println("pointer-width: 64");
     io.println("profile: standard");
-    io.println("backend: c11-tinycc-win64");
+    io.println("backend: openc-x64-pe32");
 }
 
-TextSpan cli_json_field(text object, text field) {
+unsafe TextSpan cli_json_field(text object, text field) {
     DBuffer needle = d_buffer_create(text.byte_length(field) + 8);
     d_put(needle, "\"");
     d_put(needle, field);
@@ -280,7 +280,7 @@ void cli_render_flow_error(text line) {
     io.error("\n");
 }
 
-void cli_render_failed_output(text output) {
+unsafe void cli_render_failed_output(text output) {
     NativeCursor cursor = NativeCursor{ value = 0 };
     while cursor.value < text.byte_length(output) {
         TextSpan line_span = native_next_line(output, cursor);
@@ -477,7 +477,6 @@ unsafe i32 cli_run_project(text project_path, usize argument_start) {
         }
         argument = argument + 1;
     }
-    d_put(command, " 2>&1");
     i32 exit_code;
     text output;
     status ran = process.run(

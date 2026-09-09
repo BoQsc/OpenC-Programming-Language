@@ -27,7 +27,7 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - all 4 maintained programs check, build, and run successfully;
 - all 281 migrated OpenC library, program, and fixture sources use `.p`; with
   the expanded compiler-in-OpenC and conformance source, the current tree has
-  395 `.p` files;
+  437 `.p` files;
 - the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
   lexer parity on 288 canonical `.p` sources plus 16 probes (304/304), SH-2C
   exact parser parity on those sources plus 15 parser probes (303/303), and
@@ -69,7 +69,10 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   SH-13 adds native phase timing, indexed lowering lookups, byte-identical
   557.985-second self-rebuild closure, canonical OpenC-only implementation
   authority, and standalone distributions without D/Python source or DUB
-  manifests;
+  manifests; SH-19 then replaces the default generated-C/TinyCC path with the
+  first-party x64/PE32+ backend, reaches byte-identical compiler closure, and
+  passes the complete relocated release gate without C, TinyCC, D, Python, a
+  CRT, an assembler, or an external linker in the package;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
@@ -78,7 +81,9 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - licensing and governance are resolved: 0BSD for software and CC0-1.0 for
   specifications, documentation, metadata, diagrams, and artwork. Vendored
   TinyCC is a separate LGPL-2.1 component with notice and corresponding source
-  included; bundled headers retain their public-domain and MIT notices.
+  retained only as an optional LGPL-2.1 differential-audit component in the
+  repository; it and bundled headers are excluded from the SH-19 standalone
+  package while their public-domain and MIT notices remain preserved.
 
 The owner-certified Windows x86-64 Hosted `v1.0.0-rc.9` release candidate is
 `RELEASED` as a GitHub prerelease. Independent third-party review remains
@@ -95,18 +100,19 @@ The current 112-source compiler rebuild median is 10.103 seconds,
 the direct proof executable passes 34/34 checks, and the real metadata
 projection passes 30/30 checks.
 
-The active SH-19 Windows independence work extends the first-party native
-backend to compile the whole compiler and eliminate TinyCC and the C provider.
-That backend now has a byte-identical 116-source compiler fixed point and
-bounded source caching; the guarded trusted rebuild remains below the authored
-256 MiB private-memory ceiling. SH-19 is still in progress because public
-self-conformance reports 192 errors and the direct-native release corpus has
-not passed.
+SH-19 Windows independence is complete. The first-party backend compiles the
+whole 116-source compiler to a CRT-free PE32+ executable, reaches a
+byte-identical 4,712,960-byte fixed point, and passes 278/278 conformance plus
+4/4 maintained programs from a reproducible relocated package. Normal builds
+no longer require generated C, TinyCC, C headers/runtime, D, Python, an
+assembler, or an external linker.
 The initial friendly module API is documented in `standard_library/WINDOWS_MODULES.md`.
-The sequence proceeds through the compiler-capable native backend and TinyCC exit,
-then OpenC-native replacement of required Python/D workflow tooling. Native
-editor integration is deferred to SH-23. See
-`compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md` and
+SH-20 now targets the remaining public compile-speed problem: the final
+SH-19 public self-build takes 109.328 seconds, including 97.828 seconds of
+validation, despite the direct fixed-point rebuild taking 9.965 seconds.
+Required Python/D workflow replacement moves to SH-21, after public throughput
+is C/D-class and stable. Native editor integration is deferred to SH-24. See
+`compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md` and
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,

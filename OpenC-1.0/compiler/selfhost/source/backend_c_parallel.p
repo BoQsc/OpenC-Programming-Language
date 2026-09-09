@@ -26,6 +26,18 @@ struct CParallelState {
     usize frozen_type_count;
 }
 
+struct CParallelPartitions {
+    bool valid;
+    usize cut_one;
+    usize cut_two;
+    usize cut_three;
+    usize cut_four;
+    usize cut_five;
+    usize cut_six;
+    usize cut_seven;
+    usize source_count;
+}
+
 unsafe i32 c_parallel_jobs(
     ref CParallelState state,
     usize worker_count,
@@ -68,54 +80,54 @@ unsafe usize c_source_module(
     return base.modules.length;
 }
 
-unsafe bool c_parallel_partitions(
+unsafe CParallelPartitions c_parallel_partitions(
     ref IrContext base,
-    usize source_bytes,
-    out usize cut_one,
-    out usize cut_two,
-    out usize cut_three,
-    out usize cut_four,
-    out usize cut_five,
-    out usize cut_six,
-    out usize cut_seven,
-    out usize source_count
+    usize source_bytes
 ) {
-    source_count = c_project_source_count(base);
-    cut_one = source_count;
-    cut_two = source_count;
-    cut_three = source_count;
-    cut_four = source_count;
-    cut_five = source_count;
-    cut_six = source_count;
-    cut_seven = source_count;
+    CParallelPartitions partitions = CParallelPartitions{
+        valid = false,
+        cut_one = c_project_source_count(base),
+        cut_two = c_project_source_count(base),
+        cut_three = c_project_source_count(base),
+        cut_four = c_project_source_count(base),
+        cut_five = c_project_source_count(base),
+        cut_six = c_project_source_count(base),
+        cut_seven = c_project_source_count(base),
+        source_count = c_project_source_count(base)
+    };
     usize accumulated = 0;
     usize source_record = 0;
     usize requested_cut = 1;
-    while source_record < source_count {
+    while source_record < partitions.source_count {
         text source;
         status loaded = project_read_source_record(
             base.project_source, base.project_root, base.source_data,
             source_record, out source
         );
-        if !loaded.ok { return false; }
+        if !loaded.ok { return partitions; }
         accumulated = accumulated + text.byte_length(source);
         if requested_cut <= 7 && accumulated >=
             (source_bytes / 8) * requested_cut {
-            if requested_cut == 1 { cut_one = source_record + 1; }
-            else if requested_cut == 2 { cut_two = source_record + 1; }
-            else if requested_cut == 3 { cut_three = source_record + 1; }
-            else if requested_cut == 4 { cut_four = source_record + 1; }
-            else if requested_cut == 5 { cut_five = source_record + 1; }
-            else if requested_cut == 6 { cut_six = source_record + 1; }
-            else { cut_seven = source_record + 1; }
+            if requested_cut == 1 { partitions.cut_one = source_record + 1; }
+            else if requested_cut == 2 { partitions.cut_two = source_record + 1; }
+            else if requested_cut == 3 { partitions.cut_three = source_record + 1; }
+            else if requested_cut == 4 { partitions.cut_four = source_record + 1; }
+            else if requested_cut == 5 { partitions.cut_five = source_record + 1; }
+            else if requested_cut == 6 { partitions.cut_six = source_record + 1; }
+            else { partitions.cut_seven = source_record + 1; }
             requested_cut = requested_cut + 1;
         }
         source_record = source_record + 1;
     }
-    return cut_one != 0 && cut_one < cut_two &&
-        cut_two < cut_three && cut_three < cut_four &&
-        cut_four < cut_five && cut_five < cut_six &&
-        cut_six < cut_seven && cut_seven < source_count;
+    partitions.valid = partitions.cut_one != 0 &&
+        partitions.cut_one < partitions.cut_two &&
+        partitions.cut_two < partitions.cut_three &&
+        partitions.cut_three < partitions.cut_four &&
+        partitions.cut_four < partitions.cut_five &&
+        partitions.cut_five < partitions.cut_six &&
+        partitions.cut_six < partitions.cut_seven &&
+        partitions.cut_seven < partitions.source_count;
+    return partitions;
 }
 
 unsafe i32 c_emit_source_range(

@@ -160,31 +160,34 @@ unsafe usize ir_expression_child_after(
         }
         return selected;
     }
-    usize selected = context.syntax.length;
-    usize measure = 0;
-    usize selected_start = cast(usize, 4294967295);
-    usize record = 0;
-    while record < context.syntax.length {
-        usize kind = read_record_field(context.syntax_data, record, 0);
-        usize start = read_record_field(context.syntax_data, record, 1);
-        if resolution_expression_kind(kind) && record != parent &&
+    usize fallback_selected = context.syntax.length;
+    usize fallback_measure = 0;
+    usize fallback_selected_start = cast(usize, 4294967295);
+    usize fallback_record = 0;
+    while fallback_record < context.syntax.length {
+        usize kind = read_record_field(context.syntax_data, fallback_record, 0);
+        usize start = read_record_field(context.syntax_data, fallback_record, 1);
+        if resolution_expression_kind(kind) && fallback_record != parent &&
             start >= after && semantic_node_contains(
-                context.syntax_data, parent, record
+                context.syntax_data, parent, fallback_record
             ) {
-            usize length = read_record_field(context.syntax_data, record, 2);
+            usize length = read_record_field(
+                context.syntax_data, fallback_record, 2
+            );
             if largest {
-                if selected == context.syntax.length || length > measure {
-                    selected = record;
-                    measure = length;
+                if fallback_selected == context.syntax.length ||
+                    length > fallback_measure {
+                    fallback_selected = fallback_record;
+                    fallback_measure = length;
                 }
-            } else if start < selected_start {
-                selected = record;
-                selected_start = start;
+            } else if start < fallback_selected_start {
+                fallback_selected = fallback_record;
+                fallback_selected_start = start;
             }
         }
-        record = record + 1;
+        fallback_record = fallback_record + 1;
     }
-    return selected;
+    return fallback_selected;
 }
 
 unsafe usize ir_enum_value(ref IrContext context, usize symbol) {

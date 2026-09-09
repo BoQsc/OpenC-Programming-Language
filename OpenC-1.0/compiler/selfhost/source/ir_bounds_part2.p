@@ -164,26 +164,31 @@ unsafe usize ir_largest_expression_before(
         }
         return selected;
     }
-    usize selected = context.syntax.length;
-    usize selected_length = 0;
-    usize record = 0;
-    while record < context.syntax.length {
-        usize kind = read_record_field(context.syntax_data, record, 0);
-        usize start = read_record_field(context.syntax_data, record, 1);
-        usize end = start + read_record_field(context.syntax_data, record, 2);
-        if resolution_expression_kind(kind) && record != parent &&
+    usize fallback_selected = context.syntax.length;
+    usize fallback_selected_length = 0;
+    usize fallback_record = 0;
+    while fallback_record < context.syntax.length {
+        usize kind = read_record_field(context.syntax_data, fallback_record, 0);
+        usize start = read_record_field(context.syntax_data, fallback_record, 1);
+        usize end = start + read_record_field(
+            context.syntax_data, fallback_record, 2
+        );
+        if resolution_expression_kind(kind) && fallback_record != parent &&
             end <= before && semantic_node_contains(
-                context.syntax_data, parent, record
+                context.syntax_data, parent, fallback_record
             ) {
-            usize length = read_record_field(context.syntax_data, record, 2);
-            if selected == context.syntax.length || length > selected_length {
-                selected = record;
-                selected_length = length;
+            usize length = read_record_field(
+                context.syntax_data, fallback_record, 2
+            );
+            if fallback_selected == context.syntax.length ||
+                length > fallback_selected_length {
+                fallback_selected = fallback_record;
+                fallback_selected_length = length;
             }
         }
-        record = record + 1;
+        fallback_record = fallback_record + 1;
     }
-    return selected;
+    return fallback_selected;
 }
 
 unsafe usize ir_direct_block(
@@ -208,7 +213,7 @@ unsafe usize ir_direct_block(
         }
         return context.syntax.length;
     }
-    usize count = 0;
+    usize fallback_count = 0;
     usize previous_start = 0;
     usize previous_record = 0;
     bool first = true;
@@ -247,11 +252,11 @@ unsafe usize ir_direct_block(
             index = index + 1;
         }
         if selected >= context.syntax.length { return context.syntax.length; }
-        if count == requested { return selected; }
+        if fallback_count == requested { return selected; }
         previous_start = selected_start;
         previous_record = selected;
         first = false;
-        count = count + 1;
+        fallback_count = fallback_count + 1;
     }
     return context.syntax.length;
 }
@@ -285,7 +290,7 @@ unsafe usize ir_switch_item(
         }
         return context.syntax.length;
     }
-    usize count = 0;
+    usize fallback_count = 0;
     usize index = 0;
     usize candidate_count = context.syntax.length;
     if context.control_nodes != null {
@@ -304,8 +309,8 @@ unsafe usize ir_switch_item(
         if (kind == 18 || kind == 19) && semantic_node_contains(
             context.syntax_data, switch_node, record
         ) && ir_control_parent(context, record) == switch_node {
-            if count == requested { return record; }
-            count = count + 1;
+            if fallback_count == requested { return record; }
+            fallback_count = fallback_count + 1;
         }
         index = index + 1;
     }

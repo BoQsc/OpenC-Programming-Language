@@ -3,6 +3,8 @@ import system.io;
 import system.memory;
 import system.text;
 
+external(c, "ocb_lsp_read_frame") status lsp_read_frame(out text request);
+
 struct LspDocument {
     bool open;
     usize version;
@@ -237,10 +239,22 @@ usize lsp_skip_json_space(text source, usize cursor) {
     return cursor;
 }
 
-unsafe status lsp_json_field_value(
+usize lsp_json_span(usize start, usize length) {
+    return ((start + 1) << 32) |
+        (length & cast(usize, 4294967295));
+}
+
+usize lsp_json_span_start(usize span) {
+    return (span >> 32) - 1;
+}
+
+usize lsp_json_span_length(usize span) {
+    return span & cast(usize, 4294967295);
+}
+
+unsafe usize lsp_json_field_value(
     text source,
-    text field,
-    out TextSpan value
+    text field
 ) {
     DBuffer needle = d_buffer_create(text.byte_length(field) + 3);
     d_put(needle, "\"");
@@ -248,29 +262,25 @@ unsafe status lsp_json_field_value(
     d_put(needle, "\"");
     if !needle.ok {
         d_buffer_destroy(needle);
-        value = TextSpan{ start = 0, length = 0 };
-        return status{ code = 1, message = "field buffer capacity" };
+        return 0;
     }
     usize found = native_find(source, d_buffer_text(needle));
     usize needle_length = text.byte_length(d_buffer_text(needle));
     d_buffer_destroy(needle);
     usize source_length = text.byte_length(source);
     if found > source_length {
-        value = TextSpan{ start = 0, length = 0 };
-        return status{ code = 1, message = "field is absent" };
+        return 0;
     }
     usize cursor = lsp_skip_json_space(
         source, found + needle_length
     );
     if cursor >= source_length ||
         byte_at_or_zero(source, cursor) != 58 {
-        value = TextSpan{ start = 0, length = 0 };
-        return status{ code = 1, message = "field has no colon" };
+        return 0;
     }
     cursor = lsp_skip_json_space(source, cursor + 1);
     if cursor >= source_length {
-        value = TextSpan{ start = 0, length = 0 };
-        return status{ code = 1, message = "field value is absent" };
+        return 0;
     }
     usize start = cursor;
     u8 first = byte_at_or_zero(source, cursor);
@@ -285,31 +295,29 @@ unsafe status lsp_json_field_value(
                 escaped = true;
             } else if current == 34 {
                 cursor = cursor + 1;
-                value = TextSpan{
-                    start = start, length = cursor - start
-                };
-                return status{ code = 0 };
+                return lsp_json_span(start, cursor - start);
             }
             cursor = cursor + 1;
         }
-        value = TextSpan{ start = 0, length = 0 };
-        return status{ code = 1, message = "string is not terminated" };
+        return 0;
     }
     while cursor < source_length {
         u8 current = byte_at_or_zero(source, cursor);
         if current == 44 || current == 125 ||
             current == 93 || lsp_json_space(current) {
-            value = TextSpan{
-                start = start, length = cursor - start
-            };
-            if value.length != 0 { return status{ code = 0 }; }
-            return status{ code = 1, message = "field value is empty" };
+            usize delimited_length = cursor - start;
+            if delimited_length != 0 {
+                return lsp_json_span(start, delimited_length);
+            }
+            return 0;
         }
         cursor = cursor + 1;
     }
-    value = TextSpan{ start = start, length = cursor - start };
-    if value.length != 0 { return status{ code = 0 }; }
-    return status{ code = 1, message = "field value is empty" };
+    usize terminal_length = cursor - start;
+    if terminal_length != 0 {
+        return lsp_json_span(start, terminal_length);
+    }
+    return 0;
 }
 
 usize lsp_hex_value(u8 value) {
@@ -419,12 +427,12 @@ unsafe bool lsp_json_string(
     text field,
     ref DBuffer output
 ) {
-    TextSpan raw;
-    status found = lsp_json_field_value(source, field, out raw);
-    if !found.ok {
-        return false;
-    }
-    return lsp_decode_json_string(source, raw, output);
+    usize found = lsp_json_field_value(source, field);
+    if found == 0 { return false; }
+    return lsp_decode_json_string(source, TextSpan{
+        start = lsp_json_span_start(found),
+        length = lsp_json_span_length(found)
+    }, output);
 }
 
 unsafe usize lsp_json_usize(
@@ -432,16 +440,17 @@ unsafe usize lsp_json_usize(
     text field,
     usize fallback
 ) {
-    TextSpan raw;
-    status found = lsp_json_field_value(source, field, out raw);
-    if !found.ok {
-        return fallback;
-    }
+    usize found = lsp_json_field_value(source, field);
+    if found == 0 { return fallback; }
+    usize found_start = lsp_json_span_start(found);
+    usize found_length = lsp_json_span_length(found);
     usize value = 0;
     usize cursor = 0;
-    if raw.length == 0 { return fallback; }
-    while cursor < raw.length {
-        u8 digit = byte_at_or_zero(source, raw.start + cursor);
+    if found_length == 0 { return fallback; }
+    while cursor < found_length {
+        u8 digit = byte_at_or_zero(
+            source, found_start + cursor
+        );
         if digit < 48 || digit > 57 { return fallback; }
         value = value * 10 + cast(usize, digit - 48);
         cursor = cursor + 1;
@@ -741,9 +750,15 @@ unsafe i32 lsp_handle_message(
 ) {
     DBuffer method = d_buffer_create(256);
     bool has_method = lsp_json_string(request, "method", method);
+    usize id_result = lsp_json_field_value(request, "id");
+    bool has_id = id_result != 0;
     TextSpan id = TextSpan{ start = 0, length = 0 };
-    status id_status = lsp_json_field_value(request, "id", out id);
-    bool has_id = id_status.ok;
+    if has_id {
+        id = TextSpan{
+            start = lsp_json_span_start(id_result),
+            length = lsp_json_span_length(id_result)
+        };
+    }
     if !has_method {
         if has_id {
             lsp_respond_error(
@@ -866,10 +881,15 @@ unsafe i32 cli_lsp_stdio() {
     };
     while true {
         text request;
-        status read = file.read_text(
-            "@openc-internal:lsp-stdio-frame", out request
-        );
-        if !read.ok || text.byte_length(request) == 0 {
+        status read = lsp_read_frame(out request);
+        if !read.ok {
+            io.error(
+                "error[OPENC-LSP-STDIO-READ]: standard-input frame read failed\n"
+            );
+            lsp_state_destroy(state);
+            return 1;
+        }
+        if text.byte_length(request) == 0 {
             lsp_state_destroy(state);
             return 0;
         }
@@ -879,4 +899,5 @@ unsafe i32 cli_lsp_stdio() {
             return action;
         }
     }
+    return 0;
 }

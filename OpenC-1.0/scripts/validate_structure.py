@@ -44,6 +44,8 @@ required = [
     "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json",
     "compiler/selfhost/benchmark_windows_validate.py",
     "compiler/selfhost/SH19_NATIVE_BACKEND_PLAN.md",
+    "compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md",
+    "release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md",
     "compiler/selfhost/run_with_memory_guard.py",
     "compiler/selfhost/windows_process_measure.py",
     "compiler/selfhost/source/backend_native_audit.p",
@@ -590,38 +592,65 @@ if self_host_gates.get("SH-17") == "PASS" and (
         "SH-17 PASS requires the real pinned WinMD reader, deterministic raw "
         "projection, metadata preservation, closure, and Windows Hosted gates"
     )
-if (
-    active_plan.get("id") != "SH-19"
-    or active_plan.get("name")
-    != "compiler_capable_native_backend_and_tinycc_exit"
-    or active_plan.get("status") not in {"NEXT_ACTIVE", "IN_PROGRESS_NOT_COMPLETE"}
-    or active_plan.get("plan")
-    != "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md"
-    or active_plan.get("blocked_by_sh18")
-    or not active_plan.get("compiler_reachable_core_ir_lowering_required")
-    or not active_plan.get("byte_identical_self_hosting_required")
-    or not active_plan.get("tinycc_and_generated_c_exit_required")
-    or not active_plan.get("throughput_regression_gate_required")
-    or active_plan.get("native_lowering_runtime_checks_passed") != 63
-    or active_plan.get("native_lowering_runtime_checks_total") != 63
-    or not active_plan.get("trusted_native_compiler_fixed_point_passed")
-    or active_plan.get("native_memory_guard_checks_passed") != 6
-    or active_plan.get("native_memory_guard_checks_total") != 6
-    or active_plan.get("public_validation_file_cache_misses") != 116
-    or active_plan.get("public_validation_path_cache_misses") != 116
-    or active_plan.get("public_self_conformance_errors") != 192
-):
+sh19_gate = next(
+    (gate for gate in self_hosting.get("gates", [])
+     if gate.get("id") == "SH-19"),
+    {},
+)
+sh19_claims = self_hosting.get("claims", {})
+if self_host_gates.get("SH-19") != "PASS":
+    errors.append("compiler-capable native backend SH-19 gate must pass")
+if self_host_gates.get("SH-19") == "PASS" and (
+        sh19_gate.get("compiler_source_files") != 116
+        or sh19_gate.get("native_compiler_bytes") != 4712960
+        or not sh19_gate.get("stage2_stage3_byte_equal")
+        or sh19_gate.get("native_lowering_runtime_checks_passed") != 63
+        or sh19_gate.get("native_lowering_runtime_checks_total") != 63
+        or sh19_gate.get("native_memory_guard_checks_passed") != 6
+        or sh19_gate.get("native_memory_guard_checks_total") != 6
+        or sh19_gate.get("native_conformance_fixtures_passed") != 278
+        or sh19_gate.get("maintained_programs_passed") != 4
+        or sh19_gate.get("full_workflow_tasks_passed") != 16
+        or sh19_gate.get("standalone_release_checks_passed") != 20
+        or sh19_gate.get("tinycc_backend_required_for_general_builds")
+        or sh19_gate.get("generated_c_required_for_general_builds")
+        or sh19_gate.get("microsoft_crt_imported")
+        or not sh19_claims.get("compiler_capable_first_party_native_backend")
+        or not sh19_claims.get("direct_native_compiler_closure")
+        or not sh19_claims.get("normal_build_excludes_generated_c_and_tinycc")
+        or not sh19_claims.get("standalone_excludes_c_d_python_and_tinycc")
+        or not sh19_claims.get("sh19_deterministic_closure")):
     errors.append(
-        "SH-19 native backend and TinyCC exit must be active after SH-18"
+        "SH-19 PASS requires native closure, complete runtime/tool gates, "
+        "bounded memory, and normal-toolchain TinyCC/C/CRT exit"
     )
+if (
+    active_plan.get("id") != "SH-20"
+    or active_plan.get("name") != "native_public_throughput_convergence"
+    or active_plan.get("status") != "NEXT_ACTIVE"
+    or active_plan.get("plan")
+    != "compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md"
+    or active_plan.get("blocked_by_sh19")
+    or active_plan.get("public_validating_build_baseline_seconds") != 109.328
+    or active_plan.get("public_validation_baseline_seconds") != 97.828
+    or active_plan.get("public_build_clean_median_max_seconds") != 25.0
+    or active_plan.get("public_validation_median_max_seconds") != 15.0
+    or not active_plan.get("relative_to_c_and_d_reference_required")
+    or not active_plan.get("semantic_validation_must_not_be_skipped")
+    or not active_plan.get("byte_identical_self_hosting_required")
+    or active_plan.get("consecutive_closed_rebuilds_required") != 20
+    or active_plan.get("max_peak_private_bytes") != 268435456
+    or active_plan.get("max_peak_working_set_bytes") != 67108864
+):
+    errors.append("SH-20 public native throughput must be active after SH-19")
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
-    "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT"
+    "SH-20_NATIVE_PUBLIC_THROUGHPUT_CONVERGENCE"
 ):
-    errors.append("development state must name native backend work as SH-19")
-development_sh19 = development_self_hosting.get("sh19_checkpoint", {})
+    errors.append("development state must name public throughput as SH-20")
+development_sh19 = development_self_hosting.get("sh19_acceptance", {})
 if (
-    development_sh19.get("status") != "IN_PROGRESS_NOT_COMPLETE"
+    development_sh19.get("status") != "PASS"
     or not development_sh19.get("trusted_native_fixed_point")
     or development_sh19.get("native_lowering_runtime_checks_passed") != 63
     or development_sh19.get("native_lowering_runtime_checks_total") != 63
@@ -629,13 +658,31 @@ if (
     or development_sh19.get("memory_guard_checks_total") != 6
     or development_sh19.get("public_validation_peak_private_bytes", 2**63)
     > 268435456
-    or development_sh19.get("public_self_conformance_errors") != 192
-    or development_sh19.get("direct_native_compiler_closure_passed")
-    or development_sh19.get("tinycc_exit_achieved")
+    or development_sh19.get("public_validation_peak_working_set_bytes", 2**63)
+    > 67108864
+    or development_sh19.get("public_self_conformance_errors") != 0
+    or not development_sh19.get("direct_native_compiler_closure_passed")
+    or not development_sh19.get("tinycc_exit_achieved")
+    or development_sh19.get("generated_c_required")
+    or development_sh19.get("c_runtime_required")
+    or development_sh19.get("microsoft_crt_imported")
+    or development_sh19.get("native_conformance_fixtures_passed") != 278
+    or development_sh19.get("maintained_programs_passed") != 4
+    or development_sh19.get("full_workflow_tasks_passed") != 16
 ):
     errors.append(
-        "development state must record bounded but incomplete SH-19 native closure"
+        "development state must record complete bounded SH-19 native closure"
     )
+development_sh20 = development_self_hosting.get("sh20_throughput_baseline", {})
+if (
+    development_sh20.get("status") != "NEXT_ACTIVE"
+    or development_sh20.get("public_validating_build_seconds") != 109.328
+    or development_sh20.get("public_validation_seconds") != 97.828
+    or not development_sh20.get("semantic_validation_must_not_be_skipped")
+    or development_sh20.get("max_peak_private_bytes") != 268435456
+    or development_sh20.get("max_peak_working_set_bytes") != 67108864
+):
+    errors.append("development state must record the SH-20 throughput baseline")
 development_sh14 = development_self_hosting.get("sh14_acceptance", {})
 if (
     development_sh14.get("status") != "PASS"
@@ -692,15 +739,16 @@ if (
     or not windows_plan.get("sh16_completed")
     or not windows_plan.get("sh17_completed")
     or not windows_plan.get("sh18_completed")
+    or not windows_plan.get("sh19_completed")
     or windows_plan.get("active_milestone")
-    != "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT"
+    != "SH-20_NATIVE_PUBLIC_THROUGHPUT_CONVERGENCE"
     or windows_plan.get("sequence", [None])[0]
     != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
     or windows_plan.get("sequence", [None])[-1]
-    != "SH-23_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
+    != "SH-24_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
 ):
     errors.append(
-        "Windows independence must advance to SH-19 with editor work last"
+        "Windows independence must advance to SH-20 with editor work last"
     )
 
 windows_target = json.loads((
@@ -768,9 +816,7 @@ if (
     errors.append("SH-14 throughput exit targets are missing or weakened")
 sh17_observation = budgets.get("sh17_regression_observation", {})
 if (
-    budgets.get("milestone")
-    != "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION"
-    or sh17_observation.get("status") != "PASS"
+    sh17_observation.get("status") != "PASS"
     or sh17_observation.get("clean_runs") != 5
     or sh17_observation.get("clean_median_seconds", float("inf")) > 30.0
     or sh17_observation.get("clean_maximum_seconds", float("inf")) > 45.0
@@ -779,6 +825,23 @@ if (
     or not sh17_observation.get("all_existing_budgets_pass")
 ):
     errors.append("SH-17 throughput regression observation is missing or failed")
+sh19_observation = budgets.get("sh19_native_backend_observation", {})
+if (
+    budgets.get("milestone")
+    != "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT"
+    or sh19_observation.get("status") != "PASS"
+    or sh19_observation.get("native_validation_ceiling_seconds") != 300.0
+    or sh19_observation.get("native_validation_ceiling_is_sh20_acceptance")
+    or sh19_observation.get("sh20_public_validation_median_target_seconds")
+    != 15.0
+    or budgets.get("budgets", {}).get("validation", {}).get(
+        "max_elapsed_seconds"
+    ) != 300.0
+):
+    errors.append(
+        "SH-19 native budget observation must preserve the separate SH-20 "
+        "validation target"
+    )
 
 native_workflow = (
     ROOT / "scripts/windows_native_workflow.py"
@@ -807,8 +870,8 @@ if '"native_semantic_language_service_23_of_23"' not in standalone_verifier:
         "standalone release must verify the complete SH-12 semantic "
         "language-service contract"
     )
-if '"openc.windows_native_workflow.v8"' not in native_workflow:
-    errors.append("native workflow must record the SH-18 workflow schema")
+if '"openc.windows_native_workflow.v9"' not in native_workflow:
+    errors.append("native workflow must record the SH-19 workflow schema")
 if '"windows_friendly_modules"' not in native_workflow:
     errors.append("native workflow must verify the SH-18 friendly modules")
 

@@ -1,3 +1,8 @@
+import system.file;
+import system.io;
+import system.memory;
+import system.path;
+
 unsafe WinmdProjectionStats winmd_projection_stats() {
     return WinmdProjectionStats{
         records = 0, types = 0, fields = 0, methods = 0,
@@ -563,7 +568,7 @@ unsafe i32 emit_windows_winmd_projection(
     text manifest_path
 ) {
     ptr byte input_data;
-    usize input_length = 0;
+    usize input_length;
     status read = file.read_bytes_raw(
         input_path, out input_data, out input_length
     );

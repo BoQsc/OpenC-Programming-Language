@@ -1,5 +1,6 @@
 import system.io;
 import system.memory;
+import system.text;
 
 struct NativeFunction {
     X64Code code;
@@ -16,6 +17,11 @@ struct NativeFunction {
     ptr byte short_patches;
     usize branch_count;
     usize scope_count;
+}
+
+struct NativeCompilerConstant {
+    bool found;
+    usize value;
 }
 
 unsafe usize native_slot(ref NativeFunction function, usize value) {
@@ -163,23 +169,23 @@ unsafe usize native_field_offset(ref IrContext context, usize type_id, text name
     }
     usize symbol = c_named_type_symbol(context, type_id);
     usize field = ir_first_aggregate_field(context, symbol);
-    usize offset = 0;
+    usize field_offset = 0;
     while field < context.symbols.length {
         NativeLayout member = native_layout(context,
             read_record_field(context.symbol_data, field, 4), 0);
         if !member.valid { return cast(usize, 4294967295); }
-        offset = x64_align_up(offset, member.alignment);
+        field_offset = x64_align_up(field_offset, member.alignment);
         text field_source = d_symbol_source(context, field);
         if project_slice(field_source, read_record_field(context.symbol_data, field, 2),
             read_record_field(context.symbol_data, field, 3)) == project_slice(name, 0, segment) {
-            if segment == name.length { return offset; }
+            if segment == name.length { return field_offset; }
             usize nested = native_field_offset(context,
                 read_record_field(context.symbol_data, field, 4),
                 project_slice(name, segment + 1, name.length - segment - 1));
             if nested == cast(usize, 4294967295) { return nested; }
-            return offset + nested;
+            return field_offset + nested;
         }
-        offset = offset + member.size;
+        field_offset = field_offset + member.size;
         field = ir_next_aggregate_field(context, field);
     }
     return cast(usize, 4294967295);
@@ -362,18 +368,19 @@ unsafe void native_compiler_text_match(ref IrContext context,
     native_store(function, result, 0);
 }
 
-unsafe bool native_compiler_constant_call(ref IrContext context,
-    usize kind, usize symbol, out usize value) {
-    value = 0;
+unsafe NativeCompilerConstant native_compiler_constant_call(
+    ref IrContext context, usize kind, usize symbol
+) {
+    usize value = 0;
     if kind != 3 || symbol >= context.symbols.length ||
         !d_symbol_module_name_is(
             context, symbol, "openc.selfhost.main"
-        ) { return false; }
+        ) { return NativeCompilerConstant{ found = false, value = 0 }; }
     text source = d_symbol_source(context, symbol);
     usize cursor = read_record_field(context.symbol_data, symbol, 2) +
         read_record_field(context.symbol_data, symbol, 3);
     if !starts_with_ascii(source, cursor, "() { return ") {
-        return false;
+        return NativeCompilerConstant{ found = false, value = 0 };
     }
     cursor = cursor + 12;
     usize digits = 0;
@@ -384,7 +391,10 @@ unsafe bool native_compiler_constant_call(ref IrContext context,
         cursor = cursor + 1;
         digits = digits + 1;
     }
-    return digits != 0 && starts_with_ascii(source, cursor, "; }");
+    return NativeCompilerConstant{
+        found = digits != 0 && starts_with_ascii(source, cursor, "; }"),
+        value = value
+    };
 }
 
 unsafe void native_compiler_project_slice(ref IrContext context,
@@ -434,7 +444,6 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
     usize kind = read_record_field(context.instruction_detail, instruction, 0);
     usize one = read_record_field(context.instruction_detail, instruction, 1);
     usize two = read_record_field(context.instruction_detail, instruction, 2);
-    usize constant_value = 0;
     if d_compiler_call_is(
         context, kind, one, two, "compiler_live_allocation_bytes"
     ) {
@@ -453,11 +462,11 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         kind, one, two, "compiler_path_cache_hits", 72) { return true; }
     if native_compiler_counter_call(context, function, instruction, result,
         kind, one, two, "compiler_path_cache_misses", 80) { return true; }
-    if d_operand_count(context, instruction) == 0 &&
-        native_compiler_constant_call(
-            context, kind, one, out constant_value
-        ) {
-        x64_mov_r64_imm64(function.code, 0, cast(u64, constant_value));
+    NativeCompilerConstant constant = native_compiler_constant_call(
+        context, kind, one
+    );
+    if d_operand_count(context, instruction) == 0 && constant.found {
+        x64_mov_r64_imm64(function.code, 0, cast(u64, constant.value));
         native_store(function, result, 0); return true;
     }
     if d_compiler_call_is(context, kind, one, two, "project_slice") {
@@ -808,6 +817,18 @@ unsafe void native_scope_cleanup(ref IrContext context, ref NativeFunction funct
     }
 }
 
+unsafe void native_checked_require(
+    ref IrContext context,
+    ref NativeFunction function,
+    usize instruction,
+    usize condition
+) {
+    usize satisfied = native_skip(function.code, condition);
+    native_scope_cleanup(context, function, instruction);
+    x64_call_symbol(function.code, cast(usize, 4294967295), 0);
+    native_skip_end(function.code, satisfied);
+}
+
 struct NativeInteger {
     u64 value;
     bool valid;
@@ -958,6 +979,27 @@ unsafe void native_integer_to_float(ref IrContext context,
     x64_movq_r64_xmm(function.code, 0, 0);
 }
 
+unsafe void native_float_to_integer(
+    ref IrContext context,
+    ref NativeFunction function,
+    usize source_type,
+    usize target_type
+) {
+    usize source_bits = read_record_field(context.type_data, source_type, 3);
+    x64_movq_xmm_r64(function.code, 0, 0);
+    x64_cvtts2si_r64_xmm(function.code, source_bits, 0, 0);
+    x64_mov_r64_r64(function.code, 10, 0);
+    // Checked float-to-integer conversion requires an exact mathematical
+    // integer. Round-trip comparison also rejects fractions and infinities;
+    // the parity check rejects NaN before equality can observe ZF.
+    x64_cvtsi2s_xmm_r64(function.code, source_bits, 1, 10);
+    x64_ucomi_xmm_xmm(function.code, source_bits, 0, 1);
+    native_require(function.code, 11);
+    native_require(function.code, 4);
+    x64_mov_r64_r64(function.code, 0, 10);
+    native_check_result(context, function, target_type);
+}
+
 unsafe void native_float_compare(ref IrContext context, ref NativeFunction function,
     usize instruction, usize left, usize right) {
     usize left_type = native_value_read(function, function.value_types, left);
@@ -1104,6 +1146,11 @@ unsafe void native_scalar_instruction(
         }
         return;
     }
+    if opcode == ir_op_target_fault() {
+        native_scope_cleanup(context, function, instruction);
+        x64_call_symbol(function.code, cast(usize, 4294967294), 0);
+        return;
+    }
     if opcode == ir_op_const_text() {
         usize literal_length = read_record_field(
             context.instruction_detail, instruction, 2);
@@ -1162,7 +1209,16 @@ unsafe void native_scalar_instruction(
             }
             if function.indirect_return { index = index + 1; }
             x64_mov_r64_memory(function.code, 0, 4, function.frame_size + 8 + index * 8);
-            if native_indirect_aggregate(context, type_id) ||
+            usize parameter_mode = read_record_field(
+                context.detail_data, parameter, 3
+            );
+            if parameter_mode == 1 &&
+                !c_type_is_reference(context, type_id) {
+                native_store(function, result, 0);
+                native_value_write(
+                    function, function.address_values, result, 1
+                );
+            } else if native_indirect_aggregate(context, type_id) ||
                 (d_parameter_owned(context, parameter) && !c_type_is_pointer_like(context, type_id)) {
                 x64_mov_r64_r64(function.code, 11, 0);
                 native_address(function, result, 10);
@@ -1212,14 +1268,22 @@ unsafe void native_scalar_instruction(
         usize destination_type = native_value_read(
             function, function.value_types, destination);
         usize source_type = native_value_read(function, function.value_types, source);
-        if opcode == ir_op_load() && c_type_is_reference(context, source_type) &&
-            !c_type_is_reference(context, type_id) {
+        if opcode == ir_op_load() && (
+            (c_type_is_reference(context, source_type) &&
+                !c_type_is_reference(context, type_id)) ||
+            native_value_read(
+                function, function.address_values, source
+            ) != 0
+        ) {
             x64_mov_r64_r64(function.code, 11, 0);
             native_indirect(context, function, type_id, false);
         }
         if opcode == ir_op_store() && ((c_type_is_reference(context, destination_type) &&
             !d_operand_immediate_is(context, instruction, 0, "bind")) ||
-            d_operand_immediate_is(context, instruction, 0, "deref")) {
+            d_operand_immediate_is(context, instruction, 0, "deref") ||
+            native_value_read(
+                function, function.address_values, destination
+            ) != 0) {
             native_load(function, destination, 11);
             native_indirect(context, function, source_type, true);
         } else { native_store(function, destination, 0); }
@@ -1230,7 +1294,8 @@ unsafe void native_scalar_instruction(
         usize base_type = native_value_read(function, function.value_types, base);
         native_sequence_length(context, function, base, base_type, 11);
         native_load(function, d_operand_value(context, instruction, 1), 0);
-        x64_cmp_r64_r64(function.code, 0, 11); native_require(function.code, 2);
+        x64_cmp_r64_r64(function.code, 0, 11);
+        native_checked_require(context, function, instruction, 2);
         return;
     }
     if opcode == ir_op_slice_create() {
@@ -1442,7 +1507,9 @@ unsafe void native_scalar_instruction(
             } else if opcode == ir_op_cast() && native_float_type(context, type_id) {
                 native_integer_to_float(context, function, source_type, type_id);
             } else if opcode == ir_op_cast() && native_float_type(context, source_type) {
-                function.code.ok = false;
+                native_float_to_integer(
+                    context, function, source_type, type_id
+                );
             }
             if !unchecked && opcode == ir_op_cast() {
                 usize source_kind = read_record_field(context.type_data, source_type, 0);
@@ -1541,9 +1608,11 @@ unsafe void native_scalar_instruction(
             if c_type_is_pointer_like(context, left_type) {
                 NativeLayout element = native_layout(context,
                     read_record_field(context.type_data, left_type, 1), 0);
-                usize right_type = native_value_read(function, function.value_types,
+                usize pointer_right_type = native_value_read(
+                    function, function.value_types,
                     d_operand_value(context, instruction, 1));
-                if !element.valid || element.size == 0 || c_type_is_pointer_like(context, right_type) ||
+                if !element.valid || element.size == 0 ||
+                    c_type_is_pointer_like(context, pointer_right_type) ||
                     (!d_instruction_text_is(context, instruction, "+") &&
                     !d_instruction_text_is(context, instruction, "-")) {
                     function.code.ok = false; return;
@@ -1878,10 +1947,10 @@ unsafe void native_emit_function(
         first_value = first, frame_size = frame,
         indirect_return = native_indirect_aggregate(context,
             read_record_field(context.symbol_data, symbol, 4)),
-        value_types = value_types,
+        value_types = ir_pointer_alias(value_types),
         value_origins = memory.alloc(value_capacity * size_of(usize)),
         address_values = memory.alloc(value_capacity * size_of(usize)),
-        value_slots = value_slots,
+        value_slots = ir_pointer_alias(value_slots),
         blocks = memory.alloc((context.blocks.length + 1) * size_of(usize)),
         branch_patches = memory.alloc((context.instructions.length * 2 + 1) * record_stride()),
         short_patches = memory.alloc((context.next_value - first + 1) * size_of(usize)),
@@ -1995,10 +2064,10 @@ unsafe void native_emit_function(
     memory.free(order); memory.free(references);
     memory.free(function.branch_patches); memory.free(function.blocks);
     memory.free(function.short_patches);
-    memory.free(function.value_types); x64_code_destroy(function.code);
+    memory.free(value_types); x64_code_destroy(function.code);
     memory.free(function.value_origins);
     memory.free(function.address_values);
-    memory.free(function.value_slots);
+    memory.free(value_slots);
     d_buffer_destroy(function.constants);
 }
 

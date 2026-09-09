@@ -40,25 +40,17 @@ class NativeToolchainTests(unittest.TestCase):
             record = {
                 "schema": "openc-sh5-windows-build-v1",
                 "status": "PASS",
-                "backend": "c11-tinycc-win64",
+                "backend": "openc-x64-pe32",
                 "dmd_invoked": False,
                 "dub_invoked": False,
                 "python_invoked": False,
+                "tinycc_invoked": False,
+                "external_assembler_invoked": False,
+                "external_linker_invoked": False,
             }
             Path(str(compiler) + ".build.json").write_text(
                 json.dumps(record), encoding="utf-8"
             )
-            required = [
-                distribution / "runtime/common/source/openc_runtime.c",
-                distribution
-                / "runtime/windows/source/openc_platform_windows.c",
-                distribution
-                / "compiler/selfhost/native_runtime/openc_sh5_runtime.c",
-                distribution / "third_party/tinycc-win64/tcc.exe",
-            ]
-            for path in required:
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_bytes(b"present")
             result = validate_native_compiler(compiler)
             self.assertEqual(result["dmd_invoked"], False)
             record["dmd_invoked"] = True

@@ -1,5 +1,13 @@
 import system.file;
 import system.io;
+import system.text;
+
+struct Pe32RuntimeCode {
+    X64Code code;
+    usize entry_size;
+    usize panic_offset;
+    usize panic_size;
+}
 
 unsafe u64 pe32_u64_minus_one() {
     return (cast(u64, 4294967295) << cast(usize, 32)) |
@@ -92,11 +100,8 @@ unsafe void pe32_runtime_stack_zero(
     pe32_runtime_stack_value(code, offset, cast(u64, 0));
 }
 
-unsafe X64Code pe32_build_runtime_code(
-    ref Pe32RuntimeLayout layout,
-    out usize entry_size,
-    out usize panic_offset,
-    out usize panic_size
+unsafe Pe32RuntimeCode pe32_build_runtime_code(
+    ref Pe32RuntimeLayout layout
 ) {
     X64Code code = x64_code_create(4096, 1);
     x64_sub_rsp(code, 104);
@@ -300,10 +305,10 @@ unsafe X64Code pe32_build_runtime_code(
     pe32_runtime_mov_rip_u32(code, layout, layout.data_rva + 4, 1);
     x64_mov_r64_imm64(code, win64_abi_register_rcx(), cast(u64, 0));
     pe32_runtime_call_import(code, layout, 2);
-    entry_size = code.bytes.length;
+    usize entry_size = code.bytes.length;
 
     while code.bytes.length % 16 != 0 { x64_nop(code); }
-    panic_offset = code.bytes.length;
+    usize panic_offset = code.bytes.length;
     x64_sub_rsp(code, 40);
     x64_mov_r64_imm64(code, win64_abi_register_rcx(), pe32_u64_minus_eleven());
     pe32_runtime_call_import(code, layout, 8);
@@ -325,18 +330,17 @@ unsafe X64Code pe32_build_runtime_code(
     pe32_runtime_call_import(code, layout, 14);
     x64_mov_r64_imm64(code, win64_abi_register_rcx(), cast(u64, 70));
     pe32_runtime_call_import(code, layout, 2);
-    panic_size = code.bytes.length - panic_offset;
-    return code;
+    usize panic_size = code.bytes.length - panic_offset;
+    return Pe32RuntimeCode{
+        code = code, entry_size = entry_size,
+        panic_offset = panic_offset, panic_size = panic_size
+    };
 }
 
 unsafe Pe32RuntimeImage pe32_build_runtime_image(usize subsystem) {
     Pe32RuntimeLayout layout = pe32_runtime_layout();
-    usize entry_size = 0;
-    usize panic_offset = 0;
-    usize panic_size = 0;
-    X64Code code = pe32_build_runtime_code(
-        layout, out entry_size, out panic_offset, out panic_size
-    );
+    Pe32RuntimeCode runtime = pe32_build_runtime_code(layout);
+    X64Code code = runtime.code;
     usize text_raw_size = x64_align_up(
         code.bytes.length, layout.file_alignment
     );
@@ -394,7 +398,7 @@ unsafe Pe32RuntimeImage pe32_build_runtime_image(usize subsystem) {
     DBuffer rdata = pe32_build_rdata(layout);
     DBuffer data = pe32_build_data(layout);
     DBuffer pdata = pe32_build_pdata(
-        layout, entry_size, panic_offset, panic_size
+        layout, runtime.entry_size, runtime.panic_offset, runtime.panic_size
     );
     DBuffer xdata = pe32_build_xdata();
     DBuffer tls = pe32_build_tls();
@@ -420,8 +424,9 @@ unsafe Pe32RuntimeImage pe32_build_runtime_image(usize subsystem) {
     d_buffer_destroy(headers);
     x64_code_destroy(code);
     return Pe32RuntimeImage{
-        image = image, entry_size = entry_size,
-        panic_offset = panic_offset, panic_size = panic_size,
+        image = image, entry_size = runtime.entry_size,
+        panic_offset = runtime.panic_offset,
+        panic_size = runtime.panic_size,
         subsystem = subsystem, ok = ok
     };
 }
@@ -441,7 +446,11 @@ unsafe i32 emit_windows_pe32_runtime(
 ) {
     text source;
     status loaded = file.read_text(source_path, out source);
-    if !loaded.ok || !pe32_runtime_source_profile(source) {
+    if !loaded.ok {
+        io.error("OpenC SH-16 runtime profile source is invalid\n");
+        return 1;
+    }
+    if !pe32_runtime_source_profile(source) {
         io.error("OpenC SH-16 runtime profile source is invalid\n");
         return 1;
     }

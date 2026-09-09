@@ -56,11 +56,11 @@ project symbol, typed hover, definition/reference, completion, safe-rename,
 root-isolation, synchronization, schema, and open-order determinism cases.
 Evidence is in `SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md`.
 
-SH-13 native throughput and implementation independence adds first-party build
+SH-13 native throughput and implementation independence added first-party build
 phase records, indexed OpenC lowering, a tightened byte-identical rebuild
 budget, canonical OpenC-only compiler authority, and standalone packages that
-exclude D/Python source and DUB manifests. TinyCC remains an explicit packaged
-backend dependency. Evidence is in
+exclude D/Python source and DUB manifests. TinyCC remained an explicit packaged
+backend dependency through SH-18. Evidence is in
 `SH13_NATIVE_THROUGHPUT_INDEPENDENCE_EVIDENCE.md`.
 
 SH-14 compiler throughput convergence and stability is complete. Its
@@ -76,7 +76,11 @@ execution pass 34/34 without a Microsoft CRT, assembler, or external linker.
 Evidence is in `SH16_PE32_PLUS_CRT_FREE_RUNTIME_EVIDENCE.md`. SH-17 Win32
 Metadata and deterministic raw projection is complete; evidence is in
 `SH17_WINMD_RAW_PROJECTION_EVIDENCE.md`. SH-18 idiomatic Windows modules are complete; see
-`SH18_IDIOMATIC_WINDOWS_MODULES_EVIDENCE.md`. SH-19 native backend work is active in `../compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
+`SH18_IDIOMATIC_WINDOWS_MODULES_EVIDENCE.md`. SH-19 compiler-capable native
+backend and TinyCC exit is complete; evidence is in
+`SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md`. SH-20 public throughput
+convergence is active in
+`../compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md`.
 
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by

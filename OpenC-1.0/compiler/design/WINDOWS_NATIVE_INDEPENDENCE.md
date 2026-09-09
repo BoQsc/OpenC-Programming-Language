@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **ACTIVE; SH-18 PASSED, SH-19 ACTIVE**
+Status: **ACTIVE; SH-19 PASSED, SH-20 NATIVE PUBLIC THROUGHPUT ACTIVE**
 
 OpenC's Windows path must preserve a strict separation:
 
@@ -33,10 +33,10 @@ package verification, or releases.
 
 | Component | Current role | Exit condition |
 | --- | --- | --- |
-| TinyCC | required C compile/link backend | SH-19 self-hosts through the first-party x64/PE backend |
-| Python | external evidence orchestration | SH-20 replaces required workflows with OpenC-native tools |
-| D | historical bootstrap/audit material | SH-20 isolates it to an optional first-binary bootstrap lane |
-| C runtime/shim | still used by the general generated-C backend; absent from the SH-16 direct-PE proof | SH-19 moves all compiler-reachable native paths to the OpenC runtime |
+| TinyCC | optional historical differential-audit component | exited from normal build, test, and release in SH-19 |
+| Python | external evidence orchestration | SH-21 replaces required workflows with OpenC-native tools |
+| D | historical bootstrap/audit material | SH-21 isolates it to an optional first-binary bootstrap lane |
+| C runtime/shim | optional legacy differential-audit provider | exited from the normal compiler and package in SH-19 |
 | Windows SDK | optional verification oracle | never a normal build or runtime dependency |
 
 ## SH-15: Windows x64 ABI and machine-code substrate
@@ -215,8 +215,11 @@ Complete GUI/event-loop and networking frameworks remain future library work.
 
 ## SH-19: compiler-capable first-party backend and TinyCC exit
 
-Expand the x64/PE backend until it compiles the complete canonical OpenC
-compiler and runtime. Required gates are:
+Status: **PASS**. The x64/PE backend compiles the complete 116-source canonical
+OpenC compiler and its CRT-free runtime. The fixed-point executable is
+4,712,960 bytes with SHA-256
+`277e5ee71bc7f366cfb921c8525a42fe9228221b9955a5fa099326c55fb994c4`.
+Required gates pass:
 
 - all reachable Core IR operations lower through first-party code;
 - compiler -> Stage 2 -> Stage 3 reaches byte-identical closure;
@@ -229,7 +232,17 @@ compiler and runtime. Required gates are:
 Direct complete PE emission is the first supported artifact path. It keeps the
 initial linker scope bounded and proves independence sooner.
 
-## SH-20: OpenC-native build, test, release, and bootstrap boundary
+Evidence is in `../../release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md`.
+
+## SH-20: native public throughput convergence
+
+Status: **NEXT ACTIVE**. The direct already-validated native rebuild takes
+9.965 seconds, but the fully validating public self-build takes 109.328
+seconds, including 97.828 seconds in validation. SH-20 must reach the authored
+C/D-class public-build targets without skipping semantic work or weakening
+diagnostics. See `../selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md`.
+
+## SH-21: OpenC-native build, test, release, and bootstrap boundary
 
 Rewrite every required Python evidence/release orchestrator in OpenC or move
 its indispensable logic into the compiler. The OpenC-native workflow must
@@ -243,7 +256,7 @@ were unavailable and not invoked. This is the point at which OpenC no longer
 needs TinyCC, Python, D, C headers, a C compiler, a C runtime, an assembler, or
 an external linker for ordinary Windows development.
 
-## SH-21: PE/COFF ecosystem completeness
+## SH-22: PE/COFF ecosystem completeness
 
 After direct executable closure is stable, add:
 
@@ -261,14 +274,14 @@ After direct executable closure is stable, add:
 The PE/COFF and ABI layers remain general compiler components; Win32 policy
 remains in the Windows libraries.
 
-## SH-22 and later: COM, WinRT, editor, and ARM64
+## SH-23: optional COM and WinRT projections
 
-SH-22 adds optional `windows.com` and `windows.winrt` projections: GUIDs,
+SH-23 adds optional `windows.com` and `windows.winrt` projections: GUIDs,
 interface pointers/vtables, `IUnknown`, `QueryInterface`, reference counting,
 `HRESULT`, apartment initialization, metadata projection, and ordering tests.
-They do not complicate SH-15 through SH-20.
+They do not complicate SH-15 through SH-21.
 
-SH-23 contains the deferred native editor integration and language-service
+SH-24 contains the deferred native editor integration and language-service
 resilience work. ARM64 begins only after the x64 ABI, backend, runtime, raw
 bindings, and release loop are stable and independent.
 

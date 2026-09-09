@@ -34,6 +34,8 @@ incremental, scaling, closure, memory, and stability gates passing. SH-15
 Windows x64 ABI and machine-code substrate passes 25/25 static and executable
 checks. SH-16 PE32+ and CRT-free runtime passes 34/34 direct-image parsing and
 execution checks. SH-17 Win32 Metadata and raw projection passes 30/30 and
-checks in seven reproducible raw modules. SH-18 idiomatic Windows modules pass 27/27 checks; SH-19 native backend work is
-active. First-party editor
-integration remains deferred to SH-23.
+checks in seven reproducible raw modules. SH-18 idiomatic Windows modules pass
+27/27 checks. SH-19 direct x64/PE32+ compiler output and TinyCC exit passes the
+complete relocated release gate. SH-20 public throughput convergence is now
+active; OpenC-native evidence workflows follow in SH-21. First-party editor
+integration remains deferred to SH-24.

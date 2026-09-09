@@ -58,34 +58,13 @@ def compiler_source_inputs(root: Path = ROOT) -> list[Path]:
         for sources in project["modules"].values()
         for source in sources
     )
-    inputs.append(root / "standard_library" / "openc.project.json")
+    library_project_path = root / "standard_library" / "openc.project.json"
+    library_project = json.loads(library_project_path.read_text(encoding="utf-8"))
+    inputs.append(library_project_path)
     inputs.extend(
-        sorted(
-            (root / "standard_library").glob("system.*/source/*.p"),
-            key=lambda path: path.as_posix(),
-        )
-    )
-    inputs.extend(
-        [
-            root / "runtime" / "common" / "source" / "openc_runtime.c",
-            root / "runtime" / "common" / "source" / "openc_runtime.h",
-            root
-            / "runtime"
-            / "windows"
-            / "source"
-            / "openc_platform_windows.c",
-            root
-            / "compiler"
-            / "selfhost"
-            / "native_runtime"
-            / "openc_sh5_runtime.c",
-            root
-            / "compiler"
-            / "selfhost"
-            / "native_runtime"
-            / "openc_sh5_runtime.h",
-            root / "third_party" / "tinycc-win64" / "tcc.exe",
-        ]
+        library_project_path.parent / source
+        for sources in library_project["modules"].values()
+        for source in sources
     )
     return inputs
 
@@ -109,29 +88,16 @@ def validate_native_compiler(compiler: Path) -> dict[str, object]:
     required_record = (
         record.get("schema") == NATIVE_BUILD_SCHEMA
         and record.get("status") == "PASS"
-        and record.get("backend") == "c11-tinycc-win64"
+        and record.get("backend") == "openc-x64-pe32"
         and record.get("dmd_invoked") is False
         and record.get("dub_invoked") is False
         and record.get("python_invoked") is False
+        and record.get("tinycc_invoked") is False
+        and record.get("external_assembler_invoked") is False
+        and record.get("external_linker_invoked") is False
     )
     if not required_record:
         raise ValueError(f"compiler is not a verified OpenC-native build: {compiler}")
-    required_distribution_files = [
-        distribution / "runtime" / "common" / "source" / "openc_runtime.c",
-        distribution / "runtime" / "windows" / "source" / "openc_platform_windows.c",
-        distribution
-        / "compiler"
-        / "selfhost"
-        / "native_runtime"
-        / "openc_sh5_runtime.c",
-        distribution / "third_party" / "tinycc-win64" / "tcc.exe",
-    ]
-    missing = [str(path) for path in required_distribution_files if not path.is_file()]
-    if missing:
-        raise ValueError(
-            "native compiler is not in a complete standalone distribution: "
-            + ", ".join(missing)
-        )
     return {
         "compiler": str(compiler),
         "compiler_sha256": sha256(compiler),
@@ -141,6 +107,9 @@ def validate_native_compiler(compiler: Path) -> dict[str, object]:
         "dmd_invoked": False,
         "dub_invoked": False,
         "python_invoked": False,
+        "tinycc_invoked": False,
+        "external_assembler_invoked": False,
+        "external_linker_invoked": False,
     }
 
 
@@ -218,7 +187,7 @@ def _archive_distribution(archive: Path, temporary: Path) -> Path:
     distributions = [
         path.parent
         for path in matches
-        if (path.parent / "runtime" / "common" / "source" / "openc_runtime.c").is_file()
+        if (path.parent / "compiler" / "selfhost" / "openc.project.json").is_file()
     ]
     if len(distributions) != 1:
         raise SystemExit("archive does not contain exactly one standalone distribution")

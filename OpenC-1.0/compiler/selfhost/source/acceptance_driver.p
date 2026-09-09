@@ -1,6 +1,43 @@
 import system.file;
+import system.io;
 import system.memory;
 import system.text;
+
+void acceptance_report_count(
+    text category,
+    usize source_record,
+    usize count
+) {
+    if count == 0 { return; }
+    io.print("ACCEPTANCE_ERROR ");
+    io.print(category);
+    io.print(" ");
+    io.print(source_record);
+    io.print(" ");
+    io.println(count);
+}
+
+unsafe void acceptance_report_node(
+    ref IrContext context,
+    text category,
+    text reason,
+    usize node
+) {
+    io.print("ACCEPTANCE_DETAIL ");
+    io.print(category);
+    io.print(" ");
+    io.print(reason);
+    io.print(" ");
+    io.print(context.source_record);
+    io.print(" ");
+    if node < context.syntax.length {
+        io.print(read_record_field(context.syntax_data, node, 1));
+        io.print(" ");
+        io.println(read_record_field(context.syntax_data, node, 2));
+    } else {
+        io.println("0 0");
+    }
+}
 
 unsafe void acceptance_mask_external_declarations(ref IrContext context) {
     usize declaration = 0;
@@ -30,26 +67,66 @@ unsafe void acceptance_mask_external_declarations(ref IrContext context) {
 unsafe usize acceptance_validate_context(ref IrContext context) {
     acceptance_mask_external_declarations(context);
     usize errors = 0;
-    errors = errors + acceptance_validate_type_refs(context);
-    errors = errors + acceptance_validate_fields(context);
-    errors = errors + acceptance_validate_locals(context);
-    errors = errors + acceptance_validate_assignments(context);
-    errors = errors + acceptance_validate_binary(context);
-    errors = errors + acceptance_validate_conditions(context);
-    errors = errors + acceptance_validate_index_ranges(context);
-    errors = errors + acceptance_validate_casts(context);
-    errors = errors + acceptance_validate_aggregates(context);
-    errors = errors + acceptance_validate_functions(context);
-    errors = errors + acceptance_validate_scopes(context);
-    errors = errors + acceptance_validate_enums(context);
-    errors = errors + acceptance_validate_overload_calls(context);
-    errors = errors + acceptance_validate_slice_aliases(context);
-    errors = errors + acceptance_validate_calls(context);
-    errors = errors + acceptance_validate_storage(context);
-    errors = errors + acceptance_validate_import_aliases(context);
-    errors = errors + acceptance_validate_optional_proofs(context);
-    errors = errors + acceptance_validate_pointer_ownership(context);
-    errors = errors + acceptance_validate_pointer_order(context);
+    usize found = acceptance_validate_type_refs(context);
+    acceptance_report_count("type_refs", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_fields(context);
+    acceptance_report_count("fields", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_locals(context);
+    acceptance_report_count("locals", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_assignments(context);
+    acceptance_report_count("assignments", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_binary(context);
+    acceptance_report_count("binary", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_conditions(context);
+    acceptance_report_count("conditions", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_index_ranges(context);
+    acceptance_report_count("index_ranges", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_casts(context);
+    acceptance_report_count("casts", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_aggregates(context);
+    acceptance_report_count("aggregates", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_functions(context);
+    acceptance_report_count("functions", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_scopes(context);
+    acceptance_report_count("scopes", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_enums(context);
+    acceptance_report_count("enums", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_overload_calls(context);
+    acceptance_report_count("overload_calls", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_slice_aliases(context);
+    acceptance_report_count("slice_aliases", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_calls(context);
+    acceptance_report_count("calls", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_storage(context);
+    acceptance_report_count("storage", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_import_aliases(context);
+    acceptance_report_count("import_aliases", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_optional_proofs(context);
+    acceptance_report_count("optional_proofs", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_pointer_ownership(context);
+    acceptance_report_count("pointer_ownership", context.source_record, found);
+    errors = errors + found;
+    found = acceptance_validate_pointer_order(context);
+    acceptance_report_count("pointer_order", context.source_record, found);
+    errors = errors + found;
     return errors;
 }
 
@@ -70,6 +147,7 @@ unsafe usize acceptance_validate_project(
         project_source, project_root,
         module_data, modules, source_data
     );
+    acceptance_report_count("module_cycles", sources.length, errors);
     bool checked_duplicates = false;
     usize module_index = 0;
     while module_index < modules.length {
@@ -78,11 +156,13 @@ unsafe usize acceptance_validate_project(
         usize source_index = 0;
         while source_index < source_count {
             usize source_record = source_first + source_index;
-            text source;
+            text loaded_source;
             status loaded = project_read_source_record(
                 project_source, project_root, source_data,
-                source_record, out source
+                source_record, out loaded_source
             );
+            text source = "";
+            if loaded.ok { source = loaded_source; }
             if !loaded.ok { errors = errors + 1; source_index = source_index + 1; continue; }
             usize source_length = text.byte_length(source);
             PackedBuffer tokens = PackedBuffer{
@@ -246,9 +326,13 @@ unsafe usize acceptance_validate_project(
                 profile_symbol_candidates = 0
             };
             if !checked_duplicates {
-                errors = errors + acceptance_validate_duplicate_functions(
+                usize duplicates = acceptance_validate_duplicate_functions(
                     context
                 );
+                acceptance_report_count(
+                    "duplicate_functions", source_record, duplicates
+                );
+                errors = errors + duplicates;
                 checked_duplicates = true;
             }
             errors = errors + acceptance_validate_context(context);

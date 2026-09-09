@@ -84,7 +84,7 @@ def main() -> int:
             completed.returncode == 0
             and "target: windows-x86_64-hosted\n" in completed.stdout
             and "pointer-width: 64\n" in completed.stdout
-            and "backend: c11-tinycc-win64\n" in completed.stdout,
+            and "backend: openc-x64-pe32\n" in completed.stdout,
         )
     )
 

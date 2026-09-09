@@ -1,7 +1,21 @@
+import system.memory;
+import system.text;
+
 struct LspSemanticIndex {
     PackedBuffer symbols;
     ptr byte symbol_data;
     ptr byte detail_data;
+}
+
+struct LspIdentifierResult {
+    bool found;
+    TextSpan identifier;
+}
+
+struct LspRequestIdentifierResult {
+    bool found;
+    usize document;
+    TextSpan identifier;
 }
 
 usize lsp_semantic_symbol_capacity() {
@@ -292,12 +306,10 @@ unsafe usize lsp_offset_at_position(
     return cursor;
 }
 
-unsafe bool lsp_identifier_at(
+unsafe LspIdentifierResult lsp_identifier_at(
     text source,
-    usize offset,
-    out TextSpan identifier
+    usize offset
 ) {
-    identifier = TextSpan{ start = 0, length = 0 };
     usize source_length = text.byte_length(source);
     PackedBuffer tokens = PackedBuffer{
         length = 0, capacity = source_length + 2
@@ -323,25 +335,30 @@ unsafe bool lsp_identifier_at(
         usize length = read_record_field(token_data, token, 2);
         if read_record_field(token_data, token, 0) == 1 &&
             offset >= start && offset < start + length {
-            identifier = TextSpan{ start = start, length = length };
-            return true;
+            return LspIdentifierResult{
+                found = true,
+                identifier = TextSpan{ start = start, length = length }
+            };
         }
         token = token + 1;
     }
-    return false;
+    return LspIdentifierResult{
+        found = false,
+        identifier = TextSpan{ start = 0, length = 0 }
+    };
 }
 
-unsafe bool lsp_request_identifier(
+unsafe LspRequestIdentifierResult lsp_request_identifier(
     ref LspState state,
-    text request,
-    out usize document,
-    out TextSpan identifier
+    text request
 ) {
-    document = lsp_request_document(state, request);
-    identifier = TextSpan{ start = 0, length = 0 };
+    usize document = lsp_request_document(state, request);
     if document >= lsp_max_documents() ||
         !lsp_document_in_project(state, document) {
-        return false;
+        return LspRequestIdentifierResult{
+            found = false, document = document,
+            identifier = TextSpan{ start = 0, length = 0 }
+        };
     }
     text source = lsp_document_source(state, document);
     usize offset = lsp_offset_at_position(
@@ -349,10 +366,11 @@ unsafe bool lsp_request_identifier(
         lsp_json_usize(request, "line", 0),
         lsp_json_usize(request, "character", 0)
     );
-    TextSpan found;
-    bool result = lsp_identifier_at(source, offset, out found);
-    identifier = found;
-    return result;
+    LspIdentifierResult result = lsp_identifier_at(source, offset);
+    return LspRequestIdentifierResult{
+        found = result.found, document = document,
+        identifier = result.identifier
+    };
 }
 
 unsafe bool lsp_symbol_name_equal(
@@ -580,14 +598,15 @@ unsafe void lsp_respond_hover(
     text request,
     TextSpan id
 ) {
-    usize document;
-    TextSpan name;
-    if !lsp_request_identifier(
-        state, request, out document, out name
-    ) {
+    LspRequestIdentifierResult target = lsp_request_identifier(
+        state, request
+    );
+    if !target.found {
         lsp_respond_null(request, id);
         return;
     }
+    usize document = target.document;
+    TextSpan name = target.identifier;
     LspSemanticIndex index = lsp_build_semantic_index(state);
     usize symbol = lsp_find_symbol(
         index, state, lsp_document_source(state, document), name
@@ -620,16 +639,15 @@ unsafe void lsp_respond_definition(
     text request,
     TextSpan id
 ) {
-    usize document;
-    TextSpan name;
     LspSemanticIndex index = lsp_build_semantic_index(state);
     usize symbol = index.symbols.length;
-    if lsp_request_identifier(
-        state, request, out document, out name
-    ) {
+    LspRequestIdentifierResult target = lsp_request_identifier(
+        state, request
+    );
+    if target.found {
         symbol = lsp_find_symbol(
             index, state,
-            lsp_document_source(state, document), name
+            lsp_document_source(state, target.document), target.identifier
         );
     }
     DBuffer payload = d_buffer_create(
@@ -761,18 +779,16 @@ unsafe void lsp_respond_references(
     text request,
     TextSpan id
 ) {
-    usize document;
-    TextSpan name;
-    bool found = lsp_request_identifier(
-        state, request, out document, out name
+    LspRequestIdentifierResult target = lsp_request_identifier(
+        state, request
     );
     DBuffer payload = d_buffer_create(
         lsp_semantic_output_capacity(state)
     );
     lsp_put_response_start(payload, request, id);
     d_put(payload, ",\"result\":[");
-    if found {
-        text name_source = lsp_document_source(state, document);
+    if target.found {
+        text name_source = lsp_document_source(state, target.document);
         usize emitted = 0;
         usize rank = 0;
         usize count = lsp_project_document_count(state);
@@ -782,7 +798,7 @@ unsafe void lsp_respond_references(
                 payload,
                 lsp_document_uri(state, candidate),
                 lsp_document_source(state, candidate),
-                name_source, name, emitted
+                name_source, target.identifier, emitted
             );
             rank = rank + 1;
         }
@@ -964,16 +980,17 @@ unsafe void lsp_respond_prepare_rename(
     text request,
     TextSpan id
 ) {
-    usize document;
-    TextSpan name;
-    if !lsp_request_identifier(
-        state, request, out document, out name
-    ) {
+    LspRequestIdentifierResult target = lsp_request_identifier(
+        state, request
+    );
+    if !target.found {
         lsp_respond_error(
             request, id, -32602, "rename target is not an identifier"
         );
         return;
     }
+    usize document = target.document;
+    TextSpan name = target.identifier;
     LspSemanticIndex index = lsp_build_semantic_index(state);
     usize symbol = lsp_find_symbol(
         index, state, lsp_document_source(state, document), name
@@ -1097,16 +1114,17 @@ unsafe void lsp_respond_rename(
     text request,
     TextSpan id
 ) {
-    usize document;
-    TextSpan old_name;
-    if !lsp_request_identifier(
-        state, request, out document, out old_name
-    ) {
+    LspRequestIdentifierResult target = lsp_request_identifier(
+        state, request
+    );
+    if !target.found {
         lsp_respond_error(
             request, id, -32602, "rename target is not an identifier"
         );
         return;
     }
+    usize document = target.document;
+    TextSpan old_name = target.identifier;
     DBuffer new_name = d_buffer_create(1024);
     if !lsp_json_string(request, "newName", new_name) ||
         !lsp_valid_identifier(d_buffer_text(new_name)) {

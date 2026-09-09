@@ -1,4 +1,5 @@
 import system.file;
+import system.io;
 
 unsafe X64Code x64_probe_integer_six() {
     X64Code code = x64_code_create(64, 1);

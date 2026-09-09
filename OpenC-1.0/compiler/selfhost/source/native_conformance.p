@@ -158,7 +158,6 @@ unsafe NativeRunResult native_run_program(
 ) {
     DBuffer command = d_buffer_create(text.byte_length(executable) + 16);
     native_put_quoted(command, executable);
-    d_put(command, " 2>&1");
     i32 exit_code;
     text output;
     status ran = process.run(

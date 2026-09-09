@@ -1,8 +1,20 @@
 # SH-19 implementation ledger
 
-Status: IN PROGRESS. SH-19 has not passed its exit gates.
+Status: **PASS**. SH-19 passed every exit gate on 2026-09-09.
 
-## Native compiler and memory checkpoint (2026-09-09)
+The final 116-source compiler reaches byte-identical Stage 82/83 closure at
+4,712,960 bytes with SHA-256
+`277e5ee71bc7f366cfb921c8525a42fe9228221b9955a5fa099326c55fb994c4`.
+The relocated package passes 278/278 conformance, 4/4 maintained programs,
+all CLI/project/LSP gates, and contains no C, D, Python, or TinyCC source or
+toolchain. The compiler and Stage 3 import only `KERNEL32.dll`. Full evidence
+is in `release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md`.
+
+The remaining text preserves the implementation checkpoints that led to the
+fixed point. Statements that a checkpoint was incomplete describe that dated
+checkpoint, not the final SH-19 state.
+
+## Historical native compiler and memory checkpoint (2026-09-09)
 
 The direct backend now compiles the complete 116-source self-hosted compiler
 to a CRT-free PE32+ image and reaches a byte-identical trusted fixed point:
@@ -17,10 +29,9 @@ to a CRT-free PE32+ image and reaches a byte-identical trusted fixed point:
 - direct-native corpus audit: 72 `NATIVE_COMPILED`, 13 declaration-only
   `NOT_EXERCISED`, and no silently lowered or timed-out cases.
 
-This is a real compiler fixed point, but not SH-19 completion. The public
-semantic path currently reports 192 self-conformance errors, the installed
-default remains C/TinyCC, and the complete 278-fixture plus 4-program direct
-native release gates have not run.
+This was the first real compiler fixed point. Later SH-19 work reduced public
+self-conformance to zero errors, switched the default to direct x64/PE32+,
+and passed the complete 278-fixture plus 4-program native release gates.
 
 ### RAM regression containment
 
@@ -53,10 +64,9 @@ python scripts/verify_sh19_memory_guards.py --output REPORT.json
 Current result: PASS 6/6, including a forced private-memory failure and a
 large-output non-deadlock/capture-bound probe.
 
-The maintained compiler still uses the C/TinyCC backend by default. The new
-`--native-build PROJECT OUTPUT.exe` path emits x64 machine code and PE32+ bytes
-directly, rejects unsupported lowering, and never falls back to TinyCC. It is
-experimental until the complete compiler/runtime and conformance corpus pass.
+The maintained compiler now uses the x64/PE32+ backend by default. The
+`--native-build PROJECT OUTPUT.exe` path emits machine code and PE bytes
+directly, rejects unsupported lowering, and never falls back to TinyCC.
 
 Implemented foundations:
 
@@ -119,7 +129,7 @@ their performance; generic Hosted primitives still need an OpenC runtime.
 The updated scalar-closure8 census contains 1,186 functions and 104,103 IR
 instructions (`build-output/selfhost-sh19/compiler-ir-audit8.json`).
 
-Remaining required work, in dependency order:
+Historical required work, completed in dependency order:
 
 1. General value layout: named aggregates, fields, enums, text, status, arrays,
    slices, optionals, pointer/ref/out/own semantics and cleanup.
@@ -138,8 +148,9 @@ Remaining required work, in dependency order:
    for explicit differential auditing. Update state/evidence and commit SH-19
    complete only after these gates pass.
 
-Python remains the external SH-19 evidence harness. Required Python workflow
-replacement is SH-20. Linux/freestanding remain optional future work.
+Python remains the external SH-19 evidence harness. Public compiler throughput
+convergence is SH-20; required Python workflow replacement is SH-21.
+Linux/freestanding remain optional future work.
 
 ## Aggregate/reference increment (2026-09-08)
 

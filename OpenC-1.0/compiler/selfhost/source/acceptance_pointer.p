@@ -51,7 +51,13 @@ unsafe usize acceptance_validate_pointer_ownership(
                         if name < context.syntax.length &&
                             acceptance_symbol_allocated(
                                 context, ir_resolve_name(context, name)
-                            ) { errors = errors + 1; }
+                            ) {
+                            acceptance_report_node(
+                                context, "pointer_ownership",
+                                "allocated_field", initializer
+                            );
+                            errors = errors + 1;
+                        }
                     }
                 }
                 field = field + 1;

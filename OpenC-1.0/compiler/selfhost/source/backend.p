@@ -404,6 +404,10 @@ unsafe i32 emit_bootstrap_d_mode(
         if errors.length != 0 {
             flow_emit_errors(module_data, modules, error_data, errors);
         }
+        if acceptance_errors != 0 {
+            io.print("SEMANTIC_ERROR ");
+            io.println(acceptance_errors);
+        }
         timings.total_ms =
             process.monotonic_milliseconds() - total_started;
         return 1;

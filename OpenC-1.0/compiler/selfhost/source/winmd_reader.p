@@ -1,3 +1,6 @@
+import system.memory;
+import system.text;
+
 unsafe usize winmd_u8(ref WinmdReader reader, usize offset) {
     if offset >= reader.length { reader.ok = false; return 0; }
     return cast(usize, cast_unchecked(u8, *(reader.data + offset)));
@@ -236,12 +239,22 @@ unsafe usize winmd_table_schema_size(
     return 0;
 }
 
+unsafe status winmd_parse_failure(
+    ref WinmdReader reader,
+    text message
+) {
+    memory.free(reader.table_data);
+    reader.table_data = null;
+    reader.ok = false;
+    return status{ code = 1, message = message };
+}
+
 unsafe status winmd_parse(
     ptr byte data,
     usize length,
-    out WinmdReader reader
+    out WinmdReader parsed_reader
 ) {
-    reader = WinmdReader{
+    WinmdReader reader = WinmdReader{
         data = data, length = length, pe_magic = 0,
         metadata_offset = 0, metadata_size = 0,
         tables_offset = 0, tables_size = 0,
@@ -253,13 +266,11 @@ unsafe status winmd_parse(
         table_data = memory.alloc(64 * record_stride()), ok = true
     };
     if length < 512 || winmd_u16(reader, 0) != 23117 {
-        reader.ok = false;
-        return status{ code = 1, message = "WinMD DOS header is invalid" };
+        return winmd_parse_failure(reader, "WinMD DOS header is invalid");
     }
     usize pe = winmd_u32(reader, 60);
     if winmd_u32(reader, pe) != 17744 {
-        reader.ok = false;
-        return status{ code = 1, message = "WinMD PE signature is invalid" };
+        return winmd_parse_failure(reader, "WinMD PE signature is invalid");
     }
     usize section_count = winmd_u16(reader, pe + 6);
     usize optional_size = winmd_u16(reader, pe + 20);
@@ -268,17 +279,19 @@ unsafe status winmd_parse(
     usize directory_base = optional_header + 96;
     if reader.pe_magic == 523 { directory_base = optional_header + 112; }
     else if reader.pe_magic != 267 {
-        reader.ok = false;
-        return status{ code = 1, message = "WinMD optional header is unsupported" };
+        return winmd_parse_failure(
+            reader, "WinMD optional header is unsupported"
+        );
     }
-    usize cli_rva = winmd_u32(reader, directory_base + 14 * 8);
-    usize cli_size = winmd_u32(reader, directory_base + 14 * 8 + 4);
+    usize cli_directory = directory_base + cast(usize, 14 * 8);
+    usize cli_rva = winmd_u32(reader, cli_directory);
+    usize cli_size = winmd_u32(reader, cli_directory + 4);
     usize section_headers = optional_header + optional_size;
     usize cli = winmd_rva_to_offset(
         reader, section_headers, section_count, cli_rva
     );
     if cli_size < 24 || !reader.ok {
-        return status{ code = 1, message = "WinMD CLI header is missing" };
+        return winmd_parse_failure(reader, "WinMD CLI header is missing");
     }
     usize metadata_rva = winmd_u32(reader, cli + 8);
     reader.metadata_size = winmd_u32(reader, cli + 12);
@@ -287,8 +300,9 @@ unsafe status winmd_parse(
     );
     usize metadata = reader.metadata_offset;
     if winmd_u32(reader, metadata) != 1112167234 {
-        reader.ok = false;
-        return status{ code = 1, message = "WinMD BSJB metadata root is invalid" };
+        return winmd_parse_failure(
+            reader, "WinMD BSJB metadata root is invalid"
+        );
     }
     usize version_length = winmd_u32(reader, metadata + 12);
     usize stream_header = x64_align_up(metadata + 16 + version_length, 4);
@@ -319,8 +333,9 @@ unsafe status winmd_parse(
     }
     if reader.tables_offset == 0 || reader.strings_offset == 0 ||
         reader.blob_offset == 0 {
-        reader.ok = false;
-        return status{ code = 1, message = "WinMD required metadata streams are missing" };
+        return winmd_parse_failure(
+            reader, "WinMD required metadata streams are missing"
+        );
     }
     reader.heap_sizes = winmd_u8(reader, reader.tables_offset + 6);
     reader.valid_tables = winmd_u64(reader, reader.tables_offset + 8);
@@ -354,13 +369,15 @@ unsafe status winmd_parse(
         table = table + 1;
     }
     if !reader.ok || table_at > reader.tables_offset + reader.tables_size {
-        reader.ok = false;
-        return status{ code = 1, message = "WinMD metadata tables are malformed" };
+        return winmd_parse_failure(
+            reader, "WinMD metadata tables are malformed"
+        );
     }
+    parsed_reader = reader;
     return status{ code = 0 };
 }
 
-unsafe void winmd_reader_destroy(own WinmdReader reader) {
+unsafe void winmd_reader_destroy(ref WinmdReader reader) {
     memory.free(reader.table_data);
     reader.ok = false;
 }

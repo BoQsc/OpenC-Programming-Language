@@ -26,38 +26,35 @@ unsafe i32 build_default_windows(
     text output_executable,
     text timing_path
 ) {
-    text distribution_root = process.executable_directory();
-    DBuffer generated = d_buffer_create(
-        text.byte_length(output_executable) + 32
-    );
-    d_put(generated, output_executable);
-    d_put(generated, ".openc.c");
     DBuffer record = d_buffer_create(
         text.byte_length(output_executable) + 32
     );
     d_put(record, output_executable);
     d_put(record, ".build.json");
-    if !generated.ok || !record.ok {
+    if !record.ok {
         d_buffer_destroy(record);
-        d_buffer_destroy(generated);
         return 1;
     }
-    i32 result = build_windows_c_timed(
-        project_path,
-        output_executable,
-        d_buffer_text(generated),
-        path.join(distribution_root, "runtime"),
-        path.join(
-            distribution_root, "compiler/selfhost/native_runtime"
-        ),
-        d_buffer_text(record),
-        path.join(
-            distribution_root, "third_party/tinycc-win64/tcc.exe"
-        ),
-        timing_path
+    BuildTimings timings = build_timings_empty();
+    timings.emission_mode = 2;
+    i32 result = emit_bootstrap_d_mode(
+        project_path, output_executable, true, true, timings
     );
+    text build_record = "{\n  \"schema\": \"openc-sh5-windows-build-v1\",\n  \"status\": \"FAILED\",\n  \"backend\": \"openc-x64-pe32\",\n  \"dmd_invoked\": false,\n  \"dub_invoked\": false,\n  \"python_invoked\": false,\n  \"tinycc_invoked\": false,\n  \"external_assembler_invoked\": false,\n  \"external_linker_invoked\": false\n}\n";
+    if result == 0 {
+        build_record = "{\n  \"schema\": \"openc-sh5-windows-build-v1\",\n  \"status\": \"PASS\",\n  \"backend\": \"openc-x64-pe32\",\n  \"dmd_invoked\": false,\n  \"dub_invoked\": false,\n  \"python_invoked\": false,\n  \"tinycc_invoked\": false,\n  \"external_assembler_invoked\": false,\n  \"external_linker_invoked\": false\n}\n";
+    }
+    status record_written = file.write_text(
+        d_buffer_text(record), build_record
+    );
+    bool timing_written = true;
+    if text.byte_length(timing_path) != 0 {
+        timing_written = write_build_timings(
+            timing_path, timings, result == 0
+        );
+    }
     d_buffer_destroy(record);
-    d_buffer_destroy(generated);
+    if !record_written.ok || !timing_written { return 1; }
     return result;
 }
 

@@ -153,8 +153,7 @@ unsafe usize ir_entry_module(
                 read_record_field(symbol_data, symbol, 1), out symbol_source
             );
             if !loaded.ok {
-                symbol = symbol + 1;
-                continue;
+                return module_count;
             }
             if span_equals_ascii(
                 symbol_source,

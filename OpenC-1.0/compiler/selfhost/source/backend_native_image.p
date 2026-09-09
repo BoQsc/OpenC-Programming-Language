@@ -29,6 +29,28 @@ Pe32Section native_section(text name, usize size, usize rva, usize raw, usize fl
         raw_size = x64_align_up(size, 512), raw_pointer = raw, characteristics = flags };
 }
 
+unsafe usize native_fault_stub(
+    ref X64Code code,
+    ref Pe32RuntimeLayout layout,
+    usize message_offset,
+    usize message_length
+) {
+    x64_sub_rsp(code, 40);
+    x64_mov_r64_imm64(code, 1, pe32_u64_minus_eleven() - cast(u64, 1));
+    pe32_runtime_call_import(code, layout, 8);
+    x64_mov_r64_r64(code, 1, 0);
+    pe32_runtime_lea_rip(
+        code, layout, 2, layout.rdata_rva + message_offset
+    );
+    x64_mov_r64_imm64(code, 8, cast(u64, message_length));
+    pe32_runtime_lea_rip(code, layout, 9, layout.data_rva + 88);
+    pe32_runtime_stack_zero(code, 32);
+    pe32_runtime_call_import(code, layout, 14);
+    x64_mov_r64_imm64(code, 1, cast(u64, 70));
+    pe32_runtime_call_import(code, layout, 2);
+    return code.bytes.length;
+}
+
 unsafe status native_write_image(ref IrContext context, ref DBuffer objects, text path) {
     if objects.length > 536870912 {
         io.error("error[OPENC-NATIVE-BUDGET]: native object stream exceeds 512 MiB\n");
@@ -41,8 +63,8 @@ unsafe status native_write_image(ref IrContext context, ref DBuffer objects, tex
         write_usize(addresses, index * size_of(usize), 0); index = index + 1;
     }
     usize cursor = 0;
-    usize code_size = 64;
-    usize unwind_size = 16;
+    usize code_size = 256;
+    usize unwind_size = 24;
     usize constant_size = 0;
     usize function_count = 0;
     usize entry = context.symbols.length;
@@ -78,7 +100,7 @@ unsafe status native_write_image(ref IrContext context, ref DBuffer objects, tex
     layout.rdata_rva = x64_align_up(layout.text_rva + code_size, 4096);
     layout.data_rva = x64_align_up(layout.rdata_rva + 1536 + constant_size, 4096);
     layout.pdata_rva = layout.data_rva + 4096;
-    layout.xdata_rva = x64_align_up(layout.pdata_rva + (function_count + 2) * 12, 4096);
+    layout.xdata_rva = x64_align_up(layout.pdata_rva + (function_count + 3) * 12, 4096);
     layout.tls_rva = x64_align_up(layout.xdata_rva + unwind_size, 4096);
     layout.reloc_rva = layout.tls_rva + 4096;
     layout.image_size = layout.reloc_rva + 4096;
@@ -89,17 +111,24 @@ unsafe status native_write_image(ref IrContext context, ref DBuffer objects, tex
     pe32_runtime_call_import(code, layout, 2);
     usize entry_end = code.bytes.length;
     while code.bytes.length < 32 && code.ok { x64_nop(code); }
-    x64_sub_rsp(code, 40);
-    x64_mov_r64_imm64(code, 1, cast(u64, 70));
-    pe32_runtime_call_import(code, layout, 2);
-    usize fault_end = code.bytes.length;
-    while code.bytes.length < 64 && code.ok { x64_nop(code); }
-    DBuffer pdata = d_buffer_create((function_count + 2) * 12 + 512);
+    usize checked_start = code.bytes.length;
+    usize checked_end = native_fault_stub(
+        code, layout, layout.checked_message_offset, 22
+    );
+    while code.bytes.length % 16 != 0 && code.ok { x64_nop(code); }
+    usize target_start = code.bytes.length;
+    usize target_end = native_fault_stub(
+        code, layout, layout.target_message_offset, 19
+    );
+    while code.bytes.length < 256 && code.ok { x64_nop(code); }
+    DBuffer pdata = d_buffer_create((function_count + 3) * 12 + 512);
     DBuffer xdata = d_buffer_create(unwind_size + 512);
     usize stub = 0;
-    while stub < 2 {
-        usize start = 0; usize end = entry_end;
-        if stub == 1 { start = 32; end = fault_end; }
+    while stub < 3 {
+        usize start = 0;
+        usize end = entry_end;
+        if stub == 1 { start = checked_start; end = checked_end; }
+        if stub == 2 { start = target_start; end = target_end; }
         pe32_put_u32(pdata, layout.text_rva + start);
         pe32_put_u32(pdata, layout.text_rva + end);
         pe32_put_u32(pdata, layout.xdata_rva + xdata.length);
@@ -132,7 +161,12 @@ unsafe status native_write_image(ref IrContext context, ref DBuffer objects, tex
             usize offset = native_read_u32(objects, relocation + index * 8);
             usize target = native_read_u32(objects, relocation + index * 8 + 4);
             usize destination = 0;
-            if target == cast(usize, 4294967295) { destination = 32; }
+            if target == cast(usize, 4294967295) {
+                destination = checked_start;
+            }
+            else if target == cast(usize, 4294967294) {
+                destination = target_start;
+            }
             else if target >= cast(usize, 3221225472) {
                 destination = layout.data_rva - layout.text_rva +
                     target - cast(usize, 3221225472);

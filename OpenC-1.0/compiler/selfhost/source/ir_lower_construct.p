@@ -47,12 +47,14 @@ unsafe bool ir_collected_field_supplied(
         context.symbol_data, field_symbol, 1
     );
     if field_source_record != context.source_record {
+        text loaded_field_source;
         status loaded = project_read_source_record(
             context.project_source, context.project_root,
             context.source_data, field_source_record,
-            out field_source
+            out loaded_field_source
         );
         if !loaded.ok { return false; }
+        field_source = loaded_field_source;
     }
     usize field = 0;
     while field < field_count {
@@ -300,7 +302,7 @@ unsafe usize ir_lower_construct(
             previous_record = child;
             first_child = false;
         }
-        usize first = context.operands.length;
+        usize array_operand_first = context.operands.length;
         usize element_index = 0;
         while element_index < element_count {
             ir_operand_empty(context, read_usize(
@@ -311,7 +313,7 @@ unsafe usize ir_lower_construct(
         memory.free(element_values);
         return ir_emit_value(
             context, ir_op_array_create(), type_id, node,
-            0, 0, 0, first, element_count
+            0, 0, 0, array_operand_first, element_count
         );
     }
     if kind == 51 {

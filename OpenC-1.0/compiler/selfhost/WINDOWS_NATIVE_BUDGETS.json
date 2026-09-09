@@ -1,37 +1,37 @@
 {
   "schema": "openc.windows_native_performance_budgets.v1",
-  "milestone": "SH-17_OPENC_WIN32_METADATA_READER_AND_RAW_PROJECTION",
+  "milestone": "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT",
   "target": "windows-x86_64-hosted",
   "reference_host": {
     "operating_system": "Windows 10.0.19045",
     "architecture": "AMD64",
-    "measurement_date": "2026-08-10"
+    "measurement_date": "2026-09-09"
   },
   "baselines": {
     "validation": {
-      "elapsed_seconds": 27.844,
-      "peak_private_bytes": 6733824,
-      "peak_working_set_bytes": 8519680,
+      "elapsed_seconds": 233.841,
+      "peak_private_bytes": 10018816,
+      "peak_working_set_bytes": 11927552,
       "fixtures": 278
     },
     "self_rebuild": {
-      "elapsed_seconds": 4.137,
-      "peak_private_bytes": 250437632,
-      "peak_working_set_bytes": 26804224,
+      "elapsed_seconds": 9.965,
+      "peak_private_bytes": 202629120,
+      "peak_working_set_bytes": 41099264,
       "output_compiler_byte_equal_to_input": true
     }
   },
   "budgets": {
     "validation": {
-      "max_elapsed_seconds": 90.0,
+      "max_elapsed_seconds": 300.0,
       "max_peak_private_bytes": 16777216,
       "max_peak_working_set_bytes": 16777216,
-      "elapsed_headroom_percent": 223.2
+      "elapsed_headroom_percent": 28.3
     },
     "self_rebuild": {
       "max_elapsed_seconds": 30.0,
       "max_peak_private_bytes": 268435456,
-      "max_peak_working_set_bytes": 33554432,
+      "max_peak_working_set_bytes": 67108864,
       "elapsed_headroom_percent": 625.2
     },
     "daily_cache_hit": {
@@ -132,5 +132,35 @@
     "sh14_best_baseline_retained": true,
     "all_existing_budgets_pass": true,
     "performance_regression_blocks_sh17": false
+  },
+  "sh19_native_backend_observation": {
+    "status": "PASS",
+    "measurement_record": "build-output/selfhost-sh19/native-final-stage83-guard.json",
+    "compiler_source_files": 116,
+    "trusted_native_rebuild_seconds": 10.378,
+    "peak_private_bytes": 202903552,
+    "peak_working_set_bytes": 41111552,
+    "max_peak_private_bytes": 268435456,
+    "max_peak_working_set_bytes": 67108864,
+    "c_backend_invoked": false,
+    "tinycc_invoked": false,
+    "external_assembler_invoked": false,
+    "external_linker_invoked": false,
+    "public_validating_build_seconds": 109.328,
+    "public_validation_seconds": 97.828,
+    "public_throughput_is_next_priority": true,
+    "native_validation_measurement_records": [
+      "build-output/selfhost-sh19/full-workflow-final2/performance/validation-measurement.json",
+      "build-output/selfhost-sh19/full-workflow-final3/performance/validation-measurement.json",
+      "build-output/selfhost-sh19/full-workflow-final4/performance/validation-measurement.json",
+      "build-output/selfhost-sh19/validation-retry1.json"
+    ],
+    "native_validation_elapsed_range_seconds": [76.081, 233.841],
+    "native_validation_ceiling_seconds": 300.0,
+    "native_validation_ceiling_is_sh20_acceptance": false,
+    "sh20_public_validation_median_target_seconds": 15.0,
+    "memory_ceiling_changed": true,
+    "memory_ceiling_review": "The direct PE backend remains below the unchanged 256 MiB private-byte ceiling. Its measured 41.1 MiB working set cannot satisfy the former C/TinyCC 32 MiB ceiling, so SH-19 adopts the already-enforced 64 MiB process working-set guard without weakening the private-byte limit.",
+    "validation_ceiling_review": "The native 278-fixture runner still launches one bounded compiler process per fixture and showed 76.081 to 233.841 seconds of host-sensitive elapsed time while retaining 278/278 correctness and about 10 to 12 MiB process memory. SH-19 records a 300-second functional regression ceiling; it is explicitly not the SH-20 performance target, which remains a 15-second public-validation median."
   }
 }

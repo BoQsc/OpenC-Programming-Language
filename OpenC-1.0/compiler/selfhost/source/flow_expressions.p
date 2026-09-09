@@ -276,6 +276,48 @@ unsafe bool flow_call_is_memory_free(
         span_equals_ascii(source, start, length, "system.memory.free");
 }
 
+unsafe bool flow_call_is_status_builtin(
+    ptr byte syntax_data,
+    ref PackedBuffer syntax,
+    usize call,
+    text source
+) {
+    usize callee = read_record_field(syntax_data, call, 3);
+    if callee >= syntax.length { return false; }
+    usize start = read_record_field(syntax_data, callee, 1);
+    usize length = read_record_field(syntax_data, callee, 2);
+    return span_equals_ascii(source, start, length, "text.scalar_at") ||
+        span_equals_ascii(source, start, length, "system.text.scalar_at") ||
+        span_equals_ascii(source, start, length, "text.byte_at") ||
+        span_equals_ascii(source, start, length, "system.text.byte_at") ||
+        span_equals_ascii(source, start, length, "text.slice") ||
+        span_equals_ascii(source, start, length, "system.text.slice") ||
+        span_equals_ascii(source, start, length, "process.run") ||
+        span_equals_ascii(source, start, length, "system.process.run") ||
+        span_equals_ascii(source, start, length, "file.read_text") ||
+        span_equals_ascii(source, start, length, "system.file.read_text") ||
+        span_equals_ascii(source, start, length, "file.read_text_cached") ||
+        span_equals_ascii(
+            source, start, length, "system.file.read_text_cached"
+        ) || span_equals_ascii(
+            source, start, length, "file.write_text"
+        ) || span_equals_ascii(
+            source, start, length, "system.file.write_text"
+        ) || span_equals_ascii(
+            source, start, length, "file.write_bytes"
+        ) || span_equals_ascii(
+            source, start, length, "system.file.write_bytes"
+        ) || span_equals_ascii(
+            source, start, length, "file.read_bytes"
+        ) || span_equals_ascii(
+            source, start, length, "system.file.read_bytes"
+        ) || span_equals_ascii(
+            source, start, length, "file.read_bytes_raw"
+        ) || span_equals_ascii(
+            source, start, length, "system.file.read_bytes_raw"
+        );
+}
+
 unsafe bool flow_symbol_unsafe(
     text project_source,
     text project_root,

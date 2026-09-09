@@ -18,8 +18,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from native_toolchain import resolve_native_compiler, validate_native_compiler
 
-STANDALONE_EXCLUDED_SUFFIXES = {".d", ".py", ".pyc"}
+STANDALONE_EXCLUDED_SUFFIXES = {".c", ".d", ".h", ".py", ".pyc"}
 STANDALONE_EXCLUDED_NAMES = {"dub.json", "dub.selections.json"}
+STANDALONE_EXCLUDED_PREFIXES = {
+    ("third_party", "tinycc-win64"),
+}
 
 
 def sha256(path: Path) -> str:
@@ -44,6 +47,10 @@ def copy_source_tree(source: Path, destination: Path) -> int:
             path.suffix.lower() in STANDALONE_EXCLUDED_SUFFIXES
             or path.name.lower() in STANDALONE_EXCLUDED_NAMES
             or "__pycache__" in relative.parts
+            or any(
+                relative.parts[: len(prefix)] == prefix
+                for prefix in STANDALONE_EXCLUDED_PREFIXES
+            )
         ):
             continue
         target = destination / relative
@@ -132,24 +139,7 @@ def main() -> int:
 
     required = (
         output_tree / "compiler" / "selfhost" / "openc.project.json",
-        output_tree / "runtime" / "common" / "source" / "openc_runtime.c",
-        output_tree
-        / "runtime"
-        / "windows"
-        / "source"
-        / "openc_platform_windows.c",
-        output_tree
-        / "compiler"
-        / "selfhost"
-        / "native_runtime"
-        / "openc_sh5_runtime.c",
         output_tree / "standard_library" / "openc.project.json",
-        output_tree / "third_party" / "tinycc-win64" / "tcc.exe",
-        output_tree
-        / "third_party"
-        / "tinycc-win64"
-        / "source"
-        / "tcc-0.9.27.tar.bz2",
         output_tree / "conformance" / "fixtures" / "MANIFEST.json",
         output_tree / "conformance" / "fixtures" / "NATIVE_PLAN.tsv",
         output_tree
@@ -215,27 +205,27 @@ def main() -> int:
             "executed_during_packaging": False,
         },
         "backend": {
-            "name": "TinyCC 0.9.27 Win64",
-            "path": "third_party/tinycc-win64/tcc.exe",
-            "sha256": sha256(
-                output_tree / "third_party" / "tinycc-win64" / "tcc.exe"
-            ),
-            "corresponding_source_included": True,
+            "name": "OpenC x64/PE32+",
+            "implementation_language": "OpenC",
+            "machine_code_emission": "first-party",
+            "pe_linking": "first-party",
+            "external_assembler_required": False,
+            "external_linker_required": False,
+            "tinycc_required": False,
         },
         "source_files_copied": source_files,
         "source_exclusions": {
             "D": "legacy implementation source is not packaged",
             "Python": "external audit/release harness source is not packaged",
+            "C": "legacy runtime and backend source is not packaged",
+            "TinyCC": "legacy differential backend is not packaged",
         },
-        "runtime_inputs": [
-            "runtime/common/source/openc_runtime.c",
-            "runtime/windows/source/openc_platform_windows.c",
-            "compiler/selfhost/native_runtime/openc_sh5_runtime.c",
-        ],
+        "runtime_inputs": [],
         "library_inputs": {
             "native_compiler_mode": (
-                "six compiler-provided system modules exercised while "
-                "rebuilding the compiler and maintained programs"
+                "OpenC-owned CRT-free Windows runtime and compiler-provided "
+                "system modules exercised while rebuilding the compiler and "
+                "maintained programs"
             ),
             "bootstrap_seed_mode": "previous packaged OpenC binary",
             "authored_native_provider_sources": (

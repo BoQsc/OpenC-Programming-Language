@@ -498,6 +498,20 @@ unsafe void x64_cvtsi2s_xmm_r64(
     x64_emit_register_modrm(code, destination, source);
 }
 
+unsafe void x64_cvtts2si_r64_xmm(
+    ref X64Code code,
+    usize bits,
+    usize destination,
+    usize source
+) {
+    if bits == 32 { x64_emit_u8(code, 243); }
+    else if bits == 64 { x64_emit_u8(code, 242); }
+    else { code.ok = false; return; }
+    x64_emit_rex(code, true, destination, 0, source);
+    x64_emit_u8(code, 15); x64_emit_u8(code, 44);
+    x64_emit_register_modrm(code, destination, source);
+}
+
 unsafe void x64_shift_r64_imm8(
     ref X64Code code,
     usize operation,

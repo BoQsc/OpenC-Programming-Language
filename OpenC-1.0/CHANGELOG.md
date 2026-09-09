@@ -1,5 +1,27 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-19 compiler-capable native backend and TinyCC exit
+
+- replaced the normal generated-C/TinyCC compiler path with OpenC-owned x64
+  lowering and deterministic PE32+ emission across the full 116-source
+  compiler project;
+- reached byte-identical native compiler closure at SHA-256
+  `277e5ee71bc7f366cfb921c8525a42fe9228221b9955a5fa099326c55fb994c4`;
+- completed native process execution/capture, scalar calling boundaries,
+  JSON-RPC `Content-Length` framing, formatter outcomes, and WinMD regression
+  coverage needed by the public CLI and language service;
+- passed 63/63 native lowering/runtime probes, 6/6 memory-guard checks,
+  278/278 conformance, 4/4 maintained programs, and the 20/20 relocated
+  standalone-release gate;
+- removed C, C headers, TinyCC, D, Python, the Microsoft CRT, an assembler,
+  and an external linker from the required compiler/package path while
+  retaining legacy implementations only for optional audit/bootstrap use;
+- enforced 256 MiB process-private, 64 MiB working-set, 64 MiB child-output,
+  and bounded allocation/validation payload guards; and
+- activated SH-20 public throughput convergence. The fully validating public
+  self-build remains too slow at 109.328 seconds (97.828 seconds validation),
+  so performance precedes SH-21 OpenC-native evidence workflow replacement.
+
 ## Post-RC9 — SH-18 idiomatic Windows modules
 
 - added twelve hand-authored OpenC Windows modules with typed resources,
@@ -119,7 +141,8 @@
 - required OpenC-native replacement of required Python build/test/release
   orchestration and isolation of D/Python to an optional historical
   first-binary bootstrap/audit lane;
-- deferred native editor integration to SH-23 and kept COM, WinRT, ARM64,
+- deferred native editor integration (now scheduled as SH-24) and kept COM,
+  WinRT, ARM64,
   Linux, and freestanding outside the throughput blocking path;
 - prohibited Windows C-header copying, normal direct syscalls, Core-language
   Win32 types, and premature dependence on an external or standalone

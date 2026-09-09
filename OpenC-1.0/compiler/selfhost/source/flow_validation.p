@@ -4,6 +4,12 @@ import system.memory;
 import system.path;
 import system.text;
 
+struct FlowFrontendObservation {
+    bool ok;
+    usize total_source_length;
+    usize frontend_errors;
+}
+
 unsafe void flow_validate_source(
     text project_source,
     text project_root,
@@ -209,17 +215,16 @@ unsafe void flow_emit_errors(
     }
 }
 
-unsafe bool flow_observe_frontend_sources(
+unsafe FlowFrontendObservation flow_observe_frontend_sources(
     text project_source,
     text project_root,
     ptr byte module_data,
     ref PackedBuffer modules,
-    ptr byte source_data,
-    out usize total_source_length,
-    out usize frontend_errors
+    ptr byte source_data
 ) {
-    total_source_length = 0;
-    frontend_errors = 0;
+    FlowFrontendObservation observation = FlowFrontendObservation{
+        ok = true, total_source_length = 0, frontend_errors = 0
+    };
     usize module_index = 0;
     while module_index < modules.length {
         io.print("MODULE "); io.print(module_index); io.print(" ");
@@ -243,17 +248,19 @@ unsafe bool flow_observe_frontend_sources(
                 io.print("PROJECT_ERROR OPENC-PROJECT-SOURCE-READ-001 ");
                 io.print(module_index); io.print(" ");
                 io.println(source_index);
-                return false;
+                observation.ok = false;
+                return observation;
             }
-            total_source_length = total_source_length +
+            observation.total_source_length =
+                observation.total_source_length +
                 text.byte_length(source);
-            frontend_errors = frontend_errors +
+            observation.frontend_errors = observation.frontend_errors +
                 flow_source_frontend_errors(source);
             source_index = source_index + 1;
         }
         module_index = module_index + 1;
     }
-    return true;
+    return observation;
 }
 
 unsafe void flow_predeclare_project_sources(
@@ -387,16 +394,17 @@ unsafe i32 observe_semantic_flow_safety(text project_path) {
     }
     project_sort_modules(project_source, module_data, modules);
     text project_root = path.directory(project_path);
-    usize total_source_length = 0;
-    usize frontend_errors = 0;
-    if !flow_observe_frontend_sources(
+    FlowFrontendObservation observation = flow_observe_frontend_sources(
         project_source, project_root, module_data, modules,
-        source_data, out total_source_length, out frontend_errors
-    ) {
+        source_data
+    );
+    if !observation.ok {
         io.print("SUMMARY "); io.print(modules.length);
         io.println(" 0 0 0 0 0 1");
         return 1;
     }
+    usize total_source_length = observation.total_source_length;
+    usize frontend_errors = observation.frontend_errors;
     if frontend_errors != 0 {
         io.print("FRONTEND_ERROR ");
         io.println(frontend_errors);

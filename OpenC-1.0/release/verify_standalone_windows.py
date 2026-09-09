@@ -15,6 +15,8 @@ import zipfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from verify_sh16_pe_runtime import PeImage, FORBIDDEN_CRT_PREFIXES
 PROGRAMS = (
     ("A_COMPUTATION", 32, (), ""),
     ("B_FLOW_OWNERSHIP", 0, (), ""),
@@ -78,10 +80,10 @@ def verify_manifest(root: Path) -> tuple[int, list[str]]:
     return len(lines), failures
 
 
-def clean_native_environment(tcc: Path) -> tuple[dict[str, str], list[str]]:
+def clean_native_environment() -> tuple[dict[str, str], list[str]]:
     environment = os.environ.copy()
     system_root = Path(environment.get("SystemRoot", r"C:\Windows"))
-    path_entries = [str(system_root / "System32"), str(tcc.parent)]
+    path_entries = [str(system_root / "System32")]
     environment["PATH"] = os.pathsep.join(path_entries)
     for name in (
         "DC",
@@ -180,9 +182,8 @@ def main() -> int:
         )
     compiler = distribution / "openc.exe"
     seed = distribution / "bootstrap" / "openc-stage0.exe"
-    tcc = distribution / "third_party" / "tinycc-win64" / "tcc.exe"
     project = distribution / "compiler" / "selfhost" / "openc.project.json"
-    environment, clean_path = clean_native_environment(tcc)
+    environment, clean_path = clean_native_environment()
 
     stage2_root = output / "stage2-distribution"
     stage3_root = output / "stage3-distribution"
@@ -209,8 +210,6 @@ def main() -> int:
         "packaged Stage 2 builds Stage 3",
     )
 
-    generated2 = Path(str(stage2) + ".openc.c")
-    generated3 = Path(str(stage3) + ".openc.c")
     record2 = json.loads(
         Path(str(stage2) + ".build.json").read_text(encoding="utf-8")
     )
@@ -219,6 +218,13 @@ def main() -> int:
     )
     normalized2 = normalized_pe(stage2)
     normalized3 = normalized_pe(stage3)
+    compiler_imports = PeImage(compiler).imports()
+    stage3_imports = PeImage(stage3).imports()
+    imported_dlls = {
+        dll.casefold()
+        for imports in (compiler_imports, stage3_imports)
+        for dll in imports
+    }
 
     maintained_results = []
     program_output = output / "maintained"
@@ -422,24 +428,33 @@ def main() -> int:
     checks = {
         "independent_archive_builds_byte_equal": True,
         "archive_manifest_valid": not manifest_failures,
-        "package_excludes_d_and_python_source": not any(
-            path.suffix.lower() in {".d", ".py", ".pyc"}
+        "package_excludes_c_d_python_and_tinycc": not any(
+            path.suffix.lower() in {".c", ".d", ".h", ".py", ".pyc"}
             or path.name.lower() in {"dub.json", "dub.selections.json"}
+            or "tinycc-win64" in {part.casefold() for part in path.parts}
             for path in distribution.rglob("*")
             if path.is_file()
         ),
         "package_is_relocatable_from_foreign_cwd": stage2.is_file(),
         "packaged_compiler_builds_stage2": stage2.is_file(),
         "stage2_builds_stage3": stage3.is_file(),
-        "generated_c_byte_equal": generated2.read_bytes() == generated3.read_bytes(),
         "native_executable_byte_equal": stage2.read_bytes() == stage3.read_bytes(),
         "normalized_pe_equal": normalized2 == normalized3,
-        "native_build_records_exclude_dmd_dub_python": all(
+        "native_build_records_exclude_external_toolchains": all(
             record.get("status") == "PASS"
+            and record.get("backend") == "openc-x64-pe32"
             and record.get("dmd_invoked") is False
             and record.get("dub_invoked") is False
             and record.get("python_invoked") is False
+            and record.get("tinycc_invoked") is False
+            and record.get("external_assembler_invoked") is False
+            and record.get("external_linker_invoked") is False
             for record in (record2, record3)
+        ),
+        "compiler_and_stage3_import_only_kernel32": imported_dlls
+        == {"kernel32.dll"},
+        "compiler_and_stage3_have_no_crt_imports": not any(
+            dll.startswith(FORBIDDEN_CRT_PREFIXES) for dll in imported_dlls
         ),
         "maintained_programs_4_of_4": maintained_passed == len(PROGRAMS),
         "native_cli_12_of_12": (
@@ -511,15 +526,15 @@ def main() -> int:
         "required_conformance_command_uses_native_stage3": True,
     }
     result = {
-        "schema": "openc.self_host_standalone_release.v5",
-        "stage": "SH12_NATIVE_SEMANTIC_LANGUAGE_INTELLIGENCE",
+        "schema": "openc.self_host_standalone_release.v6",
+        "stage": "SH19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT",
         "status": "PASS" if all(checks.values()) else "FAIL",
         "checks": checks,
         "roles": {
             "compiler_under_test": "OpenC-native openc.exe",
             "supported_library_mode": (
                 "compiler-provided system.file/io/memory/path/process/text "
-                "modules backed by the packaged Windows C runtime and native shim"
+                "modules backed by the OpenC-owned CRT-free Windows runtime"
             ),
             "authored_native_provider_sources": (
                 "packaged but outside the Windows Hosted gate"
@@ -557,8 +572,8 @@ def main() -> int:
             "stage3_sha256": sha256(stage3),
             "normalized_stage2_sha256": hashlib.sha256(normalized2).hexdigest(),
             "normalized_stage3_sha256": hashlib.sha256(normalized3).hexdigest(),
-            "generated_c_sha256": sha256(generated2),
-            "tcc_sha256": sha256(tcc),
+            "compiler_imports": compiler_imports,
+            "stage3_imports": stage3_imports,
             "optional_semantic_parity_report": (
                 str(parity_output / "semantic-ir-parity-result.json")
                 if args.audit_seed
@@ -662,7 +677,7 @@ def main() -> int:
         failed = [name for name, passed in checks.items() if not passed]
         raise SystemExit("SH-12 standalone gate failed: " + ", ".join(failed))
     print(
-        "SH-12 native semantic language intelligence: PASS; "
+        "SH-19 compiler-capable native backend and TinyCC exit: PASS; "
         f"conformance={conformance_report.get('passed')}/"
         f"{conformance_report.get('total')} "
         f"maintained={maintained_passed}/{len(PROGRAMS)} "

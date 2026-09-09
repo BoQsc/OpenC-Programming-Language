@@ -93,9 +93,13 @@ unsafe void flow_analyze_status_out(
                     record, source
                 );
             }
-            if selected >= symbols.length ||
-                read_record_field(symbol_data, selected, 4) !=
-                    semantic_type_status() {
+            bool returns_status = selected < symbols.length &&
+                read_record_field(symbol_data, selected, 4) ==
+                    semantic_type_status();
+            if selected >= symbols.length && flow_call_is_status_builtin(
+                syntax_data, syntax, record, source
+            ) { returns_status = true; }
+            if !returns_status {
                 flow_record_error(
                     error_data, errors, source_record,
                     read_record_field(syntax_data, record, 1),

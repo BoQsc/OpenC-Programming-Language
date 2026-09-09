@@ -1,3 +1,5 @@
+import system.text;
+
 struct Pe32Section {
     text name;
     usize virtual_size;
@@ -29,6 +31,8 @@ struct Pe32RuntimeLayout {
     usize file_name_offset;
     usize file_payload_offset;
     usize panic_message_offset;
+    usize checked_message_offset;
+    usize target_message_offset;
     usize tls_directory_offset;
 }
 
@@ -57,13 +61,15 @@ Pe32RuntimeLayout pe32_runtime_layout() {
         image_size = 32768,
         import_directory_offset = 0,
         import_lookup_offset = 64,
-        import_address_offset = 256,
-        import_dll_name_offset = 448,
-        import_names_offset = 464,
-        message_offset = 1024,
+        import_address_offset = 304,
+        import_dll_name_offset = 544,
+        import_names_offset = 560,
+        message_offset = 1088,
         file_name_offset = 1152,
         file_payload_offset = 1216,
         panic_message_offset = 1280,
+        checked_message_offset = 1320,
+        target_message_offset = 1360,
         tls_directory_offset = 1408
     };
 }
@@ -75,7 +81,7 @@ usize pe32_section_code() { return 1610612768; }
 usize pe32_section_read_only_data() { return 1073741888; }
 usize pe32_section_read_write_data() { return 3221225536; }
 
-usize pe32_import_count() { return 23; }
+usize pe32_import_count() { return 28; }
 
 text pe32_import_name(usize index) {
     if index == 0 { return "CloseHandle"; }
@@ -100,7 +106,12 @@ text pe32_import_name(usize index) {
     if index == 19 { return "LoadLibraryExW"; }
     if index == 20 { return "GetProcAddress"; }
     if index == 21 { return "LocalFree"; }
-    return "FreeLibrary";
+    if index == 22 { return "FreeLibrary"; }
+    if index == 23 { return "CreatePipe"; }
+    if index == 24 { return "SetHandleInformation"; }
+    if index == 25 { return "CreateProcessW"; }
+    if index == 26 { return "WaitForSingleObject"; }
+    return "GetExitCodeProcess";
 }
 
 usize pe32_import_hint_offset(ref Pe32RuntimeLayout layout, usize index) {

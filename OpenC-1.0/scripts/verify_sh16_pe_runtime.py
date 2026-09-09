@@ -45,6 +45,11 @@ EXPECTED_IMPORTS = [
     "GetProcAddress",
     "LocalFree",
     "FreeLibrary",
+    "CreatePipe",
+    "SetHandleInformation",
+    "CreateProcessW",
+    "WaitForSingleObject",
+    "GetExitCodeProcess",
 ]
 
 

@@ -243,31 +243,31 @@ IR reach closure. Exact evidence and reproduction commands are in
       Windows boundary;
     - cover files, memory, processes, threads, console, windowing, graphics,
       resources, networking, registry, and shell incrementally.
-12. **SH-19 compiler-capable first-party backend and TinyCC exit — in progress**
-    - direct x64/PE emission now reaches a byte-identical trusted fixed point
-      for the 116-source compiler and passes 63/63 native lowering/runtime
-      probes plus the retained 34/34 PE/runtime gate;
-    - source-record caching reduced the formerly unbounded public validation
-      cache traffic to one path join and one file read per source; guarded peak
-      private memory is 102.1 MiB instead of exceeding 512 MiB;
-    - hard native allocation, validation-phase, and external process RAM guards
-      now fail with stable diagnostics and recorded telemetry;
-    - public self-conformance still reports 192 errors, so this is not default
-      backend readiness or TinyCC exit. See the
-      [implementation ledger](compiler/selfhost/SH19_NATIVE_BACKEND_PLAN.md);
-    - lower all compiler-reachable Core IR through the OpenC x64/PE backend;
-    - achieve compiler Stage-2/Stage-3 byte closure and all conformance/runtime
-      gates without generated C, TinyCC, C headers, a C runtime, assembler, or
-      external linker;
-    - retain the C/TinyCC path only as an optional differential audit.
-13. **SH-20 OpenC-native build/test/release and bootstrap boundary**
+12. **SH-19 compiler-capable first-party backend and TinyCC exit — complete**
+    - the 116-source OpenC compiler reaches a byte-identical 4,712,960-byte
+      fixed point through direct x64/PE32+ emission;
+    - the relocated package passes 278/278 conformance, 4/4 maintained
+      programs, public CLI/project/LSP gates, and imports only `KERNEL32.dll`;
+    - the default `openc build` and packaged compiler require no generated C,
+      TinyCC, C headers/runtime, D, Python, assembler, or external linker;
+    - allocation, validation, child-output, and process guards remain active;
+      see [SH-19 evidence](release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md).
+13. **SH-20 native public throughput convergence — next active**
+    - reduce the final SH-19 public self-build from 109.328 seconds, including
+      97.828 seconds of validation, to the authored C/D-class gates without
+      skipping or weakening semantic validation;
+    - retain byte closure, 278/278 conformance, 4/4 maintained programs, and
+      the 256 MiB private / 64 MiB working-set guards;
+    - follow the measured work order and exit gates in
+      [the SH-20 plan](compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md).
+14. **SH-21 OpenC-native build/test/release and bootstrap boundary**
     - replace every required Python build, benchmark, validation, packaging,
       inspection, and release orchestrator with OpenC-native tooling;
     - isolate D and Python to a separately named optional historical
       first-binary bootstrap/audit kit;
     - prove normal build, test, release, and package verification with only a
       previous OpenC compiler plus canonical source.
-14. **SH-21 PE/COFF ecosystem completeness**
+15. **SH-22 PE/COFF ecosystem completeness**
     - add COFF objects, DLL imports/exports, OpenC DLLs, static/import
       libraries, resources, manifests, console/GUI subsystems, and secure
       run-time linking;
@@ -275,16 +275,16 @@ IR reach closure. Exact evidence and reproduction commands are in
       OpenC language or toolchain dependency;
     - add a standalone assembler only if evidence shows the shared x64 encoder
       and runtime/intrinsic facilities are insufficient.
-15. **SH-22 optional COM and WinRT projections**
+16. **SH-23 optional COM and WinRT projections**
     - add GUIDs, vtables, `IUnknown`, `QueryInterface`, reference counting,
       `HRESULT`, apartment initialization, metadata projection, and ABI tests;
     - keep COM and WinRT outside the Core language and earlier backend gates.
-16. **SH-23 native editor integration and language-service resilience — deferred**
+17. **SH-24 native editor integration and language-service resilience — deferred**
     - ship a first-party editor client that launches the packaged native server;
     - add incremental monotonic-version synchronization, cancellation,
       workspace lifecycle, bounded resource handling, and protocol stress;
     - begin only after throughput and required Windows independence milestones.
-17. **Seek independent review**
+18. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.
 

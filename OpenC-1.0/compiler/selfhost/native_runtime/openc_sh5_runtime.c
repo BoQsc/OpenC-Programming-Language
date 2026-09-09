@@ -750,6 +750,22 @@ int32_t ocb_text_compare(oc_text left, oc_text right) {
     return oc_text_compare(left, right);
 }
 
+oc_status ocb_lsp_read_frame(oc_text *value) {
+    if (value == NULL) {
+        return ocb_failure(OC_STATUS_INVALID_ARGUMENT, "text output is null");
+    }
+    if (ocb_lsp_message.data != NULL) {
+        oc_memory_release((void *)ocb_lsp_message.data);
+        ocb_lsp_message = OC_TEXT_EMPTY;
+    }
+    ocb_lsp_message = oc_io_read_message();
+    if (ocb_lsp_message.length == 0u) {
+        return ocb_failure(OC_STATUS_NOT_FOUND, "standard input is closed");
+    }
+    *value = ocb_lsp_message;
+    return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
+}
+
 oc_status ocb_file_read_text(oc_text path, oc_text *value) {
     oc_file file;
     oc_owned_bytes bytes;
@@ -761,18 +777,7 @@ oc_status ocb_file_read_text(oc_text path, oc_text *value) {
     if (oc_text_equal(
         path, OC_TEXT_LITERAL("@openc-internal:lsp-stdio-frame")
     )) {
-        if (ocb_lsp_message.data != NULL) {
-            oc_memory_release((void *)ocb_lsp_message.data);
-            ocb_lsp_message = OC_TEXT_EMPTY;
-        }
-        ocb_lsp_message = oc_io_read_message();
-        if (ocb_lsp_message.length == 0u) {
-            return ocb_failure(
-                OC_STATUS_NOT_FOUND, "standard input is closed"
-            );
-        }
-        *value = ocb_lsp_message;
-        return (oc_status){OC_STATUS_OK, OC_TEXT_EMPTY};
+        return ocb_lsp_read_frame(value);
     }
     opened = oc_file_open_read(path, &file);
     if (!oc_status_ok(opened)) return opened;

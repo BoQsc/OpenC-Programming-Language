@@ -34,11 +34,13 @@ unsafe usize project_emit_graph_errors(
     usize import_record = 0;
     while import_record < imports.length {
         usize source_record = read_record_field(import_data, import_record, 2);
-        text source;
+        text loaded_source;
         status import_source_status = project_read_source_record(
             project_source, project_root, source_data, source_record,
-            out source
+            out loaded_source
         );
+        text source = "";
+        if import_source_status.ok { source = loaded_source; }
         if !import_source_status.ok {
             import_record = import_record + 1;
             continue;
@@ -90,11 +92,13 @@ unsafe usize project_emit_graph_errors(
     import_record = 0;
     while import_record < imports.length {
         usize source_record = read_record_field(import_data, import_record, 2);
-        text source;
+        text loaded_source;
         status cycle_source_status = project_read_source_record(
             project_source, project_root, source_data, source_record,
-            out source
+            out loaded_source
         );
+        text source = "";
+        if cycle_source_status.ok { source = loaded_source; }
         if !cycle_source_status.ok {
             import_record = import_record + 1;
             continue;

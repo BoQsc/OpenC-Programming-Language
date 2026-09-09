@@ -9,10 +9,10 @@ Core specification:                 1.0 RELEASE-CANDIDATE AUTHORITY
 Hosted specification:               1.0 RELEASE-CANDIDATE AUTHORITY
 Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
-canonical OpenC compiler source:     112 `.p` UNITS; SELF-HOSTED
+canonical OpenC compiler source:     116 `.p` UNITS; SELF-HOSTED
 legacy D reference source:           OPTIONAL AUDIT; NOT AUTHORITY
 legacy Python bootstrap source:      OPTIONAL AUDIT; NOT AUTHORITY
-official OpenC source extension:      .p; 281 MIGRATED, 419 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 437 TOTAL `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
@@ -25,30 +25,31 @@ full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
 bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
 bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
-self-hosted compiler:                 YES; SH-16 PASS, OPENC IMPLEMENTATION AUTHORITY
-self-host performance regression:    PASS; 6.111 S MEDIAN, 6.170 S MAXIMUM
-compiler throughput readiness:       PASS; 0.338x PINNED SAME-HOST D MEDIAN
-D-reference comparison:              OPENC 6.111 S; D 18.085 S; FIVE RUNS EACH
+self-hosted compiler:                 YES; SH-19 PASS, DIRECT X64/PE32+ FIXED POINT
+trusted native rebuild:               PASS; 10.378 S, BYTE-IDENTICAL
+public compiler throughput:           NOT YET C/D-CLASS; SH-20 ACTIVE
+public validating self-build:         109.328 S; VALIDATION 97.828 S
 coverage-granularity milestone:      PASS; 466/466 RULES, 174/174 GRAMMAR PAIRS
-native validation budget:            PASS; 27.844 S <= 90 S, 278/278
-native self-rebuild budget:          PASS; 6.665 S MEDIAN <= 30 S, BYTE-IDENTICAL
+native validation budget:            PASS; 76.081-233.841 S <= 300 S, 278/278
+native self-rebuild budget:          PASS; 9.965-14.502 S <= 30 S, BYTE-IDENTICAL
 unchanged daily conformance:         PASS; 0.002 S, 0 FIXTURES RE-EXECUTED
 public native CLI:                    SH-9 PASS; CHECK/RUN/VERSION/TARGET/EXPLAIN
 native project workflow:              SH-10 PASS; FMT/INFO/TEST, 21/21
 native language service:              SH-11 PASS; LIFECYCLE/DIAGNOSTICS/FMT, 19/19
 native semantic language service:     SH-12 PASS; SYMBOLS/NAV/COMPLETE/RENAME, 23/23
 human + machine diagnostics:          PASS; `openc.check.v1` + STABLE STREAMS
-completed engineering milestone:     SH-18 IDIOMATIC WINDOWS MODULES
-next engineering milestone:          SH-19 NATIVE BACKEND + TINYCC EXIT
+completed engineering milestone:     SH-19 NATIVE BACKEND + TINYCC EXIT
+next engineering milestone:          SH-20 PUBLIC THROUGHPUT CONVERGENCE
 SH-14 stability/scaling gate:         20/20 CLOSURE; WORST DOUBLING 2.112x
 SH-15 ABI/encoder verification:       PASS; 25/25 EXECUTABLE + STATIC CHECKS
 SH-16 PE/runtime verification:        PASS; 34/34, KERNEL32-ONLY, NO MICROSOFT CRT
 SH-17 WinMD projection verification: PASS; 30/30, 7 MODULES, 71,425 RECORDS
 SH-18 friendly Windows verification: PASS; 27/27, 12 MODULES; 10.103 S REBUILD MEDIAN
-active critical path:                 NATIVE BACKEND -> TCC EXIT -> NATIVE WORKFLOWS
-DMD-independent self-host compiler:  YES; PUBLIC `openc build`, VENDORED TCC
-standalone compiler distribution:    YES; RELOCATABLE; NO D/PYTHON SOURCE
-normal toolchain fully independent:   NO; TINYCC + EXTERNAL PYTHON EVIDENCE REMAIN
+SH-19 native backend verification:   PASS; 63/63 SCALARS, 6/6 MEMORY, 20/20 RELEASE
+active critical path:                 PUBLIC PERFORMANCE -> NATIVE WORKFLOWS
+DMD/TinyCC-independent compiler:     YES; PUBLIC `openc build`, DIRECT PE32+
+standalone compiler distribution:    YES; NO C/TCC/D/PYTHON/ASM/LINKER
+normal compilation independent:      YES; EXTERNAL PYTHON EVIDENCE UNTIL SH-21
 runtime and Hosted library source:   SOURCE-COMPLETE; WINDOWS EXECUTED
 first-party tool source:             SOURCE-COMPLETE; BUILT AND TESTED
 build/test/release source:           SOURCE-COMPLETE; EXECUTED
@@ -72,7 +73,7 @@ maintainer release review:            PASS; NO OPEN P0/P1 FINDINGS
 licensing/governance:                HD-012 RATIFIED
 software license:                    0BSD
 specification/docs/assets:           CC0-1.0
-vendored TinyCC backend:             LGPL-2.1 + BUNDLED MIT/PUBLIC-DOMAIN TERMS
+vendored TinyCC audit component:     OPTIONAL; LGPL-2.1 + BUNDLED TERMS
 release authority:                   OPENC PROJECT OWNER
 formal release ready:                YES FOR DECLARED WINDOWS HOSTED SCOPE
 owner authorization:                 RC9 AUTHORIZED 2026-07-26T15:06:20Z
@@ -118,9 +119,13 @@ relocations, TLS, unwind data, UTF-8 command-line conversion, process-heap
 allocation, file I/O, cleanup, and 34/34 verification checks while retaining
 the throughput budgets. SH-17 then parses the real pinned Win32 Metadata image
 in OpenC and reproducibly generates seven raw modules with 71,425 records and
-30/30 checks. SH-18 adds twelve friendly Windows modules and passes 27/27 checks,
-278/278 conformance, and a 10.103-second clean rebuild median (0.481x the D reference).
-SH-19 is active for the compiler-capable native backend,
-TinyCC exit, and OpenC-native replacement of required Python/D tooling. The
-editor-integration milestone is deferred to SH-23. Linux, freestanding, and
+30/30 checks. SH-18 adds twelve friendly Windows modules and passes 27/27
+checks. SH-19 then replaces generated C and TinyCC in the normal compiler path
+with OpenC-owned x64 lowering and deterministic PE32+ emission. Its standalone
+release passes 20/20 checks, 278/278 conformance, and byte-identical compiler
+closure without C, TinyCC, D, Python, an assembler, an external linker, or a
+Microsoft CRT. SH-20 is now the highest-priority milestone because the fully
+validating public self-build still takes 109.328 seconds, including 97.828
+seconds of validation. Required Python workflow replacement follows in SH-21,
+and native editor integration is deferred to SH-24. Linux, freestanding, and
 ARM64 remain optional later targets.

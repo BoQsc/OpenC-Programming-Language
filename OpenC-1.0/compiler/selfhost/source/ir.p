@@ -221,12 +221,16 @@ unsafe void ir_initialize_symbol_indexes(
             context.symbol_data, symbol, 1
         );
         if source_record != loaded_source_record {
+            text loaded_symbol_source;
             status loaded = project_read_source_record(
                 context.project_source, context.project_root,
                 context.source_data, source_record,
-                out symbol_source
+                out loaded_symbol_source
             );
-            if loaded.ok { loaded_source_record = source_record; }
+            if loaded.ok {
+                symbol_source = loaded_symbol_source;
+                loaded_source_record = source_record;
+            }
         }
         if source_record == loaded_source_record {
             usize owner = read_record_field(
@@ -1819,8 +1823,8 @@ unsafe usize ir_first_name(
             context.syntax_data, context.syntax, event
         );
     }
-    usize selected = context.syntax.length;
-    usize selected_start = cast(usize, 4294967295);
+    usize fallback_selected = context.syntax.length;
+    usize fallback_selected_start = cast(usize, 4294967295);
     usize index = 0;
     while index < context.name_count {
         usize record = read_usize(
@@ -1830,14 +1834,14 @@ unsafe usize ir_first_name(
             usize start = read_record_field(
                 context.syntax_data, record, 1
             );
-            if start < selected_start {
-                selected = record;
-                selected_start = start;
+            if start < fallback_selected_start {
+                fallback_selected = record;
+                fallback_selected_start = start;
             }
         }
         index = index + 1;
     }
-    return selected;
+    return fallback_selected;
 }
 
 unsafe usize ir_local_initializer_root(

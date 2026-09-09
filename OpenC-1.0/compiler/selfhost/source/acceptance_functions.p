@@ -23,6 +23,9 @@ unsafe usize acceptance_validate_function(
     ) != 123 { return 0; }
     if result_type != semantic_type_void() &&
         !acceptance_definitely_returns(context, function_node, body) {
+        acceptance_report_node(
+            context, "functions", "missing_return", function_node
+        );
         errors = errors + 1;
     }
     bool function_unsafe = acceptance_prefix_has(
@@ -31,6 +34,9 @@ unsafe usize acceptance_validate_function(
     if !function_unsafe && !acceptance_function_has_guard(
         context, function_node
     ) && acceptance_function_calls_unsafe(context, function_node) {
+        acceptance_report_node(
+            context, "functions", "unsafe_call", function_node
+        );
         errors = errors + 1;
     }
     usize symbol = 0;
@@ -47,6 +53,9 @@ unsafe usize acceptance_validate_function(
             );
             if !acceptance_resource(context, type_id) &&
                 acceptance_kind(context, type_id) != 13 {
+                acceptance_report_node(
+                    context, "functions", "invalid_own", function_node
+                );
                 errors = errors + 1;
             }
         }
@@ -66,7 +75,12 @@ unsafe usize acceptance_validate_function(
                 if result_type == semantic_type_void() ||
                     !acceptance_can_initialize(
                         context, value, actual, result_type
-                    ) { errors = errors + 1; }
+                    ) {
+                    acceptance_report_node(
+                        context, "functions", "return_type", node
+                    );
+                    errors = errors + 1;
+                }
                 usize value_name = flow_event_first_name(
                     context.syntax_data, context.syntax, value
                 );
@@ -78,7 +92,12 @@ unsafe usize acceptance_validate_function(
                     acceptance_symbol_local(
                         context, ir_resolve_name(context, value_name),
                         function_symbol
-                    ) { errors = errors + 1; }
+                    ) {
+                    acceptance_report_node(
+                        context, "functions", "return_resource", node
+                    );
+                    errors = errors + 1;
+                }
                 if acceptance_kind(context, result_type) == 11 {
                     usize root = value_name;
                     if read_record_field(context.syntax_data, value, 0) == 41 {
@@ -89,7 +108,12 @@ unsafe usize acceptance_validate_function(
                     }
                     if root < context.syntax.length && acceptance_symbol_local(
                         context, ir_resolve_name(context, root), function_symbol
-                    ) { errors = errors + 1; }
+                    ) {
+                        acceptance_report_node(
+                            context, "functions", "return_slice", node
+                        );
+                        errors = errors + 1;
+                    }
                 }
                 if read_record_field(context.syntax_data, value, 0) == 47 &&
                     acceptance_status_failure(context, value) {
@@ -103,11 +127,19 @@ unsafe usize acceptance_validate_function(
                                 ) == 1 && acceptance_out_assigned(
                                     context, function_node, symbol,
                                     read_record_field(context.syntax_data, node, 1)
-                                ) { errors = errors + 1; }
+                                ) {
+                                acceptance_report_node(
+                                    context, "functions", "status_out", node
+                                );
+                                errors = errors + 1;
+                            }
                         symbol = symbol + 1;
                     }
                 }
             } else if result_type != semantic_type_void() {
+                acceptance_report_node(
+                    context, "functions", "missing_return_value", node
+                );
                 errors = errors + 1;
             }
         }
@@ -167,6 +199,9 @@ unsafe usize acceptance_validate_scopes(ref IrContext context) {
                         context.syntax_data, context.syntax, right_declaration
                     );
                     if left_block == right_block {
+                        acceptance_report_node(
+                            context, "scopes", "same_block", right_declaration
+                        );
                         errors = errors + 1;
                     } else if left_block < context.syntax.length &&
                         right_block < context.syntax.length &&
@@ -174,7 +209,12 @@ unsafe usize acceptance_validate_scopes(ref IrContext context) {
                             context.syntax_data, left_block, right_block
                         ) || semantic_node_contains(
                             context.syntax_data, right_block, left_block
-                        )) { errors = errors + 1; }
+                        )) {
+                        acceptance_report_node(
+                            context, "scopes", "nested_block", right_declaration
+                        );
+                        errors = errors + 1;
+                    }
                 }
                 right = right + 1;
             }
@@ -209,6 +249,9 @@ unsafe usize acceptance_validate_scopes(ref IrContext context) {
                                     read_record_field(context.syntax_data, for_node, 1) +
                                     read_record_field(context.syntax_data, for_node, 2) &&
                                 ir_resolve_name(context, use) == symbol {
+                                acceptance_report_node(
+                                    context, "scopes", "for_escape", use
+                                );
                                 errors = errors + 1;
                             }
                             use = use + 1;

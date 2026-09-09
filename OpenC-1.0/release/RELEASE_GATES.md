@@ -19,6 +19,11 @@ G13 native public CLI and diagnostic usability (SH-9)    PASS 12/12
 G14 native project workflow completeness (SH-10)         PASS 21/21
 G15 native language-service completeness (SH-11)         PASS 19/19
 G16 native semantic language intelligence (SH-12)        PASS 23/23
+G17 native throughput/authority evidence (SH-13/SH-14)   PASS 20/20 STABILITY
+G18 Windows x64 ABI and machine-code substrate (SH-15)   PASS 25/25
+G19 PE32+ and CRT-free runtime (SH-16)                    PASS 34/34
+G20 WinMD raw + idiomatic Windows projections (SH-17/18) PASS 30/30 + 27/27
+G21 compiler-capable native backend and TinyCC exit       PASS 20/20 RELEASE
 ```
 
 There are no open P0/P1 findings in the maintainer release review. Independent
@@ -44,8 +49,8 @@ parity also passes. SH-3B name/constant/overload, SH-3C flow/safety, and SH-3D
 semantic-outcome/canonical-IR parity pass, completing SH-3. SH-4 bootstrap
 self-compilation and closure now pass as well: Stage 1 builds Stage 2
 and Stage 2 builds an equivalent Stage 3. SH-5 DMD independence also passes:
-native Stage 2 builds a byte-identical native Stage 3 through public
-`openc build`, deterministic C11, and the shipped TinyCC Win64 backend with
+native Stage 2 builds a byte-identical native Stage 3 through the historical
+public `openc build`, deterministic C11, and shipped TinyCC Win64 path with
 DMD, DUB, and Python hidden. SH-6 standalone packaging also passes: two
 independent package builds are byte-identical, the extracted compiler is
 relocatable, and packaged Stage 2 and Stage 3 are byte-identical.
@@ -79,6 +84,29 @@ references, name-sorted completion, validated collision-safe rename,
 project-root isolation, synchronized close, published transcript-schema
 validation, and byte-identical semantic transcripts under opposite document
 open orders. The D seed remains absent.
+
+SH-13/SH-14 establish OpenC implementation authority, bounded phase evidence,
+competitive performance for the former already-validated C/TinyCC path, exact
+incremental dependency behavior, and 20 consecutive byte-identical closures.
+SH-15 passes 25/25 Microsoft x64 ABI, LLP64, encoder, relocation, and unwind
+checks. SH-16 passes 34/34 direct PE32+, CRT-free runtime, import, relocation,
+TLS, unwind, heap, file, and execution checks. SH-17 and SH-18 pass their raw
+WinMD projection and twelve friendly Windows-module gates.
+
+SH-19 makes that first-party backend compiler-capable. The normal public build
+directly lowers OpenC to x64 and writes PE32+ without generated C, TinyCC, D,
+Python, a C runtime, an assembler, or an external linker. The 116-source
+compiler reaches a byte-identical fixed point; 63/63 lowering/runtime checks,
+6/6 memory guards, 278/278 conformance, 4/4 maintained programs, and all 20
+standalone release checks pass. The package contains no C, C-header, D,
+Python, or TinyCC payload and imports no Microsoft CRT.
+
+This closes the SH-19 independence gate but not the compilation-speed goal.
+The fully validating public self-build still takes 109.328 seconds, including
+97.828 seconds in semantic validation. SH-20 public throughput convergence is
+therefore the next mandatory engineering milestone; OpenC-native replacement
+of the external Python evidence workflows follows in SH-21. Linux and
+freestanding verification remain optional future scope.
 
 The SH-6 268-fixture package count is the immutable RC8 historical result.
 RC9 completes the mandatory successor gate: the relocated package executes the

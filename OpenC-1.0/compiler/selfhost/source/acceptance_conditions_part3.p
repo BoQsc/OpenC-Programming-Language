@@ -55,8 +55,7 @@ unsafe bool acceptance_function_calls_unsafe(
                     context.source_data, source_record, out source
                 );
                 if !loaded.ok {
-                    node = node + 1;
-                    continue;
+                    return true;
                 }
                 if semantic_prefix_has(
                         source, context.token_data, context.tokens,

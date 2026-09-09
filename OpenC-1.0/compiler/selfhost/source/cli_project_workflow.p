@@ -13,7 +13,7 @@ struct CliTestOutcome {
     text diagnostics;
 }
 
-TextSpan cli_json_string_field(text source, text field) {
+unsafe TextSpan cli_json_string_field(text source, text field) {
     DBuffer needle = d_buffer_create(text.byte_length(field) + 4);
     d_put(needle, "\"");
     d_put(needle, field);
@@ -31,7 +31,7 @@ TextSpan cli_json_string_field(text source, text field) {
     return project_json_string(source, state);
 }
 
-text cli_json_string_or(
+unsafe text cli_json_string_or(
     text source,
     text field,
     text fallback
@@ -193,17 +193,16 @@ unsafe i32 cli_format_project(
         text source_path = project_source_record_path(
             project_source, project_root, source_data, source_record
         );
-        bool changed = false;
-        status formatted = cli_format_one(
-            source_path, write, out changed
-        );
-        if !formatted.ok {
+        usize formatted = cli_format_one(source_path, write);
+        if formatted != 2 {
+            if formatted == 1 {
+                changed_count = changed_count + 1;
+                if write { io.print("formatted: "); }
+                else { io.print("would format: "); }
+                io.println(source_path);
+            }
+        } else {
             error_count = error_count + 1;
-        } else if changed {
-            changed_count = changed_count + 1;
-            if write { io.print("formatted: "); }
-            else { io.print("would format: "); }
-            io.println(source_path);
         }
         source_record = source_record + 1;
     }
@@ -264,14 +263,14 @@ unsafe i32 cli_format_command() {
     if text.byte_length(project_path) != 0 {
         return cli_format_project(project_path, write, output_path);
     }
-    bool changed = false;
-    status format_status = cli_format_one(
-        source_path, write, out changed
-    );
+    usize formatted = cli_format_one(source_path, write);
     usize errors = 0;
-    if !format_status.ok { errors = 1; }
     usize changed_count = 0;
-    if changed { changed_count = 1; }
+    if formatted != 2 {
+        if formatted == 1 { changed_count = 1; }
+    } else {
+        errors = 1;
+    }
     if !cli_write_format_record(
         output_path, source_path, write, 1,
         changed_count, errors
@@ -279,8 +278,8 @@ unsafe i32 cli_format_command() {
         io.error("error: format record could not be written\n");
         return 1;
     }
-    if !format_status.ok { return 1; }
-    if !write && changed {
+    if formatted == 2 { return 1; }
+    if !write && formatted == 1 {
         io.println("OpenC fmt: WOULD_CHANGE");
         return 1;
     }
@@ -303,14 +302,14 @@ unsafe void cli_info_put_target(ref DBuffer record) {
     d_put(record, "    \"triple\": \"windows-x86_64-hosted\",\n");
     d_put(record, "    \"pointer_bits\": 64,\n");
     d_put(record, "    \"endianness\": \"little\",\n");
-    d_put(record, "    \"backend\": \"c11-tinycc-win64\",\n");
+    d_put(record, "    \"backend\": \"openc-x64-pe32\",\n");
     d_put(record, "    \"hash_algorithm\": \"openc-stable32\",\n");
     d_put(record, "    \"hash\": \"");
     cli_put_hex_usize(
         record,
         cli_hash_text(
             cli_hash_initial(),
-            "windows-x86_64-hosted|64|little|c11-tinycc-win64"
+            "windows-x86_64-hosted|64|little|openc-x64-pe32"
         )
     );
     d_put(record, "\"\n  }");
@@ -746,7 +745,7 @@ unsafe NativeRunResult cli_run_project_action(
     d_put(command, action);
     d_put(command, " \"--project=");
     d_put(command, project_path);
-    d_put(command, "\" 2>&1");
+    d_put(command, "\"");
     i32 exit_code;
     text output;
     status ran = process.run(

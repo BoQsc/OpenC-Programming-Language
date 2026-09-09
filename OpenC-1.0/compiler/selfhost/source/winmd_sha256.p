@@ -1,3 +1,5 @@
+import system.memory;
+
 u32 winmd_sha_shl(u32 value, usize amount) {
     return cast_unchecked(
         u32,

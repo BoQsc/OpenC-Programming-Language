@@ -8,12 +8,12 @@ The retained D and Python implementations are historical bootstrap/reference
 material only: they are not compiler authority, are not invoked by normal
 native builds, and are excluded from the standalone compiler distribution.
 
-This is now a standalone, DMD-independent executable self-hosted compiler on
-Windows x86-64 Hosted. It emits deterministic C11, invokes the shipped TinyCC
-0.9.27 Win64 backend, links the next compiler stage, and reaches byte-exact
-Stage-2/Stage-3 source and executable closure. SH-6 packages it with its source,
-runtime, library inputs, backend, bootstrap audit seed, licenses, and integrity
-records in a relocatable distribution. SH-7 adds OpenC-authored native
+This is now a standalone executable self-hosted compiler on Windows x86-64
+Hosted. Its normal SH-19 path lowers OpenC directly to x64 machine code, writes
+deterministic PE32+ executables, and reaches byte-exact Stage-2/Stage-3 closure
+without C, TinyCC, D, Python, an assembler, an external linker, or a Microsoft
+CRT. SH-6 established the relocatable distribution baseline. SH-7 adds
+OpenC-authored native
 conformance and removes the retained D seed from the required package gate.
 SH-8 makes the native compiler the default Windows compiler-under-test and
 adds exact-cache and performance-budget gates. SH-9 adds the OpenC-authored
@@ -163,9 +163,14 @@ imports, relocations, TLS, unwind, UTF-8 conversion, process-heap allocation,
 file I/O, cleanup, and execution without the Microsoft CRT, an assembler, or
 an external linker. SH-17 Win32 Metadata and raw projection is **PASS**: 112
 OpenC compiler sources parse the real pinned metadata and generate seven
-byte-reproducible raw modules with 30/30 checks. SH-18 idiomatic Windows modules pass 27/27 checks across twelve modules.
-SH-19 compiler-capable native backend and TinyCC exit is active. Native
-editor integration and language-service resilience remain deferred to SH-23.
+byte-reproducible raw modules with 30/30 checks. SH-18 idiomatic Windows
+modules pass 27/27 checks across twelve modules. SH-19 compiler-capable native
+backend and TinyCC exit is **PASS**: 116 OpenC compiler sources reach an exact
+native fixed point and the relocated package passes 20/20 checks. SH-20 public
+throughput convergence is now active because the fully validating public
+self-build still takes 109.328 seconds. Required Python workflow replacement
+follows in SH-21. Native editor integration and language-service resilience
+remain deferred to SH-24.
 
 The same-host SH-14 clean-build comparator is:
 

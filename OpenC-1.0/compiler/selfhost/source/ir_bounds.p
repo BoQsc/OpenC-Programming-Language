@@ -129,8 +129,8 @@ unsafe usize ir_root_in_bounds(
         }
         return selected;
     }
-    usize selected = context.syntax.length;
-    usize selected_length = 0;
+    usize fallback_selected = context.syntax.length;
+    usize fallback_selected_length = 0;
     usize index = 0;
     usize candidate_count = context.syntax.length;
     if context.expression_nodes != null {
@@ -150,14 +150,15 @@ unsafe usize ir_root_in_bounds(
         if resolution_expression_kind(kind) &&
             node_start >= start && node_end <= end {
             usize length = node_end - node_start;
-            if selected == context.syntax.length || length > selected_length {
-                selected = record;
-                selected_length = length;
+            if fallback_selected == context.syntax.length ||
+                length > fallback_selected_length {
+                fallback_selected = record;
+                fallback_selected_length = length;
             }
         }
         index = index + 1;
     }
-    return selected;
+    return fallback_selected;
 }
 
 unsafe usize ir_initializer_field_value(

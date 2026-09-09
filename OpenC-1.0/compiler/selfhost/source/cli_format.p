@@ -318,14 +318,12 @@ unsafe bool cli_format_validate(text source_path) {
     return true;
 }
 
-unsafe status cli_format_one(
+unsafe usize cli_format_one(
     text source_path,
-    bool write,
-    out bool changed
+    bool write
 ) {
-    changed = false;
     if !cli_format_validate(source_path) {
-        return status{ code = 1, message = "source is invalid" };
+        return 2;
     }
     text source;
     status loaded = file.read_text(source_path, out source);
@@ -333,17 +331,25 @@ unsafe status cli_format_one(
         io.error("error: formatter could not read source: ");
         io.error(source_path);
         io.error("\n");
-        return status{ code = 1, message = "source read failed" };
+        return 2;
     }
     source = source_without_initial_bom(source);
     DBuffer formatted = d_buffer_create(1);
     if !cli_format_source_text(source, formatted) {
         d_buffer_destroy(formatted);
         io.error("error: formatter output capacity exceeded\n");
-        return status{ code = 1, message = "format capacity exceeded" };
+        return 2;
     }
-    changed = !text.equal(source, d_buffer_text(formatted));
-    if write && changed {
+    bool formatted_changed = text.byte_length(source) != formatted.length;
+    usize compare_index = 0;
+    while !formatted_changed && compare_index < formatted.length {
+        if byte_at_or_zero(source, compare_index) !=
+            cast(u8, *(formatted.data + compare_index)) {
+            formatted_changed = true;
+        }
+        compare_index = compare_index + 1;
+    }
+    if write && formatted_changed {
         status written = file.write_text(
             source_path, d_buffer_text(formatted)
         );
@@ -352,9 +358,10 @@ unsafe status cli_format_one(
             io.error("error: formatter could not write source: ");
             io.error(source_path);
             io.error("\n");
-            return status{ code = 1, message = "source write failed" };
+            return 2;
         }
     }
     d_buffer_destroy(formatted);
-    return status{ code = 0 };
+    if formatted_changed { return 1; }
+    return 0;
 }

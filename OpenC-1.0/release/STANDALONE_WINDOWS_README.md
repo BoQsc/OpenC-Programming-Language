@@ -2,7 +2,8 @@
 
 This package is the OpenC 1.0 Windows x86-64 Hosted standalone distribution.
 Its `openc.exe` compiler is built from the canonical OpenC `.p` compiler
-source and uses the included TinyCC 0.9.27 Win64 backend.
+source and emits x64 machine code and PE32+ executables through the first-party
+OpenC backend.
 
 Build an OpenC project from any working directory:
 
@@ -12,9 +13,8 @@ C:\path\to\OpenC\openc.exe build `
   --output=C:\path\to\project\program.exe
 ```
 
-The compiler locates its runtime, native runtime shim, and backend relative to
-its own executable. DMD, DUB, and Python are not compiler or backend
-dependencies.
+The compiler owns its CRT-free Windows runtime and backend. It does not invoke
+TinyCC, a C compiler, DMD, DUB, Python, an assembler, or an external linker.
 
 Check or run a project directly:
 
@@ -67,15 +67,16 @@ openc.exe validate --manifest=conformance/fixtures/MANIFEST.json --output=confor
 
 For the supported Windows Hosted mode, `openc.exe` provides the six
 `system.file`, `system.io`, `system.memory`, `system.path`, `system.process`,
-and `system.text` modules and links them to the packaged C runtime/native shim.
-The authored `.p` Native-provider library sources are included for future
-Native work; that separately scoped provider is not part of the SH-13 gate.
+and `system.text` modules. These modules lower to the OpenC-owned Windows
+runtime embedded by the native backend. The authored `.p` Native-provider
+library sources are included for future Native work; that separately scoped
+provider is not a Windows Hosted release gate.
 
 Package integrity is recorded in `STANDALONE-MANIFEST.sha256`; component roles,
 input paths, and compiler/backend hashes are in `STANDALONE-RELEASE.json`.
 The applicable project licenses are `LICENSE`, `LICENSES/0BSD.txt`, and
-`LICENSES/CC0-1.0.txt`. TinyCC licensing and corresponding-source information
-are under `third_party/tinycc-win64/`.
+`LICENSES/CC0-1.0.txt`. Legacy C/TinyCC and D/Python audit/bootstrap sources
+are intentionally outside this standalone distribution.
 
 The supported release target is Windows x86-64 Hosted. Linux, freestanding,
 and the separately scoped Native provider are optional future work and do not

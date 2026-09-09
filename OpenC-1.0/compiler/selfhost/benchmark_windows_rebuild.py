@@ -24,10 +24,10 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def clean_child_environment(tcc: Path) -> tuple[dict[str, str], list[str]]:
+def clean_child_environment() -> tuple[dict[str, str], list[str]]:
     environment = os.environ.copy()
     system_root = Path(environment.get("SystemRoot", r"C:\Windows"))
-    path_entries = [str(system_root / "System32"), str(tcc.parent)]
+    path_entries = [str(system_root / "System32")]
     environment["PATH"] = os.pathsep.join(path_entries)
     for name in (
         "DC",
@@ -66,11 +66,6 @@ def main() -> int:
         default=ROOT / "compiler" / "selfhost" / "openc.project.json",
     )
     parser.add_argument(
-        "--tcc",
-        type=Path,
-        default=ROOT / "third_party" / "tinycc-win64" / "tcc.exe",
-    )
-    parser.add_argument(
         "--output",
         type=Path,
         default=ROOT
@@ -104,10 +99,9 @@ def main() -> int:
     else:
         compiler = resolve_native_compiler(args.compiler)
     project = args.project.resolve()
-    tcc = args.tcc.resolve()
     output = args.output.resolve()
     report = args.report.resolve()
-    for required in (compiler, project, tcc):
+    for required in (compiler, project):
         if not required.is_file():
             raise SystemExit(f"missing required input: {required}")
     if args.sample_interval <= 0:
@@ -118,17 +112,16 @@ def main() -> int:
     generated = Path(str(output) + ".openc.c")
     record = Path(str(output) + ".build.json")
     timings = output.parent / "openc-build.timings.json"
-    environment, child_path = clean_child_environment(tcc)
+    for stale in (output, generated, record, timings):
+        if stale.is_file():
+            stale.unlink()
+    environment, child_path = clean_child_environment()
     command = [
         str(compiler),
-        "--windows-build",
+        "--native-build-trusted",
         str(project),
         str(output),
-        str(generated),
-        str(ROOT / "runtime"),
-        str(ROOT / "compiler" / "selfhost" / "native_runtime"),
-        str(record),
-        str(tcc),
+        str(timings),
     ]
 
     started_at = datetime.now(timezone.utc)
@@ -158,8 +151,8 @@ def main() -> int:
     budget = None
     checks = {
         "output_executable_present": output.is_file(),
-        "generated_c_present": generated.is_file(),
-        "native_build_record_present": record.is_file(),
+        "generated_c_absent": not generated.exists(),
+        "external_build_record_absent": not record.exists(),
         "output_compiler_byte_equal_to_input": (
             output.is_file() and output.read_bytes() == compiler.read_bytes()
         ),
@@ -175,7 +168,7 @@ def main() -> int:
         else "FAIL"
     )
     result = {
-        "schema": "openc.native_self_rebuild_measurement.v2",
+        "schema": "openc.native_self_rebuild_measurement.v3",
         "status": status,
         "measured_at_utc": started_at.isoformat().replace("+00:00", "Z"),
         "platform": {
@@ -189,6 +182,9 @@ def main() -> int:
             "dmd_available_to_native_build": False,
             "dub_available_to_native_build": False,
             "python_available_to_native_build": False,
+            "tinycc_available_to_native_build": False,
+            "external_assembler_available_to_native_build": False,
+            "external_linker_available_to_native_build": False,
         },
         "measurement": {
             key: value

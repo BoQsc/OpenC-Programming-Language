@@ -142,7 +142,7 @@ unsafe status project_read_source_record(
     // bounded runtime hash cache experiences collisions.
     usize cached_data = read_record_field(source_data, source_record, 3);
     if cached_data != 0 {
-        text cached_source;
+        text cached_source = "";
         ptr byte cached_representation = reinterpret(ptr byte, &cached_source);
         write_usize(cached_representation, 0, cached_data);
         write_usize(

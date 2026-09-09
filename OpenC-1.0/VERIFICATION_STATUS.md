@@ -1,6 +1,6 @@
 # OpenC 1.0.0-rc.9 verification status
 
-Date: 2026-07-28
+Date: 2026-09-09
 Host: Windows 10.0.19045, x86-64
 
 ## Verified scope
@@ -9,28 +9,29 @@ This evidence supports the owner-certified Windows x86-64 Hosted reference
 implementation. Linux, freestanding, Native, script/live, and Concurrent work
 are outside the supported 1.0 scope.
 
-## Toolchain
+## Toolchain and audit environment
 
-- DMD 2.112.0
-- DUB 1.41.0
-- DMD-bundled `lld-link`
-- Python 3.13.7
-- Shipped TinyCC 0.9.27 Win64 (`tcc.exe` SHA-256
-  `e9cb3e89e20a9efead83cc9e6b100314275634c2f705056da71f424ea9b0cdf0`)
+- Normal compiler path: previous OpenC stage to OpenC-owned x64/PE32+ output;
+  documented `KERNEL32.dll` imports only.
+- External evidence harness: Python 3.13.7, scheduled for OpenC-native
+  replacement in SH-21.
+- Optional historical audit tools: DMD 2.112.0, DUB 1.41.0, DMD-bundled
+  `lld-link`, and TinyCC 0.9.27 Win64. None is packaged or invoked by the
+  required SH-19 compiler/release path.
 
 ## Executed evidence
 
 - 9 of 9 legacy D audit targets build and link in debug mode.
 - 9 of 9 legacy D audit targets build and link in release mode.
 - 8 of 8 authored D test commands pass.
-- 29 of 29 Python source tests pass; bytecode checks pass.
+- 42 of 42 Python source tests pass; bytecode checks pass.
 - 278 of 278 conformance fixtures pass with zero infrastructure failures.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
-  compiler-in-OpenC and SH-12 expansion brings the current tree to 395
+  compiler-in-OpenC and SH-19 expansion brings the current tree to 437
   `.p` files,
-  including 96 compiler source units. The migrated fixture corpus retains
+  including 116 compiler source units. The migrated fixture corpus retains
   278/278 passes and zero infrastructure failures. SH-2 records the exact
   288-file corpus used for that milestone; SH-4A covers the complete current
   compiler project through byte-exact generated output.
@@ -282,9 +283,16 @@ and native execution. The proof image has no Microsoft CRT, assembler, external
 linker, C header, or TinyCC dependency. SH-17 passes 30/30 checks over the real
 pinned Win32 Metadata input and reproduces seven checked-in raw OpenC modules
 byte-for-byte without C headers or a third-party metadata library. The general
-compiler backend still uses TinyCC until SH-19, which is now active. SH-18 passes
-27/27 checks for twelve friendly Windows modules, byte-identical compiler closure,
-278/278 conformance, and five clean rebuilds with a 10.103-second median
-against the 20.995-second pinned D reference. See
-`release/SH18_IDIOMATIC_WINDOWS_MODULES_EVIDENCE.md`.
-Editor integration is deferred to SH-23, and Linux/freestanding remain optional.
+compiler backend used TinyCC through SH-18. SH-18 passes 27/27 checks for
+twelve friendly Windows modules. SH-19 is now **PASS**: the normal compiler
+directly emits x64 PE32+ executables, reaches a byte-identical fixed point,
+passes 63/63 lowering/runtime checks, 6/6 memory-guard checks, 278/278
+conformance, and the 20/20 standalone release gate without C, TinyCC, D,
+Python, an assembler, an external linker, or a Microsoft CRT. See
+`release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md`.
+
+SH-20 public throughput convergence is the next active milestone. Its honest
+baseline is 109.328 seconds for a fully validating public self-build, including
+97.828 seconds in semantic validation. Required Python workflow replacement
+follows in SH-21. Editor integration is deferred to SH-24, and
+Linux/freestanding remain optional.

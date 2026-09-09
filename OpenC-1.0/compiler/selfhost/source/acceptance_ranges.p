@@ -186,9 +186,13 @@ unsafe usize acceptance_validate_calls(ref IrContext context) {
             ) != context.module_index && !resolution_is_exported(
                 context.project_source, context.project_root,
                 context.source_data, context.symbol_data, target
-            ) { errors = errors + 1; }
+            ) {
+                acceptance_report_node(context, "calls", "export", call);
+                errors = errors + 1;
+            }
             if target < context.symbols.length &&
                 acceptance_parameter_count(context, target) != argument_count {
+                acceptance_report_node(context, "calls", "arity", call);
                 errors = errors + 1;
             }
             usize argument = 0;
@@ -212,6 +216,9 @@ unsafe usize acceptance_validate_calls(ref IrContext context) {
                             if flow_local_initializer_root(
                                 context.syntax_data, context.syntax, declaration
                             ) < context.syntax.length {
+                                acceptance_report_node(
+                                    context, "calls", "initialized_out", call
+                                );
                                 errors = errors + 1;
                             }
                         }
@@ -234,7 +241,12 @@ unsafe usize acceptance_validate_calls(ref IrContext context) {
                                 context, call, "memory.alloc"
                             ) && !acceptance_call_named(
                             context, call, "system.memory.alloc"
-                            ) { errors = errors + 1; }
+                            ) {
+                            acceptance_report_node(
+                                context, "calls", "large_literal", call
+                            );
+                            errors = errors + 1;
+                        }
                     }
                     if target < context.symbols.length &&
                         argument < acceptance_parameter_count(
@@ -257,11 +269,21 @@ unsafe usize acceptance_validate_calls(ref IrContext context) {
                             if argument_symbol < context.symbols.length &&
                                 acceptance_const_type(context, read_record_field(
                                     context.symbol_data, argument_symbol, 4
-                                )) { errors = errors + 1; }
+                                )) {
+                                acceptance_report_node(
+                                    context, "calls", "const_argument", call
+                                );
+                                errors = errors + 1;
+                            }
                         }
                         if !acceptance_can_initialize(
                             context, value, actual, expected
-                        ) { errors = errors + 1; }
+                        ) {
+                            acceptance_report_node(
+                                context, "calls", "argument_type", call
+                            );
+                            errors = errors + 1;
+                        }
                     }
                 }
                 argument = argument + 1;

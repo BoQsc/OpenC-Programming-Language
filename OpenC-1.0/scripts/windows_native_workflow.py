@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SH-17 native-first Windows development and verification workflow."""
+"""SH-19 native-first Windows development and verification workflow."""
 from __future__ import annotations
 
 import argparse
@@ -74,7 +74,6 @@ def conformance_fingerprint(compiler: Path) -> str:
             ROOT / "runtime" / "common" / "source",
             ROOT / "runtime" / "windows" / "source",
             ROOT / "compiler" / "selfhost" / "native_runtime",
-            ROOT / "third_party" / "tinycc-win64" / "tcc.exe",
         ],
     )
 
@@ -544,8 +543,8 @@ def main() -> int:
     )
     passed = all(task["passed"] for task in tasks)
     result = {
-        "schema": "openc.windows_native_workflow.v8",
-        "milestone": "SH-18_IDIOMATIC_WINDOWS_MODULES",
+        "schema": "openc.windows_native_workflow.v9",
+        "milestone": "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT",
         "mode": args.mode.upper(),
         "status": "PASS" if passed else "FAIL",
         "started_at_utc": started_at.isoformat().replace("+00:00", "Z"),
@@ -569,7 +568,7 @@ def main() -> int:
         newline="\n",
     )
     print(
-        f"SH-18 {args.mode} workflow: {result['status']}; "
+        f"SH-19 {args.mode} workflow: {result['status']}; "
         f"compiler=OpenC-native tasks={sum(task['passed'] for task in tasks)}/"
         f"{len(tasks)} seed_executed=false result={result_path}"
     )

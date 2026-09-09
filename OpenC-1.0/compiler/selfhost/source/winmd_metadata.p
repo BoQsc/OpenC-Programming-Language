@@ -1,3 +1,5 @@
+import system.text;
+
 unsafe usize winmd_heap_index(
     ref WinmdReader reader,
     usize offset,
@@ -81,14 +83,15 @@ unsafe void winmd_put_heap_string_hex(
     reader.ok = false;
 }
 
-unsafe void winmd_blob_span(
+unsafe WinmdBlobSpan winmd_blob_span(
     ref WinmdReader reader,
-    usize index,
-    out usize start,
-    out usize length
+    usize index
 ) {
-    start = 0; length = 0;
-    if index >= reader.blob_size { reader.ok = false; return; }
+    usize start = 0; usize length = 0;
+    if index >= reader.blob_size {
+        reader.ok = false;
+        return WinmdBlobSpan{ start = 0, length = 0 };
+    }
     usize at = reader.blob_offset + index;
     usize first = winmd_u8(reader, at);
     if first < 128 {
@@ -104,11 +107,12 @@ unsafe void winmd_blob_span(
             winmd_u8(reader, at + 3);
     } else {
         reader.ok = false;
-        return;
+        return WinmdBlobSpan{ start = 0, length = 0 };
     }
     if start > reader.length || length > reader.length - start {
         reader.ok = false; start = 0; length = 0;
     }
+    return WinmdBlobSpan{ start = start, length = length };
 }
 
 unsafe void winmd_put_blob_hex(
@@ -116,11 +120,10 @@ unsafe void winmd_put_blob_hex(
     usize index,
     ref DBuffer output
 ) {
-    usize start = 0; usize length = 0;
-    winmd_blob_span(reader, index, out start, out length);
+    WinmdBlobSpan span = winmd_blob_span(reader, index);
     usize cursor = 0;
-    while cursor < length {
-        winmd_put_hex_byte(output, winmd_u8(reader, start + cursor));
+    while cursor < span.length {
+        winmd_put_hex_byte(output, winmd_u8(reader, span.start + cursor));
         cursor = cursor + 1;
     }
 }
@@ -502,4 +505,9 @@ unsafe void winmd_count_attribute(
     else if winmd_custom_attribute_is(reader, row, "FlexibleArrayAttribute") { stats.flexible_array = stats.flexible_array + 1; }
     else if winmd_custom_attribute_is(reader, row, "MemorySizeAttribute") { stats.memory_size = stats.memory_size + 1; }
     else if winmd_custom_attribute_is(reader, row, "StructSizeFieldAttribute") { stats.struct_size_field = stats.struct_size_field + 1; }
+}
+
+struct WinmdBlobSpan {
+    usize start;
+    usize length;
 }

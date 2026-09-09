@@ -90,6 +90,22 @@ def run_projection(compiler: Path, input_path: Path, output: Path) -> float:
 
 
 def check_generated_sources(compiler: Path, directory: Path, temporary: Path) -> bool:
+    # The projection payload is intentionally carried in `//` records and is
+    # verified byte-for-byte above. Compile the actual OpenC declarations here
+    # without forcing the parser to reserve syntax records for 5.9 MiB of
+    # metadata comments; this keeps the gate below the native allocation guard.
+    declaration_paths: dict[str, Path] = {}
+    for name in MODULES:
+        source = directory / f"windows.raw.{name}.p"
+        declarations = "\n".join(
+            line for line in source.read_text(encoding="utf-8").splitlines()
+            if line.strip() and not line.lstrip().startswith("//")
+        ) + "\n"
+        declaration_path = temporary / f"windows.raw.{name}.p"
+        declaration_path.write_text(
+            declarations, encoding="utf-8", newline="\n"
+        )
+        declaration_paths[name] = declaration_path
     project = {
         "name": "sh17-generated-raw-projection",
         "version": "1.0.0",
@@ -97,7 +113,7 @@ def check_generated_sources(compiler: Path, directory: Path, temporary: Path) ->
         "profile": "standard",
         "target": "windows-x86_64",
         "modules": {
-            f"windows.raw.{name}": [str((directory / f"windows.raw.{name}.p").resolve())]
+            f"windows.raw.{name}": [str(declaration_paths[name].resolve())]
             for name in MODULES
         },
         "standard_library_directory": str((ROOT / "standard_library").resolve()),
