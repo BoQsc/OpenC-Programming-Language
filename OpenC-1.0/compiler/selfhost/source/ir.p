@@ -82,6 +82,9 @@ struct IrContext {
     ptr byte aggregate_field_first;
     ptr byte field_next;
     ptr byte enum_item_value;
+    ptr byte native_layout_size_cache;
+    ptr byte native_layout_alignment_cache;
+    ptr byte native_layout_state_cache;
     ptr byte local_values;
     ptr byte block_data;
     PackedBuffer blocks;

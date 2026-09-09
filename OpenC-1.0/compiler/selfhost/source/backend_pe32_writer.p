@@ -41,7 +41,7 @@ unsafe void pe32_patch_u32(
 
 unsafe void pe32_pad_to(ref DBuffer output, usize offset) {
     if offset < output.length { output.ok = false; return; }
-    while output.length < offset { d_put_byte(output, 0); }
+    while output.length < offset && output.ok { d_put_byte(output, 0); }
 }
 
 unsafe void pe32_put_fixed_name(ref DBuffer output, text name) {
@@ -275,8 +275,11 @@ unsafe DBuffer pe32_build_headers(
     pe32_put_u32(output, 0);
     pe32_put_u16(output, subsystem);
     pe32_put_u16(output, 33120);
+    // The bootstrap compiler currently uses SSA spill frames for every value.
+    // Reserve enough virtual stack for its deepest parser/resolution paths;
+    // Windows commits this on demand rather than allocating 64 MiB eagerly.
+    pe32_put_u64(output, cast(u64, 67108864));
     pe32_put_u64(output, cast(u64, 1048576));
-    pe32_put_u64(output, cast(u64, 4096));
     pe32_put_u64(output, cast(u64, 1048576));
     pe32_put_u64(output, cast(u64, 4096));
     pe32_put_u32(output, 0);

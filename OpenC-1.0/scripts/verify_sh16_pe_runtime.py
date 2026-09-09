@@ -37,6 +37,14 @@ EXPECTED_IMPORTS = [
     "ReadFile",
     "WideCharToMultiByte",
     "WriteFile",
+    "MultiByteToWideChar",
+    "GetTickCount64",
+    "GetModuleFileNameW",
+    "GetFileSizeEx",
+    "LoadLibraryExW",
+    "GetProcAddress",
+    "LocalFree",
+    "FreeLibrary",
 ]
 
 
@@ -348,7 +356,7 @@ def main() -> int:
                 name.lower().startswith(FORBIDDEN_CRT_PREFIXES) for name in imports
             ),
             "import_and_iat_directories_present": console.directories[1][1] == 40
-            and console.directories[12][1] == 128,
+            and console.directories[12][1] == (len(EXPECTED_IMPORTS) + 1) * 8,
             "active_dir64_base_relocations": relocations
             == [(10, 0x2580), (10, 0x2588), (10, 0x2590), (10, 0x3018)],
             "tls_directory_complete": tls

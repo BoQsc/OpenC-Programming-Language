@@ -1,0 +1,8 @@
+{
+  "name": "sh19-native-scalars",
+  "version": "0.1.0",
+  "edition": "OpenC 1.0",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "modules": { "sh19.scalars": ["source/main.p"] }
+}

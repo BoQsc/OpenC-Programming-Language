@@ -236,6 +236,51 @@ unsafe i32 cli_observe_source_command(usize arguments) {
 
 unsafe i32 main() {
     usize arguments = process.argument_count();
+    if arguments == 4 && process.argument(0) == "--native-build-trusted" {
+        BuildTimings native_timings = build_timings_empty();
+        native_timings.emission_mode = 2;
+        i32 result = emit_bootstrap_d_mode(
+            process.argument(1), process.argument(2), false, true, native_timings
+        );
+        if !write_build_timings(
+            process.argument(3), native_timings, result == 0
+        ) { return 1; }
+        return result;
+    }
+    if arguments == 4 && process.argument(0) == "--native-build" {
+        BuildTimings native_timings = build_timings_empty();
+        native_timings.emission_mode = 2;
+        i32 result = emit_bootstrap_d_mode(
+            process.argument(1), process.argument(2), true, true, native_timings
+        );
+        if !write_build_timings(
+            process.argument(3), native_timings, result == 0
+        ) { return 1; }
+        return result;
+    }
+    if arguments == 3 && process.argument(0) == "--native-build-trusted" {
+        // Internal SH-19 iteration lane for already-validated canonical source.
+        // It never replaces the validating --native-build public candidate.
+        BuildTimings native_timings = build_timings_empty();
+        native_timings.emission_mode = 2;
+        return emit_bootstrap_d_mode(
+            process.argument(1), process.argument(2), false, true, native_timings
+        );
+    }
+    if arguments == 3 && process.argument(0) == "--native-build" {
+        BuildTimings native_timings = build_timings_empty();
+        native_timings.emission_mode = 2;
+        return emit_bootstrap_d_mode(
+            process.argument(1), process.argument(2), true, true, native_timings
+        );
+    }
+    if arguments == 3 && process.argument(0) == "--native-audit" {
+        BuildTimings audit_timings = build_timings_empty();
+        audit_timings.emission_mode = 1;
+        return emit_bootstrap_d_mode(
+            process.argument(1), process.argument(2), false, true, audit_timings
+        );
+    }
     if arguments == 4 &&
         process.argument(0) == "--windows-winmd-project" {
         return emit_windows_winmd_projection(

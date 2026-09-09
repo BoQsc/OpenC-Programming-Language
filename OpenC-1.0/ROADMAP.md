@@ -243,7 +243,18 @@ IR reach closure. Exact evidence and reproduction commands are in
       Windows boundary;
     - cover files, memory, processes, threads, console, windowing, graphics,
       resources, networking, registry, and shell incrementally.
-12. **SH-19 compiler-capable first-party backend and TinyCC exit — next; active**
+12. **SH-19 compiler-capable first-party backend and TinyCC exit — in progress**
+    - direct x64/PE emission now reaches a byte-identical trusted fixed point
+      for the 116-source compiler and passes 63/63 native lowering/runtime
+      probes plus the retained 34/34 PE/runtime gate;
+    - source-record caching reduced the formerly unbounded public validation
+      cache traffic to one path join and one file read per source; guarded peak
+      private memory is 102.1 MiB instead of exceeding 512 MiB;
+    - hard native allocation, validation-phase, and external process RAM guards
+      now fail with stable diagnostics and recorded telemetry;
+    - public self-conformance still reports 192 errors, so this is not default
+      backend readiness or TinyCC exit. See the
+      [implementation ledger](compiler/selfhost/SH19_NATIVE_BACKEND_PLAN.md);
     - lower all compiler-reachable Core IR through the OpenC x64/PE backend;
     - achieve compiler Stage-2/Stage-3 byte closure and all conformance/runtime
       gates without generated C, TinyCC, C headers, a C runtime, assembler, or

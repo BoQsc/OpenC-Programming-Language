@@ -8,7 +8,7 @@
   "bootstrap_source": "source_complete_four_tests_and_cli_smoke_passed",
   "official_source_extension": ".p",
   "migrated_existing_p_sources": 281,
-  "canonical_p_sources": 432,
+  "canonical_p_sources": 436,
   "self_hosting": {
     "state_record": "compiler/selfhost/SELF_HOSTING_STATE.json",
     "source_convention_gate": "SH-0_PASS",
@@ -528,6 +528,27 @@
       "historical_rule_id_matches_disclosed": 93,
       "linux_and_freestanding_gate": false,
       "next_milestone": "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT"
+    },
+    "sh19_checkpoint": {
+      "status": "IN_PROGRESS_NOT_COMPLETE",
+      "implementation_ledger": "compiler/selfhost/SH19_NATIVE_BACKEND_PLAN.md",
+      "compiler_source_files": 116,
+      "trusted_native_fixed_point": true,
+      "trusted_native_compiler_sha256": "d0224ebf0237d2a60009e09a34a5ca23ebd5e4d471ecff1092f9a6ef0eb61595",
+      "trusted_native_rebuild_milliseconds": 9640,
+      "trusted_native_peak_private_bytes": 198123520,
+      "native_lowering_runtime_checks_passed": 63,
+      "native_lowering_runtime_checks_total": 63,
+      "retained_pe_runtime_checks_passed": 34,
+      "retained_pe_runtime_checks_total": 34,
+      "memory_guard_checks_passed": 6,
+      "memory_guard_checks_total": 6,
+      "public_validation_peak_private_bytes": 107032576,
+      "public_validation_file_cache_misses": 116,
+      "public_validation_path_cache_misses": 116,
+      "public_self_conformance_errors": 192,
+      "direct_native_compiler_closure_passed": false,
+      "tinycc_exit_achieved": false
     }
   },
   "runtime_source": "standalone_c_runtime_built_and_runtime_fixtures_passed_legacy_d_optional",

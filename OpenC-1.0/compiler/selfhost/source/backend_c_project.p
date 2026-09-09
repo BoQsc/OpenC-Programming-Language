@@ -169,7 +169,13 @@ unsafe void c_lower_and_emit_function(
         function_ir_ms
     );
     phase_started = process.monotonic_milliseconds();
-    c_emit_function(context, output, owner - 1, entry_module);
+    if timings.emission_mode == 1 {
+        native_audit_function(context, output, owner - 1, timings.functions);
+    } else if timings.emission_mode == 2 {
+        native_emit_function(context, output, owner - 1, entry_module);
+    } else {
+        c_emit_function(context, output, owner - 1, entry_module);
+    }
     timings.c_emit_ms = timings.c_emit_ms +
         process.monotonic_milliseconds() - phase_started;
 }
@@ -216,6 +222,13 @@ unsafe bool c_emit_source_record(
         source, token_data, tokens, syntax_data, syntax,
         diagnostic_data, diagnostics
     );
+    if diagnostics.length != 0 {
+        io.error("error[OPENC-BACKEND-SYNTAX]: refusing to lower malformed source\n");
+        memory.free(syntax_data);
+        memory.free(diagnostic_data);
+        memory.free(token_data);
+        return false;
+    }
     timings.lex_parse_ms = timings.lex_parse_ms +
         process.monotonic_milliseconds() - phase_started;
     timings.syntax_nodes = timings.syntax_nodes + syntax.length;
@@ -461,23 +474,18 @@ unsafe bool c_emit_source_record(
                 context, node,
                 resolution_symbol_function(), 0
             );
-            bool external_declaration = starts_with_ascii(
-                source,
-                read_record_field(syntax_data, node, 1),
-                "external"
-            );
-            if external_declaration && body < syntax.length &&
-                byte_at_or_zero(
+            // A semicolon-only declaration has no IR body. It is valid input,
+            // but its implementation must be supplied by another source or an
+            // external/native provider. Do not accidentally associate it with
+            // a later declaration's block and report an internal compiler bug.
+            if body >= syntax.length || byte_at_or_zero(
                     source,
                     read_record_field(syntax_data, body, 1)
                 ) != 123 {
                 node = node + 1;
                 continue;
             }
-            if body >= syntax.length || owner == 0 || byte_at_or_zero(
-                    source,
-                    read_record_field(syntax_data, body, 1)
-                ) != 123 {
+            if owner == 0 {
                 io.print("OPENC-C-BACKEND-INTERNAL source=");
                 io.print(source_record);
                 io.print(" node="); io.print(node);
@@ -566,7 +574,33 @@ unsafe i32 c_emit_project(
     ref BuildTimings timings
 ) {
     c_close_lowering_types(base);
+    usize native_layout_cache_bytes =
+        (base.types.length + 1) * size_of(usize);
+    ptr byte native_layout_sizes = memory.alloc(native_layout_cache_bytes);
+    scope memory.free(native_layout_sizes);
+    ptr byte native_layout_alignments = memory.alloc(
+        native_layout_cache_bytes);
+    scope memory.free(native_layout_alignments);
+    ptr byte native_layout_states = memory.alloc(native_layout_cache_bytes);
+    scope memory.free(native_layout_states);
+    if timings.emission_mode == 2 {
+        base.native_layout_size_cache = ir_pointer_alias(
+            native_layout_sizes);
+        base.native_layout_alignment_cache = ir_pointer_alias(
+            native_layout_alignments);
+        base.native_layout_state_cache = ir_pointer_alias(
+            native_layout_states);
+        usize native_layout_index = 0;
+        while native_layout_index <= base.types.length {
+            write_usize(native_layout_states,
+                native_layout_index * size_of(usize), 0);
+            native_layout_index = native_layout_index + 1;
+        }
+    }
     DBuffer output = d_buffer_create(output_capacity * 2 + 1048576);
+    if timings.emission_mode == 1 {
+        d_put(output, "{\"schema\":\"openc.native_backend_audit.v1\",\"scope\":\"all_project_functions\",\"native_backend_complete\":false,\"functions\":[\n");
+    } else if timings.emission_mode == 0 {
     d_put(output, "/* OpenC SH-5 deterministic C11 backend output. */\n");
     d_put(output, "#define OPENC_RUNTIME_BUILD 1\n");
     d_put(output, "#include <stdbool.h>\n");
@@ -577,6 +611,7 @@ unsafe i32 c_emit_project(
     c_emit_enum_types(base, output);
     c_emit_named_type_bodies(base, output);
     c_emit_compound_types(base, output);
+    }
 
     usize function_bucket_capacity = ir_index_capacity(
         base.symbols.length * 2 + 1
@@ -643,10 +678,12 @@ unsafe i32 c_emit_project(
     base.enum_item_value = ir_pointer_alias(enum_item_value);
     ir_initialize_symbol_indexes(base, parameter_last);
     memory.free(parameter_last);
-    c_emit_function_prototypes(base, output, entry_module);
+    if timings.emission_mode == 0 {
+        c_emit_function_prototypes(base, output, entry_module);
+    }
 
     bool emitted_parallel = false;
-    if output_capacity >= 262144 && c_project_source_count(base) >= 16 {
+    if timings.emission_mode == 0 && output_capacity >= 262144 && c_project_source_count(base) >= 16 {
         emitted_parallel = c_emit_sources_parallel(
             base, output, output_capacity, entry_module, timings
         );
@@ -688,12 +725,20 @@ unsafe i32 c_emit_project(
             module_index = module_index + 1;
         }
     }
+    if timings.emission_mode == 1 {
+        d_put(output, "\n],\"function_count\":");
+        d_put_usize(output, timings.functions);
+        d_put(output, ",\"instruction_count\":");
+        d_put_usize(output, timings.instructions);
+        d_put(output, "}\n");
+    } else if timings.emission_mode == 0 {
     d_put(output, "int main(int argc, char **argv) {\n");
     d_put(output, "    int result;\n");
     d_put(output, "    ocb_process_initialize(argc, argv);\n");
     d_put(output, "    result = (int)oc_entry_main();\n");
     d_put(output, "    ocb_process_finalize();\n");
     d_put(output, "    return result;\n}\n");
+    }
     if !output.ok {
         io.print("OPENC-C-BACKEND-BUFFER-EXHAUSTED length=");
         io.print(output.length); io.print(" capacity=");
@@ -713,9 +758,12 @@ unsafe i32 c_emit_project(
         return 1;
     }
     timings.output_bytes = output.length;
-    status written = file.write_text(
-        output_source, d_buffer_text(output)
-    );
+    status written = status{ code = 1 };
+    if timings.emission_mode == 2 {
+        written = native_write_image(base, output, output_source);
+    } else {
+        written = file.write_text(output_source, d_buffer_text(output));
+    }
     d_buffer_destroy(output);
     memory.free(enum_item_value);
     memory.free(field_next);

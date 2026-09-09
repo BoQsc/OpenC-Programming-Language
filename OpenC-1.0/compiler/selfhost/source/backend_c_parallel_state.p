@@ -26,6 +26,9 @@ unsafe IrContext c_parallel_base(ref IrContext base) {
     worker.aggregate_field_first = base.aggregate_field_first;
     worker.field_next = base.field_next;
     worker.enum_item_value = base.enum_item_value;
+    worker.native_layout_size_cache = base.native_layout_size_cache;
+    worker.native_layout_alignment_cache = base.native_layout_alignment_cache;
+    worker.native_layout_state_cache = base.native_layout_state_cache;
     return worker;
 }
 
@@ -109,6 +112,17 @@ unsafe void c_parallel_state_append(
     ref BuildTimings timings,
     ref CParallelState state
 ) {
+    usize required = output.length + state.chunk_one.output.length +
+        state.chunk_two.output.length + state.chunk_three.output.length +
+        state.chunk_four.output.length + state.chunk_five.output.length +
+        state.chunk_six.output.length + state.chunk_seven.output.length +
+        state.chunk_eight.output.length + 65536;
+    if output.ok && required > output.capacity {
+        DBuffer combined = d_buffer_create(required);
+        d_put(combined, d_buffer_text(output));
+        d_buffer_destroy(output);
+        output = combined;
+    }
     c_parallel_chunk_append(output, timings, state.chunk_one);
     c_parallel_chunk_append(output, timings, state.chunk_two);
     c_parallel_chunk_append(output, timings, state.chunk_three);
@@ -167,6 +181,15 @@ unsafe bool c_emit_sources_parallel(
         out cut_one, out cut_two, out cut_three, out cut_four,
         out cut_five, out cut_six, out cut_seven, out source_count
     ) { return false; }
+    // Workers own their output buffers. Do not retain a worst-case whole-
+    // project reservation while their parser/IR arenas are live. Recombine
+    // with the exact measured byte count after workers have finished.
+    if output.ok && output.capacity > output.length + 65536 {
+        DBuffer header = d_buffer_create(output.length + 65536);
+        d_put(header, d_buffer_text(output));
+        d_buffer_destroy(output);
+        output = header;
+    }
     usize chunk_capacity = timings.source_bytes / 2 + 524288;
     CParallelState state = c_parallel_state_create(
         base, cut_one, cut_two, cut_three, cut_four,

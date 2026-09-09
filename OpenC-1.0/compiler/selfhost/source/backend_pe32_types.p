@@ -57,9 +57,9 @@ Pe32RuntimeLayout pe32_runtime_layout() {
         image_size = 32768,
         import_directory_offset = 0,
         import_lookup_offset = 64,
-        import_address_offset = 192,
-        import_dll_name_offset = 336,
-        import_names_offset = 368,
+        import_address_offset = 256,
+        import_dll_name_offset = 448,
+        import_names_offset = 464,
         message_offset = 1024,
         file_name_offset = 1152,
         file_payload_offset = 1216,
@@ -75,7 +75,7 @@ usize pe32_section_code() { return 1610612768; }
 usize pe32_section_read_only_data() { return 1073741888; }
 usize pe32_section_read_write_data() { return 3221225536; }
 
-usize pe32_import_count() { return 15; }
+usize pe32_import_count() { return 23; }
 
 text pe32_import_name(usize index) {
     if index == 0 { return "CloseHandle"; }
@@ -92,7 +92,15 @@ text pe32_import_name(usize index) {
     if index == 11 { return "HeapReAlloc"; }
     if index == 12 { return "ReadFile"; }
     if index == 13 { return "WideCharToMultiByte"; }
-    return "WriteFile";
+    if index == 14 { return "WriteFile"; }
+    if index == 15 { return "MultiByteToWideChar"; }
+    if index == 16 { return "GetTickCount64"; }
+    if index == 17 { return "GetModuleFileNameW"; }
+    if index == 18 { return "GetFileSizeEx"; }
+    if index == 19 { return "LoadLibraryExW"; }
+    if index == 20 { return "GetProcAddress"; }
+    if index == 21 { return "LocalFree"; }
+    return "FreeLibrary";
 }
 
 usize pe32_import_hint_offset(ref Pe32RuntimeLayout layout, usize index) {

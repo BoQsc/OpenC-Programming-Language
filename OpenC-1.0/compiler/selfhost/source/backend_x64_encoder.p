@@ -434,6 +434,85 @@ unsafe void x64_addsd_xmm_xmm(
     x64_emit_register_modrm(code, destination, source);
 }
 
+unsafe void x64_scalar_float_xmm_xmm(
+    ref X64Code code,
+    usize bits,
+    usize operation,
+    usize destination,
+    usize source
+) {
+    if bits == 32 { x64_emit_u8(code, 243); }
+    else if bits == 64 { x64_emit_u8(code, 242); }
+    else { code.ok = false; return; }
+    x64_emit_rex(code, false, destination, 0, source);
+    x64_emit_u8(code, 15); x64_emit_u8(code, operation);
+    x64_emit_register_modrm(code, destination, source);
+}
+
+unsafe void x64_ucomi_xmm_xmm(
+    ref X64Code code,
+    usize bits,
+    usize left,
+    usize right
+) {
+    if bits == 64 { x64_emit_u8(code, 102); }
+    else if bits != 32 { code.ok = false; return; }
+    x64_emit_rex(code, false, left, 0, right);
+    x64_emit_u8(code, 15); x64_emit_u8(code, 46);
+    x64_emit_register_modrm(code, left, right);
+}
+
+unsafe void x64_cvtss2sd_xmm_xmm(
+    ref X64Code code,
+    usize destination,
+    usize source
+) {
+    x64_emit_u8(code, 243);
+    x64_emit_rex(code, false, destination, 0, source);
+    x64_emit_u8(code, 15); x64_emit_u8(code, 90);
+    x64_emit_register_modrm(code, destination, source);
+}
+
+unsafe void x64_cvtsd2ss_xmm_xmm(
+    ref X64Code code,
+    usize destination,
+    usize source
+) {
+    x64_emit_u8(code, 242);
+    x64_emit_rex(code, false, destination, 0, source);
+    x64_emit_u8(code, 15); x64_emit_u8(code, 90);
+    x64_emit_register_modrm(code, destination, source);
+}
+
+unsafe void x64_cvtsi2s_xmm_r64(
+    ref X64Code code,
+    usize bits,
+    usize destination,
+    usize source
+) {
+    if bits == 32 { x64_emit_u8(code, 243); }
+    else if bits == 64 { x64_emit_u8(code, 242); }
+    else { code.ok = false; return; }
+    x64_emit_rex(code, true, destination, 0, source);
+    x64_emit_u8(code, 15); x64_emit_u8(code, 42);
+    x64_emit_register_modrm(code, destination, source);
+}
+
+unsafe void x64_shift_r64_imm8(
+    ref X64Code code,
+    usize operation,
+    usize destination,
+    usize immediate
+) {
+    if (operation != 4 && operation != 5 && operation != 7) || immediate > 63 {
+        code.ok = false; return;
+    }
+    x64_emit_rex(code, true, 0, 0, destination);
+    x64_emit_u8(code, 193);
+    x64_emit_register_modrm(code, operation, destination);
+    x64_emit_u8(code, immediate);
+}
+
 unsafe void x64_movq_r64_xmm(
     ref X64Code code,
     usize destination,

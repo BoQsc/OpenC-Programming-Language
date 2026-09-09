@@ -39,6 +39,15 @@ usize record_stride() {
     return size_of(usize) * cast(usize, 5);
 }
 
+// The portable/C implementation has no allocator telemetry. The first-party
+// native backend recognizes this compiler-private hook and reads its own live
+// payload counter, allowing validation to fail before process memory runs away.
+usize compiler_live_allocation_bytes() { return 0; }
+usize compiler_file_cache_hits() { return 0; }
+usize compiler_file_cache_misses() { return 0; }
+usize compiler_path_cache_hits() { return 0; }
+usize compiler_path_cache_misses() { return 0; }
+
 unsafe void write_usize(ptr byte data, usize offset, usize value) {
     memory.store_usize(data + offset, value);
 }
@@ -126,12 +135,15 @@ u32 hex_value(u8 value) {
 bool starts_with_ascii(text source, usize start, text expected) {
     usize expected_length = text.byte_length(expected);
     usize source_length = text.byte_length(source);
-    if start + expected_length > source_length {
+    if start > source_length || expected_length > source_length - start {
         return false;
     }
     usize index = 0;
     while index < expected_length {
-        if byte_at_or_zero(source, start + index) != byte_at_or_zero(expected, index) {
+        // Both slices are proven in range above. Avoid two checked helper calls
+        // per byte in the compiler's hottest identifier/keyword comparison.
+        if text.byte_at_unchecked(source, start + index) !=
+            text.byte_at_unchecked(expected, index) {
             return false;
         }
         index = index + 1;

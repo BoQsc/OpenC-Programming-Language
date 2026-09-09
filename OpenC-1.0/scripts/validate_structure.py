@@ -43,6 +43,17 @@ required = [
     "scripts/windows_native_workflow.py",
     "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json",
     "compiler/selfhost/benchmark_windows_validate.py",
+    "compiler/selfhost/SH19_NATIVE_BACKEND_PLAN.md",
+    "compiler/selfhost/run_with_memory_guard.py",
+    "compiler/selfhost/windows_process_measure.py",
+    "compiler/selfhost/source/backend_native_audit.p",
+    "compiler/selfhost/source/backend_native_image.p",
+    "compiler/selfhost/source/backend_native_runtime.p",
+    "compiler/selfhost/source/backend_native_scalar.p",
+    "scripts/audit_sh19_native_corpus.py",
+    "scripts/verify_sh19_memory_guards.py",
+    "scripts/verify_sh19_native_scalars.py",
+    "tests/sh19_native_scalars/openc.project.json",
     "compiler/selfhost/source/native_conformance.p",
     "compiler/selfhost/source/cli.p",
     "compiler/selfhost/source/cli_lsp.p",
@@ -583,7 +594,7 @@ if (
     active_plan.get("id") != "SH-19"
     or active_plan.get("name")
     != "compiler_capable_native_backend_and_tinycc_exit"
-    or active_plan.get("status") != "NEXT_ACTIVE"
+    or active_plan.get("status") not in {"NEXT_ACTIVE", "IN_PROGRESS_NOT_COMPLETE"}
     or active_plan.get("plan")
     != "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md"
     or active_plan.get("blocked_by_sh18")
@@ -591,6 +602,14 @@ if (
     or not active_plan.get("byte_identical_self_hosting_required")
     or not active_plan.get("tinycc_and_generated_c_exit_required")
     or not active_plan.get("throughput_regression_gate_required")
+    or active_plan.get("native_lowering_runtime_checks_passed") != 63
+    or active_plan.get("native_lowering_runtime_checks_total") != 63
+    or not active_plan.get("trusted_native_compiler_fixed_point_passed")
+    or active_plan.get("native_memory_guard_checks_passed") != 6
+    or active_plan.get("native_memory_guard_checks_total") != 6
+    or active_plan.get("public_validation_file_cache_misses") != 116
+    or active_plan.get("public_validation_path_cache_misses") != 116
+    or active_plan.get("public_self_conformance_errors") != 192
 ):
     errors.append(
         "SH-19 native backend and TinyCC exit must be active after SH-18"
@@ -600,6 +619,23 @@ if development_self_hosting.get("next_milestone") != (
     "SH-19_COMPILER_CAPABLE_NATIVE_BACKEND_AND_TINYCC_EXIT"
 ):
     errors.append("development state must name native backend work as SH-19")
+development_sh19 = development_self_hosting.get("sh19_checkpoint", {})
+if (
+    development_sh19.get("status") != "IN_PROGRESS_NOT_COMPLETE"
+    or not development_sh19.get("trusted_native_fixed_point")
+    or development_sh19.get("native_lowering_runtime_checks_passed") != 63
+    or development_sh19.get("native_lowering_runtime_checks_total") != 63
+    or development_sh19.get("memory_guard_checks_passed") != 6
+    or development_sh19.get("memory_guard_checks_total") != 6
+    or development_sh19.get("public_validation_peak_private_bytes", 2**63)
+    > 268435456
+    or development_sh19.get("public_self_conformance_errors") != 192
+    or development_sh19.get("direct_native_compiler_closure_passed")
+    or development_sh19.get("tinycc_exit_achieved")
+):
+    errors.append(
+        "development state must record bounded but incomplete SH-19 native closure"
+    )
 development_sh14 = development_self_hosting.get("sh14_acceptance", {})
 if (
     development_sh14.get("status") != "PASS"

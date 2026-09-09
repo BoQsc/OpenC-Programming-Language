@@ -65,8 +65,6 @@ unsafe void project_observe_source(
     );
     assign_diagnostic_positions(source, diagnostic_data, diagnostics);
     write_record_field(source_data, source_record, 2, source_length);
-    write_record_field(source_data, source_record, 3, syntax.length);
-    write_record_field(source_data, source_record, 4, 1);
     io.print("SOURCE "); io.print(module_index); io.print(" ");
     io.print(source_index); io.print(" ");
     io.print(source_length); io.print(" "); io.println(syntax.length);
@@ -148,7 +146,7 @@ unsafe i32 observe_project(text project_path) {
         usize source_index = 0;
         while source_index < source_count {
             usize source_record = source_first + source_index;
-            if read_record_field(source_data, source_record, 4) == 1 {
+            if read_record_field(source_data, source_record, 3) != 0 {
                 text source;
                 status source_status = project_read_source_record(
                     project_source, project_root, source_data, source_record,

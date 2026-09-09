@@ -471,7 +471,8 @@ unsafe i32 emit_windows_pe32_runtime(
     d_put_usize(report, result.image.length);
     d_put(report, ",\n  \"entry_bytes\": "); d_put_usize(report, result.entry_size);
     d_put(report, ",\n  \"panic_bytes\": "); d_put_usize(report, result.panic_size);
-    d_put(report, ",\n  \"sections\": 7,\n  \"imports\": 15,\n");
+    d_put(report, ",\n  \"sections\": 7,\n  \"imports\": ");
+    d_put_usize(report, pe32_import_count()); d_put(report, ",\n");
     d_put(report, "  \"crt_imports\": 0,\n  \"external_assembler_invoked\": false,\n");
     d_put(report, "  \"external_linker_invoked\": false,\n  \"deterministic_timestamp\": 0\n}\n");
     status report_written = file.write_text(report_path, d_buffer_text(report));

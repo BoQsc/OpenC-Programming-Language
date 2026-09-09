@@ -97,6 +97,11 @@ projection passes 30/30 checks.
 
 The active SH-19 Windows independence work extends the first-party native
 backend to compile the whole compiler and eliminate TinyCC and the C provider.
+That backend now has a byte-identical 116-source compiler fixed point and
+bounded source caching; the guarded trusted rebuild remains below the authored
+256 MiB private-memory ceiling. SH-19 is still in progress because public
+self-conformance reports 192 errors and the direct-native release corpus has
+not passed.
 The initial friendly module API is documented in `standard_library/WINDOWS_MODULES.md`.
 The sequence proceeds through the compiler-capable native backend and TinyCC exit,
 then OpenC-native replacement of required Python/D workflow tooling. Native

@@ -25,7 +25,7 @@ unsafe usize c_named_type_symbol(
             read_record_field(context.symbol_data, symbol, 4) == type_id {
             return symbol;
         }
-        if ((kind == resolution_symbol_struct() ||
+        if (kind == resolution_symbol_struct() ||
              kind == resolution_symbol_resource() ||
              kind == resolution_symbol_enum()) &&
             type_id < context.types.length && read_record_field(

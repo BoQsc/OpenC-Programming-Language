@@ -136,6 +136,22 @@ unsafe status project_read_source_record(
     usize source_record,
     out text source
 ) {
+    // Source records own one stable view for the lifetime of a project build.
+    // Keeping the view beside the manifest span prevents semantic lookup from
+    // repeatedly joining the same path and rereading the same file when a
+    // bounded runtime hash cache experiences collisions.
+    usize cached_data = read_record_field(source_data, source_record, 3);
+    if cached_data != 0 {
+        text cached_source;
+        ptr byte cached_representation = reinterpret(ptr byte, &cached_source);
+        write_usize(cached_representation, 0, cached_data);
+        write_usize(
+            cached_representation, size_of(usize),
+            read_record_field(source_data, source_record, 4)
+        );
+        source = cached_source;
+        return status{ code = 0 };
+    }
     text source_path = project_source_record_path(
         project_source, project_root, source_data, source_record
     );
@@ -143,6 +159,15 @@ unsafe status project_read_source_record(
     status loaded = file.read_text_cached(source_path, out loaded_source);
     if !loaded.ok { return loaded; }
     source = source_without_initial_bom(loaded_source);
+    ptr byte source_representation = reinterpret(ptr byte, &source);
+    write_record_field(
+        source_data, source_record, 3,
+        read_usize(source_representation, 0)
+    );
+    write_record_field(
+        source_data, source_record, 4,
+        read_usize(source_representation, size_of(usize))
+    );
     return loaded;
 }
 

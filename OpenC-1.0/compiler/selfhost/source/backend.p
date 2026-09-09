@@ -6,6 +6,7 @@ import system.process;
 import system.text;
 
 struct BuildTimings {
+    usize emission_mode;
     usize project_load_ms;
     usize declarations_ms;
     usize resolution_ms;
@@ -51,10 +52,18 @@ struct BuildTimings {
     usize total_expression_positions;
     usize total_syntax_candidates;
     usize total_symbol_candidates;
+    usize validation_initial_live_bytes;
+    usize validation_peak_live_bytes;
+    usize validation_peak_source_record;
+    usize validation_file_cache_hits;
+    usize validation_file_cache_misses;
+    usize validation_path_cache_hits;
+    usize validation_path_cache_misses;
 }
 
 BuildTimings build_timings_empty() {
     return BuildTimings{
+        emission_mode = 0,
         project_load_ms = 0,
         declarations_ms = 0,
         resolution_ms = 0,
@@ -99,7 +108,14 @@ BuildTimings build_timings_empty() {
         total_parent_candidates = 0,
         total_expression_positions = 0,
         total_syntax_candidates = 0,
-        total_symbol_candidates = 0
+        total_symbol_candidates = 0,
+        validation_initial_live_bytes = 0,
+        validation_peak_live_bytes = 0,
+        validation_peak_source_record = 0,
+        validation_file_cache_hits = 0,
+        validation_file_cache_misses = 0,
+        validation_path_cache_hits = 0,
+        validation_path_cache_misses = 0
     };
 }
 
@@ -194,6 +210,9 @@ unsafe IrContext backend_base_context(
         aggregate_field_first = null,
         field_next = null,
         enum_item_value = null,
+        native_layout_size_cache = null,
+        native_layout_alignment_cache = null,
+        native_layout_state_cache = null,
         local_values = null,
         block_data = null,
         blocks = PackedBuffer{ length = 0, capacity = 0 },
@@ -333,6 +352,8 @@ unsafe i32 emit_bootstrap_d_mode(
     phase_started = process.monotonic_milliseconds();
     usize acceptance_errors = 0;
     if validate_semantics {
+        timings.validation_initial_live_bytes =
+            compiler_live_allocation_bytes();
         module_index = 0;
         while module_index < modules.length {
             usize first = read_record_field(module_data, module_index, 2);
@@ -340,18 +361,33 @@ unsafe i32 emit_bootstrap_d_mode(
             usize index = 0;
             while index < count {
                 usize source_record = first + index;
-                flow_precheck_source(
-                    project_source, project_root, module_data, modules,
-                    source_data, module_index, source_record,
-                    type_data, symbol_data, detail_data, symbols,
-                    error_data, errors
-                );
                 flow_validate_source(
                     project_source, project_root, module_data, modules,
                     source_data, module_index, source_record,
                     type_data, symbol_data, detail_data, symbols,
                     error_data, errors
                 );
+                usize validation_live = compiler_live_allocation_bytes();
+                if validation_live > timings.validation_peak_live_bytes {
+                    timings.validation_peak_live_bytes = validation_live;
+                    timings.validation_peak_source_record = source_record;
+                }
+                timings.validation_file_cache_hits =
+                    compiler_file_cache_hits();
+                timings.validation_file_cache_misses =
+                    compiler_file_cache_misses();
+                timings.validation_path_cache_hits =
+                    compiler_path_cache_hits();
+                timings.validation_path_cache_misses =
+                    compiler_path_cache_misses();
+                if validation_live > 402653184 {
+                    io.error("error[OPENC-VALIDATION-MEMORY-BUDGET]: live allocation payload exceeds 384 MiB; see timing report\n");
+                    timings.validation_ms =
+                        process.monotonic_milliseconds() - phase_started;
+                    timings.total_ms =
+                        process.monotonic_milliseconds() - total_started;
+                    return 1;
+                }
                 index = index + 1;
             }
             module_index = module_index + 1;
@@ -364,7 +400,14 @@ unsafe i32 emit_bootstrap_d_mode(
     }
     timings.validation_ms =
         process.monotonic_milliseconds() - phase_started;
-    if errors.length + acceptance_errors != 0 { return 1; }
+    if errors.length + acceptance_errors != 0 {
+        if errors.length != 0 {
+            flow_emit_errors(module_data, modules, error_data, errors);
+        }
+        timings.total_ms =
+            process.monotonic_milliseconds() - total_started;
+        return 1;
+    }
 
     usize entry = ir_entry_module(
         project_source, project_root, source_data,
@@ -559,6 +602,9 @@ unsafe i32 emit_bootstrap_d_mode(
                 aggregate_field_first = null,
                 field_next = null,
                 enum_item_value = null,
+                native_layout_size_cache = null,
+                native_layout_alignment_cache = null,
+                native_layout_state_cache = null,
                 local_values = ir_pointer_alias(local_values),
                 block_data = ir_pointer_alias(block_data),
                 blocks = blocks,

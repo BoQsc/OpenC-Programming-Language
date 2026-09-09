@@ -124,6 +124,40 @@ unsafe void flow_validate_source(
                     syntax_data, syntax, module_index, source_record,
                     function_node, source, error_data, errors
                 );
+                // The historical precheck parsed this source a second time
+                // solely to perform this remaining distinct scope-action
+                // rule (its unsafe and pointer checks are already above).
+                // Keep the rule while sharing this function's token/syntax
+                // arenas so public validation does not churn a duplicate set
+                // of large allocations for every source file.
+                usize scope_node = 0;
+                while scope_node < syntax.length {
+                    if read_record_field(
+                        syntax_data, scope_node, 0
+                    ) == 23 && semantic_node_contains(
+                        syntax_data, function_node, scope_node
+                    ) {
+                        usize action = flow_root_expression(
+                            syntax_data, syntax, scope_node
+                        );
+                        if action < syntax.length &&
+                            flow_scope_action_nonvoid(
+                                project_source, project_root,
+                                module_data, modules, source_data,
+                                type_data, symbol_data, detail_data, symbols,
+                                token_data, tokens, syntax_data, syntax,
+                                module_index, source_record, action, source
+                            ) {
+                            flow_record_error(
+                                error_data, errors, source_record,
+                                read_record_field(syntax_data, action, 1),
+                                read_record_field(syntax_data, action, 2),
+                                flow_phase_type(), flow_rule_scope_nofail()
+                            );
+                        }
+                    }
+                    scope_node = scope_node + 1;
+                }
                 flow_check_unsafe_calls(
                     project_source, project_root,
                     module_data, modules, source_data,
@@ -375,10 +409,21 @@ unsafe i32 observe_semantic_flow_safety(text project_path) {
         return 1;
     }
 
-    usize capacity = total_source_length * 4 + project_length + 256;
-    PackedBuffer types = PackedBuffer{ length = 0, capacity = capacity };
-    PackedBuffer symbols = PackedBuffer{ length = 0, capacity = capacity };
-    PackedBuffer errors = PackedBuffer{ length = 0, capacity = capacity };
+    usize type_capacity =
+        total_source_length / 8 + project_length + 65536;
+    usize symbol_capacity =
+        total_source_length / 4 + project_length + 65536;
+    usize error_capacity =
+        total_source_length / 4 + project_length + 65536;
+    PackedBuffer types = PackedBuffer{
+        length = 0, capacity = type_capacity
+    };
+    PackedBuffer symbols = PackedBuffer{
+        length = 0, capacity = symbol_capacity
+    };
+    PackedBuffer errors = PackedBuffer{
+        length = 0, capacity = error_capacity
+    };
     ptr byte type_data = memory.alloc(types.capacity * record_stride());
     scope memory.free(type_data);
     ptr byte symbol_data = memory.alloc(symbols.capacity * record_stride());
