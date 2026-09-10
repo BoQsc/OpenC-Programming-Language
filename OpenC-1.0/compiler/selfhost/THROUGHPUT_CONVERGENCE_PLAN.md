@@ -1,6 +1,6 @@
 # SH-14 compiler throughput convergence and stability
 
-Status: **PASS (2026-09-07); SH-18 REGRESSION PASS, SH-19 ACTIVE**
+Status: **PASS (2026-09-07); SH-20 PUBLIC THROUGHPUT PASS, SH-21 ACTIVE**
 
 SH-14 is complete. The final five-run clean compiler median is 4.137 seconds
 against a 12.731-second pinned same-host D median (0.325x). The small-build
@@ -34,8 +34,9 @@ projection now passes without entering ordinary compiler builds; the 112-source
 compiler closes byte-identically with a 6.111-second median, 6.170-second
 maximum, and 0.338x same-host D ratio. SH-18 passes five clean rebuilds with
 10.103-second median, 12.219-second maximum, and 0.481x the same-host D
-reference median (20.995 seconds). SH-19 native backend work is now
-active while deferred targets retain their sequence.
+reference median (20.995 seconds). SH-19 native backend independence and SH-20
+direct-native public throughput now pass while deferred targets retain their
+sequence.
 
 ## Meaning of D/C-class throughput
 
@@ -83,7 +84,7 @@ The benchmark suite must emit `openc.throughput_suite.v1`, retain every raw
 sample, reject background-contended or fingerprint-mismatched comparisons,
 and report median, minimum, maximum, and scaling ratios. Python may orchestrate
 the initial evidence while it remains external to the compiler package, but an
-OpenC-native replacement is required by SH-20.
+OpenC-native replacement is required by SH-21.
 
 `benchmark_throughput_suite.py` is the authoritative clean OpenC/D comparator.
 It accepts `--enforce` for the release gate and may run without that option to
@@ -210,8 +211,7 @@ together.
 - Skipping correctness, safety, or closure checks to improve benchmark numbers
   is forbidden.
 
-With SH-14 through SH-16 passed,
-`compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md` is the active implementation
-sequence. SH-17 now builds the purpose-built Win32 Metadata reader and raw
-projection on the completed ABI, PE32+, and runtime substrate; TinyCC removal
-remains targeted at SH-19.
+With SH-14 through SH-20 passed,
+`compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md` remains the active
+implementation sequence. SH-21 replaces required external workflow
+orchestration; SH-22 then expands PE/COFF ecosystem support.

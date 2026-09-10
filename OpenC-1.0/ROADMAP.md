@@ -252,21 +252,22 @@ IR reach closure. Exact evidence and reproduction commands are in
       TinyCC, C headers/runtime, D, Python, assembler, or external linker;
     - allocation, validation, child-output, and process guards remain active;
       see [SH-19 evidence](release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md).
-13. **SH-20 native public throughput convergence — next active**
-    - reduce the final SH-19 public self-build from 109.328 seconds, including
-      97.828 seconds of validation, to the authored C/D-class gates without
-      skipping or weakening semantic validation;
-    - retain byte closure, 278/278 conformance, 4/4 maintained programs, and
-      the 256 MiB private / 64 MiB working-set guards;
-    - follow the measured work order and exit gates in
-      [the SH-20 plan](compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md).
-14. **SH-21 OpenC-native build/test/release and bootstrap boundary**
+13. **SH-20 native public throughput convergence — complete**
+    - the fully validating public self-build has a 17.064-second five-run
+      median and 11.352-second validation median without weakening checks;
+    - OpenC beats the same-host 22.732-second optimized ISO C and 17.504-second
+      D reference medians, while 20/20 builds close byte-identically;
+    - 278/278 conformance, 4/4 maintained programs, and the 256 MiB private /
+      64 MiB working-set guards remain green; see
+      [SH-20 evidence](release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md).
+14. **SH-21 OpenC-native build/test/release and bootstrap boundary — active**
     - replace every required Python build, benchmark, validation, packaging,
       inspection, and release orchestrator with OpenC-native tooling;
     - isolate D and Python to a separately named optional historical
       first-binary bootstrap/audit kit;
     - prove normal build, test, release, and package verification with only a
-      previous OpenC compiler plus canonical source.
+      previous OpenC compiler plus canonical source; follow
+      [the SH-21 plan](compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md).
 15. **SH-22 PE/COFF ecosystem completeness**
     - add COFF objects, DLL imports/exports, OpenC DLLs, static/import
       libraries, resources, manifests, console/GUI subsystems, and secure

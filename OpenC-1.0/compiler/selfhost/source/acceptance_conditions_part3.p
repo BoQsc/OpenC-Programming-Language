@@ -81,8 +81,8 @@ unsafe bool acceptance_out_assigned(
         if read_record_field(context.syntax_data, node, 0) == 37 &&
             read_record_field(context.syntax_data, node, 1) < before &&
             semantic_node_contains(context.syntax_data, function_node, node) {
-            usize left = resolution_left_expression(
-                context.syntax_data, node,
+            usize left = ir_left_expression(
+                context, node,
                 read_record_field(context.syntax_data, node, 3)
             );
             if left < context.syntax.length &&

@@ -246,7 +246,11 @@ unsafe usize ir_node_type(
         }
     }
     usize resolved = ir_node_type_uncached(context, node, expected);
-    if cacheable {
+    // A failed lookup can be transient while validation selects a different
+    // function/source context or finishes indexing call arguments. Caching
+    // only resolved types prevents an early miss from poisoning the fused
+    // acceptance/lowering pass while retaining the successful hot path.
+    if cacheable && resolved != semantic_type_error() {
         write_usize(
             context.type_cache,
             node * size_of(usize),

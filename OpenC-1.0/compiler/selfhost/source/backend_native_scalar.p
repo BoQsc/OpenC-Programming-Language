@@ -423,10 +423,21 @@ unsafe void native_compiler_project_slice(ref IrContext context,
     native_skip_end(function.code, bad_length);
 }
 
-unsafe bool native_compiler_counter_call(ref IrContext context,
+unsafe bool native_compiler_span_is(
+    ref DCompilerCallSpan call_span,
+    text expected
+) {
+    return call_span.found && span_equals_ascii(
+        call_span.source, call_span.start, call_span.length, expected
+    );
+}
+
+unsafe bool native_compiler_counter_call(
+    ref IrContext context,
+    ref DCompilerCallSpan call_span,
     ref NativeFunction function, usize instruction, usize result,
-    usize kind, usize one, usize two, text name, usize offset) {
-    if !d_compiler_call_is(context, kind, one, two, name) { return false; }
+    text name, usize offset) {
+    if !native_compiler_span_is(call_span, name) { return false; }
     if d_operand_count(context, instruction) != 0 {
         function.code.ok = false; return true;
     }
@@ -444,8 +455,11 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
     usize kind = read_record_field(context.instruction_detail, instruction, 0);
     usize one = read_record_field(context.instruction_detail, instruction, 1);
     usize two = read_record_field(context.instruction_detail, instruction, 2);
-    if d_compiler_call_is(
-        context, kind, one, two, "compiler_live_allocation_bytes"
+    DCompilerCallSpan call_span = d_compiler_call_span(
+        context, kind, one, two
+    );
+    if native_compiler_span_is(
+        call_span, "compiler_live_allocation_bytes"
     ) {
         if d_operand_count(context, instruction) != 0 {
             function.code.ok = false; return true;
@@ -454,22 +468,24 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         x64_mov_r64_memory(function.code, 0, 11, 0);
         native_store(function, result, 0); return true;
     }
-    if native_compiler_counter_call(context, function, instruction, result,
-        kind, one, two, "compiler_file_cache_hits", 56) { return true; }
-    if native_compiler_counter_call(context, function, instruction, result,
-        kind, one, two, "compiler_file_cache_misses", 64) { return true; }
-    if native_compiler_counter_call(context, function, instruction, result,
-        kind, one, two, "compiler_path_cache_hits", 72) { return true; }
-    if native_compiler_counter_call(context, function, instruction, result,
-        kind, one, two, "compiler_path_cache_misses", 80) { return true; }
-    NativeCompilerConstant constant = native_compiler_constant_call(
-        context, kind, one
-    );
-    if d_operand_count(context, instruction) == 0 && constant.found {
-        x64_mov_r64_imm64(function.code, 0, cast(u64, constant.value));
-        native_store(function, result, 0); return true;
+    if native_compiler_counter_call(context, call_span, function, instruction, result,
+        "compiler_file_cache_hits", 56) { return true; }
+    if native_compiler_counter_call(context, call_span, function, instruction, result,
+        "compiler_file_cache_misses", 64) { return true; }
+    if native_compiler_counter_call(context, call_span, function, instruction, result,
+        "compiler_path_cache_hits", 72) { return true; }
+    if native_compiler_counter_call(context, call_span, function, instruction, result,
+        "compiler_path_cache_misses", 80) { return true; }
+    if d_operand_count(context, instruction) == 0 {
+        NativeCompilerConstant constant = native_compiler_constant_call(
+            context, kind, one
+        );
+        if constant.found {
+            x64_mov_r64_imm64(function.code, 0, cast(u64, constant.value));
+            native_store(function, result, 0); return true;
+        }
     }
-    if d_compiler_call_is(context, kind, one, two, "project_slice") {
+    if native_compiler_span_is(call_span, "project_slice") {
         if d_operand_count(context, instruction) != 3 {
             function.code.ok = false; return true;
         }
@@ -477,7 +493,7 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
             context, function, instruction, result);
         return true;
     }
-    if d_compiler_call_is(context, kind, one, two, "starts_with_ascii") {
+    if native_compiler_span_is(call_span, "starts_with_ascii") {
         if d_operand_count(context, instruction) != 3 {
             function.code.ok = false; return true;
         }
@@ -485,7 +501,7 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
             context, function, instruction, result, false);
         return true;
     }
-    if d_compiler_call_is(context, kind, one, two, "span_equals_ascii") {
+    if native_compiler_span_is(call_span, "span_equals_ascii") {
         if d_operand_count(context, instruction) != 4 {
             function.code.ok = false; return true;
         }
@@ -493,11 +509,11 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
             context, function, instruction, result, true);
         return true;
     }
-    if d_compiler_call_is(context, kind, one, two, "record_stride") {
+    if native_compiler_span_is(call_span, "record_stride") {
         x64_mov_r64_imm64(function.code, 0, cast(u64, 40));
         native_store(function, result, 0); return true;
     }
-    if d_compiler_call_is(context, kind, one, two, "read_usize") {
+    if native_compiler_span_is(call_span, "read_usize") {
         if d_operand_count(context, instruction) != 2 {
             function.code.ok = false; return true;
         }
@@ -507,7 +523,7 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         x64_mov_r64_memory(function.code, 0, 11, 0);
         native_store(function, result, 0); return true;
     }
-    if d_compiler_call_is(context, kind, one, two, "write_usize") {
+    if native_compiler_span_is(call_span, "write_usize") {
         if d_operand_count(context, instruction) != 3 {
             function.code.ok = false; return true;
         }
@@ -517,7 +533,7 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         native_load(function, d_operand_value(context, instruction, 2), 0);
         x64_mov_memory_r64(function.code, 11, 0, 0); return true;
     }
-    if d_compiler_call_is(context, kind, one, two, "read_record_field") {
+    if native_compiler_span_is(call_span, "read_record_field") {
         if d_operand_count(context, instruction) != 3 {
             function.code.ok = false; return true;
         }
@@ -525,7 +541,7 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         x64_mov_r64_memory(function.code, 0, 11, 0);
         native_store(function, result, 0); return true;
     }
-    if d_compiler_call_is(context, kind, one, two, "write_record_field") {
+    if native_compiler_span_is(call_span, "write_record_field") {
         if d_operand_count(context, instruction) != 4 {
             function.code.ok = false; return true;
         }
@@ -533,7 +549,7 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         native_load(function, d_operand_value(context, instruction, 3), 0);
         x64_mov_memory_r64(function.code, 11, 0, 0); return true;
     }
-    if d_compiler_call_is(context, kind, one, two, "byte_at_or_zero") {
+    if native_compiler_span_is(call_span, "byte_at_or_zero") {
         if d_operand_count(context, instruction) != 2 {
             function.code.ok = false; return true;
         }

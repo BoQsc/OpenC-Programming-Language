@@ -59,6 +59,41 @@ struct BuildTimings {
     usize validation_file_cache_misses;
     usize validation_path_cache_hits;
     usize validation_path_cache_misses;
+    usize validation_flow_ms;
+    usize validation_flow_parse_ms;
+    usize validation_flow_initialization_ms;
+    usize validation_flow_status_out_ms;
+    usize validation_flow_ownership_ms;
+    usize validation_flow_borrows_ms;
+    usize validation_flow_cleanup_ms;
+    usize validation_flow_pointer_facts_ms;
+    usize validation_flow_unsafe_function_ms;
+    usize validation_flow_pointer_arithmetic_ms;
+    usize validation_flow_scope_actions_ms;
+    usize validation_flow_unsafe_calls_ms;
+    usize validation_acceptance_ms;
+    usize validation_acceptance_mask_ms;
+    usize validation_acceptance_types_ms;
+    usize validation_acceptance_expressions_ms;
+    usize validation_acceptance_functions_ms;
+    usize validation_acceptance_calls_ms;
+    usize validation_acceptance_overload_calls_ms;
+    usize validation_acceptance_slice_aliases_ms;
+    usize validation_acceptance_call_rules_ms;
+    usize validation_acceptance_resources_ms;
+    usize validation_acceptance_pointers_ms;
+    usize validation_acceptance_errors;
+    usize validation_slowest_source_ms;
+    usize validation_slowest_source_record;
+    usize validation_second_source_ms;
+    usize validation_second_source_record;
+    usize validation_third_source_ms;
+    usize validation_third_source_record;
+    usize validation_statement_candidates;
+    usize validation_parent_candidates;
+    usize validation_expression_positions;
+    usize validation_syntax_candidates;
+    usize validation_symbol_candidates;
 }
 
 BuildTimings build_timings_empty() {
@@ -115,8 +150,72 @@ BuildTimings build_timings_empty() {
         validation_file_cache_hits = 0,
         validation_file_cache_misses = 0,
         validation_path_cache_hits = 0,
-        validation_path_cache_misses = 0
+        validation_path_cache_misses = 0,
+        validation_flow_ms = 0,
+        validation_flow_parse_ms = 0,
+        validation_flow_initialization_ms = 0,
+        validation_flow_status_out_ms = 0,
+        validation_flow_ownership_ms = 0,
+        validation_flow_borrows_ms = 0,
+        validation_flow_cleanup_ms = 0,
+        validation_flow_pointer_facts_ms = 0,
+        validation_flow_unsafe_function_ms = 0,
+        validation_flow_pointer_arithmetic_ms = 0,
+        validation_flow_scope_actions_ms = 0,
+        validation_flow_unsafe_calls_ms = 0,
+        validation_acceptance_ms = 0,
+        validation_acceptance_mask_ms = 0,
+        validation_acceptance_types_ms = 0,
+        validation_acceptance_expressions_ms = 0,
+        validation_acceptance_functions_ms = 0,
+        validation_acceptance_calls_ms = 0,
+        validation_acceptance_overload_calls_ms = 0,
+        validation_acceptance_slice_aliases_ms = 0,
+        validation_acceptance_call_rules_ms = 0,
+        validation_acceptance_resources_ms = 0,
+        validation_acceptance_pointers_ms = 0,
+        validation_acceptance_errors = 0,
+        validation_slowest_source_ms = 0,
+        validation_slowest_source_record = 0,
+        validation_second_source_ms = 0,
+        validation_second_source_record = 0,
+        validation_third_source_ms = 0,
+        validation_third_source_record = 0,
+        validation_statement_candidates = 0,
+        validation_parent_candidates = 0,
+        validation_expression_positions = 0,
+        validation_syntax_candidates = 0,
+        validation_symbol_candidates = 0
     };
+}
+
+void build_timings_record_validation_source(
+    ref BuildTimings timings,
+    usize source_record,
+    usize elapsed_ms
+) {
+    if elapsed_ms > timings.validation_slowest_source_ms {
+        timings.validation_third_source_ms =
+            timings.validation_second_source_ms;
+        timings.validation_third_source_record =
+            timings.validation_second_source_record;
+        timings.validation_second_source_ms =
+            timings.validation_slowest_source_ms;
+        timings.validation_second_source_record =
+            timings.validation_slowest_source_record;
+        timings.validation_slowest_source_ms = elapsed_ms;
+        timings.validation_slowest_source_record = source_record;
+    } else if elapsed_ms > timings.validation_second_source_ms {
+        timings.validation_third_source_ms =
+            timings.validation_second_source_ms;
+        timings.validation_third_source_record =
+            timings.validation_second_source_record;
+        timings.validation_second_source_ms = elapsed_ms;
+        timings.validation_second_source_record = source_record;
+    } else if elapsed_ms > timings.validation_third_source_ms {
+        timings.validation_third_source_ms = elapsed_ms;
+        timings.validation_third_source_record = source_record;
+    }
 }
 
 unsafe IrContext backend_base_context(
@@ -191,6 +290,7 @@ unsafe IrContext backend_base_context(
         expression_start_capacity = 0,
         expression_start_next = null,
         expression_next_start = null,
+        function_at_position = null,
         name_nodes = null,
         name_count = 0,
         type_ref_nodes = null,
@@ -210,6 +310,7 @@ unsafe IrContext backend_base_context(
         aggregate_field_first = null,
         field_next = null,
         enum_item_value = null,
+        symbol_export_cache = null,
         native_layout_size_cache = null,
         native_layout_alignment_cache = null,
         native_layout_state_cache = null,
@@ -351,9 +452,24 @@ unsafe i32 emit_bootstrap_d_mode(
         process.monotonic_milliseconds() - phase_started;
     phase_started = process.monotonic_milliseconds();
     usize acceptance_errors = 0;
+    bool fuse_native_acceptance = false;
+    ptr byte validation_source_ms = memory.alloc(
+        (sources.length + 1) * size_of(usize)
+    );
+    scope memory.free(validation_source_ms);
     if validate_semantics {
+        usize validation_source = 0;
+        while validation_source <= sources.length {
+            write_usize(
+                validation_source_ms,
+                validation_source * size_of(usize),
+                0
+            );
+            validation_source = validation_source + 1;
+        }
         timings.validation_initial_live_bytes =
             compiler_live_allocation_bytes();
+        usize flow_started = process.monotonic_milliseconds();
         module_index = 0;
         while module_index < modules.length {
             usize first = read_record_field(module_data, module_index, 2);
@@ -361,11 +477,17 @@ unsafe i32 emit_bootstrap_d_mode(
             usize index = 0;
             while index < count {
                 usize source_record = first + index;
+                usize source_started = process.monotonic_milliseconds();
                 flow_validate_source(
                     project_source, project_root, module_data, modules,
                     source_data, module_index, source_record,
                     type_data, symbol_data, detail_data, symbols,
-                    error_data, errors
+                    error_data, errors, timings
+                );
+                write_usize(
+                    validation_source_ms,
+                    source_record * size_of(usize),
+                    process.monotonic_milliseconds() - source_started
                 );
                 usize validation_live = compiler_live_allocation_bytes();
                 if validation_live > timings.validation_peak_live_bytes {
@@ -392,11 +514,33 @@ unsafe i32 emit_bootstrap_d_mode(
             }
             module_index = module_index + 1;
         }
-        acceptance_errors = acceptance_validate_project(
-            project_source, project_root, module_data, modules,
-            source_data, sources, type_data, types,
-            symbol_data, detail_data, symbols
-        );
+        timings.validation_flow_ms =
+            process.monotonic_milliseconds() - flow_started;
+        fuse_native_acceptance = c_backend &&
+            timings.emission_mode == 2 && errors.length == 0;
+        if !fuse_native_acceptance {
+            usize acceptance_started = process.monotonic_milliseconds();
+            acceptance_errors = acceptance_validate_project(
+                project_source, project_root, module_data, modules,
+                source_data, sources, type_data, types,
+                symbol_data, detail_data, symbols,
+                validation_source_ms, timings
+            );
+            timings.validation_acceptance_ms =
+                process.monotonic_milliseconds() - acceptance_started;
+            validation_source = 0;
+            while validation_source < sources.length {
+                build_timings_record_validation_source(
+                    timings,
+                    validation_source,
+                    read_usize(
+                        validation_source_ms,
+                        validation_source * size_of(usize)
+                    )
+                );
+                validation_source = validation_source + 1;
+            }
+        }
     }
     timings.validation_ms =
         process.monotonic_milliseconds() - phase_started;
@@ -426,10 +570,32 @@ unsafe i32 emit_bootstrap_d_mode(
     phase_started = process.monotonic_milliseconds();
     if c_backend {
         i32 c_result = c_emit_project(
-            base, output_directory, output_capacity, entry, timings
+            base, output_directory, output_capacity, entry, timings,
+            fuse_native_acceptance, validation_source_ms
         );
-        timings.lowering_emit_ms =
+        usize lowering_elapsed =
             process.monotonic_milliseconds() - phase_started;
+        if fuse_native_acceptance {
+            usize validation_source = 0;
+            while validation_source < sources.length {
+                build_timings_record_validation_source(
+                    timings,
+                    validation_source,
+                    read_usize(
+                        validation_source_ms,
+                        validation_source * size_of(usize)
+                    )
+                );
+                validation_source = validation_source + 1;
+            }
+            timings.validation_ms = timings.validation_flow_ms +
+                timings.validation_acceptance_ms;
+            if lowering_elapsed >= timings.validation_acceptance_ms {
+                lowering_elapsed = lowering_elapsed -
+                    timings.validation_acceptance_ms;
+            }
+        }
+        timings.lowering_emit_ms = lowering_elapsed;
         timings.total_ms =
             process.monotonic_milliseconds() - total_started;
         return c_result;
@@ -587,6 +753,7 @@ unsafe i32 emit_bootstrap_d_mode(
                 expression_start_capacity = 0,
                 expression_start_next = null,
                 expression_next_start = null,
+                function_at_position = null,
                 name_nodes = null,
                 name_count = 0,
                 type_ref_nodes = null,
@@ -606,6 +773,7 @@ unsafe i32 emit_bootstrap_d_mode(
                 aggregate_field_first = null,
                 field_next = null,
                 enum_item_value = null,
+                symbol_export_cache = null,
                 native_layout_size_cache = null,
                 native_layout_alignment_cache = null,
                 native_layout_state_cache = null,

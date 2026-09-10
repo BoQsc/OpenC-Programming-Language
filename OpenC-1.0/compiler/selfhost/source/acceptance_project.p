@@ -88,6 +88,9 @@ unsafe usize acceptance_parameter_count(
     ref IrContext context,
     usize function_symbol
 ) {
+    if context.function_parameter_count != null {
+        return ir_parameter_count(context, function_symbol);
+    }
     usize count = 0;
     usize symbol = 0;
     while symbol < context.symbols.length {
@@ -105,6 +108,10 @@ unsafe usize acceptance_parameter_at(
     usize function_symbol,
     usize requested
 ) {
+    if context.function_parameter_first != null &&
+        context.parameter_next != null {
+        return ir_parameter_at(context, function_symbol, requested);
+    }
     usize count = 0;
     usize symbol = 0;
     while symbol < context.symbols.length {

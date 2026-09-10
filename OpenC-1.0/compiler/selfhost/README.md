@@ -167,10 +167,11 @@ byte-reproducible raw modules with 30/30 checks. SH-18 idiomatic Windows
 modules pass 27/27 checks across twelve modules. SH-19 compiler-capable native
 backend and TinyCC exit is **PASS**: 116 OpenC compiler sources reach an exact
 native fixed point and the relocated package passes 20/20 checks. SH-20 public
-throughput convergence is now active because the fully validating public
-self-build still takes 109.328 seconds. Required Python workflow replacement
-follows in SH-21. Native editor integration and language-service resilience
-remain deferred to SH-24.
+throughput convergence is also **PASS**: the fully validating self-build has a
+17.064-second five-run median, 11.352-second validation median, and 20/20 exact
+closure while beating the measured C and D reference medians. SH-21
+OpenC-native workflow replacement is now active. Native editor integration and
+language-service resilience remain deferred to SH-24.
 
 The same-host SH-14 clean-build comparator is:
 

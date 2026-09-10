@@ -1464,10 +1464,75 @@ unsafe void native_process_run(
     native_skip_end(function.code, output_failure_finished);
 }
 
+unsafe DCompilerCallSpan native_runtime_call_span(
+    ref IrContext context,
+    usize kind,
+    usize one,
+    usize two
+) {
+    DCompilerCallSpan result = DCompilerCallSpan{
+        found = false, source = "", start = 0, length = 0
+    };
+    if kind == 3 {
+        if one >= context.symbols.length { return result; }
+        result.source = d_symbol_source(context, one);
+        if text.byte_length(result.source) == 0 { return result; }
+        result.start = read_record_field(context.symbol_data, one, 2);
+        result.length = read_record_field(context.symbol_data, one, 3);
+        result.found = true;
+        return result;
+    }
+    if kind == 2 {
+        result.source = ir_static_text(one);
+        result.length = text.byte_length(result.source);
+        result.found = true;
+        return result;
+    }
+    if kind != 1 && kind != 7 && kind != 8 { return result; }
+    result.source = context.source;
+    result.start = one;
+    result.length = two;
+    result.found = true;
+    return result;
+}
+
+unsafe bool native_runtime_name(
+    ref DCompilerCallSpan call_span,
+    text short_name,
+    text qualified_name
+) {
+    if !call_span.found { return false; }
+    return span_equals_ascii(
+            call_span.source, call_span.start, call_span.length, short_name
+        ) || span_equals_ascii(
+            call_span.source, call_span.start, call_span.length,
+            qualified_name
+        );
+}
+
 unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction function,
     usize instruction) {
     usize result = read_record_field(context.instruction_data, instruction, 1);
-    if c_builtin_is(context, instruction, "memory.alloc", "system.memory.alloc") {
+    usize detail_kind = read_record_field(
+        context.instruction_detail, instruction, 0
+    );
+    usize detail_one = read_record_field(
+        context.instruction_detail, instruction, 1
+    );
+    usize detail_two = read_record_field(
+        context.instruction_detail, instruction, 2
+    );
+    DCompilerCallSpan call_span = native_runtime_call_span(
+        context, detail_kind, detail_one, detail_two
+    );
+    if detail_kind == 3 {
+        if !native_runtime_name(
+            call_span, "lsp_read_frame", "ocb_lsp_read_frame"
+        ) {
+            return false;
+        }
+    }
+    if native_runtime_name(call_span, "memory.alloc", "system.memory.alloc") {
         native_load(function, d_operand_value(context, instruction, 0), 8);
         DBuffer allocation_message = d_buffer_create(512);
         d_put(allocation_message,
@@ -1478,29 +1543,29 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         d_buffer_destroy(allocation_message);
         native_store(function, result, 0); return true;
     }
-    if c_builtin_is(context, instruction, "memory.free", "system.memory.free") {
+    if native_runtime_name(call_span, "memory.free", "system.memory.free") {
         native_load(function, d_operand_value(context, instruction, 0), 8);
         native_heap_free_r8(function); return true;
     }
-    if c_builtin_is(context, instruction, "text.trim", "system.text.trim") {
+    if native_runtime_name(call_span, "text.trim", "system.text.trim") {
         native_text_trim(function, d_operand_value(context, instruction, 0), result);
         return true;
     }
-    if c_builtin_is(context, instruction, "text.length", "system.text.length") {
+    if native_runtime_name(call_span, "text.length", "system.text.length") {
         native_text_scalar_length(function, d_operand_value(context, instruction, 0), result);
         return true;
     }
-    if c_builtin_is(context, instruction, "memory.load_usize", "system.memory.load_usize") {
+    if native_runtime_name(call_span, "memory.load_usize", "system.memory.load_usize") {
         native_load(function, d_operand_value(context, instruction, 0), 11);
         x64_mov_r64_memory(function.code, 0, 11, 0); native_store(function, result, 0);
         return true;
     }
-    if c_builtin_is(context, instruction, "memory.store_usize", "system.memory.store_usize") {
+    if native_runtime_name(call_span, "memory.store_usize", "system.memory.store_usize") {
         native_load(function, d_operand_value(context, instruction, 0), 11);
         native_load(function, d_operand_value(context, instruction, 1), 0);
         x64_mov_memory_r64(function.code, 11, 0, 0); return true;
     }
-    if c_builtin_is(context, instruction, "text.byte_at_unchecked", "system.text.byte_at_unchecked") {
+    if native_runtime_name(call_span, "text.byte_at_unchecked", "system.text.byte_at_unchecked") {
         usize value = d_operand_value(context, instruction, 0);
         native_load(function, value, 11);
         native_load(function, d_operand_value(context, instruction, 1), 0);
@@ -1509,7 +1574,7 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         x64_emit_u8(function.code, 182); x64_emit_u8(function.code, 3);
         native_store(function, result, 0); return true;
     }
-    if c_builtin_is(context, instruction, "text.copy_utf8_unchecked",
+    if native_runtime_name(call_span, "text.copy_utf8_unchecked",
         "system.text.copy_utf8_unchecked") {
         native_load(function, d_operand_value(context, instruction, 0), 10);
         usize value = d_operand_value(context, instruction, 1);
@@ -1517,7 +1582,7 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         x64_mov_r64_memory(function.code, 9, 4, native_slot(function, value) + 8);
         native_copy_bytes(function); return true;
     }
-    if c_builtin_is(context, instruction, "text.copy_utf8_slice_unchecked",
+    if native_runtime_name(call_span, "text.copy_utf8_slice_unchecked",
         "system.text.copy_utf8_slice_unchecked") {
         native_load(function, d_operand_value(context, instruction, 0), 10);
         usize value = d_operand_value(context, instruction, 1);
@@ -1527,78 +1592,78 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         native_load(function, d_operand_value(context, instruction, 3), 9);
         native_copy_bytes(function); return true;
     }
-    if c_builtin_is(context, instruction, "text.from_utf8", "system.text.from_utf8") {
+    if native_runtime_name(call_span, "text.from_utf8", "system.text.from_utf8") {
         native_load(function, d_operand_value(context, instruction, 0), 0);
         native_store(function, result, 0);
         native_load(function, d_operand_value(context, instruction, 1), 0);
         x64_mov_memory_r64(function.code, 4, native_slot(function, result) + 8, 0);
         return true;
     }
-    if c_builtin_is(context, instruction, "text.equal", "system.text.equal") {
+    if native_runtime_name(call_span, "text.equal", "system.text.equal") {
         native_text_equal(function, d_operand_value(context, instruction, 0),
             d_operand_value(context, instruction, 1));
         native_store(function, result, 0); return true;
     }
-    if c_builtin_is(context, instruction, "text.slice", "system.text.slice") {
+    if native_runtime_name(call_span, "text.slice", "system.text.slice") {
         if d_operand_count(context, instruction) != 4 { function.code.ok = false; return true; }
         native_text_scalar_slice(context, function, instruction, result); return true;
     }
-    if c_builtin_is(context, instruction, "process.run", "system.process.run") {
+    if native_runtime_name(call_span, "process.run", "system.process.run") {
         if d_operand_count(context, instruction) != 3 { function.code.ok = false; return true; }
         native_process_run(context, function, instruction, result); return true;
     }
-    if c_builtin_is(context, instruction, "path.join", "system.path.join") {
+    if native_runtime_name(call_span, "path.join", "system.path.join") {
         native_path_join(function, d_operand_value(context, instruction, 0),
         d_operand_value(context, instruction, 1), result); return true;
     }
-    if c_builtin_is(context, instruction, "path.directory", "system.path.directory") {
+    if native_runtime_name(call_span, "path.directory", "system.path.directory") {
         native_path_directory(function, d_operand_value(context, instruction, 0), result);
         return true;
     }
-    if c_builtin_is(context, instruction, "process.monotonic_milliseconds",
+    if native_runtime_name(call_span, "process.monotonic_milliseconds",
         "system.process.monotonic_milliseconds") {
         native_import(function, 16); native_store(function, result, 0); return true;
     }
-    if c_builtin_is(context, instruction, "process.argument_count",
+    if native_runtime_name(call_span, "process.argument_count",
         "system.process.argument_count") {
         native_process_argument_count(function, result); return true;
     }
-    if c_builtin_is(context, instruction, "process.argument", "system.process.argument") {
+    if native_runtime_name(call_span, "process.argument", "system.process.argument") {
         native_process_argument(function, d_operand_value(context, instruction, 0), result);
         return true;
     }
-    if c_builtin_is(context, instruction, "process.executable_directory",
+    if native_runtime_name(call_span, "process.executable_directory",
         "system.process.executable_directory") {
         native_process_executable_directory(function, result); return true;
     }
-    if c_builtin_is(context, instruction, "lsp_read_frame", "ocb_lsp_read_frame") {
+    if native_runtime_name(call_span, "lsp_read_frame", "ocb_lsp_read_frame") {
         if d_operand_count(context, instruction) != 1 {
             function.code.ok = false; return true;
         }
         native_lsp_read_frame(context, function, instruction, result);
         return true;
     }
-    if c_builtin_is(context, instruction, "file.read_text_cached", "system.file.read_text_cached") {
+    if native_runtime_name(call_span, "file.read_text_cached", "system.file.read_text_cached") {
         native_file_read_cached(context, function, instruction, result); return true;
     }
-    if c_builtin_is(context, instruction, "file.read_text", "system.file.read_text") ||
-        c_builtin_is(context, instruction, "file.read_bytes", "system.file.read_bytes") {
+    if native_runtime_name(call_span, "file.read_text", "system.file.read_text") ||
+        native_runtime_name(call_span, "file.read_bytes", "system.file.read_bytes") {
         native_file_read(context, function, instruction, result, false); return true;
     }
-    if c_builtin_is(context, instruction, "file.read_bytes_raw", "system.file.read_bytes_raw") {
+    if native_runtime_name(call_span, "file.read_bytes_raw", "system.file.read_bytes_raw") {
         native_file_read(context, function, instruction, result, true); return true;
     }
-    if c_builtin_is(context, instruction, "file.write_text", "system.file.write_text") {
+    if native_runtime_name(call_span, "file.write_text", "system.file.write_text") {
         if d_operand_count(context, instruction) != 2 { function.code.ok = false; return true; }
         native_file_write(context, function, instruction, result, false); return true;
     }
-    if c_builtin_is(context, instruction, "file.write_bytes", "system.file.write_bytes") {
+    if native_runtime_name(call_span, "file.write_bytes", "system.file.write_bytes") {
         if d_operand_count(context, instruction) != 3 { function.code.ok = false; return true; }
         native_file_write(context, function, instruction, result, true); return true;
     }
-    bool println = c_builtin_is(context, instruction, "io.println", "system.io.println");
-    bool print = c_builtin_is(context, instruction, "io.print", "system.io.print");
-    bool error_stream = c_builtin_is(context, instruction, "io.error", "system.io.error");
+    bool println = native_runtime_name(call_span, "io.println", "system.io.println");
+    bool print = native_runtime_name(call_span, "io.print", "system.io.print");
+    bool error_stream = native_runtime_name(call_span, "io.error", "system.io.error");
     if println || print || error_stream {
         usize value = d_operand_value(context, instruction, 0);
         usize type_id = native_value_read(function, function.value_types, value);

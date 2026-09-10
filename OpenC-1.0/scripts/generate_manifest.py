@@ -1,6 +1,7 @@
 
 from __future__ import annotations
 import hashlib
+import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,8 +30,23 @@ def digest(path: Path) -> str:
             h.update(block)
     return h.hexdigest()
 
+def source_files():
+    for current, directories, filenames in os.walk(ROOT):
+        current_path = Path(current)
+        relative = current_path.relative_to(ROOT)
+        in_third_party = bool(relative.parts and relative.parts[0] == "third_party")
+        if in_third_party:
+            directories.sort()
+        else:
+            directories[:] = sorted(
+                name for name in directories if name not in EXCLUDED_PARTS
+            )
+        for filename in sorted(filenames):
+            path = current_path / filename
+            if path != OUT and not is_generated(path):
+                yield path
+
 lines = []
-for path in sorted(ROOT.rglob("*")):
-    if path.is_file() and path != OUT and not is_generated(path):
-        lines.append(f"{digest(path)}  {path.relative_to(ROOT).as_posix()}")
+for path in source_files():
+    lines.append(f"{digest(path)}  {path.relative_to(ROOT).as_posix()}")
 OUT.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")

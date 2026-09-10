@@ -107,13 +107,16 @@ byte-identical 4,712,960-byte fixed point, and passes 278/278 conformance plus
 no longer require generated C, TinyCC, C headers/runtime, D, Python, an
 assembler, or an external linker.
 The initial friendly module API is documented in `standard_library/WINDOWS_MODULES.md`.
-SH-20 now targets the remaining public compile-speed problem: the final
-SH-19 public self-build takes 109.328 seconds, including 97.828 seconds of
-validation, despite the direct fixed-point rebuild taking 9.965 seconds.
-Required Python/D workflow replacement moves to SH-21, after public throughput
-is C/D-class and stable. Native editor integration is deferred to SH-24. See
-`compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md` and
-`compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
+SH-20 public throughput is complete. The fully validating 116-source
+self-build now has a 17.064-second five-run median and 11.352-second validation
+median; 20/20 chained builds are byte-identical. On the same host, the pinned
+optimized ISO C and D references measure 22.732 and 17.504 seconds. Peak
+compiler memory remains inside the 256 MiB private / 64 MiB working-set guards.
+SH-21 is now active and replaces required Python build/test/release
+orchestration with OpenC-native workflows while isolating D/Python/C/TinyCC to
+an optional historical bootstrap/audit kit. Native editor integration is
+deferred to SH-24. See `compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md`
+and `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
 `LICENSE_POLICY.md`, `standard/core/OpenC_Core_Current.md`, and

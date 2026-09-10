@@ -155,8 +155,9 @@ unsafe usize acceptance_validate_storage(ref IrContext context) {
             usize destroyed_symbol = acceptance_destroyed_symbol(
                 context, destroy_node
             );
-            usize local = 0;
-            while local < context.symbols.length {
+            usize local = acceptance_source_symbol_first(context);
+            usize local_end = acceptance_source_symbol_end(context, local);
+            while local < local_end {
                 if read_record_field(context.symbol_data, local, 0) ==
                         resolution_symbol_variable() &&
                     read_record_field(context.symbol_data, local, 1) ==
@@ -164,8 +165,8 @@ unsafe usize acceptance_validate_storage(ref IrContext context) {
                             context,
                             read_record_field(context.symbol_data, local, 4)
                         ) == 12 {
-                    usize initializer = flow_local_initializer_root(
-                        context.syntax_data, context.syntax,
+                    usize initializer = ir_local_initializer_root(
+                        context,
                         read_record_field(context.detail_data, local, 1)
                     );
                     if initializer < context.syntax.length &&
@@ -185,15 +186,19 @@ unsafe usize acceptance_validate_storage(ref IrContext context) {
 
 unsafe bool acceptance_inside_import(
     ref IrContext context,
-    usize node
+    usize node,
+    ptr byte import_data,
+    usize import_count
 ) {
-    usize declaration = 0;
-    while declaration < context.syntax.length {
-        if read_record_field(context.syntax_data, declaration, 0) == 1 &&
-            semantic_node_contains(
-                context.syntax_data, declaration, node
-            ) { return true; }
-        declaration = declaration + 1;
+    usize index = 0;
+    while index < import_count {
+        usize declaration = read_usize(
+            import_data, index * size_of(usize)
+        );
+        if semantic_node_contains(
+            context.syntax_data, declaration, node
+        ) { return true; }
+        index = index + 1;
     }
     return false;
 }

@@ -26,6 +26,7 @@ unsafe IrContext c_parallel_base(ref IrContext base) {
     worker.aggregate_field_first = base.aggregate_field_first;
     worker.field_next = base.field_next;
     worker.enum_item_value = base.enum_item_value;
+    worker.symbol_export_cache = base.symbol_export_cache;
     worker.native_layout_size_cache = base.native_layout_size_cache;
     worker.native_layout_alignment_cache = base.native_layout_alignment_cache;
     worker.native_layout_state_cache = base.native_layout_state_cache;

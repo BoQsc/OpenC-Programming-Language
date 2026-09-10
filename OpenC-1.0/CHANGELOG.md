@@ -1,5 +1,29 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-20 native public throughput convergence
+
+- reduced the fully validating 116-source public self-build from the SH-19
+  109.328-second baseline to a 17.064-second five-run median, including an
+  11.352-second validation median;
+- passed the same-host compiler comparison against 22.732-second optimized
+  ISO C and 17.504-second D reference medians;
+- preserved exact native fixed-point closure across 20/20 chained builds at
+  SHA-256
+  `b82b228989c915db04370ed9463ac722375c610bbc15c497830b1c39ed707de3`;
+- kept all compiler processes inside the 256 MiB private / 64 MiB working-set
+  ceilings, with 216,932,352 and 49,405,952 bytes observed respectively;
+- fixed imported aliases such as `file`, `memory`, and `process` taking
+  precedence over Hosted builtin spellings, and prevented transient failed
+  call/type selections from poisoning fused validation caches;
+- changed release source discovery, hashing, and ZIP emission to bounded
+  streaming operation; guarded standalone-package peaks fell from an observed
+  520 MiB working-set runaway to 25.2 MiB working set and less than 19 MiB
+  private memory;
+- passed 278/278 conformance, 4/4 maintained programs, 16/16 aggregate
+  workflow tasks, 20/20 standalone checks, and two byte-identical archives;
+- completed SH-20 and activated SH-21 OpenC-native required workflows and the
+  explicit optional historical bootstrap/audit boundary.
+
 ## Post-RC9 — SH-19 compiler-capable native backend and TinyCC exit
 
 - replaced the normal generated-C/TinyCC compiler path with OpenC-owned x64

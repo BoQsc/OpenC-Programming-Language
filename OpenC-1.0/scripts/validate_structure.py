@@ -45,7 +45,11 @@ required = [
     "compiler/selfhost/benchmark_windows_validate.py",
     "compiler/selfhost/SH19_NATIVE_BACKEND_PLAN.md",
     "compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md",
+    "compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md",
     "release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md",
+    "release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md",
+    "compiler/selfhost/benchmark_sh20_stability.py",
+    "compiler/selfhost/benchmark_sh20_references.py",
     "compiler/selfhost/run_with_memory_guard.py",
     "compiler/selfhost/windows_process_measure.py",
     "compiler/selfhost/source/backend_native_audit.p",
@@ -624,30 +628,64 @@ if self_host_gates.get("SH-19") == "PASS" and (
         "SH-19 PASS requires native closure, complete runtime/tool gates, "
         "bounded memory, and normal-toolchain TinyCC/C/CRT exit"
     )
+sh20_gate = next(
+    (gate for gate in self_hosting.get("gates", [])
+     if gate.get("id") == "SH-20"),
+    {},
+)
+if self_host_gates.get("SH-20") != "PASS":
+    errors.append("native public throughput SH-20 gate must pass")
+if self_host_gates.get("SH-20") == "PASS" and (
+        sh20_gate.get("compiler_source_files") != 116
+        or sh20_gate.get("native_compiler_bytes") != 4941312
+        or not sh20_gate.get("stage2_stage3_byte_equal")
+        or sh20_gate.get("public_build_median_seconds", float("inf")) > 25.0
+        or sh20_gate.get("public_build_maximum_seconds", float("inf")) > 35.0
+        or sh20_gate.get("public_validation_median_seconds", float("inf")) >= 15.0
+        or sh20_gate.get("relative_to_c_median", float("inf")) > 2.0
+        or sh20_gate.get("relative_to_d_median", float("inf")) > 2.0
+        or sh20_gate.get("consecutive_closed_rebuilds_observed") != 20
+        or sh20_gate.get("peak_private_bytes", 2**63) > 268435456
+        or sh20_gate.get("peak_working_set_bytes", 2**63) > 67108864
+        or sh20_gate.get("semantic_validation_skipped")
+        or sh20_gate.get("native_conformance_fixtures_passed") != 278
+        or sh20_gate.get("maintained_programs_passed") != 4
+        or sh20_gate.get("full_workflow_tasks_passed") != 16
+        or sh20_gate.get("standalone_release_checks_passed") != 20
+        or not sh19_claims.get("native_public_throughput_convergence")
+        or not sh19_claims.get("public_build_performs_full_semantic_validation")
+        or not sh19_claims.get("sh20_twenty_build_closure")
+        or not sh19_claims.get("sh20_memory_gate")
+        or not sh19_claims.get("sh20_deterministic_standalone_release")):
+    errors.append(
+        "SH-20 PASS requires C/D-class public throughput, full validation, "
+        "20-build closure, bounded memory, and standalone release evidence"
+    )
 if (
-    active_plan.get("id") != "SH-20"
-    or active_plan.get("name") != "native_public_throughput_convergence"
-    or active_plan.get("status") != "NEXT_ACTIVE"
+    active_plan.get("id") != "SH-21"
+    or active_plan.get("name")
+    != "openc_native_workflows_and_bootstrap_boundary"
+    or active_plan.get("status") != "ACTIVE"
     or active_plan.get("plan")
-    != "compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md"
-    or active_plan.get("blocked_by_sh19")
-    or active_plan.get("public_validating_build_baseline_seconds") != 109.328
-    or active_plan.get("public_validation_baseline_seconds") != 97.828
-    or active_plan.get("public_build_clean_median_max_seconds") != 25.0
-    or active_plan.get("public_validation_median_max_seconds") != 15.0
-    or not active_plan.get("relative_to_c_and_d_reference_required")
-    or not active_plan.get("semantic_validation_must_not_be_skipped")
-    or not active_plan.get("byte_identical_self_hosting_required")
-    or active_plan.get("consecutive_closed_rebuilds_required") != 20
-    or active_plan.get("max_peak_private_bytes") != 268435456
-    or active_plan.get("max_peak_working_set_bytes") != 67108864
+    != "compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md"
+    or active_plan.get("blocked_by_sh20")
+    or not active_plan.get("previous_openc_compiler_only_normal_environment")
+    or active_plan.get("required_python_orchestration")
+    or active_plan.get("required_d_orchestration")
+    or active_plan.get("required_c_or_tinycc_orchestration")
+    or not active_plan.get("openc_native_build_test_release")
+    or not active_plan.get("openc_native_benchmark_and_package_verification")
+    or not active_plan.get("optional_historical_bootstrap_audit_kit_separate")
+    or not active_plan.get("sh20_performance_regression_required")
+    or not active_plan.get("byte_identical_release_archives_required")
+    or not active_plan.get("bounded_process_and_packaging_memory_required")
 ):
-    errors.append("SH-20 public native throughput must be active after SH-19")
+    errors.append("SH-21 OpenC-native workflows must be active after SH-20")
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
-    "SH-20_NATIVE_PUBLIC_THROUGHPUT_CONVERGENCE"
+    "SH-21_OPENC_NATIVE_WORKFLOWS_AND_BOOTSTRAP_BOUNDARY"
 ):
-    errors.append("development state must name public throughput as SH-20")
+    errors.append("development state must name OpenC-native workflows as SH-21")
 development_sh19 = development_self_hosting.get("sh19_acceptance", {})
 if (
     development_sh19.get("status") != "PASS"
@@ -673,16 +711,25 @@ if (
     errors.append(
         "development state must record complete bounded SH-19 native closure"
     )
-development_sh20 = development_self_hosting.get("sh20_throughput_baseline", {})
+development_sh20 = development_self_hosting.get("sh20_acceptance", {})
 if (
-    development_sh20.get("status") != "NEXT_ACTIVE"
-    or development_sh20.get("public_validating_build_seconds") != 109.328
-    or development_sh20.get("public_validation_seconds") != 97.828
+    development_sh20.get("status") != "PASS"
+    or development_sh20.get("public_build_five_run_median_seconds", float("inf"))
+    > 25.0
+    or development_sh20.get(
+        "public_validation_five_run_median_seconds", float("inf")
+    ) >= 15.0
+    or development_sh20.get("consecutive_closed_rebuilds_observed") != 20
     or not development_sh20.get("semantic_validation_must_not_be_skipped")
+    or development_sh20.get("peak_private_bytes", 2**63) > 268435456
+    or development_sh20.get("peak_working_set_bytes", 2**63) > 67108864
     or development_sh20.get("max_peak_private_bytes") != 268435456
     or development_sh20.get("max_peak_working_set_bytes") != 67108864
+    or development_sh20.get("native_conformance_fixtures_passed") != 278
+    or development_sh20.get("maintained_programs_passed") != 4
+    or development_sh20.get("standalone_release_checks_passed") != 20
 ):
-    errors.append("development state must record the SH-20 throughput baseline")
+    errors.append("development state must record the passed SH-20 evidence")
 development_sh14 = development_self_hosting.get("sh14_acceptance", {})
 if (
     development_sh14.get("status") != "PASS"
@@ -740,15 +787,16 @@ if (
     or not windows_plan.get("sh17_completed")
     or not windows_plan.get("sh18_completed")
     or not windows_plan.get("sh19_completed")
+    or not windows_plan.get("sh20_completed")
     or windows_plan.get("active_milestone")
-    != "SH-20_NATIVE_PUBLIC_THROUGHPUT_CONVERGENCE"
+    != "SH-21_OPENC_NATIVE_WORKFLOWS_AND_BOOTSTRAP_BOUNDARY"
     or windows_plan.get("sequence", [None])[0]
     != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
     or windows_plan.get("sequence", [None])[-1]
     != "SH-24_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
 ):
     errors.append(
-        "Windows independence must advance to SH-20 with editor work last"
+        "Windows independence must advance to SH-21 with editor work last"
     )
 
 windows_target = json.loads((

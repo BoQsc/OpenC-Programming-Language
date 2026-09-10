@@ -268,3 +268,22 @@ Ordinary `daily` mode may reuse a passing 278-fixture report only when the
 compiler, fixture tree, runtime, native shim, and TinyCC fingerprint is exact.
 The recorded unchanged lookup takes 0.002 seconds and executes zero fixtures.
 Full and release modes always execute the complete native corpus.
+
+## SH-20 native public throughput closure
+
+SH-20 removes the direct-native public validation bottleneck left by SH-19.
+The final 116-source compiler has a 17.064-second five-run public-build median
+and 11.352-second validation median. Twenty consecutive public builds close at
+the identical 4,941,312-byte executable hash
+`b82b228989c915db04370ed9463ac722375c610bbc15c497830b1c39ed707de3`.
+
+The pinned same-host medians are 22.732 seconds for Clang 16.0.5 building the
+TinyCC 0.9.27 ISO C codebase with `-O2`, and 17.504 seconds for DMD 2.112.0 /
+DUB 1.41.0 building the retained D compiler in forced release mode. OpenC's
+ratios are 0.751x and 0.975x. These tools are comparison oracles only; none is
+invoked by the public OpenC build or packaged in the release.
+
+All measured compiler runs retain 256 MiB private, 64 MiB working-set, and
+bounded-output guards. Observed peaks are 216,932,352 private bytes and
+49,405,952 working-set bytes. The detailed method and primary record paths are
+in `../../release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md`.

@@ -126,6 +126,23 @@ unsafe text project_source_record_path(
         read_record_field(source_data, source_record, 0),
         read_record_field(source_data, source_record, 1)
     );
+    // Resolve leading lexical parent/current segments before handing the
+    // path to the Windows provider.  Besides producing the target-normalized
+    // spelling required by Hosted 1.0, this prevents an existing path near
+    // MAX_PATH from failing solely because "directory/../" was retained.
+    while starts_with_ascii(relative, 0, "../") ||
+        starts_with_ascii(relative, 0, "..\\") {
+        project_root = path.directory(project_root);
+        relative = project_slice(
+            relative, 3, text.byte_length(relative) - 3
+        );
+    }
+    while starts_with_ascii(relative, 0, "./") ||
+        starts_with_ascii(relative, 0, ".\\") {
+        relative = project_slice(
+            relative, 2, text.byte_length(relative) - 2
+        );
+    }
     return path.join(project_root, relative);
 }
 

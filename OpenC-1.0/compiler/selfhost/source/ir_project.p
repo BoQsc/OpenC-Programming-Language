@@ -384,6 +384,7 @@ unsafe bool ir_observe_emit_source(
         expression_start_capacity = 0,
         expression_start_next = null,
         expression_next_start = null,
+        function_at_position = null,
         name_nodes = ir_pointer_alias(name_nodes),
         name_count = 0,
         type_ref_nodes = null,
@@ -405,6 +406,7 @@ unsafe bool ir_observe_emit_source(
         aggregate_field_first = null,
         field_next = null,
         enum_item_value = null,
+        symbol_export_cache = null,
         native_layout_size_cache = null,
         native_layout_alignment_cache = null,
         native_layout_state_cache = null,
@@ -550,6 +552,7 @@ unsafe i32 observe_semantic_ir(text project_path) {
     ptr byte error_data = memory.alloc(errors.capacity * record_stride());
     scope memory.free(error_data);
     semantic_initialize_types(type_data, types);
+    BuildTimings validation_timings = build_timings_empty();
     module_index = 0;
     while module_index < modules.length {
         usize source_first = read_record_field(module_data, module_index, 2);
@@ -602,16 +605,30 @@ unsafe i32 observe_semantic_ir(text project_path) {
                 module_data, modules, source_data,
                 module_index, source_record,
                 type_data, symbol_data, detail_data, symbols,
-                error_data, errors
+                error_data, errors, validation_timings
             );
             source_index = source_index + 1;
         }
         module_index = module_index + 1;
     }
+    ptr byte validation_source_ms = memory.alloc(
+        (sources.length + 1) * size_of(usize)
+    );
+    scope memory.free(validation_source_ms);
+    usize validation_source = 0;
+    while validation_source <= sources.length {
+        write_usize(
+            validation_source_ms,
+            validation_source * size_of(usize),
+            0
+        );
+        validation_source = validation_source + 1;
+    }
     usize acceptance_errors = acceptance_validate_project(
         project_source, project_root,
         module_data, modules, source_data, sources,
-        type_data, types, symbol_data, detail_data, symbols
+        type_data, types, symbol_data, detail_data, symbols,
+        validation_source_ms, validation_timings
     );
     if errors.length + acceptance_errors != 0 {
         io.print("SEMANTIC_ERROR ");

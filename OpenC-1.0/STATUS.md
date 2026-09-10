@@ -25,10 +25,10 @@ full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
 bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
 bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
-self-hosted compiler:                 YES; SH-19 PASS, DIRECT X64/PE32+ FIXED POINT
-trusted native rebuild:               PASS; 10.378 S, BYTE-IDENTICAL
-public compiler throughput:           NOT YET C/D-CLASS; SH-20 ACTIVE
-public validating self-build:         109.328 S; VALIDATION 97.828 S
+self-hosted compiler:                 YES; SH-20 PASS, DIRECT X64/PE32+ FIXED POINT
+trusted native rebuild:               PASS; 20/20 BYTE-IDENTICAL
+public compiler throughput:           C/D-CLASS; SH-20 PASS
+public validating self-build:         17.064 S MEDIAN; VALIDATION 11.352 S
 coverage-granularity milestone:      PASS; 466/466 RULES, 174/174 GRAMMAR PAIRS
 native validation budget:            PASS; 76.081-233.841 S <= 300 S, 278/278
 native self-rebuild budget:          PASS; 9.965-14.502 S <= 30 S, BYTE-IDENTICAL
@@ -38,15 +38,16 @@ native project workflow:              SH-10 PASS; FMT/INFO/TEST, 21/21
 native language service:              SH-11 PASS; LIFECYCLE/DIAGNOSTICS/FMT, 19/19
 native semantic language service:     SH-12 PASS; SYMBOLS/NAV/COMPLETE/RENAME, 23/23
 human + machine diagnostics:          PASS; `openc.check.v1` + STABLE STREAMS
-completed engineering milestone:     SH-19 NATIVE BACKEND + TINYCC EXIT
-next engineering milestone:          SH-20 PUBLIC THROUGHPUT CONVERGENCE
+completed engineering milestone:     SH-20 PUBLIC THROUGHPUT CONVERGENCE
+next engineering milestone:          SH-21 OPENC-NATIVE REQUIRED WORKFLOWS
 SH-14 stability/scaling gate:         20/20 CLOSURE; WORST DOUBLING 2.112x
 SH-15 ABI/encoder verification:       PASS; 25/25 EXECUTABLE + STATIC CHECKS
 SH-16 PE/runtime verification:        PASS; 34/34, KERNEL32-ONLY, NO MICROSOFT CRT
 SH-17 WinMD projection verification: PASS; 30/30, 7 MODULES, 71,425 RECORDS
 SH-18 friendly Windows verification: PASS; 27/27, 12 MODULES; 10.103 S REBUILD MEDIAN
 SH-19 native backend verification:   PASS; 63/63 SCALARS, 6/6 MEMORY, 20/20 RELEASE
-active critical path:                 PUBLIC PERFORMANCE -> NATIVE WORKFLOWS
+SH-20 public throughput verification: PASS; OPENC 17.064 S, C 22.732 S, D 17.504 S
+active critical path:                 OPENC-NATIVE WORKFLOWS -> PE/COFF ECOSYSTEM
 DMD/TinyCC-independent compiler:     YES; PUBLIC `openc build`, DIRECT PE32+
 standalone compiler distribution:    YES; NO C/TCC/D/PYTHON/ASM/LINKER
 normal compilation independent:      YES; EXTERNAL PYTHON EVIDENCE UNTIL SH-21
@@ -124,8 +125,11 @@ checks. SH-19 then replaces generated C and TinyCC in the normal compiler path
 with OpenC-owned x64 lowering and deterministic PE32+ emission. Its standalone
 release passes 20/20 checks, 278/278 conformance, and byte-identical compiler
 closure without C, TinyCC, D, Python, an assembler, an external linker, or a
-Microsoft CRT. SH-20 is now the highest-priority milestone because the fully
-validating public self-build still takes 109.328 seconds, including 97.828
-seconds of validation. Required Python workflow replacement follows in SH-21,
-and native editor integration is deferred to SH-24. Linux, freestanding, and
-ARM64 remain optional later targets.
+Microsoft CRT. SH-20 then reduces the fully validating public self-build to a
+17.064-second five-run median, with an 11.352-second validation median, while
+20/20 chained builds close exactly under the 256 MiB private / 64 MiB
+working-set guards. That is faster than the measured 22.732-second optimized
+ISO C reference and 17.504-second D reference medians. SH-21 is now active:
+required Python workflow replacement and the optional historical bootstrap
+boundary are the next priority. Native editor integration is deferred to
+SH-24. Linux, freestanding, and ARM64 remain optional later targets.

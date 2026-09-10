@@ -41,5 +41,6 @@ D source:                    retained legacy bootstrap/reference snapshot
 D required by native build:  no
 Python source:               retained informative bootstrap/audit material
 Python required by openc:    no
-TinyCC backend:              required temporary packaged backend
+TinyCC backend:              optional historical differential-audit component
+Normal artifact backend:     OpenC-owned x64/PE32+; no external toolchain
 ```

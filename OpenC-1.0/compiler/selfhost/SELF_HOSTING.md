@@ -472,15 +472,28 @@ Status: **PASS**
 
 ## SH-20 — native public throughput convergence
 
-The independence gate is closed, but the fully validating public self-build is
-not yet C/D-class: it takes 109.328 seconds, including 97.828 seconds in
-semantic validation. SH-20 is therefore active and must reduce the five-run
-public-build median to at most 25 seconds and public validation to at most 15
-seconds without skipping checks, weakening diagnostics, breaking exact
-closure, or exceeding the SH-19 memory guards. See
-`SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md`.
+The fully validating public self-build now has a 17.064-second five-run median
+and an 11.352-second validation median. The pinned same-host optimized ISO C
+and D references measure 22.732 and 17.504 seconds, so OpenC is faster than
+both measured medians. All 20 chained public builds produce the identical
+4,941,312-byte compiler at SHA-256
+`b82b228989c915db04370ed9463ac722375c610bbc15c497830b1c39ed707de3`.
+Conformance remains 278/278, maintained programs 4/4, and compiler memory stays
+inside the 256 MiB private / 64 MiB working-set guards. See
+`SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md` and
+`../../release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md`.
 
-Status: **NEXT ACTIVE**
+Status: **PASS**
+
+## SH-21 — OpenC-native workflows and bootstrap boundary
+
+Required Python build/test/release orchestration is the remaining independence
+boundary. SH-21 moves those workflows into OpenC, isolates D/Python/C/TinyCC to
+a separately named optional historical bootstrap/audit kit, and proves the
+normal release using only a previous OpenC compiler plus canonical source. See
+`SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md`.
+
+Status: **ACTIVE**
 
 ## Post-SH-6 — native self-rebuild performance
 

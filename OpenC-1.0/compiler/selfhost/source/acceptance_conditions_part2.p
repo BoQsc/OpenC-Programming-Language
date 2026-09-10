@@ -54,41 +54,67 @@ unsafe bool acceptance_field_default(
 
 unsafe usize acceptance_validate_aggregates(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.expression_nodes != null { node_count = context.expression_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.expression_nodes != null {
+            node = read_usize(
+                context.expression_nodes, node_index * size_of(usize)
+            );
+        }
         if read_record_field(context.syntax_data, node, 0) == 48 {
             usize aggregate_type = ir_node_type(
                 context, node, semantic_type_error()
             );
             usize aggregate = context.symbols.length;
-            usize symbol = 0;
-            while symbol < context.symbols.length {
-                usize kind = read_record_field(context.symbol_data, symbol, 0);
-                if (kind == resolution_symbol_struct() ||
-                    kind == resolution_symbol_resource()) &&
-                    read_record_field(context.symbol_data, symbol, 4) ==
-                        aggregate_type {
+                usize symbol = ir_aggregate_for_type(context, aggregate_type);
+                if symbol < context.symbols.length &&
+                    read_record_field(context.symbol_data, symbol, 0) !=
+                        resolution_symbol_enum() {
                     aggregate = symbol;
-                    break;
                 }
-                symbol = symbol + 1;
-            }
-            if aggregate < context.symbols.length {
-                symbol = 0;
-                while symbol < context.symbols.length {
-                    if read_record_field(context.symbol_data, symbol, 0) ==
-                            resolution_symbol_field() &&
-                        read_record_field(context.detail_data, symbol, 2) ==
-                            aggregate + 1 &&
-                        !acceptance_field_supplied(context, node, symbol) &&
-                        !acceptance_field_default(context, symbol) {
-                        errors = errors + 1;
+                if aggregate < context.symbols.length {
+                    usize encoded = 0;
+                    bool indexed = context.aggregate_field_first != null &&
+                        context.field_next != null;
+                    if indexed {
+                        encoded = read_usize(
+                            context.aggregate_field_first,
+                            aggregate * size_of(usize)
+                        );
                     }
-                    symbol = symbol + 1;
+                    symbol = 0;
+                    while (indexed && encoded != 0) ||
+                        (!indexed && symbol < context.symbols.length) {
+                        usize field_symbol = symbol;
+                        if indexed { field_symbol = encoded - 1; }
+                        if read_record_field(
+                                context.symbol_data, field_symbol, 0
+                            ) == resolution_symbol_field() &&
+                            read_record_field(
+                                context.detail_data, field_symbol, 2
+                            ) == aggregate + 1 &&
+                            !acceptance_field_supplied(
+                                context, node, field_symbol
+                            ) && !acceptance_field_default(
+                                context, field_symbol
+                            ) {
+                            errors = errors + 1;
+                        }
+                        if indexed {
+                            encoded = read_usize(
+                                context.field_next,
+                                field_symbol * size_of(usize)
+                            );
+                        } else {
+                            symbol = symbol + 1;
+                        }
+                    }
                 }
             }
-        }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return errors;
 }

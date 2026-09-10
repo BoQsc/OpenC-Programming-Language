@@ -4,15 +4,23 @@ import system.text;
 
 unsafe usize acceptance_validate_assignments(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.expression_nodes != null { node_count = context.expression_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.expression_nodes != null {
+            node = read_usize(
+                context.expression_nodes, node_index * size_of(usize)
+            );
+        }
         if read_record_field(context.syntax_data, node, 0) == 37 {
             usize operator_start = read_record_field(context.syntax_data, node, 3);
-            usize left = resolution_left_expression(
-                context.syntax_data, node, operator_start
+            usize left = ir_left_expression(
+                context, node, operator_start
             );
-            usize right = resolution_right_expression(
-                context.syntax_data, node,
+            usize right = ir_right_expression(
+                context, node,
                 operator_start + read_record_field(context.syntax_data, node, 4)
             );
             if !acceptance_lvalue(context, left) { errors = errors + 1; }
@@ -30,22 +38,30 @@ unsafe usize acceptance_validate_assignments(ref IrContext context) {
                 context, right, actual, expected
             ) { errors = errors + 1; }
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return errors;
 }
 
 unsafe usize acceptance_validate_binary(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.expression_nodes != null { node_count = context.expression_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.expression_nodes != null {
+            node = read_usize(
+                context.expression_nodes, node_index * size_of(usize)
+            );
+        }
         if read_record_field(context.syntax_data, node, 0) == 36 {
             usize operator_start = read_record_field(context.syntax_data, node, 3);
-            usize left = resolution_left_expression(
-                context.syntax_data, node, operator_start
+            usize left = ir_left_expression(
+                context, node, operator_start
             );
-            usize right = resolution_right_expression(
-                context.syntax_data, node,
+            usize right = ir_right_expression(
+                context, node,
                 operator_start + read_record_field(context.syntax_data, node, 4)
             );
             usize left_type = ir_node_type(
@@ -180,7 +196,7 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
                 }
             }
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return errors;
 }

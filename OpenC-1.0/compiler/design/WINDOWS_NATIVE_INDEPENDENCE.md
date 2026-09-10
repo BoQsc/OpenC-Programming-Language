@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **ACTIVE; SH-19 PASSED, SH-20 NATIVE PUBLIC THROUGHPUT ACTIVE**
+Status: **ACTIVE; SH-20 PASSED, SH-21 OPENC-NATIVE WORKFLOWS ACTIVE**
 
 OpenC's Windows path must preserve a strict separation:
 
@@ -236,13 +236,18 @@ Evidence is in `../../release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md`.
 
 ## SH-20: native public throughput convergence
 
-Status: **NEXT ACTIVE**. The direct already-validated native rebuild takes
-9.965 seconds, but the fully validating public self-build takes 109.328
-seconds, including 97.828 seconds in validation. SH-20 must reach the authored
-C/D-class public-build targets without skipping semantic work or weakening
-diagnostics. See `../selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md`.
+Status: **PASS**. The fully validating public self-build has a 17.064-second
+five-run median and 11.352-second validation median. This is faster than the
+same-host optimized ISO C (22.732 seconds) and D (17.504 seconds) reference
+medians. Twenty chained outputs close byte-for-byte inside the fixed memory
+guards. See `../selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md` and
+`../../release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md`.
 
 ## SH-21: OpenC-native build, test, release, and bootstrap boundary
+
+Status: **ACTIVE**. See
+`../selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md` for the executable work order
+and exit gates.
 
 Rewrite every required Python evidence/release orchestrator in OpenC or move
 its indispensable logic into the compiler. The OpenC-native workflow must

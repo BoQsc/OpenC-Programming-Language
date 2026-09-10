@@ -802,29 +802,65 @@
       "historical_rule_id_matches_disclosed": 93,
       "linux_and_freestanding_gate": false,
       "next_milestone": "SH-20_NATIVE_PUBLIC_THROUGHPUT_CONVERGENCE"
+    },
+    {
+      "id": "SH-20",
+      "name": "native_public_throughput_convergence",
+      "status": "PASS",
+      "plan": "compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md",
+      "evidence": "release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md",
+      "compiler_source_files": 116,
+      "compiler_source_bytes": 1605300,
+      "native_compiler_sha256": "b82b228989c915db04370ed9463ac722375c610bbc15c497830b1c39ed707de3",
+      "native_compiler_bytes": 4941312,
+      "stage2_stage3_byte_equal": true,
+      "public_build_samples": 5,
+      "public_build_median_seconds": 17.064,
+      "public_build_maximum_seconds": 17.456,
+      "public_validation_median_seconds": 11.352,
+      "small_clean_median_seconds": 0.164,
+      "one_source_median_seconds": 0.164,
+      "c_reference_median_seconds": 22.732,
+      "d_reference_median_seconds": 17.504,
+      "relative_to_c_median": 0.751,
+      "relative_to_d_median": 0.975,
+      "consecutive_closed_rebuilds_required": 20,
+      "consecutive_closed_rebuilds_observed": 20,
+      "peak_private_bytes": 216932352,
+      "peak_working_set_bytes": 49405952,
+      "native_conformance_fixtures_passed": 278,
+      "maintained_programs_passed": 4,
+      "full_workflow_tasks_passed": 16,
+      "standalone_release_checks_passed": 20,
+      "standalone_release_checks_total": 20,
+      "package_manifest_entries": 1295,
+      "semantic_validation_skipped": false,
+      "tinycc_invoked_by_normal_build": false,
+      "d_invoked_by_normal_build": false,
+      "python_invoked_by_normal_build": false,
+      "historical_rule_id_matches_disclosed": 93,
+      "linux_and_freestanding_gate": false,
+      "next_milestone": "SH-21_OPENC_NATIVE_WORKFLOWS_AND_BOOTSTRAP_BOUNDARY"
     }
   ],
   "planned_milestones": {
     "active": {
-      "id": "SH-20",
-      "name": "native_public_throughput_convergence",
-      "status": "NEXT_ACTIVE",
-      "plan": "compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md",
-      "blocked_by_sh19": false,
+      "id": "SH-21",
+      "name": "openc_native_workflows_and_bootstrap_boundary",
+      "status": "ACTIVE",
+      "plan": "compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md",
+      "blocked_by_sh20": false,
       "target": "windows_x86_64_hosted",
-      "public_validating_build_baseline_seconds": 109.328,
-      "public_validation_baseline_seconds": 97.828,
-      "public_build_clean_median_max_seconds": 25.0,
-      "public_build_each_max_seconds": 35.0,
-      "public_validation_median_max_seconds": 15.0,
-      "relative_to_c_and_d_reference_required": true,
-      "semantic_validation_must_not_be_skipped": true,
-      "byte_identical_self_hosting_required": true,
-      "consecutive_closed_rebuilds_required": 20,
-      "max_peak_private_bytes": 268435456,
-      "max_peak_working_set_bytes": 67108864,
-      "native_conformance_required": 278,
-      "maintained_programs_required": 4
+      "previous_openc_compiler_only_normal_environment": true,
+      "required_python_orchestration": false,
+      "required_d_orchestration": false,
+      "required_c_or_tinycc_orchestration": false,
+      "openc_native_build_test_release": true,
+      "openc_native_benchmark_and_package_verification": true,
+      "optional_historical_bootstrap_audit_kit_separate": true,
+      "sh20_performance_regression_required": true,
+      "byte_identical_release_archives_required": true,
+      "bounded_process_and_packaging_memory_required": true
     },
     "windows_independence_plan": {
       "architecture": "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md",
@@ -833,7 +869,7 @@
       "sh15_completed": true,
       "sh16_completed": true,
       "sh17_completed": true,
-      "active_milestone": "SH-20_NATIVE_PUBLIC_THROUGHPUT_CONVERGENCE",
+      "active_milestone": "SH-21_OPENC_NATIVE_WORKFLOWS_AND_BOOTSTRAP_BOUNDARY",
       "sequence": [
         "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE",
         "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME",
@@ -857,7 +893,8 @@
         "optional_first_binary_bootstrap_lane_retained": true
       },
       "sh18_completed": true,
-      "sh19_completed": true
+      "sh19_completed": true,
+      "sh20_completed": true
     }
   },
   "rc9_standalone_refresh": {
@@ -1020,6 +1057,12 @@
     "normal_compiler_runtime_is_crt_free": true,
     "standalone_excludes_c_d_python_and_tinycc": true,
     "native_lsp_owns_win32_stdio_framing": true,
-    "sh19_deterministic_closure": true
+    "sh19_deterministic_closure": true,
+    "native_public_throughput_convergence": true,
+    "public_build_performs_full_semantic_validation": true,
+    "public_build_faster_than_measured_c_and_d_references": true,
+    "sh20_twenty_build_closure": true,
+    "sh20_memory_gate": true,
+    "sh20_deterministic_standalone_release": true
   }
 }

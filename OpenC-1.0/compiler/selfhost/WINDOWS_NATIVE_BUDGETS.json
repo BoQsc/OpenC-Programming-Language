@@ -162,5 +162,25 @@
     "memory_ceiling_changed": true,
     "memory_ceiling_review": "The direct PE backend remains below the unchanged 256 MiB private-byte ceiling. Its measured 41.1 MiB working set cannot satisfy the former C/TinyCC 32 MiB ceiling, so SH-19 adopts the already-enforced 64 MiB process working-set guard without weakening the private-byte limit.",
     "validation_ceiling_review": "The native 278-fixture runner still launches one bounded compiler process per fixture and showed 76.081 to 233.841 seconds of host-sensitive elapsed time while retaining 278/278 correctness and about 10 to 12 MiB process memory. SH-19 records a 300-second functional regression ceiling; it is explicitly not the SH-20 performance target, which remains a 15-second public-validation median."
+  },
+  "sh20_native_throughput_observation": {
+    "status": "PASS",
+    "stability_record": "build-output/selfhost-sh20/native-stability-final-b82b.json",
+    "reference_record": "build-output/selfhost-sh20/compiler-references-final-b82b.json",
+    "compiler_source_files": 116,
+    "compiler_source_bytes": 1605300,
+    "compiler_sha256": "b82b228989c915db04370ed9463ac722375c610bbc15c497830b1c39ed707de3",
+    "public_build_five_run_median_seconds": 17.064,
+    "public_build_five_run_maximum_seconds": 17.456,
+    "public_validation_five_run_median_seconds": 11.352,
+    "c_reference_median_seconds": 22.732,
+    "d_reference_median_seconds": 17.504,
+    "consecutive_closed_rebuilds": 20,
+    "peak_private_bytes": 216932352,
+    "peak_working_set_bytes": 49405952,
+    "max_peak_private_bytes": 268435456,
+    "max_peak_working_set_bytes": 67108864,
+    "semantic_validation_skipped": false,
+    "next_priority": "SH-21_OPENC_NATIVE_WORKFLOWS_AND_BOOTSTRAP_BOUNDARY"
   }
 }

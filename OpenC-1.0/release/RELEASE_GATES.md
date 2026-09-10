@@ -24,6 +24,7 @@ G18 Windows x64 ABI and machine-code substrate (SH-15)   PASS 25/25
 G19 PE32+ and CRT-free runtime (SH-16)                    PASS 34/34
 G20 WinMD raw + idiomatic Windows projections (SH-17/18) PASS 30/30 + 27/27
 G21 compiler-capable native backend and TinyCC exit       PASS 20/20 RELEASE
+G22 native public C/D-class throughput (SH-20)             PASS 20/20 STABILITY
 ```
 
 There are no open P0/P1 findings in the maintainer release review. Independent
@@ -101,12 +102,14 @@ compiler reaches a byte-identical fixed point; 63/63 lowering/runtime checks,
 standalone release checks pass. The package contains no C, C-header, D,
 Python, or TinyCC payload and imports no Microsoft CRT.
 
-This closes the SH-19 independence gate but not the compilation-speed goal.
-The fully validating public self-build still takes 109.328 seconds, including
-97.828 seconds in semantic validation. SH-20 public throughput convergence is
-therefore the next mandatory engineering milestone; OpenC-native replacement
-of the external Python evidence workflows follows in SH-21. Linux and
-freestanding verification remain optional future scope.
+SH-20 closes the compilation-speed goal without weakening validation. The
+fully validating public self-build has a 17.064-second five-run median and an
+11.352-second validation median. It is faster than the pinned same-host
+22.732-second optimized ISO C and 17.504-second D reference medians. All 20
+chained outputs are byte-identical; peak private and working-set memory remain
+inside 256 MiB and 64 MiB. OpenC-native replacement of the external Python
+evidence workflows is now the active SH-21 milestone. Linux and freestanding
+verification remain optional future scope.
 
 The SH-6 268-fixture package count is the immutable RC8 historical result.
 RC9 completes the mandatory successor gate: the relocated package executes the

@@ -143,7 +143,7 @@ unsafe i32 c_emit_source_range(
         usize module_index = c_source_module(base, source_record);
         if module_index >= base.modules.length || !c_emit_source_record(
                 base, output, module_index, source_record,
-                entry_module, timings
+                entry_module, timings, false, null
             ) {
             return 1;
         }

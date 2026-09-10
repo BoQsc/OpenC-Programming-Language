@@ -2,6 +2,7 @@ import system.file;
 import system.io;
 import system.memory;
 import system.path;
+import system.process;
 import system.text;
 
 struct FlowFrontendObservation {
@@ -23,8 +24,10 @@ unsafe void flow_validate_source(
     ptr byte detail_data,
     ref PackedBuffer symbols,
     ptr byte error_data,
-    ref PackedBuffer errors
+    ref PackedBuffer errors,
+    ref BuildTimings timings
 ) {
+    usize source_started = process.monotonic_milliseconds();
     text source;
     status loaded = project_read_source_record(
         project_source, project_root, source_data, source_record, out source
@@ -53,6 +56,87 @@ unsafe void flow_validate_source(
         source, token_data, tokens,
         syntax_data, syntax, diagnostic_data, diagnostics
     );
+    timings.validation_flow_parse_ms =
+        timings.validation_flow_parse_ms +
+        process.monotonic_milliseconds() - source_started;
+
+    usize source_symbol_first = 0;
+    while source_symbol_first < symbols.length && read_record_field(
+        symbol_data, source_symbol_first, 1
+    ) != source_record {
+        source_symbol_first = source_symbol_first + 1;
+    }
+    usize source_symbol_end = source_symbol_first;
+    while source_symbol_end < symbols.length && read_record_field(
+        symbol_data, source_symbol_end, 1
+    ) == source_record {
+        source_symbol_end = source_symbol_end + 1;
+    }
+    ptr byte function_owner_data = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    scope memory.free(function_owner_data);
+    ptr byte ownership_relevant_data = memory.alloc(
+        (symbols.length + 2) * size_of(usize)
+    );
+    scope memory.free(ownership_relevant_data);
+    usize cache_index = 0;
+    while cache_index <= syntax.length {
+        write_usize(
+            function_owner_data, cache_index * size_of(usize), 0
+        );
+        cache_index = cache_index + 1;
+    }
+    cache_index = 0;
+    while cache_index <= symbols.length + 1 {
+        write_usize(
+            ownership_relevant_data, cache_index * size_of(usize), 0
+        );
+        cache_index = cache_index + 1;
+    }
+    bool source_has_own = flow_span_contains_ascii(
+        source, 0, source_length, "own"
+    );
+    usize indexed_symbol = source_symbol_first;
+    while indexed_symbol < source_symbol_end {
+        usize indexed_kind = read_record_field(
+            symbol_data, indexed_symbol, 0
+        );
+        usize declaration = read_record_field(
+            detail_data, indexed_symbol, 1
+        );
+        if indexed_kind == resolution_symbol_function() &&
+            declaration < syntax.length {
+            write_usize(
+                function_owner_data,
+                declaration * size_of(usize), indexed_symbol + 1
+            );
+        }
+        usize indexed_owner = read_record_field(
+            detail_data, indexed_symbol, 2
+        );
+        if indexed_owner != 0 &&
+            (indexed_kind == resolution_symbol_variable() ||
+             indexed_kind == resolution_symbol_parameter()) {
+            bool relevant = flow_symbol_resource_type(
+                type_data, symbol_data, indexed_symbol
+            );
+            if !relevant && source_has_own &&
+                indexed_kind == resolution_symbol_parameter() {
+                relevant = flow_parameter_own(
+                    project_source, project_root, source_data,
+                    symbol_data, detail_data, indexed_symbol
+                );
+            }
+            if relevant {
+                write_usize(
+                    ownership_relevant_data,
+                    indexed_owner * size_of(usize), 1
+                );
+            }
+        }
+        indexed_symbol = indexed_symbol + 1;
+    }
 
     usize function_node = 0;
     while function_node < syntax.length {
@@ -62,16 +146,27 @@ unsafe void flow_validate_source(
             );
             if body < syntax.length &&
                 read_record_field(syntax_data, body, 2) > 1 {
+                usize analysis_started = process.monotonic_milliseconds();
+                usize function_owner = read_usize(
+                    function_owner_data,
+                    function_node * size_of(usize)
+                );
                 flow_analyze_initialization(
                     project_source, project_root,
                     module_data, modules, source_data,
                     symbol_data, detail_data, symbols,
                     syntax_data, syntax, module_index, source_record,
-                    function_node, source, error_data, errors
+                    function_node, function_owner,
+                    source_symbol_first, source_symbol_end,
+                    source, error_data, errors
                 );
+                timings.validation_flow_initialization_ms =
+                    timings.validation_flow_initialization_ms +
+                    process.monotonic_milliseconds() - analysis_started;
                 if flow_function_has_word(
                     source, syntax_data, function_node, "out"
                 ) {
+                    analysis_started = process.monotonic_milliseconds();
                     flow_analyze_status_out(
                         project_source, project_root,
                         module_data, modules, source_data,
@@ -80,18 +175,28 @@ unsafe void flow_validate_source(
                         module_index, source_record, function_node, source,
                         error_data, errors
                     );
+                    timings.validation_flow_status_out_ms =
+                        timings.validation_flow_status_out_ms +
+                        process.monotonic_milliseconds() - analysis_started;
                 }
+                analysis_started = process.monotonic_milliseconds();
                 flow_analyze_ownership(
                     project_source, project_root,
                     module_data, modules, source_data,
                     type_data, symbol_data, detail_data, symbols,
                     token_data, tokens, syntax_data, syntax,
-                    module_index, source_record, function_node, source,
+                    module_index, source_record, function_node,
+                    function_owner, source_symbol_first, source_symbol_end,
+                    ownership_relevant_data, source,
                     error_data, errors
                 );
+                timings.validation_flow_ownership_ms =
+                    timings.validation_flow_ownership_ms +
+                    process.monotonic_milliseconds() - analysis_started;
                 if flow_function_has_word(
                     source, syntax_data, function_node, "ref"
                 ) {
+                    analysis_started = process.monotonic_milliseconds();
                     flow_analyze_borrows(
                         project_source, project_root,
                         module_data, modules, source_data,
@@ -99,10 +204,14 @@ unsafe void flow_validate_source(
                         syntax_data, syntax, module_index, source_record,
                         function_node, source, error_data, errors
                     );
+                    timings.validation_flow_borrows_ms =
+                        timings.validation_flow_borrows_ms +
+                        process.monotonic_milliseconds() - analysis_started;
                 }
                 if flow_function_has_word(
                     source, syntax_data, function_node, "scope"
                 ) {
+                    analysis_started = process.monotonic_milliseconds();
                     flow_analyze_cleanup(
                         project_source, project_root,
                         module_data, modules, source_data,
@@ -111,7 +220,11 @@ unsafe void flow_validate_source(
                         module_index, source_record, function_node, source,
                         error_data, errors
                     );
+                    timings.validation_flow_cleanup_ms =
+                        timings.validation_flow_cleanup_ms +
+                        process.monotonic_milliseconds() - analysis_started;
                 }
+                analysis_started = process.monotonic_milliseconds();
                 flow_analyze_pointer_facts(
                     project_source, project_root,
                     module_data, modules, source_data,
@@ -119,10 +232,18 @@ unsafe void flow_validate_source(
                     syntax_data, syntax, module_index, source_record,
                     function_node, source, error_data, errors
                 );
+                timings.validation_flow_pointer_facts_ms =
+                    timings.validation_flow_pointer_facts_ms +
+                    process.monotonic_milliseconds() - analysis_started;
+                analysis_started = process.monotonic_milliseconds();
                 flow_check_unsafe_function(
                     source, syntax_data, syntax, source_record,
                     function_node, error_data, errors
                 );
+                timings.validation_flow_unsafe_function_ms =
+                    timings.validation_flow_unsafe_function_ms +
+                    process.monotonic_milliseconds() - analysis_started;
+                analysis_started = process.monotonic_milliseconds();
                 flow_check_pointer_arithmetic(
                     project_source, project_root,
                     module_data, modules, source_data,
@@ -130,12 +251,16 @@ unsafe void flow_validate_source(
                     syntax_data, syntax, module_index, source_record,
                     function_node, source, error_data, errors
                 );
+                timings.validation_flow_pointer_arithmetic_ms =
+                    timings.validation_flow_pointer_arithmetic_ms +
+                    process.monotonic_milliseconds() - analysis_started;
                 // The historical precheck parsed this source a second time
                 // solely to perform this remaining distinct scope-action
                 // rule (its unsafe and pointer checks are already above).
                 // Keep the rule while sharing this function's token/syntax
                 // arenas so public validation does not churn a duplicate set
                 // of large allocations for every source file.
+                analysis_started = process.monotonic_milliseconds();
                 usize scope_node = 0;
                 while scope_node < syntax.length {
                     if read_record_field(
@@ -164,6 +289,10 @@ unsafe void flow_validate_source(
                     }
                     scope_node = scope_node + 1;
                 }
+                timings.validation_flow_scope_actions_ms =
+                    timings.validation_flow_scope_actions_ms +
+                    process.monotonic_milliseconds() - analysis_started;
+                analysis_started = process.monotonic_milliseconds();
                 flow_check_unsafe_calls(
                     project_source, project_root,
                     module_data, modules, source_data,
@@ -172,6 +301,9 @@ unsafe void flow_validate_source(
                     module_index, source_record, function_node, source,
                     error_data, errors
                 );
+                timings.validation_flow_unsafe_calls_ms =
+                    timings.validation_flow_unsafe_calls_ms +
+                    process.monotonic_milliseconds() - analysis_started;
             }
         }
         function_node = function_node + 1;

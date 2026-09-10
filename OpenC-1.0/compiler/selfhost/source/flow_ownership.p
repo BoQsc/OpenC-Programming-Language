@@ -48,6 +48,48 @@ unsafe usize flow_event_next(
     return selected;
 }
 
+unsafe usize flow_collect_events(
+    ptr byte syntax_data,
+    ref PackedBuffer syntax,
+    usize function_node,
+    ptr byte event_data
+) {
+    usize count = 0;
+    usize record = 0;
+    while record < syntax.length {
+        usize kind = read_record_field(syntax_data, record, 0);
+        bool event = kind == 12 || kind == 23 || kind == 37 ||
+            kind == 38 || kind == 45 || kind == 22;
+        if event && semantic_node_contains(
+            syntax_data, function_node, record
+        ) {
+            usize end = read_record_field(syntax_data, record, 1) +
+                read_record_field(syntax_data, record, 2);
+            usize insert = count;
+            while insert > 0 {
+                usize previous = read_usize(
+                    event_data, (insert - 1) * size_of(usize)
+                );
+                usize previous_end = read_record_field(
+                    syntax_data, previous, 1
+                ) + read_record_field(syntax_data, previous, 2);
+                if previous_end < end ||
+                    (previous_end == end && previous < record) {
+                    break;
+                }
+                write_usize(
+                    event_data, insert * size_of(usize), previous
+                );
+                insert = insert - 1;
+            }
+            write_usize(event_data, insert * size_of(usize), record);
+            count = count + 1;
+        }
+        record = record + 1;
+    }
+    return count;
+}
+
 unsafe usize flow_event_name_symbol(
     text project_source,
     text project_root,
@@ -222,22 +264,67 @@ unsafe void flow_analyze_ownership(
     usize module_index,
     usize source_record,
     usize function_node,
+    usize known_function_owner,
+    usize source_symbol_first,
+    usize source_symbol_end,
+    ptr byte ownership_relevant_data,
     text source,
     ptr byte error_data,
     ref PackedBuffer errors
 ) {
-    usize function_owner = resolution_find_owner_symbol(
-        symbol_data, detail_data, symbols,
-        source_record, function_node,
-        resolution_symbol_function(), 0
-    );
+    usize function_owner = known_function_owner;
+    if function_owner == 0 {
+        function_owner = resolution_find_owner_symbol(
+            symbol_data, detail_data, symbols,
+            source_record, function_node,
+            resolution_symbol_function(), 0
+        );
+    }
     if function_owner == 0 { return; }
+    bool has_own_word = flow_function_has_word(
+        source, syntax_data, function_node, "own"
+    );
+    bool ownership_relevant = flow_function_has_word(
+        source, syntax_data, function_node, "destroy"
+    );
+    if ownership_relevant_data != null {
+        ownership_relevant = ownership_relevant || read_usize(
+            ownership_relevant_data,
+            function_owner * size_of(usize)
+        ) != 0;
+    } else {
+        usize relevant_symbol = source_symbol_first;
+        while relevant_symbol < source_symbol_end && !ownership_relevant {
+            if read_record_field(detail_data, relevant_symbol, 2) ==
+                    function_owner {
+                usize relevant_kind = read_record_field(
+                    symbol_data, relevant_symbol, 0
+                );
+                if relevant_kind == resolution_symbol_variable() &&
+                    flow_symbol_resource_type(
+                        type_data, symbol_data, relevant_symbol
+                    ) {
+                    ownership_relevant = true;
+                } else if relevant_kind == resolution_symbol_parameter() &&
+                    (flow_symbol_resource_type(
+                        type_data, symbol_data, relevant_symbol
+                    ) || (has_own_word && flow_parameter_own(
+                        project_source, project_root, source_data,
+                        symbol_data, detail_data, relevant_symbol
+                    ))) {
+                    ownership_relevant = true;
+                }
+            }
+            relevant_symbol = relevant_symbol + 1;
+        }
+    }
+    if !ownership_relevant { return; }
     ptr byte state_data = memory.alloc(
         (symbols.length + 1) * size_of(usize)
     );
     scope memory.free(state_data);
-    usize symbol = 0;
-    while symbol < symbols.length {
+    usize symbol = source_symbol_first;
+    while symbol < source_symbol_end {
         flow_state_set(state_data, symbol, 0);
         if read_record_field(symbol_data, symbol, 0) ==
                 resolution_symbol_parameter() &&
@@ -254,18 +341,18 @@ unsafe void flow_analyze_ownership(
         symbol = symbol + 1;
     }
 
-    usize previous_end = 0;
-    usize previous_record = 0;
-    bool first = true;
-    while true {
-        usize requested_end = previous_end;
-        usize requested_record = previous_record;
-        if first { requested_end = 0; requested_record = 0; }
-        usize event = flow_event_next(
-            syntax_data, syntax, function_node,
-            requested_end, requested_record
+    ptr byte event_data = memory.alloc(
+        (syntax.length + 1) * size_of(usize)
+    );
+    scope memory.free(event_data);
+    usize event_count = flow_collect_events(
+        syntax_data, syntax, function_node, event_data
+    );
+    usize event_index = 0;
+    while event_index < event_count {
+        usize event = read_usize(
+            event_data, event_index * size_of(usize)
         );
-        if event >= syntax.length { break; }
         usize kind = read_record_field(syntax_data, event, 0);
         if kind == 38 && !flow_inside_kind(
             syntax_data, syntax, event, 23
@@ -472,14 +559,11 @@ unsafe void flow_analyze_ownership(
                 flow_state_set(state_data, destination, 1);
             }
         }
-        previous_end = read_record_field(syntax_data, event, 1) +
-            read_record_field(syntax_data, event, 2);
-        previous_record = event;
-        first = false;
+        event_index = event_index + 1;
     }
 
-    symbol = 0;
-    while symbol < symbols.length {
+    symbol = source_symbol_first;
+    while symbol < source_symbol_end {
         if flow_state_get(state_data, symbol) == 1 &&
             read_record_field(detail_data, symbol, 2) == function_owner {
             usize kind = read_record_field(symbol_data, symbol, 0);

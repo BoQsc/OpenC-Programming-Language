@@ -18,6 +18,7 @@ unsafe void c_release_source_context(
     memory.free(context.expression_next_start);
     memory.free(context.expression_start_next);
     memory.free(context.expression_start_heads);
+    memory.free(context.function_at_position);
     memory.free(context.expression_nodes);
     memory.free(context.control_nodes);
     memory.free(context.block_nodes);
@@ -186,7 +187,9 @@ unsafe bool c_emit_source_record(
     usize module_index,
     usize source_record,
     usize entry_module,
-    ref BuildTimings timings
+    ref BuildTimings timings,
+    bool validate_acceptance,
+    ptr byte validation_source_ms
 ) {
     usize phase_started = process.monotonic_milliseconds();
     text source;
@@ -346,6 +349,9 @@ unsafe bool c_emit_source_record(
     ptr byte expression_next_start = memory.alloc(
         (source_length + 1) * size_of(usize)
     );
+    ptr byte function_at_position = memory.alloc(
+        (source_length + 1) * size_of(usize)
+    );
     ptr byte name_nodes = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
@@ -400,6 +406,7 @@ unsafe bool c_emit_source_record(
     context.syntax = syntax;
     context.module_index = module_index;
     context.source_record = source_record;
+    context.function_result = semantic_type_void();
     context.name_cache = ir_pointer_alias(name_cache);
     context.spelling_cache = ir_pointer_alias(spelling_cache);
     context.spelling_cache_capacity = spelling_cache_capacity;
@@ -440,6 +447,7 @@ unsafe bool c_emit_source_record(
     context.expression_start_capacity = source_length + 1;
     context.expression_start_next = ir_pointer_alias(expression_start_next);
     context.expression_next_start = ir_pointer_alias(expression_next_start);
+    context.function_at_position = ir_pointer_alias(function_at_position);
     context.name_nodes = ir_pointer_alias(name_nodes);
     context.type_ref_nodes = ir_pointer_alias(type_ref_nodes);
     context.declaration_symbol_cache = ir_pointer_alias(
@@ -459,13 +467,51 @@ unsafe bool c_emit_source_record(
     ir_initialize_local_values(context);
     phase_started = process.monotonic_milliseconds();
     ir_initialize_node_indexes(context);
+    ir_initialize_parent_position_caches(context);
     ir_initialize_control_adjacency(context);
     ir_initialize_statement_adjacency(context);
     ir_initialize_initializer_fields(context);
     ir_initialize_array_elements(context);
     ir_initialize_declaration_symbols(context);
+    ir_initialize_function_positions(context);
     timings.index_ms = timings.index_ms +
         process.monotonic_milliseconds() - phase_started;
+    if validate_acceptance {
+        // Acceptance treats every declared local as semantically available;
+        // lowering later replaces these sentinels with concrete SSA values.
+        usize acceptance_symbol = 0;
+        while acceptance_symbol < context.symbols.length {
+            write_usize(
+                context.local_values,
+                acceptance_symbol * size_of(usize), 1
+            );
+            acceptance_symbol = acceptance_symbol + 1;
+        }
+        usize acceptance_started = process.monotonic_milliseconds();
+        usize found = acceptance_validate_context(context, timings);
+        usize acceptance_elapsed =
+            process.monotonic_milliseconds() - acceptance_started;
+        timings.validation_acceptance_ms =
+            timings.validation_acceptance_ms + acceptance_elapsed;
+        if validation_source_ms != null {
+            write_usize(
+                validation_source_ms,
+                source_record * size_of(usize),
+                read_usize(
+                    validation_source_ms,
+                    source_record * size_of(usize)
+                ) + acceptance_elapsed
+            );
+        }
+        timings.validation_acceptance_errors =
+            timings.validation_acceptance_errors + found;
+        base.types = context.types;
+        ir_initialize_local_values(context);
+        if found != 0 {
+            c_release_source_context(context, diagnostic_data);
+            return true;
+        }
+    }
     usize node = 0;
     while node < syntax.length {
         if read_record_field(syntax_data, node, 0) == 2 {
@@ -507,33 +553,38 @@ unsafe bool c_emit_source_record(
     return true;
 }
 
-unsafe void c_close_lowering_types(ref IrContext base) {
+unsafe void c_close_lowering_types_since(
+    ref IrContext base,
+    usize first_type
+) {
     // Null lowering has a canonical implementation type that source-level
     // semantic analysis does not otherwise need to materialize.
-    semantic_derived_type(
-        base.type_data, base.types, 13,
-        semantic_type_void(), 0, true, false
-    );
+    if first_type == 0 {
+        semantic_derived_type(
+            base.type_data, base.types, 13,
+            semantic_type_void(), 0, true, false
+        );
 
-    // Out parameters become addressable reference storage in the IR.
-    usize symbol = 0;
-    while symbol < base.symbols.length {
-        if read_record_field(base.symbol_data, symbol, 0) ==
-                resolution_symbol_parameter() &&
-            read_record_field(base.detail_data, symbol, 3) == 1 {
-            semantic_derived_type(
-                base.type_data, base.types, 12,
-                read_record_field(base.symbol_data, symbol, 4),
-                0, false, false
-            );
+        // Out parameters become addressable reference storage in the IR.
+        usize symbol = 0;
+        while symbol < base.symbols.length {
+            if read_record_field(base.symbol_data, symbol, 0) ==
+                    resolution_symbol_parameter() &&
+                read_record_field(base.detail_data, symbol, 3) == 1 {
+                semantic_derived_type(
+                    base.type_data, base.types, 12,
+                    read_record_field(base.symbol_data, symbol, 4),
+                    0, false, false
+                );
+            }
+            symbol = symbol + 1;
         }
-        symbol = symbol + 1;
     }
 
     // Array slicing and owned-storage access can synthesize these forms while
     // lowering even when no declaration spells them explicitly.
     usize semantic_type_count = base.types.length;
-    usize type_id = 0;
+    usize type_id = first_type;
     while type_id < semantic_type_count {
         usize kind = read_record_field(base.type_data, type_id, 0);
         if kind == 10 {
@@ -566,16 +617,25 @@ unsafe void c_close_lowering_types(ref IrContext base) {
     }
 }
 
+unsafe void c_close_lowering_types(ref IrContext base) {
+    c_close_lowering_types_since(base, 0);
+}
+
 unsafe i32 c_emit_project(
     ref IrContext base,
     text output_source,
     usize output_capacity,
     usize entry_module,
-    ref BuildTimings timings
+    ref BuildTimings timings,
+    bool validate_acceptance,
+    ptr byte validation_source_ms
 ) {
-    c_close_lowering_types(base);
+    // The fused validating path remains sequential and lets lowering create
+    // only the derived types it actually needs.  Eagerly closing every type
+    // before acceptance doubles the lookup set and defeats cache reuse.
+    if !validate_acceptance { c_close_lowering_types(base); }
     usize native_layout_cache_bytes =
-        (base.types.length + 1) * size_of(usize);
+        (base.types.capacity + 1) * size_of(usize);
     ptr byte native_layout_sizes = memory.alloc(native_layout_cache_bytes);
     scope memory.free(native_layout_sizes);
     ptr byte native_layout_alignments = memory.alloc(
@@ -591,7 +651,7 @@ unsafe i32 c_emit_project(
         base.native_layout_state_cache = ir_pointer_alias(
             native_layout_states);
         usize native_layout_index = 0;
-        while native_layout_index <= base.types.length {
+        while native_layout_index <= base.types.capacity {
             write_usize(native_layout_states,
                 native_layout_index * size_of(usize), 0);
             native_layout_index = native_layout_index + 1;
@@ -638,7 +698,7 @@ unsafe i32 c_emit_project(
         (base.symbols.length + 1) * size_of(usize)
     );
     ptr byte type_aggregate_symbols = memory.alloc(
-        (base.types.length + 1) * size_of(usize)
+        (base.types.capacity + 1) * size_of(usize)
     );
     ptr byte aggregate_field_first = memory.alloc(
         (base.symbols.length + 1) * size_of(usize)
@@ -649,6 +709,17 @@ unsafe i32 c_emit_project(
     ptr byte enum_item_value = memory.alloc(
         (base.symbols.length + 1) * size_of(usize)
     );
+    ptr byte symbol_export_cache = memory.alloc(
+        (base.symbols.length + 1) * size_of(usize)
+    );
+    scope memory.free(symbol_export_cache);
+    usize export_symbol = 0;
+    while export_symbol <= base.symbols.length {
+        write_usize(
+            symbol_export_cache, export_symbol * size_of(usize), 0
+        );
+        export_symbol = export_symbol + 1;
+    }
     ptr byte parameter_last = memory.alloc(
         (base.symbols.length + 1) * size_of(usize)
     );
@@ -676,8 +747,28 @@ unsafe i32 c_emit_project(
     );
     base.field_next = ir_pointer_alias(field_next);
     base.enum_item_value = ir_pointer_alias(enum_item_value);
+    base.symbol_export_cache = ir_pointer_alias(symbol_export_cache);
     ir_initialize_symbol_indexes(base, parameter_last);
     memory.free(parameter_last);
+    if validate_acceptance {
+        usize global_started = process.monotonic_milliseconds();
+        usize found = acceptance_validate_module_cycles(
+            base.project_source, base.project_root,
+            base.module_data, base.modules, base.source_data
+        );
+        acceptance_report_count(
+            "module_cycles", c_project_source_count(base), found
+        );
+        timings.validation_acceptance_errors =
+            timings.validation_acceptance_errors + found;
+        found = acceptance_validate_duplicate_functions(base);
+        acceptance_report_count("duplicate_functions", 0, found);
+        timings.validation_acceptance_errors =
+            timings.validation_acceptance_errors + found;
+        timings.validation_acceptance_ms =
+            timings.validation_acceptance_ms +
+            process.monotonic_milliseconds() - global_started;
+    }
     if timings.emission_mode == 0 {
         c_emit_function_prototypes(base, output, entry_module);
     }
@@ -701,7 +792,8 @@ unsafe i32 c_emit_project(
             while source_index < source_count {
                 if !c_emit_source_record(
                     base, output, module_index,
-                    source_first + source_index, entry_module, timings
+                    source_first + source_index, entry_module, timings,
+                    validate_acceptance, validation_source_ms
                 ) {
                     io.print("OPENC-C-BACKEND-SOURCE-FAILED module=");
                     io.print(module_index); io.print(" source=");
@@ -738,6 +830,23 @@ unsafe i32 c_emit_project(
     d_put(output, "    result = (int)oc_entry_main();\n");
     d_put(output, "    ocb_process_finalize();\n");
     d_put(output, "    return result;\n}\n");
+    }
+    if timings.validation_acceptance_errors != 0 {
+        io.print("SEMANTIC_ERROR ");
+        io.println(timings.validation_acceptance_errors);
+        memory.free(enum_item_value);
+        memory.free(field_next);
+        memory.free(aggregate_field_first);
+        memory.free(type_aggregate_symbols);
+        memory.free(function_local_range_end);
+        memory.free(function_local_range_first);
+        memory.free(parameter_next);
+        memory.free(function_parameter_count);
+        memory.free(function_parameter_first);
+        memory.free(function_bucket_next);
+        memory.free(function_bucket_heads);
+        d_buffer_destroy(output);
+        return 1;
     }
     if !output.ok {
         io.print("OPENC-C-BACKEND-BUFFER-EXHAUSTED length=");

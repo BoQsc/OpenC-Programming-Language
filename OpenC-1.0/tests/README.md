@@ -67,6 +67,14 @@ validation, and byte-identical semantic responses under opposite document-open
 orders. Three focused Python tests cover the fixture, schema, and verifier
 helpers.
 
+On 2026-09-10, the SH-20 compiler passes 20/20 byte-identical fully validating
+public rebuilds, 278/278 native conformance, 4/4 maintained programs, and all
+20 relocated standalone checks. Its five-run public-build and validation
+medians are 17.064 and 11.352 seconds. The normal compiler and package invoke
+no C, TinyCC, D, Python, assembler, external linker, or Microsoft CRT. Python
+still orchestrates external evidence in SH-20; replacing that required
+workflow layer is the active SH-21 milestone.
+
 Conformance execution is recorded separately by the canonical `openc validate`
 command. Local success is not evidence for untested targets or independent
 review.

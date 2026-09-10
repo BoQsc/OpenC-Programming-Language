@@ -9,8 +9,8 @@ unsafe bool acceptance_symbol_allocated(
     if symbol >= context.symbols.length || read_record_field(
         context.symbol_data, symbol, 0
     ) != resolution_symbol_variable() { return false; }
-    usize initializer = flow_local_initializer_root(
-        context.syntax_data, context.syntax,
+    usize initializer = ir_local_initializer_root(
+        context,
         read_record_field(context.detail_data, symbol, 1)
     );
     return acceptance_call_named(context, initializer, "memory.alloc") ||
@@ -85,11 +85,11 @@ unsafe usize acceptance_validate_pointer_order(ref IrContext context) {
             usize operator_start = read_record_field(
                 context.syntax_data, node, 3
             );
-            usize left = resolution_left_expression(
-                context.syntax_data, node, operator_start
+            usize left = ir_left_expression(
+                context, node, operator_start
             );
-            usize right = resolution_right_expression(
-                context.syntax_data, node,
+            usize right = ir_right_expression(
+                context, node,
                 operator_start + read_record_field(
                     context.syntax_data, node, 4
                 )

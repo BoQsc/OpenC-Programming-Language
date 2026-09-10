@@ -178,6 +178,14 @@ unsafe usize flow_assignment_for_symbol(
             while name < syntax.length {
                 if read_record_field(syntax_data, name, 0) == 27 &&
                     read_record_field(syntax_data, name, 1) == start &&
+                    semantic_spans_equal(
+                        source,
+                        read_record_field(syntax_data, name, 1),
+                        read_record_field(syntax_data, name, 2),
+                        source,
+                        read_record_field(symbol_data, symbol, 2),
+                        read_record_field(symbol_data, symbol, 3)
+                    ) &&
                     semantic_node_contains(syntax_data, record, name) {
                     usize found = flow_name_symbol(
                         project_source, project_root,
@@ -223,6 +231,14 @@ unsafe usize flow_assignment_count_for_symbol(
             while name < syntax.length {
                 if read_record_field(syntax_data, name, 0) == 27 &&
                     read_record_field(syntax_data, name, 1) == start &&
+                    semantic_spans_equal(
+                        source,
+                        read_record_field(syntax_data, name, 1),
+                        read_record_field(syntax_data, name, 2),
+                        source,
+                        read_record_field(symbol_data, symbol, 2),
+                        read_record_field(symbol_data, symbol, 3)
+                    ) &&
                     semantic_node_contains(syntax_data, record, name) {
                     usize found = flow_name_symbol(
                         project_source, project_root,

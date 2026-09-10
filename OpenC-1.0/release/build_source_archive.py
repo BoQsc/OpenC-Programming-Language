@@ -5,7 +5,7 @@ This program packages authored source. It does not compile, test, sign, or
 publish the implementation.
 """
 from __future__ import annotations
-import argparse, hashlib, zipfile
+import argparse, hashlib, os, shutil, zipfile
 from pathlib import Path
 
 EPOCH = (1980, 1, 1, 0, 0, 0)
@@ -27,12 +27,38 @@ def is_generated(root: Path, path: Path) -> bool:
     )
 
 def included_files(root: Path):
-    for path in sorted(root.rglob("*")):
-        if not path.is_file():
-            continue
-        if is_generated(root, path):
-            continue
-        yield path
+    root = root.resolve()
+    for directory, directories, files in os.walk(root, topdown=True):
+        current = Path(directory)
+        relative = current.relative_to(root)
+        # Prune ignored trees before walking them.  Building one giant sorted
+        # rglob list retained every historical build artifact in memory even
+        # though those paths were discarded immediately afterwards.
+        directories[:] = sorted(
+            name
+            for name in directories
+            if name not in EXCLUDED_PARTS
+            and not (
+                len(relative.parts) == 2
+                and relative.parts[0] == "programs"
+                and name == "build"
+            )
+            and not (
+                relative.as_posix() == "build" and name == "generated"
+            )
+        )
+        for name in sorted(files):
+            path = current / name
+            if not is_generated(root, path):
+                yield path
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        while chunk := source.read(1024 * 1024):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -51,8 +77,11 @@ def main() -> int:
             info.compress_type = zipfile.ZIP_DEFLATED
             mode = 0o100755 if path.suffix in {".sh", ".py"} or path.parent.name == "bin" else 0o100644
             info.external_attr = (mode & 0xFFFF) << 16
-            archive.writestr(info, path.read_bytes())
-    digest = hashlib.sha256(args.output.read_bytes()).hexdigest()
+            with path.open("rb") as source, archive.open(
+                info, "w", force_zip64=True
+            ) as destination:
+                shutil.copyfileobj(source, destination, length=1024 * 1024)
+    digest = sha256(args.output)
     print(f"{digest}  {args.output.name}")
     return 0
 

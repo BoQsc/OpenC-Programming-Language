@@ -1,6 +1,16 @@
 # SH-20 native public throughput convergence
 
-Status: **NEXT ACTIVE**.
+Status: **PASS (2026-09-10)**.
+
+The final 116-source public compiler closes at SHA-256
+`b82b228989c915db04370ed9463ac722375c610bbc15c497830b1c39ed707de3`.
+Its five-run public-build median is 17.064 seconds, validation median is 11.352
+seconds, and all 20 chained builds are byte-identical. The same-host reference
+medians are 22.732 seconds for optimized ISO C and 17.504 seconds for D. Peak
+compiler memory is 216,932,352 private bytes and 49,405,952 working-set bytes.
+Conformance remains 278/278, maintained programs 4/4, the full workflow 16/16,
+and the standalone release 20/20. Complete evidence is in
+`../../release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md`.
 
 SH-19 makes the normal compiler and its emitted programs independent of C,
 TinyCC, D, Python, an assembler, and an external linker. It does not make the

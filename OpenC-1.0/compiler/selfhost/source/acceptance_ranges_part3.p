@@ -99,10 +99,35 @@ unsafe bool acceptance_value_shadows_builtin_alias(
 
 unsafe usize acceptance_validate_import_aliases(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
+    ptr byte import_data = memory.alloc(
+        (context.syntax.length + 1) * size_of(usize)
+    );
+    scope memory.free(import_data);
+    usize import_count = 0;
+    usize candidate = 0;
+    while candidate < context.syntax.length {
+        if read_record_field(context.syntax_data, candidate, 0) == 1 {
+            write_usize(
+                import_data, import_count * size_of(usize), candidate
+            );
+            import_count = import_count + 1;
+        }
+        candidate = candidate + 1;
+    }
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.name_nodes != null { node_count = context.name_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.name_nodes != null {
+            node = read_usize(
+                context.name_nodes, node_index * size_of(usize)
+            );
+        }
         if read_record_field(context.syntax_data, node, 0) == 27 &&
-            !acceptance_inside_import(context, node) {
+            !acceptance_inside_import(
+                context, node, import_data, import_count
+            ) {
             usize start = read_record_field(context.syntax_data, node, 1);
             usize length = read_record_field(context.syntax_data, node, 2);
             usize dot = 0;
@@ -123,7 +148,7 @@ unsafe usize acceptance_validate_import_aliases(ref IrContext context) {
                 }
             }
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return errors;
 }
@@ -175,14 +200,14 @@ unsafe usize acceptance_validate_optional_proofs(ref IrContext context) {
                             ) == 37 && semantic_node_contains(
                                 context.syntax_data, body, assignment
                             ) {
-                                usize left = resolution_left_expression(
-                                    context.syntax_data, assignment,
+                                usize left = ir_left_expression(
+                                    context, assignment,
                                     read_record_field(
                                         context.syntax_data, assignment, 3
                                     )
                                 );
-                                usize right = resolution_right_expression(
-                                    context.syntax_data, assignment,
+                                usize right = ir_right_expression(
+                                    context, assignment,
                                     read_record_field(
                                         context.syntax_data, assignment, 3
                                     ) + read_record_field(

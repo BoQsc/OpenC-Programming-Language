@@ -63,6 +63,7 @@ struct IrContext {
     usize expression_start_capacity;
     ptr byte expression_start_next;
     ptr byte expression_next_start;
+    ptr byte function_at_position;
     ptr byte name_nodes;
     usize name_count;
     ptr byte type_ref_nodes;
@@ -82,6 +83,7 @@ struct IrContext {
     ptr byte aggregate_field_first;
     ptr byte field_next;
     ptr byte enum_item_value;
+    ptr byte symbol_export_cache;
     ptr byte native_layout_size_cache;
     ptr byte native_layout_alignment_cache;
     ptr byte native_layout_state_cache;
@@ -263,7 +265,8 @@ unsafe void ir_initialize_symbol_indexes(
             );
         }
         if kind == resolution_symbol_struct() ||
-            kind == resolution_symbol_resource() {
+            kind == resolution_symbol_resource() ||
+            kind == resolution_symbol_enum() {
             usize type_id = read_record_field(
                 context.symbol_data, symbol, 4
             );
@@ -694,6 +697,158 @@ unsafe void ir_initialize_local_values(ref IrContext context) {
         );
         symbol = symbol + 1;
     }
+}
+
+unsafe void ir_initialize_function_positions(ref IrContext context) {
+    if context.function_at_position == null ||
+        context.expression_start_capacity == 0 { return; }
+    usize position = 0;
+    while position < context.expression_start_capacity {
+        write_usize(
+            context.function_at_position, position * size_of(usize), 0
+        );
+        position = position + 1;
+    }
+    usize symbol = 0;
+    while symbol < context.symbols.length {
+        if read_record_field(context.symbol_data, symbol, 0) ==
+                resolution_symbol_function() && read_record_field(
+                context.symbol_data, symbol, 1
+            ) == context.source_record {
+            usize declaration = read_record_field(
+                context.detail_data, symbol, 1
+            );
+            if declaration < context.syntax.length {
+                usize start = read_record_field(
+                    context.syntax_data, declaration, 1
+                );
+                usize end = start + read_record_field(
+                    context.syntax_data, declaration, 2
+                );
+                if end > context.expression_start_capacity {
+                    end = context.expression_start_capacity;
+                }
+                while start < end {
+                    write_usize(
+                        context.function_at_position,
+                        start * size_of(usize), symbol + 1
+                    );
+                    start = start + 1;
+                }
+            }
+        }
+        symbol = symbol + 1;
+    }
+}
+
+unsafe void ir_initialize_parent_position_kind(
+    ref IrContext context,
+    bool blocks,
+    ptr byte second_at_position
+) {
+    if context.function_at_position == null ||
+        context.expression_start_capacity == 0 { return; }
+    usize position = 0;
+    while position < context.expression_start_capacity {
+        write_usize(
+            context.function_at_position, position * size_of(usize), 0
+        );
+        write_usize(
+            second_at_position, position * size_of(usize), 0
+        );
+        position = position + 1;
+    }
+    usize candidate_count = context.control_count;
+    ptr byte candidates = context.control_nodes;
+    if blocks {
+        candidate_count = context.block_count;
+        candidates = context.block_nodes;
+    }
+    usize index = 0;
+    while index < candidate_count {
+        usize candidate = read_usize(
+            candidates, index * size_of(usize)
+        );
+        usize candidate_length = read_record_field(
+            context.syntax_data, candidate, 2
+        );
+        usize start = read_record_field(
+            context.syntax_data, candidate, 1
+        );
+        usize end = start + candidate_length;
+        if end > context.expression_start_capacity {
+            end = context.expression_start_capacity;
+        }
+        while start < end {
+            usize best = read_usize(
+                context.function_at_position, start * size_of(usize)
+            );
+            if best == 0 || candidate_length < read_record_field(
+                    context.syntax_data, best - 1, 2
+                ) {
+                write_usize(
+                    second_at_position, start * size_of(usize), best
+                );
+                write_usize(
+                    context.function_at_position,
+                    start * size_of(usize), candidate + 1
+                );
+            } else {
+                usize second = read_usize(
+                    second_at_position, start * size_of(usize)
+                );
+                if candidate + 1 != best && (second == 0 ||
+                    candidate_length < read_record_field(
+                        context.syntax_data, second - 1, 2
+                    )) {
+                    write_usize(
+                        second_at_position,
+                        start * size_of(usize), candidate + 1
+                    );
+                }
+            }
+            start = start + 1;
+        }
+        index = index + 1;
+    }
+    ptr byte parent_cache = context.control_parent_cache;
+    if blocks { parent_cache = context.block_parent_cache; }
+    usize node = 0;
+    while node < context.syntax.length {
+        usize start = read_record_field(context.syntax_data, node, 1);
+        usize parent = 0;
+        if start < context.expression_start_capacity {
+            parent = read_usize(
+                context.function_at_position, start * size_of(usize)
+            );
+            if parent == node + 1 {
+                parent = read_usize(
+                    second_at_position, start * size_of(usize)
+                );
+            }
+        }
+        usize selected = context.syntax.length;
+        if parent != 0 && semantic_node_contains(
+            context.syntax_data, parent - 1, node
+        ) { selected = parent - 1; }
+        write_usize(parent_cache, node * size_of(usize), selected);
+        node = node + 1;
+    }
+}
+
+unsafe void ir_initialize_parent_position_caches(ref IrContext context) {
+    if context.function_at_position == null ||
+        context.expression_start_capacity == 0 { return; }
+    ptr byte second_at_position = memory.alloc(
+        context.expression_start_capacity * size_of(usize)
+    );
+    scope memory.free(second_at_position);
+    ir_initialize_parent_position_kind(
+        context, true, second_at_position
+    );
+    ir_initialize_parent_position_kind(
+        context, false, second_at_position
+    );
 }
 
 unsafe void ir_initialize_node_indexes(ref IrContext context) {

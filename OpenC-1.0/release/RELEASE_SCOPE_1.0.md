@@ -4,15 +4,18 @@
 
 OpenC 1.0 ships an owner-certified Core and Hosted source distribution plus a
 standalone reference implementation verified on Windows 10 x86-64. The
-OpenC-native compiler and shipped TinyCC backend do not require DMD, DUB, or
-Python to build OpenC projects. The retained D/DUB/Python toolchain remains
-recorded for audit, legacy conformance, and reference-implementation regression
-evidence.
+OpenC-native compiler directly emits x64/PE32+ and requires no TinyCC, C
+headers/runtime, DMD, DUB, Python, assembler, or external linker to build
+OpenC projects. Retained D/DUB/Python/C/TinyCC material is historical optional
+bootstrap, differential-audit, and comparison evidence and is not included in
+the standalone compiler package.
 
-The required 1.0 implementation gates are Windows debug/release builds, the D
-and Python tests, the complete authored conformance manifest, runtime fixtures,
-maintained programs, structure/source-completeness checks, deterministic source
-archives, and the local licensing/governance authorization.
+The current required compiler/package gates are the OpenC-native Windows build,
+the complete authored conformance manifest, runtime fixtures, maintained
+programs, native CLI/project/language-service checks, deterministic standalone
+archives, bounded memory/throughput gates, and local licensing/governance
+authorization. SH-20 still uses Python plus optional C/D tools to orchestrate
+and compare external evidence; SH-21 replaces that remaining workflow layer.
 
 Canonical OpenC source uses `.p`. The source distribution also contains an
 executed compiler-in-OpenC frontend with SH-1 bootstrap, SH-2A exact lexical
@@ -21,15 +24,17 @@ exact project/module parity, and full syntactic/project SH-2 parity. Semantic
 and IR parity (SH-3) plus bootstrap self-compilation and closure (SH-4) also
 pass. DMD-independent Windows self-hosting (SH-5) passes through deterministic
 C11 emission and the shipped TinyCC 0.9.27 Win64 backend. Standalone packaging
-and distribution verification (SH-6) also pass: the relocatable package
-rebuilds the compiler through byte-identical native stages and passes the full
-authored conformance and maintained-program gates.
+and distribution verification (SH-6) also pass. SH-19 supersedes their normal
+artifact path with first-party x64/PE32+ emission, and SH-20 proves C/D-class
+public throughput. The relocatable package rebuilds the compiler through
+byte-identical native stages and passes the full authored conformance and
+maintained-program gates without the historical toolchains.
 
 The supported standalone library mode is the six compiler-provided
 `system.file`, `system.io`, `system.memory`, `system.path`, `system.process`,
-and `system.text` modules backed by the packaged Windows C runtime and native
-shim. Authored Native-provider `.p` sources are distributed as future work and
-are not part of the supported 1.0 package claim.
+and `system.text` modules backed by the OpenC-owned CRT-free Windows runtime.
+Authored Native-provider `.p` sources outside that compiler-provided mode are
+distributed as future work and are not part of the supported 1.0 package claim.
 
 ## Experimental source included without a support claim
 

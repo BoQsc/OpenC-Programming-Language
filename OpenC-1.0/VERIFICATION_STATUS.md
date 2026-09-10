@@ -1,6 +1,6 @@
 # OpenC 1.0.0-rc.9 verification status
 
-Date: 2026-09-09
+Date: 2026-09-10
 Host: Windows 10.0.19045, x86-64
 
 ## Verified scope
@@ -291,8 +291,17 @@ conformance, and the 20/20 standalone release gate without C, TinyCC, D,
 Python, an assembler, an external linker, or a Microsoft CRT. See
 `release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md`.
 
-SH-20 public throughput convergence is the next active milestone. Its honest
-baseline is 109.328 seconds for a fully validating public self-build, including
-97.828 seconds in semantic validation. Required Python workflow replacement
-follows in SH-21. Editor integration is deferred to SH-24, and
-Linux/freestanding remain optional.
+SH-20 public throughput convergence is now **PASS**. The fully validating
+public self-build has a 17.064-second five-run median, including an
+11.352-second validation median, against same-host 22.732-second optimized ISO
+C and 17.504-second D reference medians. All 20 chained builds produce the
+same 4,941,312-byte compiler at SHA-256
+`b82b228989c915db04370ed9463ac722375c610bbc15c497830b1c39ed707de3`.
+Peak compiler private and working-set memory are 216,932,352 and 49,405,952
+bytes. The final aggregate workflow passes 16/16; the independently built
+standalone archives are byte-identical and pass all 20 relocated-release
+checks. Their final hash is recorded outside the archive in
+`release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md`, avoiding a
+self-referential package. Required Python workflow replacement is now active
+in SH-21. Editor integration is deferred to SH-24, and Linux/freestanding
+remain optional.

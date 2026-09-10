@@ -19,14 +19,28 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from native_toolchain import resolve_native_compiler, validate_native_compiler
 
 STANDALONE_EXCLUDED_SUFFIXES = {".c", ".d", ".h", ".py", ".pyc"}
-STANDALONE_EXCLUDED_NAMES = {"dub.json", "dub.selections.json"}
+STANDALONE_EXCLUDED_NAMES = {
+    "dub.json",
+    "dub.selections.json",
+    # The standalone distribution owns a manifest generated from its exact
+    # contents.  Shipping the full source-tree manifest would describe files
+    # intentionally omitted from this package.
+    "manifest.sha256",
+    # This record contains the final standalone archive hash, so keeping it
+    # outside the archive avoids a self-referential release artifact.
+    "sh20_native_public_throughput_evidence.md",
+}
 STANDALONE_EXCLUDED_PREFIXES = {
     ("third_party", "tinycc-win64"),
 }
 
 
 def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        while chunk := source.read(1024 * 1024):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def prepare_directory(path: Path, force: bool) -> None:
@@ -82,7 +96,13 @@ def write_archive(tree: Path, archive: Path) -> None:
             info = zipfile.ZipInfo(relative.as_posix(), EPOCH)
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
-            bundle.writestr(info, path.read_bytes())
+            # Keep release memory bounded even when the distribution contains
+            # large pinned metadata.  writestr(path.read_bytes()) retained the
+            # entire input plus the compressor's buffers at once.
+            with path.open("rb") as source, bundle.open(
+                info, "w", force_zip64=True
+            ) as destination:
+                shutil.copyfileobj(source, destination, length=1024 * 1024)
 
 
 def main() -> int:

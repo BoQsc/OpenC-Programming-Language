@@ -39,17 +39,23 @@ unsafe usize acceptance_validate_function(
         );
         errors = errors + 1;
     }
-    usize symbol = 0;
-    while symbol < context.symbols.length {
-        if read_record_field(context.symbol_data, symbol, 0) ==
-                resolution_symbol_parameter() &&
-            read_record_field(context.detail_data, symbol, 2) ==
-                function_symbol + 1 && acceptance_prefix_has(
-                    context,
-                    read_record_field(context.detail_data, symbol, 1), "own"
-                ) {
+    usize parameter_index = 0;
+    usize parameter_count = acceptance_parameter_count(
+        context, function_symbol
+    );
+    while parameter_index < parameter_count {
+        usize parameter_symbol = acceptance_parameter_at(
+            context, function_symbol, parameter_index
+        );
+        if parameter_symbol < context.symbols.length &&
+            acceptance_prefix_has(
+                context,
+                read_record_field(
+                    context.detail_data, parameter_symbol, 1
+                ), "own"
+            ) {
             usize type_id = read_record_field(
-                context.symbol_data, symbol, 4
+                context.symbol_data, parameter_symbol, 4
             );
             if !acceptance_resource(context, type_id) &&
                 acceptance_kind(context, type_id) != 13 {
@@ -59,10 +65,18 @@ unsafe usize acceptance_validate_function(
                 errors = errors + 1;
             }
         }
-        symbol = symbol + 1;
+        parameter_index = parameter_index + 1;
     }
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.statement_nodes != null { node_count = context.statement_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.statement_nodes != null {
+            node = read_usize(
+                context.statement_nodes, node_index * size_of(usize)
+            );
+        }
         if read_record_field(context.syntax_data, node, 0) == 22 &&
             semantic_node_contains(context.syntax_data, function_node, node) {
             usize value = flow_root_expression(
@@ -101,8 +115,8 @@ unsafe usize acceptance_validate_function(
                 if acceptance_kind(context, result_type) == 11 {
                     usize root = value_name;
                     if read_record_field(context.syntax_data, value, 0) == 41 {
-                        root = resolution_left_expression(
-                            context.syntax_data, value,
+                        root = ir_left_expression(
+                            context, value,
                             read_record_field(context.syntax_data, value, 3)
                         );
                     }
@@ -117,15 +131,16 @@ unsafe usize acceptance_validate_function(
                 }
                 if read_record_field(context.syntax_data, value, 0) == 47 &&
                     acceptance_status_failure(context, value) {
-                    symbol = 0;
-                    while symbol < context.symbols.length {
-                        if read_record_field(context.symbol_data, symbol, 0) ==
-                                resolution_symbol_parameter() &&
-                            read_record_field(context.detail_data, symbol, 2) ==
-                                function_symbol + 1 && read_record_field(
-                                    context.detail_data, symbol, 3
+                    parameter_index = 0;
+                    while parameter_index < parameter_count {
+                        usize parameter_symbol = acceptance_parameter_at(
+                            context, function_symbol, parameter_index
+                        );
+                        if parameter_symbol < context.symbols.length &&
+                            read_record_field(
+                                    context.detail_data, parameter_symbol, 3
                                 ) == 1 && acceptance_out_assigned(
-                                    context, function_node, symbol,
+                                    context, function_node, parameter_symbol,
                                     read_record_field(context.syntax_data, node, 1)
                                 ) {
                                 acceptance_report_node(
@@ -133,7 +148,7 @@ unsafe usize acceptance_validate_function(
                                 );
                                 errors = errors + 1;
                             }
-                        symbol = symbol + 1;
+                        parameter_index = parameter_index + 1;
                     }
                 }
             } else if result_type != semantic_type_void() {
@@ -143,42 +158,43 @@ unsafe usize acceptance_validate_function(
                 errors = errors + 1;
             }
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return errors;
 }
 
 unsafe usize acceptance_validate_functions(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
-        if read_record_field(context.syntax_data, node, 0) == 2 {
-            usize owner = resolution_find_owner_symbol(
-                context.symbol_data, context.detail_data, context.symbols,
-                context.source_record, node,
-                resolution_symbol_function(), 0
+    usize symbol = acceptance_source_symbol_first(context);
+    usize symbol_end = acceptance_source_symbol_end(context, symbol);
+    while symbol < symbol_end {
+        if read_record_field(context.symbol_data, symbol, 0) ==
+                resolution_symbol_function() {
+            usize node = read_record_field(
+                context.detail_data, symbol, 1
             );
-            if owner != 0 {
+            if node < context.syntax.length {
                 errors = errors + acceptance_validate_function(
-                    context, node, owner - 1
+                    context, node, symbol
                 );
             }
         }
-        node = node + 1;
+        symbol = symbol + 1;
     }
     return errors;
 }
 
 unsafe usize acceptance_validate_scopes(ref IrContext context) {
     usize errors = 0;
-    usize left = 0;
-    while left < context.symbols.length {
+    usize left = acceptance_source_symbol_first(context);
+    usize symbol_end = acceptance_source_symbol_end(context, left);
+    while left < symbol_end {
         if read_record_field(context.symbol_data, left, 0) ==
                 resolution_symbol_variable() &&
             read_record_field(context.symbol_data, left, 1) ==
                 context.source_record {
             usize right = left + 1;
-            while right < context.symbols.length {
+            while right < symbol_end {
                 if read_record_field(context.symbol_data, right, 0) ==
                         resolution_symbol_variable() &&
                     read_record_field(context.symbol_data, right, 1) ==
@@ -192,11 +208,11 @@ unsafe usize acceptance_validate_scopes(ref IrContext context) {
                     usize right_declaration = read_record_field(
                         context.detail_data, right, 1
                     );
-                    usize left_block = flow_smallest_block_parent(
-                        context.syntax_data, context.syntax, left_declaration
+                    usize left_block = ir_block_parent(
+                        context, left_declaration
                     );
-                    usize right_block = flow_smallest_block_parent(
-                        context.syntax_data, context.syntax, right_declaration
+                    usize right_block = ir_block_parent(
+                        context, right_declaration
                     );
                     if left_block == right_block {
                         acceptance_report_node(
@@ -222,14 +238,21 @@ unsafe usize acceptance_validate_scopes(ref IrContext context) {
         left = left + 1;
     }
 
-    usize for_node = 0;
-    while for_node < context.syntax.length {
-        if read_record_field(context.syntax_data, for_node, 0) == 16 {
-            usize body = flow_largest_direct_block(
-                context.syntax_data, context.syntax, for_node
+    usize for_index = 0;
+    usize for_count = context.syntax.length;
+    if context.control_nodes != null { for_count = context.control_count; }
+    while for_index < for_count {
+        usize for_node = for_index;
+        if context.control_nodes != null {
+            for_node = read_usize(
+                context.control_nodes, for_index * size_of(usize)
             );
-            usize symbol = 0;
-            while symbol < context.symbols.length {
+        }
+        if read_record_field(context.syntax_data, for_node, 0) == 16 {
+            usize body = ir_largest_direct_block(context, for_node);
+            usize symbol = acceptance_source_symbol_first(context);
+            usize local_end = acceptance_source_symbol_end(context, symbol);
+            while symbol < local_end {
                 if read_record_field(context.symbol_data, symbol, 0) ==
                         resolution_symbol_variable() &&
                     read_record_field(context.symbol_data, symbol, 1) ==
@@ -242,8 +265,19 @@ unsafe usize acceptance_validate_scopes(ref IrContext context) {
                     ) && (body >= context.syntax.length ||
                         read_record_field(context.syntax_data, declaration, 1) <
                         read_record_field(context.syntax_data, body, 1)) {
-                        usize use = 0;
-                        while use < context.syntax.length {
+                        usize use_index = 0;
+                        usize use_count = context.syntax.length;
+                        if context.name_nodes != null {
+                            use_count = context.name_count;
+                        }
+                        while use_index < use_count {
+                            usize use = use_index;
+                            if context.name_nodes != null {
+                                use = read_usize(
+                                    context.name_nodes,
+                                    use_index * size_of(usize)
+                                );
+                            }
                             if read_record_field(context.syntax_data, use, 0) == 27 &&
                                 read_record_field(context.syntax_data, use, 1) >=
                                     read_record_field(context.syntax_data, for_node, 1) +
@@ -254,14 +288,14 @@ unsafe usize acceptance_validate_scopes(ref IrContext context) {
                                 );
                                 errors = errors + 1;
                             }
-                            use = use + 1;
+                            use_index = use_index + 1;
                         }
                     }
                 }
                 symbol = symbol + 1;
             }
         }
-        for_node = for_node + 1;
+        for_index = for_index + 1;
     }
     return errors;
 }

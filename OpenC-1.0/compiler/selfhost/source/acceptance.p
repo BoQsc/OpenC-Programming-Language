@@ -8,6 +8,29 @@ struct AcceptanceRange {
     i64 upper;
 }
 
+unsafe usize acceptance_source_symbol_first(ref IrContext context) {
+    usize symbol = 0;
+    while symbol < context.symbols.length && read_record_field(
+        context.symbol_data, symbol, 1
+    ) != context.source_record {
+        symbol = symbol + 1;
+    }
+    return symbol;
+}
+
+unsafe usize acceptance_source_symbol_end(
+    ref IrContext context,
+    usize first
+) {
+    usize symbol = first;
+    while symbol < context.symbols.length && read_record_field(
+        context.symbol_data, symbol, 1
+    ) == context.source_record {
+        symbol = symbol + 1;
+    }
+    return symbol;
+}
+
 unsafe usize acceptance_kind(ref IrContext context, usize type_id) {
     if type_id >= context.types.length { return 0; }
     return read_record_field(context.type_data, type_id, 0);
@@ -169,8 +192,8 @@ unsafe ResolutionInteger acceptance_integer_value(
         context.source, context.syntax_data, node, "-"
     ) {
         usize operator_start = read_record_field(context.syntax_data, node, 3);
-        usize child = resolution_right_expression(
-            context.syntax_data, node,
+        usize child = ir_right_expression(
+            context, node,
             operator_start + read_record_field(context.syntax_data, node, 4)
         );
         ResolutionInteger value = acceptance_integer_value(context, child);

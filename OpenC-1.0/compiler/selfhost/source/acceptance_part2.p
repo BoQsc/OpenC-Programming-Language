@@ -47,6 +47,10 @@ unsafe bool acceptance_known_named_type(
     usize type_id
 ) {
     if acceptance_kind(context, type_id) != 9 { return true; }
+    if context.type_aggregate_symbols != null &&
+        type_id < context.types.length && read_usize(
+            context.type_aggregate_symbols, type_id * size_of(usize)
+        ) != 0 { return true; }
     usize symbol = 0;
     while symbol < context.symbols.length {
         usize kind = read_record_field(context.symbol_data, symbol, 0);
@@ -74,8 +78,16 @@ unsafe bool acceptance_known_named_type(
 
 unsafe usize acceptance_validate_type_refs(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.type_ref_nodes != null { node_count = context.type_ref_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.type_ref_nodes != null {
+            node = read_usize(
+                context.type_ref_nodes, node_index * size_of(usize)
+            );
+        }
         if read_record_field(context.syntax_data, node, 0) == 26 {
             usize type_id = ir_resolve_type_node(context, node);
             usize kind = acceptance_kind(context, type_id);
@@ -88,40 +100,43 @@ unsafe usize acceptance_validate_type_refs(ref IrContext context) {
                 errors = errors + 1;
             }
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return errors;
 }
 
 unsafe usize acceptance_validate_fields(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
-        if read_record_field(context.syntax_data, node, 0) == 9 {
-            usize found = resolution_find_owner_symbol(
-                context.symbol_data, context.detail_data, context.symbols,
-                context.source_record, node,
-                resolution_symbol_field(), 0
+    usize symbol = acceptance_source_symbol_first(context);
+    usize symbol_end = acceptance_source_symbol_end(context, symbol);
+    while symbol < symbol_end {
+        if read_record_field(context.symbol_data, symbol, 0) ==
+                resolution_symbol_field() {
+            usize type_id = read_record_field(
+                context.symbol_data, symbol, 4
             );
-            if found != 0 {
-                usize type_id = read_record_field(
-                    context.symbol_data, found - 1, 4
-                );
-                usize kind = acceptance_kind(context, type_id);
-                if kind == 1 || kind == 11 || kind == 12 || kind == 15 {
-                    errors = errors + 1;
-                }
+            usize kind = acceptance_kind(context, type_id);
+            if kind == 1 || kind == 11 || kind == 12 || kind == 15 {
+                errors = errors + 1;
             }
         }
-        node = node + 1;
+        symbol = symbol + 1;
     }
     return errors;
 }
 
 unsafe usize acceptance_validate_locals(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.statement_nodes != null { node_count = context.statement_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.statement_nodes != null {
+            node = read_usize(
+                context.statement_nodes, node_index * size_of(usize)
+            );
+        }
         if read_record_field(context.syntax_data, node, 0) == 12 {
             usize symbol = ir_local_symbol(context, node);
             if symbol < context.symbols.length {
@@ -129,9 +144,7 @@ unsafe usize acceptance_validate_locals(ref IrContext context) {
                     context.symbol_data, symbol, 4
                 );
                 usize kind = acceptance_kind(context, expected);
-                usize initializer = flow_local_initializer_root(
-                    context.syntax_data, context.syntax, node
-                );
+                usize initializer = ir_local_initializer_root(context, node);
                 if kind == 1 { errors = errors + 1; }
                 if kind == 12 && initializer >= context.syntax.length {
                     errors = errors + 1;
@@ -162,7 +175,7 @@ unsafe usize acceptance_validate_locals(ref IrContext context) {
                 }
             }
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return errors;
 }
@@ -195,8 +208,8 @@ unsafe bool acceptance_mutable(ref IrContext context, usize node) {
         context.source, context.syntax_data, node, "*"
     ) {
         usize operator_start = read_record_field(context.syntax_data, node, 3);
-        usize child = resolution_right_expression(
-            context.syntax_data, node,
+        usize child = ir_right_expression(
+            context, node,
             operator_start + read_record_field(context.syntax_data, node, 4)
         );
         usize pointer = ir_node_type(

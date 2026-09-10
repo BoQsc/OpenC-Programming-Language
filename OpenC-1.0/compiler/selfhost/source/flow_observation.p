@@ -100,7 +100,8 @@ unsafe void flow_observe_source(
                     module_data, modules, source_data,
                     symbol_data, detail_data, symbols,
                     syntax_data, syntax, module_index, source_record,
-                    function_node, source, error_data, errors
+                    function_node, 0, 0, symbols.length,
+                    source, error_data, errors
                 );
                 if flow_function_has_word(
                     source, syntax_data, function_node, "out"
@@ -119,7 +120,8 @@ unsafe void flow_observe_source(
                     module_data, modules, source_data,
                     type_data, symbol_data, detail_data, symbols,
                     token_data, tokens, syntax_data, syntax,
-                    module_index, source_record, function_node, source,
+                    module_index, source_record, function_node,
+                    0, 0, symbols.length, null, source,
                     error_data, errors
                 );
                 if flow_function_has_word(
@@ -183,4 +185,3 @@ unsafe void flow_observe_source(
 // Run the owned flow/safety analyzers without emitting observation records.
 // The canonical-IR command uses this entry point so semantic rejection is a
 // property of the self-hosted compiler, rather than a parity-harness fallback.
-

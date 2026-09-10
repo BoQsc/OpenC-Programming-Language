@@ -392,6 +392,23 @@ unsafe usize flow_call_argument_name(
     usize callee = read_record_field(syntax_data, call, 3);
     usize selected = syntax.length;
     usize selected_start = cast(usize, 4294967295);
+    if requested == 0 {
+        usize callee_start = read_record_field(syntax_data, callee, 1);
+        usize record = 0;
+        while record < syntax.length {
+            if record != callee &&
+                read_record_field(syntax_data, record, 0) == 27 &&
+                semantic_node_contains(syntax_data, call, record) {
+                usize start = read_record_field(syntax_data, record, 1);
+                if start > callee_start && start < selected_start {
+                    selected = record;
+                    selected_start = start;
+                }
+            }
+            record = record + 1;
+        }
+        return selected;
+    }
     usize index = 0;
     while true {
         selected = syntax.length;

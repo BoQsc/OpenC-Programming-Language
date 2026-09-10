@@ -4,8 +4,16 @@ import system.text;
 
 unsafe usize acceptance_validate_conditions(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.control_nodes != null { node_count = context.control_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.control_nodes != null {
+            node = read_usize(
+                context.control_nodes, node_index * size_of(usize)
+            );
+        }
         usize kind = read_record_field(context.syntax_data, node, 0);
         if kind == 14 || kind == 15 || kind == 25 {
             usize body = ir_direct_block(context, node, 0);
@@ -19,20 +27,28 @@ unsafe usize acceptance_validate_conditions(ref IrContext context) {
                 ) != semantic_type_bool() { errors = errors + 1; }
             }
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return errors;
 }
 
 unsafe usize acceptance_validate_index_ranges(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.expression_nodes != null { node_count = context.expression_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.expression_nodes != null {
+            node = read_usize(
+                context.expression_nodes, node_index * size_of(usize)
+            );
+        }
         usize kind = read_record_field(context.syntax_data, node, 0);
         if kind == 40 || kind == 41 {
             usize bracket = read_record_field(context.syntax_data, node, 3);
-            usize base = resolution_left_expression(
-                context.syntax_data, node, bracket
+            usize base = ir_left_expression(
+                context, node, bracket
             );
             usize base_type = ir_node_type(
                 context, base, semantic_type_error()
@@ -125,7 +141,7 @@ unsafe usize acceptance_validate_index_ranges(ref IrContext context) {
                 }
             }
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return errors;
 }
@@ -152,8 +168,16 @@ unsafe usize acceptance_typed_value(
 
 unsafe usize acceptance_validate_casts(ref IrContext context) {
     usize errors = 0;
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.expression_nodes != null { node_count = context.expression_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.expression_nodes != null {
+            node = read_usize(
+                context.expression_nodes, node_index * size_of(usize)
+            );
+        }
         usize kind = read_record_field(context.syntax_data, node, 0);
         if kind == 42 || kind == 43 {
             usize target = ir_resolve_type_node(
@@ -218,7 +242,7 @@ unsafe usize acceptance_validate_casts(ref IrContext context) {
             );
             if target == semantic_type_void() { errors = errors + 1; }
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return errors;
 }

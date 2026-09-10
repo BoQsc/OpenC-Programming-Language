@@ -44,6 +44,32 @@ unsafe void ir_select_node_function(
     usize node
 ) {
     if node >= context.syntax.length { return; }
+    if context.function_at_position != null {
+        usize start = read_record_field(context.syntax_data, node, 1);
+        if start < context.expression_start_capacity {
+            usize encoded = read_usize(
+                context.function_at_position, start * size_of(usize)
+            );
+            if encoded != 0 {
+                usize selected_symbol = encoded - 1;
+                context.function_node = read_record_field(
+                    context.detail_data, selected_symbol, 1
+                );
+                context.function_symbol = selected_symbol;
+                context.function_result = read_record_field(
+                    context.symbol_data, selected_symbol, 4
+                );
+                ir_select_function_locals(context, selected_symbol);
+                return;
+            }
+            context.function_node = context.syntax.length;
+            context.function_symbol = context.symbols.length;
+            context.function_result = semantic_type_void();
+            context.function_local_first = context.symbols.length;
+            context.function_local_end = context.symbols.length;
+            return;
+        }
+    }
     if context.function_node < context.syntax.length &&
         read_record_field(
             context.syntax_data, context.function_node, 0
@@ -305,65 +331,31 @@ unsafe usize ir_resolve_name(ref IrContext context, usize node) {
 
 unsafe void ir_record_argument_type(
     ref IrContext context,
-    ptr byte argument_types,
     usize call,
-    usize argument,
     usize start,
     usize end
 ) {
-    usize argument_type = semantic_type_error();
     usize argument_node = ir_root_in_bounds(context, start, end);
     if argument_node < context.syntax.length {
         ir_record_call_argument(context, call, argument_node);
-        argument_type = ir_node_type(
-            context, argument_node, semantic_type_error()
-        );
     }
-    write_usize(
-        argument_types, argument * size_of(usize), argument_type
-    );
 }
 
-unsafe usize ir_indexed_call_selection(
+unsafe void ir_index_call_arguments(
     ref IrContext context,
-    usize call,
-    usize first
+    usize call
 ) {
-    if context.function_bucket_heads == null ||
-        context.function_bucket_next == null ||
-        context.function_bucket_capacity == 0 ||
-        first >= context.symbols.length || read_record_field(
-            context.symbol_data, first, 0
-        ) != resolution_symbol_function() {
-        return flow_call_selection(
-            context.project_source, context.project_root,
-            context.module_data, context.modules, context.source_data,
-            context.type_data, context.symbol_data,
-            context.detail_data, context.symbols,
-            context.token_data, context.tokens,
-            context.syntax_data, context.syntax,
-            context.module_index, context.source_record,
-            call, context.source
-        );
-    }
-
+    if call >= context.syntax.length { return; }
     usize argument_count = read_record_field(
         context.syntax_data, call, 4
     );
-    ptr byte argument_types = memory.alloc(
-        (argument_count + 1) * size_of(usize)
-    );
-    scope memory.free(argument_types);
-    usize argument = 0;
-    while argument < argument_count {
-        write_usize(
-            argument_types, argument * size_of(usize),
-            semantic_type_error()
-        );
-        argument = argument + 1;
-    }
-
+    if argument_count == 0 || context.call_argument_first == null ||
+        context.call_argument_last == null || context.argument_next == null ||
+        read_usize(
+            context.call_argument_first, call * size_of(usize)
+        ) != 0 { return; }
     usize callee = read_record_field(context.syntax_data, call, 3);
+    if callee >= context.syntax.length { return; }
     usize callee_end = read_record_field(
         context.syntax_data, callee, 1
     ) + read_record_field(context.syntax_data, callee, 2);
@@ -376,7 +368,7 @@ unsafe usize ir_indexed_call_selection(
         read_record_field(context.token_data, token, 2), "("
     ) { token = token + 1; }
     if token < context.tokens.length { token = token + 1; }
-    argument = 0;
+    usize argument = 0;
     usize depth = 0;
     usize argument_start = callee_end;
     if token < context.tokens.length {
@@ -411,8 +403,7 @@ unsafe usize ir_indexed_call_selection(
         if close && depth == 0 {
             if argument < argument_count && token_start > argument_start {
                 ir_record_argument_type(
-                    context, argument_types, call, argument,
-                    argument_start, token_start
+                    context, call, argument_start, token_start
                 );
             }
             token = context.tokens.length;
@@ -424,8 +415,7 @@ unsafe usize ir_indexed_call_selection(
             ) {
                 if argument < argument_count {
                     ir_record_argument_type(
-                        context, argument_types, call, argument,
-                        argument_start, token_start
+                        context, call, argument_start, token_start
                     );
                 }
                 argument = argument + 1;
@@ -438,6 +428,35 @@ unsafe usize ir_indexed_call_selection(
             token = token + 1;
         }
     }
+}
+
+unsafe usize ir_indexed_call_selection(
+    ref IrContext context,
+    usize call,
+    usize first
+) {
+    if context.function_bucket_heads == null ||
+        context.function_bucket_next == null ||
+        context.function_bucket_capacity == 0 ||
+        first >= context.symbols.length || read_record_field(
+            context.symbol_data, first, 0
+        ) != resolution_symbol_function() {
+        return flow_call_selection(
+            context.project_source, context.project_root,
+            context.module_data, context.modules, context.source_data,
+            context.type_data, context.symbol_data,
+            context.detail_data, context.symbols,
+            context.token_data, context.tokens,
+            context.syntax_data, context.syntax,
+            context.module_index, context.source_record,
+            call, context.source
+        );
+    }
+
+    usize argument_count = read_record_field(
+        context.syntax_data, call, 4
+    );
+    usize callee = read_record_field(context.syntax_data, call, 3);
     usize callee_start = read_record_field(
         context.syntax_data, callee, 1
     );
@@ -479,7 +498,7 @@ unsafe usize ir_indexed_call_selection(
             ) == argument_count {
             bool valid = true;
             usize conversions = 0;
-            argument = 0;
+            usize argument = 0;
             while argument < argument_count {
                 usize parameter = ir_parameter_at(
                     context, candidate, argument
@@ -488,9 +507,15 @@ unsafe usize ir_indexed_call_selection(
                     valid = false;
                     break;
                 }
-                usize argument_type = read_usize(
-                    argument_types, argument * size_of(usize)
+                usize argument_node = ir_call_argument_node(
+                    context, call, argument
                 );
+                usize argument_type = semantic_type_error();
+                if argument_node < context.syntax.length {
+                    argument_type = ir_node_type(
+                        context, argument_node, semantic_type_error()
+                    );
+                }
                 usize parameter_type = read_record_field(
                     context.symbol_data, parameter, 4
                 );
@@ -531,6 +556,38 @@ unsafe usize ir_select_call(ref IrContext context, usize call) {
         if cached != 0 { return cached - 1; }
     }
     usize selected = context.symbols.length;
+    ir_index_call_arguments(context, call);
+    usize callee = context.syntax.length;
+    if call < context.syntax.length {
+        callee = read_record_field(context.syntax_data, call, 3);
+    }
+    if callee < context.syntax.length {
+        usize callee_start = read_record_field(
+            context.syntax_data, callee, 1
+        );
+        usize callee_length = read_record_field(
+            context.syntax_data, callee, 2
+        );
+        bool builtin_spelling = ir_builtin_call(
+            context.source, callee_start, callee_length
+        ) || ir_intrinsic_call(
+            context.source, callee_start, callee_length
+        );
+        usize declared = context.symbols.length;
+        if builtin_spelling { declared = ir_resolve_name(context, callee); }
+        // Imported/user modules may deliberately use short aliases such as
+        // `file`, `memory`, or `process`. A declared function has precedence;
+        // Hosted built-in routing is only the fallback for an unresolved name.
+        if builtin_spelling && declared >= context.symbols.length {
+            if context.call_cache != null && call < context.syntax.length {
+                write_usize(
+                    context.call_cache,
+                    call * size_of(usize), selected + 1
+                );
+            }
+            return selected;
+        }
+    }
     if context.function_bucket_heads == null ||
         context.function_bucket_next == null ||
         context.function_bucket_capacity == 0 {
@@ -545,7 +602,6 @@ unsafe usize ir_select_call(ref IrContext context, usize call) {
             call, context.source
         );
     } else {
-        usize callee = read_record_field(context.syntax_data, call, 3);
         usize first = context.symbols.length;
         if callee < context.syntax.length {
             first = ir_resolve_name(context, callee);
@@ -562,7 +618,12 @@ unsafe usize ir_select_call(ref IrContext context, usize call) {
             call, context.source
         );
     }
-    if context.call_cache != null && call < context.syntax.length {
+    // A failed overload/name selection can be transient while the fused pass
+    // changes source/function context and completes argument indexing. Keep
+    // only real symbol selections; otherwise a precheck miss becomes a false
+    // permanent error during acceptance and lowering.
+    if context.call_cache != null && call < context.syntax.length &&
+        selected < context.symbols.length {
         write_usize(
             context.call_cache, call * size_of(usize), selected + 1
         );

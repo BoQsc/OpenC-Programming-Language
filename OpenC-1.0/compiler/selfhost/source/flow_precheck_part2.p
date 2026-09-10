@@ -128,18 +128,24 @@ unsafe void flow_analyze_initialization(
     usize module_index,
     usize source_record,
     usize function_node,
+    usize known_function_owner,
+    usize source_symbol_first,
+    usize source_symbol_end,
     text source,
     ptr byte error_data,
     ref PackedBuffer errors
 ) {
-    usize owner = resolution_find_owner_symbol(
-        symbol_data, detail_data, symbols,
-        source_record, function_node,
-        resolution_symbol_function(), 0
-    );
+    usize owner = known_function_owner;
+    if owner == 0 {
+        owner = resolution_find_owner_symbol(
+            symbol_data, detail_data, symbols,
+            source_record, function_node,
+            resolution_symbol_function(), 0
+        );
+    }
     if owner == 0 { return; }
-    usize symbol = 0;
-    while symbol < symbols.length {
+    usize symbol = source_symbol_first;
+    while symbol < source_symbol_end {
         if read_record_field(symbol_data, symbol, 0) ==
                 resolution_symbol_variable() &&
             read_record_field(detail_data, symbol, 2) == owner {
@@ -160,6 +166,14 @@ unsafe void flow_analyze_initialization(
                     if read_record_field(syntax_data, name, 0) == 27 &&
                         read_record_field(syntax_data, name, 1) >=
                             declaration_end &&
+                        semantic_spans_equal(
+                            source,
+                            read_record_field(syntax_data, name, 1),
+                            read_record_field(syntax_data, name, 2),
+                            source,
+                            read_record_field(symbol_data, symbol, 2),
+                            read_record_field(symbol_data, symbol, 3)
+                        ) &&
                         semantic_node_contains(
                             syntax_data, function_node, name
                         ) && !resolution_name_excluded(

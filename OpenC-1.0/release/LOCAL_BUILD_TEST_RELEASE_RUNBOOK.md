@@ -2,6 +2,12 @@
 
 No remote repository is required.
 
+This is the SH-20 transitional external-orchestrator runbook. The compiler and
+standalone package are already independent of Python, D, C, and TinyCC, but the
+commands below still use Python to coordinate evidence and archive creation.
+Active SH-21 replaces each required command with an OpenC-native equivalent;
+see `compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md`.
+
 Before generating `MANIFEST.sha256`, run
 `python scripts/update_authority_index.py` so every authoritative byte count and
 hash corresponds to the candidate tree.

@@ -22,6 +22,13 @@ unsafe usize c_named_type_symbol(
     ref IrContext context,
     usize type_id
 ) {
+    if context.type_aggregate_symbols != null &&
+        type_id < context.types.length {
+        usize encoded = read_usize(
+            context.type_aggregate_symbols, type_id * size_of(usize)
+        );
+        if encoded != 0 { return encoded - 1; }
+    }
     usize symbol = 0;
     while symbol < context.symbols.length {
         usize kind = read_record_field(context.symbol_data, symbol, 0);
