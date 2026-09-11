@@ -200,6 +200,25 @@ unsafe void native_value_address(ref IrContext context, ref NativeFunction funct
     else { native_address(function, value, reg); }
 }
 
+// An out operand needs the address of its storage even when the stored value
+// is itself a pointer. Address-valued lvalues already carry their destination
+// address; ordinary locals must use their frame slot. Treating every pointer
+// as an address loaded an uninitialized `out ptr` value and made raw file reads
+// write through address zero.
+unsafe void native_output_address(
+    ref NativeFunction function,
+    usize value,
+    usize reg
+) {
+    if native_value_read(
+        function, function.address_values, value
+    ) != 0 {
+        native_load(function, value, reg);
+    } else {
+        native_address(function, value, reg);
+    }
+}
+
 unsafe void native_sequence_length(ref IrContext context, ref NativeFunction function,
     usize value, usize type_id, usize reg) {
     if read_record_field(context.type_data, type_id, 0) == 10 {

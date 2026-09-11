@@ -5,6 +5,10 @@ import system.path;
 import system.process;
 import system.text;
 
+text cli_self_executable() {
+    return process.executable_path();
+}
+
 struct CliWordCursor {
     usize value;
 }
@@ -98,11 +102,13 @@ void cli_print_help() {
     io.println("  openc fmt (--check|--write) (--project=PROJECT|SOURCE.p) [--output=FORMAT-RECORD.json]");
     io.println("  openc info --project=PROJECT [--context|--sources|--modules|--limits|--dependencies|--target|--types] [--json] [--output=CONTEXT.json]");
     io.println("  openc test (--manifest=TESTS.json|--project=PROJECT) [--list] [--filter=TEXT] [--jobs=N] [--target=TARGET] [--report=RESULT.json] [--no-run]");
+    io.println("  openc workflow --root=ROOT --output=REPORT.json [--mode=daily|full]");
     io.println("  openc lsp --stdio");
     io.println("  openc validate --manifest=MANIFEST --output=REPORT.json");
     io.println("  openc version");
     io.println("  openc target");
     io.println("  openc explain RULE-ID");
+    io.println("  openc hash FILE");
     io.println("  openc --windows-x64-substrate REPORT.json");
     io.println("  openc --native-audit PROJECT REPORT.json");
     io.println("  openc --windows-pe32-runtime SOURCE.p OUTPUT.exe (console|windows) REPORT.json");
@@ -386,9 +392,7 @@ unsafe i32 cli_check_project(
     text output_path,
     bool announce
 ) {
-    text compiler = path.join(
-        process.executable_directory(), "openc.exe"
-    );
+    text compiler = cli_self_executable();
     NativeRunResult project_result = native_run_mode(
         compiler, "--project", project_path
     );

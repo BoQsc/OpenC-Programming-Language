@@ -427,9 +427,7 @@ unsafe i32 validate_native_conformance(
         return 1;
     }
 
-    text compiler = path.join(
-        process.executable_directory(), "openc.exe"
-    );
+    text compiler = cli_self_executable();
     text runtime_executable = path.join(
         path.directory(report_path), "openc-native-fixture.exe"
     );

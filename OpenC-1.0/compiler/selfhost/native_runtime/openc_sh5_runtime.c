@@ -63,6 +63,7 @@ static ocb_path_fast_entry ocb_path_fast_cache[OCB_FAST_CACHE_CAPACITY];
 static ocb_file_fast_entry ocb_file_fast_cache[OCB_FAST_CACHE_CAPACITY];
 static uintptr_t ocb_fast_cache_generation = 1u;
 static oc_text ocb_executable_directory_value;
+static oc_text ocb_executable_path_value;
 static oc_text ocb_lsp_message;
 static CRITICAL_SECTION ocb_cache_lock;
 static volatile LONG ocb_parallel_active;
@@ -578,6 +579,29 @@ void ocb_process_initialize(int argc, char **argv) {
         );
         if (wide_length != 0u &&
             wide_length < (DWORD)(sizeof(wide_path) / sizeof(wide_path[0]))) {
+            {
+                int path_utf8_length = WideCharToMultiByte(
+                    CP_UTF8, WC_ERR_INVALID_CHARS, wide_path,
+                    (int)wide_length, NULL, 0, NULL, NULL
+                );
+                if (path_utf8_length > 0) {
+                    uint8_t *path_data = (uint8_t *)oc_memory_allocate(
+                        (uintptr_t)path_utf8_length + 1u, 1u
+                    );
+                    if (WideCharToMultiByte(
+                            CP_UTF8, WC_ERR_INVALID_CHARS, wide_path,
+                            (int)wide_length, (char *)path_data,
+                            path_utf8_length, NULL, NULL
+                        ) > 0) {
+                        path_data[path_utf8_length] = 0u;
+                        ocb_executable_path_value = (oc_text){
+                            path_data, (uintptr_t)path_utf8_length
+                        };
+                    } else {
+                        oc_memory_release(path_data);
+                    }
+                }
+            }
             while (wide_length != 0u &&
                 wide_path[wide_length - 1u] != L'\\' &&
                 wide_path[wide_length - 1u] != L'/') {
@@ -613,6 +637,11 @@ void ocb_process_initialize(int argc, char **argv) {
             oc_process_current_directory()
         );
     }
+    if (ocb_executable_path_value.data == NULL) {
+        ocb_executable_path_value = ocb_copy_text(
+            ocb_executable_directory_value
+        );
+    }
 }
 
 void ocb_process_finalize(void) {
@@ -624,6 +653,10 @@ void ocb_process_finalize(void) {
     if (ocb_executable_directory_value.data != NULL) {
         oc_memory_release((void *)ocb_executable_directory_value.data);
         ocb_executable_directory_value = OC_TEXT_EMPTY;
+    }
+    if (ocb_executable_path_value.data != NULL) {
+        oc_memory_release((void *)ocb_executable_path_value.data);
+        ocb_executable_path_value = OC_TEXT_EMPTY;
     }
     oc_process_finalize();
     if (ocb_parallel_heap_tls != TLS_OUT_OF_INDEXES) {
@@ -1057,6 +1090,10 @@ oc_text ocb_process_argument(uintptr_t index) {
 
 oc_text ocb_process_executable_directory(void) {
     return ocb_executable_directory_value;
+}
+
+oc_text ocb_process_executable_path(void) {
+    return ocb_executable_path_value;
 }
 
 oc_status ocb_process_run(

@@ -9,10 +9,10 @@ Core specification:                 1.0 RELEASE-CANDIDATE AUTHORITY
 Hosted specification:               1.0 RELEASE-CANDIDATE AUTHORITY
 Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
-canonical OpenC compiler source:     116 `.p` UNITS; SELF-HOSTED
+canonical OpenC compiler source:     117 `.p` UNITS; SELF-HOSTED
 legacy D reference source:           OPTIONAL AUDIT; NOT AUTHORITY
 legacy Python bootstrap source:      OPTIONAL AUDIT; NOT AUTHORITY
-official OpenC source extension:      .p; 281 MIGRATED, 437 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 439 TOTAL `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
@@ -40,6 +40,8 @@ native semantic language service:     SH-12 PASS; SYMBOLS/NAV/COMPLETE/RENAME, 2
 human + machine diagnostics:          PASS; `openc.check.v1` + STABLE STREAMS
 completed engineering milestone:     SH-20 PUBLIC THROUGHPUT CONVERGENCE
 next engineering milestone:          SH-21 OPENC-NATIVE REQUIRED WORKFLOWS
+SH-21 workflow tranche 1:             PASS; NATIVE DAILY 4/4, FULL 7/7
+SH-21 current fixed point:            53bb43c5; 5/5 PROGRAMS, 278/278
 SH-14 stability/scaling gate:         20/20 CLOSURE; WORST DOUBLING 2.112x
 SH-15 ABI/encoder verification:       PASS; 25/25 EXECUTABLE + STATIC CHECKS
 SH-16 PE/runtime verification:        PASS; 34/34, KERNEL32-ONLY, NO MICROSOFT CRT
@@ -60,7 +62,7 @@ external evidence tests:            8/8 D AUDITS; 42/42 PYTHON TESTS
 conformance fixtures:                NATIVE 278/278 PASS; 0 INFRASTRUCTURE FAILURES
 diagnostic matching:                 EXACT CURRENT; PRIOR 93 COMPATIBILITY DISCLOSED
 runtime fixtures:                    35/35 BUILT AND EXECUTED
-maintained programs:                 4/4 CHECKED, BUILT, AND RUN
+maintained/runtime programs:         5/5 CHECKED, BUILT, AND RUN
 active rules with dedicated fixture: 466/466
 dedicated-fixture backlog:           0
 dedicated grammar-production pairs: 174/174 ACCEPTING + REJECTING
@@ -130,6 +132,9 @@ Microsoft CRT. SH-20 then reduces the fully validating public self-build to a
 20/20 chained builds close exactly under the 256 MiB private / 64 MiB
 working-set guards. That is faster than the measured 22.732-second optimized
 ISO C reference and 17.504-second D reference medians. SH-21 is now active:
-required Python workflow replacement and the optional historical bootstrap
-boundary are the next priority. Native editor integration is deferred to
-SH-24. Linux, freestanding, and ARM64 remain optional later targets.
+its first OpenC-authored daily/full workflow tranche passes from a deliberately
+renamed fixed-point compiler, including 278/278 conformance and 5/5 program
+checks. Native child supervision, source/PE/LSP audits, benchmarking, release
+packaging, and the optional historical bootstrap boundary remain active work.
+Native editor integration is deferred to SH-24. Linux, freestanding, and
+ARM64 remain optional later targets.

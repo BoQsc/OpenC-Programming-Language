@@ -589,6 +589,12 @@ unsafe usize ir_node_type_uncached(
                 "system.process.executable_directory"
             ) || span_equals_ascii(
                 context.source, callee_start, callee_length,
+                "process.executable_path"
+            ) || span_equals_ascii(
+                context.source, callee_start, callee_length,
+                "system.process.executable_path"
+            ) || span_equals_ascii(
+                context.source, callee_start, callee_length,
                 "path.join"
             ) || span_equals_ascii(
                 context.source, callee_start, callee_length,

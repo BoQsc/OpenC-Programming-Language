@@ -1,0 +1,30 @@
+{
+  "schema": "openc.test_manifest.v1",
+  "tests": [
+    {
+      "name": "A_COMPUTATION",
+      "project": "../programs/A_COMPUTATION/openc.project.json",
+      "expected_exit": 32
+    },
+    {
+      "name": "B_FLOW_OWNERSHIP",
+      "project": "../programs/B_FLOW_OWNERSHIP/openc.project.json",
+      "expected_exit": 0
+    },
+    {
+      "name": "C_UNSAFE_BOUNDARY",
+      "project": "../programs/C_UNSAFE_BOUNDARY/openc.project.json",
+      "expected_exit": 30
+    },
+    {
+      "name": "D_HOSTED_CLI",
+      "project": "../programs/D_HOSTED_CLI/openc.project.json",
+      "expected_exit": 0
+    },
+    {
+      "name": "E_NATIVE_OUT_POINTER",
+      "project": "../programs/E_NATIVE_OUT_POINTER/openc.project.json",
+      "expected_exit": 0
+    }
+  ]
+}

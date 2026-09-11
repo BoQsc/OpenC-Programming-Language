@@ -351,7 +351,7 @@ unsafe void native_text_scalar_slice(ref IrContext context, ref NativeFunction f
     x64_mov_memory_r64(function.code, 4, 384, 8); native_skip_end(function.code, end_not_upper);
     x64_cmp_r64_r64(function.code, 11, 10); native_require(function.code, 6);
     usize out_value = d_operand_value(context, instruction, 3);
-    native_value_address(context, function, out_value, 11);
+    native_output_address(function, out_value, 11);
     x64_mov_r64_memory(function.code, 0, 4, 376);
     x64_mov_memory_r64(function.code, 11, 0, 0);
     x64_mov_r64_memory(function.code, 10, 4, 384);
@@ -628,6 +628,58 @@ unsafe void native_process_executable_directory(ref NativeFunction function,
     native_path_directory(function, result, result);
 }
 
+unsafe void native_process_executable_path(ref NativeFunction function,
+    usize result) {
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 65544));
+    native_heap_allocate_named_r8(function,
+        "fatal[OPENC-NATIVE-ALLOC-BUDGET]: live allocations exceed 512 MiB in process.executable_path\n");
+    x64_mov_memory_r64(function.code, 4, 480, 0);
+    x64_mov_r64_imm64(function.code, 1, cast(u64, 0));
+    x64_mov_r64_r64(function.code, 2, 0);
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 32768));
+    native_import(function, 17); native_runtime_nonzero(function);
+    x64_mov_memory_r64(function.code, 4, 488, 0);
+    x64_mov_r64_imm64(function.code, 11, cast(u64, 32768));
+    x64_cmp_r64_r64(function.code, 0, 11); native_require(function.code, 2);
+
+    x64_mov_r64_imm64(function.code, 1, cast(u64, 65001));
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
+    x64_mov_r64_memory(function.code, 8, 4, 480);
+    x64_mov_r64_memory(function.code, 9, 4, 488);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    x64_mov_memory_r64(function.code, 4, 32, 0);
+    x64_mov_memory_r64(function.code, 4, 40, 0);
+    x64_mov_memory_r64(function.code, 4, 48, 0);
+    x64_mov_memory_r64(function.code, 4, 56, 0);
+    native_import(function, 13); native_runtime_nonzero(function);
+    x64_mov_memory_r64(function.code, 4, 496, 0);
+    x64_mov_r64_r64(function.code, 8, 0); x64_add_r64_imm8(function.code, 8, 8);
+    native_heap_allocate_named_r8(function,
+        "fatal[OPENC-NATIVE-ALLOC-BUDGET]: live allocations exceed 512 MiB in process.executable_path UTF-8 conversion\n");
+    x64_mov_memory_r64(function.code, 4, 504, 0);
+
+    x64_mov_r64_imm64(function.code, 1, cast(u64, 65001));
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
+    x64_mov_r64_memory(function.code, 8, 4, 480);
+    x64_mov_r64_memory(function.code, 9, 4, 488);
+    x64_mov_r64_memory(function.code, 0, 4, 504);
+    x64_mov_memory_r64(function.code, 4, 32, 0);
+    x64_mov_r64_memory(function.code, 0, 4, 496);
+    x64_mov_memory_r64(function.code, 4, 40, 0);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    x64_mov_memory_r64(function.code, 4, 48, 0);
+    x64_mov_memory_r64(function.code, 4, 56, 0);
+    native_import(function, 13); native_runtime_nonzero(function);
+    x64_mov_r64_memory(function.code, 11, 4, 504);
+    x64_mov_r64_memory(function.code, 10, 4, 496);
+    x64_add_r64_r64(function.code, 11, 10);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    x64_mov_memory_r64(function.code, 11, 0, 0);
+    x64_mov_r64_memory(function.code, 0, 4, 504); native_store(function, result, 0);
+    x64_mov_r64_memory(function.code, 0, 4, 496);
+    x64_mov_memory_r64(function.code, 4, native_slot(function, result) + 8, 0);
+}
+
 unsafe void native_command_arguments(ref NativeFunction function) {
     native_constant_ascii(function, "shell32.dll", true, 1);
     x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
@@ -762,7 +814,7 @@ unsafe void native_lsp_read_frame(
     usize result
 ) {
     usize output_value = d_operand_value(context, instruction, 0);
-    native_value_address(context, function, output_value, 11);
+    native_output_address(function, output_value, 11);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
     x64_mov_memory_r64(function.code, 11, 0, 0);
     x64_mov_memory_r64(function.code, 11, 8, 0);
@@ -915,7 +967,7 @@ unsafe void native_lsp_read_frame(
     x64_add_r64_memory(function.code, 11, 4, 608);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
     native_runtime_store_byte(function, 11, 0);
-    native_value_address(context, function, output_value, 11);
+    native_output_address(function, output_value, 11);
     x64_mov_r64_memory(function.code, 0, 4, 648);
     x64_mov_memory_r64(function.code, 11, 0, 0);
     x64_mov_r64_memory(function.code, 0, 4, 608);
@@ -976,14 +1028,14 @@ unsafe void native_file_read(ref IrContext context, ref NativeFunction function,
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0)); x64_mov_memory_r64(function.code, 11, 0, 0);
     if raw_outputs {
         usize data_value = d_operand_value(context, instruction, 1);
-        native_value_address(context, function, data_value, 11);
+        native_output_address(function, data_value, 11);
         x64_mov_r64_memory(function.code, 0, 4, 536); x64_mov_memory_r64(function.code, 11, 0, 0);
         usize length_value = d_operand_value(context, instruction, 2);
-        native_value_address(context, function, length_value, 11);
+        native_output_address(function, length_value, 11);
         x64_mov_r64_memory(function.code, 0, 4, 528); x64_mov_memory_r64(function.code, 11, 0, 0);
     } else {
         usize output_value = d_operand_value(context, instruction, 1);
-        native_value_address(context, function, output_value, 11);
+        native_output_address(function, output_value, 11);
         x64_mov_r64_memory(function.code, 0, 4, 536); x64_mov_memory_r64(function.code, 11, 0, 0);
         x64_mov_r64_memory(function.code, 0, 4, 528); x64_mov_memory_r64(function.code, 11, 8, 0);
     }
@@ -1077,7 +1129,7 @@ unsafe void native_file_read_cached(ref IrContext context, ref NativeFunction fu
     native_counter_increment(function, 56);
     x64_mov_r64_memory(function.code, 10, 4, 544);
     usize output_value = d_operand_value(context, instruction, 1);
-    native_value_address(context, function, output_value, 11);
+    native_output_address(function, output_value, 11);
     x64_mov_r64_memory(function.code, 0, 10, 24); x64_mov_memory_r64(function.code, 11, 0, 0);
     x64_mov_r64_memory(function.code, 0, 10, 32); x64_mov_memory_r64(function.code, 11, 8, 0);
     native_status_success(function, result);
@@ -1095,7 +1147,7 @@ unsafe void native_file_read_cached(ref IrContext context, ref NativeFunction fu
     native_load(function, path_value, 0); x64_mov_memory_r64(function.code, 10, 8, 0);
     x64_mov_r64_memory(function.code, 0, 4, native_slot(function, path_value) + 8);
     x64_mov_memory_r64(function.code, 10, 16, 0);
-    native_value_address(context, function, output_value, 11);
+    native_output_address(function, output_value, 11);
     x64_mov_r64_memory(function.code, 0, 11, 0); x64_mov_memory_r64(function.code, 10, 24, 0);
     x64_mov_r64_memory(function.code, 0, 11, 8); x64_mov_memory_r64(function.code, 10, 32, 0);
     native_skip_end(function.code, read_failed); native_skip_end(function.code, finished);
@@ -1225,11 +1277,11 @@ unsafe void native_process_failure_outputs(
     usize result
 ) {
     usize exit_value = d_operand_value(context, instruction, 1);
-    native_value_address(context, function, exit_value, 11);
+    native_output_address(function, exit_value, 11);
     x64_mov_r64_imm64(function.code, 0, ~cast(u64, 0));
     x64_mov_memory_r64(function.code, 11, 0, 0);
     usize output_value = d_operand_value(context, instruction, 2);
-    native_value_address(context, function, output_value, 11);
+    native_output_address(function, output_value, 11);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
     x64_mov_memory_r64(function.code, 11, 0, 0);
     x64_mov_memory_r64(function.code, 11, 8, 0);
@@ -1447,11 +1499,11 @@ unsafe void native_process_run(
 
     native_skip_end(function.code, output_within_budget);
     usize exit_value = d_operand_value(context, instruction, 1);
-    native_value_address(context, function, exit_value, 11);
+    native_output_address(function, exit_value, 11);
     x64_mov_r64_memory(function.code, 0, 4, 832);
     x64_mov_memory_r64(function.code, 11, 0, 0);
     usize output_value = d_operand_value(context, instruction, 2);
-    native_value_address(context, function, output_value, 11);
+    native_output_address(function, output_value, 11);
     x64_mov_r64_memory(function.code, 0, 4, 800);
     x64_mov_memory_r64(function.code, 11, 0, 0);
     x64_mov_r64_memory(function.code, 0, 4, 808);
@@ -1635,6 +1687,13 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
     if native_runtime_name(call_span, "process.executable_directory",
         "system.process.executable_directory") {
         native_process_executable_directory(function, result); return true;
+    }
+    if native_runtime_name(call_span, "process.executable_path",
+            "system.process.executable_path") || native_runtime_name(
+            call_span, "runtime_executable_path",
+            "oc_process_executable_path"
+        ) {
+        native_process_executable_path(function, result); return true;
     }
     if native_runtime_name(call_span, "lsp_read_frame", "ocb_lsp_read_frame") {
         if d_operand_count(context, instruction) != 1 {

@@ -315,6 +315,9 @@ unsafe i32 main() {
     if arguments == 2 && process.argument(0) == "explain" {
         return cli_explain(process.argument(1));
     }
+    if arguments == 2 && process.argument(0) == "hash" {
+        return cli_workflow_hash_command(process.argument(1));
+    }
     if arguments == 2 &&
         process.argument(0) == "--windows-x64-substrate" {
         return emit_windows_x64_substrate_report(process.argument(1));
@@ -327,6 +330,9 @@ unsafe i32 main() {
     }
     if arguments >= 2 && process.argument(0) == "test" {
         return cli_test_command();
+    }
+    if arguments >= 2 && process.argument(0) == "workflow" {
+        return cli_workflow_command();
     }
     if arguments == 2 &&
         process.argument(0) == "lsp" &&

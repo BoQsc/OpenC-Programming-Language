@@ -553,6 +553,7 @@ uintptr_t ocb_process_argument_count(void);
 uintptr_t ocb_process_monotonic_milliseconds(void);
 oc_text ocb_process_argument(uintptr_t index);
 oc_text ocb_process_executable_directory(void);
+oc_text ocb_process_executable_path(void);
 oc_status ocb_process_run(
     oc_text command,
     int32_t *exit_code,

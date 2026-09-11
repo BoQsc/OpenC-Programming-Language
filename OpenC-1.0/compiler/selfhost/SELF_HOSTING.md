@@ -493,6 +493,14 @@ a separately named optional historical bootstrap/audit kit, and proves the
 normal release using only a previous OpenC compiler plus canonical source. See
 `SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md`.
 
+Tranche 1 passes from a deliberately renamed 117-source fixed-point compiler:
+the OpenC-authored workflow owns 7/7 full tasks, 278/278 conformance, 5/5
+program checks, and exact SHA-256 closure. The `out ptr` output-address defect
+and hard-coded `openc.exe` self-location defect both have maintained
+regressions. Native child supervision, structure/PE/LSP audits, benchmarking,
+and release/archive ownership remain open; see
+`SH21_NATIVE_WORKFLOW_TRANCHE1_EVIDENCE.md`.
+
 Status: **ACTIVE**
 
 ## Post-SH-6 — native self-rebuild performance

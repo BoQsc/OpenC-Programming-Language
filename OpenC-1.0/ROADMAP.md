@@ -268,6 +268,10 @@ IR reach closure. Exact evidence and reproduction commands are in
     - prove normal build, test, release, and package verification with only a
       previous OpenC compiler plus canonical source; follow
       [the SH-21 plan](compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md).
+    - tranche 1 passes: the OpenC-authored daily/full workflow owns 7 full
+      tasks, 278/278 conformance, 5/5 program checks, SHA-256 closure, and
+      renamed-compiler self-location; bounded native child supervision and the
+      remaining audit/release commands are still active.
 15. **SH-22 PE/COFF ecosystem completeness**
     - add COFF objects, DLL imports/exports, OpenC DLLs, static/import
       libraries, resources, manifests, console/GUI subsystems, and secure

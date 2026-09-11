@@ -733,9 +733,7 @@ unsafe NativeRunResult cli_run_project_action(
     text action,
     text project_path
 ) {
-    text compiler = path.join(
-        process.executable_directory(), "openc.exe"
-    );
+    text compiler = cli_self_executable();
     DBuffer command = d_buffer_create(
         text.byte_length(compiler) + text.byte_length(action) +
         text.byte_length(project_path) + 64
@@ -809,7 +807,7 @@ unsafe CliTestOutcome cli_test_execute(
         d_buffer_text(executable_name)
     );
     NativeRunResult built = native_run_build(
-        path.join(process.executable_directory(), "openc.exe"),
+        cli_self_executable(),
         project_path,
         executable
     );

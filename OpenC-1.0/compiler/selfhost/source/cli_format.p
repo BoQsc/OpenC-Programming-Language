@@ -301,7 +301,7 @@ unsafe bool cli_format_source_text(
 
 unsafe bool cli_format_validate(text source_path) {
     NativeRunResult parsed = native_run_mode(
-        path.join(process.executable_directory(), "openc.exe"),
+        cli_self_executable(),
         "--parse",
         source_path
     );

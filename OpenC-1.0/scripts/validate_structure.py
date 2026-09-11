@@ -46,6 +46,8 @@ required = [
     "compiler/selfhost/SH19_NATIVE_BACKEND_PLAN.md",
     "compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md",
     "compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md",
+    "compiler/selfhost/SH21_PYTHON_WORKFLOW_INVENTORY.md",
+    "compiler/selfhost/SH21_NATIVE_WORKFLOW_TRANCHE1_EVIDENCE.md",
     "release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md",
     "release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md",
     "compiler/selfhost/benchmark_sh20_stability.py",
@@ -56,10 +58,14 @@ required = [
     "compiler/selfhost/source/backend_native_image.p",
     "compiler/selfhost/source/backend_native_runtime.p",
     "compiler/selfhost/source/backend_native_scalar.p",
+    "compiler/selfhost/source/cli_workflow.p",
     "scripts/audit_sh19_native_corpus.py",
     "scripts/verify_sh19_memory_guards.py",
     "scripts/verify_sh19_native_scalars.py",
     "tests/sh19_native_scalars/openc.project.json",
+    "tests/SH21_NATIVE_WORKFLOW_TESTS.json",
+    "programs/E_NATIVE_OUT_POINTER/openc.project.json",
+    "programs/E_NATIVE_OUT_POINTER/main.p",
     "compiler/selfhost/source/native_conformance.p",
     "compiler/selfhost/source/cli.p",
     "compiler/selfhost/source/cli_lsp.p",
@@ -248,6 +254,7 @@ for project_path in [
     ROOT / "programs/B_FLOW_OWNERSHIP/openc.project.json",
     ROOT / "programs/C_UNSAFE_BOUNDARY/openc.project.json",
     ROOT / "programs/D_HOSTED_CLI/openc.project.json",
+    ROOT / "programs/E_NATIVE_OUT_POINTER/openc.project.json",
     ROOT / "standard_library/openc.project.json",
     ROOT / "compiler/selfhost/openc.project.json",
     ROOT / "demos/hello/openc.project.json",
@@ -681,6 +688,37 @@ if (
     or not active_plan.get("bounded_process_and_packaging_memory_required")
 ):
     errors.append("SH-21 OpenC-native workflows must be active after SH-20")
+sh21_progress = active_plan.get("progress", {})
+if (
+    sh21_progress.get("status") != "TRANCHE_1_PASS_MILESTONE_ACTIVE"
+    or sh21_progress.get("workflow_schema") != "openc.native_workflow.v1"
+    or sh21_progress.get("native_daily_tasks_passed") != 4
+    or sh21_progress.get("native_full_tasks_passed") != 7
+    or sh21_progress.get("native_conformance_fixtures_passed") != 278
+    or sh21_progress.get("maintained_and_runtime_programs_passed") != 5
+    or sh21_progress.get("compiler_source_files") != 117
+    or sh21_progress.get("compiler_source_bytes") != 1621898
+    or sh21_progress.get("native_compiler_bytes") != 5018624
+    or not sh21_progress.get("stage2_stage3_byte_equal")
+    or not sh21_progress.get("renamed_compiler_workflow_passed")
+    or sh21_progress.get("python_invoked_by_native_workflow")
+    or sh21_progress.get("d_invoked_by_native_workflow")
+    or sh21_progress.get("c_or_tinycc_invoked_by_native_workflow")
+    or sh21_progress.get(
+        "external_assembler_or_linker_invoked_by_native_workflow"
+    )
+    or sh21_progress.get("compiler_build_peak_private_bytes", 2**63)
+    > 268435456
+    or sh21_progress.get("compiler_build_peak_working_set_bytes", 2**63)
+    > 67108864
+    or sh21_progress.get("native_child_process_enforcement_complete")
+    or sh21_progress.get("native_structure_pe_lsp_release_audits_complete")
+    or sh21_progress.get("deterministic_native_release_archives_complete")
+):
+    errors.append(
+        "SH-21 tranche 1 must record native workflow closure without claiming "
+        "unfinished supervision, audit, or archive gates"
+    )
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
     "SH-21_OPENC_NATIVE_WORKFLOWS_AND_BOOTSTRAP_BOUNDARY"
@@ -730,6 +768,36 @@ if (
     or development_sh20.get("standalone_release_checks_passed") != 20
 ):
     errors.append("development state must record the passed SH-20 evidence")
+development_sh21 = development_self_hosting.get("sh21_progress", {})
+if (
+    development_sh21.get("status") != "TRANCHE_1_PASS_MILESTONE_ACTIVE"
+    or development_sh21.get("workflow_schema") != "openc.native_workflow.v1"
+    or development_sh21.get("compiler_source_files") != 117
+    or development_sh21.get("compiler_source_bytes") != 1621898
+    or development_sh21.get("native_compiler_bytes") != 5018624
+    or not development_sh21.get("renamed_compiler_workflow_passed")
+    or not development_sh21.get("stage2_stage3_byte_equal")
+    or development_sh21.get("native_daily_tasks_passed") != 4
+    or development_sh21.get("native_full_tasks_passed") != 7
+    or development_sh21.get("native_conformance_fixtures_passed") != 278
+    or development_sh21.get("maintained_and_runtime_programs_passed") != 5
+    or development_sh21.get("python_invoked_by_native_workflow")
+    or development_sh21.get("d_invoked_by_native_workflow")
+    or development_sh21.get("c_or_tinycc_invoked_by_native_workflow")
+    or development_sh21.get(
+        "external_assembler_or_linker_invoked_by_native_workflow"
+    )
+    or development_sh21.get("compiler_build_peak_private_bytes", 2**63)
+    > 268435456
+    or development_sh21.get("compiler_build_peak_working_set_bytes", 2**63)
+    > 67108864
+    or development_sh21.get("native_child_process_enforcement_complete")
+    or development_sh21.get("native_structure_pe_lsp_release_audits_complete")
+    or development_sh21.get("deterministic_native_release_archives_complete")
+    or development_sh21.get("next_slice")
+    != "OPENC_NATIVE_BOUNDED_CHILD_SUPERVISION"
+):
+    errors.append("development state must record bounded SH-21 tranche 1 progress")
 development_sh14 = development_self_hosting.get("sh14_acceptance", {})
 if (
     development_sh14.get("status") != "PASS"
