@@ -296,6 +296,18 @@ unsafe i32 main() {
         return 0;
     }
     if arguments == 1 {
+        if process.argument(0) == "--process-guard-output-probe" {
+            return cli_process_guard_output_probe();
+        }
+        if process.argument(0) == "--process-guard-memory-probe" {
+            return cli_process_guard_memory_probe();
+        }
+        if process.argument(0) == "--process-guard-working-set-probe" {
+            return cli_process_guard_working_set_probe();
+        }
+        if process.argument(0) == "--process-guard-timeout-probe" {
+            return cli_process_guard_timeout_probe();
+        }
         if process.argument(0) == "help" ||
             process.argument(0) == "--help" ||
             process.argument(0) == "-h" {
@@ -317,6 +329,16 @@ unsafe i32 main() {
     }
     if arguments == 2 && process.argument(0) == "hash" {
         return cli_workflow_hash_command(process.argument(1));
+    }
+    if arguments == 2 && process.argument(0) == "process-guard" {
+        text output_path = process.argument(1);
+        if !cli_has_prefix(output_path, "--output=") {
+            io.error("usage: openc process-guard --output=REPORT.json\n");
+            return 64;
+        }
+        return cli_process_guard_command(
+            cli_remove_prefix(output_path, "--output=")
+        );
     }
     if arguments == 2 &&
         process.argument(0) == "--windows-x64-substrate" {

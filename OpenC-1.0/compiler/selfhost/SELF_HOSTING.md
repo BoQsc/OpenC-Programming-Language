@@ -493,13 +493,16 @@ a separately named optional historical bootstrap/audit kit, and proves the
 normal release using only a previous OpenC compiler plus canonical source. See
 `SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md`.
 
-Tranche 1 passes from a deliberately renamed 117-source fixed-point compiler:
-the OpenC-authored workflow owns 7/7 full tasks, 278/278 conformance, 5/5
-program checks, and exact SHA-256 closure. The `out ptr` output-address defect
-and hard-coded `openc.exe` self-location defect both have maintained
-regressions. Native child supervision, structure/PE/LSP audits, benchmarking,
-and release/archive ownership remain open; see
-`SH21_NATIVE_WORKFLOW_TRANCHE1_EVIDENCE.md`.
+Tranche 2 passes from a deliberately renamed 117-source fixed-point compiler:
+the OpenC-authored workflow owns 8/8 full tasks, 278/278 conformance, 5/5
+program checks, exact SHA-256 closure, and a 4/4 adversarial process guard. The
+native supervisor assigns suspended children to a kill-on-close Windows Job,
+enforces 256 MiB process/tree commit, polls a 64 MiB working-set ceiling, caps
+output at 4 MiB, and applies a default five-minute timeout. The `out ptr`
+output-address defect and hard-coded `openc.exe` self-location defect retain
+their maintained regressions. Structure/PE/LSP audits, benchmarking, and
+release/archive ownership remain open; see
+`SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md`.
 
 Status: **ACTIVE**
 

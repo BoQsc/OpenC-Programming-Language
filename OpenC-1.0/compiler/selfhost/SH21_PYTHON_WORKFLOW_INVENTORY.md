@@ -26,21 +26,24 @@ delete archaeology; it makes that material unavailable to normal workflows.
 | `scripts/verify_sh18_windows_modules.py` | Friendly-module build/runtime contract | Native compile/run manifest; move C/TinyCC comparison to optional audit | Pending |
 | `tests/run_maintained.py` | Four maintained program builds and exit assertions | `openc workflow` through `openc test` | Implemented for all four programs plus native `out ptr` regression |
 | `demos/run_all.py` | Demo compilation and execution | Native test manifest | Pending |
-| `benchmark_windows_validate.py` and `benchmark_windows_rebuild.py` | Timings and process ceilings | Native benchmark/process-supervision command | Native timing and closure implemented; hard child ceilings pending |
+| `benchmark_windows_validate.py` and `benchmark_windows_rebuild.py` | Timings and process ceilings | Native benchmark/process-supervision command | Native timing, closure, hard child ceilings, bounded output and timeout implemented; benchmark sampling/gates pending |
 | `benchmark_sh20_stability.py` | Samples, 20-build closure and performance gates | Native benchmark driver | SHA-256 closure primitive reused; sampling/gates pending |
 | `release/build_standalone_windows.py` | Deterministic standalone tree and ZIP | `openc release build` with bounded streaming I/O | Pending directory/ZIP substrate |
 | `release/verify_standalone_windows.py` | Relocation, manifest, closure, imports and behavior | `openc release verify` | Pending; several checks already reusable from workflow |
 | `release/build_source_archive.py` and `verify_source_archive.py` | Source snapshot and manifest integrity | Native release archive mode | Pending directory/ZIP substrate |
 | `release/windows_native_release.py` | Aggregate two-build release transaction | `openc release` | Pending |
 
-The first `openc workflow` slice is intentionally honest about the remaining
+The current `openc workflow` slice is intentionally honest about the remaining
 gap. It is OpenC-authored and performs public CLI identity checks, a semantic
 project check, all four established maintained-program checks, one native
-runtime output-pointer regression, native 278-fixture
-conformance, two compiler rebuilds, SHA-256 hashing, exact fixed-point closure,
-and deterministic JSON reporting. It does not claim child-process RAM limits,
-tree structure coverage, PE inspection, LSP transcript verification, or ZIP
-ownership until those capabilities move into OpenC.
+runtime output-pointer regression, native 278-fixture conformance, adversarial
+process-guard verification, two compiler rebuilds, SHA-256 hashing, exact
+fixed-point closure, and deterministic JSON reporting. Native child execution
+now owns Job-based 256 MiB process/tree commit limits, kill-on-close descendant
+containment, a polled 64 MiB working-set limit, a 4 MiB capture limit, and a
+default five-minute timeout. It does not claim tree structure coverage, PE
+inspection, LSP transcript verification, benchmark sampling, or ZIP ownership
+until those capabilities move into OpenC.
 
 ## Optional historical/bootstrap boundary
 
@@ -62,10 +65,9 @@ dependency.
 
 ## Next implementation slice
 
-1. Add OpenC-owned bounded child supervision: timeout, output ceiling, peak
-   private bytes and peak working set, with child-tree termination on failure.
-2. Move canonical-tree/source/coverage checks into `openc workflow`.
-3. Add the native PE import, unwind and CRT-absence audit.
-4. Replace the LSP Python clients with an OpenC-native framed client.
+1. Move canonical-tree/source/coverage checks into `openc workflow`.
+2. Add the native PE import, unwind and CRT-absence audit.
+3. Replace the LSP Python clients with an OpenC-native framed client.
+4. Add native benchmark sampling and performance gates.
 5. Add directory enumeration/creation and deterministic ZIP emission for
    `openc release`.

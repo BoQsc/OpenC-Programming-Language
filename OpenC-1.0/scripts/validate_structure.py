@@ -690,15 +690,21 @@ if (
     errors.append("SH-21 OpenC-native workflows must be active after SH-20")
 sh21_progress = active_plan.get("progress", {})
 if (
-    sh21_progress.get("status") != "TRANCHE_1_PASS_MILESTONE_ACTIVE"
+    sh21_progress.get("status") != "TRANCHE_2_PASS_MILESTONE_ACTIVE"
+    or sh21_progress.get("evidence")
+    != "compiler/selfhost/SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md"
     or sh21_progress.get("workflow_schema") != "openc.native_workflow.v1"
+    or sh21_progress.get("process_guard_schema")
+    != "openc.native_process_guard.v1"
     or sh21_progress.get("native_daily_tasks_passed") != 4
-    or sh21_progress.get("native_full_tasks_passed") != 7
+    or sh21_progress.get("native_full_tasks_passed") != 8
     or sh21_progress.get("native_conformance_fixtures_passed") != 278
     or sh21_progress.get("maintained_and_runtime_programs_passed") != 5
     or sh21_progress.get("compiler_source_files") != 117
-    or sh21_progress.get("compiler_source_bytes") != 1621898
-    or sh21_progress.get("native_compiler_bytes") != 5018624
+    or sh21_progress.get("compiler_source_bytes") != 1641196
+    or sh21_progress.get("native_compiler_bytes") != 5163008
+    or sh21_progress.get("native_compiler_sha256")
+    != "112444e2c106dab5f0f0c03e321697352cd4bdf3d3eb3511c9c4ecdff1b6d4cb"
     or not sh21_progress.get("stage2_stage3_byte_equal")
     or not sh21_progress.get("renamed_compiler_workflow_passed")
     or sh21_progress.get("python_invoked_by_native_workflow")
@@ -711,13 +717,27 @@ if (
     > 268435456
     or sh21_progress.get("compiler_build_peak_working_set_bytes", 2**63)
     > 67108864
-    or sh21_progress.get("native_child_process_enforcement_complete")
+    or sh21_progress.get("workflow_peak_private_bytes", 2**63) > 268435456
+    or sh21_progress.get("workflow_peak_working_set_bytes", 2**63)
+    > 67108864
+    or sh21_progress.get("native_process_guard_checks_passed") != 4
+    or sh21_progress.get("native_process_guard_checks_total") != 4
+    or sh21_progress.get("child_output_limit_bytes") != 4194304
+    or sh21_progress.get("child_process_memory_limit_bytes") != 268435456
+    or sh21_progress.get("child_job_memory_limit_bytes") != 268435456
+    or sh21_progress.get("child_working_set_limit_bytes") != 67108864
+    or sh21_progress.get("child_default_timeout_milliseconds") != 300000
+    or not sh21_progress.get("child_tree_kill_on_close")
+    or not sh21_progress.get("child_assigned_suspended")
+    or not sh21_progress.get("native_child_process_enforcement_complete")
     or sh21_progress.get("native_structure_pe_lsp_release_audits_complete")
     or sh21_progress.get("deterministic_native_release_archives_complete")
+    or sh21_progress.get("next_slice")
+    != "OPENC_NATIVE_STRUCTURE_SOURCE_COVERAGE_AUDITS"
 ):
     errors.append(
-        "SH-21 tranche 1 must record native workflow closure without claiming "
-        "unfinished supervision, audit, or archive gates"
+        "SH-21 tranche 2 must record bounded native process supervision "
+        "without claiming unfinished audit or archive gates"
     )
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
@@ -770,15 +790,21 @@ if (
     errors.append("development state must record the passed SH-20 evidence")
 development_sh21 = development_self_hosting.get("sh21_progress", {})
 if (
-    development_sh21.get("status") != "TRANCHE_1_PASS_MILESTONE_ACTIVE"
+    development_sh21.get("status") != "TRANCHE_2_PASS_MILESTONE_ACTIVE"
+    or development_sh21.get("evidence")
+    != "compiler/selfhost/SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md"
     or development_sh21.get("workflow_schema") != "openc.native_workflow.v1"
+    or development_sh21.get("process_guard_schema")
+    != "openc.native_process_guard.v1"
     or development_sh21.get("compiler_source_files") != 117
-    or development_sh21.get("compiler_source_bytes") != 1621898
-    or development_sh21.get("native_compiler_bytes") != 5018624
+    or development_sh21.get("compiler_source_bytes") != 1641196
+    or development_sh21.get("native_compiler_bytes") != 5163008
+    or development_sh21.get("native_compiler_sha256")
+    != "112444e2c106dab5f0f0c03e321697352cd4bdf3d3eb3511c9c4ecdff1b6d4cb"
     or not development_sh21.get("renamed_compiler_workflow_passed")
     or not development_sh21.get("stage2_stage3_byte_equal")
     or development_sh21.get("native_daily_tasks_passed") != 4
-    or development_sh21.get("native_full_tasks_passed") != 7
+    or development_sh21.get("native_full_tasks_passed") != 8
     or development_sh21.get("native_conformance_fixtures_passed") != 278
     or development_sh21.get("maintained_and_runtime_programs_passed") != 5
     or development_sh21.get("python_invoked_by_native_workflow")
@@ -791,13 +817,26 @@ if (
     > 268435456
     or development_sh21.get("compiler_build_peak_working_set_bytes", 2**63)
     > 67108864
-    or development_sh21.get("native_child_process_enforcement_complete")
+    or development_sh21.get("workflow_peak_private_bytes", 2**63)
+    > 268435456
+    or development_sh21.get("workflow_peak_working_set_bytes", 2**63)
+    > 67108864
+    or development_sh21.get("native_process_guard_checks_passed") != 4
+    or development_sh21.get("native_process_guard_checks_total") != 4
+    or development_sh21.get("child_output_limit_bytes") != 4194304
+    or development_sh21.get("child_process_memory_limit_bytes") != 268435456
+    or development_sh21.get("child_job_memory_limit_bytes") != 268435456
+    or development_sh21.get("child_working_set_limit_bytes") != 67108864
+    or development_sh21.get("child_default_timeout_milliseconds") != 300000
+    or not development_sh21.get("child_tree_kill_on_close")
+    or not development_sh21.get("child_assigned_suspended")
+    or not development_sh21.get("native_child_process_enforcement_complete")
     or development_sh21.get("native_structure_pe_lsp_release_audits_complete")
     or development_sh21.get("deterministic_native_release_archives_complete")
     or development_sh21.get("next_slice")
-    != "OPENC_NATIVE_BOUNDED_CHILD_SUPERVISION"
+    != "OPENC_NATIVE_STRUCTURE_SOURCE_COVERAGE_AUDITS"
 ):
-    errors.append("development state must record bounded SH-21 tranche 1 progress")
+    errors.append("development state must record bounded SH-21 tranche 2 progress")
 development_sh14 = development_self_hosting.get("sh14_acceptance", {})
 if (
     development_sh14.get("status") != "PASS"

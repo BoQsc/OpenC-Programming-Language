@@ -114,11 +114,13 @@ optimized ISO C and D references measure 22.732 and 17.504 seconds. Peak
 compiler memory remains inside the 256 MiB private / 64 MiB working-set guards.
 SH-21 is now active and replaces required Python build/test/release
 orchestration with OpenC-native workflows while isolating D/Python/C/TinyCC to
-an optional historical bootstrap/audit kit. Its first native workflow tranche
-passes 7/7 full tasks, 278/278 conformance, 5/5 program checks, exact compiler
-closure, and renamed-executable self-location. Native child supervision and
-the remaining audit/release replacements are still active. Native editor
-integration is deferred to SH-24. See
+an optional historical bootstrap/audit kit. Its second native workflow tranche
+passes 8/8 full tasks, 278/278 conformance, 5/5 program checks, exact compiler
+closure, renamed-executable self-location, and four adversarial child-process
+guards. Native execution now contains descendants in a 256 MiB Job, enforces a
+64 MiB working-set ceiling, caps captured output at 4 MiB, and applies bounded
+timeouts. The remaining audit/release replacements are still active. Native
+editor integration is deferred to SH-24. See
 `compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md` and
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 

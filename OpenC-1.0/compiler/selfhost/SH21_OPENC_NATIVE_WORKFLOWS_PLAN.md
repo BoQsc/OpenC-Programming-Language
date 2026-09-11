@@ -3,14 +3,16 @@
 Status: **ACTIVE**.
 
 Implementation progress: the Python ownership inventory is complete in
-`SH21_PYTHON_WORKFLOW_INVENTORY.md`. The first OpenC-authored `openc workflow`
-slice now owns public identity/project checks, four established programs plus
-the native `out ptr` regression, native conformance, two compiler rebuilds,
-SHA-256 fixed-point comparison, and JSON evidence. The renamed fixed-point
-compiler passes this tranche; see `SH21_NATIVE_WORKFLOW_TRANCHE1_EVIDENCE.md`.
-Child-process memory enforcement, structure/coverage/PE/LSP audits, native
-benchmark gates, and deterministic release ZIP ownership remain active work
-and are not claimed complete.
+`SH21_PYTHON_WORKFLOW_INVENTORY.md`. The OpenC-authored `openc workflow` owns
+public identity/project checks, four established programs plus the native
+`out ptr` regression, native conformance, two compiler rebuilds, SHA-256
+fixed-point comparison, and JSON evidence. Tranche 2 adds OpenC-native bounded
+child supervision and a public adversarial `openc process-guard` verifier. The
+renamed fixed-point compiler passes both tranches; see
+`SH21_NATIVE_WORKFLOW_TRANCHE1_EVIDENCE.md` and
+`SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md`. Structure/coverage/PE/LSP
+audits, native benchmark gates, and deterministic release ZIP ownership remain
+active work and are not claimed complete.
 
 SH-20 makes the public compiler competitive with the measured C and D
 references while keeping correctness and RAM bounds intact. SH-21 now removes

@@ -1270,28 +1270,51 @@ unsafe void native_stack_address(
     x64_emit_memory_modrm(function.code, register_code, 4, offset);
 }
 
+// Resolve a documented Kernel32 export through the already imported secure
+// loader boundary. The module handle lives in the caller's runtime scratch at
+// offset 776; RAX contains the resolved function pointer on return.
+unsafe void native_process_kernel32_export(
+    ref NativeFunction function, text name
+) {
+    x64_mov_r64_memory(function.code, 1, 4, 776);
+    native_constant_ascii(function, name, false, 2);
+    native_import(function, 20);
+    native_runtime_nonzero(function);
+}
+
 unsafe void native_process_failure_outputs(
     ref IrContext context,
     ref NativeFunction function,
     usize instruction,
-    usize result
+    usize result,
+    usize status_code
 ) {
-    usize exit_value = d_operand_value(context, instruction, 1);
+    usize exit_operand = 1;
+    usize output_operand = 2;
+    if d_operand_count(context, instruction) == 4 {
+        exit_operand = 2;
+        output_operand = 3;
+    }
+    usize exit_value = d_operand_value(context, instruction, exit_operand);
     native_output_address(function, exit_value, 11);
     x64_mov_r64_imm64(function.code, 0, ~cast(u64, 0));
     x64_mov_memory_r64(function.code, 11, 0, 0);
-    usize output_value = d_operand_value(context, instruction, 2);
+    usize output_value = d_operand_value(context, instruction, output_operand);
     native_output_address(function, output_value, 11);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
     x64_mov_memory_r64(function.code, 11, 0, 0);
     x64_mov_memory_r64(function.code, 11, 8, 0);
-    native_status_failure(function, result, 1);
+    native_status_failure(function, result, status_code);
 }
 
 // Spawn a child with inherited pipe handles and capture both stdout and stderr.
 // The implementation calls documented KERNEL32 APIs directly. Output grows from
-// 4 KiB and is capped at 64 MiB; excess data is drained before a visible guarded
+// 4 KiB and is capped at 4 MiB; excess data is drained before a visible guarded
 // failure is returned so a noisy child cannot deadlock or exhaust the compiler.
+// Every child is created suspended, placed in a kill-on-close Job object with
+// a 256 MiB per-process and whole-job memory limit, then resumed. A nonblocking
+// pipe loop also enforces a 64 MiB working-set ceiling and a bounded wall clock.
+// Descendants inherit the Job boundary and are terminated when supervision ends.
 unsafe void native_process_run(
     ref IrContext context,
     ref NativeFunction function,
@@ -1309,6 +1332,12 @@ unsafe void native_process_run(
         x64_mov_memory_r64(function.code, 4, clear_offset, 0);
         clear_offset = clear_offset + 8;
     }
+    if d_operand_count(context, instruction) == 4 {
+        native_load(function, d_operand_value(context, instruction, 1), 0);
+    } else {
+        x64_mov_r64_imm64(function.code, 0, cast(u64, 300000));
+    }
+    x64_mov_memory_r64(function.code, 4, 880, 0);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 24));
     x64_mov_memory_r64(function.code, 4, 600, 0);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 1));
@@ -1324,7 +1353,7 @@ unsafe void native_process_run(
     usize pipe_ready = native_skip(function.code, 5);
     x64_mov_r64_memory(function.code, 8, 4, 504);
     native_heap_free_r8(function);
-    native_process_failure_outputs(context, function, instruction, result);
+    native_process_failure_outputs(context, function, instruction, result, 1);
     usize pipe_failure_finished = native_jump(function.code);
     native_skip_end(function.code, pipe_ready);
 
@@ -1338,9 +1367,57 @@ unsafe void native_process_run(
     x64_mov_r64_memory(function.code, 1, 4, 576); native_import(function, 0);
     x64_mov_r64_memory(function.code, 1, 4, 584); native_import(function, 0);
     x64_mov_r64_memory(function.code, 8, 4, 504); native_heap_free_r8(function);
-    native_process_failure_outputs(context, function, instruction, result);
+    native_process_failure_outputs(context, function, instruction, result, 1);
     usize inheritance_failure_finished = native_jump(function.code);
     native_skip_end(function.code, inheritance_ready);
+
+    // Load documented Job APIs dynamically from System32 Kernel32. Keeping the
+    // fixed import table unchanged preserves the SH-16/SH-19 CRT-free image
+    // contract while the normal runtime still uses only documented APIs.
+    native_constant_ascii(function, "kernel32.dll", true, 1);
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 2048));
+    native_import(function, 19); native_runtime_nonzero(function);
+    x64_mov_memory_r64(function.code, 4, 776, 0);
+
+    native_process_kernel32_export(function, "PeekNamedPipe");
+    x64_mov_memory_r64(function.code, 4, 856, 0);
+    native_process_kernel32_export(function, "K32GetProcessMemoryInfo");
+    x64_mov_memory_r64(function.code, 4, 864, 0);
+    native_process_kernel32_export(function, "TerminateJobObject");
+    x64_mov_memory_r64(function.code, 4, 872, 0);
+
+    native_process_kernel32_export(function, "CreateJobObjectW");
+    x64_mov_r64_r64(function.code, 11, 0);
+    x64_mov_r64_imm64(function.code, 1, cast(u64, 0));
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
+    x64_call_r64(function.code, 11); native_runtime_nonzero(function);
+    x64_mov_memory_r64(function.code, 4, 784, 0);
+
+    // JOBOBJECT_EXTENDED_LIMIT_INFORMATION (144 bytes on Win64).
+    clear_offset = 896;
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    while clear_offset < 1144 {
+        x64_mov_memory_r64(function.code, 4, clear_offset, 0);
+        clear_offset = clear_offset + 8;
+    }
+    // KILL_ON_JOB_CLOSE | PROCESS_MEMORY | JOB_MEMORY. A Job working-set limit
+    // requires SE_INC_WORKING_SET_NAME and is therefore not valid for ordinary
+    // unprivileged compiler processes; the polling supervisor below enforces
+    // that separate 64 MiB compiler budget instead.
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 8960));
+    x64_mov_memory_r64(function.code, 4, 912, 0);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 268435456));
+    x64_mov_memory_r64(function.code, 4, 1008, 0);
+    x64_mov_memory_r64(function.code, 4, 1016, 0);
+
+    native_process_kernel32_export(function, "SetInformationJobObject");
+    x64_mov_r64_r64(function.code, 11, 0);
+    x64_mov_r64_memory(function.code, 1, 4, 784);
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 9));
+    native_stack_address(function, 896, 8);
+    x64_mov_r64_imm64(function.code, 9, cast(u64, 144));
+    x64_call_r64(function.code, 11); native_runtime_nonzero(function);
 
     // STARTUPINFOW (640..743) and PROCESS_INFORMATION (752..775).
     x64_mov_r64_imm64(function.code, 0, cast(u64, 104));
@@ -1362,8 +1439,9 @@ unsafe void native_process_run(
     x64_mov_r64_imm64(function.code, 9, cast(u64, 0));
     x64_mov_r64_imm64(function.code, 0, cast(u64, 1));
     x64_mov_memory_r64(function.code, 4, 32, 0);
-    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 4));
     x64_mov_memory_r64(function.code, 4, 40, 0);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
     x64_mov_memory_r64(function.code, 4, 48, 0);
     x64_mov_memory_r64(function.code, 4, 56, 0);
     native_stack_address(function, 640, 0);
@@ -1376,10 +1454,27 @@ unsafe void native_process_run(
     usize process_ready = native_skip(function.code, 5);
     x64_mov_r64_memory(function.code, 1, 4, 576); native_import(function, 0);
     x64_mov_r64_memory(function.code, 1, 4, 584); native_import(function, 0);
+    x64_mov_r64_memory(function.code, 1, 4, 784); native_import(function, 0);
+    x64_mov_r64_memory(function.code, 1, 4, 776); native_import(function, 22);
     x64_mov_r64_memory(function.code, 8, 4, 504); native_heap_free_r8(function);
-    native_process_failure_outputs(context, function, instruction, result);
+    native_process_failure_outputs(context, function, instruction, result, 1);
     usize process_failure_finished = native_jump(function.code);
     native_skip_end(function.code, process_ready);
+
+    native_process_kernel32_export(function, "AssignProcessToJobObject");
+    x64_mov_r64_r64(function.code, 11, 0);
+    x64_mov_r64_memory(function.code, 1, 4, 784);
+    x64_mov_r64_memory(function.code, 2, 4, 752);
+    x64_call_r64(function.code, 11); native_runtime_nonzero(function);
+
+    native_process_kernel32_export(function, "ResumeThread");
+    x64_mov_r64_r64(function.code, 11, 0);
+    x64_mov_r64_memory(function.code, 1, 4, 760);
+    x64_call_r64(function.code, 11);
+    x64_add_r64_imm8(function.code, 0, 1);
+    native_runtime_nonzero(function);
+    native_import(function, 16);
+    x64_mov_memory_r64(function.code, 4, 1136, 0);
 
     // Only the child keeps the write side. This lets ReadFile observe EOF.
     x64_mov_r64_memory(function.code, 1, 4, 584); native_import(function, 0);
@@ -1394,11 +1489,114 @@ unsafe void native_process_run(
     x64_mov_memory_r64(function.code, 4, 816, 0);
 
     usize read_loop = function.code.bytes.length;
+
+    // An exited process can no longer exceed a resource limit, and some Windows
+    // versions no longer expose meaningful live counters after it is signaled.
+    // Mark it first, skip supervision, then drain any bytes still in the pipe.
+    x64_mov_r64_memory(function.code, 1, 4, 752);
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
+    native_import(function, 26);
+    x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 192);
+    usize supervise_running_process = native_skip(function.code, 5);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 1));
+    x64_mov_memory_r64(function.code, 4, 888, 0);
+    usize skip_process_supervision = native_jump(function.code);
+    native_skip_end(function.code, supervise_running_process);
+    x64_mov_r64_imm64(function.code, 11, cast(u64, 258));
+    x64_cmp_r64_r64(function.code, 0, 11); native_require(function.code, 4);
+
+    // Enforce the unprivileged 64 MiB working-set rule by observing the child
+    // directly; JOB_OBJECT_LIMIT_WORKINGSET requires a quota privilege and is
+    // not available to ordinary compiler processes.
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 72));
+    x64_mov_memory_r64(function.code, 4, 1040, 0);
+    x64_mov_r64_memory(function.code, 11, 4, 864);
+    x64_mov_r64_memory(function.code, 1, 4, 752);
+    native_stack_address(function, 1040, 2);
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 72));
+    x64_call_r64(function.code, 11); native_runtime_nonzero(function);
+    x64_mov_r64_memory(function.code, 10, 4, 1056);
+    x64_mov_r64_imm64(function.code, 11, cast(u64, 67108864));
+    x64_cmp_r64_r64(function.code, 10, 11);
+    usize working_set_within_budget = native_skip(function.code, 6);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 1));
+    x64_mov_memory_r64(function.code, 4, 1120, 0);
+    x64_mov_r64_memory(function.code, 11, 4, 872);
+    x64_mov_r64_memory(function.code, 1, 4, 784);
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 70));
+    x64_call_r64(function.code, 11); native_runtime_nonzero(function);
+    native_skip_end(function.code, working_set_within_budget);
+
+    native_import(function, 16);
+    x64_mov_r64_memory(function.code, 11, 4, 1136);
+    x64_binary_r64_r64(function.code, 41, 0, 11);
+    x64_mov_r64_memory(function.code, 11, 4, 880);
+    x64_cmp_r64_r64(function.code, 0, 11);
+    usize time_within_budget = native_skip(function.code, 2);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 1));
+    x64_mov_memory_r64(function.code, 4, 1128, 0);
+    x64_mov_r64_memory(function.code, 11, 4, 872);
+    x64_mov_r64_memory(function.code, 1, 4, 784);
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 70));
+    x64_call_r64(function.code, 11); native_runtime_nonzero(function);
+    native_skip_end(function.code, time_within_budget);
+    native_skip_end(function.code, skip_process_supervision);
+
+    // Peek before every synchronous read, then wait at most 25 ms for process
+    // progress. This keeps output capture responsive to RAM and timeout rules.
+    x64_mov_r64_memory(function.code, 11, 4, 856);
+    x64_mov_r64_memory(function.code, 1, 4, 576);
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 0));
+    x64_mov_r64_imm64(function.code, 9, cast(u64, 0));
+    native_stack_address(function, 824, 0);
+    x64_mov_memory_r64(function.code, 4, 32, 0);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    x64_mov_memory_r64(function.code, 4, 40, 0);
+    x64_call_r64(function.code, 11);
+    x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 192);
+    usize peek_ready = native_skip(function.code, 5);
+    usize peek_finished = native_jump(function.code);
+    native_skip_end(function.code, peek_ready);
+    x64_mov_r64_memory(function.code, 0, 4, 824);
+    x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 192);
+    usize data_ready = native_skip(function.code, 5);
+
+    x64_mov_r64_memory(function.code, 0, 4, 888);
+    x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 192);
+    usize wait_needed = native_skip(function.code, 4);
+    usize signaled_finished = native_jump(function.code);
+    native_skip_end(function.code, wait_needed);
+    x64_mov_r64_memory(function.code, 1, 4, 752);
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 25));
+    native_import(function, 26);
+    x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 192);
+    usize process_still_running = native_skip(function.code, 5);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 1));
+    x64_mov_memory_r64(function.code, 4, 888, 0);
+    usize repeat_after_signal = native_jump(function.code);
+    native_skip_end(function.code, process_still_running);
+    x64_mov_r64_imm64(function.code, 11, cast(u64, 258));
+    x64_cmp_r64_r64(function.code, 0, 11); native_require(function.code, 4);
+    usize repeat_after_wait = native_jump(function.code);
+    x64_patch_u32(function.code, repeat_after_signal,
+        cast(u32, cast(u64, 4294967296) -
+            cast(u64, repeat_after_signal + 4 - read_loop)));
+    x64_patch_u32(function.code, repeat_after_wait,
+        cast(u32, cast(u64, 4294967296) -
+            cast(u64, repeat_after_wait + 4 - read_loop)));
+    native_skip_end(function.code, data_ready);
+
     x64_mov_r64_memory(function.code, 10, 4, 808);
     x64_mov_r64_memory(function.code, 11, 4, 816);
     x64_cmp_r64_r64(function.code, 10, 11);
     usize buffer_has_room = native_skip(function.code, 5);
-    x64_mov_r64_imm64(function.code, 0, cast(u64, 67108864));
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 4194304));
     x64_cmp_r64_r64(function.code, 11, 0);
     usize buffer_can_grow = native_skip(function.code, 2);
 
@@ -1406,8 +1604,8 @@ unsafe void native_process_run(
     x64_mov_r64_imm64(function.code, 0, cast(u64, 1));
     x64_mov_memory_r64(function.code, 4, 840, 0);
     x64_mov_r64_memory(function.code, 1, 4, 576);
-    native_stack_address(function, 896, 2);
-    x64_mov_r64_imm64(function.code, 8, cast(u64, 512));
+    native_stack_address(function, 1152, 2);
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 256));
     native_stack_address(function, 824, 9);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
     x64_mov_memory_r64(function.code, 4, 824, 0);
@@ -1473,6 +1671,8 @@ unsafe void native_process_run(
     native_skip_end(function.code, drain_empty);
     native_skip_end(function.code, read_finished);
     native_skip_end(function.code, read_empty);
+    native_skip_end(function.code, peek_finished);
+    native_skip_end(function.code, signaled_finished);
     x64_mov_r64_memory(function.code, 1, 4, 576); native_import(function, 0);
     x64_mov_r64_memory(function.code, 1, 4, 752);
     x64_mov_r64_imm64(function.code, 2, cast(u64, 4294967295));
@@ -1482,27 +1682,65 @@ unsafe void native_process_run(
     native_import(function, 27);
     x64_mov_r64_memory(function.code, 1, 4, 760); native_import(function, 0);
     x64_mov_r64_memory(function.code, 1, 4, 752); native_import(function, 0);
+    x64_mov_r64_memory(function.code, 1, 4, 784); native_import(function, 0);
+    x64_mov_r64_memory(function.code, 1, 4, 776); native_import(function, 22);
+
+    x64_mov_r64_memory(function.code, 0, 4, 1120);
+    x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 192);
+    usize working_set_within_budget_result = native_skip(function.code, 4);
+    native_constant_ascii(function,
+        "fatal[OPENC-NATIVE-PROCESS-WORKING-SET-BUDGET]: child working set exceeds 64 MiB\n",
+        false, 2);
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 81));
+    native_write_console(function, true);
+    x64_mov_r64_memory(function.code, 8, 4, 800);
+    native_heap_free_r8(function);
+    native_process_failure_outputs(context, function, instruction, result, 2);
+    usize working_set_failure_finished = native_jump(function.code);
+    native_skip_end(function.code, working_set_within_budget_result);
+
+    x64_mov_r64_memory(function.code, 0, 4, 1128);
+    x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 192);
+    usize time_within_budget_result = native_skip(function.code, 4);
+    native_constant_ascii(function,
+        "fatal[OPENC-NATIVE-PROCESS-TIME-BUDGET]: child exceeds its timeout\n",
+        false, 2);
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 67));
+    native_write_console(function, true);
+    x64_mov_r64_memory(function.code, 8, 4, 800);
+    native_heap_free_r8(function);
+    native_process_failure_outputs(context, function, instruction, result, 3);
+    usize time_failure_finished = native_jump(function.code);
+    native_skip_end(function.code, time_within_budget_result);
 
     x64_mov_r64_memory(function.code, 0, 4, 840);
     x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
     x64_emit_u8(function.code, 192);
     usize output_within_budget = native_skip(function.code, 4);
     native_constant_ascii(function,
-        "fatal[OPENC-NATIVE-PROCESS-OUTPUT-BUDGET]: child output exceeds 64 MiB\n",
+        "fatal[OPENC-NATIVE-PROCESS-OUTPUT-BUDGET]: child output exceeds 4 MiB\n",
         false, 2);
-    x64_mov_r64_imm64(function.code, 8, cast(u64, 73));
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 70));
     native_write_console(function, true);
     x64_mov_r64_memory(function.code, 8, 4, 800);
     native_heap_free_r8(function);
-    native_process_failure_outputs(context, function, instruction, result);
+    native_process_failure_outputs(context, function, instruction, result, 4);
     usize output_failure_finished = native_jump(function.code);
 
     native_skip_end(function.code, output_within_budget);
-    usize exit_value = d_operand_value(context, instruction, 1);
+    usize exit_operand = 1;
+    usize output_operand = 2;
+    if d_operand_count(context, instruction) == 4 {
+        exit_operand = 2;
+        output_operand = 3;
+    }
+    usize exit_value = d_operand_value(context, instruction, exit_operand);
     native_output_address(function, exit_value, 11);
     x64_mov_r64_memory(function.code, 0, 4, 832);
     x64_mov_memory_r64(function.code, 11, 0, 0);
-    usize output_value = d_operand_value(context, instruction, 2);
+    usize output_value = d_operand_value(context, instruction, output_operand);
     native_output_address(function, output_value, 11);
     x64_mov_r64_memory(function.code, 0, 4, 800);
     x64_mov_memory_r64(function.code, 11, 0, 0);
@@ -1513,6 +1751,8 @@ unsafe void native_process_run(
     native_skip_end(function.code, pipe_failure_finished);
     native_skip_end(function.code, inheritance_failure_finished);
     native_skip_end(function.code, process_failure_finished);
+    native_skip_end(function.code, working_set_failure_finished);
+    native_skip_end(function.code, time_failure_finished);
     native_skip_end(function.code, output_failure_finished);
 }
 
@@ -1580,6 +1820,9 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
     if detail_kind == 3 {
         if !native_runtime_name(
             call_span, "lsp_read_frame", "ocb_lsp_read_frame"
+        ) && !native_runtime_name(
+            call_span,
+            "cli_process_run_bounded", "cli_process_run_bounded"
         ) {
             return false;
         }
@@ -1662,6 +1905,12 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
     }
     if native_runtime_name(call_span, "process.run", "system.process.run") {
         if d_operand_count(context, instruction) != 3 { function.code.ok = false; return true; }
+        native_process_run(context, function, instruction, result); return true;
+    }
+    if native_runtime_name(
+        call_span, "cli_process_run_bounded", "cli_process_run_bounded"
+    ) {
+        if d_operand_count(context, instruction) != 4 { function.code.ok = false; return true; }
         native_process_run(context, function, instruction, result); return true;
     }
     if native_runtime_name(call_span, "path.join", "system.path.join") {

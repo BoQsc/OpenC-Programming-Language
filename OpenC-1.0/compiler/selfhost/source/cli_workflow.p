@@ -161,6 +161,143 @@ unsafe i32 cli_workflow_hash_command(text input_path) {
     return 0;
 }
 
+// Internal adversarial children for the public native process-guard verifier.
+// The output probe writes one byte beyond the 4 MiB capture ceiling. The memory
+// probe attempts a 300 MiB allocation and may only complete when containment is
+// broken; a functioning 256 MiB Job boundary terminates it or makes it fail.
+unsafe i32 cli_process_guard_output_probe() {
+    text block = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
+    usize iteration = 0;
+    while iteration < 16385 {
+        io.print(block);
+        iteration = iteration + 1;
+    }
+    return 0;
+}
+
+unsafe i32 cli_process_guard_memory_probe() {
+    ptr byte allocation = memory.alloc(314572800);
+    memory.free(allocation);
+    return 0;
+}
+
+unsafe i32 cli_process_guard_working_set_probe() {
+    ptr byte allocation = memory.alloc(104857600);
+    usize offset = 0;
+    while offset < 104857600 {
+        memory.store_usize(allocation + offset, offset);
+        offset = offset + 4096;
+    }
+    while true {}
+    memory.free(allocation);
+    return 0;
+}
+
+unsafe i32 cli_process_guard_timeout_probe() {
+    while true {}
+    return 0;
+}
+
+// Compiler-internal bounded primitive. The native backend lowers calls to this
+// exact helper directly; its body keeps the optional C bootstrap lane viable
+// without making that historical lane authoritative for native supervision.
+unsafe status cli_process_run_bounded(
+    text command,
+    usize timeout_milliseconds,
+    out i32 exit_code,
+    out text output
+) {
+    status result = process.run(command, out exit_code, out output);
+    return result;
+}
+
+unsafe i32 cli_process_guard_command(text output_path) {
+    text compiler = cli_self_executable();
+    DBuffer command = d_buffer_create(32768);
+    native_put_quoted(command, compiler);
+    d_put(command, " --process-guard-output-probe");
+    i32 output_exit;
+    text output_text;
+    status output_ran = process.run(
+        d_buffer_text(command), out output_exit, out output_text
+    );
+    bool output_guarded = !output_ran.ok && output_ran.code == 4;
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
+    native_put_quoted(command, compiler);
+    d_put(command, " --process-guard-memory-probe");
+    i32 memory_exit;
+    text memory_text;
+    status memory_ran = process.run(
+        d_buffer_text(command), out memory_exit, out memory_text
+    );
+    bool memory_guarded = false;
+    if memory_ran.ok { memory_guarded = memory_exit != 0; }
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
+    native_put_quoted(command, compiler);
+    d_put(command, " --process-guard-working-set-probe");
+    i32 working_set_exit;
+    text working_set_text;
+    status working_set_ran = cli_process_run_bounded(
+        d_buffer_text(command), cast(usize, 2000),
+        out working_set_exit, out working_set_text
+    );
+    bool working_set_guarded =
+        !working_set_ran.ok && working_set_ran.code == 2;
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
+    native_put_quoted(command, compiler);
+    d_put(command, " --process-guard-timeout-probe");
+    i32 timeout_exit;
+    text timeout_text;
+    status timeout_ran = cli_process_run_bounded(
+        d_buffer_text(command), cast(usize, 250),
+        out timeout_exit, out timeout_text
+    );
+    bool timeout_guarded = !timeout_ran.ok && timeout_ran.code == 3;
+    d_buffer_destroy(command);
+
+    bool passed = output_guarded && memory_guarded &&
+        working_set_guarded && timeout_guarded;
+    DBuffer report = d_buffer_create(4096);
+    d_put(report, "{\n  \"schema\": \"openc.native_process_guard.v1\",\n");
+    d_put(report, "  \"implementation_language\": \"OpenC\",\n");
+    d_put(report, "  \"limits\": {\n");
+    d_put(report, "    \"captured_output_bytes\": 4194304,\n");
+    d_put(report, "    \"process_memory_bytes\": 268435456,\n");
+    d_put(report, "    \"job_memory_bytes\": 268435456,\n");
+    d_put(report, "    \"working_set_bytes\": 67108864,\n");
+    d_put(report, "    \"probe_timeout_milliseconds\": 250\n  },\n");
+    d_put(report, "  \"checks\": {\n    \"output_budget\": ");
+    native_put_bool(report, output_guarded);
+    d_put(report, ",\n    \"memory_budget\": ");
+    native_put_bool(report, memory_guarded);
+    d_put(report, ",\n    \"working_set_budget\": ");
+    native_put_bool(report, working_set_guarded);
+    d_put(report, ",\n    \"timeout_budget\": ");
+    native_put_bool(report, timeout_guarded);
+    d_put(report, "\n  },\n  \"status\": \"");
+    if passed { d_put(report, "PASS"); } else { d_put(report, "FAIL"); }
+    d_put(report, "\"\n}\n");
+    bool report_ok = report.ok;
+    status written = file.write_text(output_path, d_buffer_text(report));
+    d_buffer_destroy(report);
+    if !report_ok || !written.ok {
+        io.error("error: process-guard report could not be written\n");
+        return 1;
+    }
+    if passed {
+        io.println("OpenC process guard: PASS");
+        return 0;
+    }
+    io.println("OpenC process guard: FAIL");
+    return 1;
+}
+
 unsafe i32 cli_workflow_command() {
     text root = process.executable_directory();
     text output_path = "";
@@ -205,6 +342,9 @@ unsafe i32 cli_workflow_command() {
     );
     text test_report = path.join(
         output_directory, "sh21-native-tests.json"
+    );
+    text process_guard_report = path.join(
+        output_directory, "sh21-native-process-guard.json"
     );
     text stage2 = path.join(
         output_directory, "openc-sh21-stage2.exe"
@@ -275,6 +415,17 @@ unsafe i32 cli_workflow_command() {
     DBuffer stage2_hash = d_buffer_create(128);
     DBuffer stage3_hash = d_buffer_create(128);
     if mode == "full" {
+        command = d_buffer_create(32768);
+        cli_workflow_command_start(command, compiler, "process-guard");
+        cli_workflow_command_named_argument(
+            command, "--output=", process_guard_report
+        );
+        cli_workflow_execute(
+            report, counters, "native_process_guard", command,
+            "OpenC process guard: PASS"
+        );
+        d_buffer_destroy(command);
+
         command = d_buffer_create(32768);
         cli_workflow_command_start(command, compiler, "validate");
         cli_workflow_command_named_argument(
