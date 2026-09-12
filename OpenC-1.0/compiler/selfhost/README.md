@@ -175,8 +175,12 @@ the 13-task full workflow, deterministic standalone/source ZIPs, relocated
 package verification, 16-check PE audit, 42-check framed LSP audit, 29-check
 residual contract audit, and 20-build exact closure. Final build and validation
 medians are 23.094 and 14.827 seconds under unchanged memory gates. SH-22
-PE/COFF ecosystem completeness is active next. Native editor integration and
-language-service resilience remain deferred to SH-24.
+PE/COFF ecosystem completeness is complete: `openc artifact` emits COFF
+objects, DLLs, static/import libraries, resources/manifests, and console/GUI
+PE32+ images, while 40/40 native checks exercise load-time and secure run-time
+DLL interoperability. SH-23 optional COM/WinRT projections are active next.
+Native editor integration and language-service resilience remain deferred to
+SH-24.
 
 The same-host SH-14 clean-build comparator is:
 

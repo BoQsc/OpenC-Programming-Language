@@ -108,6 +108,8 @@ void cli_print_help() {
     io.println("  openc benchmark --project=PROJECT --output=REPORT.json [--runs=1..20]");
     io.println("  openc contract-audit --root=ROOT --output=REPORT.json");
     io.println("  openc release --root=ROOT --output=DIR");
+    io.println("  openc artifact --project=PROJECT --kind=KIND --output=FILE [--subsystem=console|windows] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json]");
+    io.println("  openc pe-coff-audit --root=ROOT --artifacts=DIR --output=REPORT.json");
     io.println("  openc workflow --root=ROOT --output=REPORT.json [--mode=daily|full]");
     io.println("  openc process-guard --output=REPORT.json");
     io.println("  openc lsp --stdio");

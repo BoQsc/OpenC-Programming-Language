@@ -1,6 +1,7 @@
 import system.file;
 import system.io;
 import system.memory;
+import system.text;
 
 unsafe usize native_read_u32(ref DBuffer bytes, usize offset) {
     if offset > bytes.length || bytes.length - offset < 4 { bytes.ok = false; return 0; }
@@ -51,7 +52,12 @@ unsafe usize native_fault_stub(
     return code.bytes.length;
 }
 
-unsafe status native_write_image(ref IrContext context, ref DBuffer objects, text path) {
+unsafe status native_write_image_options(
+    ref IrContext context,
+    ref DBuffer objects,
+    text path,
+    ref NativeArtifactOptions options
+) {
     if objects.length > 536870912 {
         io.error("error[OPENC-NATIVE-BUDGET]: native object stream exceeds 512 MiB\n");
         return status{ code = 1 };
@@ -93,7 +99,9 @@ unsafe status native_write_image(ref IrContext context, ref DBuffer objects, tex
         cursor = cursor + 24 + size + unwind + relocations * 8 + constants;
         function_count = function_count + 1;
     }
-    if !objects.ok || cursor != objects.length || entry >= context.symbols.length {
+    bool dll = options.kind == native_artifact_dll();
+    if !objects.ok || cursor != objects.length ||
+        (!dll && entry >= context.symbols.length) {
         return status{ code = 1 };
     }
     Pe32RuntimeLayout layout = pe32_runtime_layout();
@@ -103,12 +111,43 @@ unsafe status native_write_image(ref IrContext context, ref DBuffer objects, tex
     layout.xdata_rva = x64_align_up(layout.pdata_rva + (function_count + 3) * 12, 4096);
     layout.tls_rva = x64_align_up(layout.xdata_rva + unwind_size, 4096);
     layout.reloc_rva = layout.tls_rva + 4096;
-    layout.image_size = layout.reloc_rva + 4096;
+    usize edata_rva = 0;
+    if dll { edata_rva = layout.reloc_rva + 4096; }
+    usize export_count = 0;
+    DBuffer edata = d_buffer_create(1);
+    if dll {
+        d_buffer_destroy(edata);
+        edata = pe32_build_exports(
+            context, addresses, edata_rva, options.dll_name, export_count
+        );
+    }
+    usize next_rva = layout.reloc_rva + 4096;
+    if dll {
+        next_rva = x64_align_up(edata_rva + edata.length, 4096);
+    }
+    bool has_rsrc = text.byte_length(options.manifest_path) != 0 ||
+        text.byte_length(options.resource_path) != 0;
+    usize rsrc_rva = 0;
+    DBuffer rsrc = d_buffer_create(1);
+    if has_rsrc {
+        rsrc_rva = next_rva;
+        d_buffer_destroy(rsrc);
+        rsrc = pe32_build_resources(
+            rsrc_rva, options.manifest_path, options.resource_path
+        );
+        next_rva = x64_align_up(rsrc_rva + rsrc.length, 4096);
+    }
+    layout.image_size = next_rva;
     X64Code code = x64_code_create(code_size + 64, 1);
-    x64_sub_rsp(code, 40);
-    x64_call_symbol(code, entry, 0);
-    x64_mov_r64_r64(code, 1, 0);
-    pe32_runtime_call_import(code, layout, 2);
+    if dll {
+        x64_mov_r64_imm64(code, 0, cast(u64, 1));
+        x64_ret(code);
+    } else {
+        x64_sub_rsp(code, 40);
+        x64_call_symbol(code, entry, 0);
+        x64_mov_r64_r64(code, 1, 0);
+        pe32_runtime_call_import(code, layout, 2);
+    }
     usize entry_end = code.bytes.length;
     while code.bytes.length < 32 && code.ok { x64_nop(code); }
     usize checked_start = code.bytes.length;
@@ -138,7 +177,12 @@ unsafe status native_write_image(ref IrContext context, ref DBuffer objects, tex
         pe32_put_u16(xdata, 0);
         stub = stub + 1;
     }
-    bool linked = x64_apply_relative32(code, 0, read_usize(addresses, entry * size_of(usize)));
+    bool linked = true;
+    if !dll {
+        linked = x64_apply_relative32(
+            code, 0, read_usize(addresses, entry * size_of(usize))
+        );
+    }
     DBuffer constant_data = d_buffer_create(constant_size + 512);
     cursor = 0;
     while cursor < objects.length && linked {
@@ -203,14 +247,43 @@ unsafe status native_write_image(ref IrContext context, ref DBuffer objects, tex
     Pe32Section xdata_section = native_section(".xdata", xdata.length, layout.xdata_rva, pdata_section.raw_pointer + pdata_section.raw_size, pe32_section_read_only_data());
     Pe32Section tls_section = native_section(".tls", 8, layout.tls_rva, xdata_section.raw_pointer + xdata_section.raw_size, pe32_section_read_write_data());
     Pe32Section reloc_section = native_section(".reloc", 28, layout.reloc_rva, tls_section.raw_pointer + tls_section.raw_size, 1107296320);
-    DBuffer headers = pe32_build_headers(layout, 3, text_section, rdata_section,
-        data_section, pdata_section, xdata_section, tls_section, reloc_section);
-    pe32_patch_u32(headers, 292, pdata.length);
+    Pe32Section edata_section = Pe32Section{
+        name = ".edata", virtual_size = 0, virtual_address = 0,
+        raw_size = 0, raw_pointer = 0,
+        characteristics = pe32_section_read_only_data()
+    };
+    Pe32Section rsrc_section = Pe32Section{
+        name = ".rsrc", virtual_size = 0, virtual_address = 0,
+        raw_size = 0, raw_pointer = 0,
+        characteristics = pe32_section_read_only_data()
+    };
+    usize raw_end = reloc_section.raw_pointer + reloc_section.raw_size;
+    if dll {
+        edata_section = native_section(
+            ".edata", edata.length, edata_rva, raw_end,
+            pe32_section_read_only_data()
+        );
+        raw_end = edata_section.raw_pointer + edata_section.raw_size;
+    }
+    if has_rsrc {
+        rsrc_section = native_section(
+            ".rsrc", rsrc.length, rsrc_rva, raw_end,
+            pe32_section_read_only_data()
+        );
+        raw_end = rsrc_section.raw_pointer + rsrc_section.raw_size;
+    }
+    DBuffer headers = pe32_build_artifact_headers(
+        layout, options.subsystem, dll,
+        text_section, rdata_section, data_section, pdata_section,
+        xdata_section, tls_section, reloc_section,
+        dll, edata_section, edata.length,
+        has_rsrc, rsrc_section, rsrc.length, pdata.length
+    );
     DBuffer rdata = pe32_build_rdata(layout);
     DBuffer data = pe32_build_data(layout);
     DBuffer tls = pe32_build_tls();
     DBuffer reloc = pe32_build_relocations(layout);
-    DBuffer image = d_buffer_create(reloc_section.raw_pointer + reloc_section.raw_size);
+    DBuffer image = d_buffer_create(raw_end);
     x64_copy_bytes(image, headers); x64_copy_bytes(image, code.bytes);
     pe32_pad_to(image, rdata_section.raw_pointer); x64_copy_bytes(image, rdata);
     x64_copy_bytes(image, constant_data);
@@ -219,14 +292,34 @@ unsafe status native_write_image(ref IrContext context, ref DBuffer objects, tex
     pe32_pad_to(image, pdata_section.raw_pointer); x64_copy_bytes(image, pdata);
     pe32_pad_to(image, xdata_section.raw_pointer); x64_copy_bytes(image, xdata);
     pe32_pad_to(image, tls_section.raw_pointer); x64_copy_bytes(image, tls);
-    x64_copy_bytes(image, reloc);
+    pe32_pad_to(image, reloc_section.raw_pointer); x64_copy_bytes(image, reloc);
+    if dll {
+        pe32_pad_to(image, edata_section.raw_pointer);
+        x64_copy_bytes(image, edata);
+    }
+    if has_rsrc {
+        pe32_pad_to(image, rsrc_section.raw_pointer);
+        x64_copy_bytes(image, rsrc);
+    }
+    pe32_pad_to(image, raw_end);
     status written = status{ code = 1 };
-    if linked && code.ok && image.ok && headers.ok && pdata.ok && xdata.ok {
+    if linked && code.ok && image.ok && headers.ok && pdata.ok && xdata.ok &&
+        edata.ok && rsrc.ok && (!dll || export_count != 0) {
         written = file.write_bytes(path, image.data, image.length);
     } else { io.error("error[OPENC-NATIVE-LINK]: unresolved or invalid native relocation\n"); }
     d_buffer_destroy(image); d_buffer_destroy(reloc); d_buffer_destroy(tls);
     d_buffer_destroy(data); d_buffer_destroy(rdata); d_buffer_destroy(headers);
     d_buffer_destroy(xdata); d_buffer_destroy(pdata); x64_code_destroy(code);
+    d_buffer_destroy(rsrc); d_buffer_destroy(edata);
     d_buffer_destroy(constant_data);
     return written;
+}
+
+unsafe status native_write_image(
+    ref IrContext context,
+    ref DBuffer objects,
+    text path
+) {
+    NativeArtifactOptions options = native_artifact_default_options();
+    return native_write_image_options(context, objects, path, options);
 }

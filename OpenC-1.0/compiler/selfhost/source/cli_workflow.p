@@ -405,39 +405,45 @@ unsafe i32 cli_workflow_command() {
         root, "conformance/fixtures/MANIFEST.json"
     );
     text conformance_report = path.join(
-        output_directory, "sh21-native-conformance.json"
+        output_directory, "sh22-native-conformance.json"
     );
     text test_report = path.join(
-        output_directory, "sh21-native-tests.json"
+        output_directory, "sh22-native-tests.json"
     );
     text process_guard_report = path.join(
-        output_directory, "sh21-native-process-guard.json"
+        output_directory, "sh22-native-process-guard.json"
     );
     text audit_report = path.join(
-        output_directory, "sh21-native-repository-audit.json"
+        output_directory, "sh22-native-repository-audit.json"
     );
     text pe_audit_report = path.join(
-        output_directory, "sh21-native-pe-audit.json"
+        output_directory, "sh22-native-pe-audit.json"
+    );
+    text pe_coff_audit_report = path.join(
+        output_directory, "sh22-native-pe-coff-audit.json"
+    );
+    text pe_coff_artifacts = path.join(
+        output_directory, "sh22-native-pe-coff-artifacts"
     );
     text lsp_audit_report = path.join(
-        output_directory, "sh21-native-lsp-audit.json"
+        output_directory, "sh22-native-lsp-audit.json"
     );
     text contract_audit_report = path.join(
-        output_directory, "sh21-native-contract-audit.json"
+        output_directory, "sh22-native-contract-audit.json"
     );
     text benchmark_report = path.join(
-        output_directory, "sh21-native-benchmark.json"
+        output_directory, "sh22-native-benchmark.json"
     );
     text stage2 = path.join(
-        output_directory, "openc-sh21-stage2.exe"
+        output_directory, "openc-sh22-stage2.exe"
     );
     text stage3 = path.join(
-        output_directory, "openc-sh21-stage3.exe"
+        output_directory, "openc-sh22-stage3.exe"
     );
 
     DBuffer report = d_buffer_create(8388608);
     d_put(report, "{\n  \"schema\": \"openc.native_workflow.v1\",\n");
-    d_put(report, "  \"milestone\": \"SH-21_OPENC_NATIVE_WORKFLOWS_AND_BOOTSTRAP_BOUNDARY\",\n");
+    d_put(report, "  \"milestone\": \"SH-22_PE_COFF_ECOSYSTEM_COMPLETENESS\",\n");
     d_put(report, "  \"mode\": ");
     cli_json_text(report, mode);
     d_put(report, ",\n  \"root\": ");
@@ -516,6 +522,21 @@ unsafe i32 cli_workflow_command() {
     d_buffer_destroy(command);
 
     command = d_buffer_create(32768);
+    cli_workflow_command_start(command, compiler, "pe-coff-audit");
+    cli_workflow_command_named_argument(command, "--root=", root);
+    cli_workflow_command_named_argument(
+        command, "--artifacts=", pe_coff_artifacts
+    );
+    cli_workflow_command_named_argument(
+        command, "--output=", pe_coff_audit_report
+    );
+    cli_workflow_execute(
+        report, counters, "native_pe_coff_ecosystem", command,
+        "OpenC PE/COFF ecosystem audit: PASS (40/40)"
+    );
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
     cli_workflow_command_start(command, compiler, "lsp-audit");
     cli_workflow_command_named_argument(
         command, "--output=", lsp_audit_report
@@ -534,7 +555,7 @@ unsafe i32 cli_workflow_command() {
     );
     cli_workflow_execute(
         report, counters, "native_contract_audit", command,
-        "OpenC native contract audit: PASS (29/29)"
+        "OpenC native contract audit: PASS (31/31)"
     );
     d_buffer_destroy(command);
 

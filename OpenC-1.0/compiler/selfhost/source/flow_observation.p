@@ -156,25 +156,31 @@ unsafe void flow_observe_source(
                 );
                 // These are the owned unsafe-boundary analyzers; the
                 // precheck pass models the type-check diagnostics.
-                flow_check_unsafe_function(
-                    source, syntax_data, syntax, source_record,
-                    function_node, error_data, errors
+                bool function_unsafe = flow_function_unsafe(
+                    source, syntax_data, function_node
                 );
-                flow_check_pointer_arithmetic(
-                    project_source, project_root,
-                    module_data, modules, source_data,
-                    type_data, symbol_data, detail_data, symbols,
-                    syntax_data, syntax, module_index, source_record,
-                    function_node, source, error_data, errors
-                );
-                flow_check_unsafe_calls(
-                    project_source, project_root,
-                    module_data, modules, source_data,
-                    type_data, symbol_data, detail_data, symbols,
-                    token_data, tokens, syntax_data, syntax,
-                    module_index, source_record, function_node, source,
-                    error_data, errors
-                );
+                if !function_unsafe {
+                    flow_check_unsafe_function(
+                        source, syntax_data, syntax, source_record,
+                        function_node, error_data, errors
+                    );
+                    flow_check_pointer_arithmetic(
+                        project_source, project_root,
+                        module_data, modules, source_data,
+                        type_data, symbol_data, detail_data, symbols,
+                        syntax_data, syntax, module_index, source_record,
+                        function_node, source, error_data, errors
+                    );
+                    flow_check_unsafe_calls(
+                        project_source, project_root,
+                        module_data, modules, source_data,
+                        type_data, symbol_data, detail_data, symbols,
+                        token_data, tokens, syntax_data, syntax,
+                        module_index, source_record, function_node, source,
+                        null, 0,
+                        error_data, errors
+                    );
+                }
                 counts.functions = counts.functions + 1;
             }
         }

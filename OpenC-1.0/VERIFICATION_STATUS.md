@@ -14,7 +14,7 @@ are outside the supported 1.0 scope.
 - Normal compiler path: previous OpenC stage to OpenC-owned x64/PE32+ output;
   documented `KERNEL32.dll` imports only.
 - External evidence harness: Python 3.13.7, retained only for optional
-  compatibility evidence; SH-21 required release/archive ownership is native.
+  compatibility evidence; SH-22 required artifact/release ownership is native.
 - Optional historical audit tools: DMD 2.112.0, DUB 1.41.0, DMD-bundled
   `lld-link`, and TinyCC 0.9.27 Win64. None is packaged or invoked by the
   required SH-19 compiler/release path.
@@ -27,11 +27,12 @@ are outside the supported 1.0 scope.
 - 42 of 42 Python source tests pass; bytecode checks pass.
 - 278 of 278 conformance fixtures pass with zero infrastructure failures.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
-- All 4 maintained programs check, build, and run to their authored contracts.
+- All 5 maintained/runtime programs check, build, and run to their authored
+  contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
-  compiler-in-OpenC and SH-21 expansion brings the current tree to 452
+  compiler-in-OpenC and SH-22 expansion brings the current tree to 540
   `.p` files,
-  including 130 compiler source units. The migrated fixture corpus retains
+  including 217 compiler source units. The migrated fixture corpus retains
   278/278 passes and zero infrastructure failures. SH-2 records the exact
   288-file corpus used for that milestone; SH-4A covers the complete current
   compiler project through byte-exact generated output.
@@ -321,3 +322,22 @@ pairs, manifest/CRC/path verification, relocated exact self-build, packaged
 daily workflow, contract audit, and conformance. Python, D, C, and TinyCC are
 optional historical/differential material only. SH-22 PE/COFF ecosystem
 completeness is the active next milestone.
+
+SH-22 is **PASS and complete**. The OpenC-authored `artifact` path emits
+deterministic AMD64 COFF objects, static and import libraries, DLLs, and
+console/GUI PE32+ images with resources and manifests. Its dedicated 40/40
+audit verifies symbol and relocation tables, unwind metadata, exports,
+subsystems, resource directories, CRT absence, a load-time DLL call, and a
+secure run-time DLL call. The complete required gate also passes 31/31 public
+contracts, 475/475 required repository paths, 39/39 hashes, 466/466 rules,
+174/174 grammar productions, 278/278 conformance, 9/9 daily tasks, and 14/14
+full tasks.
+
+The 217-source, 6,580,736-byte compiler closes exactly at SHA-256
+`bd86520db0452478b953aaaebbea4218e919c0adbce4bf403de868d2a623c978`.
+Its 20/20 exact chain records 11.406-second build and 5.677-second validation
+medians. Peaks of 170,627,072 private bytes and 57,749,504 working-set bytes
+remain below unchanged limits. No required compiler, artifact, audit,
+workflow, or release step invokes Python, D, C, TinyCC, an assembler, an
+external linker, or the Microsoft CRT. SH-23 optional COM and WinRT
+projections are next; Linux and freestanding remain optional future targets.

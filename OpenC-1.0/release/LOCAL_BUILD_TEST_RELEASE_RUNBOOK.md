@@ -2,11 +2,11 @@
 
 No remote repository is required.
 
-This is the SH-21 OpenC-native runbook. A previous OpenC compiler owns required
+This is the SH-22 OpenC-native runbook. A previous OpenC compiler owns required
 build, test, validation, benchmark, audit, archive creation, and relocated
 release verification. Python, D, C, and TinyCC are optional historical or
 differential-audit tools only; see
-`compiler/selfhost/SH21_COMPLETION_EVIDENCE.md`.
+`compiler/selfhost/SH22_COMPLETION_EVIDENCE.md`.
 
 Before generating `MANIFEST.sha256`, run
 `python scripts/update_authority_index.py` so every authoritative byte count and
@@ -22,6 +22,8 @@ PATH/TO/openc.exe target
 Use `openc workflow --mode=daily --root=. --output=REPORT.json` for ordinary
 work and `openc workflow --mode=full --root=. --output=REPORT.json` for forced
 conformance, exact 20-build closure, and performance/RAM gates. The required
+daily workflow includes the 40-check PE/COFF artifact and DLL interoperability
+audit. The required
 release path is:
 
 ```text

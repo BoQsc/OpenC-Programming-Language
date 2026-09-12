@@ -304,3 +304,25 @@ boundaries, reducing validation syntax candidates from roughly 1.05 million
 in the regressed draft to 491,733 without changing compiler behavior. Every
 hash buffer is freed, and all 20 build records reject Python, D, C, TinyCC,
 assembler, and external linker use. See `SH21_COMPLETION_EVIDENCE.md`.
+
+## SH-22 PE/COFF retention and scheduling stability
+
+SH-22 expands the compiler from 130 to 217 function-partitioned OpenC source
+units while adding first-party COFF objects, DLLs, static/import libraries,
+resources, manifests, and subsystem selection. The final 20-generation public
+chain closes exactly at SHA-256
+`bd86520db0452478b953aaaebbea4218e919c0adbce4bf403de868d2a623c978`.
+Its fully validating build median is 11.406 seconds and its validation median
+is 5.677 seconds. Peak private memory is 170,627,072 bytes and peak working
+set is 57,749,504 bytes, so the unchanged 25-second, exclusive 15-second,
+256 MiB, and 64 MiB gates all pass.
+
+The compiler now records call nodes during IR construction, bypasses overload
+ranking for the overwhelmingly common unique exact-name target, omits
+redundant unsafe-call scans for functions already declared unsafe, and keeps
+large lowering/runtime units partitioned at function boundaries. Measured
+compiler children are launched with a bounded high-priority scheduling class
+after assignment to the existing output, timeout, private-memory, job-memory,
+and working-set supervisor. This isolates wall-clock acceptance from unrelated
+desktop contention. Ordinary process execution and emitted user programs keep
+normal priority. No acceptance threshold or RAM ceiling was raised.

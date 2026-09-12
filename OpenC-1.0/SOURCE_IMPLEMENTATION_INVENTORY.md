@@ -19,6 +19,10 @@ add the Windows x64 ABI/encoder, PE writer/runtime, WinMD reader/projection, and
 friendly Windows modules. SH-19 makes the direct backend compiler-capable and
 removes C, TinyCC, D, Python, an assembler, and an external linker from normal
 compilation while keeping the OpenC tree as sole compiler authority.
+SH-21 makes required workflow and release orchestration OpenC-native. SH-22
+adds the OpenC-owned PE/COFF ecosystem: object, DLL, static/import-library,
+resource/manifest, subsystem, and secure dynamic-link support plus its
+40-check native audit.
 
 ## Legacy bootstrap and comparison material
 
@@ -47,6 +51,7 @@ system.file
 system.path
 system.process
 system.text
+windows.resources
 ```
 
 ## Tools
@@ -58,13 +63,13 @@ normalization.
 
 ## Tests and conformance
 
-Authored D and Python tests, 278 imported/current Core fixtures, four
+Authored D and Python tests, 278 imported/current Core fixtures, five
 maintained programs, six demo projects, native daily/full/release workflows,
 performance budgets, the 12-case public native CLI verifier, the 21-case
 native project-workflow verifier, the 19-case native language-service verifier,
 the 23-case native semantic-language-service verifier, the SH-19 63-check
-native-backend and 6-check memory-guard verifiers, transcript schemas and
-session fixtures,
+native-backend and 6-check memory-guard verifiers, the SH-22 PE/COFF fixture
+and 40-check audit plan, transcript schemas and session fixtures,
 build scripts, test drivers, release scripts, schemas, and
 source-completeness contracts are included.
 

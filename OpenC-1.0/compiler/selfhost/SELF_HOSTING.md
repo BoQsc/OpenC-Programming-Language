@@ -505,6 +505,27 @@ standalone/source ZIP pairs and relocated closure without legacy tools. See
 
 Status: **PASS**
 
+## SH-22 — PE/COFF ecosystem completeness
+
+The OpenC compiler now emits AMD64 COFF objects, deterministic static and
+short-import libraries, PE32+ DLLs with named C-ABI exports, and console or GUI
+executables with manifests and resources. The public `openc artifact` command
+owns those formats. The 40/40 OpenC-native ecosystem audit proves deterministic
+artifact pairs, relocations and unwind records, DLL export/resource tables,
+load-time imports, a secure `LoadLibraryExW`/`GetProcAddress` call returning
+42, and absence of the Microsoft CRT and external build tools.
+
+The final 217-source compiler closes byte-for-byte at SHA-256
+`bd86520db0452478b953aaaebbea4218e919c0adbce4bf403de868d2a623c978`.
+All 20 chained public rebuilds are exact. The 11.406-second build median and
+5.677-second validation median pass the unchanged throughput gates; observed
+private and working-set peaks of 170,627,072 and 57,749,504 bytes pass the
+unchanged RAM guards. Required daily/full/release workflows remain entirely
+OpenC-native and pass 9/9, 14/14, and relocated deterministic closure.
+See `SH22_PE_COFF_ECOSYSTEM_PLAN.md` and `SH22_COMPLETION_EVIDENCE.md`.
+
+Status: **PASS**
+
 ## Post-SH-6 — native self-rebuild performance
 
 The closed OpenC-native compiler rebuilds its complete 90-source compiler
@@ -550,7 +571,10 @@ Windows modules. SH-19 makes that backend compiler-capable and removes
 generated C, TinyCC, D, Python, the Microsoft CRT, assemblers, and external
 linkers from the required compiler and standalone-release path. SH-21 removes
 external Python from required evidence and release orchestration; Python is now
-optional audit evidence only. SH-22 is next for PE/COFF ecosystem completeness.
+optional audit evidence only. SH-22 completes OpenC-owned COFF objects, DLLs,
+static/import libraries, resource/manifests, subsystem selection, load-time
+imports, and secure run-time DLL resolution. SH-23 optional COM/WinRT
+projections are next.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

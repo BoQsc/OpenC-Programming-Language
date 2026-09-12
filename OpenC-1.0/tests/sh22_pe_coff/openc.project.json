@@ -1,0 +1,10 @@
+{
+  "name": "sh22-pe-coff-fixture",
+  "version": "1.0.0",
+  "edition": "OpenC 1.0",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "modules": {
+    "sh22.fixture": ["source/main.p"]
+  }
+}

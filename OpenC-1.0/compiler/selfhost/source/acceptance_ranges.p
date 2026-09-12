@@ -205,14 +205,14 @@ unsafe usize acceptance_validate_calls(ref IrContext context) {
     usize errors = 0;
     usize call_index = 0;
     usize call_count = context.syntax.length;
-    if context.expression_nodes != null {
-        call_count = context.expression_count;
+    if context.call_nodes != null {
+        call_count = context.call_count;
     }
     while call_index < call_count {
         usize call = call_index;
-        if context.expression_nodes != null {
+        if context.call_nodes != null {
             call = read_usize(
-                context.expression_nodes, call_index * size_of(usize)
+                context.call_nodes, call_index * size_of(usize)
             );
         }
         if read_record_field(context.syntax_data, call, 0) == 38 {

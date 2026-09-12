@@ -83,7 +83,9 @@ convergence is complete. SH-21 required OpenC-native workflow and release
 ownership is complete, including deterministic standalone/source ZIP pairs
 and relocated closure; see
 `../compiler/selfhost/SH21_COMPLETION_EVIDENCE.md`. SH-22 PE/COFF ecosystem
-completeness is active next.
+completeness is complete with a relocated 40/40 native artifact audit; see
+`../compiler/selfhost/SH22_COMPLETION_EVIDENCE.md`. SH-23 optional COM/WinRT
+projection work is active next.
 
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by

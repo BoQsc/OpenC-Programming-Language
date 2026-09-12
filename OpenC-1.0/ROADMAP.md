@@ -269,15 +269,16 @@ IR reach closure. Exact evidence and reproduction commands are in
     - standalone/source ZIP pairs are byte-identical and the standalone omits
       C, D, Python, TinyCC, CRTs, assemblers, and external linkers; see
       [SH-21 completion evidence](compiler/selfhost/SH21_COMPLETION_EVIDENCE.md).
-15. **SH-22 PE/COFF ecosystem completeness — active next**
-    - add COFF objects, DLL imports/exports, OpenC DLLs, static/import
-      libraries, resources, manifests, console/GUI subsystems, and secure
-      run-time linking;
-    - support optional C-ABI libraries in both directions without making C an
-      OpenC language or toolchain dependency;
-    - add a standalone assembler only if evidence shows the shared x64 encoder
-      and runtime/intrinsic facilities are insufficient.
-16. **SH-23 optional COM and WinRT projections**
+15. **SH-22 PE/COFF ecosystem completeness — complete**
+    - `openc artifact` emits deterministic AMD64 COFF objects, OpenC DLLs,
+      static/import libraries, resources/manifests, and console/GUI images;
+    - 40/40 OpenC-native checks cover relocations, symbols, exports, unwind,
+      resources, CRT absence, byte determinism, load-time imports, and secure
+      run-time linking, including two calls returning 42 from an OpenC DLL;
+    - the required path uses no C source/headers, Python, D, TinyCC, assembler,
+      or external linker; see
+      [SH-22 evidence](compiler/selfhost/SH22_COMPLETION_EVIDENCE.md).
+16. **SH-23 optional COM and WinRT projections — active next**
     - add GUIDs, vtables, `IUnknown`, `QueryInterface`, reference counting,
       `HRESULT`, apartment initialization, metadata projection, and ABI tests;
     - keep COM and WinRT outside the Core language and earlier backend gates.

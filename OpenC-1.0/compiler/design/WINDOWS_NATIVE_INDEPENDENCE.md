@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **ACTIVE; SH-21 PASSED, SH-22 PE/COFF ECOSYSTEM ACTIVE NEXT**
+Status: **ACTIVE; SH-22 PASSED, SH-23 OPTIONAL COM/WINRT ACTIVE NEXT**
 
 OpenC's Windows path must preserve a strict separation:
 
@@ -259,7 +259,7 @@ standalone package.
 
 ## SH-22: PE/COFF ecosystem completeness
 
-Status: **ACTIVE NEXT**. Add:
+Status: **PASS**. Delivered:
 
 - COFF `.obj` files and relocations;
 - OpenC DLL imports and exports;
@@ -272,15 +272,19 @@ Status: **ACTIVE NEXT**. Add:
 - optional C-ABI libraries in both directions without requiring C source or
   headers.
 
-The PE/COFF and ABI layers remain general compiler components; Win32 policy
-remains in the Windows libraries.
+The public `openc artifact` command and its 40/40 OpenC-native audit cover this
+surface. The audit executes both a load-time DLL import and secure absolute
+run-time resolution, each calling an OpenC DLL export and receiving 42. The
+PE/COFF and ABI layers remain general compiler components; Win32 policy
+remains in the Windows libraries. See
+`../selfhost/SH22_COMPLETION_EVIDENCE.md`.
 
 ## SH-23: optional COM and WinRT projections
 
 SH-23 adds optional `windows.com` and `windows.winrt` projections: GUIDs,
 interface pointers/vtables, `IUnknown`, `QueryInterface`, reference counting,
 `HRESULT`, apartment initialization, metadata projection, and ordering tests.
-They do not complicate SH-15 through SH-21.
+They do not complicate SH-15 through SH-22.
 
 SH-24 contains the deferred native editor integration and language-service
 resilience work. ARM64 begins only after the x64 ABI, backend, runtime, raw

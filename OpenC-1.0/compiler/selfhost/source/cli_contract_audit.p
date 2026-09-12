@@ -232,7 +232,7 @@ unsafe bool cli_contract_write_report(
     ref DBuffer checks,
     ref CliContractCounts counts
 ) {
-    bool passed = counts.passed == counts.total && counts.total == 29;
+    bool passed = counts.passed == counts.total && counts.total == 31;
     DBuffer report = d_buffer_create(checks.length + 1024);
     d_put(report, "{\n  \"schema\": \"openc.native_contract_audit.v1\",\n");
     d_put(report, "  \"implementation_language\": \"OpenC\",\n");
@@ -275,6 +275,8 @@ unsafe i32 cli_contract_audit_command() {
     CliContractCounts counts = CliContractCounts{ total = 0, passed = 0 };
     DBuffer checks = d_buffer_create(8192);
     cli_contract_simple(checks, counts, compiler, "cli_help", "help", 0, "openc release");
+    cli_contract_simple(checks, counts, compiler, "cli_artifact_help", "help", 0, "openc artifact");
+    cli_contract_simple(checks, counts, compiler, "cli_pe_coff_audit_help", "help", 0, "openc pe-coff-audit");
     cli_contract_simple(checks, counts, compiler, "cli_version", "version", 0, "OpenC 1.0.0-rc.9");
     cli_contract_simple(checks, counts, compiler, "cli_target", "target", 0, "backend: openc-x64-pe32");
     text hello = path.join(root, "demos/hello/openc.project.json");
@@ -334,7 +336,7 @@ unsafe i32 cli_contract_audit_command() {
     bool passed = cli_contract_write_report(output_path, checks, counts);
     d_buffer_destroy(checks);
     io.print("OpenC native contract audit: ");
-    if passed { io.println("PASS (29/29)"); return 0; }
+    if passed { io.println("PASS (31/31)"); return 0; }
     io.print("FAIL ("); io.print(counts.passed); io.print("/"); io.print(counts.total); io.println(")");
     return 1;
 }

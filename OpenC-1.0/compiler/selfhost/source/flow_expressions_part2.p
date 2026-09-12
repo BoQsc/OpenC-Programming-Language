@@ -170,12 +170,24 @@ unsafe void flow_check_unsafe_calls(
     usize source_record,
     usize function_node,
     text source,
+    ptr byte call_nodes,
+    usize call_count,
     ptr byte error_data,
     ref PackedBuffer errors
 ) {
-    usize record = 0;
-    while record < syntax.length {
-        if read_record_field(syntax_data, record, 0) == 38 &&
+    usize call_index = 0;
+    usize calls = syntax.length;
+    if call_nodes != null { calls = call_count; }
+    while call_index < calls {
+        usize record = call_index;
+        if call_nodes != null {
+            record = read_usize(
+                call_nodes, call_index * size_of(usize)
+            );
+        }
+        if (call_nodes != null || read_record_field(
+                syntax_data, record, 0
+            ) == 38) &&
             semantic_node_contains(syntax_data, function_node, record) &&
             !flow_inside_unsafe(
                 source, syntax_data, syntax, function_node, record
@@ -199,6 +211,6 @@ unsafe void flow_check_unsafe_calls(
                 );
             }
         }
-        record = record + 1;
+        call_index = call_index + 1;
     }
 }

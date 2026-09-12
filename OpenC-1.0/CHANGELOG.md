@@ -1,5 +1,21 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-22 PE/COFF ecosystem complete
+
+- added the OpenC-owned `openc artifact` pipeline for PE32+ console/GUI
+  executables, DLLs, AMD64 COFF objects, static libraries, and import libraries;
+- added deterministic COFF symbols and relocations, `.pdata`/`.xdata` unwind
+  relocation records, DLL exports/initialization, resources, and manifests;
+- added secure `windows.resources` absolute-path loading and symbol resolution
+  through `LoadLibraryExW`, `GetProcAddress`, and `FreeLibrary`;
+- added the 40/40 OpenC-native PE/COFF ecosystem audit, including load-time and
+  run-time calls into an OpenC DLL that both return 42;
+- integrated SH-22 into daily/full workflows, residual contracts, relocated
+  release verification, source completeness, and deterministic packaging;
+- retained the existing compilation-throughput and RAM limits without adding
+  Python, D, C, TinyCC, assembler, or external-linker requirements;
+- completed SH-22 and activated SH-23 optional COM/WinRT projections.
+
 ## Post-RC9 — SH-21 OpenC-native workflows complete
 
 - completed the 13/13 OpenC-native full workflow and 8/8 daily workflow;

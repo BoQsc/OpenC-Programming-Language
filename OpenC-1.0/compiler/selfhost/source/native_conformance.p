@@ -250,52 +250,30 @@ unsafe bool native_rule_directly_observed(
         return true;
     }
 
-    text modes = "--project|--semantic-resolve|--semantic-flow-safety";
-    usize mode_cursor = 0;
-    while mode_cursor < text.byte_length(modes) {
-        usize mode_start = mode_cursor;
-        while mode_cursor < text.byte_length(modes) &&
-            byte_at_or_zero(modes, mode_cursor) != 124 {
-            mode_cursor = mode_cursor + 1;
-        }
-        text mode = project_slice(
-            modes, mode_start, mode_cursor - mode_start
-        );
-        NativeRunResult observed = native_run_mode(
-            compiler, mode, project_file
-        );
-        if observed.launched {
-            if native_contains(observed.output, expected_rule) {
-                return true;
-            }
-        }
-        if mode_cursor < text.byte_length(modes) {
-            mode_cursor = mode_cursor + 1;
-        }
+    // The production semantic-IR command already decides acceptance. When its
+    // compact failure output does not include the expected rule, select the
+    // one observer that owns that diagnostic family. The old implementation
+    // ran project, resolution, flow, and every source parser in sequence,
+    // even after acceptance was already known. One phase-directed observation
+    // preserves exact rule evidence without hundreds of redundant children.
+    text mode = "--semantic-flow-safety";
+    if starts_with_ascii(expected_rule, 0, "OPENC-LEX-") ||
+        starts_with_ascii(expected_rule, 0, "OPENC-SYNTAX-") ||
+        starts_with_ascii(expected_rule, 0, "OPENC-SOURCE-") ||
+        starts_with_ascii(expected_rule, 0, "OPENC-MODULE-") ||
+        starts_with_ascii(expected_rule, 0, "OPENC-STATUS-") ||
+        starts_with_ascii(expected_rule, 0, "OPENC-LOOP-") ||
+        starts_with_ascii(expected_rule, 0, "OPENC-LITERAL-") {
+        mode = "--project";
+    } else if starts_with_ascii(expected_rule, 0, "OPENC-NAME-") ||
+        starts_with_ascii(expected_rule, 0, "OPENC-CALL-") {
+        mode = "--semantic-resolve";
     }
-
-    usize source_cursor = 0;
-    while source_cursor < text.byte_length(source_paths) {
-        usize source_start = source_cursor;
-        while source_cursor < text.byte_length(source_paths) &&
-            byte_at_or_zero(source_paths, source_cursor) != 124 {
-            source_cursor = source_cursor + 1;
-        }
-        text relative = project_slice(
-            source_paths, source_start, source_cursor - source_start
-        );
-        NativeRunResult observed = native_run_mode(
-            compiler, "--parse",
-            path.join(manifest_root, relative)
-        );
-        if observed.launched {
-            if native_contains(observed.output, expected_rule) {
-                return true;
-            }
-        }
-        if source_cursor < text.byte_length(source_paths) {
-            source_cursor = source_cursor + 1;
-        }
+    NativeRunResult observed = native_run_mode(
+        compiler, mode, project_file
+    );
+    if observed.launched && native_contains(observed.output, expected_rule) {
+        return true;
     }
     return false;
 }

@@ -379,6 +379,12 @@ unsafe i32 main() {
     if arguments >= 2 && process.argument(0) == "release" {
         return cli_release_command();
     }
+    if arguments >= 4 && process.argument(0) == "artifact" {
+        return cli_artifact_command();
+    }
+    if arguments >= 4 && process.argument(0) == "pe-coff-audit" {
+        return cli_pe_coff_audit_command();
+    }
     if arguments >= 2 && process.argument(0) == "contract-audit" {
         return cli_contract_audit_command();
     }

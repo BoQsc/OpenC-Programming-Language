@@ -126,9 +126,13 @@ build median and 14.827-second validation median under unchanged 256 MiB
 private / 64 MiB working-set guards. `openc release` owns byte-identical
 standalone/source archives and relocated self-build verification. D, Python,
 C, and TinyCC are confined to the optional historical audit/bootstrap kit.
-SH-22 PE/COFF ecosystem completeness is next; native editor integration stays
-deferred to SH-24. See
-`compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md` and
+SH-22 PE/COFF ecosystem completeness is complete. The OpenC-owned artifact
+pipeline emits deterministic COFF objects, DLLs, static/import libraries,
+resources/manifests, and console/GUI PE32+ images. Its 40/40 native audit
+executes both load-time and secure run-time calls into an OpenC DLL without C,
+Python, D, TinyCC, an assembler, or an external linker. SH-23 optional COM and
+WinRT projections are next; native editor integration stays deferred to
+SH-24. See `compiler/selfhost/SH22_PE_COFF_ECOSYSTEM_PLAN.md` and
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
