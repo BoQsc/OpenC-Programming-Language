@@ -72,10 +72,10 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   manifests; SH-19 then replaces the default generated-C/TinyCC path with the
   first-party x64/PE32+ backend, reaches byte-identical compiler closure, and
   passes the complete relocated release gate without C, TinyCC, D, Python, a
-  CRT, an assembler, or an external linker in the package; SH-21 tranche 4
-  moves required repository and PE executable inspection into OpenC itself,
-  passes 10/10 native full-workflow tasks and a 16/16 PE32+/imports/relocation/
-  TLS/unwind/CRT-absence gate, and retains exact self-hosted closure;
+  CRT, an assembler, or an external linker in the package; SH-21 tranche 5
+  moves required repository, PE executable, and framed LSP inspection into
+  OpenC itself, passes 11/11 native full-workflow tasks, 16/16 PE32+ checks,
+  42/42 language-service checks, and retains exact self-hosted closure;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
@@ -117,16 +117,18 @@ optimized ISO C and D references measure 22.732 and 17.504 seconds. Peak
 compiler memory remains inside the 256 MiB private / 64 MiB working-set guards.
 SH-21 is now active and replaces required Python build/test/release
 orchestration with OpenC-native workflows while isolating D/Python/C/TinyCC to
-an optional historical bootstrap/audit kit. Its fourth native workflow tranche
-passes 10/10 full tasks, 278/278 conformance, 5/5 program checks, exact compiler
-closure, four adversarial child-process guards, and 1,322/1,322 repository
+an optional historical bootstrap/audit kit. Its fifth native workflow tranche
+passes 11/11 full tasks, 278/278 conformance, 5/5 program checks, exact compiler
+closure, four adversarial child-process guards, and 1,323/1,323 repository
 audit records covering required files, hashes, fixture identities, active
 rules, and grammar productions. Native execution contains descendants in a
 256 MiB Job, enforces a 64 MiB working-set ceiling, caps captured output at 4
-MiB, and applies bounded timeouts. The new 16/16 native PE audit owns PE32+,
+MiB, and applies bounded timeouts. The 16/16 native PE audit owns PE32+,
 section, import, relocation, TLS, x64 unwind, and CRT-absence verification.
-LSP/benchmark/release replacements remain active. Native
-editor integration is deferred to SH-24. See
+The 42/42 native LSP audit now owns deterministic framed lifecycle, document,
+diagnostic, formatting, symbol, navigation, completion, and rename regressions.
+Benchmark and release replacements remain active. Native editor integration is
+deferred to SH-24. See
 `compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md` and
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 

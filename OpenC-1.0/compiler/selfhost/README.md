@@ -170,10 +170,11 @@ native fixed point and the relocated package passes 20/20 checks. SH-20 public
 throughput convergence is also **PASS**: the fully validating self-build has a
 17.064-second five-run median, 11.352-second validation median, and 20/20 exact
 closure while beating the measured C and D reference medians. SH-21
-OpenC-native workflow replacement is now active; tranche 4 passes the 10-task
-full workflow and moves the 16-check PE32+/import/unwind/CRT audit into the
-119-source OpenC compiler. Native editor integration and language-service
-resilience remain deferred to SH-24.
+OpenC-native workflow replacement is now active; tranche 5 passes the 11-task
+full workflow and moves both the 16-check PE32+/import/unwind/CRT audit and the
+42-check framed LSP regression audit into the 120-source OpenC compiler.
+Benchmark and release/archive ownership remain active. Native editor
+integration and language-service resilience remain deferred to SH-24.
 
 The same-host SH-14 clean-build comparator is:
 

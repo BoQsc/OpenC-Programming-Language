@@ -1,5 +1,24 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-21 OpenC-native workflows tranche 5
+
+- added the public OpenC-authored `openc lsp-audit` command and integrated it
+  into the native daily and full workflows;
+- passed 42/42 native language-service checks over lifecycle, exact
+  `Content-Length` framing, diagnostics, formatting, multi-document semantic
+  operations, invalid lifecycle paths, and byte-deterministic transcripts;
+- retained public stdin/stdout compatibility at 19/19 SH-11 and 23/23 SH-12
+  checks while removing Python ownership from the required LSP workflow;
+- reached a byte-identical 5,524,992-byte fixed point from 120 OpenC compiler
+  sources at SHA-256
+  `4dbf142cbd8ac6d22ad12a7842da78a6ebd6c6310d7cf7e5dcff2eb0bdfc995d`;
+- passed the expanded 7/7 daily and 11/11 full workflows, including 278/278
+  conformance, 5/5 programs, four process guards, 1,323 repository records,
+  and the 16/16 PE audit without Python, D, C, TinyCC, assembler, or linker use;
+- kept the validating build below the throughput and memory gates at 21.090
+  seconds, 220,975,104 private bytes, and 48,021,504 working-set bytes; and
+- advanced SH-21 to OpenC-native benchmark sampling and gate enforcement.
+
 ## Post-RC9 — SH-20 native public throughput convergence
 
 - reduced the fully validating 116-source public self-build from the SH-19

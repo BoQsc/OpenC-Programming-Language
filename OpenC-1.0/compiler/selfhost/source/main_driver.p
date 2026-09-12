@@ -337,6 +337,10 @@ unsafe i32 main() {
     if arguments == 2 && process.argument(0) == "hash" {
         return cli_workflow_hash_command(process.argument(1));
     }
+    if arguments == 2 &&
+        process.argument(0) == "--lsp-audit-batch" {
+        return cli_lsp_audit_batch_command(process.argument(1));
+    }
     if arguments == 2 && process.argument(0) == "process-guard" {
         text output_path = process.argument(1);
         if !cli_has_prefix(output_path, "--output=") {
@@ -365,6 +369,9 @@ unsafe i32 main() {
     }
     if arguments >= 2 && process.argument(0) == "pe-audit" {
         return cli_pe_audit_command();
+    }
+    if arguments >= 2 && process.argument(0) == "lsp-audit" {
+        return cli_lsp_audit_command();
     }
     if arguments >= 2 && process.argument(0) == "workflow" {
         return cli_workflow_command();

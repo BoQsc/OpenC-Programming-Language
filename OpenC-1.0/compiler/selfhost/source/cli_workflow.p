@@ -352,6 +352,9 @@ unsafe i32 cli_workflow_command() {
     text pe_audit_report = path.join(
         output_directory, "sh21-native-pe-audit.json"
     );
+    text lsp_audit_report = path.join(
+        output_directory, "sh21-native-lsp-audit.json"
+    );
     text stage2 = path.join(
         output_directory, "openc-sh21-stage2.exe"
     );
@@ -436,6 +439,17 @@ unsafe i32 cli_workflow_command() {
     cli_workflow_execute(
         report, counters, "native_pe_audit", command,
         "OpenC PE audit: PASS"
+    );
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
+    cli_workflow_command_start(command, compiler, "lsp-audit");
+    cli_workflow_command_named_argument(
+        command, "--output=", lsp_audit_report
+    );
+    cli_workflow_execute(
+        report, counters, "native_lsp_audit", command,
+        "OpenC native LSP audit: PASS (42/42)"
     );
     d_buffer_destroy(command);
 

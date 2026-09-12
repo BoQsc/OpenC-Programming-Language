@@ -1,6 +1,6 @@
 # SH-21 OpenC-native workflows and bootstrap boundary
 
-Status: **ACTIVE; TRANCHE 4 PASS**.
+Status: **ACTIVE; TRANCHE 5 PASS**.
 
 Implementation progress: the Python ownership inventory is complete in
 `SH21_PYTHON_WORKFLOW_INVENTORY.md`. The OpenC-authored `openc workflow` owns
@@ -12,13 +12,17 @@ third tranche adds the public OpenC-native `openc audit` command and makes
 canonical-tree/source/authority/conformance/rule/grammar verification part of
 both daily and full workflows. Tranche 4 adds the public `openc pe-audit`
 command and makes PE32+, section, import, relocation, TLS, x64 unwind, and CRT
-absence inspection native. The fixed-point compiler passes all four tranches;
-see
+absence inspection native. Tranche 5 adds the public `openc lsp-audit`
+command, canonical byte-counted JSON-RPC sessions, production state-machine/
+framing coverage, deterministic wire transcripts, and native workflow
+ownership of the 42 language-service contracts. The fixed-point compiler
+passes all five tranches; see
 `SH21_NATIVE_WORKFLOW_TRANCHE1_EVIDENCE.md` and
 `SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md` and
 `SH21_NATIVE_REPOSITORY_AUDIT_TRANCHE3_EVIDENCE.md` and
-`SH21_NATIVE_PE_AUDIT_TRANCHE4_EVIDENCE.md`. LSP audits, native benchmark gates,
-and deterministic release ZIP ownership remain active work and are not claimed
+`SH21_NATIVE_PE_AUDIT_TRANCHE4_EVIDENCE.md` and
+`SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md`. Native benchmark gates and
+deterministic release ZIP ownership remain active work and are not claimed
 complete.
 
 SH-20 makes the public compiler competitive with the measured C and D
@@ -56,12 +60,12 @@ OpenC language semantics or the already independent `openc build` path.
 2. Move reusable manifest, hashing, ZIP, PE/COFF inspection, subprocess guard,
    and deterministic-report logic into OpenC-authored modules and compiler
    subcommands. Hashing, repository audit, and subprocess guards are complete;
-    first-party PE executable inspection is complete; general COFF and ZIP
-    ownership remain.
+   first-party PE executable inspection is complete; general COFF and ZIP
+   ownership remain.
 3. Add an OpenC-native `openc workflow` command for structure, conformance,
    maintained programs, CLI/project/LSP regressions, and performance gates.
-    Structure/source/coverage, PE inspection, conformance, and maintained
-    programs are now owned; LSP and performance gates remain.
+   Structure/source/coverage, PE inspection, conformance, maintained programs,
+   and LSP regressions are now owned; performance gates remain.
 4. Add an OpenC-native `openc release` command that assembles and verifies two
    deterministic standalone archives using bounded streaming I/O.
 5. Add an OpenC-native benchmark driver with raw samples, tool/input hashes,

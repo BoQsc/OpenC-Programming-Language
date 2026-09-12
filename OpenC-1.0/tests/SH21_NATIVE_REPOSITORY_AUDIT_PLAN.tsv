@@ -1,4 +1,4 @@
-openc.native_repository_audit_plan.v1	1	365	39	278	466	174
+openc.native_repository_audit_plan.v1	1	366	39	278	466	174
 file	CONTRIBUTING.md
 file	GOVERNANCE.md
 file	LICENSE
@@ -113,6 +113,7 @@ file	compiler/selfhost/source/cli_audit.p
 file	compiler/selfhost/source/cli_pe_audit.p
 file	compiler/selfhost/source/cli_format.p
 file	compiler/selfhost/source/cli_lsp.p
+file	compiler/selfhost/source/cli_lsp_audit.p
 file	compiler/selfhost/source/cli_lsp_semantic.p
 file	compiler/selfhost/source/cli_project_workflow.p
 file	compiler/selfhost/source/cli_workflow.p
@@ -394,7 +395,7 @@ hash	standard/core/README.md	733	533e400f6d8db7435b106da70962657e1959eef8b0d54a8
 hash	standard/core/changes/CC2_CORRECTION_001.md	879	e6c13177989742547d6f2a614b3708cad607679e11c86c496db175ae798671b5
 hash	standard/core/changes/INTERNAL_REVIEW_CORRECTIONS_IR1.md	1052	668e356eed9d74a5960d94dc07f04674ff9c0bbfd096a04d05dac1e0d549e5bb
 hash	standard/core/examples/CANONICAL_EXAMPLES.md	1344	79702eb5b42099f75bf51b34d908fbe7509c35c1ae13399f12992d1d8a098ab7
-hash	SOURCE_COMPLETENESS_CONTRACT.json	20303	5fd9005b18b2f9c96cde1177cd6122f2dff75003b166a5a48940325bac7938f7
+hash	SOURCE_COMPLETENESS_CONTRACT.json	20353	9933161b2d700516780986b51245aac92d1ce0887ec4f97603dcdc54b5f01b28
 hash	AUTHORITY_INDEX.json	3553	b9e7bf36d9c4a04d1b0f0b0adf271a619791130fdf0d4480060bf68a2b624693
 hash	standard/core/metadata/OpenC_Core_Authority_Index.json	3527	502a864fcc498e19139e32f4cf5a51a9a6825872c12a87b2bce00610a454e94d
 hash	conformance/fixtures/MANIFEST.json	177950	b233e55369fb832eeed53d88a68528d47242503b73bc4f6821f5f9498ed61b4c

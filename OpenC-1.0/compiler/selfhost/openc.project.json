@@ -6,7 +6,7 @@
   "target": "windows-x86_64",
   "modules": {
     "openc.selfhost.main": [
-      "source/main.p", "source/main_part2.p", "source/lexer_number.p", "source/lexer_text.p", "source/native_conformance.p", "source/cli.p", "source/cli_project_workflow.p", "source/cli_workflow.p", "source/cli_audit.p", "source/cli_pe_audit.p", "source/main_driver.p",
+      "source/main.p", "source/main_part2.p", "source/lexer_number.p", "source/lexer_text.p", "source/native_conformance.p", "source/cli.p", "source/cli_project_workflow.p", "source/cli_workflow.p", "source/cli_audit.p", "source/cli_pe_audit.p", "source/cli_lsp_audit.p", "source/main_driver.p",
       "source/parser.p", "source/parser_part2.p", "source/parser_declarations.p", "source/parser_declarations_part2.p", "source/parser_statements.p", "source/parser_statements_part2.p", "source/parser_expressions.p", "source/parser_expressions_part2.p",
       "source/project.p", "source/project_part2.p", "source/project_manifest.p", "source/project_graph.p", "source/project_driver.p",
       "source/semantic.p", "source/semantic_part2.p", "source/semantic_types.p", "source/semantic_types_part2.p", "source/semantic_declarations.p", "source/semantic_driver.p",

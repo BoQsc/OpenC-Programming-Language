@@ -104,6 +104,7 @@ void cli_print_help() {
     io.println("  openc test (--manifest=TESTS.json|--project=PROJECT) [--list] [--filter=TEXT] [--jobs=N] [--target=TARGET] [--report=RESULT.json] [--no-run]");
     io.println("  openc audit --root=ROOT --output=REPORT.json");
     io.println("  openc pe-audit --input=FILE --output=REPORT.json");
+    io.println("  openc lsp-audit --output=REPORT.json");
     io.println("  openc workflow --root=ROOT --output=REPORT.json [--mode=daily|full]");
     io.println("  openc process-guard --output=REPORT.json");
     io.println("  openc lsp --stdio");

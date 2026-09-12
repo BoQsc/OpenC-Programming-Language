@@ -493,20 +493,22 @@ a separately named optional historical bootstrap/audit kit, and proves the
 normal release using only a previous OpenC compiler plus canonical source. See
 `SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md`.
 
-Tranche 4 passes from a 119-source fixed-point compiler: the OpenC-authored
-workflow owns 10/10 full tasks, 278/278 conformance, 5/5
+Tranche 5 passes from a 120-source fixed-point compiler: the OpenC-authored
+workflow owns 11/11 full tasks, 278/278 conformance, 5/5
 program checks, exact SHA-256 closure, and a 4/4 adversarial process guard. The
 native supervisor assigns suspended children to a kill-on-close Windows Job,
 enforces 256 MiB process/tree commit, polls a 64 MiB working-set ceiling, caps
 output at 4 MiB, and applies a default five-minute timeout. The native
-repository audit passes 365 required files, 39 pinned hashes, 278 paired
+repository audit passes 366 required files, 39 pinned hashes, 278 paired
 fixture identities, 466 active/covered rules, and 174 grammar/coverage pairs.
 The native PE audit additionally passes all 16 PE32+, section, import,
 relocation, TLS, x64 unwind, and CRT-absence checks across the exact closed
-compiler images. The `out ptr`
+compiler images. The native LSP audit passes 42/42 framed lifecycle, document,
+diagnostic, formatting, symbol, navigation, completion, and rename checks with
+deterministic response bytes. The `out ptr`
 output-address defect and hard-coded `openc.exe` self-location defect retain
-their maintained regressions. LSP audits, benchmarking, and release/archive
-ownership remain open; see `SH21_NATIVE_PE_AUDIT_TRANCHE4_EVIDENCE.md`.
+their maintained regressions. Benchmarking and release/archive ownership remain
+open; see `SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md`.
 
 Status: **ACTIVE**
 

@@ -1,6 +1,6 @@
 # OpenC 1.0.0-rc.9 verification status
 
-Date: 2026-09-10
+Date: 2026-09-12
 Host: Windows 10.0.19045, x86-64
 
 ## Verified scope
@@ -13,8 +13,8 @@ are outside the supported 1.0 scope.
 
 - Normal compiler path: previous OpenC stage to OpenC-owned x64/PE32+ output;
   documented `KERNEL32.dll` imports only.
-- External evidence harness: Python 3.13.7, scheduled for OpenC-native
-  replacement in SH-21.
+- External evidence harness: Python 3.13.7, retained for optional compatibility
+  evidence and the SH-21 benchmark/release replacements still in progress.
 - Optional historical audit tools: DMD 2.112.0, DUB 1.41.0, DMD-bundled
   `lld-link`, and TinyCC 0.9.27 Win64. None is packaged or invoked by the
   required SH-19 compiler/release path.
@@ -29,9 +29,9 @@ are outside the supported 1.0 scope.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
-  compiler-in-OpenC and SH-19 expansion brings the current tree to 437
+  compiler-in-OpenC and SH-21 expansion brings the current tree to 442
   `.p` files,
-  including 116 compiler source units. The migrated fixture corpus retains
+  including 120 compiler source units. The migrated fixture corpus retains
   278/278 passes and zero infrastructure failures. SH-2 records the exact
   288-file corpus used for that milestone; SH-4A covers the complete current
   compiler project through byte-exact generated output.
@@ -305,3 +305,16 @@ checks. Their final hash is recorded outside the archive in
 self-referential package. Required Python workflow replacement is now active
 in SH-21. Editor integration is deferred to SH-24, and Linux/freestanding
 remain optional.
+
+SH-21 tranche 5 is **PASS** while the milestone remains active. The
+OpenC-authored daily workflow passes 7/7 tasks and the full workflow passes
+11/11, including 278/278 conformance, 5/5 maintained/runtime programs, four
+adversarial process guards, 1,323 repository records, 16/16 PE checks, and the
+new 42/42 framed LSP audit. The 120-source compiler closes byte-identically at
+SHA-256
+`4dbf142cbd8ac6d22ad12a7842da78a6ebd6c6310d7cf7e5dcff2eb0bdfc995d`.
+Its fully validating rebuild took 21.090 seconds and stayed below both memory
+ceilings at 220,975,104 private bytes and 48,021,504 working-set bytes. The
+retained public SH-11 and SH-12 Python compatibility verifiers still pass 19/19
+and 23/23, but are no longer required workflow owners. OpenC-native benchmark
+sampling/gates and deterministic release/archive ownership remain unfinished.
