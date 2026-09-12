@@ -363,6 +363,9 @@ unsafe i32 main() {
     if arguments >= 2 && process.argument(0) == "audit" {
         return cli_repository_audit_command();
     }
+    if arguments >= 2 && process.argument(0) == "pe-audit" {
+        return cli_pe_audit_command();
+    }
     if arguments >= 2 && process.argument(0) == "workflow" {
         return cli_workflow_command();
     }

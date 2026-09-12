@@ -349,6 +349,9 @@ unsafe i32 cli_workflow_command() {
     text audit_report = path.join(
         output_directory, "sh21-native-repository-audit.json"
     );
+    text pe_audit_report = path.join(
+        output_directory, "sh21-native-pe-audit.json"
+    );
     text stage2 = path.join(
         output_directory, "openc-sh21-stage2.exe"
     );
@@ -421,6 +424,18 @@ unsafe i32 cli_workflow_command() {
     cli_workflow_execute(
         report, counters, "native_repository_audit", command,
         "OpenC repository audit: PASS"
+    );
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
+    cli_workflow_command_start(command, compiler, "pe-audit");
+    cli_workflow_command_named_argument(command, "--input=", compiler);
+    cli_workflow_command_named_argument(
+        command, "--output=", pe_audit_report
+    );
+    cli_workflow_execute(
+        report, counters, "native_pe_audit", command,
+        "OpenC PE audit: PASS"
     );
     d_buffer_destroy(command);
 

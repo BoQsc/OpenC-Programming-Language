@@ -277,6 +277,7 @@
       "compiler/selfhost/source/backend_x64_unwind.p",
       "compiler/selfhost/source/cli.p",
       "compiler/selfhost/source/cli_audit.p",
+      "compiler/selfhost/source/cli_pe_audit.p",
       "compiler/selfhost/source/cli_format.p",
       "compiler/selfhost/source/cli_lsp.p",
       "compiler/selfhost/source/cli_lsp_semantic.p",
