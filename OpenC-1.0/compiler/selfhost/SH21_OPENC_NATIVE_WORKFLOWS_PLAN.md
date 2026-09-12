@@ -1,6 +1,6 @@
 # SH-21 OpenC-native workflows and bootstrap boundary
 
-Status: **ACTIVE; TRANCHE 5 PASS**.
+Status: **ACTIVE; TRANCHE 6 PASS**.
 
 Implementation progress: the Python ownership inventory is complete in
 `SH21_PYTHON_WORKFLOW_INVENTORY.md`. The OpenC-authored `openc workflow` owns
@@ -15,15 +15,17 @@ command and makes PE32+, section, import, relocation, TLS, x64 unwind, and CRT
 absence inspection native. Tranche 5 adds the public `openc lsp-audit`
 command, canonical byte-counted JSON-RPC sessions, production state-machine/
 framing coverage, deterministic wire transcripts, and native workflow
-ownership of the 42 language-service contracts. The fixed-point compiler
-passes all five tranches; see
+ownership of the 42 language-service contracts. Tranche 6 adds the public
+`openc benchmark` command, 20-build exact closure, raw performance and memory
+samples, legacy-tool rejection, and leak-free raw hashing under the existing
+RAM ceilings. The fixed-point compiler passes all six tranches; see
 `SH21_NATIVE_WORKFLOW_TRANCHE1_EVIDENCE.md` and
 `SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md` and
 `SH21_NATIVE_REPOSITORY_AUDIT_TRANCHE3_EVIDENCE.md` and
 `SH21_NATIVE_PE_AUDIT_TRANCHE4_EVIDENCE.md` and
-`SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md`. Native benchmark gates and
-deterministic release ZIP ownership remain active work and are not claimed
-complete.
+`SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md` and
+`SH21_NATIVE_BENCHMARK_TRANCHE6_EVIDENCE.md`. Deterministic release ZIP
+ownership remains active work and is not claimed complete.
 
 SH-20 makes the public compiler competitive with the measured C and D
 references while keeping correctness and RAM bounds intact. SH-21 now removes
@@ -65,11 +67,13 @@ OpenC language semantics or the already independent `openc build` path.
 3. Add an OpenC-native `openc workflow` command for structure, conformance,
    maintained programs, CLI/project/LSP regressions, and performance gates.
    Structure/source/coverage, PE inspection, conformance, maintained programs,
-   and LSP regressions are now owned; performance gates remain.
+   LSP regressions, and performance gates are now owned.
 4. Add an OpenC-native `openc release` command that assembles and verifies two
    deterministic standalone archives using bounded streaming I/O.
 5. Add an OpenC-native benchmark driver with raw samples, tool/input hashes,
    resource ceilings, and an optional explicitly requested C/D comparison.
+   The required OpenC-only sampling and enforcement path is complete; C/D
+   comparison remains optional and external.
 6. Split retained D/Python/C/TinyCC material into a documented optional audit
    kit and prove it is absent and unavailable in the normal release run.
 7. Execute the SH-20 regression suite and two independent neutral-path release

@@ -105,6 +105,34 @@ class PerformanceBudgetTests(unittest.TestCase):
         self.assertFalse(checks["elapsed_within_budget"])
 
 
+class Sh21NativeBenchmarkSourceTests(unittest.TestCase):
+    def test_native_benchmark_owns_required_gates(self):
+        source = (
+            ROOT / "compiler/selfhost/source/cli_benchmark.p"
+        ).read_text(encoding="utf-8")
+        for contract in (
+            "openc.native_benchmark.v1",
+            "twenty_chained_outputs_close_exactly",
+            "public_build_median_at_most_25s",
+            "validation_median_below_15s",
+            "all_runs_within_memory_limits",
+            "tinycc_invoked",
+            "external_linker_invoked",
+        ):
+            self.assertIn(contract, source)
+
+    def test_native_hashing_frees_raw_file_buffers(self):
+        source = (
+            ROOT / "compiler/selfhost/source/cli_workflow.p"
+        ).read_text(encoding="utf-8")
+        sha_start = source.index("unsafe bool cli_workflow_sha256")
+        hash_start = source.index("unsafe i32 cli_workflow_hash_command")
+        helper = source[sha_start:hash_start]
+        self.assertIn("file.read_bytes_raw", helper)
+        self.assertIn("memory.free(data)", helper)
+        self.assertNotIn("file.read_text", helper)
+
+
 class ReleaseSummaryTests(unittest.TestCase):
     def test_passed_verifier_shape_is_accepted(self):
         result = {

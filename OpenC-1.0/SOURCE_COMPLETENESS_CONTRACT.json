@@ -281,6 +281,7 @@
       "compiler/selfhost/source/cli_format.p",
       "compiler/selfhost/source/cli_lsp.p",
       "compiler/selfhost/source/cli_lsp_audit.p",
+      "compiler/selfhost/source/cli_benchmark.p",
       "compiler/selfhost/source/cli_lsp_semantic.p",
       "compiler/selfhost/source/cli_project_workflow.p",
       "compiler/selfhost/source/cli_workflow.p",

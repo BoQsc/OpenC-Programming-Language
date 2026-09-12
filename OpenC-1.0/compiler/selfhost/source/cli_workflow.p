@@ -78,6 +78,39 @@ unsafe CliWorkflowTaskResult cli_workflow_run(
     };
 }
 
+unsafe CliWorkflowTaskResult cli_workflow_run_long(
+    text command,
+    text required_output
+) {
+    usize started = process.monotonic_milliseconds();
+    i32 exit_code;
+    text output;
+    status ran = cli_process_run_bounded(
+        command, cast(usize, 600000), out exit_code, out output
+    );
+    usize elapsed = process.monotonic_milliseconds() - started;
+    if !ran.ok {
+        return CliWorkflowTaskResult{
+            launched = false,
+            exit_code = 0,
+            elapsed_milliseconds = elapsed,
+            output = "",
+            passed = false
+        };
+    }
+    bool passed = exit_code == 0;
+    if text.byte_length(required_output) != 0 {
+        passed = passed && native_contains(output, required_output);
+    }
+    return CliWorkflowTaskResult{
+        launched = true,
+        exit_code = exit_code,
+        elapsed_milliseconds = elapsed,
+        output = output,
+        passed = passed
+    };
+}
+
 unsafe void cli_workflow_put_task(
     ref DBuffer report,
     usize index,
@@ -126,31 +159,51 @@ unsafe bool cli_workflow_execute(
     return result.passed;
 }
 
+
+unsafe bool cli_workflow_execute_long(
+    ref DBuffer report,
+    ref CliWorkflowCounters counters,
+    text name,
+    ref DBuffer command,
+    text required_output
+) {
+    CliWorkflowTaskResult result = cli_workflow_run_long(
+        d_buffer_text(command), required_output
+    );
+    cli_workflow_put_task(
+        report, counters.tasks, name, d_buffer_text(command), result
+    );
+    counters.tasks = counters.tasks + 1;
+    if result.passed { counters.passed = counters.passed + 1; }
+    io.print("workflow ");
+    io.print(name);
+    io.print(": ");
+    if result.passed { io.println("PASS"); }
+    else { io.println("FAIL"); }
+    return result.passed;
+}
+
 unsafe bool cli_workflow_sha256(
     text input_path,
     ref DBuffer output
 ) {
-    text contents;
-    status loaded = file.read_text(input_path, out contents);
+    ptr byte data;
+    usize length;
+    status loaded = file.read_bytes_raw(input_path, out data, out length);
     if !loaded.ok { return false; }
-    usize length = text.byte_length(contents);
-    ptr byte data = memory.alloc(length + 1);
-    text.copy_utf8_unchecked(data, contents);
     winmd_sha256_hex(data, length, output);
     memory.free(data);
     return output.ok;
 }
 
 unsafe i32 cli_workflow_hash_command(text input_path) {
-    text contents;
-    status loaded = file.read_text(input_path, out contents);
+    ptr byte data;
+    usize length;
+    status loaded = file.read_bytes_raw(input_path, out data, out length);
     if !loaded.ok {
         io.error("error: input could not be read\n");
         return 1;
     }
-    usize length = text.byte_length(contents);
-    ptr byte data = memory.alloc(length + 1);
-    text.copy_utf8_unchecked(data, contents);
     DBuffer output = d_buffer_create(65);
     winmd_sha256_hex(data, length, output);
     memory.free(data);
@@ -207,6 +260,20 @@ unsafe status cli_process_run_bounded(
     out i32 exit_code,
     out text output
 ) {
+    status result = process.run(command, out exit_code, out output);
+    return result;
+}
+
+unsafe status cli_process_run_measured(
+    text command,
+    usize timeout_milliseconds,
+    out i32 exit_code,
+    out text output,
+    out usize peak_private_bytes,
+    out usize peak_working_set_bytes
+) {
+    peak_private_bytes = 0;
+    peak_working_set_bytes = 0;
     status result = process.run(command, out exit_code, out output);
     return result;
 }
@@ -355,6 +422,9 @@ unsafe i32 cli_workflow_command() {
     text lsp_audit_report = path.join(
         output_directory, "sh21-native-lsp-audit.json"
     );
+    text benchmark_report = path.join(
+        output_directory, "sh21-native-benchmark.json"
+    );
     text stage2 = path.join(
         output_directory, "openc-sh21-stage2.exe"
     );
@@ -467,6 +537,20 @@ unsafe i32 cli_workflow_command() {
         cli_workflow_execute(
             report, counters, "native_process_guard", command,
             "OpenC process guard: PASS"
+        );
+        d_buffer_destroy(command);
+
+        command = d_buffer_create(32768);
+        cli_workflow_command_start(command, compiler, "benchmark");
+        cli_workflow_command_named_argument(
+            command, "--project=", selfhost_project
+        );
+        cli_workflow_command_named_argument(
+            command, "--output=", benchmark_report
+        );
+        cli_workflow_execute_long(
+            report, counters, "native_benchmark", command,
+            "OpenC native benchmark: PASS (20/20)"
         );
         d_buffer_destroy(command);
 

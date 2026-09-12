@@ -52,6 +52,7 @@ required = [
     "compiler/selfhost/SH21_NATIVE_REPOSITORY_AUDIT_TRANCHE3_EVIDENCE.md",
     "compiler/selfhost/SH21_NATIVE_PE_AUDIT_TRANCHE4_EVIDENCE.md",
     "compiler/selfhost/SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md",
+    "compiler/selfhost/SH21_NATIVE_BENCHMARK_TRANCHE6_EVIDENCE.md",
     "release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md",
     "release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md",
     "compiler/selfhost/benchmark_sh20_stability.py",
@@ -78,6 +79,7 @@ required = [
     "compiler/selfhost/source/cli_lsp.p",
     "compiler/selfhost/source/cli_lsp_semantic.p",
     "compiler/selfhost/source/cli_lsp_audit.p",
+    "compiler/selfhost/source/cli_benchmark.p",
     "conformance/fixtures/NATIVE_PLAN.tsv",
     "schemas/LSP_TRANSCRIPT.schema.json",
     "schemas/SEMANTIC_LSP_TRANSCRIPT.schema.json",
@@ -698,15 +700,17 @@ if (
     errors.append("SH-21 OpenC-native workflows must be active after SH-20")
 sh21_progress = active_plan.get("progress", {})
 if (
-    sh21_progress.get("status") != "TRANCHE_5_PASS_MILESTONE_ACTIVE"
+    sh21_progress.get("status") != "TRANCHE_6_PASS_MILESTONE_ACTIVE"
     or sh21_progress.get("evidence")
-    != "compiler/selfhost/SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md"
+    != "compiler/selfhost/SH21_NATIVE_BENCHMARK_TRANCHE6_EVIDENCE.md"
     or sh21_progress.get("tranche_2_evidence")
     != "compiler/selfhost/SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md"
     or sh21_progress.get("tranche_3_evidence")
     != "compiler/selfhost/SH21_NATIVE_REPOSITORY_AUDIT_TRANCHE3_EVIDENCE.md"
     or sh21_progress.get("tranche_4_evidence")
     != "compiler/selfhost/SH21_NATIVE_PE_AUDIT_TRANCHE4_EVIDENCE.md"
+    or sh21_progress.get("tranche_5_evidence")
+    != "compiler/selfhost/SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md"
     or sh21_progress.get("workflow_schema") != "openc.native_workflow.v1"
     or sh21_progress.get("process_guard_schema")
     != "openc.native_process_guard.v1"
@@ -714,15 +718,16 @@ if (
     != "openc.native_repository_audit.v1"
     or sh21_progress.get("pe_audit_schema") != "openc.native_pe_audit.v1"
     or sh21_progress.get("lsp_audit_schema") != "openc.native_lsp_audit.v1"
+    or sh21_progress.get("benchmark_schema") != "openc.native_benchmark.v1"
     or sh21_progress.get("native_daily_tasks_passed") != 7
-    or sh21_progress.get("native_full_tasks_passed") != 11
+    or sh21_progress.get("native_full_tasks_passed") != 12
     or sh21_progress.get("native_conformance_fixtures_passed") != 278
     or sh21_progress.get("maintained_and_runtime_programs_passed") != 5
-    or sh21_progress.get("compiler_source_files") != 120
-    or sh21_progress.get("compiler_source_bytes") != 1711619
-    or sh21_progress.get("native_compiler_bytes") != 5525504
+    or sh21_progress.get("compiler_source_files") != 121
+    or sh21_progress.get("compiler_source_bytes") != 1732323
+    or sh21_progress.get("native_compiler_bytes") != 5629440
     or sh21_progress.get("native_compiler_sha256")
-    != "4dbf142cbd8ac6d22ad12a7842da78a6ebd6c6310d7cf7e5dcff2eb0bdfc995d"
+    != "04b765e1bfe242ba92d6373bd84eeb0939bd35a4d3478deec44b5b6fe207c5fe"
     or not sh21_progress.get("stage2_stage3_byte_equal")
     or not sh21_progress.get("renamed_compiler_workflow_passed")
     or sh21_progress.get("python_invoked_by_native_workflow")
@@ -752,7 +757,7 @@ if (
     or not sh21_progress.get("child_assigned_suspended")
     or not sh21_progress.get("native_child_process_enforcement_complete")
     or not sh21_progress.get("native_repository_audit_complete")
-    or sh21_progress.get("native_required_files_passed") != 366
+    or sh21_progress.get("native_required_files_passed") != 367
     or sh21_progress.get("native_pinned_hashes_passed") != 39
     or sh21_progress.get("native_fixture_identities_passed") != 278
     or sh21_progress.get("native_active_rule_coverage_passed") != 466
@@ -762,7 +767,7 @@ if (
     or sh21_progress.get("native_pe_audit_checks_total") != 16
     or sh21_progress.get("native_pe_sections") != 7
     or sh21_progress.get("native_pe_imports") != 28
-    or sh21_progress.get("native_pe_runtime_functions") != 1350
+    or sh21_progress.get("native_pe_runtime_functions") != 1359
     or sh21_progress.get("native_pe_dir64_relocations") != 4
     or sh21_progress.get("native_pe_negative_cases_rejected") != 4
     or sh21_progress.get("native_pe_audit_peak_private_bytes", 2**63)
@@ -787,19 +792,34 @@ if (
     or sh21_progress.get(
         "semantic_resolution_observer_peak_working_set_bytes", 2**63
     ) > 67108864
+    or not sh21_progress.get("native_benchmark_complete")
+    or sh21_progress.get("native_benchmark_runs_passed") != 20
+    or sh21_progress.get("native_benchmark_runs_total") != 20
+    or sh21_progress.get("native_benchmark_exact_closures") != 20
+    or sh21_progress.get("native_benchmark_public_records") != 20
+    or sh21_progress.get("native_benchmark_build_median_milliseconds") != 13250
+    or sh21_progress.get("native_benchmark_validation_median_milliseconds") != 8760
+    or sh21_progress.get("native_benchmark_peak_private_bytes") != 224702464
+    or sh21_progress.get("native_benchmark_peak_working_set_bytes") != 52051968
+    or sh21_progress.get("native_benchmark_legacy_tools_invoked")
+    or not sh21_progress.get("native_benchmark_controller_hash_buffers_freed")
+    or not sh21_progress.get("native_benchmark_controller_working_set_bounded")
     or not sh21_progress.get("native_structure_source_coverage_audits_complete")
     or not sh21_progress.get(
         "native_structure_source_pe_coverage_audits_complete"
     )
     or not sh21_progress.get("native_structure_source_pe_lsp_audits_complete")
+    or not sh21_progress.get(
+        "native_structure_source_pe_lsp_benchmark_audits_complete"
+    )
     or sh21_progress.get("native_structure_pe_lsp_release_audits_complete")
     or sh21_progress.get("deterministic_native_release_archives_complete")
     or sh21_progress.get("next_slice")
-    != "OPENC_NATIVE_BENCHMARK_SAMPLING_AND_GATES"
+    != "OPENC_NATIVE_DETERMINISTIC_RELEASE_AND_ARCHIVE_OWNERSHIP"
 ):
     errors.append(
-        "SH-21 tranche 5 must record bounded native repository, PE, and LSP "
-        "audits without claiming unfinished benchmark/release gates"
+        "SH-21 tranche 6 must record bounded native repository, PE, LSP, and "
+        "benchmark audits without claiming unfinished release gates"
     )
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
@@ -852,15 +872,17 @@ if (
     errors.append("development state must record the passed SH-20 evidence")
 development_sh21 = development_self_hosting.get("sh21_progress", {})
 if (
-    development_sh21.get("status") != "TRANCHE_5_PASS_MILESTONE_ACTIVE"
+    development_sh21.get("status") != "TRANCHE_6_PASS_MILESTONE_ACTIVE"
     or development_sh21.get("evidence")
-    != "compiler/selfhost/SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md"
+    != "compiler/selfhost/SH21_NATIVE_BENCHMARK_TRANCHE6_EVIDENCE.md"
     or development_sh21.get("tranche_2_evidence")
     != "compiler/selfhost/SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md"
     or development_sh21.get("tranche_3_evidence")
     != "compiler/selfhost/SH21_NATIVE_REPOSITORY_AUDIT_TRANCHE3_EVIDENCE.md"
     or development_sh21.get("tranche_4_evidence")
     != "compiler/selfhost/SH21_NATIVE_PE_AUDIT_TRANCHE4_EVIDENCE.md"
+    or development_sh21.get("tranche_5_evidence")
+    != "compiler/selfhost/SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md"
     or development_sh21.get("workflow_schema") != "openc.native_workflow.v1"
     or development_sh21.get("process_guard_schema")
     != "openc.native_process_guard.v1"
@@ -868,15 +890,16 @@ if (
     != "openc.native_repository_audit.v1"
     or development_sh21.get("pe_audit_schema") != "openc.native_pe_audit.v1"
     or development_sh21.get("lsp_audit_schema") != "openc.native_lsp_audit.v1"
-    or development_sh21.get("compiler_source_files") != 120
-    or development_sh21.get("compiler_source_bytes") != 1711619
-    or development_sh21.get("native_compiler_bytes") != 5525504
+    or development_sh21.get("benchmark_schema") != "openc.native_benchmark.v1"
+    or development_sh21.get("compiler_source_files") != 121
+    or development_sh21.get("compiler_source_bytes") != 1732323
+    or development_sh21.get("native_compiler_bytes") != 5629440
     or development_sh21.get("native_compiler_sha256")
-    != "4dbf142cbd8ac6d22ad12a7842da78a6ebd6c6310d7cf7e5dcff2eb0bdfc995d"
+    != "04b765e1bfe242ba92d6373bd84eeb0939bd35a4d3478deec44b5b6fe207c5fe"
     or not development_sh21.get("renamed_compiler_workflow_passed")
     or not development_sh21.get("stage2_stage3_byte_equal")
     or development_sh21.get("native_daily_tasks_passed") != 7
-    or development_sh21.get("native_full_tasks_passed") != 11
+    or development_sh21.get("native_full_tasks_passed") != 12
     or development_sh21.get("native_conformance_fixtures_passed") != 278
     or development_sh21.get("maintained_and_runtime_programs_passed") != 5
     or development_sh21.get("python_invoked_by_native_workflow")
@@ -910,7 +933,7 @@ if (
     or not development_sh21.get("child_assigned_suspended")
     or not development_sh21.get("native_child_process_enforcement_complete")
     or not development_sh21.get("native_repository_audit_complete")
-    or development_sh21.get("native_required_files_passed") != 366
+    or development_sh21.get("native_required_files_passed") != 367
     or development_sh21.get("native_pinned_hashes_passed") != 39
     or development_sh21.get("native_fixture_identities_passed") != 278
     or development_sh21.get("native_active_rule_coverage_passed") != 466
@@ -920,7 +943,7 @@ if (
     or development_sh21.get("native_pe_audit_checks_total") != 16
     or development_sh21.get("native_pe_sections") != 7
     or development_sh21.get("native_pe_imports") != 28
-    or development_sh21.get("native_pe_runtime_functions") != 1350
+    or development_sh21.get("native_pe_runtime_functions") != 1359
     or development_sh21.get("native_pe_dir64_relocations") != 4
     or development_sh21.get("native_pe_negative_cases_rejected") != 4
     or development_sh21.get("native_pe_audit_peak_private_bytes", 2**63)
@@ -946,6 +969,20 @@ if (
     or development_sh21.get(
         "semantic_resolution_observer_peak_working_set_bytes", 2**63
     ) > 67108864
+    or not development_sh21.get("native_benchmark_complete")
+    or development_sh21.get("native_benchmark_runs_passed") != 20
+    or development_sh21.get("native_benchmark_runs_total") != 20
+    or development_sh21.get("native_benchmark_exact_closures") != 20
+    or development_sh21.get("native_benchmark_public_records") != 20
+    or development_sh21.get("native_benchmark_build_median_milliseconds") != 13250
+    or development_sh21.get("native_benchmark_validation_median_milliseconds") != 8760
+    or development_sh21.get("native_benchmark_peak_private_bytes") != 224702464
+    or development_sh21.get("native_benchmark_peak_working_set_bytes") != 52051968
+    or development_sh21.get("native_benchmark_legacy_tools_invoked")
+    or not development_sh21.get(
+        "native_benchmark_controller_hash_buffers_freed"
+    )
+    or not development_sh21.get("native_benchmark_controller_working_set_bounded")
     or not development_sh21.get(
         "native_structure_source_coverage_audits_complete"
     )
@@ -955,12 +992,15 @@ if (
     or not development_sh21.get(
         "native_structure_source_pe_lsp_audits_complete"
     )
+    or not development_sh21.get(
+        "native_structure_source_pe_lsp_benchmark_audits_complete"
+    )
     or development_sh21.get("native_structure_pe_lsp_release_audits_complete")
     or development_sh21.get("deterministic_native_release_archives_complete")
     or development_sh21.get("next_slice")
-    != "OPENC_NATIVE_BENCHMARK_SAMPLING_AND_GATES"
+    != "OPENC_NATIVE_DETERMINISTIC_RELEASE_AND_ARCHIVE_OWNERSHIP"
 ):
-    errors.append("development state must record bounded SH-21 tranche 5 progress")
+    errors.append("development state must record bounded SH-21 tranche 6 progress")
 development_sh14 = development_self_hosting.get("sh14_acceptance", {})
 if (
     development_sh14.get("status") != "PASS"

@@ -1291,7 +1291,7 @@ unsafe void native_process_failure_outputs(
 ) {
     usize exit_operand = 1;
     usize output_operand = 2;
-    if d_operand_count(context, instruction) == 4 {
+    if d_operand_count(context, instruction) >= 4 {
         exit_operand = 2;
         output_operand = 3;
     }
@@ -1304,6 +1304,15 @@ unsafe void native_process_failure_outputs(
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
     x64_mov_memory_r64(function.code, 11, 0, 0);
     x64_mov_memory_r64(function.code, 11, 8, 0);
+    if d_operand_count(context, instruction) == 6 {
+        usize private_value = d_operand_value(context, instruction, 4);
+        native_output_address(function, private_value, 11);
+        x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+        x64_mov_memory_r64(function.code, 11, 0, 0);
+        usize working_set_value = d_operand_value(context, instruction, 5);
+        native_output_address(function, working_set_value, 11);
+        x64_mov_memory_r64(function.code, 11, 0, 0);
+    }
     native_status_failure(function, result, status_code);
 }
 
@@ -1332,7 +1341,7 @@ unsafe void native_process_run(
         x64_mov_memory_r64(function.code, 4, clear_offset, 0);
         clear_offset = clear_offset + 8;
     }
-    if d_operand_count(context, instruction) == 4 {
+    if d_operand_count(context, instruction) >= 4 {
         native_load(function, d_operand_value(context, instruction, 1), 0);
     } else {
         x64_mov_r64_imm64(function.code, 0, cast(u64, 300000));
@@ -1401,6 +1410,8 @@ unsafe void native_process_run(
         x64_mov_memory_r64(function.code, 4, clear_offset, 0);
         clear_offset = clear_offset + 8;
     }
+    x64_mov_memory_r64(function.code, 4, 1144, 0);
+    x64_mov_memory_r64(function.code, 4, 1408, 0);
     // KILL_ON_JOB_CLOSE | PROCESS_MEMORY | JOB_MEMORY. A Job working-set limit
     // requires SE_INC_WORKING_SET_NAME and is therefore not valid for ordinary
     // unprivileged compiler processes; the polling supervisor below enforces
@@ -1509,13 +1520,25 @@ unsafe void native_process_run(
     // Enforce the unprivileged 64 MiB working-set rule by observing the child
     // directly; JOB_OBJECT_LIMIT_WORKINGSET requires a quota privilege and is
     // not available to ordinary compiler processes.
-    x64_mov_r64_imm64(function.code, 0, cast(u64, 72));
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 80));
     x64_mov_memory_r64(function.code, 4, 1040, 0);
     x64_mov_r64_memory(function.code, 11, 4, 864);
     x64_mov_r64_memory(function.code, 1, 4, 752);
     native_stack_address(function, 1040, 2);
-    x64_mov_r64_imm64(function.code, 8, cast(u64, 72));
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 80));
     x64_call_r64(function.code, 11); native_runtime_nonzero(function);
+    x64_mov_r64_memory(function.code, 10, 4, 1056);
+    x64_mov_r64_memory(function.code, 9, 4, 1144);
+    x64_cmp_r64_r64(function.code, 10, 9);
+    usize working_set_not_peak = native_skip(function.code, 6);
+    x64_mov_memory_r64(function.code, 4, 1144, 10);
+    native_skip_end(function.code, working_set_not_peak);
+    x64_mov_r64_memory(function.code, 10, 4, 1112);
+    x64_mov_r64_memory(function.code, 9, 4, 1408);
+    x64_cmp_r64_r64(function.code, 10, 9);
+    usize private_not_peak = native_skip(function.code, 6);
+    x64_mov_memory_r64(function.code, 4, 1408, 10);
+    native_skip_end(function.code, private_not_peak);
     x64_mov_r64_memory(function.code, 10, 4, 1056);
     x64_mov_r64_imm64(function.code, 11, cast(u64, 67108864));
     x64_cmp_r64_r64(function.code, 10, 11);
@@ -1732,7 +1755,7 @@ unsafe void native_process_run(
     native_skip_end(function.code, output_within_budget);
     usize exit_operand = 1;
     usize output_operand = 2;
-    if d_operand_count(context, instruction) == 4 {
+    if d_operand_count(context, instruction) >= 4 {
         exit_operand = 2;
         output_operand = 3;
     }
@@ -1746,6 +1769,16 @@ unsafe void native_process_run(
     x64_mov_memory_r64(function.code, 11, 0, 0);
     x64_mov_r64_memory(function.code, 0, 4, 808);
     x64_mov_memory_r64(function.code, 11, 8, 0);
+    if d_operand_count(context, instruction) == 6 {
+        usize private_value = d_operand_value(context, instruction, 4);
+        native_output_address(function, private_value, 11);
+        x64_mov_r64_memory(function.code, 0, 4, 1408);
+        x64_mov_memory_r64(function.code, 11, 0, 0);
+        usize working_set_value = d_operand_value(context, instruction, 5);
+        native_output_address(function, working_set_value, 11);
+        x64_mov_r64_memory(function.code, 0, 4, 1144);
+        x64_mov_memory_r64(function.code, 11, 0, 0);
+    }
     native_status_success(function, result);
 
     native_skip_end(function.code, pipe_failure_finished);
@@ -1823,6 +1856,9 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         ) && !native_runtime_name(
             call_span,
             "cli_process_run_bounded", "cli_process_run_bounded"
+        ) && !native_runtime_name(
+            call_span,
+            "cli_process_run_measured", "cli_process_run_measured"
         ) {
             return false;
         }
@@ -1911,6 +1947,12 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         call_span, "cli_process_run_bounded", "cli_process_run_bounded"
     ) {
         if d_operand_count(context, instruction) != 4 { function.code.ok = false; return true; }
+        native_process_run(context, function, instruction, result); return true;
+    }
+    if native_runtime_name(
+        call_span, "cli_process_run_measured", "cli_process_run_measured"
+    ) {
+        if d_operand_count(context, instruction) != 6 { function.code.ok = false; return true; }
         native_process_run(context, function, instruction, result); return true;
     }
     if native_runtime_name(call_span, "path.join", "system.path.join") {

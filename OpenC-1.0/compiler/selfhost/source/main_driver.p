@@ -373,6 +373,9 @@ unsafe i32 main() {
     if arguments >= 2 && process.argument(0) == "lsp-audit" {
         return cli_lsp_audit_command();
     }
+    if arguments >= 2 && process.argument(0) == "benchmark" {
+        return cli_benchmark_command();
+    }
     if arguments >= 2 && process.argument(0) == "workflow" {
         return cli_workflow_command();
     }

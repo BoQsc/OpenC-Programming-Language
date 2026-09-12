@@ -1,5 +1,27 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-21 OpenC-native workflows tranche 6
+
+- added the public OpenC-authored `openc benchmark` command with raw build,
+  validation, memory, hash, and build-record samples;
+- passed 20/20 chained exact self-builds with a 13.250-second five-run build
+  median and 8.760-second validation median under unchanged 25-second and
+  15-second gates;
+- observed maximum compiler memory of 224,702,464 private bytes and 52,051,968
+  working-set bytes under the unchanged 256 MiB / 64 MiB process guards;
+- replaced retained-text executable hashing with explicitly freed raw buffers,
+  preventing benchmark-controller working-set growth across the long chain;
+- passed the expanded OpenC-native full workflow 12/12, including 278/278
+  conformance, 5/5 programs, 1,324 repository records, 16/16 PE checks, 42/42
+  LSP checks, four process guards, the benchmark, and exact workflow closure;
+- reached a byte-identical 5,629,440-byte fixed point from 121 OpenC sources at
+  SHA-256
+  `04b765e1bfe242ba92d6373bd84eeb0939bd35a4d3478deec44b5b6fe207c5fe`;
+- verified all 20 build records invoke no Python, D, C, TinyCC, assembler, or
+  external linker; and
+- advanced SH-21 to deterministic native release/archive ownership and
+  historical bootstrap/audit-kit isolation.
+
 ## Post-RC9 — SH-21 OpenC-native workflows tranche 5
 
 - added the public OpenC-authored `openc lsp-audit` command and integrated it

@@ -287,3 +287,19 @@ All measured compiler runs retain 256 MiB private, 64 MiB working-set, and
 bounded-output guards. Observed peaks are 216,932,352 private bytes and
 49,405,952 working-set bytes. The detailed method and primary record paths are
 in `../../release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md`.
+
+## SH-21 OpenC-native benchmark ownership
+
+SH-21 tranche 6 moves required self-build sampling and enforcement into the
+OpenC-authored `openc benchmark` command. The final 121-source compiler passes
+20/20 chained exact rebuilds at SHA-256
+`04b765e1bfe242ba92d6373bd84eeb0939bd35a4d3478deec44b5b6fe207c5fe`.
+Its five-run public-build median is 13.250 seconds and its validation median is
+8.760 seconds, both below the unchanged 25-second and 15-second gates.
+
+Peak compiler private and working-set memory are 224,702,464 and 52,051,968
+bytes. Each executable hash uses a raw file buffer that is freed immediately;
+the benchmark controller remains near 5--11 MiB working set across the entire
+chain. All 20 build records reject Python, D, C, TinyCC, assembler, and external
+linker use. See `SH21_NATIVE_BENCHMARK_TRANCHE6_EVIDENCE.md` for the raw-sample
+ranges and integrated workflow result.

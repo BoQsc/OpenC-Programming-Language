@@ -189,7 +189,7 @@ unsafe bool cli_audit_plan(
         }
     }
     return header_ok && records_ok &&
-        expected_files == 366 && counts.files == expected_files &&
+        expected_files == 367 && counts.files == expected_files &&
         counts.files_passed == counts.files &&
         expected_hashes == 39 && counts.hashes == expected_hashes &&
         counts.hashes_passed == counts.hashes &&
