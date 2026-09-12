@@ -9,10 +9,10 @@ Core specification:                 1.0 RELEASE-CANDIDATE AUTHORITY
 Hosted specification:               1.0 RELEASE-CANDIDATE AUTHORITY
 Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
-canonical OpenC compiler source:     121 `.p` UNITS; SELF-HOSTED
+canonical OpenC compiler source:     130 `.p` UNITS; SELF-HOSTED
 legacy D reference source:           OPTIONAL AUDIT; NOT AUTHORITY
 legacy Python bootstrap source:      OPTIONAL AUDIT; NOT AUTHORITY
-official OpenC source extension:      .p; 281 MIGRATED, 443 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 452 TOTAL `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
@@ -38,15 +38,16 @@ native project workflow:              SH-10 PASS; FMT/INFO/TEST, 21/21
 native language service:              SH-11 PASS; LIFECYCLE/DIAGNOSTICS/FMT, 19/19
 native semantic language service:     SH-12 PASS; SYMBOLS/NAV/COMPLETE/RENAME, 23/23
 human + machine diagnostics:          PASS; `openc.check.v1` + STABLE STREAMS
-completed engineering milestone:     SH-20 PUBLIC THROUGHPUT CONVERGENCE
-next engineering milestone:          SH-21 OPENC-NATIVE REQUIRED WORKFLOWS
-SH-21 workflow tranche 6:             PASS; NATIVE DAILY 7/7, FULL 12/12
+completed engineering milestone:     SH-21 OPENC-NATIVE REQUIRED WORKFLOWS
+next engineering milestone:          SH-22 PE/COFF ECOSYSTEM COMPLETENESS
+SH-21 complete workflow:              PASS; NATIVE DAILY 8/8, FULL 13/13
 SH-21 process supervision:            PASS; OUTPUT/RAM/WORKING-SET/TIME 4/4
-SH-21 repository audit:               PASS; 1,324/1,324 NATIVE RECORDS
-SH-21 native PE audit:                PASS; 16/16, 28 IMPORTS, NO CRT
+SH-21 repository audit:               PASS; 380 FILES, 39 HASHES, FULL COVERAGE
+SH-21 native PE audit:                PASS; 16/16, 30 IMPORTS, NO CRT
 SH-21 native LSP audit:               PASS; 42/42, FRAMED + DETERMINISTIC
-SH-21 native benchmark:               PASS; 20/20, 13.250 S BUILD, 8.760 S VALIDATE
-SH-21 current fixed point:            04b765e1; 5/5 PROGRAMS, 278/278
+SH-21 native benchmark:               PASS; 20/20, 23.094 S BUILD, 14.827 S VALIDATE
+SH-21 current fixed point:            7eea1c05; 5/5 PROGRAMS, 278/278
+SH-21 native release:                 PASS; BYTE-EXACT ZIP PAIRS + RELOCATED CLOSURE
 SH-14 stability/scaling gate:         20/20 CLOSURE; WORST DOUBLING 2.112x
 SH-15 ABI/encoder verification:       PASS; 25/25 EXECUTABLE + STATIC CHECKS
 SH-16 PE/runtime verification:        PASS; 34/34, KERNEL32-ONLY, NO MICROSOFT CRT
@@ -54,7 +55,7 @@ SH-17 WinMD projection verification: PASS; 30/30, 7 MODULES, 71,425 RECORDS
 SH-18 friendly Windows verification: PASS; 27/27, 12 MODULES; 10.103 S REBUILD MEDIAN
 SH-19 native backend verification:   PASS; 63/63 SCALARS, 6/6 MEMORY, 20/20 RELEASE
 SH-20 public throughput verification: PASS; OPENC 17.064 S, C 22.732 S, D 17.504 S
-active critical path:                 OPENC-NATIVE WORKFLOWS -> PE/COFF ECOSYSTEM
+active critical path:                 SH-22 PE/COFF OBJECTS, DLLS, LIBRARIES
 DMD/TinyCC-independent compiler:     YES; PUBLIC `openc build`, DIRECT PE32+
 standalone compiler distribution:    YES; NO C/TCC/D/PYTHON/ASM/LINKER
 normal compilation independent:      YES; PYTHON IS OPTIONAL EVIDENCE ONLY
@@ -136,14 +137,14 @@ Microsoft CRT. SH-20 then reduces the fully validating public self-build to a
 17.064-second five-run median, with an 11.352-second validation median, while
 20/20 chained builds close exactly under the 256 MiB private / 64 MiB
 working-set guards. That is faster than the measured 22.732-second optimized
-ISO C reference and 17.504-second D reference medians. SH-21 is now active:
-its sixth OpenC-authored workflow tranche passes from a 121-source fixed-point
-compiler, including 278/278 conformance, 5/5 program checks, bounded child
-supervision, the 1,324-record repository audit, a 16/16 native PE/import/
-unwind/CRT-absence audit, a 42/42 native framed LSP audit, and a 20/20 native
-benchmark with 13.250-second build and 8.760-second validation medians. The
-benchmark explicitly frees raw hash buffers and stays inside the 256 MiB private
-/ 64 MiB working-set gates. Release packaging and the optional historical
-bootstrap boundary remain active work.
+ISO C reference and 17.504-second D reference medians. SH-21 is complete: its
+130-source fixed-point compiler owns the 13/13 full workflow, 278/278
+conformance, 5/5 program checks, bounded child supervision, 380-file repository
+audit, 16/16 native PE audit, 42/42 framed LSP audit, 29/29 residual contracts,
+and deterministic relocated release archives. The final 20/20 benchmark has
+23.094-second build and 14.827-second validation medians and stays inside the
+256 MiB private / 64 MiB working-set gates. D/Python/C/TinyCC are optional
+historical audit/bootstrap material only. SH-22 PE/COFF ecosystem completeness
+is active next.
 Native editor integration is deferred to SH-24. Linux, freestanding, and
 ARM64 remain optional later targets.

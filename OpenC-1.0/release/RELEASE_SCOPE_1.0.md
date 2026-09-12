@@ -14,8 +14,8 @@ The current required compiler/package gates are the OpenC-native Windows build,
 the complete authored conformance manifest, runtime fixtures, maintained
 programs, native CLI/project/language-service checks, deterministic standalone
 archives, bounded memory/throughput gates, and local licensing/governance
-authorization. SH-20 still uses Python plus optional C/D tools to orchestrate
-and compare external evidence; SH-21 replaces that remaining workflow layer.
+authorization. SH-21 replaces the remaining required Python orchestration;
+optional Python/C/D tools are retained only for explicit comparative evidence.
 
 Canonical OpenC source uses `.p`. The source distribution also contains an
 executed compiler-in-OpenC frontend with SH-1 bootstrap, SH-2A exact lexical
@@ -26,7 +26,8 @@ pass. DMD-independent Windows self-hosting (SH-5) passes through deterministic
 C11 emission and the shipped TinyCC 0.9.27 Win64 backend. Standalone packaging
 and distribution verification (SH-6) also pass. SH-19 supersedes their normal
 artifact path with first-party x64/PE32+ emission, and SH-20 proves C/D-class
-public throughput. The relocatable package rebuilds the compiler through
+public throughput. SH-21 completes OpenC-native workflow, audit, benchmark,
+deterministic archive, and relocated-release ownership. The relocatable package rebuilds the compiler through
 byte-identical native stages and passes the full authored conformance and
 maintained-program gates without the historical toolchains.
 

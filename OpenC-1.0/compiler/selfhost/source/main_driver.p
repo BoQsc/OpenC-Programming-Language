@@ -376,6 +376,12 @@ unsafe i32 main() {
     if arguments >= 2 && process.argument(0) == "benchmark" {
         return cli_benchmark_command();
     }
+    if arguments >= 2 && process.argument(0) == "release" {
+        return cli_release_command();
+    }
+    if arguments >= 2 && process.argument(0) == "contract-audit" {
+        return cli_contract_audit_command();
+    }
     if arguments >= 2 && process.argument(0) == "workflow" {
         return cli_workflow_command();
     }

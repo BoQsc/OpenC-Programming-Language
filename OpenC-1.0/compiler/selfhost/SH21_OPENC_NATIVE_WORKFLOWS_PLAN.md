@@ -1,88 +1,58 @@
 # SH-21 OpenC-native workflows and bootstrap boundary
 
-Status: **ACTIVE; TRANCHE 6 PASS**.
+Status: **COMPLETE — PASS**.
 
-Implementation progress: the Python ownership inventory is complete in
-`SH21_PYTHON_WORKFLOW_INVENTORY.md`. The OpenC-authored `openc workflow` owns
-public identity/project checks, four established programs plus the native
-`out ptr` regression, native conformance, two compiler rebuilds, SHA-256
-fixed-point comparison, and JSON evidence. Tranche 2 adds OpenC-native bounded
-child supervision and a public adversarial `openc process-guard` verifier. The
-third tranche adds the public OpenC-native `openc audit` command and makes
-canonical-tree/source/authority/conformance/rule/grammar verification part of
-both daily and full workflows. Tranche 4 adds the public `openc pe-audit`
-command and makes PE32+, section, import, relocation, TLS, x64 unwind, and CRT
-absence inspection native. Tranche 5 adds the public `openc lsp-audit`
-command, canonical byte-counted JSON-RPC sessions, production state-machine/
-framing coverage, deterministic wire transcripts, and native workflow
-ownership of the 42 language-service contracts. Tranche 6 adds the public
-`openc benchmark` command, 20-build exact closure, raw performance and memory
-samples, legacy-tool rejection, and leak-free raw hashing under the existing
-RAM ceilings. The fixed-point compiler passes all six tranches; see
-`SH21_NATIVE_WORKFLOW_TRANCHE1_EVIDENCE.md` and
-`SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md` and
-`SH21_NATIVE_REPOSITORY_AUDIT_TRANCHE3_EVIDENCE.md` and
-`SH21_NATIVE_PE_AUDIT_TRANCHE4_EVIDENCE.md` and
-`SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md` and
-`SH21_NATIVE_BENCHMARK_TRANCHE6_EVIDENCE.md`. Deterministic release ZIP
-ownership remains active work and is not claimed complete.
+SH-21 removes required Python orchestration from normal Windows Hosted build,
+test, validation, benchmark, audit, packaging, and release verification. The
+normal path now needs only a previous OpenC compiler, canonical `.p` source,
+and documented Windows system DLLs. D, Python, C, and TinyCC remain only in the
+explicitly named historical bootstrap/audit kit.
 
-SH-20 makes the public compiler competitive with the measured C and D
-references while keeping correctness and RAM bounds intact. SH-21 now removes
-the remaining required Python orchestration and makes the first-binary
-bootstrap boundary explicit. This milestone changes workflow ownership, not
-OpenC language semantics or the already independent `openc build` path.
+## Completed exit gates
 
-## Exit gates
+- `openc workflow` owns daily and full orchestration. The final daily surface
+  is 8/8; the guarded full workflow is 13/13.
+- `openc audit` verifies 380 required files, 39 pinned hashes, 278 fixture
+  identities, 466 active-rule coverage records, and 174 grammar-production
+  pairs.
+- `openc pe-audit` passes 16/16 PE32+, section, import, relocation, TLS,
+  x64-unwind, and CRT-absence checks. The final compiler imports only 30
+  documented Kernel32 symbols.
+- `openc lsp-audit` passes 42/42 byte-framed language-service contracts.
+- `openc contract-audit` passes 29/29 CLI, diagnostic, project, demo,
+  friendly-Windows, WinMD, and historical-boundary contracts; 20 consecutive
+  stress runs pass.
+- `openc benchmark` passes 20/20 exact chained rebuilds. The final enforced
+  five-run median is 23.094 seconds and semantic validation is 14.827 seconds,
+  below the unchanged 25-second and 15-second gates.
+- Compiler peaks are 181,161,984 private bytes and 53,575,680 working-set
+  bytes, below 256 MiB and 64 MiB. Captured output remains capped at 4 MiB and
+  each child remains capped at five minutes.
+- `openc release` emits independent byte-identical standalone and source ZIP
+  pairs with deterministic STORE records, CRC-32, SHA-256, safe-path checks,
+  an internal package manifest, bounded per-entry buffers, and capped archive
+  verification.
+- A relocated standalone compiler builds two exact generations, runs the 8/8
+  daily workflow, passes 29/29 contract checks and 278/278 conformance, and
+  imports no Microsoft CRT.
+- The standalone package excludes C, D, Python, TinyCC, C headers/runtime,
+  external assemblers, and external linkers. The retained historical material
+  is documented by `historical/HISTORICAL_BOOTSTRAP_AUDIT_KIT.json` and is
+  never searched or invoked by default.
+- The prior 93 historical rule-ID compatibility matches remain disclosed.
+  Linux and freestanding remain optional future targets.
 
-- A clean normal environment containing only a pinned previous OpenC compiler,
-  canonical `.p` source, and documented Windows system DLLs can build, test,
-  validate, benchmark, package, and verify the release.
-- Required workflows invoke no Python, DMD, DUB, TinyCC, C compiler, C runtime,
-  external assembler, or external linker.
-- OpenC-native tools reproduce deterministic archives, streaming hashes,
-  package manifests, compiler/source fingerprints, and PE import/unwind audits.
-- OpenC-native process supervision enforces the existing 256 MiB compiler
-  private-byte, 64 MiB compiler working-set, bounded-output, and timeout rules;
-  release packaging has explicit bounded streaming guards.
-- The optional historical bootstrap/audit kit is separately named and is not
-  searched or invoked by default. It may retain D, Python, C, and TinyCC only
-  for archaeology, differential testing, or producing the first OpenC binary.
-- SH-20 performance remains green: five-run public-build median at most 25
-  seconds, validation median below 15 seconds, 20/20 exact closure, 278/278
-  conformance, and 4/4 maintained programs.
-- Two independent standalone archives remain byte-identical and pass the full
-  relocated-package verifier with no legacy tool available.
+The final fixed-point compiler has 130 OpenC source units, 1,794,397 source
+bytes, 6,110,720 executable bytes, and SHA-256
+`7eea1c053132536398c562a09e46c98478f6f4cde6ddf9a2f706943ee4fbc130`.
+Detailed results are in `SH21_COMPLETION_EVIDENCE.md`.
 
-## Work order
+## What comes next
 
-1. Inventory Python entry points used by `windows_native_workflow.py`, the
-   standalone release builder/verifier, benchmarks, PE inspection, and source
-   audits; classify each as required, optional audit, or obsolete history.
-2. Move reusable manifest, hashing, ZIP, PE/COFF inspection, subprocess guard,
-   and deterministic-report logic into OpenC-authored modules and compiler
-   subcommands. Hashing, repository audit, and subprocess guards are complete;
-   first-party PE executable inspection is complete; general COFF and ZIP
-   ownership remain.
-3. Add an OpenC-native `openc workflow` command for structure, conformance,
-   maintained programs, CLI/project/LSP regressions, and performance gates.
-   Structure/source/coverage, PE inspection, conformance, maintained programs,
-   LSP regressions, and performance gates are now owned.
-4. Add an OpenC-native `openc release` command that assembles and verifies two
-   deterministic standalone archives using bounded streaming I/O.
-5. Add an OpenC-native benchmark driver with raw samples, tool/input hashes,
-   resource ceilings, and an optional explicitly requested C/D comparison.
-   The required OpenC-only sampling and enforcement path is complete; C/D
-   comparison remains optional and external.
-6. Split retained D/Python/C/TinyCC material into a documented optional audit
-   kit and prove it is absent and unavailable in the normal release run.
-7. Execute the SH-20 regression suite and two independent neutral-path release
-   verifications before marking SH-21 complete.
-
-## What follows
-
-SH-22 is PE/COFF ecosystem completeness: COFF objects, OpenC DLLs, imports and
-exports, static/import libraries, resources, manifests, console/GUI subsystem
-selection, secure runtime linking, and optional C-ABI interoperability. SH-23
-then adds optional COM and WinRT projections. Native editor integration remains
-SH-24. Linux and freestanding remain optional future targets.
+SH-22 is now the active engineering milestone: PE/COFF ecosystem
+completeness. It covers COFF objects, OpenC DLL imports/exports, static and
+import libraries, resources and manifests, console/GUI subsystem selection,
+secure runtime linking, and optional bidirectional C-ABI interoperability.
+A standalone assembler is added only if the shared x64 encoder proves
+insufficient. SH-23 remains optional COM/WinRT projection work; SH-24 remains
+native editor integration and LSP resilience.

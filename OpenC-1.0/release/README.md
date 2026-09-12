@@ -79,8 +79,11 @@ Metadata and deterministic raw projection is complete; evidence is in
 `SH18_IDIOMATIC_WINDOWS_MODULES_EVIDENCE.md`. SH-19 compiler-capable native
 backend and TinyCC exit is complete; evidence is in
 `SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md`. SH-20 public throughput
-convergence is active in
-`../compiler/selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md`.
+convergence is complete. SH-21 required OpenC-native workflow and release
+ownership is complete, including deterministic standalone/source ZIP pairs
+and relocated closure; see
+`../compiler/selfhost/SH21_COMPLETION_EVIDENCE.md`. SH-22 PE/COFF ecosystem
+completeness is active next.
 
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by

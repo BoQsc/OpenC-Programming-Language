@@ -61,16 +61,16 @@ Pe32RuntimeLayout pe32_runtime_layout() {
         image_size = 32768,
         import_directory_offset = 0,
         import_lookup_offset = 64,
-        import_address_offset = 304,
-        import_dll_name_offset = 544,
-        import_names_offset = 560,
-        message_offset = 1088,
-        file_name_offset = 1152,
-        file_payload_offset = 1216,
-        panic_message_offset = 1280,
-        checked_message_offset = 1320,
-        target_message_offset = 1360,
-        tls_directory_offset = 1408
+        import_address_offset = 320,
+        import_dll_name_offset = 576,
+        import_names_offset = 608,
+        message_offset = 1152,
+        file_name_offset = 1216,
+        file_payload_offset = 1280,
+        panic_message_offset = 1344,
+        checked_message_offset = 1384,
+        target_message_offset = 1424,
+        tls_directory_offset = 1472
     };
 }
 
@@ -81,7 +81,7 @@ usize pe32_section_code() { return 1610612768; }
 usize pe32_section_read_only_data() { return 1073741888; }
 usize pe32_section_read_write_data() { return 3221225536; }
 
-usize pe32_import_count() { return 28; }
+usize pe32_import_count() { return 30; }
 
 text pe32_import_name(usize index) {
     if index == 0 { return "CloseHandle"; }
@@ -111,7 +111,9 @@ text pe32_import_name(usize index) {
     if index == 24 { return "SetHandleInformation"; }
     if index == 25 { return "CreateProcessW"; }
     if index == 26 { return "WaitForSingleObject"; }
-    return "GetExitCodeProcess";
+    if index == 27 { return "GetExitCodeProcess"; }
+    if index == 28 { return "CreateDirectoryW"; }
+    return "SetFilePointerEx";
 }
 
 usize pe32_import_hint_offset(ref Pe32RuntimeLayout layout, usize index) {

@@ -260,22 +260,16 @@ IR reach closure. Exact evidence and reproduction commands are in
     - 278/278 conformance, 4/4 maintained programs, and the 256 MiB private /
       64 MiB working-set guards remain green; see
       [SH-20 evidence](release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md).
-14. **SH-21 OpenC-native build/test/release and bootstrap boundary — active**
-    - replace every required Python build, benchmark, validation, packaging,
-      inspection, and release orchestrator with OpenC-native tooling;
-    - isolate D and Python to a separately named optional historical
-      first-binary bootstrap/audit kit;
-    - prove normal build, test, release, and package verification with only a
-      previous OpenC compiler plus canonical source; follow
-      [the SH-21 plan](compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md).
-    - tranche 6 passes: the OpenC-authored daily/full workflow owns 12 full
-      tasks, 278/278 conformance, 5/5 program checks, SHA-256 closure,
-      adversarial output/RAM/working-set/timeout guards, 1,324 repository
-      structure/source/authority/coverage records, and a 16/16 native PE32+
-      import/relocation/TLS/unwind/CRT-absence audit; the 42/42 native framed
-      LSP audit and 20/20 exact native benchmark are also complete, while
-      deterministic release/archive ownership remains active.
-15. **SH-22 PE/COFF ecosystem completeness**
+14. **SH-21 OpenC-native build/test/release and bootstrap boundary — complete**
+    - required workflow, benchmark, audit, deterministic packaging, and
+      relocated release verification are OpenC-native;
+    - the 13/13 full workflow passes 278/278 conformance, 5/5 programs,
+      20/20 exact rebuilds, 380-file repository audit, 16/16 PE audit,
+      42/42 LSP audit, and 29/29 residual contract audit;
+    - standalone/source ZIP pairs are byte-identical and the standalone omits
+      C, D, Python, TinyCC, CRTs, assemblers, and external linkers; see
+      [SH-21 completion evidence](compiler/selfhost/SH21_COMPLETION_EVIDENCE.md).
+15. **SH-22 PE/COFF ecosystem completeness — active next**
     - add COFF objects, DLL imports/exports, OpenC DLLs, static/import
       libraries, resources, manifests, console/GUI subsystems, and secure
       run-time linking;

@@ -1,0 +1,43 @@
+{
+  "schema": "openc.historical_bootstrap_audit_kit.v1",
+  "status": "OPTIONAL_EXPLICIT_INVOCATION_ONLY",
+  "normal_workflow_dependency": false,
+  "packaged_in_standalone_release": false,
+  "purposes": [
+    "first-binary recovery",
+    "compiler archaeology",
+    "explicit differential auditing",
+    "optional external C and D timing comparison"
+  ],
+  "payload_roots": [
+    "compiler/bootstrap",
+    "compiler/selfhost/bootstrap*.py",
+    "compiler/selfhost/*_parity.py",
+    "compiler/selfhost/native_runtime",
+    "runtime/common/source/*.c",
+    "runtime/windows/source/*.c",
+    "tests/source",
+    "third_party/tinycc-win64"
+  ],
+  "python_orchestrators": [
+    "scripts/*.py",
+    "tests/python",
+    "release/*.py",
+    "demos/run_all.py"
+  ],
+  "forbidden_default_consumers": [
+    "openc build",
+    "openc check",
+    "openc test",
+    "openc validate",
+    "openc benchmark",
+    "openc workflow",
+    "openc release"
+  ],
+  "retained_languages_and_tools": [
+    "D",
+    "Python",
+    "C",
+    "TinyCC"
+  ]
+}

@@ -86,7 +86,7 @@ unsafe CliWorkflowTaskResult cli_workflow_run_long(
     i32 exit_code;
     text output;
     status ran = cli_process_run_bounded(
-        command, cast(usize, 600000), out exit_code, out output
+        command, cast(usize, 900000), out exit_code, out output
     );
     usize elapsed = process.monotonic_milliseconds() - started;
     if !ran.ok {
@@ -422,6 +422,9 @@ unsafe i32 cli_workflow_command() {
     text lsp_audit_report = path.join(
         output_directory, "sh21-native-lsp-audit.json"
     );
+    text contract_audit_report = path.join(
+        output_directory, "sh21-native-contract-audit.json"
+    );
     text benchmark_report = path.join(
         output_directory, "sh21-native-benchmark.json"
     );
@@ -520,6 +523,18 @@ unsafe i32 cli_workflow_command() {
     cli_workflow_execute(
         report, counters, "native_lsp_audit", command,
         "OpenC native LSP audit: PASS (42/42)"
+    );
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
+    cli_workflow_command_start(command, compiler, "contract-audit");
+    cli_workflow_command_named_argument(command, "--root=", root);
+    cli_workflow_command_named_argument(
+        command, "--output=", contract_audit_report
+    );
+    cli_workflow_execute(
+        report, counters, "native_contract_audit", command,
+        "OpenC native contract audit: PASS (29/29)"
     );
     d_buffer_destroy(command);
 

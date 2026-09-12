@@ -72,11 +72,10 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   manifests; SH-19 then replaces the default generated-C/TinyCC path with the
   first-party x64/PE32+ backend, reaches byte-identical compiler closure, and
   passes the complete relocated release gate without C, TinyCC, D, Python, a
-  CRT, an assembler, or an external linker in the package; SH-21 tranche 6
-  moves required repository, PE executable, framed LSP, and compiler benchmark
-  inspection into OpenC itself, passes 12/12 native full-workflow tasks, 16/16
-  PE32+ checks, 42/42 language-service checks, 20/20 measured rebuilds, and
-  retains exact self-hosted closure;
+  CRT, an assembler, or an external linker in the package; SH-21 completes
+  required build/test/validate/benchmark/audit/release ownership in OpenC,
+  passes the 13/13 native full workflow, 278/278 conformance, 20/20 exact
+  rebuilds, and deterministic relocated standalone/source archive gates;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
@@ -116,23 +115,19 @@ self-build now has a 17.064-second five-run median and 11.352-second validation
 median; 20/20 chained builds are byte-identical. On the same host, the pinned
 optimized ISO C and D references measure 22.732 and 17.504 seconds. Peak
 compiler memory remains inside the 256 MiB private / 64 MiB working-set guards.
-SH-21 is now active and replaces required Python build/test/release
-orchestration with OpenC-native workflows while isolating D/Python/C/TinyCC to
-an optional historical bootstrap/audit kit. Its sixth native workflow tranche
-passes 12/12 full tasks, 278/278 conformance, 5/5 program checks, exact compiler
-closure, four adversarial child-process guards, and 1,324/1,324 repository
-audit records covering required files, hashes, fixture identities, active
-rules, and grammar productions. Native execution contains descendants in a
-256 MiB Job, enforces a 64 MiB working-set ceiling, caps captured output at 4
-MiB, and applies bounded timeouts. The 16/16 native PE audit owns PE32+,
-section, import, relocation, TLS, x64 unwind, and CRT-absence verification.
-The 42/42 native LSP audit owns deterministic framed lifecycle, document,
-diagnostic, formatting, symbol, navigation, completion, and rename regressions.
-The native benchmark owns 20/20 exact self-builds with 13.250-second build and
-8.760-second validation medians while freeing each hash buffer; peak compiler
-memory remains below 256 MiB private and 64 MiB working set. Deterministic
-release/archive ownership remains active. Native editor integration is deferred
-to SH-24. See
+SH-21 is complete. Required Windows Hosted build, test, validation, benchmark,
+repository/PE/LSP/contract audit, deterministic ZIP packaging, and relocated
+release verification are OpenC-native. The final 130-source compiler closes
+exactly at SHA-256 `7eea1c053132536398c562a09e46c98478f6f4cde6ddf9a2f706943ee4fbc130`.
+The 13/13 full workflow includes 278/278 conformance, 5/5 program checks,
+380-file repository coverage, 16/16 PE checks, 42/42 LSP checks, and a 29/29
+residual contract audit. Its 20/20 exact benchmark records a 23.094-second
+build median and 14.827-second validation median under unchanged 256 MiB
+private / 64 MiB working-set guards. `openc release` owns byte-identical
+standalone/source archives and relocated self-build verification. D, Python,
+C, and TinyCC are confined to the optional historical audit/bootstrap kit.
+SH-22 PE/COFF ecosystem completeness is next; native editor integration stays
+deferred to SH-24. See
 `compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md` and
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 

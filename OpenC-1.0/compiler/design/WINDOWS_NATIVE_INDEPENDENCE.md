@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **ACTIVE; SH-20 PASSED, SH-21 OPENC-NATIVE WORKFLOWS ACTIVE**
+Status: **ACTIVE; SH-21 PASSED, SH-22 PE/COFF ECOSYSTEM ACTIVE NEXT**
 
 OpenC's Windows path must preserve a strict separation:
 
@@ -34,8 +34,8 @@ package verification, or releases.
 | Component | Current role | Exit condition |
 | --- | --- | --- |
 | TinyCC | optional historical differential-audit component | exited from normal build, test, and release in SH-19 |
-| Python | external evidence orchestration | SH-21 replaces required workflows with OpenC-native tools |
-| D | historical bootstrap/audit material | SH-21 isolates it to an optional first-binary bootstrap lane |
+| Python | optional compatibility/audit evidence | required workflows replaced by OpenC-native tools in SH-21 |
+| D | historical bootstrap/audit material | isolated to the optional first-binary bootstrap lane in SH-21 |
 | C runtime/shim | optional legacy differential-audit provider | exited from the normal compiler and package in SH-19 |
 | Windows SDK | optional verification oracle | never a normal build or runtime dependency |
 
@@ -245,25 +245,21 @@ guards. See `../selfhost/SH20_NATIVE_PUBLIC_THROUGHPUT_PLAN.md` and
 
 ## SH-21: OpenC-native build, test, release, and bootstrap boundary
 
-Status: **ACTIVE**. See
-`../selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md` for the executable work order
-and exit gates.
+Status: **PASS**. See
+`../selfhost/SH21_COMPLETION_EVIDENCE.md` for the executed gates.
 
-Rewrite every required Python evidence/release orchestrator in OpenC or move
-its indispensable logic into the compiler. The OpenC-native workflow must
-build, test, benchmark, validate, package, hash, inspect PE imports/unwind
-data, and reproduce archives without Python or D.
+Every required evidence/release orchestrator is now OpenC-native. The native
+workflow builds, tests, benchmarks, validates, packages, hashes, audits PE and
+LSP contracts, and reproduces archives without Python or D.
 
 A clean normal release environment contains only the pinned previous OpenC
-compiler and project source. D and Python may be retained in a separately
-named historical bootstrap/audit kit, but required workflows must prove they
-were unavailable and not invoked. This is the point at which OpenC no longer
-needs TinyCC, Python, D, C headers, a C compiler, a C runtime, an assembler, or
-an external linker for ordinary Windows development.
+compiler and project source. D, Python, C, and TinyCC are retained only in the
+separately named historical bootstrap/audit kit and are absent from the
+standalone package.
 
 ## SH-22: PE/COFF ecosystem completeness
 
-After direct executable closure is stable, add:
+Status: **ACTIVE NEXT**. Add:
 
 - COFF `.obj` files and relocations;
 - OpenC DLL imports and exports;

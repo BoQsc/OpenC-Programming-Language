@@ -1,4 +1,4 @@
-openc.native_repository_audit_plan.v1	1	367	39	278	466	174
+openc.native_repository_audit_plan.v1	1	380	39	278	466	174
 file	CONTRIBUTING.md
 file	GOVERNANCE.md
 file	LICENSE
@@ -43,10 +43,13 @@ file	compiler/bootstrap/python/openc/source.py
 file	compiler/bootstrap/python/openc/symbols.py
 file	compiler/bootstrap/python/openc/typesys.py
 file	compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md
+file	historical/HISTORICAL_BOOTSTRAP_AUDIT_KIT.json
+file	historical/README.md
 file	compiler/selfhost/PERFORMANCE.md
 file	compiler/selfhost/README.md
 file	compiler/selfhost/SELF_HOSTING.md
 file	compiler/selfhost/SELF_HOSTING_STATE.json
+file	compiler/selfhost/SH21_COMPLETION_EVIDENCE.md
 file	compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md
 file	compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json
 file	compiler/selfhost/benchmark_windows_rebuild.py
@@ -98,7 +101,12 @@ file	compiler/selfhost/source/backend_instruction.p
 file	compiler/selfhost/source/backend_native_audit.p
 file	compiler/selfhost/source/backend_native_image.p
 file	compiler/selfhost/source/backend_native_runtime.p
+file	compiler/selfhost/source/backend_native_runtime_part1b.p
+file	compiler/selfhost/source/backend_native_runtime_part2.p
 file	compiler/selfhost/source/backend_native_scalar.p
+file	compiler/selfhost/source/backend_native_scalar_part1b.p
+file	compiler/selfhost/source/backend_native_scalar_part2.p
+file	compiler/selfhost/source/backend_native_scalar_part3.p
 file	compiler/selfhost/source/backend_part2.p
 file	compiler/selfhost/source/backend_pe32_runtime.p
 file	compiler/selfhost/source/backend_pe32_types.p
@@ -115,6 +123,9 @@ file	compiler/selfhost/source/cli_format.p
 file	compiler/selfhost/source/cli_lsp.p
 file	compiler/selfhost/source/cli_lsp_audit.p
 file	compiler/selfhost/source/cli_benchmark.p
+file	compiler/selfhost/source/cli_contract_audit.p
+file	compiler/selfhost/source/cli_release.p
+file	compiler/selfhost/source/cli_release_zip.p
 file	compiler/selfhost/source/cli_lsp_semantic.p
 file	compiler/selfhost/source/cli_project_workflow.p
 file	compiler/selfhost/source/cli_workflow.p
@@ -131,6 +142,7 @@ file	compiler/selfhost/source/flow_precheck_part2.p
 file	compiler/selfhost/source/flow_precheck_part3.p
 file	compiler/selfhost/source/flow_validation.p
 file	compiler/selfhost/source/ir.p
+file	compiler/selfhost/source/ir_part1b.p
 file	compiler/selfhost/source/ir_bounds.p
 file	compiler/selfhost/source/ir_bounds_part2.p
 file	compiler/selfhost/source/ir_bounds_part3.p
@@ -266,6 +278,7 @@ file	release/RELEASE_SCOPE_1.0.md
 file	release/SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md
 file	release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md
 file	release/SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md
+file	release/SH21_NATIVE_RELEASE_PLAN.tsv
 file	release/SH8_NATIVE_WORKFLOW_EVIDENCE.md
 file	release/SH9_NATIVE_CLI_EVIDENCE.md
 file	release/SUPPORT_POLICY.md
@@ -381,7 +394,7 @@ hash	LICENSE_POLICY.md	1712	d785fd081b1b39a9b1f413554c29c384e761a0a988c8f40b3c4b
 hash	SECURITY.md	960	dda77d29c47037c2a819a417573644de9af44df85eda13b49480a7ebe4aad029
 hash	TRADEMARKS.md	630	5c15b77ae44e385476d3b3ced7f247bc0adb095fb56168d258c44beba892c17f
 hash	release/RELEASE_AUTHORITY.md	933	85bb362dedfd94699efe8061d88f9e3d1f9c3ca8679692e9d4eb39ebee6d9610
-hash	release/RELEASE_SCOPE_1.0.md	3161	68462343848af1b947fb9dad2fdc5b93dc2447cd4c08c836d5f656f1db6925c4
+hash	release/RELEASE_SCOPE_1.0.md	3273	94c6cf89316179463da119ffb79b1ab85099d9e1e137c7ae203bf1598772e563
 hash	release/ERRATA_POLICY.md	699	56e3581d419aa96a6185d16146f6ac21bb6896b34d884fb6d7242ad5ce3526a1
 hash	release/SUPPORT_POLICY.md	630	8e61816f71ab4280b98e4aefea8efae0f94ad72ac9831bcf1b26ed14be5c357a
 hash	standard/core/metadata/OpenC_Core_Rule_Disposition.json	102798	1415b61c1b25ec95dc0327bbcd4dd22b9380176ce914bfea5044ad0ceb078dee
@@ -396,8 +409,8 @@ hash	standard/core/README.md	733	533e400f6d8db7435b106da70962657e1959eef8b0d54a8
 hash	standard/core/changes/CC2_CORRECTION_001.md	879	e6c13177989742547d6f2a614b3708cad607679e11c86c496db175ae798671b5
 hash	standard/core/changes/INTERNAL_REVIEW_CORRECTIONS_IR1.md	1052	668e356eed9d74a5960d94dc07f04674ff9c0bbfd096a04d05dac1e0d549e5bb
 hash	standard/core/examples/CANONICAL_EXAMPLES.md	1344	79702eb5b42099f75bf51b34d908fbe7509c35c1ae13399f12992d1d8a098ab7
-hash	SOURCE_COMPLETENESS_CONTRACT.json	20403	9d4907882a41d756238db39cefd38a06534b04df65e6f201248a91fdca97d790
-hash	AUTHORITY_INDEX.json	3553	b9e7bf36d9c4a04d1b0f0b0adf271a619791130fdf0d4480060bf68a2b624693
+hash	SOURCE_COMPLETENESS_CONTRACT.json	21107	4659d4bd7bc8b88a47941cb90223cbf0e3cb717dcd09b6c2c25ec98137cd87eb
+hash	AUTHORITY_INDEX.json	3553	033752207c19c6828d318588b3de89522330f30db32f1e1b2472ed912d3258bf
 hash	standard/core/metadata/OpenC_Core_Authority_Index.json	3527	502a864fcc498e19139e32f4cf5a51a9a6825872c12a87b2bce00610a454e94d
 hash	conformance/fixtures/MANIFEST.json	177950	b233e55369fb832eeed53d88a68528d47242503b73bc4f6821f5f9498ed61b4c
 hash	conformance/fixtures/NATIVE_PLAN.tsv	44020	d1d24d081ffb1cac23dbbb4608a3834611f81060a4f90969cf4554141dc5356f

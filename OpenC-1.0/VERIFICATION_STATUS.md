@@ -13,8 +13,8 @@ are outside the supported 1.0 scope.
 
 - Normal compiler path: previous OpenC stage to OpenC-owned x64/PE32+ output;
   documented `KERNEL32.dll` imports only.
-- External evidence harness: Python 3.13.7, retained for optional compatibility
-  evidence and the SH-21 release/archive replacement still in progress.
+- External evidence harness: Python 3.13.7, retained only for optional
+  compatibility evidence; SH-21 required release/archive ownership is native.
 - Optional historical audit tools: DMD 2.112.0, DUB 1.41.0, DMD-bundled
   `lld-link`, and TinyCC 0.9.27 Win64. None is packaged or invoked by the
   required SH-19 compiler/release path.
@@ -29,9 +29,9 @@ are outside the supported 1.0 scope.
 - All 35 runtime fixtures build and execute to their expected output/outcome.
 - All 4 maintained programs check, build, and run to their authored contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
-  compiler-in-OpenC and SH-21 expansion brings the current tree to 443
+  compiler-in-OpenC and SH-21 expansion brings the current tree to 452
   `.p` files,
-  including 121 compiler source units. The migrated fixture corpus retains
+  including 130 compiler source units. The migrated fixture corpus retains
   278/278 passes and zero infrastructure failures. SH-2 records the exact
   288-file corpus used for that milestone; SH-4A covers the complete current
   compiler project through byte-exact generated output.
@@ -306,18 +306,18 @@ self-referential package. Required Python workflow replacement is now active
 in SH-21. Editor integration is deferred to SH-24, and Linux/freestanding
 remain optional.
 
-SH-21 tranche 6 is **PASS** while the milestone remains active. The
-OpenC-authored daily workflow passes 7/7 tasks and the full workflow passes
-12/12, including 278/278 conformance, 5/5 maintained/runtime programs, four
-adversarial process guards, 1,324 repository records, 16/16 PE checks, the
-42/42 framed LSP audit, and a 20/20 exact native benchmark. The 121-source
-compiler closes byte-identically at
+SH-21 is **PASS and complete**. The OpenC-authored daily workflow passes 8/8
+tasks and the full workflow passes 13/13, including 278/278 conformance, 5/5
+maintained/runtime programs, four adversarial process guards, 380 required
+files plus 39 pinned hashes and full rule/grammar coverage, 16/16 PE checks,
+the 42/42 framed LSP audit, 29/29 residual contracts, and a 20/20 exact native
+benchmark. The 130-source compiler closes byte-identically at
 SHA-256
-`04b765e1bfe242ba92d6373bd84eeb0939bd35a4d3478deec44b5b6fe207c5fe`.
-Its native benchmark records a 13.250-second build median and 8.760-second
-validation median, with peaks of 224,702,464 private bytes and 52,051,968
-working-set bytes. The controller explicitly frees raw hash buffers and remains
-bounded through the entire chain. The
-retained public SH-11 and SH-12 Python compatibility verifiers still pass 19/19
-and 23/23, but are no longer required workflow owners. Deterministic
-release/archive ownership remains unfinished.
+`7eea1c053132536398c562a09e46c98478f6f4cde6ddf9a2f706943ee4fbc130`.
+Its native benchmark records a 23.094-second build median and 14.827-second
+validation median, with peaks of 181,161,984 private bytes and 53,575,680
+working-set bytes. `openc release` owns deterministic standalone/source ZIP
+pairs, manifest/CRC/path verification, relocated exact self-build, packaged
+daily workflow, contract audit, and conformance. Python, D, C, and TinyCC are
+optional historical/differential material only. SH-22 PE/COFF ecosystem
+completeness is the active next milestone.

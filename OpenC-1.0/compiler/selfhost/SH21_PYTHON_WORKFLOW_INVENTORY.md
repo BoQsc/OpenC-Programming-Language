@@ -1,75 +1,59 @@
 # SH-21 Python workflow inventory and disposition
 
-Status: **INVENTORY COMPLETE; NATIVE REPLACEMENT IN PROGRESS**.
+Status: **COMPLETE — NORMAL WORKFLOWS REPLACED**.
 
-This inventory names every Python-owned operation that can affect a normal
-Windows Hosted build, test, benchmark, package, or release decision. Historical
-bootstrap and differential tools are listed separately because SH-21 does not
-delete archaeology; it makes that material unavailable to normal workflows.
+SH-21 audited every Python-owned operation that could affect a normal Windows
+Hosted build, test, benchmark, package, or release decision. Required behavior
+is now owned by OpenC. Python copies remain optional compatibility evidence,
+not normal workflow dependencies.
 
-## Required workflow surface entering SH-21
+## Final disposition
 
-| Python owner | Current responsibility | SH-21 disposition | Native status |
-| --- | --- | --- | --- |
-| `scripts/windows_native_workflow.py` | Aggregate daily/full task selection and JSON evidence | Replace with `openc workflow` | First native daily/full slice implemented |
-| `scripts/generate_native_conformance_plan.py` | Prove fixture plan is synchronized | Move plan verification into native workflow audit | Implemented: 278/278 paired identities |
-| `scripts/validate_structure.py` | Canonical-tree and state invariants | Implement native manifest/state audit | Required-file and pinned-authority subset implemented; deep Python copy retained as optional audit |
-| `scripts/source_completeness.py` and `source_inventory.py` | Source inventory and authored-source completeness | Implement deterministic OpenC source manifest audit | Implemented for 367 required files |
-| `scripts/complete_conformance_coverage.py` | Grammar/rule/fixture coverage | Implement native coverage audit over pinned manifests | Implemented: 466 rules and 174 productions |
-| `tests/python/test_*.py` | Source and harness regression assertions | Move behavioral assertions to native workflow fixtures; retain Python copies only as optional audit | In progress |
-| `scripts/verify_sh9_cli.py` | Public CLI and diagnostic contract | Native workflow task set | Basic version/target/check covered; exact negative cases pending |
-| `scripts/verify_sh10_project_workflow.py` | Formatter, info, test and project commands | Native workflow task set | Maintained `openc test` path covered; remaining cases pending |
-| `scripts/verify_sh11_lsp.py` | JSON-RPC and basic LSP lifecycle | OpenC-native LSP client/verifier | Implemented in the 42/42 `openc lsp-audit` gate; Python retained as optional compatibility evidence |
-| `scripts/verify_sh12_semantic_lsp.py` | Project symbols/navigation/rename | OpenC-native LSP client/verifier | Implemented in the 42/42 `openc lsp-audit` gate; Python retained as optional compatibility evidence |
-| `scripts/verify_sh16_pe_runtime.py` | PE imports, sections, relocations, unwind, TLS and CRT absence | Reuse OpenC PE/COFF reader in native audit command | Implemented: public 16/16 `openc pe-audit` gate |
-| `scripts/verify_sh17_winmd_projection.py` | Pinned metadata and generated raw projection | Add native projection comparison/report command | Reader/generator native; verifier pending |
-| `scripts/verify_sh18_windows_modules.py` | Friendly-module build/runtime contract | Native compile/run manifest; move C/TinyCC comparison to optional audit | Pending |
-| `tests/run_maintained.py` | Four maintained program builds and exit assertions | `openc workflow` through `openc test` | Implemented for all four programs plus native `out ptr` regression |
-| `demos/run_all.py` | Demo compilation and execution | Native test manifest | Pending |
-| `benchmark_windows_validate.py` and `benchmark_windows_rebuild.py` | Timings and process ceilings | Native benchmark/process-supervision command | Implemented by `openc benchmark`: raw timings, exact closure, hard child ceilings, bounded output and timeout |
-| `benchmark_sh20_stability.py` | Samples, 20-build closure and performance gates | Native benchmark driver | Implemented: 20/20 exact closure, five-run build/validation medians, memory and build-record gates |
-| `release/build_standalone_windows.py` | Deterministic standalone tree and ZIP | `openc release build` with bounded streaming I/O | Pending directory/ZIP substrate |
-| `release/verify_standalone_windows.py` | Relocation, manifest, closure, imports and behavior | `openc release verify` | Pending; several checks already reusable from workflow |
-| `release/build_source_archive.py` and `verify_source_archive.py` | Source snapshot and manifest integrity | Native release archive mode | Pending directory/ZIP substrate |
-| `release/windows_native_release.py` | Aggregate two-build release transaction | `openc release` | Pending |
+| Former Python owner | OpenC-native owner | Final status |
+| --- | --- | --- |
+| `windows_native_workflow.py` | `openc workflow` | Replaced; daily 8/8, full 13/13 |
+| conformance-plan and coverage scripts | `openc audit` | Replaced; 278 fixtures, 466 rules, 174 productions |
+| structure/source-completeness scripts | `openc audit` | Replaced for required release decisions; 380 required files and 39 pinned hashes |
+| SH-9 CLI verifier | `openc contract-audit` | Replaced with exact lexical/flow/semantic diagnostics |
+| SH-10 project verifier | `openc contract-audit` and `openc test` | Replaced |
+| SH-11/SH-12 LSP verifiers | `openc lsp-audit` | Replaced; 42/42 framed checks |
+| SH-16 PE verifier | `openc pe-audit` | Replaced; 16/16 |
+| SH-17 WinMD verifier | native reader plus checked-in projection/manifest audit | Required release identity checks replaced; explicit metadata regeneration remains optional |
+| SH-18 Windows-module verifier | native semantic and source-contract checks | Required static/friendly contract replaced; legacy generated-C/TinyCC runtime differential is optional, while native DLL interoperability belongs to SH-22 |
+| maintained-program and demo runners | `openc test` and `openc contract-audit` | Replaced; 5/5 programs and all six demos |
+| rebuild/stability scripts | `openc benchmark` | Replaced; 20/20 exact closure with time/RAM gates |
+| standalone/source archive builders and verifiers | `openc release` | Replaced with deterministic bounded ZIP build, verification, extraction, and relocation checks |
+| aggregate native release script | `openc release` | Replaced |
 
-The current `openc workflow` slice is intentionally honest about the remaining
-gap. It is OpenC-authored and performs public CLI identity checks, a semantic
-project check, all four established maintained-program checks, one native
-runtime output-pointer regression, native 278-fixture conformance, adversarial
-process-guard verification, two compiler rebuilds, SHA-256 hashing, exact
-fixed-point closure, deterministic JSON reporting, the 1,324-record native
-repository audit, the 16-check native PE/import/unwind/CRT audit, and the 42-check
-native framed LSP audit. It also owns the 20-build native benchmark, raw timing
-and process-memory samples, build-record/toolchain checks, and the SH-20
-throughput thresholds. Native child execution
-now owns Job-based 256 MiB process/tree commit limits, kill-on-close descendant
-containment, a polled 64 MiB working-set limit, a 4 MiB capture limit, and a
-default five-minute timeout. Hash inputs use explicitly freed raw buffers so
-the benchmark controller remains bounded. Deterministic release ZIP ownership
-is the remaining required workflow replacement.
+The native process supervisor creates suspended children, assigns them to a
+kill-on-close Windows Job, caps process/job private memory at 256 MiB, polls a
+64 MiB working-set ceiling, caps captured output at 4 MiB, and keeps the
+five-minute per-child timeout. The 20-build aggregate allowance is 15 minutes;
+this does not change any individual build or performance gate.
+
+The release ZIP writer emits each entry directly, never constructs a second
+whole archive while packaging, caps an input entry at 16 MiB, verifies an
+archive only below 64 MiB, rejects unsafe paths, and validates local/central
+records and CRC-32. Two independently written archives must be byte-identical.
 
 ## Optional historical/bootstrap boundary
 
-The following are not candidates for normal-workflow translation. They move to
-the explicitly requested audit/bootstrap boundary and must never be searched or
-invoked by `openc workflow` or `openc release`:
+The following remain available only by explicit invocation:
 
-- `compiler/bootstrap/python/**`;
-- `compiler/selfhost/bootstrap*.py`;
+- `compiler/bootstrap/python/**` and `compiler/selfhost/bootstrap*.py`;
 - lexer/parser/project/semantic parity scripts;
-- retained D implementation and DMD/DUB launch paths;
-- generated-C, C-runtime and TinyCC differential paths;
-- C/D comparison mode in the throughput reference benchmark.
+- retained D sources and DMD/DUB launch paths;
+- generated-C, C-runtime, and TinyCC differential paths;
+- same-host C/D comparison benchmarks;
+- the legacy SH-18 executable differential oracle.
 
-They may remain useful for first-binary recovery, historical investigation, or
-an explicitly requested differential audit. Their presence in the repository
-does not make them a normal build, test, package, release, or runtime
-dependency.
+Their authoritative boundary is
+`historical/HISTORICAL_BOOTSTRAP_AUDIT_KIT.json`. They are absent from the
+standalone release and are not invoked by `openc workflow` or
+`openc release`.
 
-## Next implementation slice
+## Next owner
 
-1. Add directory enumeration/creation and deterministic ZIP emission for
-   `openc release`.
-2. Add native release/source archive verification and isolate the explicitly
-   requested historical bootstrap/audit kit from the normal package.
+SH-22 takes over the active path for PE/COFF objects, DLLs, libraries,
+resources/manifests, subsystem selection, secure dynamic linking, and optional
+C-ABI interoperability. Linux and freestanding remain optional future work.

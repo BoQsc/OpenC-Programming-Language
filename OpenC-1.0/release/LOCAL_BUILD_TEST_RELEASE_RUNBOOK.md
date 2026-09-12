@@ -2,33 +2,30 @@
 
 No remote repository is required.
 
-This is the SH-20 transitional external-orchestrator runbook. The compiler and
-standalone package are already independent of Python, D, C, and TinyCC, but the
-commands below still use Python to coordinate evidence and archive creation.
-Active SH-21 replaces each required command with an OpenC-native equivalent;
-see `compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md`.
+This is the SH-21 OpenC-native runbook. A previous OpenC compiler owns required
+build, test, validation, benchmark, audit, archive creation, and relocated
+release verification. Python, D, C, and TinyCC are optional historical or
+differential-audit tools only; see
+`compiler/selfhost/SH21_COMPLETION_EVIDENCE.md`.
 
 Before generating `MANIFEST.sha256`, run
 `python scripts/update_authority_index.py` so every authoritative byte count and
 hash corresponds to the candidate tree.
 
-Install or confirm the verified OpenC-native toolchain:
+Place a pinned previous `openc.exe` on the path or invoke it by absolute path:
 
 ```text
-python scripts/native_toolchain.py install --distribution PATH/TO/DISTRIBUTION
-python scripts/native_toolchain.py status
+PATH/TO/openc.exe version
+PATH/TO/openc.exe target
 ```
 
-Use `python scripts/windows_native_workflow.py daily` for ordinary work and
-`python scripts/windows_native_workflow.py full` for the forced validation and
-self-rebuild budget gate. These workflows include the complete 12-case SH-9
-public native CLI contract, the 21-case SH-10 formatter/info/test contract,
-the 19-case SH-11 language-service contract, the 23-case SH-12 project-semantic
-language-service contract, and all six demos through `openc run`. The
-required release path is:
+Use `openc workflow --mode=daily --root=. --output=REPORT.json` for ordinary
+work and `openc workflow --mode=full --root=. --output=REPORT.json` for forced
+conformance, exact 20-build closure, and performance/RAM gates. The required
+release path is:
 
 ```text
-python release/windows_native_release.py --force
+openc release --root=. --output=build-output/release-native
 ```
 
 The D comparison oracle is not part of these commands. It is available only
@@ -44,9 +41,9 @@ through `python scripts/windows_native_workflow.py audit-seed`.
 8. Resolve all known P0/P1 findings and rerun affected evidence.
 9. Generate standard, rationale, diagnostic, and API books.
 10. Create deterministic source and binary archives.
-11. Run `release/windows_native_release.py`; it builds two archives, compares
-    their bytes, extracts one into a foreign working directory, and executes
-    the complete native relocated-package verifier.
+11. Run `openc release`; it builds two archive pairs, compares their bytes,
+    extracts the standalone into a neutral directory, and executes the native
+    relocated-package verifier.
 12. Generate mandatory SHA-256 checksums and any optional detached signatures.
     Use `release/build_release_artifacts.py` twice with the same explicit
     release commit and authorization timestamp, then require

@@ -1,5 +1,24 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-21 OpenC-native workflows complete
+
+- completed the 13/13 OpenC-native full workflow and 8/8 daily workflow;
+- added deterministic bounded STORE-ZIP construction and verification for
+  byte-identical standalone and source archive pairs;
+- added relocated package extraction, internal SHA-256 manifest verification,
+  exact two-generation self-build, daily workflow, 29/29 contract audit, and
+  278/278 conformance to `openc release`;
+- fixed the residual audit's short-lived demo-path buffer lifetime and passed
+  20/20 repeated 29-check audit stress runs;
+- isolated retained D/Python/C/TinyCC material behind the explicit historical
+  bootstrap/audit-kit policy;
+- preserved the unchanged gates: 20/20 exact builds, 23.094-second build
+  median, 14.827-second validation median, 181,161,984 private bytes, and
+  53,575,680 working-set bytes;
+- partitioned oversized backend/IR source records to remove a validation
+  throughput regression without changing compiler behavior;
+- completed SH-21 and activated SH-22 PE/COFF ecosystem completeness.
+
 ## Post-RC9 — SH-21 OpenC-native workflows tranche 6
 
 - added the public OpenC-authored `openc benchmark` command with raw build,
