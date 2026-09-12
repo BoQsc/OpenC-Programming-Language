@@ -9,10 +9,10 @@ Core specification:                 1.0 RELEASE-CANDIDATE AUTHORITY
 Hosted specification:               1.0 RELEASE-CANDIDATE AUTHORITY
 Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
-canonical OpenC compiler source:     117 `.p` UNITS; SELF-HOSTED
+canonical OpenC compiler source:     118 `.p` UNITS; SELF-HOSTED
 legacy D reference source:           OPTIONAL AUDIT; NOT AUTHORITY
 legacy Python bootstrap source:      OPTIONAL AUDIT; NOT AUTHORITY
-official OpenC source extension:      .p; 281 MIGRATED, 439 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 440 TOTAL `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
@@ -40,9 +40,10 @@ native semantic language service:     SH-12 PASS; SYMBOLS/NAV/COMPLETE/RENAME, 2
 human + machine diagnostics:          PASS; `openc.check.v1` + STABLE STREAMS
 completed engineering milestone:     SH-20 PUBLIC THROUGHPUT CONVERGENCE
 next engineering milestone:          SH-21 OPENC-NATIVE REQUIRED WORKFLOWS
-SH-21 workflow tranche 2:             PASS; NATIVE DAILY 4/4, FULL 8/8
+SH-21 workflow tranche 3:             PASS; NATIVE DAILY 5/5, FULL 9/9
 SH-21 process supervision:            PASS; OUTPUT/RAM/WORKING-SET/TIME 4/4
-SH-21 current fixed point:            112444e2; 5/5 PROGRAMS, 278/278
+SH-21 repository audit:               PASS; 1,321/1,321 NATIVE RECORDS
+SH-21 current fixed point:            69eea750; 5/5 PROGRAMS, 278/278
 SH-14 stability/scaling gate:         20/20 CLOSURE; WORST DOUBLING 2.112x
 SH-15 ABI/encoder verification:       PASS; 25/25 EXECUTABLE + STATIC CHECKS
 SH-16 PE/runtime verification:        PASS; 34/34, KERNEL32-ONLY, NO MICROSOFT CRT

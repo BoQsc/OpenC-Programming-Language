@@ -8,11 +8,15 @@ public identity/project checks, four established programs plus the native
 `out ptr` regression, native conformance, two compiler rebuilds, SHA-256
 fixed-point comparison, and JSON evidence. Tranche 2 adds OpenC-native bounded
 child supervision and a public adversarial `openc process-guard` verifier. The
-renamed fixed-point compiler passes both tranches; see
+third tranche adds the public OpenC-native `openc audit` command and makes
+canonical-tree/source/authority/conformance/rule/grammar verification part of
+both daily and full workflows. The fixed-point compiler passes all three
+tranches; see
 `SH21_NATIVE_WORKFLOW_TRANCHE1_EVIDENCE.md` and
-`SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md`. Structure/coverage/PE/LSP
-audits, native benchmark gates, and deterministic release ZIP ownership remain
-active work and are not claimed complete.
+`SH21_NATIVE_PROCESS_GUARD_TRANCHE2_EVIDENCE.md` and
+`SH21_NATIVE_REPOSITORY_AUDIT_TRANCHE3_EVIDENCE.md`. PE/LSP audits, native
+benchmark gates, and deterministic release ZIP ownership remain active work
+and are not claimed complete.
 
 SH-20 makes the public compiler competitive with the measured C and D
 references while keeping correctness and RAM bounds intact. SH-21 now removes
@@ -48,9 +52,12 @@ OpenC language semantics or the already independent `openc build` path.
    audits; classify each as required, optional audit, or obsolete history.
 2. Move reusable manifest, hashing, ZIP, PE/COFF inspection, subprocess guard,
    and deterministic-report logic into OpenC-authored modules and compiler
-   subcommands.
+   subcommands. Hashing, repository audit, and subprocess guards are complete;
+   PE/COFF and ZIP ownership remain.
 3. Add an OpenC-native `openc workflow` command for structure, conformance,
    maintained programs, CLI/project/LSP regressions, and performance gates.
+   Structure/source/coverage, conformance, and maintained programs are now
+   owned; LSP and performance gates remain.
 4. Add an OpenC-native `openc release` command that assembles and verifies two
    deterministic standalone archives using bounded streaming I/O.
 5. Add an OpenC-native benchmark driver with raw samples, tool/input hashes,

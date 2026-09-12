@@ -229,10 +229,27 @@ unsafe i32 observe_semantic_resolution(text project_path) {
         module_index = module_index + 1;
     }
 
-    usize capacity = total_source_length * 3 + project_length + 128;
-    PackedBuffer types = PackedBuffer{ length = 0, capacity = capacity };
-    PackedBuffer symbols = PackedBuffer{ length = 0, capacity = capacity };
-    PackedBuffer errors = PackedBuffer{ length = 0, capacity = capacity };
+    // Size semantic tables independently.  The former shared
+    // `total_source_length * 3` capacity reserved four equally enormous
+    // record arrays and consumed roughly 480 bytes of address space for each
+    // source byte.  These bounds are the production build/flow bounds and
+    // retain ample headroom without making the observation mode a memory
+    // scalability hazard.
+    usize type_capacity =
+        total_source_length / 8 + project_length + 65536;
+    usize symbol_capacity =
+        total_source_length / 4 + project_length + 65536;
+    usize error_capacity =
+        total_source_length / 4 + project_length + 65536;
+    PackedBuffer types = PackedBuffer{
+        length = 0, capacity = type_capacity
+    };
+    PackedBuffer symbols = PackedBuffer{
+        length = 0, capacity = symbol_capacity
+    };
+    PackedBuffer errors = PackedBuffer{
+        length = 0, capacity = error_capacity
+    };
     ptr byte type_data = memory.alloc(types.capacity * record_stride());
     scope memory.free(type_data);
     ptr byte symbol_data = memory.alloc(symbols.capacity * record_stride());

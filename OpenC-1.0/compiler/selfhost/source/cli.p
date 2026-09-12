@@ -102,6 +102,7 @@ void cli_print_help() {
     io.println("  openc fmt (--check|--write) (--project=PROJECT|SOURCE.p) [--output=FORMAT-RECORD.json]");
     io.println("  openc info --project=PROJECT [--context|--sources|--modules|--limits|--dependencies|--target|--types] [--json] [--output=CONTEXT.json]");
     io.println("  openc test (--manifest=TESTS.json|--project=PROJECT) [--list] [--filter=TEXT] [--jobs=N] [--target=TARGET] [--report=RESULT.json] [--no-run]");
+    io.println("  openc audit --root=ROOT --output=REPORT.json");
     io.println("  openc workflow --root=ROOT --output=REPORT.json [--mode=daily|full]");
     io.println("  openc process-guard --output=REPORT.json");
     io.println("  openc lsp --stdio");
@@ -404,15 +405,15 @@ unsafe i32 cli_check_project(
         return 1;
     }
     if project_result.exit_code == 0 {
-        flow_result = native_run_mode(
-            compiler, "--semantic-flow-safety", project_path
+        NativeRunResult validation_result = native_run_mode(
+            compiler, "--native-check", project_path
         );
-    }
-    if project_result.exit_code == 0 &&
-        flow_result.launched && flow_result.exit_code == 0 {
-        semantic_result = native_run_mode(
-            compiler, "--semantic-ir", project_path
-        );
+        if validation_result.exit_code != 0 &&
+            !native_contains(validation_result.output, "SEMANTIC_ERROR ") {
+            flow_result = validation_result;
+        } else {
+            semantic_result = validation_result;
+        }
     }
     bool passed = project_result.launched &&
         flow_result.launched && semantic_result.launched &&

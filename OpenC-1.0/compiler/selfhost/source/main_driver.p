@@ -278,6 +278,13 @@ unsafe i32 main() {
             process.argument(1), process.argument(2), false, true, audit_timings
         );
     }
+    if arguments == 2 && process.argument(0) == "--native-check" {
+        BuildTimings check_timings = build_timings_empty();
+        check_timings.emission_mode = 3;
+        return emit_bootstrap_d_mode(
+            process.argument(1), "", true, true, check_timings
+        );
+    }
     if arguments == 4 &&
         process.argument(0) == "--windows-winmd-project" {
         return emit_windows_winmd_projection(
@@ -352,6 +359,9 @@ unsafe i32 main() {
     }
     if arguments >= 2 && process.argument(0) == "test" {
         return cli_test_command();
+    }
+    if arguments >= 2 && process.argument(0) == "audit" {
+        return cli_repository_audit_command();
     }
     if arguments >= 2 && process.argument(0) == "workflow" {
         return cli_workflow_command();

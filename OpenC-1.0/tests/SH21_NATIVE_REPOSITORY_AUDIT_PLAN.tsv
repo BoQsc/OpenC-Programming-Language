@@ -1,0 +1,1322 @@
+openc.native_repository_audit_plan.v1	1	364	39	278	466	174
+file	CONTRIBUTING.md
+file	GOVERNANCE.md
+file	LICENSE
+file	LICENSES/CC0-1.0.txt
+file	LICENSE_POLICY.md
+file	SECURITY.md
+file	TRADEMARKS.md
+file	bin/openc-bootstrap
+file	bin/openc-bootstrap.cmd
+file	bin/openc-bootstrap.ps1
+file	build/build_all.cmd
+file	build/build_all.ps1
+file	build/build_all.py
+file	build/build_all.sh
+file	build/build_freestanding.sh
+file	build/build_linux.sh
+file	build/build_windows.ps1
+file	build/clean.sh
+file	build/clean_windows.ps1
+file	compiler/bootstrap/python/openc/__init__.py
+file	compiler/bootstrap/python/openc/__main__.py
+file	compiler/bootstrap/python/openc/backend_c.py
+file	compiler/bootstrap/python/openc/cli.py
+file	compiler/bootstrap/python/openc/commands.py
+file	compiler/bootstrap/python/openc/compiler.py
+file	compiler/bootstrap/python/openc/conformance.py
+file	compiler/bootstrap/python/openc/consteval.py
+file	compiler/bootstrap/python/openc/diagnostics.py
+file	compiler/bootstrap/python/openc/explain.py
+file	compiler/bootstrap/python/openc/flow.py
+file	compiler/bootstrap/python/openc/formatter.py
+file	compiler/bootstrap/python/openc/ir.py
+file	compiler/bootstrap/python/openc/lexer.py
+file	compiler/bootstrap/python/openc/lower.py
+file	compiler/bootstrap/python/openc/lsp.py
+file	compiler/bootstrap/python/openc/model.py
+file	compiler/bootstrap/python/openc/ownership.py
+file	compiler/bootstrap/python/openc/parser.py
+file	compiler/bootstrap/python/openc/project.py
+file	compiler/bootstrap/python/openc/semantic.py
+file	compiler/bootstrap/python/openc/source.py
+file	compiler/bootstrap/python/openc/symbols.py
+file	compiler/bootstrap/python/openc/typesys.py
+file	compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md
+file	compiler/selfhost/PERFORMANCE.md
+file	compiler/selfhost/README.md
+file	compiler/selfhost/SELF_HOSTING.md
+file	compiler/selfhost/SELF_HOSTING_STATE.json
+file	compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md
+file	compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json
+file	compiler/selfhost/benchmark_windows_rebuild.py
+file	compiler/selfhost/benchmark_windows_validate.py
+file	compiler/selfhost/bootstrap.py
+file	compiler/selfhost/bootstrap_closure.py
+file	compiler/selfhost/bootstrap_d_parity.py
+file	compiler/selfhost/bootstrap_windows_closure.py
+file	compiler/selfhost/lexer_parity.py
+file	compiler/selfhost/native_runtime/openc_sh5_runtime.c
+file	compiler/selfhost/native_runtime/openc_sh5_runtime.h
+file	compiler/selfhost/openc.project.json
+file	compiler/selfhost/parser_parity.py
+file	compiler/selfhost/performance_budget.py
+file	compiler/selfhost/project_parity.py
+file	compiler/selfhost/semantic_declaration_parity.py
+file	compiler/selfhost/semantic_flow_safety_parity.py
+file	compiler/selfhost/semantic_ir_parity.py
+file	compiler/selfhost/semantic_resolution_parity.py
+file	compiler/selfhost/source/acceptance.p
+file	compiler/selfhost/source/acceptance_conditions.p
+file	compiler/selfhost/source/acceptance_conditions_part2.p
+file	compiler/selfhost/source/acceptance_conditions_part3.p
+file	compiler/selfhost/source/acceptance_driver.p
+file	compiler/selfhost/source/acceptance_functions.p
+file	compiler/selfhost/source/acceptance_part2.p
+file	compiler/selfhost/source/acceptance_part3.p
+file	compiler/selfhost/source/acceptance_pointer.p
+file	compiler/selfhost/source/acceptance_project.p
+file	compiler/selfhost/source/acceptance_project_part2.p
+file	compiler/selfhost/source/acceptance_ranges.p
+file	compiler/selfhost/source/acceptance_ranges_part2.p
+file	compiler/selfhost/source/acceptance_ranges_part3.p
+file	compiler/selfhost/source/backend.p
+file	compiler/selfhost/source/backend_buffer.p
+file	compiler/selfhost/source/backend_buffer_part2.p
+file	compiler/selfhost/source/backend_buffer_part3.p
+file	compiler/selfhost/source/backend_c_buffer.p
+file	compiler/selfhost/source/backend_c_build.p
+file	compiler/selfhost/source/backend_c_declaration.p
+file	compiler/selfhost/source/backend_c_instruction.p
+file	compiler/selfhost/source/backend_c_parallel.p
+file	compiler/selfhost/source/backend_c_parallel_state.p
+file	compiler/selfhost/source/backend_c_parallel_timings.p
+file	compiler/selfhost/source/backend_c_project.p
+file	compiler/selfhost/source/backend_declaration.p
+file	compiler/selfhost/source/backend_declaration_part2.p
+file	compiler/selfhost/source/backend_instruction.p
+file	compiler/selfhost/source/backend_native_audit.p
+file	compiler/selfhost/source/backend_native_image.p
+file	compiler/selfhost/source/backend_native_runtime.p
+file	compiler/selfhost/source/backend_native_scalar.p
+file	compiler/selfhost/source/backend_part2.p
+file	compiler/selfhost/source/backend_pe32_runtime.p
+file	compiler/selfhost/source/backend_pe32_types.p
+file	compiler/selfhost/source/backend_pe32_writer.p
+file	compiler/selfhost/source/backend_x64_abi.p
+file	compiler/selfhost/source/backend_x64_encoder.p
+file	compiler/selfhost/source/backend_x64_probe.p
+file	compiler/selfhost/source/backend_x64_types.p
+file	compiler/selfhost/source/backend_x64_unwind.p
+file	compiler/selfhost/source/cli.p
+file	compiler/selfhost/source/cli_audit.p
+file	compiler/selfhost/source/cli_format.p
+file	compiler/selfhost/source/cli_lsp.p
+file	compiler/selfhost/source/cli_lsp_semantic.p
+file	compiler/selfhost/source/cli_project_workflow.p
+file	compiler/selfhost/source/cli_workflow.p
+file	compiler/selfhost/source/flow.p
+file	compiler/selfhost/source/flow_expressions.p
+file	compiler/selfhost/source/flow_expressions_part2.p
+file	compiler/selfhost/source/flow_observation.p
+file	compiler/selfhost/source/flow_ownership.p
+file	compiler/selfhost/source/flow_ownership_part2.p
+file	compiler/selfhost/source/flow_part2.p
+file	compiler/selfhost/source/flow_part3.p
+file	compiler/selfhost/source/flow_precheck.p
+file	compiler/selfhost/source/flow_precheck_part2.p
+file	compiler/selfhost/source/flow_precheck_part3.p
+file	compiler/selfhost/source/flow_validation.p
+file	compiler/selfhost/source/ir.p
+file	compiler/selfhost/source/ir_bounds.p
+file	compiler/selfhost/source/ir_bounds_part2.p
+file	compiler/selfhost/source/ir_bounds_part3.p
+file	compiler/selfhost/source/ir_bounds_part4.p
+file	compiler/selfhost/source/ir_control.p
+file	compiler/selfhost/source/ir_json.p
+file	compiler/selfhost/source/ir_lower.p
+file	compiler/selfhost/source/ir_lower_binary.p
+file	compiler/selfhost/source/ir_lower_call.p
+file	compiler/selfhost/source/ir_lower_construct.p
+file	compiler/selfhost/source/ir_lower_conversion.p
+file	compiler/selfhost/source/ir_lower_mode.p
+file	compiler/selfhost/source/ir_lower_primary.p
+file	compiler/selfhost/source/ir_part2.p
+file	compiler/selfhost/source/ir_part3.p
+file	compiler/selfhost/source/ir_project.p
+file	compiler/selfhost/source/lexer_number.p
+file	compiler/selfhost/source/lexer_text.p
+file	compiler/selfhost/source/main.p
+file	compiler/selfhost/source/main_driver.p
+file	compiler/selfhost/source/main_part2.p
+file	compiler/selfhost/source/native_conformance.p
+file	compiler/selfhost/source/parser.p
+file	compiler/selfhost/source/parser_declarations.p
+file	compiler/selfhost/source/parser_declarations_part2.p
+file	compiler/selfhost/source/parser_expressions.p
+file	compiler/selfhost/source/parser_expressions_part2.p
+file	compiler/selfhost/source/parser_part2.p
+file	compiler/selfhost/source/parser_statements.p
+file	compiler/selfhost/source/parser_statements_part2.p
+file	compiler/selfhost/source/project.p
+file	compiler/selfhost/source/project_driver.p
+file	compiler/selfhost/source/project_graph.p
+file	compiler/selfhost/source/project_manifest.p
+file	compiler/selfhost/source/project_part2.p
+file	compiler/selfhost/source/resolution.p
+file	compiler/selfhost/source/resolution_calls.p
+file	compiler/selfhost/source/resolution_constants.p
+file	compiler/selfhost/source/resolution_constants_part2.p
+file	compiler/selfhost/source/resolution_driver.p
+file	compiler/selfhost/source/resolution_names.p
+file	compiler/selfhost/source/resolution_names_part2.p
+file	compiler/selfhost/source/resolution_names_part3.p
+file	compiler/selfhost/source/resolution_observation.p
+file	compiler/selfhost/source/resolution_part2.p
+file	compiler/selfhost/source/semantic.p
+file	compiler/selfhost/source/semantic_declarations.p
+file	compiler/selfhost/source/semantic_driver.p
+file	compiler/selfhost/source/semantic_part2.p
+file	compiler/selfhost/source/semantic_types.p
+file	compiler/selfhost/source/semantic_types_part2.p
+file	compiler/selfhost/source/winmd_metadata.p
+file	compiler/selfhost/source/winmd_projection.p
+file	compiler/selfhost/source/winmd_reader.p
+file	compiler/selfhost/source/winmd_sha256.p
+file	compiler/selfhost/source/winmd_types.p
+file	compiler/selfhost/tests/unbalanced.p
+file	compiler/selfhost/tests/unterminated_string.p
+file	compiler/selfhost/windows_process_measure.py
+file	compiler/source/app/main.d
+file	compiler/source/openc/ast.d
+file	compiler/source/openc/ast_util.d
+file	compiler/source/openc/backend.d
+file	compiler/source/openc/backend_d.d
+file	compiler/source/openc/backend_ir.d
+file	compiler/source/openc/borrow.d
+file	compiler/source/openc/cfg.d
+file	compiler/source/openc/cleanup.d
+file	compiler/source/openc/command.d
+file	compiler/source/openc/common.d
+file	compiler/source/openc/compiler.d
+file	compiler/source/openc/conformance.d
+file	compiler/source/openc/constant.d
+file	compiler/source/openc/core_rules.d
+file	compiler/source/openc/declarations.d
+file	compiler/source/openc/diagnostic.d
+file	compiler/source/openc/flow.d
+file	compiler/source/openc/ir.d
+file	compiler/source/openc/lex_observation.d
+file	compiler/source/openc/lexer.d
+file	compiler/source/openc/lowerer.d
+file	compiler/source/openc/module_system.d
+file	compiler/source/openc/names.d
+file	compiler/source/openc/native.d
+file	compiler/source/openc/overload.d
+file	compiler/source/openc/ownership.d
+file	compiler/source/openc/parse_observation.d
+file	compiler/source/openc/parser.d
+file	compiler/source/openc/pointer.d
+file	compiler/source/openc/project.d
+file	compiler/source/openc/project_observation.d
+file	compiler/source/openc/semantic_declaration_observation.d
+file	compiler/source/openc/semantic_flow_safety_observation.d
+file	compiler/source/openc/semantic_ir_observation.d
+file	compiler/source/openc/semantic_model.d
+file	compiler/source/openc/semantic_pipeline.d
+file	compiler/source/openc/semantic_resolution_observation.d
+file	compiler/source/openc/source.d
+file	compiler/source/openc/status_out.d
+file	compiler/source/openc/symbol.d
+file	compiler/source/openc/token.d
+file	compiler/source/openc/toolchain.d
+file	compiler/source/openc/type_check.d
+file	compiler/source/openc/types.d
+file	compiler/source/openc/unsafe_checker.d
+file	conformance/COVERAGE_MILESTONE_EVIDENCE.md
+file	conformance/fixtures/MANIFEST.json
+file	demos/README.md
+file	demos/calculator/EXPECTED.md
+file	demos/calculator/main.p
+file	demos/calculator/openc.project.json
+file	demos/hello/EXPECTED.md
+file	demos/hello/main.p
+file	demos/hello/openc.project.json
+file	demos/ownership/EXPECTED.md
+file	demos/ownership/main.p
+file	demos/ownership/openc.project.json
+file	demos/run_all.py
+file	demos/strings/EXPECTED.md
+file	demos/strings/main.p
+file	demos/strings/openc.project.json
+file	demos/types/EXPECTED.md
+file	demos/types/main.p
+file	demos/types/openc.project.json
+file	demos/unsafe/EXPECTED.md
+file	demos/unsafe/main.p
+file	demos/unsafe/openc.project.json
+file	release/ERRATA_POLICY.md
+file	release/LICENSING_GOVERNANCE.md
+file	release/PUBLICATION_STATUS.md
+file	release/RELEASE_AUTHORITY.md
+file	release/RELEASE_SCOPE_1.0.md
+file	release/SH10_NATIVE_PROJECT_WORKFLOW_EVIDENCE.md
+file	release/SH11_NATIVE_LANGUAGE_SERVICE_EVIDENCE.md
+file	release/SH12_NATIVE_SEMANTIC_LANGUAGE_EVIDENCE.md
+file	release/SH8_NATIVE_WORKFLOW_EVIDENCE.md
+file	release/SH9_NATIVE_CLI_EVIDENCE.md
+file	release/SUPPORT_POLICY.md
+file	release/build_release_artifacts.py
+file	release/build_source_archive.py
+file	release/build_standalone_windows.py
+file	release/verify_release_artifacts.py
+file	release/verify_source_archive.py
+file	release/verify_standalone_windows.py
+file	release/windows_native_release.py
+file	review/MAINTAINER_RELEASE_REVIEW.md
+file	runtime/common/source/openc_runtime.c
+file	runtime/common/source/openc_runtime.h
+file	runtime/freestanding/source/openc_platform_freestanding.c
+file	runtime/freestanding/startup.d
+file	runtime/linux/source/openc_platform_linux.c
+file	runtime/linux/startup.d
+file	runtime/source/openc/runtime/checked.d
+file	runtime/source/openc/runtime/console.d
+file	runtime/source/openc/runtime/file.d
+file	runtime/source/openc/runtime/freestanding.d
+file	runtime/source/openc/runtime/memory.d
+file	runtime/source/openc/runtime/platform.d
+file	runtime/source/openc/runtime/process.d
+file	runtime/source/openc/runtime/types.d
+file	runtime/windows/source/openc_platform_windows.c
+file	runtime/windows/startup.d
+file	schemas/DIAGNOSTIC.schema.json
+file	schemas/FIXTURE.schema.json
+file	schemas/FORMAT_RESULT.schema.json
+file	schemas/LSP_TRANSCRIPT.schema.json
+file	schemas/PROJECT.schema.json
+file	schemas/SEMANTIC_LSP_TRANSCRIPT.schema.json
+file	schemas/TEST_MANIFEST.schema.json
+file	schemas/TEST_RESULT.schema.json
+file	schemas/TOOL_CONTEXT.schema.json
+file	scripts/complete_conformance_coverage.py
+file	scripts/generate_manifest.py
+file	scripts/generate_native_conformance_plan.py
+file	scripts/native_toolchain.py
+file	scripts/source_completeness.py
+file	scripts/source_inventory.py
+file	scripts/update_authority_index.py
+file	scripts/validate_structure.py
+file	scripts/verify_sh10_project_workflow.py
+file	scripts/verify_sh11_lsp.py
+file	scripts/verify_sh12_semantic_lsp.py
+file	scripts/verify_sh13_throughput_independence.py
+file	scripts/verify_sh9_cli.py
+file	scripts/windows_native_workflow.py
+file	standard/core/OpenC_Core_Current.md
+file	standard/core/grammar/OpenC_Core_Grammar.ebnf
+file	standard/freestanding/OpenC_Freestanding_Current.md
+file	standard/hosted/OpenC_Hosted_Current.md
+file	standard/native/OpenC_Native_Current.md
+file	standard/tooling/OpenC_Tooling_Current.md
+file	standard_library/source/openc/std/system_file.d
+file	standard_library/source/openc/std/system_io.d
+file	standard_library/source/openc/std/system_memory.d
+file	standard_library/source/openc/std/system_path.d
+file	standard_library/source/openc/std/system_process.d
+file	standard_library/source/openc/std/system_text.d
+file	standard_library/system.file/source/file.p
+file	standard_library/system.io/source/io.p
+file	standard_library/system.memory/source/memory.p
+file	standard_library/system.path/source/path.p
+file	standard_library/system.process/source/process.p
+file	standard_library/system.text/source/text.p
+file	tests/SH21_NATIVE_REPOSITORY_AUDIT_PLAN.tsv
+file	tests/python/test_bootstrap_source.py
+file	tests/python/test_native_workflow.py
+file	tests/python/test_sh10_project_workflow.py
+file	tests/python/test_sh11_lsp.py
+file	tests/python/test_sh9_cli.py
+file	tests/run_all.py
+file	tests/run_maintained.py
+file	tests/source/compiler_frontend_tests.d
+file	tests/source/main.d
+file	tests/source/project_tests.d
+file	tests/source/runtime_tests.d
+file	tests/source/tool_tests.d
+file	tests/tooling/sh10/openc.tests.json
+file	tests/tooling/sh11/session.json
+file	tests/tooling/sh12/session.json
+file	tools/source/apps/explain_main.d
+file	tools/source/apps/fmt_main.d
+file	tools/source/apps/info_main.d
+file	tools/source/apps/lsp_main.d
+file	tools/source/apps/run_main.d
+file	tools/source/apps/validate_main.d
+file	tools/source/openc/tools/explain.d
+file	tools/source/openc/tools/formatter.d
+file	tools/source/openc/tools/info.d
+file	tools/source/openc/tools/live.d
+file	tools/source/openc/tools/lsp.d
+file	tools/source/openc/tools/runner.d
+file	tools/source/openc/tools/validator.d
+file	tools/source/package_tools/manifest.py
+file	tools/source/package_tools/source_archive.py
+file	tools/source/package_tools/verify_archive.py
+hash	standard/core/OpenC_Core_Current.md	175409	e74371560878e638c05486d601f271a4800d503bab852dd4eadd3089fe3189c7
+hash	standard/core/grammar/OpenC_Core_Grammar.ebnf	14814	58a475bcb1006565488955064ab99c593dc20468fb3fdf0f07d1121ca3830dfc
+hash	standard/core/metadata/OpenC_Core_Rule_Index.json	158006	80b3b31523121f0d806dc1f49832238cff42bc2da3baba5aec14949713a3455e
+hash	standard/core/metadata/OpenC_Core_Diagnostic_Catalog.json	107439	d7423ab263d96d8b1ad8d5637e1db829c2c656a40c4e7d35775d1ce9ec082439
+hash	standard/core/metadata/OpenC_Core_Term_Index.json	5863	dbf61a93b260ce1516dabd2923a4bf179177b1375f0f12844f5298a08a3d2209
+hash	standard/core/security/OpenC_Core_Security_Model.md	3699	210724c7c1023470deed9d8f99cb7ba6493b281093549754d52b581a8e4aff83
+hash	standard/hosted/OpenC_Hosted_Current.md	6971	f61769399e0ae993cafbe034a97624229d3ec0ca2b8413ac8af22e05d4f6046d
+hash	standard/freestanding/OpenC_Freestanding_Current.md	3226	b19a5ca0174f87267a2869b028a3b945d5a14056bd0f2382810938840b43db39
+hash	standard/native/OpenC_Native_Current.md	3665	141617231dfeba230b4a0f33468cdc6d6be63dc59f39e18e7e302ad66a46005d
+hash	standard/tooling/OpenC_Tooling_Current.md	4035	047957ea4b9d6afc71c68c37be846571b67aca6ef012adfbf8673906cba269bd
+hash	GOVERNANCE.md	1411	8cb8d03e63eaac52a3a52f4f67df8b7ff0087866acfa1153dc9823dacd329f4a
+hash	LICENSE_POLICY.md	1712	d785fd081b1b39a9b1f413554c29c384e761a0a988c8f40b3c4b42b01652a04b
+hash	SECURITY.md	960	dda77d29c47037c2a819a417573644de9af44df85eda13b49480a7ebe4aad029
+hash	TRADEMARKS.md	630	5c15b77ae44e385476d3b3ced7f247bc0adb095fb56168d258c44beba892c17f
+hash	release/RELEASE_AUTHORITY.md	933	85bb362dedfd94699efe8061d88f9e3d1f9c3ca8679692e9d4eb39ebee6d9610
+hash	release/RELEASE_SCOPE_1.0.md	3161	68462343848af1b947fb9dad2fdc5b93dc2447cd4c08c836d5f656f1db6925c4
+hash	release/ERRATA_POLICY.md	699	56e3581d419aa96a6185d16146f6ac21bb6896b34d884fb6d7242ad5ce3526a1
+hash	release/SUPPORT_POLICY.md	630	8e61816f71ab4280b98e4aefea8efae0f94ad72ac9831bcf1b26ed14be5c357a
+hash	standard/core/metadata/OpenC_Core_Rule_Disposition.json	102798	1415b61c1b25ec95dc0327bbcd4dd22b9380176ce914bfea5044ad0ceb078dee
+hash	standard/core/metadata/OpenC_Core_Corrections.json	409	8513052d1c69bdaba42b6c9539bebd5799bdcb33bcf8e01fb83b9145320d4153
+hash	standard/core/metadata/OpenC_Core_Issue_Closure.json	4261	cccb199b64343f98049023e1cacbf915d352b9156aeb39bafc1435d1dc4bc0fc
+hash	standard/core/control/BASELINE_COMPATIBILITY.md	867	5b6ca43327690b261365c44a58eaa422fce14181894790ce2623ae95cbba2cc9
+hash	standard/core/control/CURRENT_STATE.json	652	28292bb53f5d7c458f8e4db6d9d4220a5c77554d79fa1b2407b47bb36e5bc72a
+hash	standard/core/control/OWNER_RATIFICATION_RECORD.json	12978	d154281c82ef68fa077a27bb8fe6e41b49282662c1a85536978eeea458a16df4
+hash	standard/core/control/OWNER_RATIFICATION_RECORD.md	2860	485e6e56af6f515660421a0273941aca2343c1993bfac415c540768983bf0c19
+hash	standard/core/rationale/OpenC_Core_Rationale.md	10797	33d22a35aa6c45de1893a5756cc642b26d002f7b05a3928487d01627d866f6bf
+hash	standard/core/README.md	733	533e400f6d8db7435b106da70962657e1959eef8b0d54a8fd0401faf6f773d4d
+hash	standard/core/changes/CC2_CORRECTION_001.md	879	e6c13177989742547d6f2a614b3708cad607679e11c86c496db175ae798671b5
+hash	standard/core/changes/INTERNAL_REVIEW_CORRECTIONS_IR1.md	1052	668e356eed9d74a5960d94dc07f04674ff9c0bbfd096a04d05dac1e0d549e5bb
+hash	standard/core/examples/CANONICAL_EXAMPLES.md	1344	79702eb5b42099f75bf51b34d908fbe7509c35c1ae13399f12992d1d8a098ab7
+hash	SOURCE_COMPLETENESS_CONTRACT.json	20254	5434a3b10eec79bfb6a701316f15aaee55c07bec2a2f191afa51d1df05fbbf0a
+hash	AUTHORITY_INDEX.json	3553	b9e7bf36d9c4a04d1b0f0b0adf271a619791130fdf0d4480060bf68a2b624693
+hash	standard/core/metadata/OpenC_Core_Authority_Index.json	3527	502a864fcc498e19139e32f4cf5a51a9a6825872c12a87b2bce00610a454e94d
+hash	conformance/fixtures/MANIFEST.json	177950	b233e55369fb832eeed53d88a68528d47242503b73bc4f6821f5f9498ed61b4c
+hash	conformance/fixtures/NATIVE_PLAN.tsv	44020	d1d24d081ffb1cac23dbbb4608a3834611f81060a4f90969cf4554141dc5356f
+hash	standard/core/metadata/OpenC_Core_Rule_Index.json	158006	80b3b31523121f0d806dc1f49832238cff42bc2da3baba5aec14949713a3455e
+hash	standard/core/conformance/OpenC_Core_Rule_Coverage.json	132017	b644b4d5037b881e44906b0d666db844688c82a7246a99444987f396ff1cf207
+hash	standard/core/grammar/OpenC_Core_Grammar.ebnf	14814	58a475bcb1006565488955064ab99c593dc20468fb3fdf0f07d1121ca3830dfc
+hash	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	54199	cc47dd4abfbc376bec7a59bfa3ce6decaa78e73e7e5325f95433a88ce29426ec
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	command/machine_integer_width_reported
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	command/target_context_complete
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	command/target_layout_report
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	command/unsafe_history_in_diagnostic
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	diagnostic/critical_unreachable_statement
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	diagnostic/diagnostic_flow_path_locations
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	diagnostic/diagnostic_status_out_failure
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/address_outside_unsafe
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/arithmetic_type_mismatch
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/array_no_pointer_decay
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/array_out_of_bounds
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/arrow_function
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/assignment_conversion_checked
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/assignment_target_required
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/block_local_escape
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/borrow_prevents_move
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/break_outside_loop
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/byte_not_text_or_arithmetic
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/c_array_decl
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/c_pointer_decl
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/c_reference_decl
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/call_argument_count
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/checked_cast_requires_exact_value
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/cleanup_owner_registered_once
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/cleanup_reference_must_live
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/const_reassignment_rejected
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/const_resource_owner
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/construct_twice
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/current_question_optional
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/declaration_requires_type
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/deref_outside_unsafe
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/destroy_with_active_borrow
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/enum_duplicate_value
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/fallible_scope_action_rejected
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/float_integer_no_implicit
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/flow_borrow_and_destroyed_state
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/flow_break_path_merge
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/flow_continue_skips_init
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/flow_for_not_guaranteed
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/flow_if_missing_else
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/flow_move_one_branch
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/flow_optional_proof_invalidated
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/flow_unreachable_after_return
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/flow_while_only_initialization
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/for_variable_scope
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/historical_int_type_rejected
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/ignored_status
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/implicit_narrow
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/integer_condition
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/integer_literal_destination_range
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/invalid_utf8_source
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/local_not_zero_initialized
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/loop_only_initialization_not_definite
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/misaligned_typed_deref
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/missing_braces
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/missing_semicolon
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/missing_struct_field
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/module_duplicate_top_level
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/module_import_cycle
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/module_import_not_shared
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/module_private_access
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/module_short_qualifier_ambiguous
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/mutable_global_rejected
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/nonvoid_missing_path
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/numeric_cast_float_fraction
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/numeric_cast_int_float_inexact_static
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/numeric_div_min_negative_one_static
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/numeric_literal_suffix
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/numeric_separator_doubled
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/numeric_shift_width
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/numeric_signed_bitwise
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/numeric_unconstrained_too_large
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/optional_contains_resource
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/optional_present_readonly
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/optional_proof_invalidated
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/optional_question_syntax
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/optional_slice
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/out_failure_partial_exposure
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/out_field_target
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/out_initialized_target
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/out_nonstatus_function
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/out_own_pointer_missing_contract
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/out_read_inside_callee
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/out_reference_parameter
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/out_success_without_init
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/overload_conversion_ambiguity
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/overload_lossless_ambiguous
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/overload_return_only
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/own_plain_integer
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/owning_pointer_copy
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/plain_struct_hides_owning_pointer
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/pointer_arithmetic_outside_unsafe
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/pointer_cross_allocation_subtract
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/pointer_deref_one_past
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/pointer_integer_conversion_not_plain
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/pointer_order_cross_allocation
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/pointer_typed_deref_requires_lifetime
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/positional_struct
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/predeclared_typeword_binding
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/ptr_const_to_mutable
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/ptr_const_write
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/ptr_length
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/read_uninitialized
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/ref_const_to_mutable
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/ref_const_whole_assignment
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/ref_field
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/ref_local_without_initializer
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/ref_resource_whole_assignment
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/reinterpret_pointer_no_new_lifetime
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/reinterpret_size_mismatch
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/reinterpret_struct_value
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/reinterpret_unrelated_layout_rejected
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/resource_copy
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/resource_equality_rejected
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/resource_field_state_rejections
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/resource_obligation_not_discharged
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/resource_reinitialize_live
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/return_local_ref
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/return_local_reference
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/return_type_mismatch
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/safe_wrapper_missing_check
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/same_scope_duplicate
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/scope_cancel_not_supported
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/scope_destroy_early
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/scope_double_consuming_action
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/scope_move_reserved_owner
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/scope_nested_fallible_argument
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/scope_out_argument
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/scope_reassign_reserved_owner
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/shadowing
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/size_of_expression
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/size_of_void
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/slice_alias_mutation_conflict
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/slice_const_to_mutable
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/slice_field
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/slice_outlives_owner
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/slice_range_checked
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/source_bom_repeated
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/status_failure_zero_code
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/status_success_nonzero_code
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/storage_field
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/storage_read_before_construct
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/storage_resource_type
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/struct_trailing_semicolon
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/switch_implicit_fallthrough
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/text_byte_conversion_explicit
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/text_index
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/textual_include_rejected
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/two_write_borrows
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/typed_storage_live_exit
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/typed_storage_old_ref_after_reconstruct
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/unchecked_float_to_integer
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/unicode_escape_surrogate
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/unknown_member
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/unsafe_call_requires_boundary
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/unsafe_contract_caller_responsibility
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/unsafe_function_call_outside_unsafe
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/unsafe_provenance_not_forged
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/unterminated_block_comment
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/use_after_move
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/void_local_object
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	invalid/when_token_fragment_rejected
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	records/diagnostic_structure_quality
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/assignment_destination_once
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/boolean_short_circuit
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/bounds_trap
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/break_and_scope_registration_order
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/callee_then_arguments_order
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/checked_addition
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/cleanup_on_return
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/cleanup_registration_capture
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/construct_and_return_order
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/evaluation_binary_left_to_right
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/fatal_allocation_defined
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/fixed_width_values
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/function_arguments_left_to_right
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/left_shift_checked
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/null_pointer_equality
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/optional_trap
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/pointer_provenance_target_fault
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/runtime_cast_float_fraction
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/runtime_cast_integer_range
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/runtime_checked_failure_runs_cleanup
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/runtime_division_min_negative_one
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/runtime_division_zero
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/runtime_float_nan_comparison
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/runtime_pointer_cross_extent_fault
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/runtime_scope_lifo
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/signed_right_shift_defined
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/struct_defaults_after_explicit
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/unary_operand_once
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/unsafe_fault_target_bounded
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	runtime/unsigned_modulo_exact
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/array_init_length_copy
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/bool_condition
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/byte_pointer_object_representation
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/checked_cast
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/comments_preserve_tokens
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/const_binding_readonly
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/const_view_conversions
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/constant_expression_same_numeric_rules
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/current_optional
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/current_resource
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/disjoint_mutable_slices
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/domain_own_call
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/enum_switch
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/eval_call_left_to_right
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/eval_compound_target_once
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/eval_struct_initializer_order
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/first_program
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/fixed_array
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/float_binary_types
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/floating_literal_default_f64
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/flow_if_all_paths
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/flow_loop_preinitialized
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/flow_optional_early_return
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/flow_out_early_return
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/flow_state_branch_merge
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/flow_status_copy_proof
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/flow_switch_exhaustive
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/function_add
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/function_recursion
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/global_const_valid
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/identifier_case_sensitive
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/initialized_local
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/integer_literal_exact_context
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/many_read_borrows_last_use
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/module_multi_source_overload
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/module_repeated_import_idempotent
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/module_short_and_full_qualifier
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/negative_literal_context
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/numeric_division_toward_zero
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/numeric_remainder_dividend_sign
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/numeric_saturating_add
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/numeric_separator_valid
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/optional_checked
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/optional_none_and_copy
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/overload_exact_preferred
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/overload_parameter_modes
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/parameter_modes_visible
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/plain_copy_independent
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/pointer_one_past_compare
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/read_borrow
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/ref_assigns_referent
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/reinterpret_u32_f32
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/resource_contains_resource
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/resource_domain_operations
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/resource_initializer_lifecycle
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/resource_return_transfers
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/scope_bound_owner_borrow
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/scope_nested_lifo
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/scope_value_capture
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/slice_empty_and_default_ranges
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/slice_length_and_mutation
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/slice_sum
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/small_local_unsafe_block
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/source_bom_ignored
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/status_invariant_success
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/status_message_not_control_flow
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/status_proof_initializes_out
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/struct_defaults
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/struct_equality
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/struct_named_fields_and_copy
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/struct_named_init
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/subslice
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/text_module_typeword_qualifier
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/text_value_semantics
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/type_shapes_ref_ptr_optional_array_slice_storage
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/type_size_alignment
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/typed_storage
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/typed_storage_reconstruct_after_destroy
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/typed_storage_scope_destroy_use
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/unary_minus_signed_only
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/unchecked_integer_cast
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/unsafe_pointer
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/utf8_source_valid
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/when_context_expression
+fixture	conformance/fixtures/MANIFEST.json	conformance/fixtures/NATIVE_PLAN.tsv	valid/write_borrow
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SAFETY-NOUB-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SAFETY-UNSAFE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TERM-CHECKFAIL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SAFETY-OUTCOME-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SAFETY-OPTIMIZE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SAFETY-IMPLIMIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SOURCE-UTF8-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SOURCE-INVALID-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SOURCE-BOM-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LEX-COMMENT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TRANSLATE-NOPREPROCESSOR-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TRANSLATE-NOINCLUDE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-WHEN-CONTEXT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-WHEN-EXPR-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-WHEN-STRUCTURED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LEX-IDENT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LEX-TYPEWORD-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LEX-TYPEQUALIFIER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LEX-MAXIMAL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LEX-WORDCLASS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LITERAL-INTEGER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LITERAL-RANGE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LITERAL-TEXT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LITERAL-SEPARATOR-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LITERAL-FLOATDEFAULT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LITERAL-NOSUFFIX-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LITERAL-UNICODE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-IDENTITY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-IMPORT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-SHORT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-AMBIGUOUS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-PRIVATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-EXPORT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-CYCLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-MULTISOURCE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-DUPLICATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-IMPORTLOCAL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-FULLIMPORT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-IMPORTIDEMPOTENT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-ORDER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-NOREEXPORT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-MAPPING-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-CONSTCYCLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MODULE-API-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-WIDTH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-MACHINE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-HISTORICAL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-VOIDOBJECT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-BOOL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-BYTE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-FLOAT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-FLOAT-FIXED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-TEXT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-CONST-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REF-TYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REF-READ-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REF-SYMBOL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REF-INIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REF-NOREBIND-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REF-ASSIGN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REF-RESOURCEASSIGN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-TYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-SYMBOL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REF-CONSTVIEW-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-CONSTVIEW-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-EXPLICIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-CHECK-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-NOSHORTHAND-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-NOBORROW-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ARRAY-TYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-TYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-CONSTVIEW-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STORAGE-TYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONVERT-IMPLICIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONVERT-LOSSY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONVERT-CAST-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONVERT-REINTERPRET-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-RESOURCEARRAY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-RESOURCEOPTIONAL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-PREFIXORDER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-CONSTRUCTORS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TYPE-SUFFIX-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DECL-TYPEFIRST-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DECL-ASSIGN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-INIT-BEFOREUSE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-INIT-PATH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-INIT-NOZERO-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONST-INIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONST-ASSIGN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SCOPE-LOCAL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SCOPE-DUPLICATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SCOPE-SHADOW-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-GLOBAL-CONST-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-GLOBAL-MUTABLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PARAM-OUTTYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PARAM-OWNTYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PARAM-OUT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PARAM-OWN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PARAM-REF-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-MODE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-MODE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NAME-UNKNOWN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-INIT-LOOP-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-TARGET-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-ALIAS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-NOREAD-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-REASSIGN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONST-EXPR-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONST-CHECKFAIL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EXPR-ORDER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CALL-COUNT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CALL-TYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-MEMBER-UNKNOWN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-INDEX-SAFE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-RANGE-CHECK-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ARITH-TYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ARITH-MINUS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EQUALITY-RESOURCE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-BOOL-SHORT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ASSIGN-TARGET-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ASSIGN-CONVERT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-ADDRESS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-ADDRESSABLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-DEREF-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-ARITH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-NULL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CAST-EXACT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-COMPARE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-BLOCK-BRACES-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STMT-SEMICOLON-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-COND-BOOL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FOR-SCOPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SWITCH-NOFALL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SWITCH-ENUM-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SWITCH-DOMAIN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SWITCH-CASE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SWITCH-DUPLICATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SWITCH-EXECUTE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LOOP-CONTEXT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-IF-EXECUTE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-WHILE-EXECUTE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FOR-EXECUTE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RETURN-TYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RETURN-LIFETIME-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STMT-UNREACHABLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FUNCTION-DIRECT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FUNCTION-PARAM-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OVERLOAD-AMBIGUOUS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OVERLOAD-EXACT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OVERLOAD-NORANK-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OVERLOAD-RETURN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OVERLOAD-MODE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FUNCTION-PATH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-OWN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-CALL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-RESULTBIND-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-CALL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FUNCTION-UNSAFE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FUNCTION-OUTSUCCESS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FUNCTION-OUTFAIL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FUNCTION-OUTRETURN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-FORWARD-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FUNCTION-ARGORDER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OVERLOAD-CONVERSIONS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FUNCTION-RECURSION-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-DECL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-TRAILING-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-DECL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-TRAILING-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-FIELD-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-CONSTFIELD-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FIELD-TYPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-DEFAULT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-INIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-INIT-FIELD-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-INIT-MISSING-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-EMPTY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-COPY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-EQUALITY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ENUM-DISTINCT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ENUM-UNDERLYING-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ENUM-DUPLICATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-NOCOPY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-MOVE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-COPY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-DESTROY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-OBLIGATION-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-NOCONSTOWNER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-INIT-ORDER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-NORESOURCE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-FIELD-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-FIELD-OWNPTR-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-FIELD-DEFAULT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-INIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-INIT-REQUIRED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-INIT-OWNER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-INIT-RESERVE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-INIT-COMMIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-INIT-ROLLBACK-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-INIT-PLACEMENT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-REINIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-FIELD-VIEW-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-FIELD-ASSIGN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-FIELD-CONSUME-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-DISMANTLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-FIELD-ONCE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-CONSUMER-RETURN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-RESOURCE-OPAQUE-DISCHARGE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-DEFAULT-NODEP-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STRUCT-INIT-COMMIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ENUM-IMPLICIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ARRAY-DECL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ARRAY-INIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ARRAY-INDEX-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ARRAY-LENGTH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ARRAY-COPY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-BOUNDED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-LENGTH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-FROMARRAY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-MUTATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-RANGE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-ALIAS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ARRAY-NODECAY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-BYTE-ARITH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TEXT-LENGTH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TEXT-NOINDEX-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TEXT-CONVERT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-RANGE-EMPTY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-RANGE-DEFAULT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-DISJOINT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TEXT-EQUALITY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TEXT-COPY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-BYTE-DISTINCT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-COPY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SLICE-ESCAPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-NONE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-PRESENT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-VALUE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STATUS-MUSTHANDLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STATUS-OVERWRITE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STATUS-CODE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STATUS-INVARIANT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STATUS-INITIALIZER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STATUS-MESSAGE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-OWNFLOW-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-STATUSONLY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ERROR-NOHIDDEN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-ERROR-FATAL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STATUS-READONLY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STATUS-PROOF-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STATUS-COPY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-NOPARTIAL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-COMMIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-OWNCOMMIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-OWNTAIL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-OWNFAIL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-COPY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-PRESENT-READONLY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-ASSIGN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OPTIONAL-NESTED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LIFETIME-ACTIVE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-COPY-PLAIN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-USEAFTER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-BORROW-MANYREAD-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-BORROW-ONEWRITE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-BORROW-LASTUSE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-BORROW-NOMOVE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LIFETIME-RETURNLOCAL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-LIFETIME-SLICE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-SCOPE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-RETURN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-PRODUCE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-CONSUME-ARG-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-CHECKEDGE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-EXIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-PRODUCER-PLACEMENT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-OWNCOPY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-OWNCONTAIN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-SCOPE-RESERVE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OWN-SCOPE-BORROW-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STORAGE-NOVALUE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STORAGE-NORESOURCE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONSTRUCT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONSTRUCT-VALUE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONSTRUCT-PLACEMENT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CONSTRUCT-DOUBLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DESTROY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DESTROY-BORROW-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DESTROY-USEAFTER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STORAGE-LIVEEXIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STORAGE-RECONSTRUCT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STORAGE-REFINVALID-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-NOLENGTH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-ALIGN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-LIFETIME-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-BYTE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-BYTEWRITE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-DERIVED-NONOWNING-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-ONEPAST-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-CROSSALLOC-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-CONST-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-BINDING-MUTABLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-PROVENANCE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-BASE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-DEREF-RANGE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-INVALIDATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PTR-SUBTRACT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STORAGE-EMPTY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-STORAGE-COMMIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-UNSAFE-BOUNDARY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-UNSAFE-LOCAL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-UNSAFE-CALL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-UNSAFE-CONTRACT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CAST-UNCHECKED-INT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CAST-UNCHECKED-LIMIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REINTERPRET-VALUE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REINTERPRET-SIZE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REINTERPRET-PTR-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-REINTERPRET-NOLIFETIME-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-UNSAFE-WRAPPER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-UNSAFE-FAULT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-UNSAFE-NOASSUME-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-UNSAFE-PROVENANCE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-UNSAFE-HISTORY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-UNSAFE-PRECONDITION-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SAFE-GUARANTEE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-SAFE-WRAPPER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EXTENSION-SAFETY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DIAG-STRUCTURE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DIAG-QUALITY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DIAG-MACHINE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DIAG-TRACE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DIAG-SPAN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DIAG-PHASE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DIAG-SEVERITY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-DIAG-PRIMARY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-GRAMMAR-AUTHORITY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-GRAMMAR-COVERAGE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-FULL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-NOUNSPEC-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-CALL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-CALLEE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-ARGMODE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-BINARY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-SHORT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-UNARY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-ASSIGN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-COMPOUND-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-ARRAYINIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-STRUCTINIT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-DEFAULT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-CONSTRUCT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-RETURN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-BREAK-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-SCOPE-REGISTER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-SCOPE-NESTED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EVAL-OBSERVABLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-STATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-REACHABLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-IF-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-IF-NOELSE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-SWITCH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-WHILE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-FOR-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-CONTINUE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-BREAK-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-OUT-TOKEN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-OUT-PREDICATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-PENDINGUSE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-OUT-SUCCESS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-OUT-FAILURE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-OUT-MERGE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-OUT-LOOP-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-OUT-PROOF-LOST-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-OUT-COPY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-OPTIONAL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-OPTIONAL-ELSE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-OPTIONAL-INVALIDATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-MOVED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-BORROW-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-DESTROYED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-FLOW-DIAG-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-TWOS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-UNSIGNED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-BYTE8-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-MACHINE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-LITERAL-CONTEXT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-LITERAL-DEFAULT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-LITERAL-NEGATIVE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-ADD-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-DIV-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-REM-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-DIV-MIN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-DIVZERO-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-BITWISE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-SHIFT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-SHIFTRIGHT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-SHIFTLEFT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-WRAP-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-SATURATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-INTRINSIC-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-CAST-INT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-CAST-FLOATINT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-CAST-INTFLOAT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-CAST-FLOAT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-UNCHECKEDCAST-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-FLOAT-FORMAT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-FLOAT-ROUND-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-FLOAT-NONFINITE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-FLOAT-DIVZERO-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-FLOAT-ORDER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-CONST-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-AUTHORITY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-COMPOUND-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-NUM-FLOAT-CONST-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-REGISTER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-CALLEE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-VALUE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-REF-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-OWN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-OUT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-ARG-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-DESTROY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-DESTROY-RESERVE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-DESTROY-STORAGE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-LIFO-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-NESTED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-ONCE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-STRUCTURED-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-RETURN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-CHECKFAIL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-UNSAFEFAULT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-NOFALLIBLE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-FAILURE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-NOCANCEL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-VOID-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-SAFEWRAPPER-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-ALL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-PRIMARY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-FINISH-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-CLEANUP-STATE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-CONTEXT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-BYTE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-ENDIAN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-ALIGN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-ARRAYLAYOUT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-STRUCTLAYOUT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-PADDING-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-SIZEOF-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-ALIGNOF-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-QUERYDOMAIN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-STORAGESIZE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-ARRAYSIZE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-QUERY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-PTRPROV-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-PTROFFSET-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-PTRCROSS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-PTRCOMPARE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-PTRINT-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-FAULTMODEL-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-NOARBITRARY-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-SANITIZE-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-PORTABILITY-PLAIN-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-SCHEMA-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-TARGET-CROSS-001
+rule	standard/core/metadata/OpenC_Core_Rule_Index.json	standard/core/conformance/OpenC_Core_Rule_Coverage.json	OPENC-EXPR-PRECEDENCE-001
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	source_unit
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	import_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	module_name
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	qualified_name
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	top_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	module_const_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	module_const_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	module_const_value_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	struct_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	resource_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	struct_field_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	resource_field_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	resource_value_field_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	resource_owned_pointer_field_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	struct_field_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	field_value_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	enum_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	enum_item
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	function_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	function_result
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ordinary_result_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	owning_pointer_result
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	parameter
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ordinary_parameter
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	parameter_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	own_parameter
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	own_parameter_target
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	out_parameter
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	output_parameter_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	output_value_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	out_own_pointer_parameter
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	block
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	block_item
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	local_decl
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	local_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	value_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	value_suffix
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ref_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ptr_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	optional_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	optional_core_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	storage_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ref_target
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ptr_target
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	optional_target
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	storage_target
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	type_atom
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	fixed_array_suffix
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	slice_suffix_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	primitive_object_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	signed_integer_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	unsigned_integer_type
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	statement
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	expression_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	if_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	while_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	for_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	for_init
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	switch_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	switch_case
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	default_case
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	break_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	continue_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	return_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	scope_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	scope_action
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	scope_call
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	scope_argument
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	unsafe_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_stmt
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	assignment_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	assignment_op
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	logical_or_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	logical_and_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	bitwise_or_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	bitwise_xor_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	bitwise_and_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	equality_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	relational_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	shift_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	additive_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	multiplicative_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	unary_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	cast_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	cast_unchecked_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	reinterpret_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	construct_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	destroy_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	type_query_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	postfix_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	postfix_suffix
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	call_suffix
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	call_argument
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	out_argument
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	member_suffix
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	index_suffix
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	range_suffix
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	primary_expr
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	status_initializer
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	status_code_init
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	status_message_init
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	aggregate_initializer
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	aggregate_field_init
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ordinary_field_init
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ownership_field_init
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ownership_source
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	array_initializer
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	literal
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_or_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_and_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_bitwise_or_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_bitwise_xor_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_bitwise_and_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_equality_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_relational_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_shift_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_additive_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_multiplicative_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_unary_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_primary_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_literal
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_type_query
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_array_initializer
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_aggregate_initializer
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_field_init
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	constant_integer_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_or_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_and_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_equality_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_relational_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_unary_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_primary_expression
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_literal
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_integer_literal
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	when_context_name
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ignored_element
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	space_character
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	horizontal_tab_character
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	line_feed_character
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	carriage_return_character
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	backslash_character
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	double_quote_character
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	whitespace
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	line_terminator
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	line_comment
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	line_comment_character
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	block_comment
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	block_comment_body
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	identifier
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	identifier_start
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	identifier_continue
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	ascii_letter
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	predeclared_type_word
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	decimal_digit
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	hex_digit
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	binary_digit
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	digit_separator
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	integer_literal
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	decimal_integer
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	hexadecimal_integer
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	binary_integer
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	float_literal
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	decimal_digits
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	exponent_part
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	text_literal
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	text_character
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	escape_sequence
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	escape_code
+production	standard/core/grammar/OpenC_Core_Grammar.ebnf	standard/core/conformance/OpenC_Core_Grammar_Coverage.json	unicode_escape_tail

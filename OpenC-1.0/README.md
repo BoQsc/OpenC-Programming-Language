@@ -27,7 +27,7 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - all 4 maintained programs check, build, and run successfully;
 - all 281 migrated OpenC library, program, and fixture sources use `.p`; with
   the expanded compiler-in-OpenC and conformance source, the current tree has
-  437 `.p` files;
+  440 `.p` files;
 - the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
   lexer parity on 288 canonical `.p` sources plus 16 probes (304/304), SH-2C
   exact parser parity on those sources plus 15 parser probes (303/303), and
@@ -114,12 +114,14 @@ optimized ISO C and D references measure 22.732 and 17.504 seconds. Peak
 compiler memory remains inside the 256 MiB private / 64 MiB working-set guards.
 SH-21 is now active and replaces required Python build/test/release
 orchestration with OpenC-native workflows while isolating D/Python/C/TinyCC to
-an optional historical bootstrap/audit kit. Its second native workflow tranche
-passes 8/8 full tasks, 278/278 conformance, 5/5 program checks, exact compiler
-closure, renamed-executable self-location, and four adversarial child-process
-guards. Native execution now contains descendants in a 256 MiB Job, enforces a
-64 MiB working-set ceiling, caps captured output at 4 MiB, and applies bounded
-timeouts. The remaining audit/release replacements are still active. Native
+an optional historical bootstrap/audit kit. Its third native workflow tranche
+passes 9/9 full tasks, 278/278 conformance, 5/5 program checks, exact compiler
+closure, four adversarial child-process guards, and 1,321/1,321 repository
+audit records covering required files, hashes, fixture identities, active
+rules, and grammar productions. Native execution contains descendants in a
+256 MiB Job, enforces a 64 MiB working-set ceiling, caps captured output at 4
+MiB, and applies bounded timeouts. PE/LSP/benchmark/release replacements remain
+active. Native
 editor integration is deferred to SH-24. See
 `compiler/selfhost/SH21_OPENC_NATIVE_WORKFLOWS_PLAN.md` and
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.

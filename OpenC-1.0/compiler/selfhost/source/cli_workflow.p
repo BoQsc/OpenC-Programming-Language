@@ -346,6 +346,9 @@ unsafe i32 cli_workflow_command() {
     text process_guard_report = path.join(
         output_directory, "sh21-native-process-guard.json"
     );
+    text audit_report = path.join(
+        output_directory, "sh21-native-repository-audit.json"
+    );
     text stage2 = path.join(
         output_directory, "openc-sh21-stage2.exe"
     );
@@ -406,6 +409,18 @@ unsafe i32 cli_workflow_command() {
     cli_workflow_execute(
         report, counters, "maintained_and_native_runtime", command,
         "OpenC test: 5/5 passed"
+    );
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
+    cli_workflow_command_start(command, compiler, "audit");
+    cli_workflow_command_named_argument(command, "--root=", root);
+    cli_workflow_command_named_argument(
+        command, "--output=", audit_report
+    );
+    cli_workflow_execute(
+        report, counters, "native_repository_audit", command,
+        "OpenC repository audit: PASS"
     );
     d_buffer_destroy(command);
 

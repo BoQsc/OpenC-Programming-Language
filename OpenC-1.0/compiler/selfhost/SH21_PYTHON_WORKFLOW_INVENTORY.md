@@ -12,10 +12,10 @@ delete archaeology; it makes that material unavailable to normal workflows.
 | Python owner | Current responsibility | SH-21 disposition | Native status |
 | --- | --- | --- | --- |
 | `scripts/windows_native_workflow.py` | Aggregate daily/full task selection and JSON evidence | Replace with `openc workflow` | First native daily/full slice implemented |
-| `scripts/generate_native_conformance_plan.py` | Prove fixture plan is synchronized | Move plan verification into native workflow audit | Pending |
-| `scripts/validate_structure.py` | Canonical-tree and state invariants | Implement native manifest/state audit | Pending |
-| `scripts/source_completeness.py` and `source_inventory.py` | Source inventory and authored-source completeness | Implement deterministic OpenC source manifest audit | Pending |
-| `scripts/complete_conformance_coverage.py` | Grammar/rule/fixture coverage | Implement native coverage audit over pinned manifests | Pending |
+| `scripts/generate_native_conformance_plan.py` | Prove fixture plan is synchronized | Move plan verification into native workflow audit | Implemented: 278/278 paired identities |
+| `scripts/validate_structure.py` | Canonical-tree and state invariants | Implement native manifest/state audit | Required-file and pinned-authority subset implemented; deep Python copy retained as optional audit |
+| `scripts/source_completeness.py` and `source_inventory.py` | Source inventory and authored-source completeness | Implement deterministic OpenC source manifest audit | Implemented for 364 required files |
+| `scripts/complete_conformance_coverage.py` | Grammar/rule/fixture coverage | Implement native coverage audit over pinned manifests | Implemented: 466 rules and 174 productions |
 | `tests/python/test_*.py` | Source and harness regression assertions | Move behavioral assertions to native workflow fixtures; retain Python copies only as optional audit | In progress |
 | `scripts/verify_sh9_cli.py` | Public CLI and diagnostic contract | Native workflow task set | Basic version/target/check covered; exact negative cases pending |
 | `scripts/verify_sh10_project_workflow.py` | Formatter, info, test and project commands | Native workflow task set | Maintained `openc test` path covered; remaining cases pending |
@@ -38,12 +38,13 @@ gap. It is OpenC-authored and performs public CLI identity checks, a semantic
 project check, all four established maintained-program checks, one native
 runtime output-pointer regression, native 278-fixture conformance, adversarial
 process-guard verification, two compiler rebuilds, SHA-256 hashing, exact
-fixed-point closure, and deterministic JSON reporting. Native child execution
+fixed-point closure, deterministic JSON reporting, and the 1,321-record native
+repository audit. Native child execution
 now owns Job-based 256 MiB process/tree commit limits, kill-on-close descendant
 containment, a polled 64 MiB working-set limit, a 4 MiB capture limit, and a
-default five-minute timeout. It does not claim tree structure coverage, PE
-inspection, LSP transcript verification, benchmark sampling, or ZIP ownership
-until those capabilities move into OpenC.
+default five-minute timeout. It does not claim complete PE inspection, LSP
+transcript verification, benchmark sampling, or ZIP ownership until those
+capabilities move into OpenC.
 
 ## Optional historical/bootstrap boundary
 
@@ -65,9 +66,8 @@ dependency.
 
 ## Next implementation slice
 
-1. Move canonical-tree/source/coverage checks into `openc workflow`.
-2. Add the native PE import, unwind and CRT-absence audit.
-3. Replace the LSP Python clients with an OpenC-native framed client.
-4. Add native benchmark sampling and performance gates.
-5. Add directory enumeration/creation and deterministic ZIP emission for
+1. Add the native PE import, unwind and CRT-absence audit.
+2. Replace the LSP Python clients with an OpenC-native framed client.
+3. Add native benchmark sampling and performance gates.
+4. Add directory enumeration/creation and deterministic ZIP emission for
    `openc release`.

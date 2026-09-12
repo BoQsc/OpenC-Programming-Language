@@ -21,10 +21,14 @@ class Sh9CliSourceTests(unittest.TestCase):
         source = (
             ROOT / "compiler" / "selfhost" / "source" / "cli.p"
         ).read_text(encoding="utf-8")
+        driver = (
+            ROOT / "compiler" / "selfhost" / "source" / "main_driver.p"
+        ).read_text(encoding="utf-8")
         self.assertIn("openc.check.v1", source)
         self.assertIn("openc.native_cli.diagnostic_streams.v1", source)
-        self.assertIn('"--semantic-flow-safety"', source)
-        self.assertIn('"--semantic-ir"', source)
+        self.assertIn('"--native-check"', source)
+        self.assertIn('"SEMANTIC_ERROR "', source)
+        self.assertIn("emission_mode = 3", driver)
 
     def test_rule_explanation_uses_canonical_index(self) -> None:
         source = (
