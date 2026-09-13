@@ -184,8 +184,10 @@ KERNEL32-only static imports. The 219-source compiler closes exactly, the
 full workflow passes 15/15. SH-24 editor integration/language-service
 resilience and SH-25 Windows 1.0 finalization are complete. The finalization
 gate adds deterministic native VSIX packaging, clean-profile editor evidence,
-memory guards, and an honest five-track external-review intake. SH-26 awaits
-owner authorization for the `v1.0.0` tag and public release.
+memory guards, and an honest five-track external-review intake. SH-26 completes
+owner authorization, the `v1.0.0` tag, final GitHub publication, and 15/15
+remote-asset verification. SH-27 is active for post-release integrity and
+production MSVC/Clang/D performance expansion.
 
 The same-host SH-14 clean-build comparator is:
 

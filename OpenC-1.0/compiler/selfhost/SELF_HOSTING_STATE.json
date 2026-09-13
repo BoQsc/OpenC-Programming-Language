@@ -1160,20 +1160,43 @@
       "final_tag_created": false,
       "public_release_created": false,
       "next_milestone": "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE"
+    },
+    {
+      "id": "SH-26",
+      "name": "owner_authorized_1_0_publication_and_review_response",
+      "status": "PASS",
+      "evidence": "compiler/selfhost/SH26_COMPLETION_EVIDENCE.md",
+      "publication_evidence": "release/SH26_GITHUB_PUBLICATION_EVIDENCE.md",
+      "target": "windows_x86_64_hosted",
+      "release_commit": "d0f77f6268154ac06f4206c01cd349b226b53c1b",
+      "release_tag": "v1.0.0",
+      "authorized_utc": "2026-09-13T16:29:48Z",
+      "published_utc": "2026-09-13T17:08:01Z",
+      "github_actions_run": 34770148453,
+      "github_assets_verified": 15,
+      "release_record_sha256": "0b7cdd6620bb9155651da8ab0e07f2eeae510295f7e7a40eed8f4a4f835a6467",
+      "native_full_tasks_passed": 19,
+      "native_conformance_fixtures_passed": 278,
+      "d_tinycc_generated_c_assembler_linker_invoked": false,
+      "independent_review_claimed": false,
+      "historical_rule_id_matches_disclosed": 93,
+      "linux_and_freestanding_gate": false,
+      "next_milestone": "SH-27_POST_RELEASE_INTEGRITY_AND_PRODUCTION_PERFORMANCE"
     }
   ],
   "planned_milestones": {
     "active": {
-      "id": "SH-26",
-      "name": "owner_authorized_1_0_publication_and_review_response",
-      "status": "PENDING_OWNER_AUTHORIZATION",
-      "blocked_by_sh25": false,
+      "id": "SH-27",
+      "name": "post_release_integrity_and_production_performance",
+      "status": "ACTIVE",
+      "plan": "compiler/selfhost/SH27_POST_RELEASE_PERFORMANCE_PLAN.md",
+      "blocked_by_sh26": false,
       "target": "windows_x86_64_hosted",
       "scope": [
-        "obtain explicit owner authorization for the v1.0.0 tag and public release",
-        "publish the deterministic native Windows artifacts and VSIX with hashes and release record",
+        "continuously stream-verify the immutable public v1.0.0 artifacts",
         "continue external review intake and respond through security or errata policy",
-        "preserve the frozen 1.0 compiler performance memory and independence gates"
+        "expand representative throughput comparison to pinned MSVC Clang and D toolchains",
+        "preserve the frozen 1.0 correctness memory and independence gates"
       ]
     },
     "windows_independence_plan": {
@@ -1183,7 +1206,7 @@
       "sh15_completed": true,
       "sh16_completed": true,
       "sh17_completed": true,
-      "active_milestone": "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE",
+      "active_milestone": "SH-27_POST_RELEASE_INTEGRITY_AND_PRODUCTION_PERFORMANCE",
       "sequence": [
         "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE",
         "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME",
@@ -1196,7 +1219,8 @@
         "SH-23_OPTIONAL_COM_AND_WINRT",
         "SH-24_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE",
         "SH-25_WINDOWS_1_0_FINALIZATION_AND_INDEPENDENT_REVIEW_INTAKE",
-        "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE"
+        "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE",
+        "SH-27_POST_RELEASE_INTEGRITY_AND_PRODUCTION_PERFORMANCE"
       ],
       "normal_toolchain_independence_target": {
         "tinycc_required": false,
@@ -1215,7 +1239,8 @@
       "sh22_completed": true,
       "sh23_completed": true,
       "sh24_completed": true,
-      "sh25_completed": true
+      "sh25_completed": true,
+      "sh26_completed": true
     }
   },
   "rc9_standalone_refresh": {
@@ -1417,7 +1442,11 @@
     "clean_profile_memory_guards": true,
     "independent_review_intake_honest": true,
     "sh25_completed": true,
-    "final_1_0_tag_created": false,
-    "final_1_0_publication_created": false
+    "final_1_0_tag_created": true,
+    "final_1_0_publication_created": true,
+    "final_1_0_public_assets_verified": true,
+    "sh26_completed": true,
+    "sh27_public_integrity_baseline": true,
+    "sh27_production_performance_expansion_complete": false
   }
 }

@@ -1,12 +1,13 @@
 # OpenC roadmap
 
-The Windows x86-64 Hosted `1.0.0` engineering candidate is finalized and
-release-ready. Its native compiler, deterministic VSIX, clean-profile editor
-run, conformance, throughput, memory, independence, and relocated-release gates
-pass. The final `v1.0.0` tag and publication are deliberately reserved for
-explicit owner authorization in SH-26. The latest public release remains
-`v1.0.0-rc.9`. Linux, freestanding, Native, and standalone Native-provider
-verification remain optional future target work.
+The Windows x86-64 Hosted `1.0.0` release is finalized, owner-authorized, and
+published. Its native compiler, deterministic VSIX, clean-profile editor run,
+conformance, throughput, memory, independence, relocated-release, tag, and
+15-asset remote-integrity gates pass. SH-27 is active: preserve public-release
+integrity, process external review honestly, and expand throughput measurement
+to representative production MSVC, Clang, and D toolchains. Linux,
+freestanding, Native, and standalone Native-provider verification remain
+optional future target work.
 
 ## Critical-path priority
 
@@ -16,19 +17,19 @@ reference, with small/incremental, proportional-scaling, bounded-memory,
 deterministic closure, and 20-run stability gates all passing. Those limits
 remain enforced as regression budgets.
 
-SH-15 through SH-25 are complete. The first-party compiler owns Microsoft x64
+SH-15 through SH-26 are complete. The first-party compiler owns Microsoft x64
 ABI lowering, PE32+/COFF emission, CRT-free runtime, Win32 metadata projection,
 friendly Windows modules, DLL/library/resource production, optional COM/WinRT,
 native workflows, and the packaged editor. SH-25 freezes the final Windows
 evidence and opens five external-review tracks without claiming reviews that
-have not occurred. SH-26 is the active owner-authorized publication and
-review-response milestone. Windows concepts remain outside Core, and
+have not occurred. SH-27 is the active post-release integrity and production
+performance milestone. Windows concepts remain outside Core, and
 Linux/freestanding remain nonblocking targets. The architecture is in
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 ## Completed self-hosting path
 
-SH-0 through SH-25 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-26 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -306,14 +307,18 @@ IR reach closure. Exact evidence and reproduction commands are in
     - invite independent grammar, semantic, security, editor, and release
       reviews and honestly track received reviews and findings;
     - keep Linux and freestanding work outside the Windows Hosted 1.0 gate.
-19. **SH-26 owner-authorized 1.0 publication and review response — active next**
-    - obtain explicit owner authorization before creating `v1.0.0` or a public
-      final release;
-    - publish the deterministic Windows artifacts, VSIX, hashes, and release
-      record as one auditable set;
-    - continue external-review intake and route later findings through the
-      security or errata policy without weakening frozen performance, memory,
-      independence, or conformance gates.
+19. **SH-26 owner-authorized 1.0 publication and review response — complete**
+    - owner authorization, annotated `v1.0.0` tag, and ordinary GitHub final
+      release are recorded at one exact commit;
+    - the successful hash-locked workflow published and re-downloaded 15/15
+      deterministic Windows, VSIX, standard, hash, and release-record assets;
+    - D, TinyCC, generated C, an assembler, and an external linker were absent.
+20. **SH-27 post-release integrity and production performance — active**
+    - continuously stream-verify the final public asset set and immutable tag;
+    - keep the five independent-review tracks open and route findings through
+      the security or errata policies without claiming reviews not received;
+    - expand fair cold/warm, incremental, parallel, scaling, runtime, output,
+      and memory comparison to pinned MSVC, Clang, and D toolchains.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

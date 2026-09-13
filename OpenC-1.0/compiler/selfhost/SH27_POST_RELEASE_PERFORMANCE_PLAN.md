@@ -1,0 +1,51 @@
+# SH-27 post-release integrity and production-performance plan
+
+Status: **ACTIVE — PUBLIC INTEGRITY BASELINE PASS; PERFORMANCE EXPANSION OPEN**
+
+SH-27 begins after the immutable Windows x86-64 Hosted 1.0.0 publication. It
+does not modify or relabel the released artifacts and does not add Linux or
+freestanding work to the supported 1.0 scope.
+
+## A. Public artifact integrity — blocking and automated
+
+`scripts/verify_sh27_post_release.py` must resolve the annotated tag to the
+exact release commit, read the authorized release record, stream-download all
+15 public assets in bounded 1 MiB blocks, and verify names, sizes, GitHub API
+digests, downloaded SHA-256 digests, and the mandatory checksum list. This
+gate currently passes.
+
+## B. Independent review and errata — continuously open
+
+The five grammar, semantics, security, editor, and release/reproducibility
+tracks remain open. Received reviews must retain reviewer provenance and route
+findings through `release/ERRATA_POLICY.md` or `SECURITY.md`. Zero reviews have
+been received, so no independent certification is claimed.
+
+## C. Production C/D throughput expansion — highest engineering priority
+
+The existing SH-20 result remains a valid fixed-workload regression baseline,
+but it is not enough to claim broad parity with optimized production C and D
+toolchains. SH-27 expands measurement to pinned MSVC, LLVM/Clang, and DMD/LDC
+versions on the same Windows host and records cold and warm results for:
+
+1. small single-file command-line builds;
+2. the complete OpenC compiler self-build;
+3. multi-module incremental rebuilds with one changed source;
+4. parallel independent-project batches;
+5. generated large functions and many-small-function scaling;
+6. executable startup, file I/O, allocation, and representative runtime work;
+7. peak private bytes, peak working set, output size, and deterministic hash.
+
+Every language must perform comparable parsing, semantic checking, code
+generation, and linking work. Setup, cache policy, antivirus state, compiler
+version, command line, source bytes, and run order must be recorded. Medians,
+percentiles, and individual samples are published; selectively favorable
+cases cannot be promoted as the overall result.
+
+SH-27 performance closes only when the representative corpus and harness are
+checked in, MSVC plus Clang and at least one D compiler have executed it on a
+clean Windows runner, OpenC has no correctness or memory regression, and every
+remaining material deficit has either been fixed or is explicitly quantified.
+The local host currently has DMD but no MSVC or Clang installation in its
+normal environment, so broad production-comparator parity is correctly OPEN,
+not assumed from SH-20.

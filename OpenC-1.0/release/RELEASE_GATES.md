@@ -136,7 +136,9 @@ contracts, 20/20 exact rebuilds, and unchanged performance/memory limits. The
 that hold the compiler archive are independently bounded at 96 MiB. The
 native release proof produces byte-identical standalone/source ZIP pairs and
 passes relocated 14/14 daily, 38/38 contract, 44/44 finalization, and 278/278
-conformance checks. Final tagging and publication remain an SH-26 owner action.
+conformance checks. SH-26 owner authorization and final publication are now
+complete: `v1.0.0` resolves to the exact release commit and 15/15 assets pass
+remote size and SHA-256 verification.
 
 The SH-6 268-fixture package count is the immutable RC8 historical result.
 RC9 completes the mandatory successor gate: the relocated package executes the

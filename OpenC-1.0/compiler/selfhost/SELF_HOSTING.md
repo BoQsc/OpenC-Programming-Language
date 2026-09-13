@@ -598,8 +598,11 @@ client, incremental monotonic synchronization, cancellation, workspace
 lifecycle, bounded recovery, and its 33/33 native audit. SH-25 completes final
 `1.0.0` identity, deterministic native VSIX packaging, clean-profile VS Code
 activation/server/diagnostics with memory guards, and the honest five-track
-review intake. Its native finalization audit passes 44/44. SH-26 is the next
-milestone and awaits explicit owner authorization for tagging/publication.
+review intake. Its native finalization audit passes 44/44. SH-26 then completes
+owner authorization, the immutable `v1.0.0` tag, the final GitHub release, and
+15/15 remote-asset verification. SH-27 is active for continuing public
+integrity checks, external-review response, and representative production C/D
+performance comparison.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

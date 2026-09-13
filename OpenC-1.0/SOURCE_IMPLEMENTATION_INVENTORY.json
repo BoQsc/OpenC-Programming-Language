@@ -219,12 +219,12 @@
       "sha256": "83872bc5b5927b207bc4926956a0b3316fab9e66961bfafc4584cf74e57f1915"
     },
     {
-      "bytes": 55401,
+      "bytes": 57245,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/validate_structure.py",
       "present": true,
-      "sha256": "303dbe1bfc4f77e8353b683c96219c6bc33eb284ca713afb50e5c35aa56f2f87"
+      "sha256": "649b13c575f4a3d483d4b6dff4e75fc57e056b6651af89a06ee0577ee14b3946"
     },
     {
       "bytes": 13368,
@@ -257,6 +257,14 @@
       "path": "scripts/verify_sh13_throughput_independence.py",
       "present": true,
       "sha256": "e5e20aea39893cdeac576da7e65449403f05974005b95a08276f936dd4f1428f"
+    },
+    {
+      "bytes": 7649,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "scripts/verify_sh27_post_release.py",
+      "present": true,
+      "sha256": "131fba915702c9ae6108560f6404999442b42772a113b6af93794ee29f84dfb7"
     },
     {
       "bytes": 8892,
@@ -3302,9 +3310,9 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 3414931,
+    "bytes": 3424424,
     "empty": 0,
-    "files": 412,
+    "files": 413,
     "missing": 0
   },
   "version": "1.0.0"

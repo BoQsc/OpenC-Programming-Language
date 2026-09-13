@@ -24,7 +24,10 @@ adds the OpenC-owned PE/COFF ecosystem: object, DLL, static/import-library,
 resource/manifest, subsystem, and secure dynamic-link support plus its
 40-check native audit. SH-23 adds optional COM and WinRT projections with
 native GUID/HRESULT, IUnknown vtable, apartment, HSTRING, and activation
-factory execution plus a 28-check native audit.
+factory execution plus a 33-check native audit. SH-24 and SH-25 add the
+first-party editor, resilience, deterministic VSIX, clean-profile validation,
+and finalization gates. SH-26 adds hash-locked GitHub publication evidence;
+SH-27 adds bounded public-asset verification and production-performance plans.
 
 ## Legacy bootstrap and comparison material
 
@@ -73,8 +76,8 @@ performance budgets, the 12-case public native CLI verifier, the 21-case
 native project-workflow verifier, the 19-case native language-service verifier,
 the 23-case native semantic-language-service verifier, the SH-19 63-check
 native-backend and 6-check memory-guard verifiers, the SH-22 PE/COFF fixture
-and 40-check audit plan, the SH-23 COM/WinRT fixture and 28-check audit plan,
-transcript schemas and session fixtures,
+and 40-check audit plan, the SH-23 COM/WinRT fixture and 33-check audit plan,
+the SH-27 public-release streaming verifier, transcript schemas and session fixtures,
 build scripts, test drivers, release scripts, schemas, and
 source-completeness contracts are included.
 

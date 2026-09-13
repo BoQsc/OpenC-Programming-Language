@@ -56,7 +56,10 @@ required = [
     "compiler/selfhost/SH21_NATIVE_BENCHMARK_TRANCHE6_EVIDENCE.md",
     "compiler/selfhost/SH25_WINDOWS_1_0_FINALIZATION_PLAN.md",
     "compiler/selfhost/SH25_COMPLETION_EVIDENCE.md",
+    "compiler/selfhost/SH26_COMPLETION_EVIDENCE.md",
+    "compiler/selfhost/SH27_POST_RELEASE_PERFORMANCE_PLAN.md",
     "release/SH25_WINDOWS_1_0_FINALIZATION_EVIDENCE.md",
+    "release/SH26_GITHUB_PUBLICATION_EVIDENCE.md",
     "release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md",
     "release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md",
     "compiler/selfhost/benchmark_sh20_stability.py",
@@ -73,6 +76,7 @@ required = [
     "scripts/audit_sh19_native_corpus.py",
     "scripts/verify_sh19_memory_guards.py",
     "scripts/verify_sh19_native_scalars.py",
+    "scripts/verify_sh27_post_release.py",
     "tests/sh19_native_scalars/openc.project.json",
     "tests/SH21_NATIVE_WORKFLOW_TESTS.json",
     "tests/SH21_NATIVE_REPOSITORY_AUDIT_PLAN.tsv",
@@ -742,17 +746,17 @@ if (
         "release, relocation, legacy-tool exclusion, and bounded-memory evidence"
     )
 if (
-    active_plan.get("id") != "SH-26"
-    or active_plan.get("name") != "owner_authorized_1_0_publication_and_review_response"
-    or active_plan.get("status") != "PENDING_OWNER_AUTHORIZATION"
-    or active_plan.get("blocked_by_sh25")
+    active_plan.get("id") != "SH-27"
+    or active_plan.get("name") != "post_release_integrity_and_production_performance"
+    or active_plan.get("status") != "ACTIVE"
+    or active_plan.get("blocked_by_sh26")
 ):
-    errors.append("SH-26 owner-authorized 1.0 publication must follow SH-25")
+    errors.append("SH-27 post-release performance work must follow SH-26")
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
-    "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE"
+    "SH-27_POST_RELEASE_INTEGRITY_AND_PRODUCTION_PERFORMANCE"
 ):
-    errors.append("development state must name owner-authorized publication as SH-26")
+    errors.append("development state must name post-release performance as SH-27")
 development_sh19 = development_self_hosting.get("sh19_acceptance", {})
 if (
     development_sh19.get("status") != "PASS"
@@ -931,6 +935,41 @@ for label, sh25 in (("self-hosting", sh25_gate), ("development", development_sh2
         or sh25.get("public_release_created")
     ):
         errors.append(f"SH-25 {label} state must record complete honest finalization evidence")
+sh26_gate = next(
+    (gate for gate in self_hosting.get("gates", [])
+     if gate.get("id") == "SH-26"),
+    {},
+)
+development_sh26 = development_self_hosting.get("sh26_acceptance", {})
+for label, sh26 in (("self-hosting", sh26_gate), ("development", development_sh26)):
+    if (
+        sh26.get("status") not in {"PASS", "PASS_COMPLETE"}
+        or sh26.get("release_commit")
+        != "d0f77f6268154ac06f4206c01cd349b226b53c1b"
+        or sh26.get("release_tag") != "v1.0.0"
+        or sh26.get("github_release_assets_verified", sh26.get("github_assets_verified"))
+        != 15
+        or sh26.get("native_full_tasks_passed") != 19
+        or sh26.get("native_conformance_fixtures_passed") != 278
+        or sh26.get("release_record_sha256")
+        != "0b7cdd6620bb9155651da8ab0e07f2eeae510295f7e7a40eed8f4a4f835a6467"
+        or sh26.get("independent_review_claimed")
+        or sh26.get("linux_and_freestanding_gate")
+    ):
+        errors.append(f"SH-26 {label} state must record exact final publication evidence")
+publication = development.get("publication", {})
+if (
+    publication.get("authorization_status") != "AUTHORIZED_AND_PUBLISHED"
+    or publication.get("release_tag") != "v1.0.0"
+    or publication.get("release_commit")
+    != "d0f77f6268154ac06f4206c01cd349b226b53c1b"
+    or not publication.get("release_tag_published")
+    or not publication.get("github_release_assets_published")
+    or publication.get("github_release_asset_count") != 15
+    or not development.get("published")
+    or not development.get("released")
+):
+    errors.append("development publication state must record released v1.0.0")
 if (
     windows_plan.get("implementation_blocked_until_sh14_pass")
     or not windows_plan.get("implementation_unblocked_by_sh14_pass")
@@ -945,15 +984,16 @@ if (
     or not windows_plan.get("sh23_completed")
     or not windows_plan.get("sh24_completed")
     or not windows_plan.get("sh25_completed")
+    or not windows_plan.get("sh26_completed")
     or windows_plan.get("active_milestone")
-    != "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE"
+    != "SH-27_POST_RELEASE_INTEGRITY_AND_PRODUCTION_PERFORMANCE"
     or windows_plan.get("sequence", [None])[0]
     != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
     or windows_plan.get("sequence", [None])[-1]
-    != "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE"
+    != "SH-27_POST_RELEASE_INTEGRITY_AND_PRODUCTION_PERFORMANCE"
 ):
     errors.append(
-        "Windows independence must record SH-25 complete and SH-26 active"
+        "Windows independence must record SH-26 complete and SH-27 active"
     )
 
 windows_target = json.loads((

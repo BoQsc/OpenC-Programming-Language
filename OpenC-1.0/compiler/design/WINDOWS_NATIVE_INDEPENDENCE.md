@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **SH-25 PASS; SH-26 OWNER-AUTHORIZED PUBLICATION ACTIVE NEXT**
+Status: **SH-26 PASS; V1.0.0 PUBLISHED; SH-27 PERFORMANCE EXPANSION ACTIVE**
 
 OpenC's Windows path must preserve a strict separation:
 
@@ -293,9 +293,10 @@ SH-15 through SH-22 or add Windows concepts to Core.
 SH-24 completes native editor integration and language-service resilience.
 SH-25 completes deterministic native VSIX packaging, clean-profile Windows
 editor validation, explicit editor/server memory guards, and final 1.0 evidence
-freeze. SH-26 is restricted to owner-authorized tag/publication and subsequent
-review response. ARM64 begins only after the x64 ABI, backend, runtime, raw
-bindings, and release loop are stable and independent.
+freeze. SH-26 completes the owner-authorized tag, final publication, and remote
+asset verification. SH-27 preserves that release while expanding representative
+production C/D throughput measurement. ARM64 begins only after the x64 ABI,
+backend, runtime, raw bindings, and release loop are stable and independent.
 
 ## Verification policy
 

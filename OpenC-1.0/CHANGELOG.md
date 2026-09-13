@@ -1,5 +1,22 @@
 # OpenC development changelog
 
+## 1.0.0 final — SH-26 publication complete; SH-27 active
+
+- recorded explicit owner authorization and published the annotated `v1.0.0`
+  tag at `d0f77f6268154ac06f4206c01cd349b226b53c1b`;
+- added a pinned, hash-locked GitHub Actions release workflow that rebuilt the
+  exact OpenC fixed point and passed all 19 native workflow tasks before
+  publication;
+- published 15 final standard, source, standalone, VSIX, evidence, checksum,
+  and release-record assets and streamed all 48,681,989 bytes back for exact
+  SHA-256 verification;
+- used only a previous OpenC binary for compiler bootstrap; D, TinyCC,
+  generated C, assemblers, and external linkers were not invoked;
+- retained the honest zero-independent-review disclosure and optional
+  Linux/freestanding status; and
+- opened SH-27 public-integrity monitoring and broad production MSVC/Clang/D
+  performance expansion without overstating the narrower SH-20 comparison.
+
 ## 1.0.0 engineering candidate — SH-25 Windows finalization complete
 
 - promoted the canonical candidate identity and executed conformance evidence

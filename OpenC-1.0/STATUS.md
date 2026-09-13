@@ -38,8 +38,8 @@ native project workflow:              SH-10 PASS; FMT/INFO/TEST, 21/21
 native language service:              SH-11 PASS; LIFECYCLE/DIAGNOSTICS/FMT, 19/19
 native semantic language service:     SH-12 PASS; SYMBOLS/NAV/COMPLETE/RENAME, 23/23
 human + machine diagnostics:          PASS; `openc.check.v1` + STABLE STREAMS
-completed engineering milestone:     SH-25 WINDOWS 1.0 FINALIZATION/REVIEW INTAKE
-next engineering milestone:          SH-26 OWNER-AUTHORIZED 1.0 PUBLICATION/REVIEW RESPONSE
+completed engineering milestone:     SH-26 OWNER-AUTHORIZED 1.0 PUBLICATION
+next engineering milestone:          SH-27 POST-RELEASE INTEGRITY/PRODUCTION PERFORMANCE
 SH-25 finalization audit:             PASS; 44/44
 SH-25 deterministic VSIX:             PASS; 9 ENTRIES, 081ff8dd, BYTE-EXACT PAIR
 SH-25 clean-profile editor:           PASS; VSCODE 1.137.0, ACTIVATE/SERVER/DIAGNOSTICS
@@ -52,6 +52,11 @@ SH-25 native benchmark:               PASS; 20/20; 12.843 S BUILD, 6.282 S VALID
 SH-25 compiler RAM guards:            PASS; 175,710,208 PRIVATE / 60,731,392 WORKING SET
 SH-25 artifact-tool RAM guard:        PASS; 96 MiB DISTINCT FROM 64 MiB COMPILER GATE
 SH-25 native release:                 PASS; BYTE-EXACT ZIPS + RELOCATED FINALIZATION
+SH-26 GitHub workflow:                PASS; RUN 34770148453
+SH-26 final tag/release:               v1.0.0; d0f77f6; PUBLISHED
+SH-26 public assets:                   PASS; 15/15 STREAM-DOWNLOADED + SHA-256 EXACT
+SH-27 public integrity baseline:       PASS; 15/15, 48,681,989 BYTES
+SH-27 production C/D corpus:           ACTIVE; MSVC/CLANG/DMD COMPARISON OPEN
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
@@ -82,7 +87,7 @@ SH-19 native backend verification:   PASS; 63/63 SCALARS, 6/6 MEMORY, 20/20 RELE
 SH-20 public throughput verification: PASS; OPENC 17.064 S, C 22.732 S, D 17.504 S
 COM/IUnknown/WinRT projections:       SH-23 PASS; 33/33 NATIVE ABI CHECKS
 first-party editor client:            PASS; VSCODE, INCREMENTAL/CANCEL/WORKSPACE/RECOVERY
-active critical path:                 SH-26 OWNER-AUTHORIZED 1.0 PUBLICATION/REVIEW RESPONSE
+active critical path:                 SH-27 PRODUCTION C/D PERFORMANCE EXPANSION
 DMD/TinyCC-independent compiler:     YES; PUBLIC `openc build`, DIRECT PE32+
 standalone compiler distribution:    YES; NO C/TCC/D/PYTHON/ASM/LINKER
 normal compilation independent:      YES; PYTHON IS OPTIONAL EVIDENCE ONLY
@@ -112,10 +117,10 @@ specification/docs/assets:           CC0-1.0
 vendored TinyCC audit component:     OPTIONAL; LGPL-2.1 + BUNDLED TERMS
 release authority:                   OPENC PROJECT OWNER
 formal release ready:                YES FOR DECLARED WINDOWS HOSTED SCOPE
-final 1.0 authorization:             PENDING OWNER ACTION IN SH-26
-final public release tag:            v1.0.0 NOT CREATED
-latest published release:            v1.0.0-rc.9; 14/14 ASSETS VERIFIED
-published/released final 1.0:         NO; ENGINEERING CANDIDATE IS READY
+final 1.0 authorization:             AUTHORIZED 2026-09-13T16:29:48Z
+final public release tag:            v1.0.0 -> d0f77f6268154ac06f4206c01cd349b226b53c1b
+latest published release:            v1.0.0; 15/15 ASSETS VERIFIED
+published/released final 1.0:         YES; 2026-09-13T17:08:01Z
 ```
 
 `RELEASE_READY` means the declared local gates pass. Owner authorization,
@@ -123,10 +128,9 @@ immutable source tagging, and release-asset publication are distinct actions.
 This does not imply independent certification or verification on targets
 outside the declared scope.
 
-The RC8 tag and standalone archive remain an immutable 268-fixture historical
-release-candidate record. RC9 reproduces the expanded 278-fixture corpus and
-native compiler closure from the relocated package and is published at
-`https://github.com/BoQsc/OpenC-Programming-Language/releases/tag/v1.0.0-rc.9`.
+The RC8 and RC9 tags remain immutable historical release-candidate records.
+The final 278-fixture OpenC 1.0 release is published at
+`https://github.com/BoQsc/OpenC-Programming-Language/releases/tag/v1.0.0`.
 
 SH-8 makes the OpenC-native compiler the default Windows Hosted
 compiler-under-test, enforces measured validation/rebuild budgets, and skips
@@ -188,7 +192,9 @@ editor audit. Its 220-source compiler passes the 16/16 workflow and 20/20
 closure at `d7bf359a…c186`. SH-25 then freezes the final `1.0.0` identity,
 adds OpenC-native deterministic VSIX packaging and a 44/44 finalization audit,
 and passes a real clean-profile VS Code activation/server/diagnostic run under
-separate editor and OpenC memory guards. External review remains openly invited
-and honestly unclaimed. SH-26 is the explicit owner-authorized tag/publication
-and review-response milestone. Linux, freestanding, and ARM64 remain optional
+separate editor and OpenC memory guards. SH-26 then records owner authorization,
+the exact annotated tag, the successful GitHub workflow, and 15/15 remotely
+verified final assets. External review remains openly invited and honestly
+unclaimed. SH-27 now owns public-artifact monitoring and broader production
+MSVC/Clang/DMD performance work. Linux, freestanding, and ARM64 remain optional
 later targets.

@@ -389,5 +389,8 @@ bounded 96 MiB ceiling; the compiler gate remains 64 MiB. The native
 finalization audit passes 44/44.
 
 Five independent-review tracks are invited, but zero reviews have been
-received and none are claimed. Final `v1.0.0` tagging and publication are not
-part of this engineering gate; SH-26 awaits explicit owner authorization.
+received and none are claimed. SH-26 is complete: the owner-authorized
+`v1.0.0` tag resolves to `d0f77f6268154ac06f4206c01cd349b226b53c1b`, the
+GitHub workflow passes, and all 15 public assets were streamed back with exact
+sizes and SHA-256 digests. SH-27 keeps that integrity check live and begins the
+broader production MSVC/Clang/D performance program.

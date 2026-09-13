@@ -1,6 +1,10 @@
-openc.native_release_plan.v1	1	1734
+openc.native_release_plan.v1	1	1738
 compiler/selfhost/SH25_WINDOWS_1_0_FINALIZATION_PLAN.md
 compiler/selfhost/SH25_COMPLETION_EVIDENCE.md
+compiler/selfhost/SH26_COMPLETION_EVIDENCE.md
+compiler/selfhost/SH27_POST_RELEASE_PERFORMANCE_PLAN.md
+release/SH26_GITHUB_PUBLICATION_EVIDENCE.md
+scripts/verify_sh27_post_release.py
 compiler/selfhost/source/cli_finalization.p
 editors/vscode/[Content_Types].xml
 editors/vscode/extension.vsixmanifest

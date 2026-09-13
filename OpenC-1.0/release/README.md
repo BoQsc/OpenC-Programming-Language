@@ -87,14 +87,17 @@ completeness is complete with a relocated 40/40 native artifact audit; see
 `../compiler/selfhost/SH22_COMPLETION_EVIDENCE.md`. SH-23 optional COM/WinRT
 projection and SH-24 native editor/resilience work are complete; see
 `../compiler/selfhost/SH24_COMPLETION_EVIDENCE.md`. SH-25 Windows 1.0
-finalization and independent-review intake is active next.
+finalization and independent-review intake is complete. SH-26 final GitHub
+publication and 15/15 remote verification are complete; see
+`SH26_GITHUB_PUBLICATION_EVIDENCE.md`. SH-27 post-release integrity and
+production performance expansion is active.
 
-The complete publication set is assembled by
-`build_release_artifacts.py` and verified by
-`verify_release_artifacts.py`. The builder emits the artifact layout, mandatory
-checksum list, and schema-valid owner authorization record without claiming
-that a tag, push, or publication occurred. Those state changes are performed
-and recorded separately.
+The final publication set was assembled and verified by the hash-locked GitHub
+Actions workflow at the repository root. It emitted the artifact layout,
+mandatory checksum list, and schema-valid owner authorization record, created
+the immutable annotated tag, published the release, and streamed every public
+asset back for exact verification. The earlier Python builders remain optional
+historical/local release tooling.
 
 The current owner authorization and public-tag state is recorded in
 `PUBLICATION_STATUS.md`.

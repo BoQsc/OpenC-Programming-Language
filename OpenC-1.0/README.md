@@ -91,10 +91,11 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   repository; it and bundled headers are excluded from the SH-19 standalone
   package while their public-domain and MIT notices remain preserved.
 
-The Windows x86-64 Hosted `1.0.0` engineering candidate is release-ready but
-has not been tagged or published. The latest public release remains the
-owner-certified `v1.0.0-rc.9` GitHub prerelease. Independent third-party review
-is invited and may produce errata; no independent review is currently claimed.
+The Windows x86-64 Hosted `1.0.0` release is owner-authorized and published at
+`https://github.com/BoQsc/OpenC-Programming-Language/releases/tag/v1.0.0`.
+Its 15 public assets have been stream-downloaded and SHA-256 verified against
+the release record. Independent third-party review is invited and may produce
+errata; no independent review is currently claimed.
 
 The public RC8 package evidence remains the immutable 268-fixture historical
 record described above. RC9 is the published 278-fixture successor. Mainline
@@ -142,9 +143,10 @@ dependency-free first-party VS Code client passes its 33/33 native audit with
 incremental synchronization, cancellation, workspace lifecycle, and bounded
 recovery. SH-25 Windows 1.0 finalization is complete: the native compiler
 produces a byte-deterministic VSIX, and a clean VS Code profile passes
-activation, native-server, diagnostics, and memory gates. SH-26 is the explicit
-owner-authorized final tag/publication and review-response step. See
-`compiler/selfhost/SH25_WINDOWS_1_0_FINALIZATION_PLAN.md` and
+activation, native-server, diagnostics, and memory gates. SH-26 completes the
+owner-authorized final tag, GitHub publication, and remote verification.
+SH-27 now expands public integrity and production C/D performance work. See
+`compiler/selfhost/SH27_POST_RELEASE_PERFORMANCE_PLAN.md` and
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
