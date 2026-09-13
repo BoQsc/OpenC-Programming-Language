@@ -102,6 +102,20 @@ unsafe bool cli_release_package_workflow(
     }
     if passed {
         command = d_buffer_create(32768);
+        cli_workflow_command_start(command, compiler, "editor-audit");
+        cli_workflow_command_named_argument(command, "--root=", distribution);
+        cli_workflow_command_named_argument(
+            command, "--output=", path.join(
+                output_directory, "relocated-editor-audit.json"
+            )
+        );
+        passed = cli_release_run_task(
+            command, "OpenC native editor audit: PASS (33/33)", task_elapsed
+        );
+        d_buffer_destroy(command);
+    }
+    if passed {
+        command = d_buffer_create(32768);
         cli_workflow_command_start(command, compiler, "contract-audit");
         cli_workflow_command_named_argument(command, "--root=", distribution);
         cli_workflow_command_named_argument(
@@ -110,7 +124,7 @@ unsafe bool cli_release_package_workflow(
             )
         );
         passed = cli_release_run_task(
-            command, "OpenC native contract audit: PASS (34/34)", task_elapsed
+            command, "OpenC native contract audit: PASS (36/36)", task_elapsed
         );
         d_buffer_destroy(command);
     }

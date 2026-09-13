@@ -1,0 +1,39 @@
+{
+  "name": "openc",
+  "displayName": "OpenC",
+  "description": "First-party OpenC language support using the native OpenC language server.",
+  "version": "0.1.0",
+  "publisher": "openc-language",
+  "license": "0BSD",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Programming Languages"],
+  "activationEvents": ["onLanguage:openc"],
+  "main": "./extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "openc",
+        "aliases": ["OpenC", "openc"],
+        "extensions": [".p"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "configuration": {
+      "title": "OpenC",
+      "properties": {
+        "openc.compilerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Optional path to openc.exe. The extension uses the compiler packaged with the OpenC distribution when empty."
+        },
+        "openc.trace.server": {
+          "type": "boolean",
+          "default": false,
+          "description": "Write OpenC language-server protocol messages to the OpenC output channel."
+        }
+      }
+    }
+  }
+}

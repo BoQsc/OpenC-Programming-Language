@@ -53,7 +53,7 @@ unsafe i32 cli_lsp_audit_command() {
     cli_lsp_audit_case(cases, counts, "primary_jsonrpc_framing", primary_frames_ok);
     cli_lsp_audit_case(cases, counts, "initialize_response", cli_lsp_audit_frame_contains(primary_output_value, 0, "\"id\":1,\"result\":"));
     cli_lsp_audit_case(cases, counts, "utf8_position_encoding", cli_lsp_audit_frame_contains(primary_output_value, 0, "\"positionEncoding\":\"utf-8\""));
-    cli_lsp_audit_case(cases, counts, "full_document_sync", cli_lsp_audit_frame_contains(primary_output_value, 0, "\"textDocumentSync\":{\"openClose\":true,\"change\":1}"));
+    cli_lsp_audit_case(cases, counts, "incremental_document_sync", cli_lsp_audit_frame_contains(primary_output_value, 0, "\"textDocumentSync\":{\"openClose\":true,\"change\":2}"));
     cli_lsp_audit_case(cases, counts, "formatting_capability", cli_lsp_audit_frame_contains(primary_output_value, 0, "\"documentFormattingProvider\":true"));
     cli_lsp_audit_case(cases, counts, "server_identity", cli_lsp_audit_frame_contains(primary_output_value, 0, "\"serverInfo\":{\"name\":\"openc-lsp\""));
     cli_lsp_audit_case(cases, counts, "did_open_diagnostics", cli_lsp_audit_frame_contains(primary_output_value, 1, "\"method\":\"textDocument/publishDiagnostics\"") && cli_lsp_audit_frame_contains(primary_output_value, 1, "\"version\":1"));

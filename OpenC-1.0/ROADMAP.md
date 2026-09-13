@@ -287,14 +287,22 @@ IR reach closure. Exact evidence and reproduction commands are in
       KERNEL32-only static imports, CRT freedom, deterministic output, and the
       no-Python/D/C/TinyCC/assembler/linker toolchain boundary; see
       [SH-23 evidence](compiler/selfhost/SH23_COMPLETION_EVIDENCE.md).
-17. **SH-24 native editor integration and language-service resilience — active next**
-    - ship a first-party editor client that launches the packaged native server;
-    - add incremental monotonic-version synchronization, cancellation,
-      workspace lifecycle, bounded resource handling, and protocol stress;
-    - build on the now-complete throughput and Windows-independence milestones.
-18. **Seek independent review**
-   - invite independent grammar, semantic, security, and usability reviews;
-     this is additional assurance, not a Windows Hosted 1.0 release blocker.
+17. **SH-24 native editor integration and language-service resilience — complete**
+    - the dependency-free first-party VS Code client launches the packaged
+      native server and exposes diagnostics, formatting, symbols, navigation,
+      completion, and rename for `.p` source;
+    - incremental monotonic-version synchronization, cancellation, workspace
+      lifecycle, bounded restart/resynchronization, and protocol/resource
+      ceilings pass the 33/33 OpenC-native editor audit;
+    - the complete gate remains independent of Python, D, C, TinyCC, Node/npm,
+      an assembler, an external linker, and the network; see
+      [SH-24 evidence](compiler/selfhost/SH24_COMPLETION_EVIDENCE.md).
+18. **SH-25 Windows 1.0 finalization and independent-review intake — active next**
+    - install and exercise the packaged editor in a clean Windows/VS Code
+      profile and freeze the final Windows x64 usability evidence;
+    - invite independent grammar, semantic, security, editor, and release
+      reviews, then triage any P0/P1 findings before the final 1.0 tag;
+    - keep Linux and freestanding work outside the Windows Hosted 1.0 gate.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

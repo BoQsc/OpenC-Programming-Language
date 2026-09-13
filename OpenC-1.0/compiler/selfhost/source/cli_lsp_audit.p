@@ -141,7 +141,15 @@ unsafe i32 cli_lsp_audit_batch_command(text input_path) {
         return 1;
     }
     LspState state = LspState{
-        initialized = false, shutdown_requested = false, root_uri = d_buffer_create(16384), document0 = lsp_document_create(), document1 = lsp_document_create(), document2 = lsp_document_create(), document3 = lsp_document_create(), document4 = lsp_document_create(), document5 = lsp_document_create(), document6 = lsp_document_create(), document7 = lsp_document_create()
+        initialized = false, shutdown_requested = false,
+        cancellation_cursor = 0, cancelled0 = 0, cancelled1 = 0,
+        cancelled2 = 0, cancelled3 = 0, cancelled4 = 0,
+        cancelled5 = 0, cancelled6 = 0, cancelled7 = 0,
+        root_uri = d_buffer_create(16384),
+        document0 = lsp_document_create(), document1 = lsp_document_create(),
+        document2 = lsp_document_create(), document3 = lsp_document_create(),
+        document4 = lsp_document_create(), document5 = lsp_document_create(),
+        document6 = lsp_document_create(), document7 = lsp_document_create()
     };
     usize frame = 0;
     while frame < complete.frames {

@@ -1024,20 +1024,87 @@
       "historical_rule_id_matches_disclosed": 93,
       "linux_and_freestanding_gate": false,
       "next_milestone": "SH-24_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
+    },
+    {
+      "id": "SH-24",
+      "name": "native_editor_integration_and_lsp_resilience",
+      "status": "PASS",
+      "plan": "compiler/selfhost/SH24_EDITOR_RESILIENCE_PLAN.md",
+      "evidence": "compiler/selfhost/SH24_COMPLETION_EVIDENCE.md",
+      "target": "windows_x86_64_hosted",
+      "compiler_implementation_language": "OpenC",
+      "editor_client": "editors/vscode",
+      "editor_client_external_dependencies": 0,
+      "compiler_source_files": 220,
+      "compiler_source_bytes": 1969085,
+      "native_compiler_sha256": "d7bf359a19bff4d4f4301678f15026ff65ff599af3921927c339fde3bdccc186",
+      "native_compiler_bytes": 6903808,
+      "stage2_stage3_byte_equal": true,
+      "native_lsp_audit_checks_passed": 42,
+      "native_lsp_audit_checks_total": 42,
+      "native_editor_audit_checks_passed": 33,
+      "native_editor_audit_checks_total": 33,
+      "native_editor_resilience_frames": 12,
+      "native_editor_capacity_frames": 12,
+      "native_editor_resilience_sha256": "76101aea40e11280134a0db90b8d91a6854356e1afe8963939ff04f13ec6cad1",
+      "native_editor_capacity_sha256": "28baf6cdaa300cae98e7ed64a93400253b5857a718b3d6504e89ce6e5cfe3c54",
+      "native_contract_audit_checks_passed": 36,
+      "native_contract_audit_checks_total": 36,
+      "native_repository_required_files": 495,
+      "native_pinned_hashes": 39,
+      "native_fixture_identities": 278,
+      "native_active_rule_coverage": 466,
+      "native_grammar_production_coverage": 174,
+      "native_daily_tasks_passed": 11,
+      "native_full_tasks_passed": 16,
+      "native_benchmark_runs_passed": 20,
+      "native_benchmark_exact_closures": 20,
+      "native_benchmark_build_median_milliseconds": 11765,
+      "native_benchmark_validation_median_milliseconds": 6023,
+      "native_benchmark_peak_private_bytes": 174501888,
+      "native_benchmark_peak_working_set_bytes": 59146240,
+      "native_release_plan_entries": 1722,
+      "standalone_archive_files": 1432,
+      "standalone_manifest_entries": 1431,
+      "source_archive_files": 1722,
+      "standalone_archives_byte_equal": true,
+      "source_archives_byte_equal": true,
+      "relocated_stage2_stage3_byte_equal": true,
+      "relocated_editor_audit_checks_passed": 33,
+      "relocated_conformance_fixtures_passed": 278,
+      "incremental_document_sync": true,
+      "strict_monotonic_versions": true,
+      "request_cancellation": true,
+      "workspace_folder_lifecycle": true,
+      "bounded_restart_resynchronization": true,
+      "protocol_message_limit_bytes": 4194304,
+      "protocol_header_limit_bytes": 8192,
+      "client_pending_request_limit": 128,
+      "server_document_limit": 8,
+      "server_cancelled_request_limit": 8,
+      "client_restart_attempt_limit": 3,
+      "python_invoked_by_required_workflow": false,
+      "d_invoked_by_required_workflow": false,
+      "c_or_tinycc_invoked_by_required_workflow": false,
+      "node_or_npm_invoked_by_required_workflow": false,
+      "external_assembler_or_linker_invoked_by_required_workflow": false,
+      "historical_rule_id_matches_disclosed": 93,
+      "linux_and_freestanding_gate": false,
+      "next_milestone": "SH-25_WINDOWS_1_0_FINALIZATION_AND_INDEPENDENT_REVIEW_INTAKE"
     }
   ],
   "planned_milestones": {
     "active": {
-      "id": "SH-24",
-      "name": "native_editor_integration_and_lsp_resilience",
+      "id": "SH-25",
+      "name": "windows_1_0_finalization_and_independent_review_intake",
       "status": "ACTIVE_NEXT",
-      "blocked_by_sh23": false,
+      "blocked_by_sh24": false,
       "target": "windows_x86_64_hosted",
       "scope": [
-        "first-party packaged native editor client",
-        "incremental monotonic-version document synchronization",
-        "request cancellation and workspace lifecycle",
-        "bounded protocol and resource stress verification"
+        "clean-profile packaged editor installation and usability validation",
+        "independent grammar semantic security editor and release review intake",
+        "P0 and P1 review triage before the final 1.0 tag",
+        "final Windows x86-64 Hosted evidence freeze"
       ]
     },
     "windows_independence_plan": {
@@ -1047,7 +1114,7 @@
       "sh15_completed": true,
       "sh16_completed": true,
       "sh17_completed": true,
-      "active_milestone": "SH-24_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE",
+      "active_milestone": "SH-25_WINDOWS_1_0_FINALIZATION_AND_INDEPENDENT_REVIEW_INTAKE",
       "sequence": [
         "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE",
         "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME",
@@ -1058,7 +1125,8 @@
         "SH-21_OPENC_NATIVE_WORKFLOWS_AND_BOOTSTRAP_BOUNDARY",
         "SH-22_PE_COFF_ECOSYSTEM_COMPLETENESS",
         "SH-23_OPTIONAL_COM_AND_WINRT",
-        "SH-24_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
+        "SH-24_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE",
+        "SH-25_WINDOWS_1_0_FINALIZATION_AND_INDEPENDENT_REVIEW_INTAKE"
       ],
       "normal_toolchain_independence_target": {
         "tinycc_required": false,
@@ -1075,7 +1143,8 @@
       "sh20_completed": true,
       "sh21_completed": true,
       "sh22_completed": true,
-      "sh23_completed": true
+      "sh23_completed": true,
+      "sh24_completed": true
     }
   },
   "rc9_standalone_refresh": {
@@ -1261,5 +1330,16 @@
     "sh22_twenty_build_closure": true,
     "sh22_performance_and_memory_gates": true,
     "sh22_completed": true
+    ,
+    "optional_com_and_winrt": true,
+    "sh23_completed": true,
+    "first_party_vscode_editor_client": true,
+    "native_lsp_incremental_monotonic_sync": true,
+    "native_lsp_cancellation_and_workspace_lifecycle": true,
+    "bounded_editor_restart_and_resynchronization": true,
+    "bounded_lsp_protocol_resources": true,
+    "sh24_twenty_build_closure": true,
+    "sh24_performance_and_memory_gates": true,
+    "sh24_completed": true
   }
 }

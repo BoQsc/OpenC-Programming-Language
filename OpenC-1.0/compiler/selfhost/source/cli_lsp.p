@@ -15,6 +15,15 @@ struct LspDocument {
 struct LspState {
     bool initialized;
     bool shutdown_requested;
+    usize cancellation_cursor;
+    usize cancelled0;
+    usize cancelled1;
+    usize cancelled2;
+    usize cancelled3;
+    usize cancelled4;
+    usize cancelled5;
+    usize cancelled6;
+    usize cancelled7;
     DBuffer root_uri;
     LspDocument document0;
     LspDocument document1;
@@ -28,6 +37,45 @@ struct LspState {
 
 usize lsp_max_documents() {
     return 8;
+}
+
+usize lsp_max_message_bytes() {
+    return 4194304;
+}
+
+usize lsp_max_cancelled_requests() {
+    return 8;
+}
+
+unsafe void lsp_cancel_request(ref LspState state, usize id) {
+    if id == 0 { return; }
+    usize slot = state.cancellation_cursor %
+        lsp_max_cancelled_requests();
+    if slot == 0 { state.cancelled0 = id; }
+    else if slot == 1 { state.cancelled1 = id; }
+    else if slot == 2 { state.cancelled2 = id; }
+    else if slot == 3 { state.cancelled3 = id; }
+    else if slot == 4 { state.cancelled4 = id; }
+    else if slot == 5 { state.cancelled5 = id; }
+    else if slot == 6 { state.cancelled6 = id; }
+    else { state.cancelled7 = id; }
+    state.cancellation_cursor = state.cancellation_cursor + 1;
+}
+
+unsafe bool lsp_take_cancelled_request(
+    ref LspState state,
+    usize id
+) {
+    if id == 0 { return false; }
+    if state.cancelled0 == id { state.cancelled0 = 0; return true; }
+    if state.cancelled1 == id { state.cancelled1 = 0; return true; }
+    if state.cancelled2 == id { state.cancelled2 = 0; return true; }
+    if state.cancelled3 == id { state.cancelled3 = 0; return true; }
+    if state.cancelled4 == id { state.cancelled4 = 0; return true; }
+    if state.cancelled5 == id { state.cancelled5 = 0; return true; }
+    if state.cancelled6 == id { state.cancelled6 = 0; return true; }
+    if state.cancelled7 == id { state.cancelled7 = 0; return true; }
+    return false;
 }
 
 unsafe LspDocument lsp_document_create() {

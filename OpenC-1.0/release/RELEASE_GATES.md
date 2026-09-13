@@ -25,6 +25,10 @@ G19 PE32+ and CRT-free runtime (SH-16)                    PASS 34/34
 G20 WinMD raw + idiomatic Windows projections (SH-17/18) PASS 30/30 + 27/27
 G21 compiler-capable native backend and TinyCC exit       PASS 20/20 RELEASE
 G22 native public C/D-class throughput (SH-20)             PASS 20/20 STABILITY
+G23 OpenC-native workflow/release ownership (SH-21)        PASS 13/13
+G24 PE/COFF ecosystem completeness (SH-22)                 PASS 40/40
+G25 optional COM and WinRT projections (SH-23)             PASS 33/33
+G26 native editor integration and LSP resilience (SH-24)   PASS 33/33
 ```
 
 There are no open P0/P1 findings in the maintainer release review. Independent
@@ -110,6 +114,17 @@ chained outputs are byte-identical; peak private and working-set memory remain
 inside 256 MiB and 64 MiB. OpenC-native replacement of the external Python
 evidence workflows is now the active SH-21 milestone. Linux and freestanding
 verification remain optional future scope.
+
+SH-21 through SH-23 complete OpenC-native workflow/release ownership, the
+PE/COFF ecosystem, and optional COM/WinRT projections. SH-24 ships the
+dependency-free first-party VS Code client and requires incremental monotonic
+document synchronization, cancellation propagation, workspace-folder
+lifecycle, bounded restart/resynchronization, and explicit message/header/
+request/document limits. Its 33/33 native audit, 36/36 residual contracts,
+495-file repository audit, 278/278 conformance, 20/20 exact rebuild chain, and
+16/16 full workflow pass without Python, D, C, TinyCC, Node/npm, an assembler,
+an external linker, or the network. Linux and freestanding remain outside the
+Windows Hosted 1.0 gate.
 
 The SH-6 268-fixture package count is the immutable RC8 historical result.
 RC9 completes the mandatory successor gate: the relocated package executes the

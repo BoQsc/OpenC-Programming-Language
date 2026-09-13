@@ -356,5 +356,23 @@ rebuilds. The 219-source, 6,767,616-byte compiler closes at SHA-256
 `33554c3701d63caea0c708c94c34d955904a5d8a12f7fe238cec028b126a8d3f`.
 Its measured build/validation medians are 15.063/7.729 seconds, with
 172,986,368 private and 57,532,416 working-set bytes at peak; every unchanged
-throughput and RAM gate passes. SH-24 editor integration and language-service
-resilience is active next.
+throughput and RAM gate passes.
+
+SH-24 native editor integration and language-service resilience is **PASS and
+complete**. The dependency-free first-party VS Code client launches the
+packaged native server, exposes the SH-11/SH-12 feature surface, synchronizes
+incremental UTF-8 edits with strictly increasing versions, propagates
+cancellation, follows workspace folders, and resynchronizes after at most
+three restart attempts. Client and server enforce fixed protocol, request,
+document, and cancellation limits.
+
+The native editor audit passes 33/33 over two deterministic 12-frame sessions;
+the residual contract audit passes 36/36 and the repository audit passes
+495/495 files, 39/39 hashes, 278/278 fixtures, 466/466 rules, and 174/174
+grammar productions. The full workflow passes 16/16, including 278/278
+conformance and 20/20 exact self-builds. The 220-source, 6,903,808-byte
+compiler closes at SHA-256
+`d7bf359a19bff4d4f4301678f15026ff65ff599af3921927c339fde3bdccc186`.
+Build/validation medians are 11.765/6.023 seconds; peak private/working-set
+memory is 174,501,888/59,146,240 bytes, inside the unchanged 256/64 MiB gates.
+SH-25 Windows 1.0 finalization and independent-review intake is active next.

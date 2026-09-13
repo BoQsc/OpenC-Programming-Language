@@ -18,11 +18,12 @@ unsafe void native_lsp_read_frame(
     x64_mov_memory_r64(function.code, 11, 8, 0);
     // Scratch: handle=600, length=608, parse-first-line=616,
     // consecutive-linefeeds=624, bytes-read=632, byte=640,
-    // body=648, body-read=656.
+    // body=648, body-read=656, header-bytes=664.
     x64_mov_memory_r64(function.code, 4, 608, 0);
     x64_mov_memory_r64(function.code, 4, 624, 0);
     x64_mov_memory_r64(function.code, 4, 648, 0);
     x64_mov_memory_r64(function.code, 4, 656, 0);
+    x64_mov_memory_r64(function.code, 4, 664, 0);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 1));
     x64_mov_memory_r64(function.code, 4, 616, 0);
     x64_mov_r64_imm64(
@@ -48,6 +49,12 @@ unsafe void native_lsp_read_frame(
     x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
     x64_emit_u8(function.code, 192);
     usize header_empty = native_skip(function.code, 4);
+    x64_mov_r64_memory(function.code, 10, 4, 664);
+    x64_add_r64_imm8(function.code, 10, 1);
+    x64_mov_memory_r64(function.code, 4, 664, 10);
+    x64_mov_r64_imm64(function.code, 11, cast(u64, 8192));
+    x64_cmp_r64_r64(function.code, 10, 11);
+    usize header_too_large = native_skip(function.code, 7);
 
     // Only the first header line contributes decimal digits. This accepts the
     // case-insensitive Content-Length spelling already enforced by the public
@@ -122,7 +129,9 @@ unsafe void native_lsp_read_frame(
     x64_emit_u8(function.code, 77); x64_emit_u8(function.code, 133);
     x64_emit_u8(function.code, 210);
     usize missing_length = native_skip(function.code, 4);
-    x64_mov_r64_imm64(function.code, 11, cast(u64, 16777216));
+    // Match the public LSP document/message ceiling. Oversized editor input is
+    // rejected before allocating a body buffer.
+    x64_mov_r64_imm64(function.code, 11, cast(u64, 4194304));
     x64_cmp_r64_r64(function.code, 10, 11);
     usize length_too_large = native_skip(function.code, 7);
     x64_mov_r64_r64(function.code, 8, 10);
@@ -175,6 +184,7 @@ unsafe void native_lsp_read_frame(
 
     native_skip_end(function.code, header_read_failed);
     native_skip_end(function.code, header_empty);
+    native_skip_end(function.code, header_too_large);
     native_skip_end(function.code, missing_length);
     native_skip_end(function.code, length_too_large);
     native_skip_end(function.code, body_read_failed);

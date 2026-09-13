@@ -43,6 +43,18 @@ unsafe i32 lsp_handle_message(
         d_buffer_destroy(method);
         return -2;
     }
+    if name == "$/cancelRequest" {
+        lsp_cancel_request(state, lsp_json_usize(request, "id", 0));
+        d_buffer_destroy(method);
+        return -2;
+    }
+    if has_id && lsp_take_cancelled_request(
+        state, lsp_json_usize(request, "id", 0)
+    ) {
+        lsp_respond_error(request, id, -32800, "request cancelled");
+        d_buffer_destroy(method);
+        return -2;
+    }
     if name == "initialize" {
         if !has_id {
             d_buffer_destroy(method);
@@ -63,6 +75,9 @@ unsafe i32 lsp_handle_message(
             );
         }
     } else if name == "initialized" {
+    } else if name == "workspace/didChangeWorkspaceFolders" {
+        lsp_change_workspace_folders(state, request);
+    } else if name == "workspace/didChangeConfiguration" {
     } else if name == "shutdown" {
         if has_id {
             state.shutdown_requested = true;
@@ -128,6 +143,15 @@ unsafe i32 cli_lsp_stdio() {
     LspState state = LspState{
         initialized = false,
         shutdown_requested = false,
+        cancellation_cursor = 0,
+        cancelled0 = 0,
+        cancelled1 = 0,
+        cancelled2 = 0,
+        cancelled3 = 0,
+        cancelled4 = 0,
+        cancelled5 = 0,
+        cancelled6 = 0,
+        cancelled7 = 0,
         root_uri = d_buffer_create(16384),
         document0 = lsp_document_create(),
         document1 = lsp_document_create(),

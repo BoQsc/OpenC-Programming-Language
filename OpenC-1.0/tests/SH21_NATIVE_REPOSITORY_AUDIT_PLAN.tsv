@@ -1,5 +1,13 @@
-openc.native_repository_audit_plan.v1	1	487	39	278	466	174
+openc.native_repository_audit_plan.v1	1	495	39	278	466	174
 file	CONTRIBUTING.md
+file	compiler/selfhost/SH24_EDITOR_RESILIENCE_PLAN.md
+file	compiler/selfhost/SH24_COMPLETION_EVIDENCE.md
+file	compiler/selfhost/source/cli_editor_audit.p
+file	editors/vscode/README.md
+file	editors/vscode/extension.js
+file	editors/vscode/language-configuration.json
+file	editors/vscode/package.json
+file	tests/SH24_EDITOR_RESILIENCE_AUDIT_PLAN.tsv
 file	compiler/selfhost/SH23_COM_WINRT_PLAN.md
 file	compiler/selfhost/SH23_COMPLETION_EVIDENCE.md
 file	compiler/selfhost/source/backend_native_com_winrt.p

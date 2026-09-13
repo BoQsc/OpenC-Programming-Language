@@ -53,14 +53,16 @@ unsafe void lsp_respond_initialize(
     lsp_put_response_start(payload, request, id);
     d_put(payload, ",\"result\":{\"capabilities\":{");
     d_put(payload, "\"positionEncoding\":\"utf-8\",");
-    d_put(payload, "\"textDocumentSync\":{\"openClose\":true,\"change\":1},");
+    d_put(payload, "\"textDocumentSync\":{\"openClose\":true,\"change\":2},");
     d_put(payload, "\"documentFormattingProvider\":true,");
     d_put(payload, "\"documentSymbolProvider\":true,");
     d_put(payload, "\"hoverProvider\":true,");
     d_put(payload, "\"definitionProvider\":true,");
     d_put(payload, "\"referencesProvider\":true,");
     d_put(payload, "\"completionProvider\":{\"resolveProvider\":false},");
-    d_put(payload, "\"renameProvider\":{\"prepareProvider\":true}");
+    d_put(payload, "\"renameProvider\":{\"prepareProvider\":true},");
+    d_put(payload, "\"workspace\":{\"workspaceFolders\":{");
+    d_put(payload, "\"supported\":true,\"changeNotifications\":true}}");
     d_put(payload, "},\"serverInfo\":{\"name\":\"openc-lsp\",\"version\":");
     cli_json_text(payload, cli_version());
     d_put(payload, "}}}");

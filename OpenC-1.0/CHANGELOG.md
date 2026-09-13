@@ -1,5 +1,20 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-24 native editor integration and LSP resilience complete
+
+- shipped a dependency-free first-party Visual Studio Code client for `.p`
+  source that starts the packaged `openc.exe lsp --stdio` server;
+- added incremental UTF-8 document changes with strict monotonic-version
+  rejection, cooperative cancellation, and workspace-folder lifecycle updates;
+- added bounded restart/resynchronization and explicit 4 MiB message, 8 KiB
+  header, 128 pending-request, 8-document, 8-cancellation, and 3-restart limits;
+- added and passed the OpenC-native 33/33 deterministic editor/resilience audit,
+  including capacity stress at the ninth-document boundary;
+- integrated the editor audit into daily/full workflows, residual contracts,
+  relocated release verification, source completeness, and packaging; and
+- completed SH-24 without adding Python, D, C, TinyCC, Node/npm, assembler,
+  external-linker, network, Linux, or freestanding requirements.
+
 ## Post-RC9 — SH-23 optional COM and WinRT projections complete
 
 - added optional `windows.com` GUID, `HRESULT`, apartment, `IUnknown`,

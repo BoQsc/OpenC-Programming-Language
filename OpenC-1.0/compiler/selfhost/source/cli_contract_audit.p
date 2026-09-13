@@ -252,7 +252,7 @@ unsafe bool cli_contract_write_report(
     ref DBuffer checks,
     ref CliContractCounts counts
 ) {
-    bool passed = counts.passed == counts.total && counts.total == 34;
+    bool passed = counts.passed == counts.total && counts.total == 36;
     DBuffer report = d_buffer_create(checks.length + 1024);
     d_put(report, "{\n  \"schema\": \"openc.native_contract_audit.v1\",\n");
     d_put(report, "  \"implementation_language\": \"OpenC\",\n");
@@ -298,6 +298,7 @@ unsafe i32 cli_contract_audit_command() {
     cli_contract_simple(checks, counts, compiler, "cli_artifact_help", "help", 0, "openc artifact");
     cli_contract_simple(checks, counts, compiler, "cli_pe_coff_audit_help", "help", 0, "openc pe-coff-audit");
     cli_contract_simple(checks, counts, compiler, "cli_com_winrt_audit_help", "help", 0, "openc com-winrt-audit");
+    cli_contract_simple(checks, counts, compiler, "cli_editor_audit_help", "help", 0, "openc editor-audit");
     cli_contract_simple(checks, counts, compiler, "cli_version", "version", 0, "OpenC 1.0.0-rc.9");
     cli_contract_simple(checks, counts, compiler, "cli_target", "target", 0, "backend: openc-x64-pe32");
     text hello = path.join(root, "demos/hello/openc.project.json");
@@ -370,12 +371,13 @@ unsafe i32 cli_contract_audit_command() {
 
     cli_contract_put(checks, counts, "raw_modules_registered", cli_audit_nonempty(root, "standard_library/windows.raw/generated/windows.raw.window.p") && cli_audit_nonempty(root, "standard_library/windows.raw/generated/windows.raw.graphics.p"));
     cli_contract_put(checks, counts, "release_plan_present", cli_audit_nonempty(root, "release/SH21_NATIVE_RELEASE_PLAN.tsv"));
+    cli_contract_put(checks, counts, "first_party_editor_client", cli_audit_nonempty(root, "editors/vscode/package.json") && cli_audit_nonempty(root, "editors/vscode/extension.js"));
     cli_contract_put(checks, counts, "historical_payload_not_required", !native_contains(d_buffer_text(checks), "python_invoked"));
 
     bool passed = cli_contract_write_report(output_path, checks, counts);
     d_buffer_destroy(checks);
     io.print("OpenC native contract audit: ");
-    if passed { io.println("PASS (34/34)"); return 0; }
+    if passed { io.println("PASS (36/36)"); return 0; }
     io.print("FAIL ("); io.print(counts.passed); io.print("/"); io.print(counts.total); io.println(")");
     return 1;
 }

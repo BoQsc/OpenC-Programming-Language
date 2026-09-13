@@ -593,8 +593,10 @@ external Python from required evidence and release orchestration; Python is now
 optional audit evidence only. SH-22 completes OpenC-owned COFF objects, DLLs,
 static/import libraries, resource/manifests, subsystem selection, load-time
 imports, and secure run-time DLL resolution. SH-23 completes the optional COM
-and WinRT projections. SH-24 editor integration and language-service
-resilience is next.
+and WinRT projections. SH-24 completes the dependency-free first-party VS Code
+client, incremental monotonic synchronization, cancellation, workspace
+lifecycle, bounded recovery, and its 33/33 native audit. SH-25 Windows 1.0
+finalization and independent-review intake is next.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

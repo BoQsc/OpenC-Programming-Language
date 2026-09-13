@@ -138,8 +138,11 @@ Python, D, TinyCC, an assembler, or an external linker. SH-23 optional COM and
 WinRT projections are also complete: the 33/33 native audit executes COM
 apartments, `IUnknown`, UTF-8 `HSTRING`, activation-factory/runtime-instance,
 and `IInspectable` calls while keeping ordinary images KERNEL32-only and
-CRT-free. SH-24 native editor integration and LSP resilience is active next.
-See `compiler/selfhost/SH23_COM_WINRT_PLAN.md` and
+CRT-free. SH-24 native editor integration and LSP resilience is complete: the
+dependency-free first-party VS Code client passes its 33/33 native audit with
+incremental synchronization, cancellation, workspace lifecycle, and bounded
+recovery. SH-25 Windows 1.0 finalization and independent-review intake is
+active next. See `compiler/selfhost/SH24_EDITOR_RESILIENCE_PLAN.md` and
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,

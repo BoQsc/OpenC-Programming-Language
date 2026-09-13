@@ -409,51 +409,54 @@ unsafe i32 cli_workflow_command() {
         root, "conformance/fixtures/MANIFEST.json"
     );
     text conformance_report = path.join(
-        output_directory, "sh23-native-conformance.json"
+        output_directory, "sh24-native-conformance.json"
     );
     text test_report = path.join(
-        output_directory, "sh23-native-tests.json"
+        output_directory, "sh24-native-tests.json"
     );
     text process_guard_report = path.join(
-        output_directory, "sh23-native-process-guard.json"
+        output_directory, "sh24-native-process-guard.json"
     );
     text audit_report = path.join(
-        output_directory, "sh23-native-repository-audit.json"
+        output_directory, "sh24-native-repository-audit.json"
     );
     text pe_audit_report = path.join(
-        output_directory, "sh23-native-pe-audit.json"
+        output_directory, "sh24-native-pe-audit.json"
     );
     text pe_coff_audit_report = path.join(
-        output_directory, "sh23-native-pe-coff-audit.json"
+        output_directory, "sh24-native-pe-coff-audit.json"
     );
     text pe_coff_artifacts = path.join(
-        output_directory, "sh23-native-pe-coff-artifacts"
+        output_directory, "sh24-native-pe-coff-artifacts"
     );
     text com_winrt_audit_report = path.join(
-        output_directory, "sh23-native-com-winrt-audit.json"
+        output_directory, "sh24-native-com-winrt-audit.json"
     );
     text com_winrt_artifacts = path.join(
-        output_directory, "sh23-native-com-winrt-artifacts"
+        output_directory, "sh24-native-com-winrt-artifacts"
     );
     text lsp_audit_report = path.join(
-        output_directory, "sh23-native-lsp-audit.json"
+        output_directory, "sh24-native-lsp-audit.json"
+    );
+    text editor_audit_report = path.join(
+        output_directory, "sh24-native-editor-audit.json"
     );
     text contract_audit_report = path.join(
-        output_directory, "sh23-native-contract-audit.json"
+        output_directory, "sh24-native-contract-audit.json"
     );
     text benchmark_report = path.join(
-        output_directory, "sh23-native-benchmark.json"
+        output_directory, "sh24-native-benchmark.json"
     );
     text stage2 = path.join(
-        output_directory, "openc-sh23-stage2.exe"
+        output_directory, "openc-sh24-stage2.exe"
     );
     text stage3 = path.join(
-        output_directory, "openc-sh23-stage3.exe"
+        output_directory, "openc-sh24-stage3.exe"
     );
 
     DBuffer report = d_buffer_create(8388608);
     d_put(report, "{\n  \"schema\": \"openc.native_workflow.v1\",\n");
-    d_put(report, "  \"milestone\": \"SH-23_OPTIONAL_COM_AND_WINRT\",\n");
+    d_put(report, "  \"milestone\": \"SH-24_NATIVE_EDITOR_RESILIENCE\",\n");
     d_put(report, "  \"mode\": ");
     cli_json_text(report, mode);
     d_put(report, ",\n  \"root\": ");
@@ -573,6 +576,18 @@ unsafe i32 cli_workflow_command() {
     d_buffer_destroy(command);
 
     command = d_buffer_create(32768);
+    cli_workflow_command_start(command, compiler, "editor-audit");
+    cli_workflow_command_named_argument(command, "--root=", root);
+    cli_workflow_command_named_argument(
+        command, "--output=", editor_audit_report
+    );
+    cli_workflow_execute(
+        report, counters, "native_editor_resilience", command,
+        "OpenC native editor audit: PASS (33/33)"
+    );
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
     cli_workflow_command_start(command, compiler, "contract-audit");
     cli_workflow_command_named_argument(command, "--root=", root);
     cli_workflow_command_named_argument(
@@ -580,7 +595,7 @@ unsafe i32 cli_workflow_command() {
     );
     cli_workflow_execute(
         report, counters, "native_contract_audit", command,
-        "OpenC native contract audit: PASS (34/34)"
+        "OpenC native contract audit: PASS (36/36)"
     );
     d_buffer_destroy(command);
 

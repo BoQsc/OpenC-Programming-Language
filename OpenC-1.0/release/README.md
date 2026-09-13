@@ -85,7 +85,9 @@ and relocated closure; see
 `../compiler/selfhost/SH21_COMPLETION_EVIDENCE.md`. SH-22 PE/COFF ecosystem
 completeness is complete with a relocated 40/40 native artifact audit; see
 `../compiler/selfhost/SH22_COMPLETION_EVIDENCE.md`. SH-23 optional COM/WinRT
-projection work is active next.
+projection and SH-24 native editor/resilience work are complete; see
+`../compiler/selfhost/SH24_COMPLETION_EVIDENCE.md`. SH-25 Windows 1.0
+finalization and independent-review intake is active next.
 
 The complete publication set is assembled by
 `build_release_artifacts.py` and verified by

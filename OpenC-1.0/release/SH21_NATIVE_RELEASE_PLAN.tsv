@@ -1,5 +1,13 @@
-openc.native_release_plan.v1	1	1714
+openc.native_release_plan.v1	1	1722
 .gitattributes
+compiler/selfhost/SH24_EDITOR_RESILIENCE_PLAN.md
+compiler/selfhost/SH24_COMPLETION_EVIDENCE.md
+compiler/selfhost/source/cli_editor_audit.p
+editors/vscode/README.md
+editors/vscode/extension.js
+editors/vscode/language-configuration.json
+editors/vscode/package.json
+tests/SH24_EDITOR_RESILIENCE_AUDIT_PLAN.tsv
 compiler/selfhost/SH23_COM_WINRT_PLAN.md
 compiler/selfhost/SH23_COMPLETION_EVIDENCE.md
 compiler/selfhost/source/backend_native_com_winrt.p
