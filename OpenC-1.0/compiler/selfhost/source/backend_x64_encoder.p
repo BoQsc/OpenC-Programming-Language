@@ -602,9 +602,5 @@ unsafe void x64_put_hex(ref DBuffer output, ref DBuffer bytes) {
 }
 
 unsafe void x64_copy_bytes(ref DBuffer output, ref DBuffer bytes) {
-    usize index = 0;
-    while index < bytes.length {
-        d_put_byte(output, cast_unchecked(u8, *(bytes.data + index)));
-        index = index + 1;
-    }
+    d_put_raw(output, bytes.data, bytes.length);
 }

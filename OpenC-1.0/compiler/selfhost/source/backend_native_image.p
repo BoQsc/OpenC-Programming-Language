@@ -18,11 +18,7 @@ unsafe void native_copy_range(ref DBuffer output, ref DBuffer input, usize start
     if start > input.length || length > input.length - start {
         output.ok = false; return;
     }
-    usize index = 0;
-    while index < length {
-        d_put_byte(output, cast(u8, *(input.data + start + index)));
-        index = index + 1;
-    }
+    d_put_raw(output, input.data + start, length);
 }
 
 Pe32Section native_section(text name, usize size, usize rva, usize raw, usize flags) {

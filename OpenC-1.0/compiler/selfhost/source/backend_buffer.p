@@ -57,6 +57,23 @@ unsafe void d_put(ref DBuffer buffer, text value) {
     buffer.length = buffer.length + length;
 }
 
+unsafe void d_put_raw(
+    ref DBuffer buffer,
+    ptr byte source,
+    usize length
+) {
+    if !buffer.ok || buffer.length > buffer.capacity ||
+        length > buffer.capacity - buffer.length {
+        buffer.ok = false;
+        return;
+    }
+    text.copy_utf8_unchecked(
+        buffer.data + buffer.length,
+        text.from_utf8(source, length)
+    );
+    buffer.length = buffer.length + length;
+}
+
 unsafe void d_put_slice(
     ref DBuffer buffer,
     text value,
