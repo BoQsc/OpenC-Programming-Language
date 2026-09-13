@@ -312,6 +312,52 @@ fresh parsing, 62–93 milliseconds of index construction, 77–124 milliseconds
 of IR lowering, and 187–235 milliseconds of native emission. That phase is the
 next measured target.
 
+## Exact parsed-source reuse
+
+Automatic push run
+[`34781697232`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34781697232)
+completed successfully at commit `3013c79065df9f7fed0cb4aed7cca4cfb63f5021`.
+Artifact `OpenC-SH27-production-performance-34781697232`, ID `10325517880`,
+contains 13,786,339 ZIP bytes at
+`sha256:fed032f776446cd3c8c1c4986fdae0e666dd817796f00e7bb9d2d0541f3b3e82`.
+
+Native resolution now retains exact-size copies of valid token and syntax
+records and native lowering consumes those immutable records instead of
+allocating and parsing the source again. Malformed/recovered syntax retains
+the complete fresh-parse path. Legacy C emission does not retain unused cache
+records when its parallel path owns parsing. Cache entries have one project
+lifetime and one deferred release path; all uncertain cases remain complete.
+
+The immutable seed built the checked-out compiler twice under the RAM guards.
+The two 7,153,664-byte outputs are byte-identical at SHA-256
+`9d1d34ea…71baa6`; guarded builds took 7.982 and 7.124 seconds. The largest
+private/working-set peaks were 193,200,128 and 81,358,848 bytes. The increased
+working set is the explicit cost of retaining useful syntax, while large-build
+peak private memory falls to 146,243,584 bytes because exact records replace a
+later worst-case parser arena. Native conformance remains 278/278, the
+repository audit remains exact, and every 512 MiB process guard passes.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.097 s | 0.129 s | 0.117 s | 0.128 s |
+| 24 source files | 0.240 s | 0.330 s | 0.823 s | 0.159 s |
+| 2,048 functions | 1.550 s | 0.497 s | 1.005 s | 0.302 s |
+
+The large median improves another 14.3% from the prior 1.808-second confirmed
+result and 18.4% from the immediately preceding 1.899-second automatic
+observation. It is 94.0% below the original 25.983-second result. The large
+ratios remain open at 3.119x MSVC, 1.542x Clang, and 5.132x DMD64. The 24-file
+and one-source-edit medians are both 0.240 seconds, and four parallel OpenC
+builds sustain 22.293 projects per second, ahead of every comparator batch on
+this observation.
+
+All three large samples record 0 milliseconds for lowering's parse component.
+Lowering/emission falls from the preceding automatic run's 811–829 milliseconds
+to 501–531 milliseconds. Declaration parsing remains 250 milliseconds and
+resolution remains 281–297 milliseconds; moving cache creation to declaration
+collection so resolution can reuse the same records is the next measured
+frontend target. The complete compiler self-build median is 7.888 seconds.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler

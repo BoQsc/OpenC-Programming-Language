@@ -72,7 +72,10 @@ construction, and the median reaches 2.223 seconds. Remaining ratios are
 then verify bounded prefix-type lookup at the same exact fixed point. The
 confirmation run reduces large resolution from 703–718 to 265–282 milliseconds
 and the total median to 1.808 seconds; remaining ratios are 3.660x MSVC, 1.762x
-Clang, and 5.776x DMD64. Lowering/emission is now the largest measured cost.
-The remaining runtime/build-system corpus and measured compiler fixes are still
-open. Broad production-comparator parity is correctly OPEN, not assumed from
-SH-20.
+Clang, and 5.776x DMD64. Run 34781697232 then verifies exact parsed-source
+reuse between resolution and native lowering. Lowering reparsing reaches 0
+milliseconds, the large median reaches 1.550 seconds, and remaining ratios are
+3.119x MSVC, 1.542x Clang, and 5.132x DMD64. Moving cache construction to
+declaration collection so resolution can reuse it is next. The remaining
+runtime/build-system corpus and measured compiler fixes are still open. Broad
+production-comparator parity is correctly OPEN, not assumed from SH-20.
