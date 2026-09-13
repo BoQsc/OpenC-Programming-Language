@@ -407,6 +407,54 @@ validation, and 390–406 milliseconds for lowering/emission. Flow still spends
 cache in flow validation is next. The complete compiler self-build median is
 4.747 seconds.
 
+## Flow-validation parsed-source reuse
+
+Automatic push run
+[`34783166021`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34783166021)
+completed successfully at commit `9250641f40808ae2752fa101902a01088a514e73`.
+Artifact `OpenC-SH27-production-performance-34783166021`, ID `10325841154`,
+contains 13,790,426 ZIP bytes at
+`sha256:cdc36fdc8d8e2c9bf11f9f22742c76de0deb02234ab05fcd6dfcfedc2400287f`.
+
+Flow validation now consumes the same exact, immutable token and syntax records
+already owned by the project cache. Non-native callers and any source that was
+not safely cached retain the complete lexer/parser path and free only their own
+fallback allocations. The change therefore removes the last known frontend
+reparse without weakening recovery or transferring cache ownership.
+
+The retained seed again built checked-out source twice under the RAM guards.
+The two 7,157,760-byte outputs are byte-identical at SHA-256
+`5c0a7fb4…079e7`; guarded builds took 8.495 and 6.300 seconds. Their largest
+private/working-set peaks were 194,830,336 and 81,895,424 bytes. A local
+three-stage fixed point produced the same compiler hash, native conformance
+remains 278/278, the repository audit passes, and all local and workflow
+processes remained below the 512 MiB private and working-set ceilings.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.097 s | 0.128 s | 0.138 s | 0.159 s |
+| 24 source files | 0.200 s | 0.362 s | 0.881 s | 0.180 s |
+| 2,048 functions | 1.305 s | 0.532 s | 1.057 s | 0.339 s |
+
+Absolute time moved upward for several tools on this runner observation, so it
+is not used to claim a cross-run wall-clock improvement. The directly
+attributable flow-parse counter is 0 milliseconds in all three large samples,
+down from 31 milliseconds in the preceding run. Large OpenC/Clang is now
+1.235x and passes the 1.25x parity gate for the first time. The large MSVC and
+DMD64 deficits remain explicit at 2.453x and 3.850x. Seven of the nine
+workload/comparator gates now pass.
+
+The clean large samples attribute 281–297 milliseconds to declaration/cache
+construction, 15–16 milliseconds to resolution, 346–423 milliseconds to
+validation, and 547–608 milliseconds to lowering/emission. Expression
+acceptance remains 109–125 milliseconds, call acceptance 31–32 milliseconds,
+index construction 62–78 milliseconds, IR lowering 95–155 milliseconds, and
+native emission 218–281 milliseconds. The complete compiler self-build median
+is 6.274 seconds with 194,011,136 peak private bytes and 81,461,248 peak
+working-set bytes. The repeated one-source-edit median is 0.200 seconds, and
+four parallel OpenC builds sustain 21.572 projects per second, ahead of every
+comparator batch on this observation.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler

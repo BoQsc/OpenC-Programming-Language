@@ -80,6 +80,11 @@ declaration collection so resolution can reuse it is next. Run 34782327317
 verifies that one-parse frontend: resolution reaches 0 milliseconds, the large
 median reaches 0.931 seconds, and small plus many-file lanes pass every 1.25x
 gate. Large ratios remain open at 1.896x MSVC, 1.317x Clang, and 3.313x DMD64.
-Flow cache reuse and remaining acceptance/emission costs are next. The remaining
-runtime/build-system corpus and measured compiler fixes are still open. Broad
-production-comparator parity is correctly OPEN, not assumed from SH-20.
+Run 34783166021 then verifies flow reuse of the same parsed-source cache and
+records 0 milliseconds of flow parsing in all three large samples. Absolute
+times vary upward across the runner observation, but the same-run large ratio
+reaches 1.235x Clang and passes that 1.25x gate. Large MSVC and DMD64 ratios
+remain open at 2.453x and 3.850x. Remaining acceptance/index/lowering/emission
+costs, the runtime/build-system corpus, and measured compiler fixes are still
+open. Broad production-comparator parity is correctly OPEN, not assumed from
+SH-20.

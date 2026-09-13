@@ -56,7 +56,7 @@ SH-26 GitHub workflow:                PASS; RUN 34770148453
 SH-26 final tag/release:               v1.0.0; d0f77f6; PUBLISHED
 SH-26 public assets:                   PASS; 15/15 STREAM-DOWNLOADED + SHA-256 EXACT
 SH-27 public integrity baseline:       PASS; 15/15, 48,681,989 BYTES
-SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34782327317
+SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34783166021
 SH-27 pointer-free validation scan:    FIXED; 13.138 S -> 0.000 S
 SH-27 indexed acceptance scans:        FIXED; 6.78 S -> ABOUT 0.12 S
 SH-27 candidate-free flow scans:       FIXED; FOUR GROUPS -> 0.000 S
@@ -64,7 +64,9 @@ SH-27 stateless-source flow parse:      FIXED; 7/8 SOURCES SKIP REPARSE
 SH-27 prefix-type resolution scan:      FIXED; 0.70 S -> ABOUT 0.27 S
 SH-27 lowering source reparse:          FIXED; 0.27 S -> 0.000 S
 SH-27 resolution source reparse:        FIXED; ABOUT 0.28 S -> 0.000 S
-SH-27 large-corpus scaling:             OPEN; OPENC 0.931 S / MSVC 0.491 S
+SH-27 flow-validation source reparse:   FIXED; 0.031 S -> 0.000 S
+SH-27 large Clang parity:               PASS; 1.235x <= 1.25x
+SH-27 large-corpus scaling:             OPEN; OPENC 1.305 S / MSVC 0.532 S
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
@@ -204,7 +206,7 @@ separate editor and OpenC memory guards. SH-26 then records owner authorization,
 the exact annotated tag, the successful GitHub workflow, and 15/15 remotely
 verified final assets. External review remains openly invited and honestly
 unclaimed. SH-27 now owns public-artifact monitoring and broader production
-MSVC/Clang/DMD performance work. Clean Windows runs through 34782327317 rebuild
+MSVC/Clang/DMD performance work. Clean Windows runs through 34783166021 rebuild
 checked-out source twice under RAM guards, prove exact fixed points, and pass
 every compiler-version, correctness, execution, output, and memory check.
 Semantic pointer gating first removed the 13.138-second pointer-arithmetic
@@ -219,7 +221,10 @@ source reuse then removes lowering's 0.27-second reparse and reduces its phase
 to 501–531 milliseconds. Moving cache creation into declaration collection
 then eliminates resolution parsing and reduces the 2,048-function median to
 0.931 seconds, 96.4% below the original 25.983-second baseline. Small and
-24-file OpenC builds pass the target against every comparator, but large-program
-parity remains open at 1.896x MSVC, 1.317x Clang, and 3.313x DMD64. Flow cache
-reuse and remaining acceptance/emission costs are next.
+24-file OpenC builds pass the target against every comparator. Flow validation
+then reuses the same parsed-source cache and records 0 milliseconds of parsing
+in all clean large samples. Host-wide variance moves that run's absolute large
+median to 1.305 seconds, but the same-run ratio reaches 1.235x Clang and passes
+that gate. Large MSVC and DMD64 parity remain open at 2.453x and 3.850x;
+remaining acceptance, indexing, IR lowering, and native emission are next.
 Linux, freestanding, and ARM64 remain optional later targets.
