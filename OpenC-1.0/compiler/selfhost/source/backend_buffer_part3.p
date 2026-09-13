@@ -31,6 +31,31 @@ unsafe ptr byte d_instruction_order(ref IrContext context) {
     ptr byte order = memory.alloc(
         (context.instructions.length + 1) * size_of(usize)
     );
+    // Lowering commonly emits blocks in their final numeric order.  In that
+    // case the stable counting sort below is exactly the identity sequence,
+    // so avoid two temporary arrays and three additional traversals for every
+    // function.  Non-monotonic or invalid block streams retain the full path.
+    bool identity_order = true;
+    usize previous_block = 0;
+    usize identity_instruction = 0;
+    while identity_instruction < context.instructions.length {
+        usize identity_block = read_record_field(
+            context.instruction_data, identity_instruction, 0
+        );
+        if identity_block >= context.blocks.length || (
+            identity_instruction != 0 && identity_block < previous_block
+        ) {
+            identity_order = false;
+        }
+        write_usize(
+            order,
+            identity_instruction * size_of(usize),
+            identity_instruction
+        );
+        previous_block = identity_block;
+        identity_instruction = identity_instruction + 1;
+    }
+    if identity_order { return order; }
     ptr byte counts = memory.alloc(
         (context.blocks.length + 1) * size_of(usize)
     );
