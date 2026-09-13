@@ -358,6 +358,55 @@ resolution remains 281–297 milliseconds; moving cache creation to declaration
 collection so resolution can reuse the same records is the next measured
 frontend target. The complete compiler self-build median is 7.888 seconds.
 
+## One-parse frontend cache
+
+Automatic push run
+[`34782327317`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34782327317)
+completed successfully at commit `6e47bf8311e1b7670ac7f985e7b6f535fbc93075`.
+Artifact `OpenC-SH27-production-performance-34782327317`, ID `10325042979`,
+contains 13,789,849 ZIP bytes at
+`sha256:b04e589741ca19148d38b8d4e99de3e7004b3d2fac258ba395ca2892655b2759`.
+
+Cache construction now occurs during declaration collection. The same exact,
+read-only token and syntax records feed predeclaration, resolution, fused
+acceptance/lowering, and native emission. Resolution therefore performs symbol
+collection without another lexer/parser or copy pass. Malformed sources remain
+uncached and retain all complete recovery paths. An initially rejected version
+also proved the ownership gate: bootstrap refused a temporary struct initializer
+that captured two live allocations, so the final code uses one null-initialized
+owner, exact copies, and one project-level deferred release.
+
+The immutable seed built the checked-out compiler twice under the RAM guards.
+The two 7,157,248-byte outputs are byte-identical at SHA-256
+`d79c980d…51661e`; guarded builds took 5.754 and 4.781 seconds. The largest
+private/working-set peaks were 194,691,072 and 81,829,888 bytes. Large-build
+peak private memory remains lower at 145,428,480 bytes, with 50,749,440 peak
+working-set bytes. Native conformance remains 278/278, the repository audit
+remains exact, and every 512 MiB process guard passes.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.088 s | 0.172 s | 0.118 s | 0.243 s |
+| 24 source files | 0.179 s | 0.389 s | 0.740 s | 0.159 s |
+| 2,048 functions | 0.931 s | 0.491 s | 0.707 s | 0.281 s |
+
+The large median improves another 39.9%, from 1.550 to 0.931 seconds, and is
+96.4% below the original 25.983-second result. Resolution records 0
+milliseconds in every large sample, down from 281–297 milliseconds. The small
+and 24-file lanes now pass the 1.25x target against all three comparators; the
+24-file OpenC median is 46.0% of MSVC, 24.2% of Clang, and 1.126x DMD64. Four
+parallel OpenC builds sustain 25.151 projects per second, ahead of every
+comparator batch on this observation.
+
+Large-program parity remains open at 1.896x MSVC, 1.317x Clang, and 3.313x
+DMD64. The large phase ranges are 172 milliseconds for declaration/cache
+construction, 0 milliseconds for resolution, 280–298 milliseconds for
+validation, and 390–406 milliseconds for lowering/emission. Flow still spends
+31 milliseconds reparsing the one stateful source; expression acceptance costs
+93–109 milliseconds and calls cost 16–31 milliseconds. Reusing the existing
+cache in flow validation is next. The complete compiler self-build median is
+4.747 seconds.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler

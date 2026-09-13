@@ -76,6 +76,10 @@ Clang, and 5.776x DMD64. Run 34781697232 then verifies exact parsed-source
 reuse between resolution and native lowering. Lowering reparsing reaches 0
 milliseconds, the large median reaches 1.550 seconds, and remaining ratios are
 3.119x MSVC, 1.542x Clang, and 5.132x DMD64. Moving cache construction to
-declaration collection so resolution can reuse it is next. The remaining
+declaration collection so resolution can reuse it is next. Run 34782327317
+verifies that one-parse frontend: resolution reaches 0 milliseconds, the large
+median reaches 0.931 seconds, and small plus many-file lanes pass every 1.25x
+gate. Large ratios remain open at 1.896x MSVC, 1.317x Clang, and 3.313x DMD64.
+Flow cache reuse and remaining acceptance/emission costs are next. The remaining
 runtime/build-system corpus and measured compiler fixes are still open. Broad
 production-comparator parity is correctly OPEN, not assumed from SH-20.
