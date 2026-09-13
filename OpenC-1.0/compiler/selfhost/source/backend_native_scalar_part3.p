@@ -36,24 +36,14 @@ unsafe void native_emit_function(
     }
     usize scope_count = 0;
     usize maximum_layout_size = 8;
-    bool function_has_constants = false;
     index = 0;
     while index < context.instructions.length {
-        usize opcode = read_record_field(
-            context.instruction_data, index, 2
-        );
         NativeLayout instruction_layout = native_layout(context,
             read_record_field(context.instruction_data, index, 3), 0);
         if instruction_layout.valid && instruction_layout.size > maximum_layout_size {
             maximum_layout_size = instruction_layout.size;
         }
-        if opcode == ir_op_const_text() || opcode == ir_op_call() {
-            // Source text and compiler/runtime call expansion are the only
-            // native paths that append per-function constant bytes. Retain
-            // the full source-derived capacity for either uncertain case.
-            function_has_constants = true;
-        }
-        if opcode == ir_op_scope_register() {
+        if read_record_field(context.instruction_data, index, 2) == ir_op_scope_register() {
             scope_count = scope_count + 1;
         }
         index = index + 1;
@@ -90,10 +80,7 @@ unsafe void native_emit_function(
     usize frame = x64_align_up(frame_cursor, 16) + 8;
     usize code_capacity = context.instructions.length * 1024 +
         maximum_layout_size * 32 + 65536;
-    usize constant_capacity = 256;
-    if function_has_constants {
-        constant_capacity = context.source.length * 2 + 256;
-    }
+    usize constant_capacity = context.source.length * 2 + 256;
     if frame > maximum_frame_bytes || code_capacity > maximum_code_bytes ||
         constant_capacity > maximum_constant_bytes {
         io.error("error[OPENC-NATIVE-BUDGET]: function ");
