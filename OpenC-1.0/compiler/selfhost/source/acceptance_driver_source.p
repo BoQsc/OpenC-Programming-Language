@@ -4,6 +4,54 @@ import system.memory;
 import system.process;
 import system.text;
 
+struct AcceptanceExpressionFeatures {
+    bool has_assignments;
+    bool has_binary;
+    bool has_index_ranges;
+    bool has_casts;
+    bool has_aggregates;
+}
+
+unsafe AcceptanceExpressionFeatures acceptance_expression_features(
+    ref IrContext context
+) {
+    AcceptanceExpressionFeatures features = AcceptanceExpressionFeatures{
+        has_assignments = false,
+        has_binary = false,
+        has_index_ranges = false,
+        has_casts = false,
+        has_aggregates = false
+    };
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.expression_nodes != null {
+        node_count = context.expression_count;
+    }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.expression_nodes != null {
+            node = read_usize(
+                context.expression_nodes,
+                node_index * size_of(usize)
+            );
+        }
+        usize kind = read_record_field(context.syntax_data, node, 0);
+        if kind == 37 {
+            features.has_assignments = true;
+        } else if kind == 36 {
+            features.has_binary = true;
+        } else if kind == 40 || kind == 41 {
+            features.has_index_ranges = true;
+        } else if kind == 42 || kind == 43 || kind == 46 {
+            features.has_casts = true;
+        } else if kind == 48 {
+            features.has_aggregates = true;
+        }
+        node_index = node_index + 1;
+    }
+    return features;
+}
+
 unsafe usize acceptance_validate_context(
     ref IrContext context,
     ref BuildTimings timings
@@ -28,22 +76,39 @@ unsafe usize acceptance_validate_context(
         timings.validation_acceptance_types_ms +
         process.monotonic_milliseconds() - group_started;
     group_started = process.monotonic_milliseconds();
-    found = acceptance_validate_assignments(context);
+    AcceptanceExpressionFeatures expression_features =
+        acceptance_expression_features(context);
+    found = 0;
+    if expression_features.has_assignments {
+        found = acceptance_validate_assignments(context);
+    }
     acceptance_report_count("assignments", context.source_record, found);
     errors = errors + found;
-    found = acceptance_validate_binary(context);
+    found = 0;
+    if expression_features.has_binary {
+        found = acceptance_validate_binary(context);
+    }
     acceptance_report_count("binary", context.source_record, found);
     errors = errors + found;
     found = acceptance_validate_conditions(context);
     acceptance_report_count("conditions", context.source_record, found);
     errors = errors + found;
-    found = acceptance_validate_index_ranges(context);
+    found = 0;
+    if expression_features.has_index_ranges {
+        found = acceptance_validate_index_ranges(context);
+    }
     acceptance_report_count("index_ranges", context.source_record, found);
     errors = errors + found;
-    found = acceptance_validate_casts(context);
+    found = 0;
+    if expression_features.has_casts {
+        found = acceptance_validate_casts(context);
+    }
     acceptance_report_count("casts", context.source_record, found);
     errors = errors + found;
-    found = acceptance_validate_aggregates(context);
+    found = 0;
+    if expression_features.has_aggregates {
+        found = acceptance_validate_aggregates(context);
+    }
     acceptance_report_count("aggregates", context.source_record, found);
     errors = errors + found;
     timings.validation_acceptance_expressions_ms =
