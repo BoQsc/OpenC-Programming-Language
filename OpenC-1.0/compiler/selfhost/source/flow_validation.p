@@ -11,6 +11,60 @@ struct FlowFrontendObservation {
     usize frontend_errors;
 }
 
+struct FlowSourceFeatures {
+    bool needs_flow;
+    bool has_own;
+}
+
+unsafe FlowSourceFeatures flow_source_features(
+    text source,
+    bool project_has_pointer_symbol
+) {
+    FlowSourceFeatures features = FlowSourceFeatures{
+        needs_flow = false,
+        has_own = false
+    };
+    usize length = text.byte_length(source);
+    usize position = 0;
+    while position < length {
+        u8 octet = byte_at_or_zero(source, position);
+        if octet == 38 {
+            features.needs_flow = true;
+        } else if octet == 111 && starts_with_ascii(
+            source, position, "out"
+        ) {
+            features.needs_flow = true;
+        } else if octet == 111 && starts_with_ascii(
+            source, position, "own"
+        ) {
+            features.needs_flow = true;
+            features.has_own = true;
+        } else if octet == 114 && starts_with_ascii(
+            source, position, "ref"
+        ) {
+            features.needs_flow = true;
+        } else if octet == 114 && starts_with_ascii(
+            source, position, "reinterpret"
+        ) {
+            features.needs_flow = true;
+        } else if octet == 115 && starts_with_ascii(
+            source, position, "scope"
+        ) {
+            features.needs_flow = true;
+        } else if octet == 117 && starts_with_ascii(
+            source, position, "unsafe"
+        ) {
+            features.needs_flow = true;
+        } else if project_has_pointer_symbol && (
+            octet == 42 || octet == 43 || octet == 45
+        ) {
+            features.needs_flow = true;
+        }
+        position = position + 1;
+    }
+    return features;
+}
+
 unsafe bool flow_project_has_pointer_symbol(
     ptr byte type_data,
     ptr byte symbol_data,
@@ -85,20 +139,11 @@ unsafe void flow_validate_source(
     // Flow diagnostics require stateful symbols or one of the constructs below.
     // Prove their absence before allocating another token/syntax tree for this
     // source.  Every uncertain case retains the complete validator.
+    FlowSourceFeatures source_features = flow_source_features(
+        source, project_has_pointer_symbol
+    );
     bool source_needs_flow = project_has_unsafe_function ||
-        flow_span_contains_ascii(source, 0, source_length, "scope") ||
-        flow_span_contains_ascii(source, 0, source_length, "unsafe") ||
-        flow_span_contains_ascii(source, 0, source_length, "reinterpret") ||
-        flow_span_contains_ascii(source, 0, source_length, "ref") ||
-        flow_span_contains_ascii(source, 0, source_length, "out") ||
-        flow_span_contains_ascii(source, 0, source_length, "own") ||
-        flow_span_contains_ascii(source, 0, source_length, "&");
-    if !source_needs_flow && project_has_pointer_symbol {
-        source_needs_flow =
-            flow_span_contains_ascii(source, 0, source_length, "*") ||
-            flow_span_contains_ascii(source, 0, source_length, "+") ||
-            flow_span_contains_ascii(source, 0, source_length, "-");
-    }
+        source_features.needs_flow;
     usize flow_symbol = source_symbol_first;
     while flow_symbol < source_symbol_end && !source_needs_flow {
         usize flow_kind = read_record_field(
@@ -247,9 +292,7 @@ unsafe void flow_validate_source(
         );
         cache_index = cache_index + 1;
     }
-    bool source_has_own = flow_span_contains_ascii(
-        source, 0, source_length, "own"
-    );
+    bool source_has_own = source_features.has_own;
     usize indexed_symbol = source_symbol_first;
     while indexed_symbol < source_symbol_end {
         usize indexed_kind = read_record_field(
