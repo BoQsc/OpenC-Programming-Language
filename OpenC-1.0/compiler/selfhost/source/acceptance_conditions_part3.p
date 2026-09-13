@@ -18,13 +18,21 @@ unsafe bool acceptance_function_has_guard(
     ref IrContext context,
     usize function_node
 ) {
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.control_nodes != null { node_count = context.control_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.control_nodes != null {
+            node = read_usize(
+                context.control_nodes, node_index * size_of(usize)
+            );
+        }
         if read_record_field(context.syntax_data, node, 0) == 14 &&
             semantic_node_contains(context.syntax_data, function_node, node) {
             return true;
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return false;
 }
@@ -33,8 +41,16 @@ unsafe bool acceptance_function_calls_unsafe(
     ref IrContext context,
     usize function_node
 ) {
-    usize node = 0;
-    while node < context.syntax.length {
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.call_nodes != null { node_count = context.call_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.call_nodes != null {
+            node = read_usize(
+                context.call_nodes, node_index * size_of(usize)
+            );
+        }
         if read_record_field(context.syntax_data, node, 0) == 38 &&
             semantic_node_contains(context.syntax_data, function_node, node) {
             usize target = ir_select_call(context, node);
@@ -46,7 +62,7 @@ unsafe bool acceptance_function_calls_unsafe(
                     context.symbol_data, target, 1
                 );
                 if source_record != context.source_record {
-                    node = node + 1;
+                    node_index = node_index + 1;
                     continue;
                 }
                 text source;
@@ -65,7 +81,7 @@ unsafe bool acceptance_function_calls_unsafe(
                     ) { return true; }
             }
         }
-        node = node + 1;
+        node_index = node_index + 1;
     }
     return false;
 }

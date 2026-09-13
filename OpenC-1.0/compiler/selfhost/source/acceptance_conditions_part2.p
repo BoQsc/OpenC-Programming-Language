@@ -123,6 +123,24 @@ unsafe bool acceptance_direct_return(
     ref IrContext context,
     usize block
 ) {
+    if context.block_statement_first != null &&
+        context.statement_next != null {
+        usize statement = ir_next_direct_statement(
+            context, block, 0, 0
+        );
+        while statement < context.syntax.length {
+            if read_record_field(
+                context.syntax_data, statement, 0
+            ) == 22 { return true; }
+            usize start = read_record_field(
+                context.syntax_data, statement, 1
+            );
+            statement = ir_next_direct_statement(
+                context, block, start, statement
+            );
+        }
+        return false;
+    }
     usize node = 0;
     while node < context.syntax.length {
         if read_record_field(context.syntax_data, node, 0) == 22 &&

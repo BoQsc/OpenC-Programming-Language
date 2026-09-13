@@ -218,10 +218,8 @@ unsafe bool acceptance_mutable(ref IrContext context, usize node) {
         return acceptance_kind(context, pointer) == 13 &&
             !acceptance_const_type(context, pointer);
     }
-    usize name = flow_event_first_name(
-        context.syntax_data, context.syntax, node
-    );
-    if kind == 27 { name = node; }
+    usize name = node;
+    if kind != 27 { name = ir_first_name(context, node); }
     if name >= context.syntax.length { return true; }
     usize symbol = ir_resolve_name(context, name);
     if symbol >= context.symbols.length { return true; }
