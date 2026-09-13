@@ -132,14 +132,14 @@ unsafe void flow_check_pointer_arithmetic(
              flow_node_operator(source, syntax_data, record, "-"));
         if candidate &&
             semantic_node_contains(syntax_data, function_node, record) &&
-            !flow_inside_unsafe(
-                source, syntax_data, syntax, function_node, record
-            ) && flow_pointer_binary(
+            flow_pointer_binary(
                 project_source, project_root,
                 module_data, modules, source_data,
                 type_data, symbol_data, detail_data, symbols,
                 syntax_data, syntax, module_index, source_record,
                 record, source
+            ) && !flow_inside_unsafe(
+                source, syntax_data, syntax, function_node, record
             ) {
             flow_record_error(
                 error_data, errors, source_record,

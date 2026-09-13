@@ -72,6 +72,23 @@ unsafe void flow_validate_source(
     ) == source_record {
         source_symbol_end = source_symbol_end + 1;
     }
+    // Pointer arithmetic can only be recognized from a resolved symbol whose
+    // semantic type is a raw pointer.  Prove that such a symbol exists once
+    // per source before entering the per-function flow loop.  This avoids an
+    // otherwise quadratic syntax walk for pointer-free projects while keeping
+    // the decision semantic (rather than relying on source-text spelling).
+    bool project_has_pointer_symbol = false;
+    usize pointer_symbol = 0;
+    while pointer_symbol < symbols.length &&
+        !project_has_pointer_symbol {
+        usize pointer_type = read_record_field(
+            symbol_data, pointer_symbol, 4
+        );
+        project_has_pointer_symbol = read_record_field(
+            type_data, pointer_type, 0
+        ) == 13;
+        pointer_symbol = pointer_symbol + 1;
+    }
     ptr byte function_owner_data = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
@@ -264,7 +281,7 @@ unsafe void flow_validate_source(
                     timings.validation_flow_unsafe_function_ms +
                     process.monotonic_milliseconds() - analysis_started;
                 analysis_started = process.monotonic_milliseconds();
-                if !function_unsafe {
+                if !function_unsafe && project_has_pointer_symbol {
                     flow_check_pointer_arithmetic(
                         project_source, project_root,
                         module_data, modules, source_data,

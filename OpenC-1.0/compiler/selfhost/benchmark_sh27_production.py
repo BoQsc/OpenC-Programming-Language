@@ -342,6 +342,93 @@ def sample_passed(sample: dict[str, object]) -> bool:
     )
 
 
+def bootstrap_current_compiler(
+    *,
+    seed: Path,
+    run_root: Path,
+    environment: dict[str, str],
+    sample_interval: float,
+    max_private_bytes: int,
+    max_working_set_bytes: int,
+    max_output_bytes: int,
+) -> tuple[Path, dict[str, object]]:
+    """Rebuild the checked-out OpenC sources twice under the memory gates."""
+    bootstrap_root = run_root / "bootstrap-current"
+    project = ROOT / "compiler" / "selfhost" / "openc.project.json"
+    compilers = [seed]
+    samples: list[dict[str, object]] = []
+    outputs = [
+        bootstrap_root / "stage1" / "openc.exe",
+        bootstrap_root / "stage2" / "openc.exe",
+    ]
+    for index, output in enumerate(outputs):
+        output.parent.mkdir(parents=True, exist_ok=False)
+        timing = output.parent / "timings.json"
+        command = [
+            str(compilers[-1]), "build", f"--project={project}",
+            f"--output={output}", f"--timings={timing}",
+        ]
+        measured = run_measured(
+            command,
+            cwd=ROOT,
+            environment=environment,
+            sample_interval=sample_interval,
+            max_private_bytes=max_private_bytes,
+            max_working_set_bytes=max_working_set_bytes,
+            max_captured_output_bytes=max_output_bytes,
+        )
+        measured["stage"] = index + 1
+        measured["command"] = command
+        measured["output_exists"] = output.is_file()
+        measured["output_bytes"] = output.stat().st_size if output.is_file() else None
+        measured["output_sha256"] = sha256(output) if output.is_file() else None
+        measured["passed"] = bool(
+            int(measured["exit_code"]) == 0
+            and not measured["memory_limit_exceeded"]
+            and not measured["stdout_truncated"]
+            and not measured["stderr_truncated"]
+            and measured["output_exists"]
+        )
+        samples.append(measured)
+        if not measured["passed"]:
+            break
+        compilers.append(output)
+        print(f"OpenC checked-out-source bootstrap: {index + 1}/2", flush=True)
+
+    exact_fixed_point = bool(
+        len(samples) == 2
+        and all(sample["passed"] for sample in samples)
+        and outputs[0].read_bytes() == outputs[1].read_bytes()
+    )
+    record = {
+        "schema": "openc.sh27.current_source_bootstrap.v1",
+        "status": "PASS" if exact_fixed_point else "FAIL",
+        "project": str(project),
+        "seed": {
+            "path": str(seed),
+            "bytes": seed.stat().st_size,
+            "sha256": sha256(seed),
+        },
+        "samples": samples,
+        "checks": {
+            "stage1_build_passed_under_memory_guards": bool(
+                len(samples) >= 1 and samples[0]["passed"]
+            ),
+            "stage2_build_passed_under_memory_guards": bool(
+                len(samples) >= 2 and samples[1]["passed"]
+            ),
+            "stage1_stage2_byte_exact_fixed_point": exact_fixed_point,
+        },
+    }
+    record_path = bootstrap_root / "bootstrap-current.json"
+    record_path.write_text(
+        json.dumps(record, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
+    if not exact_fixed_point:
+        raise SystemExit(f"checked-out-source bootstrap failed: {record_path}")
+    return outputs[1], record
+
+
 def run_sample(
     *,
     tool: str,
@@ -402,6 +489,15 @@ def main() -> int:
     parser.add_argument(
         "--openc", type=Path, default=REPOSITORY / ".github" / "bootstrap" / "openc-stage0.exe"
     )
+    parser.add_argument(
+        "--bootstrap-current",
+        action="store_true",
+        help=(
+            "treat --openc as the retained seed, rebuild the checked-out "
+            "compiler twice under the corpus memory gates, require a byte-exact "
+            "fixed point, and benchmark that current compiler"
+        ),
+    )
     parser.add_argument("--msvc", type=Path)
     parser.add_argument("--clang", type=Path)
     parser.add_argument("--dmd", type=Path)
@@ -440,9 +536,28 @@ def main() -> int:
     run_root = output.parent / f"{output.stem}-runs-{stamp}"
     run_root.mkdir(parents=True, exist_ok=False)
 
+    sample_interval = float(measurement["sample_interval_seconds"])
+    max_private = int(measurement["max_private_mib_per_compiler"]) * MIB
+    max_working = int(measurement["max_working_set_mib_per_compiler"]) * MIB
+    max_output = int(measurement["max_captured_output_mib"]) * MIB
+    execution_timeout = int(measurement["execution_timeout_seconds"])
+
     base_environment = dict(os.environ)
     msvc_environment, vcvars = capture_msvc_environment(args.msvc_toolset)
     open_path = resolve_tool(args.openc, ["openc.exe"], base_environment)
+    if open_path is None:
+        raise SystemExit(f"missing OpenC compiler: {args.openc.resolve()}")
+    bootstrap_record: dict[str, object] | None = None
+    if args.bootstrap_current:
+        open_path, bootstrap_record = bootstrap_current_compiler(
+            seed=open_path,
+            run_root=run_root,
+            environment=base_environment,
+            sample_interval=sample_interval,
+            max_private_bytes=max_private,
+            max_working_set_bytes=max_working,
+            max_output_bytes=max_output,
+        )
     clang_path = resolve_tool(
         args.clang,
         ["clang-cl.exe", r"C:\Program Files\LLVM\bin\clang-cl.exe"],
@@ -468,8 +583,6 @@ def main() -> int:
         "dmd": (dmd_path, base_environment),
     }
     missing = [name for name, (path, _) in resolved.items() if path is None]
-    if open_path is None:
-        raise SystemExit(f"missing OpenC compiler: {args.openc.resolve()}")
     if args.require_all and missing:
         raise SystemExit("missing required production comparators: " + ", ".join(missing))
     available = [name for name in ("openc", "msvc", "clang", "dmd") if name not in missing]
@@ -502,11 +615,6 @@ def main() -> int:
                 run_root / "corpus" / workload_id / language, language, workload
             )
 
-    sample_interval = float(measurement["sample_interval_seconds"])
-    max_private = int(measurement["max_private_mib_per_compiler"]) * MIB
-    max_working = int(measurement["max_working_set_mib_per_compiler"]) * MIB
-    max_output = int(measurement["max_captured_output_mib"]) * MIB
-    execution_timeout = int(measurement["execution_timeout_seconds"])
     lanes: dict[str, dict[str, object]] = {}
     integrity = True
 
@@ -702,6 +810,7 @@ def main() -> int:
             "python_role": "optional evidence orchestration only; absent from normal OpenC compilation",
         },
         "tools": tools,
+        "current_source_bootstrap": bootstrap_record,
         "missing_tools": missing,
         "required_all": args.require_all,
         "gates": {
@@ -716,6 +825,9 @@ def main() -> int:
             "requested_comparator_versions_match": version_pins_match,
             "version_pin_checks": version_pin_checks,
             "all_compile_memory_and_execution_checks_passed": integrity,
+            "current_source_bootstrap_fixed_point": bool(
+                bootstrap_record is None or bootstrap_record["status"] == "PASS"
+            ),
             **ratio_checks,
         },
         "claims": {

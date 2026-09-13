@@ -6,6 +6,8 @@ on:
       - master
     paths:
       - OpenC-1.0/benchmarks/sh27/**
+      - OpenC-1.0/compiler/selfhost/openc.project.json
+      - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
       - .github/bootstrap/openc-stage0.exe
@@ -56,6 +58,7 @@ jobs:
         run: >-
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_production.py
           --openc .github\bootstrap\openc-stage0.exe
+          --bootstrap-current
           --runs ${{ inputs.runs || '3' }}
           --self-build-runs 3
           --parallel-projects 4
