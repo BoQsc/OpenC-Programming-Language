@@ -21,18 +21,11 @@ unsafe void resolution_copy_records(
     ptr byte source,
     usize count
 ) {
-    usize record = 0;
-    while record < count {
-        usize field = 0;
-        while field < 5 {
-            write_record_field(
-                destination, record, field,
-                read_record_field(source, record, field)
-            );
-            field = field + 1;
-        }
-        record = record + 1;
-    }
+    if count == 0 { return; }
+    usize length = count * record_stride();
+    text.copy_utf8_unchecked(
+        destination, text.from_utf8(source, length)
+    );
 }
 
 unsafe ResolutionParsedSource resolution_parse_source_retained(
