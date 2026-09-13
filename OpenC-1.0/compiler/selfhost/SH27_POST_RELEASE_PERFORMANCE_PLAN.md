@@ -51,10 +51,12 @@ The first deterministic corpus and bounded harness are now checked in at
 `compiler/selfhost/benchmark_sh27_production.py`. The automatic/manual
 `.github/workflows/openc-performance.yml` gate requires OpenC, MSVC, Clang, and
 pinned DMD 2.112.0 on a clean Windows runner. The local OpenC/DMD validation
-passes correctness and memory checks, but exposes a 105.322x OpenC/DMD median
-ratio on the 2,048-function workload. Native attribution assigns 34.171 of
-36.781 seconds to validation, led by 18.687 seconds of pointer-arithmetic
-candidate scanning on pointer-free source. MSVC and Clang evidence, the
-remaining runtime/build-system corpus, and the measured validation fixes are
+passes correctness and memory checks. Clean Windows run 34773764974 then
+passes pinned MSVC 19.44, Clang 20.1.8, and DMD64 2.112.0 version selection and
+every correctness, execution, output, and memory check. It also exposes large
+OpenC median ratios of 51.047x MSVC, 27.351x Clang, and 86.036x DMD64. Native
+attribution assigns 24.035 of 25.906 seconds to validation, led by 13.138
+seconds of pointer-arithmetic candidate scanning on pointer-free source. The
+remaining runtime/build-system corpus and the measured validation fixes are
 therefore still open. Broad production-comparator parity is correctly OPEN,
 not assumed from SH-20.

@@ -148,9 +148,9 @@ owner-authorized final tag, GitHub publication, and remote verification.
 SH-27 now expands public integrity and production C/D performance work. See
 `compiler/selfhost/SH27_POST_RELEASE_PERFORMANCE_PLAN.md` and
 `release/SH27_PRODUCTION_CORPUS_EVIDENCE.md`. The first corpus passes local
-OpenC/DMD correctness and RAM gates but exposes a material large-source
-validation deficit; the checked-in GitHub Windows workflow will add MSVC and
-Clang measurements before any broad parity claim. See also
+OpenC/DMD correctness and RAM gates, and clean Windows run 34773764974 passes
+MSVC 19.44, Clang 20.1.8, and DMD64 2.112.0 comparison. Its large-source
+validation deficit remains explicitly open; no broad parity is claimed. See also
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,

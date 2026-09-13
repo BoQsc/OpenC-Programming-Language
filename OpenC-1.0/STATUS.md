@@ -56,8 +56,8 @@ SH-26 GitHub workflow:                PASS; RUN 34770148453
 SH-26 final tag/release:               v1.0.0; d0f77f6; PUBLISHED
 SH-26 public assets:                   PASS; 15/15 STREAM-DOWNLOADED + SHA-256 EXACT
 SH-27 public integrity baseline:       PASS; 15/15, 48,681,989 BYTES
-SH-27 production C/D corpus:           LOCAL OPENC/DMD PASS; MSVC/CLANG CI PENDING
-SH-27 large-corpus scaling:             OPEN; OPENC 36.336 S / DMD 0.345 S
+SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34773764974
+SH-27 large-corpus scaling:             OPEN; OPENC 25.983 S / MSVC 0.509 S
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
@@ -197,10 +197,10 @@ separate editor and OpenC memory guards. SH-26 then records owner authorization,
 the exact annotated tag, the successful GitHub workflow, and 15/15 remotely
 verified final assets. External review remains openly invited and honestly
 unclaimed. SH-27 now owns public-artifact monitoring and broader production
-MSVC/Clang/DMD performance work. Its first bounded corpus passes locally with
-OpenC and DMD, but the 2,048-function lane measures OpenC at 36.336 seconds
-versus DMD at 0.345 seconds. Validation consumes 34.171 seconds, including
-18.687 seconds scanning for pointer arithmetic in pointer-free input; that is
-the next measured optimization target. The clean-host MSVC/Clang/DMD workflow
-is checked in but not yet recorded here. Linux, freestanding, and ARM64 remain
-optional later targets.
+MSVC/Clang/DMD performance work. Clean Windows run 34773764974 passes every
+compiler-version, correctness, execution, output, and RAM check. OpenC matches
+the comparators on the tiny case, but the 2,048-function lane measures 25.983
+seconds versus MSVC 0.509, Clang 0.950, and DMD64 0.302 seconds. Validation
+consumes 24.035 seconds, including 13.138 seconds scanning for pointer
+arithmetic in pointer-free input; that is the next measured optimization
+target. Linux, freestanding, and ARM64 remain optional later targets.

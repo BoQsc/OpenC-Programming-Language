@@ -1202,12 +1202,27 @@
         "public_v1.0.0_streaming_integrity_15_of_15",
         "bounded_deterministic_openc_c_d_corpus_checked_in",
         "local_openc_dmd_correctness_memory_execution_pass",
-        "automatic_and_manual_clean_windows_comparator_workflow_checked_in"
+        "automatic_and_manual_clean_windows_comparator_workflow_checked_in",
+        "clean_windows_msvc_clang_dmd64_evidence_run_pass"
       ],
       "production_comparator_evidence": {
-        "status": "LOCAL_OPENC_DMD_PASS_MSVC_CLANG_PENDING",
+        "status": "EVIDENCE_COMPLETE_DEFICIT",
         "evidence": "release/SH27_PRODUCTION_CORPUS_EVIDENCE.md",
         "workflow": ".github/workflows/openc-performance.yml",
+        "github_actions_run": 34773764974,
+        "github_artifact": 10322752743,
+        "compiler_versions": {
+          "msvc": "19.44.35228 x64",
+          "clang": "20.1.8 x86_64-pc-windows-msvc",
+          "dmd": "DMD64 2.112.0"
+        },
+        "clean_large_openc_median_seconds": 25.983,
+        "clean_large_msvc_median_seconds": 0.509,
+        "clean_large_clang_median_seconds": 0.95,
+        "clean_large_dmd64_median_seconds": 0.302,
+        "clean_large_openc_to_msvc_ratio": 51.047,
+        "clean_large_openc_to_clang_ratio": 27.351,
+        "clean_large_openc_to_dmd64_ratio": 86.036,
         "local_large_openc_median_seconds": 36.336,
         "local_large_dmd_median_seconds": 0.345,
         "local_large_openc_to_dmd_ratio": 105.322,

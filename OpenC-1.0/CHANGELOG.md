@@ -7,6 +7,8 @@
   and complete OpenC self-build measurements;
 - added an automatic and manually runnable clean-Windows GitHub workflow with
   required MSVC, Clang, and pinned DMD 2.112.0 comparators;
+- passed clean Windows run 34773764974 with MSVC 19.44 x64, Clang 20.1.8 x64,
+  and DMD64 2.112.0 while retaining the complete raw evidence artifact;
 - passed every local OpenC/DMD correctness and RAM check while recording—not
   hiding—a 36.336-second versus 0.345-second large-workload deficit and its
   validation/pointer-scan phase attribution;

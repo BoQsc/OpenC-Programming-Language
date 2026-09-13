@@ -1,6 +1,6 @@
 # SH-27 production compiler corpus — tranche 1 evidence
 
-Status: **LOCAL OPENC/DMD PASS; CLEAN-HOST MSVC/CLANG/DMD RUN PENDING**
+Status: **CLEAN WINDOWS OPENC/MSVC/CLANG/DMD PASS; SCALING DEFICIT OPEN**
 
 SH-27 now has a checked-in deterministic corpus and bounded Windows harness
 for equivalent OpenC, ISO C, and D parsing, semantics, native code generation,
@@ -49,7 +49,51 @@ acceptance costs 8.201 seconds, and function/scope acceptance costs 3.877
 seconds. Those measurements identify validation candidate scanning as the
 first optimization target.
 
-## Clean-host gate
+## Clean-host result
+
+Automatic push run
+[`34773764974`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34773764974)
+completed successfully at commit `6cdfb3dee9788182bbe1eca8d5221c5174808750`
+on Windows Server 2025 image `win25-vs2026` version `20260907.229.1`.
+All compiler-presence, version, compilation, execution, output-capture, and
+memory checks passed. The 11,048,512-byte evidence artifact is retained as
+artifact `10322752743` for 90 days.
+
+The exact x64 comparators were MSVC 19.44.35228, Clang 20.1.8 targeting
+`x86_64-pc-windows-msvc`, and DMD64 2.112.0. The released OpenC input was
+`eadbef1…c191087`.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.107 s | 0.109 s | 0.129 s | 0.139 s |
+| 24 source files | 0.436 s | 0.343 s | 0.831 s | 0.158 s |
+| 2,048 functions | 25.983 s | 0.509 s | 0.950 s | 0.302 s |
+
+OpenC's large-workload ratios are 51.047x MSVC, 27.351x Clang, and 86.036x
+DMD64. Its 24-file result is 1.271x MSVC, 0.525x Clang, and 2.759x DMD64. The
+small case passes the 1.25x parity threshold against every comparator.
+
+The repeated one-source-edit medians are OpenC 0.437 s, MSVC 0.342 s, Clang
+0.834 s, and DMD64 0.159 s. Four simultaneous small projects complete at
+18.862, 21.062, 21.427, and 15.823 projects/second respectively. The complete
+OpenC self-build passes three times at an 8.252-second median. Its measured
+peak is 177,487,872 private bytes and 59,936,768 working-set bytes.
+
+The clean large OpenC sample attributes 24.035 of 25.906 compiler milliseconds
+to validation. Pointer-arithmetic scanning alone consumes 13.138 seconds on
+pointer-free input; expression acceptance costs 5.922 seconds and
+function/scope/enum acceptance costs 2.831 seconds. Peak large-workload OpenC
+memory is 157,614,080 private bytes and 37,707,776 working-set bytes, below the
+512 MiB kill limits. The compiler emits a 2,786,304-byte CRT-free executable;
+different output sizes are recorded but are not treated as correctness
+equivalence.
+
+The report status is `EVIDENCE_COMPLETE_DEFICIT`, not parity. The successful
+workflow proves that the evidence is complete for this corpus and that the
+deficit is real; it deliberately does not turn a green infrastructure run into
+a C/D-class throughput claim.
+
+## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the corpus,
 harness, memory sampler, bootstrap compiler, or workflow changes and can also
@@ -65,6 +109,5 @@ Normal `openc build`, the self-hosting compiler, and the standalone release
 remain independent of Python, C, D, TinyCC, assemblers, and external linkers.
 
 SH-27 remains active after this tranche. The production corpus still needs
-the clean-host MSVC/Clang/DMD result, then file-I/O/allocation runtime cases,
-incremental object/build-system reuse, LDC, broader real projects, and fixes
-for every material measured compiler deficit.
+file-I/O/allocation runtime cases, incremental object/build-system reuse, LDC,
+broader real projects, and fixes for every material measured compiler deficit.

@@ -189,7 +189,8 @@ owner authorization, the `v1.0.0` tag, final GitHub publication, and 15/15
 remote-asset verification. SH-27 is active for post-release integrity and
 production MSVC/Clang/D performance expansion. Its first checked-in corpus is
 reproduced with `benchmark_sh27_production.py`; local OpenC/DMD correctness and
-RAM checks pass, while the large-source result remains an explicitly open
+RAM checks pass, and clean Windows run 34773764974 adds MSVC 19.44, Clang
+20.1.8, and DMD64 2.112.0. The large-source result remains an explicitly open
 performance deficit. See `../../release/SH27_PRODUCTION_CORPUS_EVIDENCE.md`.
 
 The same-host SH-14 clean-build comparator is:

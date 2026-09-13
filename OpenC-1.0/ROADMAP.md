@@ -321,9 +321,10 @@ IR reach closure. Exact evidence and reproduction commands are in
       and memory comparison to pinned MSVC, Clang, and D toolchains;
     - the first bounded generated corpus, one-source-edit lane, parallel batch,
       complete self-build lane, and automatic/manual Windows workflow are now
-      implemented; the local OpenC/DMD run passes correctness and RAM guards;
-    - the large lane exposes a 105.322x OpenC/DMD deficit, dominated by
-      validation candidate scans. Eliminate that measured deficit before
+      implemented; clean Windows run 34773764974 passes all pinned-version,
+      correctness, execution, output, and RAM guards;
+    - the large lane exposes 51.047x MSVC, 27.351x Clang, and 86.036x DMD64
+      deficits, dominated by validation candidate scans. Eliminate that before
       broadening lower-priority post-release work or claiming C/D parity.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

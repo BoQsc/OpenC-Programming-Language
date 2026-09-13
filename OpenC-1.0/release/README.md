@@ -91,8 +91,8 @@ finalization and independent-review intake is complete. SH-26 final GitHub
 publication and 15/15 remote verification are complete; see
 `SH26_GITHUB_PUBLICATION_EVIDENCE.md`. SH-27 post-release integrity and
 production performance expansion is active. Its deterministic bounded corpus,
-local OpenC/DMD result, clean-host workflow, and honestly open large-source
-deficit are recorded in `SH27_PRODUCTION_CORPUS_EVIDENCE.md`.
+successful clean-host four-compiler run, and honestly open large-source deficit
+are recorded in `SH27_PRODUCTION_CORPUS_EVIDENCE.md`.
 
 The final publication set was assembled and verified by the hash-locked GitHub
 Actions workflow at the repository root. It emitted the artifact layout,
