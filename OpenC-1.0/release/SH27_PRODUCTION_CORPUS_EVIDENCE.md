@@ -580,6 +580,47 @@ remain materially open. Seven of nine latest workload/comparator gates pass.
 The complete self-build median is 6.326 seconds with 195,239,936 peak private
 bytes and 81,907,712 peak working-set bytes.
 
+## Bounded call-free native constant pools
+
+Automatic push run
+[`34785359915`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34785359915)
+completed successfully at commit `a9ce07b244ad3472f082234d9141af2edd8121cc`.
+Artifact `OpenC-SH27-production-performance-34785359915`, ID `10326641080`,
+contains 13,797,330 ZIP bytes at
+`sha256:79c9029b91612f06892e0df5f8ec582cd2d489c8e1dae77dad58a57f5049ebb9`.
+
+Native function setup formerly reserved twice the complete source length for
+every function's constant buffer. A call-free function cannot enter a runtime
+intrinsic emitter, so its constant section can contain only decoded
+`const_text` instructions. The compiler now sums those encoded literal spans
+while it already scans the function's instructions and uses that conservative
+per-function bound. Functions containing calls retain the original reserve.
+
+The workflow produces a byte-identical 7,164,928-byte compiler at SHA-256
+`b068e3d4…108d96`. Guarded bootstrap takes 8.675 and 6.760 seconds; largest
+private/working-set peaks are 195,629,056 and 77,950,976 bytes. Local exact
+three-stage closure, 278/278 conformance, repository audit, and output
+equivalence all pass within both 512 MiB limits. Three interleaved local A/B
+pairs reduce median native emission from 763 to 516 milliseconds while
+producing the same `54fe73ad…02746b` large-corpus executable.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.108 s | 0.118 s | 0.150 s | 0.171 s |
+| 24 source files | 0.245 s | 0.414 s | 1.022 s | 0.182 s |
+| 2,048 functions | 1.436 s | 0.623 s | 1.103 s | 0.349 s |
+
+Clean large native-emission samples are 204, 265, and 292 milliseconds. The
+same-run large ratios are 2.305x MSVC, 1.302x Clang, and 4.115x DMD64. The
+latest Clang observation is just outside the gate after two passing runs, so
+large Clang parity is treated as intermittent rather than closed. Small OpenC
+beats all three comparators; the many-file lane beats MSVC and Clang but is
+1.346x DMD64. Six of nine current workload/comparator gates pass. The complete
+self-build median is 7.361 seconds with 193,482,752 peak private bytes and
+79,544,320 peak working-set bytes. Comparator and other compiler phases again
+move materially on this shared runner; isolated phase evidence is retained,
+but no cross-run total-speed claim is made.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler

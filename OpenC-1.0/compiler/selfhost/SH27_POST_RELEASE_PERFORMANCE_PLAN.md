@@ -104,3 +104,13 @@ sort allocations and passes while retaining the stable fallback. Its large
 Clang ratio is 1.213x, the second consecutive pass. Latest large MSVC and DMD64
 ratios remain open at 2.501x and 3.975x; continued compiler-owned
 validation/lowering/emission reduction remains the highest priority.
+
+Run 34785359915 then bounds each call-free native constant pool from its IR
+literal spans instead of reserving against the complete project source for
+every function. Local paired evidence reduces native-emission median from 763
+to 516 milliseconds with byte-identical output. Clean large emission samples
+are 204–292 milliseconds, while same-run total ratios are 2.305x MSVC, 1.302x
+Clang, and 4.115x DMD64. Because the latest Clang sample follows two gate
+passes but falls just outside 1.25x, Clang parity remains intermittent and
+broad parity remains open. Large validation, indexing, lowering, emission,
+and DMD-relative many-file work remain the highest priority.
