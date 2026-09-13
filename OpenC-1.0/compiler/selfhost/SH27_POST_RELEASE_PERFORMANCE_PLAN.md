@@ -122,3 +122,10 @@ acceptance falls to 187–204 milliseconds and the total median reaches 1.173
 seconds. The latest Clang ratio passes at 1.120x; large MSVC and DMD64 remain
 open at 2.360x and 3.736x. Seven of nine gates pass, with many-file DMD64 only
 narrowly open at 1.255x. Large native pipeline work remains the primary target.
+
+Run 34786895725 then replaces per-byte native object/image copies with one
+capacity-checked bulk operation implemented by OpenC's own runtime. The clean
+large median reaches 1.045 seconds and passes Clang at 0.991x; every small and
+many-file comparator gate passes. Large MSVC and DMD64 remain open at 2.053x
+and 3.339x. Native per-function setup and the remaining frontend passes stay
+on the critical path.
