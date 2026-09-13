@@ -66,13 +66,14 @@ def main() -> int:
     )
 
     completed = run(compiler, "version")
+    expected_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     cases.append(
         result(
             "version",
             completed,
             completed.returncode == 0
             and completed.stdout
-            == "OpenC 1.0.0-rc.9\ncompiler: OpenC self-hosted native\n",
+            == f"OpenC {expected_version}\ncompiler: OpenC self-hosted native\n",
         )
     )
 

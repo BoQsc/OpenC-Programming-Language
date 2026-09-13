@@ -218,5 +218,6 @@ unsafe void native_process_failure_outputs(
 // failure is returned so a noisy child cannot deadlock or exhaust the compiler.
 // Every child is created suspended, placed in a kill-on-close Job object with
 // a 256 MiB per-process and whole-job memory limit, then resumed. A nonblocking
-// pipe loop also enforces a 64 MiB working-set ceiling and a bounded wall clock.
+// pipe loop enforces a configured working-set ceiling (64 MiB for compiler
+// work, explicitly bounded higher for artifact tools) and a bounded wall clock.
 // Descendants inherit the Job boundary and are terminated when supervision ends.

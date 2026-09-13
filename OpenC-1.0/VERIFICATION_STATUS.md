@@ -1,6 +1,6 @@
-# OpenC 1.0.0-rc.9 verification status
+# OpenC 1.0.0 verification status
 
-Date: 2026-09-12
+Date: 2026-09-13
 Host: Windows 10.0.19045, x86-64
 
 ## Verified scope
@@ -375,4 +375,19 @@ compiler closes at SHA-256
 `d7bf359a19bff4d4f4301678f15026ff65ff599af3921927c339fde3bdccc186`.
 Build/validation medians are 11.765/6.023 seconds; peak private/working-set
 memory is 174,501,888/59,146,240 bytes, inside the unchanged 256/64 MiB gates.
-SH-25 Windows 1.0 finalization and independent-review intake is active next.
+SH-25 Windows 1.0 finalization and independent-review intake is **PASS and
+complete**. The 221-source, 7,119,360-byte compiler closes byte-identically at
+SHA-256 `eadbef1f065261385c2c36d524624347f7e5cd3c021a4a1db9ccfcaf7c191087`.
+The OpenC-native packager emits byte-identical 9-entry VSIX files at SHA-256
+`081ff8dd6de0960b1981620b3151fbaf74bb12ce73f17afc78e32d38777c3828`.
+A real empty-profile VS Code 1.137.0 run installs and activates the extension,
+selects the packaged compiler, starts its native language server, and receives
+diagnostics with zero provider failures or unexpected server exits. The whole
+editor tree peaks at 1,495,654,400 bytes under 2 GiB; the OpenC server peaks at
+9,289,728 bytes under 64 MiB. Package/finalization children have their own
+bounded 96 MiB ceiling; the compiler gate remains 64 MiB. The native
+finalization audit passes 44/44.
+
+Five independent-review tracks are invited, but zero reviews have been
+received and none are claimed. Final `v1.0.0` tagging and publication are not
+part of this engineering gate; SH-26 awaits explicit owner authorization.

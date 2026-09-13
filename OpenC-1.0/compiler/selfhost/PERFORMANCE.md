@@ -337,3 +337,16 @@ median is 7.729 seconds. Peak private and working-set memory are 172,986,368
 and 57,532,416 bytes. These remain below the unchanged 25-second, exclusive
 15-second, 256 MiB, and 64 MiB guards. The 20/20 exact closure also preserves
 the no-Python/D/C/TinyCC/assembler/external-linker boundary.
+
+## SH-25 finalization retention
+
+The final 221-source compiler closes exactly for 20/20 generations at SHA-256
+`eadbef1f065261385c2c36d524624347f7e5cd3c021a4a1db9ccfcaf7c191087`.
+Its fully validating build median is 12.843 seconds and validation median is
+6.282 seconds. Peak private and working-set memory are 175,710,208 and
+60,731,392 bytes, below the unchanged 25-second, exclusive 15-second, 256 MiB,
+and 64 MiB gates. Deterministic VSIX/finalization and relocated-release work is
+outside each compiler-build sample and does not weaken semantic validation.
+Those artifact-tool children are independently supervised at 96 MiB because
+they must hold and verify the embedded compiler archive; this does not raise the
+64 MiB compiler-build gate.

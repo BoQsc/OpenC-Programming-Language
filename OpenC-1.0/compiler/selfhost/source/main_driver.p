@@ -376,6 +376,12 @@ unsafe i32 main() {
     if arguments >= 3 && process.argument(0) == "editor-audit" {
         return cli_editor_audit_command();
     }
+    if arguments >= 3 && process.argument(0) == "editor-package" {
+        return cli_editor_package_command();
+    }
+    if arguments >= 6 && process.argument(0) == "finalization-audit" {
+        return cli_finalization_audit_command();
+    }
     if arguments >= 2 && process.argument(0) == "benchmark" {
         return cli_benchmark_command();
     }

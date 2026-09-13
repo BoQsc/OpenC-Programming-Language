@@ -24,9 +24,9 @@ unsafe void native_process_supervise(ref NativeFunction function) {
     x64_mov_r64_imm64(function.code, 11, cast(u64, 258));
     x64_cmp_r64_r64(function.code, 0, 11); native_require(function.code, 4);
 
-    // Enforce the unprivileged 64 MiB working-set rule by observing the child
-    // directly; JOB_OBJECT_LIMIT_WORKINGSET requires a quota privilege and is
-    // not available to ordinary compiler processes.
+    // Enforce the configured unprivileged working-set rule by observing the
+    // child directly; JOB_OBJECT_LIMIT_WORKINGSET requires a quota privilege
+    // and is not available to ordinary compiler processes.
     x64_mov_r64_imm64(function.code, 0, cast(u64, 80));
     x64_mov_memory_r64(function.code, 4, 1040, 0);
     x64_mov_r64_memory(function.code, 11, 4, 864);
@@ -47,7 +47,7 @@ unsafe void native_process_supervise(ref NativeFunction function) {
     x64_mov_memory_r64(function.code, 4, 1408, 10);
     native_skip_end(function.code, private_not_peak);
     x64_mov_r64_memory(function.code, 10, 4, 1056);
-    x64_mov_r64_imm64(function.code, 11, cast(u64, 67108864));
+    x64_mov_r64_memory(function.code, 11, 4, 1416);
     x64_cmp_r64_r64(function.code, 10, 11);
     usize working_set_within_budget = native_skip(function.code, 6);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 1));

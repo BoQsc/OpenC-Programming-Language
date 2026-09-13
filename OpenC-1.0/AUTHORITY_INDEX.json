@@ -110,5 +110,5 @@
     }
   ],
   "schema": "openc.authority_index.v2",
-  "version": "1.0.0-rc.9"
+  "version": "1.0.0"
 }

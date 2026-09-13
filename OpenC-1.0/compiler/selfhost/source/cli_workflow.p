@@ -111,6 +111,40 @@ unsafe CliWorkflowTaskResult cli_workflow_run_long(
     };
 }
 
+unsafe CliWorkflowTaskResult cli_workflow_run_tool(
+    text command,
+    text required_output
+) {
+    usize started = process.monotonic_milliseconds();
+    i32 exit_code;
+    text output;
+    status ran = cli_process_run_bounded_tool(
+        command, cast(usize, 900000), out exit_code, out output,
+        cast(usize, 100663296)
+    );
+    usize elapsed = process.monotonic_milliseconds() - started;
+    if !ran.ok {
+        return CliWorkflowTaskResult{
+            launched = false,
+            exit_code = 0,
+            elapsed_milliseconds = elapsed,
+            output = "",
+            passed = false
+        };
+    }
+    bool passed = exit_code == 0;
+    if text.byte_length(required_output) != 0 {
+        passed = passed && native_contains(output, required_output);
+    }
+    return CliWorkflowTaskResult{
+        launched = true,
+        exit_code = exit_code,
+        elapsed_milliseconds = elapsed,
+        output = output,
+        passed = passed
+    };
+}
+
 unsafe void cli_workflow_put_task(
     ref DBuffer report,
     usize index,
@@ -168,6 +202,29 @@ unsafe bool cli_workflow_execute_long(
     text required_output
 ) {
     CliWorkflowTaskResult result = cli_workflow_run_long(
+        d_buffer_text(command), required_output
+    );
+    cli_workflow_put_task(
+        report, counters.tasks, name, d_buffer_text(command), result
+    );
+    counters.tasks = counters.tasks + 1;
+    if result.passed { counters.passed = counters.passed + 1; }
+    io.print("workflow ");
+    io.print(name);
+    io.print(": ");
+    if result.passed { io.println("PASS"); }
+    else { io.println("FAIL"); }
+    return result.passed;
+}
+
+unsafe bool cli_workflow_execute_tool(
+    ref DBuffer report,
+    ref CliWorkflowCounters counters,
+    text name,
+    ref DBuffer command,
+    text required_output
+) {
+    CliWorkflowTaskResult result = cli_workflow_run_tool(
         d_buffer_text(command), required_output
     );
     cli_workflow_put_task(
@@ -264,6 +321,17 @@ unsafe status cli_process_run_bounded(
     return result;
 }
 
+unsafe status cli_process_run_bounded_tool(
+    text command,
+    usize timeout_milliseconds,
+    out i32 exit_code,
+    out text output,
+    usize working_set_limit_bytes
+) {
+    status result = process.run(command, out exit_code, out output);
+    return result;
+}
+
 unsafe status cli_process_run_measured(
     text command,
     usize timeout_milliseconds,
@@ -338,6 +406,7 @@ unsafe i32 cli_process_guard_command(text output_path) {
     d_put(report, "    \"process_memory_bytes\": 268435456,\n");
     d_put(report, "    \"job_memory_bytes\": 268435456,\n");
     d_put(report, "    \"working_set_bytes\": 67108864,\n");
+    d_put(report, "    \"artifact_tool_working_set_bytes\": 100663296,\n");
     d_put(report, "    \"probe_timeout_milliseconds\": 250\n  },\n");
     d_put(report, "  \"checks\": {\n    \"output_budget\": ");
     native_put_bool(report, output_guarded);
@@ -409,54 +478,66 @@ unsafe i32 cli_workflow_command() {
         root, "conformance/fixtures/MANIFEST.json"
     );
     text conformance_report = path.join(
-        output_directory, "sh24-native-conformance.json"
+        output_directory, "sh25-native-conformance.json"
     );
     text test_report = path.join(
-        output_directory, "sh24-native-tests.json"
+        output_directory, "sh25-native-tests.json"
     );
     text process_guard_report = path.join(
-        output_directory, "sh24-native-process-guard.json"
+        output_directory, "sh25-native-process-guard.json"
     );
     text audit_report = path.join(
-        output_directory, "sh24-native-repository-audit.json"
+        output_directory, "sh25-native-repository-audit.json"
     );
     text pe_audit_report = path.join(
-        output_directory, "sh24-native-pe-audit.json"
+        output_directory, "sh25-native-pe-audit.json"
     );
     text pe_coff_audit_report = path.join(
-        output_directory, "sh24-native-pe-coff-audit.json"
+        output_directory, "sh25-native-pe-coff-audit.json"
     );
     text pe_coff_artifacts = path.join(
-        output_directory, "sh24-native-pe-coff-artifacts"
+        output_directory, "sh25-native-pe-coff-artifacts"
     );
     text com_winrt_audit_report = path.join(
-        output_directory, "sh24-native-com-winrt-audit.json"
+        output_directory, "sh25-native-com-winrt-audit.json"
     );
     text com_winrt_artifacts = path.join(
-        output_directory, "sh24-native-com-winrt-artifacts"
+        output_directory, "sh25-native-com-winrt-artifacts"
     );
     text lsp_audit_report = path.join(
-        output_directory, "sh24-native-lsp-audit.json"
+        output_directory, "sh25-native-lsp-audit.json"
     );
     text editor_audit_report = path.join(
-        output_directory, "sh24-native-editor-audit.json"
+        output_directory, "sh25-native-editor-audit.json"
     );
     text contract_audit_report = path.join(
-        output_directory, "sh24-native-contract-audit.json"
+        output_directory, "sh25-native-contract-audit.json"
     );
     text benchmark_report = path.join(
-        output_directory, "sh24-native-benchmark.json"
+        output_directory, "sh25-native-benchmark.json"
     );
     text stage2 = path.join(
-        output_directory, "openc-sh24-stage2.exe"
+        output_directory, "openc-sh25-stage2.exe"
     );
     text stage3 = path.join(
-        output_directory, "openc-sh24-stage3.exe"
+        output_directory, "openc-sh25-stage3.exe"
+    );
+    text editor_vsix_a = path.join(
+        output_directory, "OpenC-vscode-1.0.0-a.vsix"
+    );
+    text editor_vsix_b = path.join(
+        output_directory, "OpenC-vscode-1.0.0-b.vsix"
+    );
+    text finalization_report = path.join(
+        output_directory, "sh25-native-finalization-audit.json"
+    );
+    text clean_profile_evidence = path.join(
+        root, "review/SH25_WINDOWS_EDITOR_EVIDENCE.json"
     );
 
     DBuffer report = d_buffer_create(8388608);
     d_put(report, "{\n  \"schema\": \"openc.native_workflow.v1\",\n");
-    d_put(report, "  \"milestone\": \"SH-24_NATIVE_EDITOR_RESILIENCE\",\n");
+    d_put(report, "  \"milestone\": \"SH-25_WINDOWS_1_0_FINALIZATION\",\n");
     d_put(report, "  \"mode\": ");
     cli_json_text(report, mode);
     d_put(report, ",\n  \"root\": ");
@@ -472,7 +553,7 @@ unsafe i32 cli_workflow_command() {
     DBuffer command = d_buffer_create(32768);
     cli_workflow_command_start(command, compiler, "version");
     cli_workflow_execute(
-        report, counters, "version", command, "OpenC 1.0.0-rc.9"
+        report, counters, "version", command, "OpenC 1.0.0"
     );
     d_buffer_destroy(command);
 
@@ -588,6 +669,41 @@ unsafe i32 cli_workflow_command() {
     d_buffer_destroy(command);
 
     command = d_buffer_create(32768);
+    cli_workflow_command_start(command, compiler, "editor-package");
+    cli_workflow_command_named_argument(command, "--root=", root);
+    cli_workflow_command_named_argument(command, "--output=", editor_vsix_a);
+    cli_workflow_execute_tool(
+        report, counters, "native_editor_package_a", command,
+        "OpenC VS Code package: PASS (9/9 entries)"
+    );
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
+    cli_workflow_command_start(command, compiler, "editor-package");
+    cli_workflow_command_named_argument(command, "--root=", root);
+    cli_workflow_command_named_argument(command, "--output=", editor_vsix_b);
+    cli_workflow_execute_tool(
+        report, counters, "native_editor_package_b", command,
+        "OpenC VS Code package: PASS (9/9 entries)"
+    );
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
+    cli_workflow_command_start(command, compiler, "finalization-audit");
+    cli_workflow_command_named_argument(command, "--root=", root);
+    cli_workflow_command_named_argument(command, "--vsix-a=", editor_vsix_a);
+    cli_workflow_command_named_argument(command, "--vsix-b=", editor_vsix_b);
+    cli_workflow_command_named_argument(
+        command, "--clean-profile=", clean_profile_evidence
+    );
+    cli_workflow_command_named_argument(command, "--output=", finalization_report);
+    cli_workflow_execute_tool(
+        report, counters, "native_windows_1_0_finalization", command,
+        "OpenC SH-25 finalization audit: PASS (44/44)"
+    );
+    d_buffer_destroy(command);
+
+    command = d_buffer_create(32768);
     cli_workflow_command_start(command, compiler, "contract-audit");
     cli_workflow_command_named_argument(command, "--root=", root);
     cli_workflow_command_named_argument(
@@ -595,7 +711,7 @@ unsafe i32 cli_workflow_command() {
     );
     cli_workflow_execute(
         report, counters, "native_contract_audit", command,
-        "OpenC native contract audit: PASS (36/36)"
+        "OpenC native contract audit: PASS (38/38)"
     );
     d_buffer_destroy(command);
 

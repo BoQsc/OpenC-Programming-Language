@@ -10,11 +10,12 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
 RC_MATCH = re.fullmatch(r".+-rc\.(\d+)", VERSION)
+FINAL_1_0 = VERSION == "1.0.0"
 EXPECTED_CANDIDATE = f"OpenC {VERSION}"
 EXPECTED_EXECUTION_STATE = (
     f"EXECUTED_PASS_WINDOWS_X86_64_RC{RC_MATCH.group(1)}"
     if RC_MATCH
-    else None
+    else "EXECUTED_PASS_WINDOWS_X86_64_1_0" if FINAL_1_0 else None
 )
 required = [
     "README.md", "VERSION", "STATUS.md", "AUTHORITY.md", "DEVELOPMENT_MODEL.md",
@@ -53,6 +54,9 @@ required = [
     "compiler/selfhost/SH21_NATIVE_PE_AUDIT_TRANCHE4_EVIDENCE.md",
     "compiler/selfhost/SH21_NATIVE_LSP_AUDIT_TRANCHE5_EVIDENCE.md",
     "compiler/selfhost/SH21_NATIVE_BENCHMARK_TRANCHE6_EVIDENCE.md",
+    "compiler/selfhost/SH25_WINDOWS_1_0_FINALIZATION_PLAN.md",
+    "compiler/selfhost/SH25_COMPLETION_EVIDENCE.md",
+    "release/SH25_WINDOWS_1_0_FINALIZATION_EVIDENCE.md",
     "release/SH19_COMPILER_CAPABLE_NATIVE_BACKEND_EVIDENCE.md",
     "release/SH20_NATIVE_PUBLIC_THROUGHPUT_EVIDENCE.md",
     "compiler/selfhost/benchmark_sh20_stability.py",
@@ -80,6 +84,13 @@ required = [
     "compiler/selfhost/source/cli_lsp_semantic.p",
     "compiler/selfhost/source/cli_lsp_audit.p",
     "compiler/selfhost/source/cli_benchmark.p",
+    "compiler/selfhost/source/cli_finalization.p",
+    "tests/SH25_FINALIZATION_AUDIT_PLAN.tsv",
+    "editors/vscode/[Content_Types].xml",
+    "editors/vscode/extension.vsixmanifest",
+    "review/SH25_INDEPENDENT_REVIEW_INVITATION.md",
+    "review/SH25_REVIEW_INTAKE.json",
+    "review/SH25_WINDOWS_EDITOR_EVIDENCE.json",
     "conformance/fixtures/NATIVE_PLAN.tsv",
     "schemas/LSP_TRANSCRIPT.schema.json",
     "schemas/SEMANTIC_LSP_TRANSCRIPT.schema.json",
@@ -153,7 +164,7 @@ authority_index = json.loads((ROOT / "AUTHORITY_INDEX.json").read_text(encoding=
 if authority_index.get("version") != VERSION:
     errors.append("authority index version is stale")
 if EXPECTED_EXECUTION_STATE is None:
-    errors.append("VERSION must identify a numbered release candidate")
+    errors.append("VERSION must identify a numbered release candidate or final 1.0.0")
 for section in ("authoritative", "project_authority"):
     for record in authority_index.get(section, []):
         path = ROOT / record["path"]
@@ -731,17 +742,17 @@ if (
         "release, relocation, legacy-tool exclusion, and bounded-memory evidence"
     )
 if (
-    active_plan.get("id") != "SH-22"
-    or active_plan.get("name") != "pe_coff_ecosystem_completeness"
-    or active_plan.get("status") != "ACTIVE_NEXT"
-    or active_plan.get("blocked_by_sh21")
+    active_plan.get("id") != "SH-26"
+    or active_plan.get("name") != "owner_authorized_1_0_publication_and_review_response"
+    or active_plan.get("status") != "PENDING_OWNER_AUTHORIZATION"
+    or active_plan.get("blocked_by_sh25")
 ):
-    errors.append("SH-22 PE/COFF ecosystem completeness must be active after SH-21")
+    errors.append("SH-26 owner-authorized 1.0 publication must follow SH-25")
 development_self_hosting = development.get("self_hosting", {})
 if development_self_hosting.get("next_milestone") != (
-    "SH-22_PE_COFF_ECOSYSTEM_COMPLETENESS"
+    "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE"
 ):
-    errors.append("development state must name PE/COFF completeness as SH-22")
+    errors.append("development state must name owner-authorized publication as SH-26")
 development_sh19 = development_self_hosting.get("sh19_acceptance", {})
 if (
     development_sh19.get("status") != "PASS"
@@ -882,6 +893,44 @@ if (sh18.get("status") != "PASS" or sh18.get("friendly_modules") != 12
         or sh18.get("native_conformance_fixtures_passed") != 278
         or sh18.get("relative_to_d_median", float("inf")) > 1.25):
     errors.append("SH-18 requires modules, behavior, closure, conformance and throughput evidence")
+sh25_gate = next(
+    (gate for gate in self_hosting.get("gates", [])
+     if gate.get("id") == "SH-25"),
+    {},
+)
+development_sh25 = development_self_hosting.get("sh25_acceptance", {})
+for label, sh25 in (("self-hosting", sh25_gate), ("development", development_sh25)):
+    if (
+        sh25.get("status") not in {"PASS", "PASS_COMPLETE"}
+        or sh25.get("compiler_source_files") != 221
+        or sh25.get("native_compiler_bytes") != 7119360
+        or sh25.get("native_compiler_sha256")
+        != "eadbef1f065261385c2c36d524624347f7e5cd3c021a4a1db9ccfcaf7c191087"
+        or not sh25.get("stage2_stage3_byte_equal")
+        or sh25.get("native_full_tasks_passed") != 19
+        or sh25.get("native_contract_audit_checks_passed") != 38
+        or sh25.get("native_repository_required_files") != 507
+        or sh25.get("native_conformance_fixtures_passed") != 278
+        or sh25.get("native_benchmark_exact_closures") != 20
+        or sh25.get("native_benchmark_build_median_milliseconds", 2**63) > 25000
+        or sh25.get("native_benchmark_validation_median_milliseconds", 2**63) >= 15000
+        or sh25.get("native_benchmark_peak_private_bytes", 2**63) > 268435456
+        or sh25.get("native_benchmark_peak_working_set_bytes", 2**63) > 67108864
+        or sh25.get("artifact_tool_working_set_limit_bytes") != 100663296
+        or sh25.get("finalization_audit_checks_passed") != 44
+        or sh25.get("vsix_entries") != 9
+        or not sh25.get("vsix_builds_byte_equal")
+        or not sh25.get("clean_profile_extension_activated")
+        or not sh25.get("clean_profile_server_ready")
+        or not sh25.get("clean_profile_diagnostics_roundtrip")
+        or sh25.get("independent_reviews_received") != 0
+        or sh25.get("independent_review_claimed")
+        or sh25.get("open_p0") != 0
+        or sh25.get("open_p1") != 0
+        or sh25.get("final_tag_created")
+        or sh25.get("public_release_created")
+    ):
+        errors.append(f"SH-25 {label} state must record complete honest finalization evidence")
 if (
     windows_plan.get("implementation_blocked_until_sh14_pass")
     or not windows_plan.get("implementation_unblocked_by_sh14_pass")
@@ -892,15 +941,19 @@ if (
     or not windows_plan.get("sh19_completed")
     or not windows_plan.get("sh20_completed")
     or not windows_plan.get("sh21_completed")
+    or not windows_plan.get("sh22_completed")
+    or not windows_plan.get("sh23_completed")
+    or not windows_plan.get("sh24_completed")
+    or not windows_plan.get("sh25_completed")
     or windows_plan.get("active_milestone")
-    != "SH-22_PE_COFF_ECOSYSTEM_COMPLETENESS"
+    != "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE"
     or windows_plan.get("sequence", [None])[0]
     != "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE"
     or windows_plan.get("sequence", [None])[-1]
-    != "SH-24_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE"
+    != "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE"
 ):
     errors.append(
-        "Windows independence must advance to SH-22 with editor work last"
+        "Windows independence must record SH-25 complete and SH-26 active"
     )
 
 windows_target = json.loads((

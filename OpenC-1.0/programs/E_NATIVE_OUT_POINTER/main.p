@@ -8,7 +8,7 @@ unsafe i32 main() {
         "VERSION", out data, out length
     );
     if !loaded.ok { return 1; }
-    if length != 11 {
+    if length != 6 {
         memory.free(data);
         return 2;
     }

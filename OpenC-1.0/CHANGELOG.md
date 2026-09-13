@@ -1,5 +1,24 @@
 # OpenC development changelog
 
+## 1.0.0 engineering candidate — SH-25 Windows finalization complete
+
+- promoted the canonical candidate identity and executed conformance evidence
+  from RC9 to final `1.0.0` without changing the frozen Core contracts;
+- added OpenC-native, dependency-free, byte-deterministic VSIX packaging that
+  embeds the exact fixed-point compiler;
+- installed the extension into a clean VS Code 1.137.0 profile and passed
+  activation, native-server startup, diagnostics, restart, cleanup, and
+  separate editor/OpenC memory guards;
+- added and passed the 44/44 native finalization audit;
+- separated the 96 MiB archive-tool child ceiling from the unchanged 64 MiB
+  compiler gate after the release proof exposed a guarded mid-package
+  termination; deterministic A/B packaging and the full workflow now pass
+  under the explicit limits;
+- opened five honestly labelled external-review tracks while claiming zero
+  independent reviews received; and
+- left the `v1.0.0` tag and public release uncreated for explicit owner action
+  in SH-26. The published `v1.0.0-rc.9` record remains immutable.
+
 ## Post-RC9 — SH-24 native editor integration and LSP resilience complete
 
 - shipped a dependency-free first-party Visual Studio Code client for `.p`

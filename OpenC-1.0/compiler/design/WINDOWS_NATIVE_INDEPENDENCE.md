@@ -1,6 +1,6 @@
 # Windows native independence architecture
 
-Status: **ACTIVE; SH-22 PASSED, SH-23 OPTIONAL COM/WINRT ACTIVE NEXT**
+Status: **SH-25 PASS; SH-26 OWNER-AUTHORIZED PUBLICATION ACTIVE NEXT**
 
 OpenC's Windows path must preserve a strict separation:
 
@@ -290,8 +290,11 @@ KERNEL32 static imports and loads documented OLE32/COMBASE entry points from
 System32 when the optional modules are exercised. They do not complicate
 SH-15 through SH-22 or add Windows concepts to Core.
 
-SH-24 is now active and contains the native editor integration and language-service
-resilience work. ARM64 begins only after the x64 ABI, backend, runtime, raw
+SH-24 completes native editor integration and language-service resilience.
+SH-25 completes deterministic native VSIX packaging, clean-profile Windows
+editor validation, explicit editor/server memory guards, and final 1.0 evidence
+freeze. SH-26 is restricted to owner-authorized tag/publication and subsequent
+review response. ARM64 begins only after the x64 ABI, backend, runtime, raw
 bindings, and release loop are stable and independent.
 
 ## Verification policy

@@ -133,12 +133,15 @@ unsafe bool cli_zip_bytes_equal(
 unsafe bool cli_zip_safe_name(text name, text root_name) {
     usize root_length = text.byte_length(root_name);
     usize length = text.byte_length(name);
-    if length <= root_length + 1 ||
-        !span_equals_ascii(name, 0, root_length, root_name) ||
-        byte_at_or_zero(name, root_length) != 47 ||
-        byte_at_or_zero(name, 0) == 47 ||
+    if length == 0 || name == ".." || byte_at_or_zero(name, 0) == 47 ||
         native_contains(name, "../") || native_contains(name, "..\\") ||
         native_contains(name, ":") || native_contains(name, "\\") {
+        return false;
+    }
+    if root_length == 0 { return true; }
+    if length <= root_length + 1 ||
+        !span_equals_ascii(name, 0, root_length, root_name) ||
+        byte_at_or_zero(name, root_length) != 47 {
         return false;
     }
     return true;

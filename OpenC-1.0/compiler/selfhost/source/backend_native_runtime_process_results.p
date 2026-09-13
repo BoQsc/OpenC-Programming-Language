@@ -14,9 +14,9 @@ unsafe void native_process_results(
     x64_emit_u8(function.code, 192);
     usize working_set_within_budget_result = native_skip(function.code, 4);
     native_constant_ascii(function,
-        "fatal[OPENC-NATIVE-PROCESS-WORKING-SET-BUDGET]: child working set exceeds 64 MiB\n",
+        "fatal[OPENC-NATIVE-PROCESS-WORKING-SET-BUDGET]: child working set exceeds configured limit\n",
         false, 2);
-    x64_mov_r64_imm64(function.code, 8, cast(u64, 81));
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 91));
     native_write_console(function, true);
     x64_mov_r64_memory(function.code, 8, 4, 800);
     native_heap_free_r8(function);

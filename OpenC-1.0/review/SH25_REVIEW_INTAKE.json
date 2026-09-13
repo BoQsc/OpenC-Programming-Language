@@ -1,0 +1,25 @@
+{
+  "schema": "openc.sh25_review_intake.v1",
+  "candidate": "1.0.0",
+  "scope": "windows-x86_64-hosted",
+  "review_class_required": "INDEPENDENT_REVIEW",
+  "internal_review_qualifies_as_independent": false,
+  "tracks_open": 5,
+  "independent_reviews_received": 0,
+  "tracks": [
+    {"id": "grammar", "status": "OPEN_FOR_EXTERNAL_REVIEW", "reviewer": null},
+    {"id": "semantics", "status": "OPEN_FOR_EXTERNAL_REVIEW", "reviewer": null},
+    {"id": "security", "status": "OPEN_FOR_EXTERNAL_REVIEW", "reviewer": null},
+    {"id": "editor", "status": "OPEN_FOR_EXTERNAL_REVIEW", "reviewer": null},
+    {"id": "release", "status": "OPEN_FOR_EXTERNAL_REVIEW", "reviewer": null}
+  ],
+  "findings": [],
+  "summary": {
+    "open_p0": 0,
+    "open_p1": 0,
+    "open_p2": 0,
+    "open_p3": 0
+  },
+  "policy": "No accepted or unresolved P0/P1 finding may cross the final 1.0 tag. External review remains recommended post-release assurance and is not misrepresented as completed.",
+  "status": "READY_FOR_INDEPENDENT_REVIEW"
+}

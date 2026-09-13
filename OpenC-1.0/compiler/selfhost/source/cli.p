@@ -89,7 +89,7 @@ text cli_version() {
         }
         return project_slice(version, 0, length);
     }
-    return "1.0.0-rc.9";
+    return "1.0.0";
 }
 
 void cli_print_help() {
@@ -106,6 +106,8 @@ void cli_print_help() {
     io.println("  openc pe-audit --input=FILE --output=REPORT.json");
     io.println("  openc lsp-audit --output=REPORT.json");
     io.println("  openc editor-audit --root=ROOT --output=REPORT.json");
+    io.println("  openc editor-package --root=ROOT [--compiler=OPENC.exe] --output=EXTENSION.vsix");
+    io.println("  openc finalization-audit --root=ROOT --vsix-a=A.vsix --vsix-b=B.vsix --clean-profile=EVIDENCE.json --output=REPORT.json");
     io.println("  openc benchmark --project=PROJECT --output=REPORT.json [--runs=1..20]");
     io.println("  openc contract-audit --root=ROOT --output=REPORT.json");
     io.println("  openc release --root=ROOT --output=DIR");

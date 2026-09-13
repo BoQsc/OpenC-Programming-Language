@@ -1,7 +1,7 @@
 {
   "active_rule_count": 466,
-  "candidate": "OpenC 1.0.0-rc.9",
-  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_RC9",
+  "candidate": "OpenC 1.0.0",
+  "evidence_state": "EXECUTED_PASS_WINDOWS_X86_64_1_0",
   "fixture_count": 278,
   "fixtures": [
     {

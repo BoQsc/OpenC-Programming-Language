@@ -1,4 +1,16 @@
-openc.native_release_plan.v1	1	1722
+openc.native_release_plan.v1	1	1734
+compiler/selfhost/SH25_WINDOWS_1_0_FINALIZATION_PLAN.md
+compiler/selfhost/SH25_COMPLETION_EVIDENCE.md
+compiler/selfhost/source/cli_finalization.p
+editors/vscode/[Content_Types].xml
+editors/vscode/extension.vsixmanifest
+release/SH25_WINDOWS_1_0_FINALIZATION_EVIDENCE.md
+review/SH25_FINAL_INTERNAL_REVIEW.md
+review/SH25_INDEPENDENT_REVIEW_INVITATION.md
+review/SH25_REVIEW_INTAKE.json
+review/SH25_WINDOWS_EDITOR_EVIDENCE.json
+scripts/sh25_clean_vscode_profile.py
+tests/SH25_FINALIZATION_AUDIT_PLAN.tsv
 .gitattributes
 compiler/selfhost/SH24_EDITOR_RESILIENCE_PLAN.md
 compiler/selfhost/SH24_COMPLETION_EVIDENCE.md

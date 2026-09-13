@@ -1016,7 +1016,10 @@
       "com_apartment_and_reference_lifetimes": true,
       "winrt_hstring_and_activation_factory": true,
       "kernel32_only_static_imports": true,
-      "dynamic_system_dlls": ["ole32.dll", "combase.dll"],
+      "dynamic_system_dlls": [
+        "ole32.dll",
+        "combase.dll"
+      ],
       "python_invoked_by_required_workflow": false,
       "d_invoked_by_required_workflow": false,
       "c_or_tinycc_invoked_by_required_workflow": false,
@@ -1091,20 +1094,86 @@
       "historical_rule_id_matches_disclosed": 93,
       "linux_and_freestanding_gate": false,
       "next_milestone": "SH-25_WINDOWS_1_0_FINALIZATION_AND_INDEPENDENT_REVIEW_INTAKE"
+    },
+    {
+      "id": "SH-25",
+      "name": "windows_1_0_finalization_and_independent_review_intake",
+      "status": "PASS",
+      "plan": "compiler/selfhost/SH25_WINDOWS_1_0_FINALIZATION_PLAN.md",
+      "evidence": "compiler/selfhost/SH25_COMPLETION_EVIDENCE.md",
+      "target": "windows_x86_64_hosted",
+      "compiler_implementation_language": "OpenC",
+      "compiler_source_files": 221,
+      "compiler_source_bytes": 1997854,
+      "native_compiler_bytes": 7119360,
+      "native_compiler_sha256": "eadbef1f065261385c2c36d524624347f7e5cd3c021a4a1db9ccfcaf7c191087",
+      "stage2_stage3_byte_equal": true,
+      "native_daily_tasks_passed": 14,
+      "native_full_tasks_passed": 19,
+      "native_contract_audit_checks_passed": 38,
+      "native_repository_required_files": 507,
+      "native_pinned_hashes": 39,
+      "native_conformance_fixtures_passed": 278,
+      "maintained_and_runtime_programs_passed": 5,
+      "native_benchmark_runs_passed": 20,
+      "native_benchmark_exact_closures": 20,
+      "native_benchmark_build_median_milliseconds": 12843,
+      "native_benchmark_validation_median_milliseconds": 6282,
+      "native_benchmark_peak_private_bytes": 175710208,
+      "native_benchmark_peak_working_set_bytes": 60731392,
+      "native_release_plan_entries": 1734,
+      "standalone_archive_files": 1443,
+      "standalone_manifest_entries": 1442,
+      "source_archive_files": 1734,
+      "standalone_archives_byte_equal": true,
+      "source_archives_byte_equal": true,
+      "relocated_stage2_stage3_byte_equal": true,
+      "relocated_daily_workflow_tasks_passed": 14,
+      "relocated_contract_audit_checks_passed": 38,
+      "relocated_finalization_audit_checks_passed": 44,
+      "relocated_conformance_fixtures_passed": 278,
+      "finalization_audit_checks_passed": 44,
+      "finalization_audit_checks_total": 44,
+      "vsix_entries": 9,
+      "vsix_bytes": 7142886,
+      "vsix_sha256": "081ff8dd6de0960b1981620b3151fbaf74bb12ce73f17afc78e32d38777c3828",
+      "vsix_builds_byte_equal": true,
+      "clean_profile_vscode_version": "1.137.0",
+      "clean_profile_extension_activated": true,
+      "clean_profile_server_ready": true,
+      "clean_profile_diagnostics_roundtrip": true,
+      "clean_profile_editor_peak_working_set_bytes": 1495654400,
+      "clean_profile_editor_working_set_limit_bytes": 2147483648,
+      "clean_profile_openc_peak_working_set_bytes": 9289728,
+      "clean_profile_openc_working_set_limit_bytes": 67108864,
+      "artifact_tool_working_set_limit_bytes": 100663296,
+      "independent_review_tracks_invited": 5,
+      "independent_reviews_received": 0,
+      "independent_review_claimed": false,
+      "open_p0": 0,
+      "open_p1": 0,
+      "python_invoked_by_native_audit": false,
+      "d_c_tinycc_assembler_linker_invoked": false,
+      "network_required": false,
+      "historical_rule_id_matches_disclosed": 93,
+      "linux_and_freestanding_gate": false,
+      "final_tag_created": false,
+      "public_release_created": false,
+      "next_milestone": "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE"
     }
   ],
   "planned_milestones": {
     "active": {
-      "id": "SH-25",
-      "name": "windows_1_0_finalization_and_independent_review_intake",
-      "status": "ACTIVE_NEXT",
-      "blocked_by_sh24": false,
+      "id": "SH-26",
+      "name": "owner_authorized_1_0_publication_and_review_response",
+      "status": "PENDING_OWNER_AUTHORIZATION",
+      "blocked_by_sh25": false,
       "target": "windows_x86_64_hosted",
       "scope": [
-        "clean-profile packaged editor installation and usability validation",
-        "independent grammar semantic security editor and release review intake",
-        "P0 and P1 review triage before the final 1.0 tag",
-        "final Windows x86-64 Hosted evidence freeze"
+        "obtain explicit owner authorization for the v1.0.0 tag and public release",
+        "publish the deterministic native Windows artifacts and VSIX with hashes and release record",
+        "continue external review intake and respond through security or errata policy",
+        "preserve the frozen 1.0 compiler performance memory and independence gates"
       ]
     },
     "windows_independence_plan": {
@@ -1114,7 +1183,7 @@
       "sh15_completed": true,
       "sh16_completed": true,
       "sh17_completed": true,
-      "active_milestone": "SH-25_WINDOWS_1_0_FINALIZATION_AND_INDEPENDENT_REVIEW_INTAKE",
+      "active_milestone": "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE",
       "sequence": [
         "SH-15_WINDOWS_X64_ABI_AND_MACHINE_CODE_SUBSTRATE",
         "SH-16_MINIMAL_PE32_PLUS_AND_CRT_FREE_RUNTIME",
@@ -1126,7 +1195,8 @@
         "SH-22_PE_COFF_ECOSYSTEM_COMPLETENESS",
         "SH-23_OPTIONAL_COM_AND_WINRT",
         "SH-24_NATIVE_EDITOR_INTEGRATION_AND_LSP_RESILIENCE",
-        "SH-25_WINDOWS_1_0_FINALIZATION_AND_INDEPENDENT_REVIEW_INTAKE"
+        "SH-25_WINDOWS_1_0_FINALIZATION_AND_INDEPENDENT_REVIEW_INTAKE",
+        "SH-26_OWNER_AUTHORIZED_1_0_PUBLICATION_AND_REVIEW_RESPONSE"
       ],
       "normal_toolchain_independence_target": {
         "tinycc_required": false,
@@ -1144,7 +1214,8 @@
       "sh21_completed": true,
       "sh22_completed": true,
       "sh23_completed": true,
-      "sh24_completed": true
+      "sh24_completed": true,
+      "sh25_completed": true
     }
   },
   "rc9_standalone_refresh": {
@@ -1329,8 +1400,7 @@
     "secure_runtime_dll_linking": true,
     "sh22_twenty_build_closure": true,
     "sh22_performance_and_memory_gates": true,
-    "sh22_completed": true
-    ,
+    "sh22_completed": true,
     "optional_com_and_winrt": true,
     "sh23_completed": true,
     "first_party_vscode_editor_client": true,
@@ -1340,6 +1410,14 @@
     "bounded_lsp_protocol_resources": true,
     "sh24_twenty_build_closure": true,
     "sh24_performance_and_memory_gates": true,
-    "sh24_completed": true
+    "sh24_completed": true,
+    "windows_1_0_finalization": true,
+    "deterministic_native_vscode_package": true,
+    "clean_profile_vscode_activation_and_diagnostics": true,
+    "clean_profile_memory_guards": true,
+    "independent_review_intake_honest": true,
+    "sh25_completed": true,
+    "final_1_0_tag_created": false,
+    "final_1_0_publication_created": false
   }
 }

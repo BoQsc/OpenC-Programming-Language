@@ -126,6 +126,18 @@ request/document limits. Its 33/33 native audit, 36/36 residual contracts,
 an external linker, or the network. Linux and freestanding remain outside the
 Windows Hosted 1.0 gate.
 
+SH-25 freezes final `1.0.0` engineering evidence. The native finalization audit
+passes 44/44, two 9-entry VSIX builds are byte-identical and embed the exact
+fixed-point compiler, and a clean VS Code profile passes install, activation,
+server, diagnostics, cleanup, and separate editor/OpenC RAM guards. The full
+workflow passes 19/19 with 278/278 conformance, 507 required paths, 38/38
+contracts, 20/20 exact rebuilds, and unchanged performance/memory limits. The
+64 MiB compiler-child ceiling remains unchanged; package/finalization children
+that hold the compiler archive are independently bounded at 96 MiB. The
+native release proof produces byte-identical standalone/source ZIP pairs and
+passes relocated 14/14 daily, 38/38 contract, 44/44 finalization, and 278/278
+conformance checks. Final tagging and publication remain an SH-26 owner action.
+
 The SH-6 268-fixture package count is the immutable RC8 historical result.
 RC9 completes the mandatory successor gate: the relocated package executes the
 current 278-fixture corpus plus all 4 maintained programs before owner

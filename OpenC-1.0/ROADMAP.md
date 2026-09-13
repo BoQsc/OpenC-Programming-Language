@@ -1,10 +1,12 @@
 # OpenC roadmap
 
-The Windows x86-64 Hosted standalone self-hosted release candidate is
-owner-authorized, tagged, and published as `v1.0.0-rc.9`. Its complete
-13-artifact set plus release record is reproducible, verified, and available
-as 14 GitHub release assets. Linux, freestanding, Native, and standalone
-Native-provider verification remain optional future target work.
+The Windows x86-64 Hosted `1.0.0` engineering candidate is finalized and
+release-ready. Its native compiler, deterministic VSIX, clean-profile editor
+run, conformance, throughput, memory, independence, and relocated-release gates
+pass. The final `v1.0.0` tag and publication are deliberately reserved for
+explicit owner authorization in SH-26. The latest public release remains
+`v1.0.0-rc.9`. Linux, freestanding, Native, and standalone Native-provider
+verification remain optional future target work.
 
 ## Critical-path priority
 
@@ -14,18 +16,19 @@ reference, with small/incremental, proportional-scaling, bounded-memory,
 deterministic closure, and 20-run stability gates all passing. Those limits
 remain enforced as regression budgets.
 
-SH-16 now passes its 34/34 PE32+, imports, relocation, TLS, unwind, CRT-free
-runtime, execution, deterministic-closure, and performance-regression checks.
-It produces the first complete OpenC-owned Windows executable without C
-headers, a Microsoft CRT, an assembler, or an external linker. SH-17's
-purpose-built Win32 Metadata reader and raw projection is the active
-engineering priority. Windows concepts remain outside Core, and
+SH-15 through SH-25 are complete. The first-party compiler owns Microsoft x64
+ABI lowering, PE32+/COFF emission, CRT-free runtime, Win32 metadata projection,
+friendly Windows modules, DLL/library/resource production, optional COM/WinRT,
+native workflows, and the packaged editor. SH-25 freezes the final Windows
+evidence and opens five external-review tracks without claiming reviews that
+have not occurred. SH-26 is the active owner-authorized publication and
+review-response milestone. Windows concepts remain outside Core, and
 Linux/freestanding remain nonblocking targets. The architecture is in
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 ## Completed self-hosting path
 
-SH-0 through SH-16 pass. The deterministic standalone package is relocatable,
+SH-0 through SH-25 pass. The deterministic standalone package is relocatable,
 rebuilds the OpenC-native compiler through byte-identical Stage 2 and Stage 3,
 validates its internal manifest, passes all 278 current conformance fixtures,
 and builds and executes all 4 maintained programs. The immutable RC8 baseline
@@ -297,12 +300,20 @@ IR reach closure. Exact evidence and reproduction commands are in
     - the complete gate remains independent of Python, D, C, TinyCC, Node/npm,
       an assembler, an external linker, and the network; see
       [SH-24 evidence](compiler/selfhost/SH24_COMPLETION_EVIDENCE.md).
-18. **SH-25 Windows 1.0 finalization and independent-review intake — active next**
+18. **SH-25 Windows 1.0 finalization and independent-review intake — complete**
     - install and exercise the packaged editor in a clean Windows/VS Code
       profile and freeze the final Windows x64 usability evidence;
     - invite independent grammar, semantic, security, editor, and release
-      reviews, then triage any P0/P1 findings before the final 1.0 tag;
+      reviews and honestly track received reviews and findings;
     - keep Linux and freestanding work outside the Windows Hosted 1.0 gate.
+19. **SH-26 owner-authorized 1.0 publication and review response — active next**
+    - obtain explicit owner authorization before creating `v1.0.0` or a public
+      final release;
+    - publish the deterministic Windows artifacts, VSIX, hashes, and release
+      record as one auditable set;
+    - continue external-review intake and route later findings through the
+      security or errata policy without weakening frozen performance, memory,
+      independence, or conformance gates.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

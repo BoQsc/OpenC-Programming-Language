@@ -1,6 +1,6 @@
 {
   "active_rule_count": 466,
-  "candidate": "OpenC 1.0.0-rc.9",
+  "candidate": "OpenC 1.0.0",
   "coverage_state": "466_RULES_WITH_EXECUTED_DEDICATED_FIXTURES",
   "rules": [
     {

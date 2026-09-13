@@ -181,8 +181,11 @@ PE32+ images, while 40/40 native checks exercise load-time and secure run-time
 DLL interoperability. SH-23 is also complete: the optional `windows.com` and
 `windows.winrt` modules pass 33/33 real ABI/runtime checks while retaining
 KERNEL32-only static imports. The 219-source compiler closes exactly, the
-full workflow passes 15/15, and SH-24 editor integration/language-service
-resilience is active next.
+full workflow passes 15/15. SH-24 editor integration/language-service
+resilience and SH-25 Windows 1.0 finalization are complete. The finalization
+gate adds deterministic native VSIX packaging, clean-profile editor evidence,
+memory guards, and an honest five-track external-review intake. SH-26 awaits
+owner authorization for the `v1.0.0` tag and public release.
 
 The same-host SH-14 clean-build comparator is:
 

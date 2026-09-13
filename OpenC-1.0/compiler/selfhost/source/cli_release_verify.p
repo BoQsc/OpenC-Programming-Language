@@ -115,6 +115,54 @@ unsafe bool cli_release_package_workflow(
         d_buffer_destroy(command);
     }
     if passed {
+        text vsix_a = path.join(
+            output_directory, "relocated-OpenC-vscode-1.0.0-a.vsix"
+        );
+        text vsix_b = path.join(
+            output_directory, "relocated-OpenC-vscode-1.0.0-b.vsix"
+        );
+        command = d_buffer_create(32768);
+        cli_workflow_command_start(command, compiler, "editor-package");
+        cli_workflow_command_named_argument(command, "--root=", distribution);
+        cli_workflow_command_named_argument(command, "--output=", vsix_a);
+        passed = cli_release_run_task(
+            command, "OpenC VS Code package: PASS (9/9 entries)", task_elapsed
+        );
+        d_buffer_destroy(command);
+        if passed {
+            command = d_buffer_create(32768);
+            cli_workflow_command_start(command, compiler, "editor-package");
+            cli_workflow_command_named_argument(command, "--root=", distribution);
+            cli_workflow_command_named_argument(command, "--output=", vsix_b);
+            passed = cli_release_run_task(
+                command, "OpenC VS Code package: PASS (9/9 entries)", task_elapsed
+            );
+            d_buffer_destroy(command);
+        }
+        if passed {
+            command = d_buffer_create(32768);
+            cli_workflow_command_start(command, compiler, "finalization-audit");
+            cli_workflow_command_named_argument(command, "--root=", distribution);
+            cli_workflow_command_named_argument(command, "--vsix-a=", vsix_a);
+            cli_workflow_command_named_argument(command, "--vsix-b=", vsix_b);
+            cli_workflow_command_named_argument(
+                command, "--clean-profile=", path.join(
+                    distribution, "review/SH25_WINDOWS_EDITOR_EVIDENCE.json"
+                )
+            );
+            cli_workflow_command_named_argument(
+                command, "--output=", path.join(
+                    output_directory, "relocated-finalization-audit.json"
+                )
+            );
+            passed = cli_release_run_task(
+                command, "OpenC SH-25 finalization audit: PASS (44/44)",
+                task_elapsed
+            );
+            d_buffer_destroy(command);
+        }
+    }
+    if passed {
         command = d_buffer_create(32768);
         cli_workflow_command_start(command, compiler, "contract-audit");
         cli_workflow_command_named_argument(command, "--root=", distribution);
@@ -124,7 +172,7 @@ unsafe bool cli_release_package_workflow(
             )
         );
         passed = cli_release_run_task(
-            command, "OpenC native contract audit: PASS (36/36)", task_elapsed
+            command, "OpenC native contract audit: PASS (38/38)", task_elapsed
         );
         d_buffer_destroy(command);
     }

@@ -96,6 +96,14 @@ unsafe NativeProcessPatches native_process_setup(
     }
     x64_mov_memory_r64(function.code, 4, 1144, 0);
     x64_mov_memory_r64(function.code, 4, 1408, 0);
+    // Ordinary compiler work stays at 64 MiB. Artifact tooling may pass a
+    // separately bounded working-set ceiling as its fifth operand.
+    if d_operand_count(context, instruction) == 5 {
+        native_load(function, d_operand_value(context, instruction, 4), 0);
+    } else {
+        x64_mov_r64_imm64(function.code, 0, cast(u64, 67108864));
+    }
+    x64_mov_memory_r64(function.code, 4, 1416, 0);
     // KILL_ON_JOB_CLOSE | PROCESS_MEMORY | JOB_MEMORY. A Job working-set limit
     // requires SE_INC_WORKING_SET_NAME and is therefore not valid for ordinary
     // unprivileged compiler processes; the polling supervisor below enforces

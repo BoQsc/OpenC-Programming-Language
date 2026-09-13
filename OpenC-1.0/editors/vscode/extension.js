@@ -158,6 +158,7 @@ class OpenCClient {
       this.restartCount = 0;
       this.notify('initialized', {});
       this.resynchronize();
+      console.log(`[OpenC] language server ready: ${executable}`);
     } catch (error) {
       this.output.appendLine(`Initialization failed: ${error.message}`);
       server.kill();
@@ -277,6 +278,7 @@ class OpenCClient {
         return item;
       });
       this.diagnostics.set(uri, diagnostics);
+      console.log(`[OpenC] diagnostics: ${diagnostics.length} ${uri.toString()}`);
     }
   }
 
@@ -485,8 +487,8 @@ function registerProviders(context, client) {
 }
 
 async function activate(context) {
+  console.log('[OpenC] extension activated');
   const client = new OpenCClient(context);
-  registerProviders(context, client);
   context.subscriptions.push(
     vscode.workspace.onDidOpenTextDocument(document => client.open(document)),
     vscode.workspace.onDidChangeTextDocument(event => client.change(event)),
@@ -495,6 +497,7 @@ async function activate(context) {
   );
   for (const document of vscode.workspace.textDocuments) client.open(document);
   await client.start();
+  registerProviders(context, client);
 }
 
 function deactivate() {}

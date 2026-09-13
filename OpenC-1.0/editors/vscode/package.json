@@ -2,7 +2,7 @@
   "name": "openc",
   "displayName": "OpenC",
   "description": "First-party OpenC language support using the native OpenC language server.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "publisher": "openc-language",
   "license": "0BSD",
   "engines": {

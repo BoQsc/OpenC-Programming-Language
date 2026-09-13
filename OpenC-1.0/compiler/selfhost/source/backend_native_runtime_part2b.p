@@ -42,6 +42,9 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
             "cli_process_run_bounded", "cli_process_run_bounded"
         ) && !native_runtime_name(
             call_span,
+            "cli_process_run_bounded_tool", "cli_process_run_bounded_tool"
+        ) && !native_runtime_name(
+            call_span,
             "cli_process_run_measured", "cli_process_run_measured"
         ) && !native_runtime_name(
             call_span,
@@ -184,6 +187,12 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         call_span, "cli_process_run_bounded", "cli_process_run_bounded"
     ) {
         if d_operand_count(context, instruction) != 4 { function.code.ok = false; return true; }
+        native_process_run(context, function, instruction, result); return true;
+    }
+    if native_runtime_name(
+        call_span, "cli_process_run_bounded_tool", "cli_process_run_bounded_tool"
+    ) {
+        if d_operand_count(context, instruction) != 5 { function.code.ok = false; return true; }
         native_process_run(context, function, instruction, result); return true;
     }
     if native_runtime_name(

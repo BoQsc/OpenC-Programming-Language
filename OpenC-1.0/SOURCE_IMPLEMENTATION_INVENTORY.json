@@ -187,6 +187,14 @@
       "sha256": "dabe59d7bee26e71c43febdcfc995f0ff90e8c83c3e43d4c4a83f81094a47c4b"
     },
     {
+      "bytes": 14109,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "build_release_source",
+      "path": "scripts/sh25_clean_vscode_profile.py",
+      "present": true,
+      "sha256": "46c1dcd7672c077076783adddd989d781e4e0fb0908f0c90b14f7c6346128eeb"
+    },
+    {
       "bytes": 2095,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
@@ -211,12 +219,12 @@
       "sha256": "83872bc5b5927b207bc4926956a0b3316fab9e66961bfafc4584cf74e57f1915"
     },
     {
-      "bytes": 52498,
+      "bytes": 55401,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/validate_structure.py",
       "present": true,
-      "sha256": "9d9cfbec08ac838ac953f9554ce8cdd4db6c292fcc1fd9ca7051f272c24b7ced"
+      "sha256": "303dbe1bfc4f77e8353b683c96219c6bc33eb284ca713afb50e5c35aa56f2f87"
     },
     {
       "bytes": 13368,
@@ -251,12 +259,12 @@
       "sha256": "e5e20aea39893cdeac576da7e65449403f05974005b95a08276f936dd4f1428f"
     },
     {
-      "bytes": 8805,
+      "bytes": 8892,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/verify_sh9_cli.py",
       "present": true,
-      "sha256": "21742aea0e2f87d1710c040068d8506dbb33f6596e4dda5ea9e052bb9b7df3bb"
+      "sha256": "bd9615d1603a4fc4062f9f76e9e22d7f4cfec1c51f349274cc13b3dbac237684"
     },
     {
       "bytes": 18563,
@@ -1283,12 +1291,12 @@
       "sha256": "cbe987780f59bb1c58d7862340c0d3c050d5c7ee80f5e9422ef02385a859d112"
     },
     {
-      "bytes": 11137,
+      "bytes": 11782,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/backend_native_com_winrt.p",
       "present": true,
-      "sha256": "d6b7b9ba3de24e2d4d93d8fdc3f71a8893edfc4d15093920c0a282be487be095"
+      "sha256": "55198ebc6c99758d250ca90ff66ae14c1d1d060d89a1914f26b23526b2e1f31d"
     },
     {
       "bytes": 15030,
@@ -1323,36 +1331,36 @@
       "sha256": "b9a84590d784cc5f3f46b8dd35284bae4294e018f326663cf77d329f6330b87b"
     },
     {
-      "bytes": 8777,
+      "bytes": 9336,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/backend_native_runtime_lsp.p",
       "present": true,
-      "sha256": "e872b075a49268352d8ae43447a4fa1d259fbd1eb110990c839ccc146b930be8"
+      "sha256": "dc991002293142955273f6f8a613627ea00fa7b411a98b05cc26ce8c1443b911"
     },
     {
-      "bytes": 13019,
+      "bytes": 15970,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/backend_native_runtime_part1b.p",
       "present": true,
-      "sha256": "adbf968d8f70e72f1f85a41b0a4fabedd13a2103080610a0ebd041837a46f254"
+      "sha256": "6ac989f3fd8f354e2d3ecdc1d29a4f46575da3d407b4be2d7476c4839cb90619"
     },
     {
-      "bytes": 10981,
+      "bytes": 11056,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/backend_native_runtime_part2.p",
       "present": true,
-      "sha256": "8130b3f1eac9cbf22bd43201c5520564fc76713bd746738f1df577a2e26c8a7d"
+      "sha256": "eab7781e3bdc87e657afccdc99723c53d0402f013e690dd430ba24e26ed9f8d1"
     },
     {
-      "bytes": 19797,
+      "bytes": 22025,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/backend_native_runtime_part2b.p",
       "present": true,
-      "sha256": "bccc39951c20eb64c479152d70ce6f8cfe64314c9669af6c3682d9027c13f007"
+      "sha256": "3321b1536b5be9a6f56fa93ff342e560f721dd1cb0cb6987c76dc95885dafead"
     },
     {
       "bytes": 13342,
@@ -1371,28 +1379,28 @@
       "sha256": "55b15b58b2b3b786c93d39e087585563f74dfaf53d967081162e6b13663dc9d7"
     },
     {
-      "bytes": 3896,
+      "bytes": 3906,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/backend_native_runtime_process_results.p",
       "present": true,
-      "sha256": "6b9bfc30381b39fcb1fb651eeb6a3adf7f1117ed23e2ad7dfcb8d4e2d575d81c"
+      "sha256": "43fbf990d5ad633e28fc64a50c1613cfb8eec31cf76a0504d41a1118767021f1"
     },
     {
-      "bytes": 9662,
+      "bytes": 10069,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/backend_native_runtime_process_setup.p",
       "present": true,
-      "sha256": "96f3256a2f99384302ba51581a13a2df445dc7f202c829e71339238b34f525b6"
+      "sha256": "7c21e9c16f62c64a49d1f83a920bd8f03d90baff71a027e1d66a9d3c9f19eb69"
     },
     {
-      "bytes": 10870,
+      "bytes": 10863,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/backend_native_runtime_process_supervise.p",
       "present": true,
-      "sha256": "25c496716f929c1cbc3271b1dce273f42a29d68281a4500f0bd7c9955e32876e"
+      "sha256": "4e4165759f620892635266ea082e6a19973bb39af9815dadfe88d5601fced3aa"
     },
     {
       "bytes": 10430,
@@ -1659,12 +1667,12 @@
       "sha256": "a254bb7e060fa568edbed72dcc22303a84a6a1f509e80b1a72026995d1adf32c"
     },
     {
-      "bytes": 18151,
+      "bytes": 18461,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli.p",
       "present": true,
-      "sha256": "c30c6bc10aa4669c874cdda53c4e1344bb98cb384f6f4c2207bd3fdd2c4f7557"
+      "sha256": "396ee50d3174edbd5be70ee637d13fd0bb8e1ec422c7cc7bb8832430f597dd2e"
     },
     {
       "bytes": 6184,
@@ -1680,7 +1688,7 @@
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_audit.p",
       "present": true,
-      "sha256": "901b1412ca91a04c0a8516502a30f63ec9c5fe7fb2d565685fb15e6b81927a21"
+      "sha256": "29240d4f1c193a0daa97d64cbda1acfba028acc2ed52dde4e64d30fa3af7001e"
     },
     {
       "bytes": 15946,
@@ -1691,20 +1699,36 @@
       "sha256": "7686cc23a3e933e94e9b8124e09c2433fae3600646563a9ac1e07f60fd990e7c"
     },
     {
-      "bytes": 10607,
+      "bytes": 11676,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_com_winrt_audit.p",
       "present": true,
-      "sha256": "10129d9e3a734fb79dd2c65fb90dafc0b0365619fe97e6598e5bf22bfa994488"
+      "sha256": "7afa7e9fc7b66e50c71bd69759ca6a2eaabda8ba529af11e317836aab0f93aaf"
     },
     {
-      "bytes": 17557,
+      "bytes": 18078,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_contract_audit.p",
       "present": true,
-      "sha256": "36d45381666fefc126dd6a7af8dd789c4970ed2c56cc7b2a03647f3d7cba6611"
+      "sha256": "af2e8c52dac59fd044b9cb897d2b59c05b9350fcd3204a6741825397d8f3c2a1"
+    },
+    {
+      "bytes": 18698,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/cli_editor_audit.p",
+      "present": true,
+      "sha256": "7faaf752bba3c1fae149483099b9bf6e76ade1d2d294109054cf658e3fb7989f"
+    },
+    {
+      "bytes": 20801,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/cli_finalization.p",
+      "present": true,
+      "sha256": "833d90eecc3c45b56d032082f6e76d8003943e481c6ef640a5ef0cba38f182e5"
     },
     {
       "bytes": 11432,
@@ -1715,44 +1739,44 @@
       "sha256": "f1b7b2511c20e416453f46796b0cc524419e99f20c538dca94c372144ef3f2b5"
     },
     {
-      "bytes": 7096,
+      "bytes": 8712,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_lsp.p",
       "present": true,
-      "sha256": "49680ab065e107f434e1962aaabb68303c616e169a70f9da29096701544dfa82"
+      "sha256": "0456a1c0eb3b2499133e63dc3a628f61e944f7e272390fd005bb62b9804c4173"
     },
     {
-      "bytes": 14345,
+      "bytes": 14562,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_lsp_audit.p",
       "present": true,
-      "sha256": "79a901643158cbabe7efa49692def797b264b446e73e5434238559883768ed5c"
+      "sha256": "51e08a2abe33e82672d475a0c379d11daed177f157bd6e185c7b7e4d4ace184c"
     },
     {
-      "bytes": 16836,
+      "bytes": 16843,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_lsp_audit_command.p",
       "present": true,
-      "sha256": "47da2acf25b16463a406b8aa328905df6860b7e6ddb12fc4af55ceab24c2dca6"
+      "sha256": "22fa23c45b63598fbfa0ffcc6903cb6c0e93f0f73145bf14e95d6a7c72950ab4"
     },
     {
-      "bytes": 5293,
+      "bytes": 6085,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_lsp_dispatch.p",
       "present": true,
-      "sha256": "db54cdac6703a15bdbdfcb9694d118ce444ed88592dd24195da8be8b0d54b1ba"
+      "sha256": "6c410a3ba710e35c8f02e6dce5eabb789b7cb27518a6e71ee7d89e420557c03f"
     },
     {
-      "bytes": 2873,
+      "bytes": 8710,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_lsp_document.p",
       "present": true,
-      "sha256": "a652d81dee20eefa84bfb20a94fa497c80b1fd815e1f63e7d57db145f65a8a91"
+      "sha256": "477dac70f52186c2b6cf01dda3d8a85225265e59bc6e68746ca9257763705a5a"
     },
     {
       "bytes": 7260,
@@ -1763,12 +1787,12 @@
       "sha256": "2cb72ddc11a20e4144b6d0015a24f4136bbb52e7b32e35823f950fc97b8812e5"
     },
     {
-      "bytes": 6640,
+      "bytes": 6775,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_lsp_protocol.p",
       "present": true,
-      "sha256": "eb7f78eccf3ae6192b0c822b51a3a56df8508745eaffc0ec1721d00ed3c1a3a7"
+      "sha256": "f4fdc513af5ec72d3211304b6d8a97462498d6af9dad9599bc25ed70b25be3a1"
     },
     {
       "bytes": 9118,
@@ -1859,12 +1883,12 @@
       "sha256": "0e7ed56ab4fe631dcd48c88d1bd2faeef79144b2cb1f3d0b1265bfac9df588e4"
     },
     {
-      "bytes": 9766,
+      "bytes": 9898,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_pe_coff_audit_part3.p",
       "present": true,
-      "sha256": "a7047c9c37df78bed54156af9ed4a5777382e4290b95cd62127781489b3b00b7"
+      "sha256": "f56adfb789a32996b7bd7efd23a095dd70c8887aaeb4c3cb7d6cc63d54ddf36c"
     },
     {
       "bytes": 9109,
@@ -1931,20 +1955,20 @@
       "sha256": "1d8d95d05d72102e500c72bd23506f6967d7a982f648159f47918df1381cf398"
     },
     {
-      "bytes": 7314,
+      "bytes": 10060,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_release_verify.p",
       "present": true,
-      "sha256": "ef7eaae3e4b9fb096273fc98a90805abdec6c0d85ac8c06384f4b6b09b5b7ad3"
+      "sha256": "633f9804debf483fded5c0beb27023937857b14f43856cd40dee9944e1a02fe7"
     },
     {
-      "bytes": 4641,
+      "bytes": 4739,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_release_zip.p",
       "present": true,
-      "sha256": "19244201d24614b299fc1c69b612828ee5ab2c64f27243f0d27c835ed9eec6dd"
+      "sha256": "85093fcff6fa7a488a6ac62a74bec07e426514380bf55aac340576f6db09984b"
     },
     {
       "bytes": 841,
@@ -1963,20 +1987,20 @@
       "sha256": "4a2c462ba95ba1e1a8ca8b1ca47c2e4ea639c41e4f3f0f83dc8ba6d7cc8bcb08"
     },
     {
-      "bytes": 4549,
+      "bytes": 4612,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_release_zip_write.p",
       "present": true,
-      "sha256": "0cd192dbabcc08a0baddc97e5b0b39971c608c257125413d27a64295cafb275e"
+      "sha256": "62934a90e58770e458df19c43ff1d94073b4657a839c3eeaf2f60585e6e1d11b"
     },
     {
-      "bytes": 24140,
+      "bytes": 28683,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_workflow.p",
       "present": true,
-      "sha256": "47d52f40e8325207f4b20b2bd15e83b2e0068f77e46d88f14323462d067666a9"
+      "sha256": "ecfd8de49e5909dd7a8657e9ab4ef2ef6f439bc36c9eaaaaf7804500a297db09"
     },
     {
       "bytes": 8120,
@@ -2379,12 +2403,12 @@
       "sha256": "8634d3b43c18fc2a031c5c7b2f3353fa2e8ce4f8f60843f537951d0af6036955"
     },
     {
-      "bytes": 18429,
+      "bytes": 18787,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/main_driver.p",
       "present": true,
-      "sha256": "74f7d9166950936bbb2609f62e457ae9d45163b0de14338baa7dee4c2ee93db0"
+      "sha256": "19a6ae1b9d376dd663560cd4e230714f0f2a8211364217e6674688c6257b805b"
     },
     {
       "bytes": 6299,
@@ -3027,12 +3051,12 @@
       "sha256": "bc1a876d8005b45eee43ed3e6538befdab15b0c16f9f3a6110ba91eea715704b"
     },
     {
-      "bytes": 2537,
+      "bytes": 4183,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "standard_library_openc",
       "path": "standard_library/windows.winrt/source/winrt.p",
       "present": true,
-      "sha256": "91a4cab4d5677a23b6f5627daef363950f21d9ea4860149aa33f3333fa8be083"
+      "sha256": "93ca7c1b84de96a8813a1714fd45b540e2c8cd6f96197cb4c6d4741a2f130dcf"
     },
     {
       "bytes": 3388,
@@ -3083,12 +3107,12 @@
       "sha256": "a6c357654349f950a71f38da023ff4c012ec9ec1394bfa648b28b62a3a696f45"
     },
     {
-      "bytes": 2936,
+      "bytes": 4496,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "tests_openc",
       "path": "tests/sh23_com_winrt/source/main.p",
       "present": true,
-      "sha256": "ef05507145989405e16aa6956c9a672935a27a2a5fd36162966bff0b0173bcd9"
+      "sha256": "174e7fb35a844fd8eaaa7ebbcec17273cdc8e881c5dd8c2ef40699e4d1377b4a"
     },
     {
       "bytes": 2536,
@@ -3278,10 +3302,10 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 3329815,
+    "bytes": 3414931,
     "empty": 0,
-    "files": 409,
+    "files": 412,
     "missing": 0
   },
-  "version": "1.0.0-rc.9"
+  "version": "1.0.0"
 }

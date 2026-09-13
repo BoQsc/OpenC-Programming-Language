@@ -1,18 +1,18 @@
 # OpenC canonical mainline status
 
 ```text
-version:                            1.0.0-rc.9
+version:                            1.0.0
 canonical development tree:         YES
 release scope:                      WINDOWS X86-64 HOSTED
 
-Core specification:                 1.0 RELEASE-CANDIDATE AUTHORITY
-Hosted specification:               1.0 RELEASE-CANDIDATE AUTHORITY
+Core specification:                 1.0 FINAL AUTHORITY
+Hosted specification:               1.0 FINAL AUTHORITY
 Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
-canonical OpenC compiler source:     220 `.p` UNITS; SELF-HOSTED
+canonical OpenC compiler source:     221 `.p` UNITS; SELF-HOSTED
 legacy D reference source:           OPTIONAL AUDIT; NOT AUTHORITY
 legacy Python bootstrap source:      OPTIONAL AUDIT; NOT AUTHORITY
-official OpenC source extension:      .p; 281 MIGRATED, 546 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 547 TOTAL `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
@@ -25,10 +25,10 @@ full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
 bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
 bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
-self-hosted compiler:                 YES; SH-24 PASS, DIRECT X64/PE32+/COFF FIXED POINT
+self-hosted compiler:                 YES; SH-25 PASS, DIRECT X64/PE32+/COFF FIXED POINT
 trusted native rebuild:               PASS; 20/20 BYTE-IDENTICAL
 public compiler throughput:           C/D-CLASS; SH-20 PASS
-public validating self-build:         11.765 S MEDIAN; VALIDATION 6.023 S
+public validating self-build:         12.843 S MEDIAN; VALIDATION 6.282 S
 coverage-granularity milestone:      PASS; 466/466 RULES, 174/174 GRAMMAR PAIRS
 native validation budget:            PASS; 76.081-233.841 S <= 300 S, 278/278
 native self-rebuild budget:          PASS; 9.965-14.502 S <= 30 S, BYTE-IDENTICAL
@@ -38,8 +38,20 @@ native project workflow:              SH-10 PASS; FMT/INFO/TEST, 21/21
 native language service:              SH-11 PASS; LIFECYCLE/DIAGNOSTICS/FMT, 19/19
 native semantic language service:     SH-12 PASS; SYMBOLS/NAV/COMPLETE/RENAME, 23/23
 human + machine diagnostics:          PASS; `openc.check.v1` + STABLE STREAMS
-completed engineering milestone:     SH-24 EDITOR INTEGRATION/LSP RESILIENCE
-next engineering milestone:          SH-25 WINDOWS 1.0 FINALIZATION/REVIEW INTAKE
+completed engineering milestone:     SH-25 WINDOWS 1.0 FINALIZATION/REVIEW INTAKE
+next engineering milestone:          SH-26 OWNER-AUTHORIZED 1.0 PUBLICATION/REVIEW RESPONSE
+SH-25 finalization audit:             PASS; 44/44
+SH-25 deterministic VSIX:             PASS; 9 ENTRIES, 081ff8dd, BYTE-EXACT PAIR
+SH-25 clean-profile editor:           PASS; VSCODE 1.137.0, ACTIVATE/SERVER/DIAGNOSTICS
+SH-25 editor/OpenC RAM guards:        PASS; 1,495,654,400 / 9,289,728 BYTES
+SH-25 independent review intake:      5 TRACKS OPEN; 0 RECEIVED; NONE CLAIMED
+SH-25 current fixed point:            eadbef1f; 7,119,360 BYTES; 278/278
+SH-25 complete workflow:              PASS; NATIVE DAILY 14/14, FULL 19/19
+SH-25 contract/repository audits:     PASS; 38/38, 507 FILES, 39 HASHES
+SH-25 native benchmark:               PASS; 20/20; 12.843 S BUILD, 6.282 S VALIDATE
+SH-25 compiler RAM guards:            PASS; 175,710,208 PRIVATE / 60,731,392 WORKING SET
+SH-25 artifact-tool RAM guard:        PASS; 96 MiB DISTINCT FROM 64 MiB COMPILER GATE
+SH-25 native release:                 PASS; BYTE-EXACT ZIPS + RELOCATED FINALIZATION
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
@@ -70,7 +82,7 @@ SH-19 native backend verification:   PASS; 63/63 SCALARS, 6/6 MEMORY, 20/20 RELE
 SH-20 public throughput verification: PASS; OPENC 17.064 S, C 22.732 S, D 17.504 S
 COM/IUnknown/WinRT projections:       SH-23 PASS; 33/33 NATIVE ABI CHECKS
 first-party editor client:            PASS; VSCODE, INCREMENTAL/CANCEL/WORKSPACE/RECOVERY
-active critical path:                 SH-25 WINDOWS 1.0 FINALIZATION/REVIEW INTAKE
+active critical path:                 SH-26 OWNER-AUTHORIZED 1.0 PUBLICATION/REVIEW RESPONSE
 DMD/TinyCC-independent compiler:     YES; PUBLIC `openc build`, DIRECT PE32+
 standalone compiler distribution:    YES; NO C/TCC/D/PYTHON/ASM/LINKER
 normal compilation independent:      YES; PYTHON IS OPTIONAL EVIDENCE ONLY
@@ -100,10 +112,10 @@ specification/docs/assets:           CC0-1.0
 vendored TinyCC audit component:     OPTIONAL; LGPL-2.1 + BUNDLED TERMS
 release authority:                   OPENC PROJECT OWNER
 formal release ready:                YES FOR DECLARED WINDOWS HOSTED SCOPE
-owner authorization:                 RC9 AUTHORIZED 2026-07-26T15:06:20Z
-public release tag:                  v1.0.0-rc.9 -> 0535ad08bd54e74e76a3879d57afb4f1bd0f9835
-GitHub release assets:               14/14 UPLOADED; REMOTE DIGEST AUDIT PASS
-published/released:                  YES; PRERELEASE PUBLISHED 2026-07-26T15:09:50Z
+final 1.0 authorization:             PENDING OWNER ACTION IN SH-26
+final public release tag:            v1.0.0 NOT CREATED
+latest published release:            v1.0.0-rc.9; 14/14 ASSETS VERIFIED
+published/released final 1.0:         NO; ENGINEERING CANDIDATE IS READY
 ```
 
 `RELEASE_READY` means the declared local gates pass. Owner authorization,
@@ -173,6 +185,10 @@ and deterministic relocated release. SH-24 completes the dependency-free
 first-party VS Code client, incremental monotonic synchronization,
 cancellation, workspace lifecycle, bounded recovery, and 33/33 deterministic
 editor audit. Its 220-source compiler passes the 16/16 workflow and 20/20
-closure at `d7bf359a…c186`. SH-25 Windows 1.0 finalization and independent
-review intake is active next. Linux, freestanding, and ARM64 remain optional
+closure at `d7bf359a…c186`. SH-25 then freezes the final `1.0.0` identity,
+adds OpenC-native deterministic VSIX packaging and a 44/44 finalization audit,
+and passes a real clean-profile VS Code activation/server/diagnostic run under
+separate editor and OpenC memory guards. External review remains openly invited
+and honestly unclaimed. SH-26 is the explicit owner-authorized tag/publication
+and review-response milestone. Linux, freestanding, and ARM64 remain optional
 later targets.

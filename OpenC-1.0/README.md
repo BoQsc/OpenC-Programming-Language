@@ -4,8 +4,7 @@ OpenC is a new open systems language: C-shaped, not C-compatible; safe by
 default; explicit about unsafe memory; and designed around referenceable rules,
 strong diagnostics, deterministic tooling, and executable conformance.
 
-This directory is the single canonical development tree for the 1.0 release
-candidate.
+This directory is the single canonical development tree for OpenC 1.0.
 
 Canonical OpenC source files use `.p`, derived from the word "open" in OpenC.
 The extension is an official tooling convention; explicit source paths and
@@ -27,7 +26,7 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - all 4 maintained programs check, build, and run successfully;
 - all 281 migrated OpenC library, program, and fixture sources use `.p`; with
   the expanded compiler-in-OpenC and conformance source, the current tree has
-  441 `.p` files;
+  547 `.p` files;
 - the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
   lexer parity on 288 canonical `.p` sources plus 16 probes (304/304), SH-2C
   exact parser parity on those sources plus 15 parser probes (303/303), and
@@ -92,10 +91,10 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   repository; it and bundled headers are excluded from the SH-19 standalone
   package while their public-domain and MIT notices remain preserved.
 
-The owner-certified Windows x86-64 Hosted `v1.0.0-rc.9` release candidate is
-`RELEASED` as a GitHub prerelease. Independent third-party review remains
-welcome and may produce errata; it is not a prerequisite for the
-owner-maintained initial release.
+The Windows x86-64 Hosted `1.0.0` engineering candidate is release-ready but
+has not been tagged or published. The latest public release remains the
+owner-certified `v1.0.0-rc.9` GitHub prerelease. Independent third-party review
+is invited and may produce errata; no independent review is currently claimed.
 
 The public RC8 package evidence remains the immutable 268-fixture historical
 record described above. RC9 is the published 278-fixture successor. Mainline
@@ -141,8 +140,11 @@ and `IInspectable` calls while keeping ordinary images KERNEL32-only and
 CRT-free. SH-24 native editor integration and LSP resilience is complete: the
 dependency-free first-party VS Code client passes its 33/33 native audit with
 incremental synchronization, cancellation, workspace lifecycle, and bounded
-recovery. SH-25 Windows 1.0 finalization and independent-review intake is
-active next. See `compiler/selfhost/SH24_EDITOR_RESILIENCE_PLAN.md` and
+recovery. SH-25 Windows 1.0 finalization is complete: the native compiler
+produces a byte-deterministic VSIX, and a clean VS Code profile passes
+activation, native-server, diagnostics, and memory gates. SH-26 is the explicit
+owner-authorized final tag/publication and review-response step. See
+`compiler/selfhost/SH25_WINDOWS_1_0_FINALIZATION_PLAN.md` and
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,

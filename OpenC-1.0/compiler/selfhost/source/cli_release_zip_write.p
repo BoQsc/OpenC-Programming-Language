@@ -16,8 +16,10 @@ unsafe bool cli_zip_add_data(
     DBuffer full_name = d_buffer_create(
         text.byte_length(writer.root_name) + text.byte_length(entry_name) + 2
     );
-    d_put(full_name, writer.root_name);
-    d_put(full_name, "/");
+    if text.byte_length(writer.root_name) != 0 {
+        d_put(full_name, writer.root_name);
+        d_put(full_name, "/");
+    }
     d_put(full_name, entry_name);
     usize name_length = full_name.length;
     if !full_name.ok || name_length > 65535 {
