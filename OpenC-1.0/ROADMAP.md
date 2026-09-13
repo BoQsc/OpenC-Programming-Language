@@ -321,7 +321,7 @@ IR reach closure. Exact evidence and reproduction commands are in
       and memory comparison to pinned MSVC, Clang, and D toolchains;
     - the first bounded generated corpus, one-source-edit lane, parallel batch,
       complete self-build lane, and automatic/manual Windows workflow are now
-      implemented; clean Windows runs through 34783166021 rebuild current
+      implemented; clean Windows runs through 34783983035 rebuild current
       source to a byte-exact fixed point and pass all pinned-version,
       correctness, execution, output, and RAM guards;
     - semantic gating eliminates the 13.138-second pointer-arithmetic scan on
@@ -337,8 +337,10 @@ IR reach closure. Exact evidence and reproduction commands are in
       then removes resolution parsing and reduces the median to 0.931 seconds,
       96.4% below the original baseline. Small and many-file parity passes;
       flow validation then reuses the same cache and records zero parse time.
-      The latest same-run large ratio reaches 1.235x Clang and passes that gate;
-      large MSVC/DMD and broad C/D parity remain explicitly open.
+      Single-pass feature discovery then reduces the clean large median to
+      0.805 seconds, 96.9% below the original baseline. A 1.235x Clang result
+      was observed once but is not sustained by the latest 1.342x run; large
+      MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

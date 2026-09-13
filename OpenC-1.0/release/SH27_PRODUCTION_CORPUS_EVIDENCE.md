@@ -455,6 +455,58 @@ working-set bytes. The repeated one-source-edit median is 0.200 seconds, and
 four parallel OpenC builds sustain 21.572 projects per second, ahead of every
 comparator batch on this observation.
 
+## Single-pass flow feature discovery
+
+Automatic push run
+[`34783983035`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34783983035)
+completed successfully at commit `ec54933e1d09fced41932dce0134dd88cbda74b2`.
+Artifact `OpenC-SH27-production-performance-34783983035`, ID `10325802498`,
+contains 13,792,332 ZIP bytes at
+`sha256:27561b2cebd760e4ab029d3bbd93f1d4a3918217bee1c4a2297732687fe46a28`.
+
+The stateless-source gate formerly searched the complete source independently
+for seven required words/operators and, for pointer-bearing projects, three
+more operators. It now discovers the exact same substring features in one
+pass and carries the `own` observation into later ownership logic. This keeps
+every conservative positive while making negative work linear in source bytes
+with one traversal instead of seven to ten.
+
+The two guarded workflow rebuilds took 5.331 and 4.135 seconds and produced a
+byte-identical 7,159,808-byte compiler at SHA-256 `703e79b1…2af2b3`. Their
+largest private/working-set peaks were 193,687,552 and 81,465,344 bytes. A
+local three-stage fixed point has the same hash, native conformance remains
+278/278, repository audit passes, and all processes remain within both 512 MiB
+evidence limits.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.075 s | 0.096 s | 0.096 s | 0.158 s |
+| 24 source files | 0.158 s | 0.307 s | 0.695 s | 0.119 s |
+| 2,048 functions | 0.805 s | 0.413 s | 0.600 s | 0.262 s |
+
+This is the fastest clean OpenC large median so far, 13.5% below the preceding
+0.931-second low and 96.9% below the original 25.983-second result. Clean flow
+falls from the preceding run's 93–94 milliseconds to 31–47 milliseconds, and
+its parse counter remains zero. Three interleaved local A/B pairs independently
+reduce flow from 187–219 to 140–141 milliseconds and produce byte-identical
+programs without a material memory change.
+
+Comparator timing also moves materially on this runner. Consequently, the
+latest large ratios are still open at 1.949x MSVC, 1.342x Clang, and 3.073x
+DMD64; the prior run's isolated Clang-gate pass is recorded but not promoted
+as sustained parity. The unusually fast 0.119-second DMD64 many-file median
+also moves that gate to 1.328x. Five of nine latest workload/comparator gates
+pass. The complete self-build median is 4.262 seconds, the one-source-edit
+median is 0.158 seconds, and four parallel OpenC builds sustain 32.307 projects
+per second, ahead of all comparator batches.
+
+The large clean phase ranges are 140–156 milliseconds for declarations,
+0–16 milliseconds for resolution, 173–220 milliseconds for validation, and
+358–421 milliseconds for lowering/emission. Expression acceptance remains
+32–112 milliseconds; native index construction, IR lowering, and emission
+remain 15–94, 62–123, and 111–172 milliseconds. Those compiler-owned passes
+are the next measured targets.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler

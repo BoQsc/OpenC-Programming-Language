@@ -88,3 +88,11 @@ remain open at 2.453x and 3.850x. Remaining acceptance/index/lowering/emission
 costs, the runtime/build-system corpus, and measured compiler fixes are still
 open. Broad production-comparator parity is correctly OPEN, not assumed from
 SH-20.
+
+Run 34783983035 then replaces seven to ten independent flow feature searches
+with one exact-equivalent source pass. Flow falls to 31–47 milliseconds and the
+large OpenC median reaches a new low of 0.805 seconds. The same runner also
+makes all comparators materially faster: latest large ratios remain open at
+1.949x MSVC, 1.342x Clang, and 3.073x DMD64. The earlier 1.235x Clang
+observation is therefore retained as evidence but not described as sustained
+parity. Expression acceptance and native index/lower/emit work are next.
