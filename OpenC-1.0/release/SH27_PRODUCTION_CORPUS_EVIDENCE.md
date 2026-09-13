@@ -1,4 +1,4 @@
-# SH-27 production compiler corpus — tranche 1 evidence
+# SH-27 production compiler corpus evidence
 
 Status: **CLEAN WINDOWS OPENC/MSVC/CLANG/DMD PASS; SCALING DEFICIT OPEN**
 
@@ -126,6 +126,52 @@ The large lane remains materially noncompetitive at 25.324x MSVC, 13.110x
 Clang, and 40.173x DMD64. Clean attribution now identifies expression
 acceptance at approximately 4.56 seconds and function/scope/enum acceptance at
 approximately 2.22 seconds as the next two dominant targets. The report remains
+`EVIDENCE_COMPLETE_DEFICIT`.
+
+## Indexed acceptance optimization
+
+Automatic push run
+[`34776722018`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34776722018)
+completed successfully at commit `f0efadd373748445aa164b12416dbfcc8e0557e4`
+on Windows image `win25-vs2026` version `20260907.229.1`. The retained artifact
+is `OpenC-SH27-production-performance-34776722018`, ID `10324275949`, with
+13,756,773 ZIP bytes and digest
+`sha256:fb3f181c4d00f4aff2bbc3a535818ca2c78103bd5cb610421b165f4882cb1a42`.
+
+This tranche uses existing IR indexes and adjacency lists for root/name lookup,
+direct block statements, control nodes, call nodes, and return-to-function
+selection. Return validation is a single source-order statement pass rather
+than a complete syntax pass for every function. Native conformance remains
+278/278 and the repository audit remains PASS at 507 required files, 39 pinned
+hashes, 278 fixture identities, 466 covered rules, and 174 covered grammar
+productions.
+
+The immutable 7,119,360-byte seed `eadbef1f…c191087` built the current compiler
+twice under the 512 MiB process guards. Both 7,122,432-byte outputs were
+byte-identical at SHA-256 `6820884d…25af30`; their guarded build times were
+7.913 and 7.795 seconds and their largest private/working-set peaks were
+175,374,336 and 60,669,952 bytes.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.097 s | 0.106 s | 0.118 s | 0.149 s |
+| 24 source files | 0.323 s | 0.334 s | 0.818 s | 0.159 s |
+| 2,048 functions | 4.039 s | 0.505 s | 1.007 s | 0.312 s |
+
+The large median improved another 59.6%, from 10.003 to 4.039 seconds, and is
+84.5% below the original 25.983-second baseline. Expression acceptance fell
+from about 4.56 seconds to 109–110 milliseconds in the clean samples;
+function/scope/enum acceptance fell from about 2.22 seconds to 0–16
+milliseconds. Small builds beat all three comparators, and the 24-file build
+beats MSVC and Clang, but DMD remains faster in that lane.
+
+The large ratios remain outside the 1.25x target at 7.998x MSVC, 4.011x Clang,
+and 12.946x DMD64. The next measured targets are now flow validation: pointer
+facts cost 202–281 milliseconds, unsafe primitives 455–530 milliseconds,
+scope actions 219–265 milliseconds, and unsafe-call validation 297–313
+milliseconds. The complete compiler self-build median is 7.718 seconds. Every
+compiler presence/version, compilation, execution, output, fixed-point, and
+memory check passed; the report correctly remains
 `EVIDENCE_COMPLETE_DEFICIT`.
 
 ## Workflow contract

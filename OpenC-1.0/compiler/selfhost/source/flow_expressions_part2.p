@@ -171,13 +171,15 @@ unsafe void flow_check_unsafe_calls(
     usize function_node,
     text source,
     ptr byte call_nodes,
+    usize call_first,
     usize call_count,
+    bool source_has_unsafe_block,
     ptr byte error_data,
     ref PackedBuffer errors
 ) {
-    usize call_index = 0;
+    usize call_index = call_first;
     usize calls = syntax.length;
-    if call_nodes != null { calls = call_count; }
+    if call_nodes != null { calls = call_first + call_count; }
     while call_index < calls {
         usize record = call_index;
         if call_nodes != null {
@@ -189,9 +191,9 @@ unsafe void flow_check_unsafe_calls(
                 syntax_data, record, 0
             ) == 38) &&
             semantic_node_contains(syntax_data, function_node, record) &&
-            !flow_inside_unsafe(
+            (!source_has_unsafe_block || !flow_inside_unsafe(
                 source, syntax_data, syntax, function_node, record
-            ) {
+            )) {
             usize selected = flow_call_selection(
                 project_source, project_root,
                 module_data, modules, source_data,

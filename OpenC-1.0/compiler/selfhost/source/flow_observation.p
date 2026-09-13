@@ -177,7 +177,7 @@ unsafe void flow_observe_source(
                         type_data, symbol_data, detail_data, symbols,
                         token_data, tokens, syntax_data, syntax,
                         module_index, source_record, function_node, source,
-                        null, 0,
+                        null, 0, 0, true,
                         error_data, errors
                     );
                 }

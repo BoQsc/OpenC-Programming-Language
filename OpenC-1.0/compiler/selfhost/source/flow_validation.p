@@ -11,6 +11,39 @@ struct FlowFrontendObservation {
     usize frontend_errors;
 }
 
+unsafe bool flow_project_has_pointer_symbol(
+    ptr byte type_data,
+    ptr byte symbol_data,
+    ref PackedBuffer symbols
+) {
+    usize symbol = 0;
+    while symbol < symbols.length {
+        usize type_id = read_record_field(symbol_data, symbol, 4);
+        if read_record_field(type_data, type_id, 0) == 13 { return true; }
+        symbol = symbol + 1;
+    }
+    return false;
+}
+
+unsafe bool flow_project_has_unsafe_function(
+    text project_source,
+    text project_root,
+    ptr byte source_data,
+    ptr byte symbol_data,
+    ptr byte detail_data,
+    ref PackedBuffer symbols
+) {
+    usize symbol = 0;
+    while symbol < symbols.length {
+        if flow_symbol_unsafe(
+            project_source, project_root, source_data,
+            symbol_data, detail_data, symbol
+        ) { return true; }
+        symbol = symbol + 1;
+    }
+    return false;
+}
+
 unsafe void flow_validate_source(
     text project_source,
     text project_root,
@@ -23,6 +56,8 @@ unsafe void flow_validate_source(
     ptr byte symbol_data,
     ptr byte detail_data,
     ref PackedBuffer symbols,
+    bool project_has_pointer_symbol,
+    bool project_has_unsafe_function,
     ptr byte error_data,
     ref PackedBuffer errors,
     ref BuildTimings timings
@@ -72,23 +107,6 @@ unsafe void flow_validate_source(
     ) == source_record {
         source_symbol_end = source_symbol_end + 1;
     }
-    // Pointer arithmetic can only be recognized from a resolved symbol whose
-    // semantic type is a raw pointer.  Prove that such a symbol exists once
-    // per source before entering the per-function flow loop.  This avoids an
-    // otherwise quadratic syntax walk for pointer-free projects while keeping
-    // the decision semantic (rather than relying on source-text spelling).
-    bool project_has_pointer_symbol = false;
-    usize pointer_symbol = 0;
-    while pointer_symbol < symbols.length &&
-        !project_has_pointer_symbol {
-        usize pointer_type = read_record_field(
-            symbol_data, pointer_symbol, 4
-        );
-        project_has_pointer_symbol = read_record_field(
-            type_data, pointer_type, 0
-        ) == 13;
-        pointer_symbol = pointer_symbol + 1;
-    }
     ptr byte function_owner_data = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
@@ -102,16 +120,64 @@ unsafe void flow_validate_source(
     );
     scope memory.free(call_nodes);
     usize call_count = 0;
+    bool source_has_pointer_deref = false;
+    bool source_has_unsafe_operation = false;
+    bool source_has_scope_action = false;
+    bool source_has_unsafe_block = false;
+    bool call_positions_ordered = true;
+    bool function_ranges_ordered = true;
+    bool have_call_position = false;
+    bool have_function_range = false;
+    usize previous_call_position = 0;
+    usize previous_function_end = 0;
     usize call_node = 0;
     while call_node < syntax.length {
-        if read_record_field(syntax_data, call_node, 0) == 38 {
+        usize call_kind = read_record_field(syntax_data, call_node, 0);
+        if call_kind == 38 {
+            usize call_position = read_record_field(
+                syntax_data, call_node, 1
+            );
+            if have_call_position &&
+                call_position < previous_call_position {
+                call_positions_ordered = false;
+            }
+            previous_call_position = call_position;
+            have_call_position = true;
             write_usize(
                 call_nodes, call_count * size_of(usize), call_node
             );
             call_count = call_count + 1;
         }
+        if call_kind == 2 {
+            usize function_position = read_record_field(
+                syntax_data, call_node, 1
+            );
+            usize function_end = function_position + read_record_field(
+                syntax_data, call_node, 2
+            );
+            if have_function_range &&
+                function_position < previous_function_end {
+                function_ranges_ordered = false;
+            }
+            previous_function_end = function_end;
+            have_function_range = true;
+        }
+        if call_kind == 35 && (
+            flow_node_operator(source, syntax_data, call_node, "&") ||
+            flow_node_operator(source, syntax_data, call_node, "*")
+        ) {
+            source_has_unsafe_operation = true;
+            if flow_node_operator(
+                source, syntax_data, call_node, "*"
+            ) { source_has_pointer_deref = true; }
+        }
+        if call_kind == 43 { source_has_unsafe_operation = true; }
+        if call_kind == 23 { source_has_scope_action = true; }
+        if call_kind == 24 { source_has_unsafe_block = true; }
         call_node = call_node + 1;
     }
+    bool indexed_call_ranges = call_positions_ordered &&
+        function_ranges_ordered;
     usize cache_index = 0;
     while cache_index <= syntax.length {
         write_usize(
@@ -170,9 +236,38 @@ unsafe void flow_validate_source(
         indexed_symbol = indexed_symbol + 1;
     }
 
+    usize function_call_cursor = 0;
     usize function_node = 0;
     while function_node < syntax.length {
         if read_record_field(syntax_data, function_node, 0) == 2 {
+            usize function_call_first = 0;
+            usize function_call_end = call_count;
+            if indexed_call_ranges {
+                usize function_start = read_record_field(
+                    syntax_data, function_node, 1
+                );
+                usize function_end = function_start + read_record_field(
+                    syntax_data, function_node, 2
+                );
+                while function_call_cursor < call_count && read_record_field(
+                    syntax_data, read_usize(
+                        call_nodes,
+                        function_call_cursor * size_of(usize)
+                    ), 1
+                ) < function_start {
+                    function_call_cursor = function_call_cursor + 1;
+                }
+                function_call_first = function_call_cursor;
+                while function_call_cursor < call_count && read_record_field(
+                    syntax_data, read_usize(
+                        call_nodes,
+                        function_call_cursor * size_of(usize)
+                    ), 1
+                ) < function_end {
+                    function_call_cursor = function_call_cursor + 1;
+                }
+                function_call_end = function_call_cursor;
+            }
             usize body = flow_largest_direct_block(
                 syntax_data, syntax, function_node
             );
@@ -257,13 +352,15 @@ unsafe void flow_validate_source(
                         process.monotonic_milliseconds() - analysis_started;
                 }
                 analysis_started = process.monotonic_milliseconds();
-                flow_analyze_pointer_facts(
-                    project_source, project_root,
-                    module_data, modules, source_data,
-                    type_data, symbol_data, detail_data, symbols,
-                    syntax_data, syntax, module_index, source_record,
-                    function_node, source, error_data, errors
-                );
+                if project_has_pointer_symbol && source_has_pointer_deref {
+                    flow_analyze_pointer_facts(
+                        project_source, project_root,
+                        module_data, modules, source_data,
+                        type_data, symbol_data, detail_data, symbols,
+                        syntax_data, syntax, module_index, source_record,
+                        function_node, source, error_data, errors
+                    );
+                }
                 timings.validation_flow_pointer_facts_ms =
                     timings.validation_flow_pointer_facts_ms +
                     process.monotonic_milliseconds() - analysis_started;
@@ -271,7 +368,7 @@ unsafe void flow_validate_source(
                     source, syntax_data, function_node
                 );
                 analysis_started = process.monotonic_milliseconds();
-                if !function_unsafe {
+                if !function_unsafe && source_has_unsafe_operation {
                     flow_check_unsafe_function(
                         source, syntax_data, syntax, source_record,
                         function_node, error_data, errors
@@ -300,46 +397,52 @@ unsafe void flow_validate_source(
                 // arenas so public validation does not churn a duplicate set
                 // of large allocations for every source file.
                 analysis_started = process.monotonic_milliseconds();
-                usize scope_node = 0;
-                while scope_node < syntax.length {
-                    if read_record_field(
-                        syntax_data, scope_node, 0
-                    ) == 23 && semantic_node_contains(
-                        syntax_data, function_node, scope_node
-                    ) {
-                        usize action = flow_root_expression(
-                            syntax_data, syntax, scope_node
-                        );
-                        if action < syntax.length &&
-                            flow_scope_action_nonvoid(
-                                project_source, project_root,
-                                module_data, modules, source_data,
-                                type_data, symbol_data, detail_data, symbols,
-                                token_data, tokens, syntax_data, syntax,
-                                module_index, source_record, action, source
-                            ) {
-                            flow_record_error(
-                                error_data, errors, source_record,
-                                read_record_field(syntax_data, action, 1),
-                                read_record_field(syntax_data, action, 2),
-                                flow_phase_type(), flow_rule_scope_nofail()
+                if source_has_scope_action {
+                    usize scope_node = 0;
+                    while scope_node < syntax.length {
+                        if read_record_field(
+                            syntax_data, scope_node, 0
+                        ) == 23 && semantic_node_contains(
+                            syntax_data, function_node, scope_node
+                        ) {
+                            usize action = flow_root_expression(
+                                syntax_data, syntax, scope_node
                             );
+                            if action < syntax.length &&
+                                flow_scope_action_nonvoid(
+                                    project_source, project_root,
+                                    module_data, modules, source_data,
+                                    type_data, symbol_data, detail_data,
+                                    symbols, token_data, tokens, syntax_data,
+                                    syntax, module_index, source_record,
+                                    action, source
+                                ) {
+                                flow_record_error(
+                                    error_data, errors, source_record,
+                                    read_record_field(syntax_data, action, 1),
+                                    read_record_field(syntax_data, action, 2),
+                                    flow_phase_type(), flow_rule_scope_nofail()
+                                );
+                            }
                         }
+                        scope_node = scope_node + 1;
                     }
-                    scope_node = scope_node + 1;
                 }
                 timings.validation_flow_scope_actions_ms =
                     timings.validation_flow_scope_actions_ms +
                     process.monotonic_milliseconds() - analysis_started;
                 analysis_started = process.monotonic_milliseconds();
-                if !function_unsafe {
+                if !function_unsafe && project_has_unsafe_function &&
+                    function_call_end > function_call_first {
                     flow_check_unsafe_calls(
                         project_source, project_root,
                         module_data, modules, source_data,
                         type_data, symbol_data, detail_data, symbols,
                         token_data, tokens, syntax_data, syntax,
                         module_index, source_record, function_node, source,
-                        call_nodes, call_count,
+                        call_nodes, function_call_first,
+                        function_call_end - function_call_first,
+                        source_has_unsafe_block,
                         error_data, errors
                     );
                 }

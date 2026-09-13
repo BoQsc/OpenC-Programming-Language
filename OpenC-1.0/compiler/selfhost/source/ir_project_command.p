@@ -110,6 +110,13 @@ unsafe i32 observe_semantic_ir(text project_path) {
         module_index = module_index + 1;
     }
 
+    bool project_has_pointer_symbol = flow_project_has_pointer_symbol(
+        type_data, symbol_data, symbols
+    );
+    bool project_has_unsafe_function = flow_project_has_unsafe_function(
+        project_source, project_root, source_data,
+        symbol_data, detail_data, symbols
+    );
     module_index = 0;
     while module_index < modules.length {
         usize source_first = read_record_field(module_data, module_index, 2);
@@ -129,6 +136,8 @@ unsafe i32 observe_semantic_ir(text project_path) {
                 module_data, modules, source_data,
                 module_index, source_record,
                 type_data, symbol_data, detail_data, symbols,
+                project_has_pointer_symbol,
+                project_has_unsafe_function,
                 error_data, errors, validation_timings
             );
             source_index = source_index + 1;

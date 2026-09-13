@@ -154,6 +154,14 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         timings.validation_initial_live_bytes =
             compiler_live_allocation_bytes();
         usize flow_started = process.monotonic_milliseconds();
+        bool project_has_pointer_symbol = flow_project_has_pointer_symbol(
+            type_data, symbol_data, symbols
+        );
+        bool project_has_unsafe_function =
+            flow_project_has_unsafe_function(
+                project_source, project_root, source_data,
+                symbol_data, detail_data, symbols
+            );
         module_index = 0;
         while module_index < modules.length {
             usize first = read_record_field(module_data, module_index, 2);
@@ -166,6 +174,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                     project_source, project_root, module_data, modules,
                     source_data, module_index, source_record,
                     type_data, symbol_data, detail_data, symbols,
+                    project_has_pointer_symbol,
+                    project_has_unsafe_function,
                     error_data, errors, timings
                 );
                 write_usize(

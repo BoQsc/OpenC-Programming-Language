@@ -59,8 +59,11 @@ median ratios of 51.047x MSVC, 27.351x Clang, and 86.036x DMD64. Run
 guards, proves a byte-exact fixed point, and verifies the first fix. Semantic
 gating reduces pointer-arithmetic validation on pointer-free input from 13.138
 seconds to 0 milliseconds and the large median from 25.983 to 10.003 seconds.
-The remaining large ratios are 25.324x MSVC, 13.110x Clang, and 40.173x DMD64;
-expression acceptance and function/scope/enum validation are next. The
-remaining runtime/build-system corpus and measured validation fixes are still
-open. Broad production-comparator parity is correctly OPEN, not assumed from
-SH-20.
+Run 34776722018 verifies indexed expression, block, call, control, and return
+traversal at another exact fixed point. The large median falls to 4.039 seconds
+and expression plus function/scope/enum acceptance falls from about 6.78
+seconds to about 0.12 seconds. Remaining large ratios are 7.998x MSVC, 4.011x
+Clang, and 12.946x DMD64. Flow pointer facts, unsafe primitives, scope actions,
+and unsafe-call validation are next. The remaining runtime/build-system corpus
+and measured validation fixes are still open. Broad production-comparator
+parity is correctly OPEN, not assumed from SH-20.
