@@ -172,7 +172,29 @@ unsafe usize semantic_find_prefix_type(
 ) {
     usize start = read_record_field(syntax_data, declaration, 1);
     usize name_start = read_record_field(syntax_data, declaration, 3);
-    usize record = 0;
+    // The parser emits a declaration's type nodes before its owner node. Walk
+    // that immediately preceding region backwards and retain the earliest
+    // matching type node so nested array/type expressions preserve the
+    // original source-order selection without rescanning the whole source.
+    usize selected = syntax.length;
+    usize record = declaration;
+    while record > 0 {
+        record = record - 1;
+        usize node_start = read_record_field(syntax_data, record, 1);
+        if node_start < start { break; }
+        usize node_end = node_start + read_record_field(
+            syntax_data, record, 2
+        );
+        if read_record_field(syntax_data, record, 0) == 26 &&
+            node_end <= name_start {
+            selected = record;
+        }
+    }
+    if selected < syntax.length { return selected; }
+
+    // Preserve the complete lookup for recovered or otherwise non-canonical
+    // syntax whose record order cannot satisfy the parser invariant above.
+    record = 0;
     while record < syntax.length {
         usize node_start = read_record_field(syntax_data, record, 1);
         usize node_end = node_start + read_record_field(syntax_data, record, 2);
