@@ -136,3 +136,19 @@ while preserving the exact Windows x64 bytes. The clean large median reaches
 0.869 seconds and passes Clang at 1.060x. Large MSVC and DMD64 remain open at
 1.735x and 2.776x; parsing, semantic validation, and remaining native setup are
 the measured critical path.
+
+Run 34787810925 then replaces field-by-field transfer of retained five-word
+token and syntax records with one bounded OpenC-runtime copy. The exact-size
+cache and its low retained-memory behavior remain unchanged. Local paired
+large-corpus evidence moves declaration collection from a 344-millisecond
+median to 328 milliseconds and preserves byte-identical output. The clean run
+rebuilds current source to the byte-exact 7,173,120-byte `ee158767...19a313`
+fixed point and passes every correctness, execution, output, and memory check.
+Its host observation records small OpenC/MSVC/Clang/DMD medians of
+0.097/0.119/0.128/0.138 seconds, many-file medians of
+0.191/0.362/0.867/0.159 seconds, and large medians of
+1.096/0.507/0.955/0.313 seconds. Large ratios are therefore 2.162x MSVC,
+1.148x Clang, and 3.502x DMD64. All small and many-file gates pass; large MSVC
+and DMD64 parity and broad production parity remain explicitly open. The
+retained artifact ZIP is 13,808,067 bytes with SHA-256
+`1ce2add2e6babd1686741e634af4d52b195a599d2532d46459605d1fe1afd828`.
