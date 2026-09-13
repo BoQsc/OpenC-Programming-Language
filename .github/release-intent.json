@@ -1,0 +1,16 @@
+{
+  "schema": "openc.github_release_intent.v1",
+  "version": "1.0.0",
+  "tag": "v1.0.0",
+  "status": "AUTHORIZED",
+  "authorized_by": "OpenC project owner",
+  "authorized_utc": "2026-09-13T16:29:48Z",
+  "publish_on_push": true,
+  "release_scope": "windows_x86_64_hosted",
+  "expected_compiler_sha256": "eadbef1f065261385c2c36d524624347f7e5cd3c021a4a1db9ccfcaf7c191087",
+  "bootstrap": {
+    "path": ".github/bootstrap/openc-stage0.exe",
+    "role": "pinned_previous_openc_compiler_for_bootstrap_continuity",
+    "sha256": "eadbef1f065261385c2c36d524624347f7e5cd3c021a4a1db9ccfcaf7c191087"
+  }
+}

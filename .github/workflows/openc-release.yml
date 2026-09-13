@@ -1,0 +1,100 @@
+name: OpenC release
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/release-intent.json
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Verify the release, or verify and publish it
+        required: true
+        default: verify
+        type: choice
+        options:
+          - verify
+          - publish
+
+permissions:
+  contents: write
+
+concurrency:
+  group: openc-v1.0.0-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build, verify, and optionally publish
+    if: github.event_name == 'push' || github.ref == 'refs/heads/master'
+    runs-on: windows-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Check out the exact release commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate owner release intent
+        run: >-
+          python .github/scripts/sh26_release.py validate-intent
+          --root OpenC-1.0
+          --intent .github/release-intent.json
+          --release-commit ${{ github.sha }}
+
+      - name: Bootstrap current OpenC and execute native release proof
+        run: >-
+          python .github/scripts/sh26_release.py build
+          --root OpenC-1.0
+          --intent .github/release-intent.json
+          --output artifacts/work
+
+      - name: Build and compare the authorized publication set twice
+        run: >-
+          python .github/scripts/sh26_release.py package
+          --root OpenC-1.0
+          --intent .github/release-intent.json
+          --native-release artifacts/work/native-release
+          --release-commit ${{ github.sha }}
+          --output artifacts/publication
+
+      - name: Retain verification evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-1.0.0-release-verification-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            artifacts/work/bootstrap-result.json
+            artifacts/work/full-workflow.json
+            artifacts/work/native-release/native-release-result.json
+            artifacts/publication/publication-set-verification.json
+
+      - name: Publish immutable v1.0.0 release from authorized intent commit
+        if: >-
+          (github.event_name == 'push') ||
+          (github.event_name == 'workflow_dispatch' && inputs.action == 'publish')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/sh26_release.py publish
+          --intent .github/release-intent.json
+          --assets artifacts/publication/release-assets
+          --notes .github/release-notes/v1.0.0.md
+          --release-commit ${{ github.sha }}
+          --output artifacts/publication/publication-result.json
+
+      - name: Retain publication audit
+        if: >-
+          always() &&
+          ((github.event_name == 'push') ||
+          (github.event_name == 'workflow_dispatch' && inputs.action == 'publish'))
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-1.0.0-publication-audit-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 90
+          path: artifacts/publication/publication-result.json
