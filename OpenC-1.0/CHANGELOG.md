@@ -2,6 +2,14 @@
 
 ## 1.0.0 final — SH-26 publication complete; SH-27 active
 
+- added the first deterministic SH-27 OpenC/ISO C/D production corpus with
+  clean, one-source-edit, parallel-project, executable, output/hash, memory,
+  and complete OpenC self-build measurements;
+- added an automatic and manually runnable clean-Windows GitHub workflow with
+  required MSVC, Clang, and pinned DMD 2.112.0 comparators;
+- passed every local OpenC/DMD correctness and RAM check while recording—not
+  hiding—a 36.336-second versus 0.345-second large-workload deficit and its
+  validation/pointer-scan phase attribution;
 - recorded explicit owner authorization and published the annotated `v1.0.0`
   tag at `d0f77f6268154ac06f4206c01cd349b226b53c1b`;
 - added a pinned, hash-locked GitHub Actions release workflow that rebuilt the

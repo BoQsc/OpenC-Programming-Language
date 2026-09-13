@@ -1,0 +1,74 @@
+name: OpenC production compiler performance
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - OpenC-1.0/benchmarks/sh27/**
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
+      - OpenC-1.0/compiler/selfhost/windows_process_measure.py
+      - .github/bootstrap/openc-stage0.exe
+      - .github/workflows/openc-performance.yml
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: Samples per clean and one-source-edit lane
+        required: true
+        default: '3'
+        type: string
+      enforce_parity:
+        description: Fail if OpenC exceeds the checked-in 1.25x median ratio
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openc-sh27-production-performance-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compare:
+    name: OpenC vs MSVC, Clang, and DMD
+    runs-on: windows-2025
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out exact benchmark revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install pinned DMD comparator
+        uses: dlang-community/setup-dlang@0a7469b93f791d83f30932c6fd105796c6966e20 # v2.0.0
+        with:
+          compiler: dmd-2.112.0
+
+      - name: Run bounded production compiler corpus
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_production.py
+          --openc .github\bootstrap\openc-stage0.exe
+          --runs ${{ inputs.runs || '3' }}
+          --self-build-runs 3
+          --parallel-projects 4
+          --require-all
+          --msvc-toolset 14.44
+          --expected-msvc-version 19.44
+          --expected-clang-version 20.1.8
+          --expected-dmd-version 2.112.0
+          --antivirus-state github-hosted-windows-2025-default-not-modified
+          ${{ inputs.enforce_parity && '--enforce-parity' || '' }}
+          --output artifacts\sh27-production-comparators.json
+
+      - name: Retain raw performance evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-SH27-production-performance-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            artifacts/sh27-production-comparators.json
+            artifacts/sh27-production-comparators-runs-*/**

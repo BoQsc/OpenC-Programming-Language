@@ -219,6 +219,7 @@
       "compiler/bootstrap/python/openc/typesys.py"
     ],
     "compiler_selfhost": [
+      "compiler/selfhost/benchmark_sh27_production.py",
       "compiler/selfhost/benchmark_windows_rebuild.py",
       "compiler/selfhost/benchmark_windows_validate.py",
       "compiler/selfhost/bootstrap.py",
@@ -550,6 +551,8 @@
     ]
   },
   "required_non_source": [
+    "benchmarks/sh27/CORPUS.json",
+    "benchmarks/sh27/README.md",
     "CONTRIBUTING.md",
     "GOVERNANCE.md",
     "LICENSE",
@@ -611,6 +614,7 @@
     "release/SH21_NATIVE_RELEASE_PLAN.tsv",
     "release/SH25_WINDOWS_1_0_FINALIZATION_EVIDENCE.md",
     "release/SH26_GITHUB_PUBLICATION_EVIDENCE.md",
+    "release/SH27_PRODUCTION_CORPUS_EVIDENCE.md",
     "release/SH8_NATIVE_WORKFLOW_EVIDENCE.md",
     "release/SH9_NATIVE_CLI_EVIDENCE.md",
     "release/SUPPORT_POLICY.md",

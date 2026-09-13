@@ -318,7 +318,13 @@ IR reach closure. Exact evidence and reproduction commands are in
     - keep the five independent-review tracks open and route findings through
       the security or errata policies without claiming reviews not received;
     - expand fair cold/warm, incremental, parallel, scaling, runtime, output,
-      and memory comparison to pinned MSVC, Clang, and D toolchains.
+      and memory comparison to pinned MSVC, Clang, and D toolchains;
+    - the first bounded generated corpus, one-source-edit lane, parallel batch,
+      complete self-build lane, and automatic/manual Windows workflow are now
+      implemented; the local OpenC/DMD run passes correctness and RAM guards;
+    - the large lane exposes a 105.322x OpenC/DMD deficit, dominated by
+      validation candidate scans. Eliminate that measured deficit before
+      broadening lower-priority post-release work or claiming C/D parity.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

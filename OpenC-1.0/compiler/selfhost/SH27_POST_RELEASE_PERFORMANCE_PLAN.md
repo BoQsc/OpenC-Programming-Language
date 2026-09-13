@@ -46,6 +46,15 @@ SH-27 performance closes only when the representative corpus and harness are
 checked in, MSVC plus Clang and at least one D compiler have executed it on a
 clean Windows runner, OpenC has no correctness or memory regression, and every
 remaining material deficit has either been fixed or is explicitly quantified.
-The local host currently has DMD but no MSVC or Clang installation in its
-normal environment, so broad production-comparator parity is correctly OPEN,
+The first deterministic corpus and bounded harness are now checked in at
+`benchmarks/sh27/CORPUS.json` and
+`compiler/selfhost/benchmark_sh27_production.py`. The automatic/manual
+`.github/workflows/openc-performance.yml` gate requires OpenC, MSVC, Clang, and
+pinned DMD 2.112.0 on a clean Windows runner. The local OpenC/DMD validation
+passes correctness and memory checks, but exposes a 105.322x OpenC/DMD median
+ratio on the 2,048-function workload. Native attribution assigns 34.171 of
+36.781 seconds to validation, led by 18.687 seconds of pointer-arithmetic
+candidate scanning on pointer-free source. MSVC and Clang evidence, the
+remaining runtime/build-system corpus, and the measured validation fixes are
+therefore still open. Broad production-comparator parity is correctly OPEN,
 not assumed from SH-20.

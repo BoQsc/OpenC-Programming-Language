@@ -187,7 +187,10 @@ gate adds deterministic native VSIX packaging, clean-profile editor evidence,
 memory guards, and an honest five-track external-review intake. SH-26 completes
 owner authorization, the `v1.0.0` tag, final GitHub publication, and 15/15
 remote-asset verification. SH-27 is active for post-release integrity and
-production MSVC/Clang/D performance expansion.
+production MSVC/Clang/D performance expansion. Its first checked-in corpus is
+reproduced with `benchmark_sh27_production.py`; local OpenC/DMD correctness and
+RAM checks pass, while the large-source result remains an explicitly open
+performance deficit. See `../../release/SH27_PRODUCTION_CORPUS_EVIDENCE.md`.
 
 The same-host SH-14 clean-build comparator is:
 

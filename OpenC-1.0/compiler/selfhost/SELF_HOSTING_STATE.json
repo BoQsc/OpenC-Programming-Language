@@ -1197,7 +1197,22 @@
         "continue external review intake and respond through security or errata policy",
         "expand representative throughput comparison to pinned MSVC Clang and D toolchains",
         "preserve the frozen 1.0 correctness memory and independence gates"
-      ]
+      ],
+      "completed_subgates": [
+        "public_v1.0.0_streaming_integrity_15_of_15",
+        "bounded_deterministic_openc_c_d_corpus_checked_in",
+        "local_openc_dmd_correctness_memory_execution_pass",
+        "automatic_and_manual_clean_windows_comparator_workflow_checked_in"
+      ],
+      "production_comparator_evidence": {
+        "status": "LOCAL_OPENC_DMD_PASS_MSVC_CLANG_PENDING",
+        "evidence": "release/SH27_PRODUCTION_CORPUS_EVIDENCE.md",
+        "workflow": ".github/workflows/openc-performance.yml",
+        "local_large_openc_median_seconds": 36.336,
+        "local_large_dmd_median_seconds": 0.345,
+        "local_large_openc_to_dmd_ratio": 105.322,
+        "broad_production_parity_claimed": false
+      }
     },
     "windows_independence_plan": {
       "architecture": "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md",

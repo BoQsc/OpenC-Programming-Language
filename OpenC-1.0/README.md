@@ -147,6 +147,10 @@ activation, native-server, diagnostics, and memory gates. SH-26 completes the
 owner-authorized final tag, GitHub publication, and remote verification.
 SH-27 now expands public integrity and production C/D performance work. See
 `compiler/selfhost/SH27_POST_RELEASE_PERFORMANCE_PLAN.md` and
+`release/SH27_PRODUCTION_CORPUS_EVIDENCE.md`. The first corpus passes local
+OpenC/DMD correctness and RAM gates but exposes a material large-source
+validation deficit; the checked-in GitHub Windows workflow will add MSVC and
+Clang measurements before any broad parity claim. See also
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,
