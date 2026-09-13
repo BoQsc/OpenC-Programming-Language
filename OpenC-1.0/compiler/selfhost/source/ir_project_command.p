@@ -138,6 +138,7 @@ unsafe i32 observe_semantic_ir(text project_path) {
                 type_data, symbol_data, detail_data, symbols,
                 project_has_pointer_symbol,
                 project_has_unsafe_function,
+                null,
                 error_data, errors, validation_timings
             );
             source_index = source_index + 1;

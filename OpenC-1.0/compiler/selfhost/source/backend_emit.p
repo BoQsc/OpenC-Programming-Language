@@ -253,6 +253,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                     type_data, symbol_data, detail_data, symbols,
                     project_has_pointer_symbol,
                     project_has_unsafe_function,
+                    parsed_source_cache,
                     error_data, errors, timings
                 );
                 write_usize(

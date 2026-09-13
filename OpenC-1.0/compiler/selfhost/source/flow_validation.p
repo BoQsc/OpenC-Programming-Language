@@ -58,6 +58,7 @@ unsafe void flow_validate_source(
     ref PackedBuffer symbols,
     bool project_has_pointer_symbol,
     bool project_has_unsafe_function,
+    ptr byte parsed_source_cache,
     ptr byte error_data,
     ref PackedBuffer errors,
     ref BuildTimings timings
@@ -119,28 +120,44 @@ unsafe void flow_validate_source(
         flow_symbol = flow_symbol + 1;
     }
     if !source_needs_flow { return; }
-    PackedBuffer tokens = PackedBuffer{
-        length = 0, capacity = source_length + 2
-    };
-    PackedBuffer diagnostics = PackedBuffer{
-        length = 0, capacity = source_length * 4 + 8
-    };
-    ptr byte token_data = memory.alloc(tokens.capacity * record_stride());
-    scope memory.free(token_data);
-    ptr byte diagnostic_data = memory.alloc(
-        diagnostics.capacity * record_stride()
+    ResolutionParsedSource parsed = resolution_cached_parsed_source(
+        parsed_source_cache, source_record
     );
-    scope memory.free(diagnostic_data);
-    lex_source(source, token_data, tokens, diagnostic_data, diagnostics);
-    PackedBuffer syntax = PackedBuffer{
-        length = 0, capacity = tokens.length * 6 + 8
-    };
-    ptr byte syntax_data = memory.alloc(syntax.capacity * record_stride());
-    scope memory.free(syntax_data);
-    parse_source_syntax(
-        source, token_data, tokens,
-        syntax_data, syntax, diagnostic_data, diagnostics
-    );
+    bool parsed_source_reused = parsed.reusable;
+    PackedBuffer tokens = parsed.tokens;
+    ptr byte token_data = parsed.token_data;
+    PackedBuffer syntax = parsed.syntax;
+    ptr byte syntax_data = parsed.syntax_data;
+    PackedBuffer diagnostics = PackedBuffer{ length = 0, capacity = 0 };
+    ptr byte diagnostic_data = null;
+    if !parsed_source_reused {
+        tokens = PackedBuffer{
+            length = 0, capacity = source_length + 2
+        };
+        diagnostics = PackedBuffer{
+            length = 0, capacity = source_length * 4 + 8
+        };
+        token_data = memory.alloc(
+            tokens.capacity * record_stride()
+        );
+        diagnostic_data = memory.alloc(
+            diagnostics.capacity * record_stride()
+        );
+        lex_source(
+            source, token_data, tokens,
+            diagnostic_data, diagnostics
+        );
+        syntax = PackedBuffer{
+            length = 0, capacity = tokens.length * 6 + 8
+        };
+        syntax_data = memory.alloc(
+            syntax.capacity * record_stride()
+        );
+        parse_source_syntax(
+            source, token_data, tokens,
+            syntax_data, syntax, diagnostic_data, diagnostics
+        );
+    }
     timings.validation_flow_parse_ms =
         timings.validation_flow_parse_ms +
         process.monotonic_milliseconds() - source_started;
@@ -490,5 +507,10 @@ unsafe void flow_validate_source(
             }
         }
         function_node = function_node + 1;
+    }
+    if !parsed_source_reused {
+        memory.free(syntax_data);
+        memory.free(diagnostic_data);
+        memory.free(token_data);
     }
 }
