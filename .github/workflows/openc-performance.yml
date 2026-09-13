@@ -62,7 +62,7 @@ jobs:
           --require-all
           --expected-msvc-version 19.44
           --expected-clang-version 20.1.8
-          --expected-dmd-version 2.112.0
+          --expected-dmd-version DMD64
           --antivirus-state github-hosted-windows-2025-default-not-modified
           ${{ inputs.enforce_parity && '--enforce-parity' || '' }}
           --output artifacts\sh27-production-comparators.json

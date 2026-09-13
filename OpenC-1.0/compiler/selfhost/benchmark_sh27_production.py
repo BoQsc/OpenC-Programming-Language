@@ -450,7 +450,12 @@ def main() -> int:
     )
     dmd_explicit = args.dmd
     if dmd_explicit is None and os.environ.get("DC"):
-        dmd_explicit = Path(os.environ["DC"])
+        configured_dmd = Path(os.environ["DC"])
+        configured_name = configured_dmd.name
+        if configured_dmd.suffix == "":
+            configured_name += ".exe"
+        bin64_dmd = configured_dmd.parent.parent / "bin64" / configured_name
+        dmd_explicit = bin64_dmd if bin64_dmd.is_file() else configured_dmd
     dmd_path = resolve_tool(dmd_explicit, ["dmd.exe", "dmd"], base_environment)
     msvc_path = (
         resolve_tool(args.msvc, ["cl.exe"], msvc_environment)
@@ -678,6 +683,10 @@ def main() -> int:
             "system": platform.system(), "release": platform.release(),
             "version": platform.version(), "machine": platform.machine(),
             "processor": platform.processor(), "logical_cpus": os.cpu_count(),
+            "github_actions": os.environ.get("GITHUB_ACTIONS") == "true",
+            "runner_name": os.environ.get("RUNNER_NAME"),
+            "runner_image_os": os.environ.get("ImageOS"),
+            "runner_image_version": os.environ.get("ImageVersion"),
         },
         "corpus": {
             "path": str(corpus_path), "sha256": sha256(corpus_path),

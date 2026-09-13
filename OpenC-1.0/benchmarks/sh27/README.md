@@ -22,7 +22,8 @@ python compiler/selfhost/benchmark_sh27_production.py --runs 3 --output build-ou
 
 Use `--require-all` when MSVC, `clang-cl`, and DMD must all be present. The
 `--msvc-toolset` and `--expected-*-version` switches make clean-host tool
-selection/version drift blocking. Use `--enforce-parity` only for a blocking
+selection/version drift blocking. The GitHub gate requires the x64 DMD driver,
+not the package's default 32-bit executable. Use `--enforce-parity` for a blocking
 parity run. Without that switch, a correctly measured performance deficit is
 retained as evidence and does not hide behind a failed workflow. Missing
 tools, compiler failures, version drift, RAM-limit violations, invalid
