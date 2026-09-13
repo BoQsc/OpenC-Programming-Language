@@ -35,19 +35,11 @@ unsafe void resolution_copy_records(
     }
 }
 
-unsafe ResolutionParsedSource resolution_collect_source_symbols_retained(
+unsafe ResolutionParsedSource resolution_parse_source_retained(
     text project_source,
     text project_root,
-    ptr byte module_data,
-    ref PackedBuffer modules,
     ptr byte source_data,
-    usize module_index,
-    usize source_record,
-    ptr byte type_data,
-    ref PackedBuffer types,
-    ptr byte symbol_data,
-    ptr byte detail_data,
-    ref PackedBuffer symbols
+    usize source_record
 ) {
     text source;
     status source_status = project_read_source_record(
@@ -82,12 +74,6 @@ unsafe ResolutionParsedSource resolution_collect_source_symbols_retained(
         source, token_data, tokens, syntax_data, syntax,
         diagnostic_data, diagnostics
     );
-    resolution_collect_parsed_source_symbols(
-        project_source, project_root, module_data, modules,
-        source_data, module_index, source_record, type_data, types,
-        symbol_data, detail_data, symbols,
-        source, token_data, tokens, syntax_data, syntax
-    );
     ResolutionParsedSource retained = ResolutionParsedSource{
         reusable = false,
         token_data = null,
@@ -95,31 +81,65 @@ unsafe ResolutionParsedSource resolution_collect_source_symbols_retained(
         syntax_data = null,
         syntax = PackedBuffer{ length = 0, capacity = 0 }
     };
-    if diagnostics.length == 0 {
-        retained.reusable = true;
-        retained.tokens = PackedBuffer{
-            length = tokens.length, capacity = tokens.length
-        };
-        retained.syntax = PackedBuffer{
-            length = syntax.length, capacity = syntax.length
-        };
-        retained.token_data = memory.alloc(
-            tokens.length * record_stride()
-        );
-        retained.syntax_data = memory.alloc(
-            syntax.length * record_stride()
-        );
-        resolution_copy_records(
-            retained.token_data, token_data, tokens.length
-        );
-        resolution_copy_records(
-            retained.syntax_data, syntax_data, syntax.length
-        );
-    }
+    retained.reusable = diagnostics.length == 0;
+    retained.token_data = memory.alloc(
+        tokens.length * record_stride()
+    );
+    retained.syntax_data = memory.alloc(
+        syntax.length * record_stride()
+    );
+    retained.tokens = PackedBuffer{
+        length = tokens.length, capacity = tokens.length
+    };
+    retained.syntax = PackedBuffer{
+        length = syntax.length, capacity = syntax.length
+    };
+    resolution_copy_records(
+        retained.token_data, token_data, tokens.length
+    );
+    resolution_copy_records(
+        retained.syntax_data, syntax_data, syntax.length
+    );
     memory.free(syntax_data);
-    memory.free(diagnostic_data);
     memory.free(token_data);
+    memory.free(diagnostic_data);
     return retained;
+}
+
+unsafe ResolutionParsedSource resolution_collect_source_symbols_retained(
+    text project_source,
+    text project_root,
+    ptr byte module_data,
+    ref PackedBuffer modules,
+    ptr byte source_data,
+    usize module_index,
+    usize source_record,
+    ptr byte type_data,
+    ref PackedBuffer types,
+    ptr byte symbol_data,
+    ptr byte detail_data,
+    ref PackedBuffer symbols
+) {
+    ResolutionParsedSource parsed = resolution_parse_source_retained(
+        project_source, project_root, source_data, source_record
+    );
+    if parsed.token_data != null {
+        text source;
+        status source_status = project_read_source_record(
+            project_source, project_root, source_data,
+            source_record, out source
+        );
+        if source_status.ok {
+            resolution_collect_parsed_source_symbols(
+                project_source, project_root, module_data, modules,
+                source_data, module_index, source_record, type_data, types,
+                symbol_data, detail_data, symbols,
+                source, parsed.token_data, parsed.tokens,
+                parsed.syntax_data, parsed.syntax
+            );
+        }
+    }
+    return parsed;
 }
 
 unsafe void resolution_release_parsed_source(

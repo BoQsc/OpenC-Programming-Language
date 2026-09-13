@@ -118,10 +118,41 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         usize index = 0;
         while index < count {
             usize source_record = first + index;
-            semantic_predeclare_source(
-                project_source, project_root, module_data, modules,
-                source_data, module_index, source_record, type_data, types
-            );
+            if parsed_source_cache != null {
+                ResolutionParsedSource parsed =
+                    resolution_parse_source_retained(
+                        project_source, project_root,
+                        source_data, source_record
+                    );
+                if parsed.token_data != null {
+                    text source;
+                    status source_status = project_read_source_record(
+                        project_source, project_root, source_data,
+                        source_record, out source
+                    );
+                    if source_status.ok {
+                        semantic_predeclare_parsed_source(
+                            project_source, project_root,
+                            module_data, modules, source_data,
+                            module_index, source_record, type_data, types,
+                            source, parsed.token_data, parsed.tokens,
+                            parsed.syntax_data, parsed.syntax
+                        );
+                    }
+                }
+                resolution_cache_parsed_source(
+                    parsed_source_cache, source_record, parsed
+                );
+                if !parsed.reusable {
+                    resolution_release_parsed_source(parsed);
+                }
+            } else {
+                semantic_predeclare_source(
+                    project_source, project_root, module_data, modules,
+                    source_data, module_index, source_record,
+                    type_data, types
+                );
+            }
             index = index + 1;
         }
         module_index = module_index + 1;
@@ -138,17 +169,34 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
             usize source_record = first + index;
             if parsed_source_cache != null {
                 ResolutionParsedSource parsed =
-                    resolution_collect_source_symbols_retained(
+                    resolution_cached_parsed_source(
+                        parsed_source_cache, source_record
+                    );
+                if parsed.reusable {
+                    text source;
+                    status source_status = project_read_source_record(
+                        project_source, project_root, source_data,
+                        source_record, out source
+                    );
+                    if source_status.ok {
+                        resolution_collect_parsed_source_symbols(
+                            project_source, project_root,
+                            module_data, modules, source_data,
+                            module_index, source_record,
+                            type_data, types,
+                            symbol_data, detail_data, symbols,
+                            source, parsed.token_data, parsed.tokens,
+                            parsed.syntax_data, parsed.syntax
+                        );
+                    }
+                } else {
+                    resolution_collect_source_symbols(
                         project_source, project_root,
                         module_data, modules, source_data,
                         module_index, source_record,
-                        type_data, types, symbol_data, detail_data, symbols
+                        type_data, types,
+                        symbol_data, detail_data, symbols
                     );
-                resolution_cache_parsed_source(
-                    parsed_source_cache, source_record, parsed
-                );
-                if !parsed.reusable {
-                    resolution_release_parsed_source(parsed);
                 }
             } else {
                 resolution_collect_source_symbols(
