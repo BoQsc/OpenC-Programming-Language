@@ -13,7 +13,8 @@ unsafe bool c_emit_source_record(
     usize entry_module,
     ref BuildTimings timings,
     bool validate_acceptance,
-    ptr byte validation_source_ms
+    ptr byte validation_source_ms,
+    ptr byte parsed_source_cache
 ) {
     usize phase_started = process.monotonic_milliseconds();
     text source;
@@ -23,37 +24,51 @@ unsafe bool c_emit_source_record(
     );
     if !loaded.ok { return false; }
     usize source_length = text.byte_length(source);
-    PackedBuffer tokens = PackedBuffer{
-        length = 0, capacity = source_length + 2
-    };
-    PackedBuffer diagnostics = PackedBuffer{
-        length = 0, capacity = source_length * 4 + 8
-    };
-    ptr byte token_data = memory.alloc(
-        tokens.capacity * record_stride()
+    ResolutionParsedSource parsed = resolution_cached_parsed_source(
+        parsed_source_cache, source_record
     );
-    ptr byte diagnostic_data = memory.alloc(
-        diagnostics.capacity * record_stride()
-    );
-    lex_source(
-        source, token_data, tokens,
-        diagnostic_data, diagnostics
-    );
-    PackedBuffer syntax = PackedBuffer{
-        length = 0, capacity = tokens.length * 6 + 8
-    };
-    ptr byte syntax_data = memory.alloc(
-        syntax.capacity * record_stride()
-    );
-    parse_source_syntax(
-        source, token_data, tokens, syntax_data, syntax,
-        diagnostic_data, diagnostics
-    );
+    bool parsed_source_reused = parsed.reusable;
+    PackedBuffer tokens = parsed.tokens;
+    ptr byte token_data = parsed.token_data;
+    PackedBuffer syntax = parsed.syntax;
+    ptr byte syntax_data = parsed.syntax_data;
+    PackedBuffer diagnostics = PackedBuffer{ length = 0, capacity = 0 };
+    ptr byte diagnostic_data = null;
+    if !parsed_source_reused {
+        tokens = PackedBuffer{
+            length = 0, capacity = source_length + 2
+        };
+        diagnostics = PackedBuffer{
+            length = 0, capacity = source_length * 4 + 8
+        };
+        token_data = memory.alloc(
+            tokens.capacity * record_stride()
+        );
+        diagnostic_data = memory.alloc(
+            diagnostics.capacity * record_stride()
+        );
+        lex_source(
+            source, token_data, tokens,
+            diagnostic_data, diagnostics
+        );
+        syntax = PackedBuffer{
+            length = 0, capacity = tokens.length * 6 + 8
+        };
+        syntax_data = memory.alloc(
+            syntax.capacity * record_stride()
+        );
+        parse_source_syntax(
+            source, token_data, tokens, syntax_data, syntax,
+            diagnostic_data, diagnostics
+        );
+    }
     if diagnostics.length != 0 {
         io.error("error[OPENC-BACKEND-SYNTAX]: refusing to lower malformed source\n");
-        memory.free(syntax_data);
-        memory.free(diagnostic_data);
-        memory.free(token_data);
+        if !parsed_source_reused {
+            memory.free(syntax_data);
+            memory.free(diagnostic_data);
+            memory.free(token_data);
+        }
         return false;
     }
     timings.lex_parse_ms = timings.lex_parse_ms +
@@ -336,6 +351,10 @@ unsafe bool c_emit_source_record(
         base.types = context.types;
         ir_initialize_local_values(context);
         if found != 0 {
+            if parsed_source_reused {
+                context.syntax_data = null;
+                context.token_data = null;
+            }
             c_release_source_context(context, diagnostic_data);
             return true;
         }
@@ -365,6 +384,10 @@ unsafe bool c_emit_source_record(
                 io.print(" node="); io.print(node);
                 io.print(" body="); io.print(body);
                 io.print(" owner="); io.println(owner);
+                if parsed_source_reused {
+                    context.syntax_data = null;
+                    context.token_data = null;
+                }
                 c_release_source_context(context, diagnostic_data);
                 return false;
             }
@@ -377,6 +400,10 @@ unsafe bool c_emit_source_record(
     }
     base.next_value = context.next_value;
     base.types = context.types;
+    if parsed_source_reused {
+        context.syntax_data = null;
+        context.token_data = null;
+    }
     c_release_source_context(context, diagnostic_data);
     return true;
 }

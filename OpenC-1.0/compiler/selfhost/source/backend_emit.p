@@ -97,6 +97,19 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     scope memory.free(error_data);
     semantic_initialize_types(type_data, types);
 
+    // Native lowering reuses the exact parsed records produced by resolution.
+    // The cache is proportional to live token/syntax records, not parser
+    // capacity estimates, and is released on every return from this build.
+    ptr byte parsed_source_cache = null;
+    if c_backend && timings.emission_mode != 0 {
+        parsed_source_cache = memory.alloc(
+            (sources.length + 1) * record_stride()
+        );
+    }
+    scope resolution_release_parse_cache(
+        parsed_source_cache, sources.length
+    );
+
     phase_started = process.monotonic_milliseconds();
     module_index = 0;
     while module_index < modules.length {
@@ -123,11 +136,27 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         usize index = 0;
         while index < count {
             usize source_record = first + index;
-            resolution_collect_source_symbols(
-                project_source, project_root, module_data, modules,
-                source_data, module_index, source_record,
-                type_data, types, symbol_data, detail_data, symbols
-            );
+            if parsed_source_cache != null {
+                ResolutionParsedSource parsed =
+                    resolution_collect_source_symbols_retained(
+                        project_source, project_root,
+                        module_data, modules, source_data,
+                        module_index, source_record,
+                        type_data, types, symbol_data, detail_data, symbols
+                    );
+                resolution_cache_parsed_source(
+                    parsed_source_cache, source_record, parsed
+                );
+                if !parsed.reusable {
+                    resolution_release_parsed_source(parsed);
+                }
+            } else {
+                resolution_collect_source_symbols(
+                    project_source, project_root, module_data, modules,
+                    source_data, module_index, source_record,
+                    type_data, types, symbol_data, detail_data, symbols
+                );
+            }
             index = index + 1;
         }
         module_index = module_index + 1;
@@ -273,7 +302,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     if c_backend {
         i32 c_result = c_emit_project(
             base, output_directory, output_capacity, entry, timings,
-            fuse_native_acceptance, validation_source_ms, artifact_options
+            fuse_native_acceptance, validation_source_ms,
+            parsed_source_cache, artifact_options
         );
         usize lowering_elapsed =
             process.monotonic_milliseconds() - phase_started;

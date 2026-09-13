@@ -32,6 +32,14 @@ struct ResolutionCounts {
     usize calls;
 }
 
+struct ResolutionParsedSource {
+    bool reusable;
+    ptr byte token_data;
+    PackedBuffer tokens;
+    ptr byte syntax_data;
+    PackedBuffer syntax;
+}
+
 usize resolution_symbol_function() { return 1; }
 usize resolution_symbol_struct() { return 2; }
 usize resolution_symbol_resource() { return 3; }

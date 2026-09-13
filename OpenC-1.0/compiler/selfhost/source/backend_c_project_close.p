@@ -81,6 +81,7 @@ unsafe i32 c_emit_project(
     ref BuildTimings timings,
     bool validate_acceptance,
     ptr byte validation_source_ms,
+    ptr byte parsed_source_cache,
     ref NativeArtifactOptions artifact_options
 ) {
     // The fused validating path remains sequential and lets lowering create
@@ -246,7 +247,8 @@ unsafe i32 c_emit_project(
                 if !c_emit_source_record(
                     base, output, module_index,
                     source_first + source_index, entry_module, timings,
-                    validate_acceptance, validation_source_ms
+                    validate_acceptance, validation_source_ms,
+                    parsed_source_cache
                 ) {
                     io.print("OPENC-C-BACKEND-SOURCE-FAILED module=");
                     io.print(module_index); io.print(" source=");
