@@ -264,6 +264,54 @@ DMD64. The clean large samples attribute 250–265 milliseconds to declarations,
 its parse component falls to 32–47 milliseconds. Resolution and lowering are
 therefore the next measured architectural targets.
 
+## Bounded prefix-type lookup
+
+Automatic push run
+[`34779762154`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34779762154)
+and manual confirmation run
+[`34780027346`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34780027346)
+both completed successfully at commit
+`a2f8994efa0f72c7e452fe4bc1e6a981c4ddb0b8`. The automatic artifact is ID
+`10324950432`, 13,770,939 ZIP bytes at
+`sha256:407ad4f05e0317f183ba2546c49250a9c286634ef03a4af64f63c765ecef3758`.
+The confirmation artifact is ID `10325360850`, 13,770,931 ZIP bytes at
+`sha256:4b6a2e333ec2515cd2ab85444ace6dd034f4fc6cbf2f27cfe2df3b51ce44d754`.
+
+Every function, parameter, local, field, and constant formerly found its
+prefix type by rescanning the complete source syntax table from record zero.
+The parser already emits those type nodes immediately before their owner. The
+compiler now searches that bounded preceding region, preserves earliest-node
+selection for nested type expressions, and retains the complete scan as a
+recovery fallback for non-canonical syntax. The change adds no allocation.
+
+Both runs built the same 7,134,208-byte fixed point at SHA-256
+`1681d17a…d3b54`. The first run exposed host-wide timing variance: unrelated
+validation and emission rose with the self-build median to 9.332 seconds, while
+large resolution still fell to 312–313 milliseconds. The manual rerun returned
+the self-build median to 7.582 seconds and measured large resolution at
+265–282 milliseconds, confirming the localized gain without concealing the
+slower observation.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.097 s | 0.107 s | 0.128 s | 0.137 s |
+| 24 source files | 0.262 s | 0.358 s | 0.840 s | 0.159 s |
+| 2,048 functions | 1.808 s | 0.494 s | 1.026 s | 0.313 s |
+
+The confirmation run improves the large median another 18.7%, from 2.223 to
+1.808 seconds, and is 93.0% below the original 25.983-second result. Its large
+ratios remain open at 3.660x MSVC, 1.762x Clang, and 5.776x DMD64. Four parallel
+OpenC builds sustain 20.959 projects per second, ahead of all three comparator
+batches on that observation. Bootstrap took 7.913 and 8.340 seconds; the
+largest private/working-set peaks were 177,147,904 and 59,793,408 bytes. All
+correctness, execution, fixed-point, output, and 512 MiB memory guards pass.
+
+Resolution is no longer the largest phase. The confirmation samples attribute
+780–782 milliseconds to lowering/emission, including 251–267 milliseconds of
+fresh parsing, 62–93 milliseconds of index construction, 77–124 milliseconds
+of IR lowering, and 187–235 milliseconds of native emission. That phase is the
+next measured target.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler

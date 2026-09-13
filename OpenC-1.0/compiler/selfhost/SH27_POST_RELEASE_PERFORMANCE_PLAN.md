@@ -68,7 +68,11 @@ and unsafe-call groups to 0 milliseconds. The large median reaches 2.797
 seconds. Run 34778904952 then verifies a conservative stateless-source flow
 fast path: seven of eight large-corpus sources avoid private flow syntax
 construction, and the median reaches 2.223 seconds. Remaining ratios are
-4.482x MSVC, 2.171x Clang, and 7.080x DMD64. Resolution and lowering/emission
-are now the largest measured costs. The remaining runtime/build-system corpus
-and measured compiler fixes are still open. Broad production-comparator parity
-is correctly OPEN, not assumed from SH-20.
+4.482x MSVC, 2.171x Clang, and 7.080x DMD64. Runs 34779762154 and 34780027346
+then verify bounded prefix-type lookup at the same exact fixed point. The
+confirmation run reduces large resolution from 703–718 to 265–282 milliseconds
+and the total median to 1.808 seconds; remaining ratios are 3.660x MSVC, 1.762x
+Clang, and 5.776x DMD64. Lowering/emission is now the largest measured cost.
+The remaining runtime/build-system corpus and measured compiler fixes are still
+open. Broad production-comparator parity is correctly OPEN, not assumed from
+SH-20.
