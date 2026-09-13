@@ -260,7 +260,14 @@ def resolve_tool(
 ) -> Path | None:
     if explicit is not None:
         resolved = explicit.resolve()
-        return resolved if resolved.is_file() else None
+        if resolved.is_file():
+            return resolved
+        if resolved.suffix == "":
+            windows_executable = Path(str(resolved) + ".exe")
+            if windows_executable.is_file():
+                return windows_executable.resolve()
+        found = shutil.which(str(explicit), path=environment.get("PATH"))
+        return Path(found).resolve() if found else None
     for candidate in candidates:
         candidate_path = Path(candidate)
         if candidate_path.is_absolute() and candidate_path.is_file():

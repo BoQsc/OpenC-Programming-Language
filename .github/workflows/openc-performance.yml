@@ -40,6 +40,13 @@ jobs:
       - name: Check out exact benchmark revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
+      - name: Configure pinned MSVC comparator
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1.13.0
+        with:
+          arch: x64
+          toolset: 14.44
+          vsversion: '2022'
+
       - name: Install pinned DMD comparator
         uses: dlang-community/setup-dlang@0a7469b93f791d83f30932c6fd105796c6966e20 # v2.0.0
         with:
@@ -54,7 +61,6 @@ jobs:
           --self-build-runs 3
           --parallel-projects 4
           --require-all
-          --msvc-toolset 14.44
           --expected-msvc-version 19.44
           --expected-clang-version 20.1.8
           --expected-dmd-version 2.112.0
