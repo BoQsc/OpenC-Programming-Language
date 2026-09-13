@@ -192,19 +192,19 @@ unsafe void native_emit_function(
         }
         index = index + 1;
     }
-    X64UnwindBuilder unwind = x64_unwind_create(1);
-    x64_unwind_add_allocation(unwind, prolog, frame);
-    DBuffer unwind_bytes = x64_unwind_encode(unwind);
-    if function.code.ok && unwind_bytes.ok && function.constants.ok {
+    usize unwind_size = x64_unwind_allocation_size(prolog, frame);
+    if function.code.ok && unwind_size != 0 && function.constants.ok {
         pe32_put_u32(output, symbol);
         usize entry = 0; if c_function_is_entry(context, symbol, entry_module) { entry = 1; }
         pe32_put_u32(output, entry);
         pe32_put_u32(output, function.code.bytes.length);
-        pe32_put_u32(output, unwind_bytes.length);
+        pe32_put_u32(output, unwind_size);
         pe32_put_u32(output, function.code.relocations.length);
         pe32_put_u32(output, function.constants.length);
         x64_copy_bytes(output, function.code.bytes);
-        x64_copy_bytes(output, unwind_bytes);
+        if !x64_put_unwind_allocation(output, prolog, frame) {
+            output.ok = false;
+        }
         index = 0;
         while index < function.code.relocations.length {
             pe32_put_u32(output, read_record_field(function.code.relocation_data, index, 0));
@@ -232,7 +232,6 @@ unsafe void native_emit_function(
         io.error("\n");
         output.ok = false;
     }
-    d_buffer_destroy(unwind_bytes); x64_unwind_destroy(unwind);
     memory.free(order); memory.free(references);
     memory.free(function.branch_patches); memory.free(function.blocks);
     memory.free(function.short_patches);

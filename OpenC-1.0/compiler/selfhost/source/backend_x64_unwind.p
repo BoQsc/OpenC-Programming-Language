@@ -218,6 +218,60 @@ unsafe DBuffer x64_unwind_encode(ref X64UnwindBuilder builder) {
     return output;
 }
 
+usize x64_unwind_allocation_size(
+    usize code_offset,
+    usize size
+) {
+    if code_offset > 255 || size < 8 || size % 8 != 0 ||
+        size > cast(usize, 4294967288) {
+        return 0;
+    }
+    if size >= 524288 { return 12; }
+    return 8;
+}
+
+unsafe bool x64_put_unwind_allocation(
+    ref DBuffer output,
+    usize code_offset,
+    usize size
+) {
+    usize encoded_size = x64_unwind_allocation_size(code_offset, size);
+    if encoded_size == 0 { return false; }
+    usize slots = 1;
+    usize opcode = x64_unwind_allocate_small();
+    usize info = size / 8 - 1;
+    if size > 128 {
+        opcode = x64_unwind_allocate_large();
+        info = 0;
+        slots = 2;
+        if size >= 524288 {
+            info = 1;
+            slots = 3;
+        }
+    }
+    d_put_byte(output, 1);
+    d_put_byte(output, cast(u8, code_offset));
+    d_put_byte(output, cast(u8, slots));
+    d_put_byte(output, 0);
+    d_put_byte(output, cast(u8, code_offset));
+    d_put_byte(output, cast(u8, opcode + info * 16));
+    if slots >= 2 {
+        usize value = size / 8;
+        if slots == 3 { value = size; }
+        d_put_byte(output, cast(u8, value & 255));
+        d_put_byte(output, cast(u8, (value >> 8) & 255));
+        if slots == 3 {
+            d_put_byte(output, cast(u8, (value >> 16) & 255));
+            d_put_byte(output, cast(u8, (value >> 24) & 255));
+        }
+    }
+    if slots % 2 != 0 {
+        d_put_byte(output, 0);
+        d_put_byte(output, 0);
+    }
+    return output.ok && encoded_size == 4 + x64_align_up(slots, 2) * 2;
+}
+
 unsafe DBuffer x64_runtime_function_record(
     usize begin_rva,
     usize end_rva,
