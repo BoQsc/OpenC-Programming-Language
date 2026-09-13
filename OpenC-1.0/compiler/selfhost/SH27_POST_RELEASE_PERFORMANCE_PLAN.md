@@ -53,10 +53,14 @@ The first deterministic corpus and bounded harness are now checked in at
 pinned DMD 2.112.0 on a clean Windows runner. The local OpenC/DMD validation
 passes correctness and memory checks. Clean Windows run 34773764974 then
 passes pinned MSVC 19.44, Clang 20.1.8, and DMD64 2.112.0 version selection and
-every correctness, execution, output, and memory check. It also exposes large
-OpenC median ratios of 51.047x MSVC, 27.351x Clang, and 86.036x DMD64. Native
-attribution assigns 24.035 of 25.906 seconds to validation, led by 13.138
-seconds of pointer-arithmetic candidate scanning on pointer-free source. The
-remaining runtime/build-system corpus and the measured validation fixes are
-therefore still open. Broad production-comparator parity is correctly OPEN,
-not assumed from SH-20.
+every correctness, execution, output, and memory check. It exposes large OpenC
+median ratios of 51.047x MSVC, 27.351x Clang, and 86.036x DMD64. Run
+34775393808 then rebuilds the checked-out source twice under the same RAM
+guards, proves a byte-exact fixed point, and verifies the first fix. Semantic
+gating reduces pointer-arithmetic validation on pointer-free input from 13.138
+seconds to 0 milliseconds and the large median from 25.983 to 10.003 seconds.
+The remaining large ratios are 25.324x MSVC, 13.110x Clang, and 40.173x DMD64;
+expression acceptance and function/scope/enum validation are next. The
+remaining runtime/build-system corpus and measured validation fixes are still
+open. Broad production-comparator parity is correctly OPEN, not assumed from
+SH-20.

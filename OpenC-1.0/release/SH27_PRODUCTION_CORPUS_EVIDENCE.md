@@ -93,11 +93,48 @@ workflow proves that the evidence is complete for this corpus and that the
 deficit is real; it deliberately does not turn a green infrastructure run into
 a C/D-class throughput claim.
 
+## Pointer-free validation optimization
+
+Automatic push run
+[`34775393808`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34775393808)
+completed successfully at commit `418417d3b721b3e4d0c0d292543e1168b13f6b8e`
+on the same Windows image. The workflow first used the immutable SH-25 seed to
+build the checked-out compiler twice under the 512 MiB guards, required the two
+7,119,872-byte outputs to be byte-identical at SHA-256 `391fd639…7639b8`, and
+then benchmarked that current compiler. Both guarded bootstrap builds passed.
+
+The compiler now proves from resolved semantic types that a project has a raw
+pointer-valued symbol before running pointer-arithmetic analysis. It also
+checks whether a candidate is pointer-valued before searching for an enclosing
+unsafe region. The existing rejecting and accepting pointer fixtures still
+pass, native conformance passes 278/278, and the repository audit passes.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.085 s | 0.086 s | 0.106 s | 0.117 s |
+| 24 source files | 0.291 s | 0.284 s | 0.671 s | 0.126 s |
+| 2,048 functions | 10.003 s | 0.395 s | 0.763 s | 0.249 s |
+
+The large OpenC median improved by 61.5% from 25.983 to 10.003 seconds.
+Pointer-arithmetic validation fell from 13.138 seconds to 0 milliseconds on
+all three pointer-free large samples. The complete compiler self-build median
+improved from 8.252 to 6.435 seconds. All compilation, execution, output, and
+memory checks passed; the largest recorded OpenC private/working-set peaks were
+177,684,480 and 60,116,992 bytes respectively.
+
+The large lane remains materially noncompetitive at 25.324x MSVC, 13.110x
+Clang, and 40.173x DMD64. Clean attribution now identifies expression
+acceptance at approximately 4.56 seconds and function/scope/enum acceptance at
+approximately 2.22 seconds as the next two dominant targets. The report remains
+`EVIDENCE_COMPLETE_DEFICIT`.
+
 ## Workflow contract
 
-`.github/workflows/openc-performance.yml` runs automatically when the corpus,
-harness, memory sampler, bootstrap compiler, or workflow changes and can also
-be started manually. It uses the Windows 2025 runner, requests MSVC toolset
+`.github/workflows/openc-performance.yml` runs automatically when the compiler
+source/project, corpus, harness, memory sampler, bootstrap seed, or workflow
+changes and can also be started manually. It rebuilds the checked-out compiler
+twice under the RAM guards, requires a byte-exact fixed point, and benchmarks
+that current binary. It uses the Windows 2025 runner, requests MSVC toolset
 14.44, requires MSVC 19.44, Clang 20.1.8, and DMD 2.112.0 version evidence,
 and requires all four compilers. It retains the complete JSON and run tree for
 90 days and accepts an explicit manual `enforce_parity` switch. The normal run
