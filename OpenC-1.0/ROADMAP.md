@@ -321,15 +321,17 @@ IR reach closure. Exact evidence and reproduction commands are in
       and memory comparison to pinned MSVC, Clang, and D toolchains;
     - the first bounded generated corpus, one-source-edit lane, parallel batch,
       complete self-build lane, and automatic/manual Windows workflow are now
-      implemented; clean Windows runs through 34776722018 rebuild current
+      implemented; clean Windows runs through 34778351292 rebuild current
       source to a byte-exact fixed point and pass all pinned-version,
       correctness, execution, output, and RAM guards;
     - semantic gating eliminates the 13.138-second pointer-arithmetic scan on
       pointer-free input and reduces the large median from 25.983 to 10.003
       seconds; indexed expression/block/call/control/return traversal then
-      reduces the large median to 4.039 seconds, 84.5% below the original
-      baseline. Flow pointer, unsafe, scope-action, and call validation are now
-      the dominant targets and broad C/D parity remains explicitly open.
+      reduces the large median to 4.039 seconds; semantic source/project gates
+      then reduce empty flow groups to zero and the median to 2.797 seconds,
+      89.2% below the original baseline. Repeated frontend construction across
+      declaration, resolution, validation, and lowering is now the dominant
+      target, and broad C/D parity remains explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

@@ -62,8 +62,11 @@ seconds to 0 milliseconds and the large median from 25.983 to 10.003 seconds.
 Run 34776722018 verifies indexed expression, block, call, control, and return
 traversal at another exact fixed point. The large median falls to 4.039 seconds
 and expression plus function/scope/enum acceptance falls from about 6.78
-seconds to about 0.12 seconds. Remaining large ratios are 7.998x MSVC, 4.011x
-Clang, and 12.946x DMD64. Flow pointer facts, unsafe primitives, scope actions,
-and unsafe-call validation are next. The remaining runtime/build-system corpus
-and measured validation fixes are still open. Broad production-comparator
-parity is correctly OPEN, not assumed from SH-20.
+seconds to about 0.12 seconds. Run 34778351292 then verifies project/source
+candidate gates that reduce absent pointer-fact, unsafe-primitive, scope-action,
+and unsafe-call groups to 0 milliseconds. The large median reaches 2.797
+seconds; remaining ratios are 5.583x MSVC, 2.721x Clang, and 8.879x DMD64.
+Repeated parse/syntax construction across declaration collection, resolution,
+flow validation, fused acceptance/lowering, and emission is next. The remaining
+runtime/build-system corpus and measured validation fixes are still open. Broad
+production-comparator parity is correctly OPEN, not assumed from SH-20.

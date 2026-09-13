@@ -174,6 +174,53 @@ compiler presence/version, compilation, execution, output, fixed-point, and
 memory check passed; the report correctly remains
 `EVIDENCE_COMPLETE_DEFICIT`.
 
+## Candidate-free flow validation
+
+Automatic push run
+[`34778351292`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34778351292)
+completed successfully at commit `ab4f5469731938dfff450cf944099a2129827d75`
+on the same clean Windows image. Artifact
+`OpenC-SH27-production-performance-34778351292`, ID `10324223589`, contains
+13,765,036 ZIP bytes at
+`sha256:9909e99381ae8abaf983f7a355b0b3f7128eb55eceecad7b08e673834ed03113`.
+
+Flow validation now records source candidate facts during its existing index
+walk, computes project pointer and unsafe-function facts once, bounds call
+checking to the owning function where source order permits it, and retains the
+complete-scan fallback. A source with no qualifying semantic candidate no
+longer enters pointer-fact, unsafe-primitive, scope-action, or unsafe-call
+analysis for every function. The retained call index is reused; the final
+implementation does not add the discarded function-array/sort experiment.
+
+The immutable seed again built the checked-out compiler twice under the RAM
+guards. The two 7,129,088-byte outputs are byte-identical at SHA-256
+`10a40c86…24d5f`; guarded builds took 8.002 and 7.757 seconds. Their largest
+private/working-set peaks were 176,496,640 and 58,765,312 bytes. Native
+conformance remains 278/278, and all repository audit counts remain exact.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.098 s | 0.109 s | 0.118 s | 0.139 s |
+| 24 source files | 0.324 s | 0.352 s | 0.888 s | 0.160 s |
+| 2,048 functions | 2.797 s | 0.501 s | 1.028 s | 0.315 s |
+
+The large median improves another 30.7%, from 4.039 to 2.797 seconds, and is
+89.2% below the original 25.983-second result. On all three clean large
+samples, pointer facts, unsafe primitives, scope actions, and unsafe calls each
+measure 0 milliseconds because the generated project has no qualifying
+candidate. Small builds pass the 1.25x target against all three comparators;
+the 24-file lane passes against MSVC and Clang.
+
+Large-program parity remains open at 5.583x MSVC, 2.721x Clang, and 8.879x
+DMD64. Clean phase attribution now shows 250–281 milliseconds for declaration
+collection, 703–718 milliseconds for resolution, 951–985 milliseconds for
+validation, and 765–768 milliseconds for lowering/emission. Flow parsing alone
+costs 253–265 milliseconds, demonstrating that repeated frontend traversal and
+phase-local syntax construction—not the eliminated empty validators—are now
+the main architectural target. The self-build median is 7.673 seconds, its
+largest private/working-set peaks are 175,824,896 and 61,136,896 bytes, and all
+process guards pass.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler

@@ -56,10 +56,11 @@ SH-26 GitHub workflow:                PASS; RUN 34770148453
 SH-26 final tag/release:               v1.0.0; d0f77f6; PUBLISHED
 SH-26 public assets:                   PASS; 15/15 STREAM-DOWNLOADED + SHA-256 EXACT
 SH-27 public integrity baseline:       PASS; 15/15, 48,681,989 BYTES
-SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34776722018
+SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34778351292
 SH-27 pointer-free validation scan:    FIXED; 13.138 S -> 0.000 S
 SH-27 indexed acceptance scans:        FIXED; 6.78 S -> ABOUT 0.12 S
-SH-27 large-corpus scaling:             OPEN; OPENC 4.039 S / MSVC 0.505 S
+SH-27 candidate-free flow scans:       FIXED; FOUR GROUPS -> 0.000 S
+SH-27 large-corpus scaling:             OPEN; OPENC 2.797 S / MSVC 0.501 S
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
@@ -199,16 +200,17 @@ separate editor and OpenC memory guards. SH-26 then records owner authorization,
 the exact annotated tag, the successful GitHub workflow, and 15/15 remotely
 verified final assets. External review remains openly invited and honestly
 unclaimed. SH-27 now owns public-artifact monitoring and broader production
-MSVC/Clang/DMD performance work. Clean Windows runs 34775393808 and
-34776722018 rebuild checked-out source twice under RAM guards, prove exact
-fixed points, and pass every compiler-version, correctness, execution, output,
-and memory check. Semantic pointer gating first removed the 13.138-second
-pointer-arithmetic scan. Indexed expression, block, call, control, and return
-traversal then reduced expression acceptance to 109–110 milliseconds and
-function/scope/enum acceptance to 0–16 milliseconds. The 2,048-function median
-is now 4.039 seconds, 84.5% below the original 25.983-second baseline. Small
-OpenC builds beat every comparator and the 24-file lane beats MSVC and Clang,
-but large-program parity remains open at 7.998x MSVC, 4.011x Clang, and 12.946x
-DMD64. Flow pointer facts, unsafe primitives, scope actions, and unsafe-call
-validation are next. Linux, freestanding, and ARM64 remain optional later
-targets.
+MSVC/Clang/DMD performance work. Clean Windows runs through 34778351292 rebuild
+checked-out source twice under RAM guards, prove exact fixed points, and pass
+every compiler-version, correctness, execution, output, and memory check.
+Semantic pointer gating first removed the 13.138-second pointer-arithmetic
+scan. Indexed expression, block, call, control, and return traversal then
+reduced expression acceptance to about 0.12 seconds. Project/source candidate
+gates now reduce pointer facts, unsafe primitives, scope actions, and unsafe
+calls to 0 milliseconds when absent. The 2,048-function median is 2.797
+seconds, 89.2% below the original 25.983-second baseline. Small OpenC builds
+beat every comparator and the 24-file lane beats MSVC and Clang, but
+large-program parity remains open at 5.583x MSVC, 2.721x Clang, and 8.879x
+DMD64. Repeated frontend construction across declaration, resolution,
+validation, and lowering is next. Linux, freestanding, and ARM64 remain
+optional later targets.
