@@ -36,6 +36,8 @@ unsafe void native_emit_function(
     }
     usize scope_count = 0;
     usize maximum_layout_size = 8;
+    bool function_has_call = false;
+    usize direct_constant_capacity = 256;
     index = 0;
     while index < context.instructions.length {
         NativeLayout instruction_layout = native_layout(context,
@@ -43,8 +45,16 @@ unsafe void native_emit_function(
         if instruction_layout.valid && instruction_layout.size > maximum_layout_size {
             maximum_layout_size = instruction_layout.size;
         }
-        if read_record_field(context.instruction_data, index, 2) == ir_op_scope_register() {
+        usize opcode = read_record_field(
+            context.instruction_data, index, 2
+        );
+        if opcode == ir_op_scope_register() {
             scope_count = scope_count + 1;
+        }
+        if opcode == ir_op_call() { function_has_call = true; }
+        if opcode == ir_op_const_text() {
+            direct_constant_capacity = direct_constant_capacity +
+                read_record_field(context.instruction_detail, index, 2) + 1;
         }
         index = index + 1;
     }
@@ -81,6 +91,12 @@ unsafe void native_emit_function(
     usize code_capacity = context.instructions.length * 1024 +
         maximum_layout_size * 32 + 65536;
     usize constant_capacity = context.source.length * 2 + 256;
+    // A call-free function cannot enter a runtime intrinsic emitter.  Its
+    // constant section contains only decoded source literals, whose encoded
+    // IR spans are a conservative exact bound, plus one terminator each.
+    if !function_has_call {
+        constant_capacity = direct_constant_capacity;
+    }
     if frame > maximum_frame_bytes || code_capacity > maximum_code_bytes ||
         constant_capacity > maximum_constant_bytes {
         io.error("error[OPENC-NATIVE-BUDGET]: function ");
