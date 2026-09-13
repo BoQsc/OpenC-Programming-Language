@@ -129,3 +129,10 @@ large median reaches 1.045 seconds and passes Clang at 0.991x; every small and
 many-file comparator gate passes. Large MSVC and DMD64 remain open at 2.053x
 and 3.339x. Native per-function setup and the remaining frontend passes stay
 on the critical path.
+
+Run 34787176733 then directly encodes the one stack-allocation unwind record
+used by each native function, removing two generic heap arenas per function
+while preserving the exact Windows x64 bytes. The clean large median reaches
+0.869 seconds and passes Clang at 1.060x. Large MSVC and DMD64 remain open at
+1.735x and 2.776x; parsing, semantic validation, and remaining native setup are
+the measured critical path.

@@ -321,7 +321,7 @@ IR reach closure. Exact evidence and reproduction commands are in
       and memory comparison to pinned MSVC, Clang, and D toolchains;
     - the first bounded generated corpus, one-source-edit lane, parallel batch,
       complete self-build lane, and automatic/manual Windows workflow are now
-      implemented; clean Windows runs through 34786895725 rebuild current
+      implemented; clean Windows runs through 34787176733 rebuild current
       source to a byte-exact fixed point and pass all pinned-version,
       correctness, execution, output, and RAM guards;
     - semantic gating eliminates the 13.138-second pointer-arithmetic scan on
@@ -348,8 +348,9 @@ IR reach closure. Exact evidence and reproduction commands are in
       quadratic all-functions comparison, reduces clean acceptance to 187–204
       milliseconds, and restores a 1.120x Clang pass. Checked bulk native
       copying then reduces the clean median to 1.045 seconds, beats Clang at
-      0.991x, and passes every small and many-file gate. Large MSVC/DMD and
-      broad C/D parity remain explicitly open.
+      0.991x, and passes every small and many-file gate. Direct single-operation
+      unwind encoding then reaches 0.869 seconds and a 1.060x Clang ratio.
+      Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

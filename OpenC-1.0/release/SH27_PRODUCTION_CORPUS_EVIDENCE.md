@@ -699,6 +699,42 @@ lowering/emission samples are 387–469 milliseconds and native emission is
 172–220 milliseconds. The complete self-build median is 5.910 seconds with
 193,921,024 peak private bytes and 77,561,856 peak working-set bytes.
 
+## Direct stack-allocation unwind records
+
+Automatic push run
+[`34787176733`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34787176733)
+completed successfully at commit `552730e0b9a41aaeacf8cb17861c61a72e05b4ca`.
+Artifact `OpenC-SH27-production-performance-34787176733`, ID `10326343689`,
+contains 13,808,420 ZIP bytes at
+`sha256:3daa6fbaa50fcf2382475d1c276c80643e9729965ea64e4fbafa996d1956c45c`.
+
+Each generated function has exactly one stack-allocation unwind operation, but
+the native path formerly allocated a generic operation arena and a second
+encoded buffer per function. A specialized encoder now writes that exact
+Windows x64 unwind record directly into the checked object stream. The generic
+multi-operation builder remains unchanged for probes and future prologs.
+
+The workflow produces a byte-identical 7,173,120-byte compiler at SHA-256
+`0b2ff97d…6064e5`. Guarded bootstrap takes 6.893 and 5.057 seconds; largest
+private/working-set peaks are 193,728,512 and 77,668,352 bytes. Local exact
+three-stage closure has the same hash, 278/278 conformance and repository audit
+pass, and all processes stay below both 512 MiB limits. Three interleaved local
+A/B pairs preserve the exact large executable while reducing median native
+emission from 284 to 203 milliseconds and total time from 1.407 to 1.344
+seconds.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.097 s | 0.138 s | 0.139 s | 0.138 s |
+| 24 source files | 0.181 s | 0.375 s | 0.863 s | 0.159 s |
+| 2,048 functions | 0.869 s | 0.501 s | 0.820 s | 0.313 s |
+
+Clean large native-emission samples are 140, 141, and 156 milliseconds. OpenC
+passes Clang at 1.060x and every small and many-file gate. Large MSVC and DMD64
+remain open at 1.735x and 2.776x. Seven of nine current gates pass. The complete
+self-build median is 4.864 seconds with 194,088,960 peak private bytes and
+77,447,168 peak working-set bytes.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler

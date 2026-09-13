@@ -56,7 +56,7 @@ SH-26 GitHub workflow:                PASS; RUN 34770148453
 SH-26 final tag/release:               v1.0.0; d0f77f6; PUBLISHED
 SH-26 public assets:                   PASS; 15/15 STREAM-DOWNLOADED + SHA-256 EXACT
 SH-27 public integrity baseline:       PASS; 15/15, 48,681,989 BYTES
-SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34786895725
+SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34787176733
 SH-27 pointer-free validation scan:    FIXED; 13.138 S -> 0.000 S
 SH-27 indexed acceptance scans:        FIXED; 6.78 S -> ABOUT 0.12 S
 SH-27 candidate-free flow scans:       FIXED; FOUR GROUPS -> 0.000 S
@@ -71,8 +71,9 @@ SH-27 ordered IR sort:                  FIXED; IDENTITY FAST PATH
 SH-27 call-free constant pools:         FIXED; BOUNDED BY IR LITERAL SPANS
 SH-27 duplicate-function search:        FIXED; QUADRATIC -> INDEXED BUCKETS
 SH-27 native binary copying:            FIXED; CHECKED BULK COPY
-SH-27 large Clang parity:               PASS LATEST; OPENC FASTER AT 0.991x
-SH-27 large-corpus scaling:             OPEN; OPENC 1.045 S / MSVC 0.509 S
+SH-27 per-function unwind arenas:       FIXED; DIRECT SINGLE-OP ENCODING
+SH-27 large Clang parity:               PASS LATEST; 1.060x
+SH-27 large-corpus scaling:             OPEN; OPENC 0.869 S / MSVC 0.501 S
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
@@ -212,7 +213,7 @@ separate editor and OpenC memory guards. SH-26 then records owner authorization,
 the exact annotated tag, the successful GitHub workflow, and 15/15 remotely
 verified final assets. External review remains openly invited and honestly
 unclaimed. SH-27 now owns public-artifact monitoring and broader production
-MSVC/Clang/DMD performance work. Clean Windows runs through 34786895725 rebuild
+MSVC/Clang/DMD performance work. Clean Windows runs through 34787176733 rebuild
 checked-out source twice under RAM guards, prove exact fixed points, and pass
 every compiler-version, correctness, execution, output, and memory check.
 Semantic pointer gating first removed the 13.138-second pointer-arithmetic
@@ -250,4 +251,7 @@ Checked bulk copying then removes per-byte function-call loops from native
 function assembly, linking, and PE construction. The clean large median reaches
 1.045 seconds and beats Clang at 0.991x; every small and many-file gate now
 passes. Large MSVC and DMD64 remain open at 2.053x and 3.339x.
+Direct encoding of the single stack-allocation unwind record then removes two
+heap allocations per function and reaches a 0.869-second clean large median.
+Large Clang passes at 1.060x; MSVC and DMD64 remain open at 1.735x and 2.776x.
 Linux, freestanding, and ARM64 remain optional later targets.
