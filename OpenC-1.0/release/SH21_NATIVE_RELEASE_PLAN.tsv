@@ -1,5 +1,17 @@
-openc.native_release_plan.v1	1	1702
+openc.native_release_plan.v1	1	1714
 .gitattributes
+compiler/selfhost/SH23_COM_WINRT_PLAN.md
+compiler/selfhost/SH23_COMPLETION_EVIDENCE.md
+compiler/selfhost/source/backend_native_com_winrt.p
+compiler/selfhost/source/cli_com_winrt_audit.p
+compiler/targets/windows-com-winrt-projection-contract.json
+standard_library/windows.com/generated/manifest.json
+standard_library/windows.com/source/com.p
+standard_library/windows.winrt/generated/manifest.json
+standard_library/windows.winrt/source/winrt.p
+tests/SH23_COM_WINRT_AUDIT_PLAN.tsv
+tests/sh23_com_winrt/openc.project.json
+tests/sh23_com_winrt/source/main.p
 AUTHORITY.md
 AUTHORITY_INDEX.json
 CHANGELOG.md

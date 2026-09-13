@@ -1,5 +1,24 @@
 # OpenC development changelog
 
+## Post-RC9 — SH-23 optional COM and WinRT projections complete
+
+- added optional `windows.com` GUID, `HRESULT`, apartment, `IUnknown`,
+  `QueryInterface`, `AddRef`, `Release`, clone, and ownership APIs;
+- added optional `windows.winrt` apartment, UTF-8-to-`HSTRING`, and activation
+  factory APIs with checked projection manifests;
+- added OpenC-native Microsoft x64 vtable dispatch and secure System32 dynamic
+  resolution for documented OLE32 and COMBASE exports;
+- added and passed the 33/33 executable COM/WinRT audit with deterministic
+  PE32+ output, valid unwind information, KERNEL32-only static imports, and no
+  CRT;
+- integrated SH-23 into daily/full workflows, 34/34 residual contracts,
+  relocated release verification, source completeness, and packaging;
+- added native `process.current_directory` lowering and made secure PE/COFF
+  dynamic-link audits robust for both relative and absolute repository roots;
+- retained the existing throughput/RAM guards and the no-Python/D/C/TinyCC/
+  assembler/external-linker boundary; and
+- completed SH-23 and activated SH-24 editor integration and LSP resilience.
+
 ## Post-RC9 — SH-22 PE/COFF ecosystem complete
 
 - added the OpenC-owned `openc artifact` pipeline for PE32+ console/GUI

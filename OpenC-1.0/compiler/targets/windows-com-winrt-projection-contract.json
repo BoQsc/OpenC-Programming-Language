@@ -1,0 +1,29 @@
+{
+  "schema": "openc.windows_com_winrt_projection_contract.v1",
+  "target": "windows-x86_64-hosted",
+  "optional_modules": ["windows.com", "windows.winrt"],
+  "core_language_concepts_added": [],
+  "com": {
+    "guid_bytes": 16,
+    "guid_alignment": 8,
+    "hresult_success": "signed value is non-negative",
+    "apartment_models": ["MTA", "STA"],
+    "iunknown_vtable_order": ["QueryInterface", "AddRef", "Release"],
+    "ownership": "typed resources with explicit clone and deterministic release"
+  },
+  "winrt": {
+    "initialization": ["RO_INIT_MULTITHREADED", "RO_INIT_SINGLETHREADED"],
+    "strings": "UTF-8 converted to UTF-16 HSTRING at the boundary",
+    "activation": "RoGetActivationFactory with projected GUID"
+  },
+  "loader": {
+    "static_imports_added": [],
+    "dynamic_system_dlls": ["ole32.dll", "combase.dll"],
+    "search_policy": "LOAD_LIBRARY_SEARCH_SYSTEM32",
+    "direct_syscalls": false
+  },
+  "ordinary_build_requires_metadata": false,
+  "c_headers_required": false,
+  "windows_sdk_required": false,
+  "crt_required": false
+}

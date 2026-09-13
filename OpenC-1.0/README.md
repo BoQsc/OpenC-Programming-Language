@@ -76,6 +76,10 @@ experimental future work and do not block or enlarge the 1.0 claim. See
   required build/test/validate/benchmark/audit/release ownership in OpenC,
   passes the 13/13 native full workflow, 278/278 conformance, 20/20 exact
   rebuilds, and deterministic relocated standalone/source archive gates;
+  SH-22 adds native PE/COFF objects, libraries, DLLs, resources, manifests,
+  and secure linking; SH-23 adds optional `windows.com` and `windows.winrt`
+  GUID/HRESULT, `IUnknown`, apartment, `HSTRING`, and activation-factory
+  projections with a 33/33 executable native audit;
 - all diagnostic expectations use exact current matches; the historical
   compatibility fallback has been removed from current execution, while its
   prior 93 rule-ID matches remain explicitly disclosed in `CHANGELOG.md`;
@@ -131,8 +135,11 @@ pipeline emits deterministic COFF objects, DLLs, static/import libraries,
 resources/manifests, and console/GUI PE32+ images. Its 40/40 native audit
 executes both load-time and secure run-time calls into an OpenC DLL without C,
 Python, D, TinyCC, an assembler, or an external linker. SH-23 optional COM and
-WinRT projections are next; native editor integration stays deferred to
-SH-24. See `compiler/selfhost/SH22_PE_COFF_ECOSYSTEM_PLAN.md` and
+WinRT projections are also complete: the 33/33 native audit executes COM
+apartments, `IUnknown`, UTF-8 `HSTRING`, activation-factory/runtime-instance,
+and `IInspectable` calls while keeping ordinary images KERNEL32-only and
+CRT-free. SH-24 native editor integration and LSP resilience is active next.
+See `compiler/selfhost/SH23_COM_WINRT_PLAN.md` and
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
 Start with `AUTHORITY.md`, `STATUS.md`, `VERIFICATION_STATUS.md`,

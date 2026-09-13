@@ -1,0 +1,15 @@
+{
+  "schema": "openc.windows_com_projection.v1",
+  "milestone": "SH-23",
+  "architecture": "windows-x86_64",
+  "metadata_backing": "Windows.Win32.winmd raw InterfaceImpl and signature records",
+  "abi": "Microsoft x64",
+  "guid_layout": {"bytes": 16, "alignment": 8, "encoding": "ECMA-335 little-endian fields"},
+  "interfaces": ["IUnknown"],
+  "operations": ["QueryInterface", "AddRef", "Release"],
+  "apartment_initialization": ["COINIT_MULTITHREADED", "COINIT_APARTMENTTHREADED"],
+  "hresult_signed_success_rule": true,
+  "static_dll_imports": [],
+  "dynamic_system_dlls": ["ole32.dll"],
+  "status": "PASS"
+}

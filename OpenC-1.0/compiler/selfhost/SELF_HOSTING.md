@@ -526,6 +526,25 @@ See `SH22_PE_COFF_ECOSYSTEM_PLAN.md` and `SH22_COMPLETION_EVIDENCE.md`.
 
 Status: **PASS**
 
+## SH-23 — optional COM and WinRT projections
+
+The optional `windows.com` module provides GUID/HRESULT values, apartment
+resources, and the ABI-ordered `IUnknown` vtable surface with owned clone and
+release. `windows.winrt` provides runtime apartments, UTF-8-to-`HSTRING`
+conversion, and activation-factory lookup. The compiler emits all calls using
+its Microsoft x64 backend and resolves OLE32/COMBASE securely from System32.
+
+The 33/33 native audit executes the projected calls, verifies deterministic
+PE32+ output, KERNEL32-only static imports, CRT absence, and valid unwind
+information. The 219-source compiler closes at SHA-256
+`33554c3701d63caea0c708c94c34d955904a5d8a12f7fe238cec028b126a8d3f`.
+Daily/full workflows pass 10/10 and 15/15; the full run includes 34/34
+contracts, 487 repository paths, 278/278 conformance, and 20/20 exact builds.
+No required step invokes Python, D, C, TinyCC, an assembler, or an external
+linker. See `SH23_COM_WINRT_PLAN.md` and `SH23_COMPLETION_EVIDENCE.md`.
+
+Status: **PASS**
+
 ## Post-SH-6 — native self-rebuild performance
 
 The closed OpenC-native compiler rebuilds its complete 90-source compiler
@@ -573,8 +592,9 @@ linkers from the required compiler and standalone-release path. SH-21 removes
 external Python from required evidence and release orchestration; Python is now
 optional audit evidence only. SH-22 completes OpenC-owned COFF objects, DLLs,
 static/import libraries, resource/manifests, subsystem selection, load-time
-imports, and secure run-time DLL resolution. SH-23 optional COM/WinRT
-projections are next.
+imports, and secure run-time DLL resolution. SH-23 completes the optional COM
+and WinRT projections. SH-24 editor integration and language-service
+resilience is next.
 
 No gate advances from `PENDING` based only on authored source. Each gate names
 an executable command and evidence result before it becomes `PASS`.

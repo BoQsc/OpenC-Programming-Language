@@ -30,9 +30,9 @@ are outside the supported 1.0 scope.
 - All 5 maintained/runtime programs check, build, and run to their authored
   contracts.
 - All 281 pre-existing OpenC source files were migrated to `.p`. The expanded
-  compiler-in-OpenC and SH-22 expansion brings the current tree to 540
+  compiler-in-OpenC and SH-23 expansion brings the current tree to 545
   `.p` files,
-  including 217 compiler source units. The migrated fixture corpus retains
+  including 219 compiler source units. The migrated fixture corpus retains
   278/278 passes and zero infrastructure failures. SH-2 records the exact
   288-file corpus used for that milestone; SH-4A covers the complete current
   compiler project through byte-exact generated output.
@@ -339,5 +339,22 @@ Its 20/20 exact chain records 11.406-second build and 5.677-second validation
 medians. Peaks of 170,627,072 private bytes and 57,749,504 working-set bytes
 remain below unchanged limits. No required compiler, artifact, audit,
 workflow, or release step invokes Python, D, C, TinyCC, an assembler, an
-external linker, or the Microsoft CRT. SH-23 optional COM and WinRT
-projections are next; Linux and freestanding remain optional future targets.
+external linker, or the Microsoft CRT. Linux and freestanding remain optional
+future targets.
+
+SH-23 is **PASS and complete**. Its 33/33 OpenC-native audit builds two
+byte-identical PE32+ images and executes COM apartment initialization, an
+in-memory stream, `IUnknown::QueryInterface/AddRef/Release`, WinRT
+initialization, UTF-8-to-`HSTRING` conversion, activation-factory lookup,
+runtime-instance activation, and `IInspectable` class/trust queries.
+The image retains KERNEL32-only static imports, valid x64 unwind data, and no
+CRT. OLE32 and COMBASE are secure System32 dynamic dependencies only.
+
+The full 15/15 workflow also passes 34/34 residual contracts, 487/487 required
+repository paths, 39/39 hashes, 278/278 conformance, and 20/20 exact compiler
+rebuilds. The 219-source, 6,767,616-byte compiler closes at SHA-256
+`33554c3701d63caea0c708c94c34d955904a5d8a12f7fe238cec028b126a8d3f`.
+Its measured build/validation medians are 15.063/7.729 seconds, with
+172,986,368 private and 57,532,416 working-set bytes at peak; every unchanged
+throughput and RAM gate passes. SH-24 editor integration and language-service
+resilience is active next.

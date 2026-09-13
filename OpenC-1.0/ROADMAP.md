@@ -278,15 +278,20 @@ IR reach closure. Exact evidence and reproduction commands are in
     - the required path uses no C source/headers, Python, D, TinyCC, assembler,
       or external linker; see
       [SH-22 evidence](compiler/selfhost/SH22_COMPLETION_EVIDENCE.md).
-16. **SH-23 optional COM and WinRT projections — active next**
-    - add GUIDs, vtables, `IUnknown`, `QueryInterface`, reference counting,
-      `HRESULT`, apartment initialization, metadata projection, and ABI tests;
-    - keep COM and WinRT outside the Core language and earlier backend gates.
-17. **SH-24 native editor integration and language-service resilience — deferred**
+16. **SH-23 optional COM and WinRT projections — complete**
+    - `windows.com` owns GUIDs, `HRESULT`, apartments, `IUnknown` vtable calls,
+      `QueryInterface`, balanced reference counting, and typed cleanup;
+    - `windows.winrt` owns apartment initialization, UTF-8 `HSTRING` boundaries,
+      activation factories, and projection metadata;
+    - the 33/33 native audit executes real COM/WinRT calls while preserving
+      KERNEL32-only static imports, CRT freedom, deterministic output, and the
+      no-Python/D/C/TinyCC/assembler/linker toolchain boundary; see
+      [SH-23 evidence](compiler/selfhost/SH23_COMPLETION_EVIDENCE.md).
+17. **SH-24 native editor integration and language-service resilience — active next**
     - ship a first-party editor client that launches the packaged native server;
     - add incremental monotonic-version synchronization, cancellation,
       workspace lifecycle, bounded resource handling, and protocol stress;
-    - begin only after throughput and required Windows independence milestones.
+    - build on the now-complete throughput and Windows-independence milestones.
 18. **Seek independent review**
    - invite independent grammar, semantic, security, and usability reviews;
      this is additional assurance, not a Windows Hosted 1.0 release blocker.

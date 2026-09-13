@@ -1,0 +1,12 @@
+{
+  "schema": "openc.windows_winrt_projection.v1",
+  "milestone": "SH-23",
+  "architecture": "windows-x86_64",
+  "metadata_model": "ECMA-335 WinRT interface projection",
+  "interfaces": ["IInspectable", "IActivationFactory"],
+  "operations": ["RoInitialize", "RoUninitialize", "WindowsCreateString", "WindowsDeleteString", "RoGetActivationFactory"],
+  "string_boundary": "OpenC UTF-8 to Windows UTF-16 HSTRING",
+  "static_dll_imports": [],
+  "dynamic_system_dlls": ["combase.dll"],
+  "status": "PASS"
+}

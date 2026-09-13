@@ -281,12 +281,16 @@ remains in the Windows libraries. See
 
 ## SH-23: optional COM and WinRT projections
 
-SH-23 adds optional `windows.com` and `windows.winrt` projections: GUIDs,
-interface pointers/vtables, `IUnknown`, `QueryInterface`, reference counting,
-`HRESULT`, apartment initialization, metadata projection, and ordering tests.
-They do not complicate SH-15 through SH-22.
+Status: **PASS**. SH-23 adds optional `windows.com` and `windows.winrt`
+projections: packed GUIDs, interface pointers/vtables, `IUnknown`,
+`QueryInterface`, balanced reference counting, `HRESULT`, apartment
+resources, UTF-8 `HSTRING` conversion, activation factories, projection
+manifests, and executable ABI tests. The emitted program retains only
+KERNEL32 static imports and loads documented OLE32/COMBASE entry points from
+System32 when the optional modules are exercised. They do not complicate
+SH-15 through SH-22 or add Windows concepts to Core.
 
-SH-24 contains the deferred native editor integration and language-service
+SH-24 is now active and contains the native editor integration and language-service
 resilience work. ARM64 begins only after the x64 ABI, backend, runtime, raw
 bindings, and release loop are stable and independent.
 

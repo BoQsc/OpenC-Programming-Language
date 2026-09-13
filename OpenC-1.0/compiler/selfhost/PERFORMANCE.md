@@ -326,3 +326,14 @@ after assignment to the existing output, timeout, private-memory, job-memory,
 and working-set supervisor. This isolates wall-clock acceptance from unrelated
 desktop contention. Ordinary process execution and emitted user programs keep
 normal priority. No acceptance threshold or RAM ceiling was raised.
+
+## SH-23 optional projection retention
+
+SH-23 expands the compiler to 219 source units. Its final 20-generation chain
+closes exactly at SHA-256
+`33554c3701d63caea0c708c94c34d955904a5d8a12f7fe238cec028b126a8d3f`.
+The observed fully validating build median is 15.063 seconds and validation
+median is 7.729 seconds. Peak private and working-set memory are 172,986,368
+and 57,532,416 bytes. These remain below the unchanged 25-second, exclusive
+15-second, 256 MiB, and 64 MiB guards. The 20/20 exact closure also preserves
+the no-Python/D/C/TinyCC/assembler/external-linker boundary.

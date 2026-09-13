@@ -29,7 +29,9 @@
     "windows.resources": ["windows.resources/source/resources.p"],
     "windows.network": ["windows.network/source/network.p"],
     "windows.registry": ["windows.registry/source/registry.p"],
-    "windows.shell": ["windows.shell/source/shell.p"]
+    "windows.shell": ["windows.shell/source/shell.p"],
+    "windows.com": ["windows.com/source/com.p"],
+    "windows.winrt": ["windows.winrt/source/winrt.p"]
   },
   "output_directory": "build"
 }

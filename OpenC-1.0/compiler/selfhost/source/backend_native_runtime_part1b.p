@@ -110,6 +110,63 @@ unsafe void native_process_executable_path(ref NativeFunction function,
     x64_mov_memory_r64(function.code, 4, native_slot(function, result) + 8, 0);
 }
 
+unsafe void native_process_current_directory(ref NativeFunction function,
+    usize result) {
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 65544));
+    native_heap_allocate_named_r8(function,
+        "fatal[OPENC-NATIVE-ALLOC-BUDGET]: live allocations exceed 512 MiB in process.current_directory\n");
+    x64_mov_memory_r64(function.code, 4, 480, 0);
+    native_windows_dynamic_prepare(
+        function, "kernel32.dll", "GetCurrentDirectoryW"
+    );
+    x64_mov_r64_imm64(function.code, 1, cast(u64, 32768));
+    x64_mov_r64_memory(function.code, 2, 4, 480);
+    x64_mov_r64_memory(function.code, 0, 4, 608);
+    x64_call_r64(function.code, 0); native_runtime_nonzero(function);
+    x64_mov_memory_r64(function.code, 4, 488, 0);
+    native_windows_dynamic_close(function);
+    x64_mov_r64_memory(function.code, 0, 4, 488);
+    x64_mov_r64_imm64(function.code, 11, cast(u64, 32768));
+    x64_cmp_r64_r64(function.code, 0, 11); native_require(function.code, 2);
+
+    x64_mov_r64_imm64(function.code, 1, cast(u64, 65001));
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
+    x64_mov_r64_memory(function.code, 8, 4, 480);
+    x64_mov_r64_memory(function.code, 9, 4, 488);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    x64_mov_memory_r64(function.code, 4, 32, 0);
+    x64_mov_memory_r64(function.code, 4, 40, 0);
+    x64_mov_memory_r64(function.code, 4, 48, 0);
+    x64_mov_memory_r64(function.code, 4, 56, 0);
+    native_import(function, 13); native_runtime_nonzero(function);
+    x64_mov_memory_r64(function.code, 4, 496, 0);
+    x64_mov_r64_r64(function.code, 8, 0); x64_add_r64_imm8(function.code, 8, 8);
+    native_heap_allocate_named_r8(function,
+        "fatal[OPENC-NATIVE-ALLOC-BUDGET]: live allocations exceed 512 MiB in process.current_directory UTF-8 conversion\n");
+    x64_mov_memory_r64(function.code, 4, 504, 0);
+
+    x64_mov_r64_imm64(function.code, 1, cast(u64, 65001));
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
+    x64_mov_r64_memory(function.code, 8, 4, 480);
+    x64_mov_r64_memory(function.code, 9, 4, 488);
+    x64_mov_r64_memory(function.code, 0, 4, 504);
+    x64_mov_memory_r64(function.code, 4, 32, 0);
+    x64_mov_r64_memory(function.code, 0, 4, 496);
+    x64_mov_memory_r64(function.code, 4, 40, 0);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    x64_mov_memory_r64(function.code, 4, 48, 0);
+    x64_mov_memory_r64(function.code, 4, 56, 0);
+    native_import(function, 13); native_runtime_nonzero(function);
+    x64_mov_r64_memory(function.code, 11, 4, 504);
+    x64_mov_r64_memory(function.code, 10, 4, 496);
+    x64_add_r64_r64(function.code, 11, 10);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    x64_mov_memory_r64(function.code, 11, 0, 0);
+    x64_mov_r64_memory(function.code, 0, 4, 504); native_store(function, result, 0);
+    x64_mov_r64_memory(function.code, 0, 4, 496);
+    x64_mov_memory_r64(function.code, 4, native_slot(function, result) + 8, 0);
+}
+
 unsafe void native_command_arguments(ref NativeFunction function) {
     native_constant_ascii(function, "shell32.dll", true, 1);
     x64_mov_r64_imm64(function.code, 2, cast(u64, 0));

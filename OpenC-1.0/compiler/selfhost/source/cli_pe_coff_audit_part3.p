@@ -30,8 +30,11 @@ unsafe i32 cli_pe_coff_audit_command() {
         return 64;
     }
     // The secure loader deliberately accepts only an absolute DLL path.
-    // Resolve artifact paths against the repository root used by this audit;
-    // path.join preserves an already absolute right operand.
+    // Anchor a relative repository root to the current directory before
+    // deriving artifact paths; path.join preserves an already absolute right
+    // operand.
+    text current_directory = process.current_directory();
+    root = path.join(current_directory, root);
     artifacts = path.join(root, artifacts);
     if !cli_release_ensure_directory(artifacts) ||
         !cli_release_ensure_directory(path.directory(output_path)) {

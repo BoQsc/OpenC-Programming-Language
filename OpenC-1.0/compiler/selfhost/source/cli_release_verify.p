@@ -68,6 +68,27 @@ unsafe bool cli_release_package_workflow(
     }
     if passed {
         command = d_buffer_create(32768);
+        cli_workflow_command_start(command, compiler, "com-winrt-audit");
+        cli_workflow_command_named_argument(
+            command, "--root=", distribution
+        );
+        cli_workflow_command_named_argument(
+            command, "--artifacts=", path.join(
+                output_directory, "relocated-com-winrt-artifacts"
+            )
+        );
+        cli_workflow_command_named_argument(
+            command, "--output=", path.join(
+                output_directory, "relocated-com-winrt-audit.json"
+            )
+        );
+        passed = cli_release_run_task(
+            command, "OpenC COM/WinRT audit: PASS (33/33)", task_elapsed
+        );
+        d_buffer_destroy(command);
+    }
+    if passed {
+        command = d_buffer_create(32768);
         cli_workflow_command_start(command, compiler, "lsp-audit");
         cli_workflow_command_named_argument(
             command, "--output=", path.join(
@@ -89,7 +110,7 @@ unsafe bool cli_release_package_workflow(
             )
         );
         passed = cli_release_run_task(
-            command, "OpenC native contract audit: PASS (31/31)", task_elapsed
+            command, "OpenC native contract audit: PASS (34/34)", task_elapsed
         );
         d_buffer_destroy(command);
     }

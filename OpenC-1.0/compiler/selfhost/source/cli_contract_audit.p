@@ -144,7 +144,27 @@ unsafe bool cli_contract_static_sources(text root) {
         native_contains(project, "windows.resources") &&
         native_contains(project, "windows.network") &&
         native_contains(project, "windows.registry") &&
-        native_contains(project, "windows.shell");
+        native_contains(project, "windows.shell") &&
+        native_contains(project, "windows.com") &&
+        native_contains(project, "windows.winrt");
+}
+
+unsafe bool cli_contract_com_winrt(text root) {
+    text com_source;
+    status com_loaded = file.read_text(path.join(
+        root, "standard_library/windows.com/source/com.p"
+    ), out com_source);
+    text winrt_source;
+    status winrt_loaded = file.read_text(path.join(
+        root, "standard_library/windows.winrt/source/winrt.p"
+    ), out winrt_source);
+    if !com_loaded.ok || !winrt_loaded.ok { return false; }
+    return native_contains(com_source, "export struct Guid") &&
+        native_contains(com_source, "query_interface") &&
+        native_contains(com_source, "win_com_add_ref_runtime") &&
+        native_contains(winrt_source, "export resource HString") &&
+        native_contains(winrt_source, "activation_factory") &&
+        native_contains(winrt_source, "win_winrt_string_create_runtime");
 }
 
 unsafe bool cli_contract_friendly_ownership(text root) {
@@ -232,7 +252,7 @@ unsafe bool cli_contract_write_report(
     ref DBuffer checks,
     ref CliContractCounts counts
 ) {
-    bool passed = counts.passed == counts.total && counts.total == 31;
+    bool passed = counts.passed == counts.total && counts.total == 34;
     DBuffer report = d_buffer_create(checks.length + 1024);
     d_put(report, "{\n  \"schema\": \"openc.native_contract_audit.v1\",\n");
     d_put(report, "  \"implementation_language\": \"OpenC\",\n");
@@ -277,6 +297,7 @@ unsafe i32 cli_contract_audit_command() {
     cli_contract_simple(checks, counts, compiler, "cli_help", "help", 0, "openc release");
     cli_contract_simple(checks, counts, compiler, "cli_artifact_help", "help", 0, "openc artifact");
     cli_contract_simple(checks, counts, compiler, "cli_pe_coff_audit_help", "help", 0, "openc pe-coff-audit");
+    cli_contract_simple(checks, counts, compiler, "cli_com_winrt_audit_help", "help", 0, "openc com-winrt-audit");
     cli_contract_simple(checks, counts, compiler, "cli_version", "version", 0, "OpenC 1.0.0-rc.9");
     cli_contract_simple(checks, counts, compiler, "cli_target", "target", 0, "backend: openc-x64-pe32");
     text hello = path.join(root, "demos/hello/openc.project.json");
@@ -306,7 +327,7 @@ unsafe i32 cli_contract_audit_command() {
     cli_contract_demo(checks, counts, compiler, root, "ownership", "demos/ownership/openc.project.json", "Ownership and resource demo\nfile_open: opened descriptor 7\nFile descriptor in use: 7\nfile_close: closed descriptor 7\n");
     cli_contract_demo(checks, counts, compiler, root, "unsafe", "demos/unsafe/openc.project.json", "Initial value: 0\nAfter unsafe write: 42\n");
 
-    cli_contract_put(checks, counts, "friendly_twelve_modules", cli_contract_static_sources(root));
+    cli_contract_put(checks, counts, "friendly_and_optional_modules", cli_contract_static_sources(root));
     cli_contract_put(checks, counts, "friendly_typed_ownership", cli_contract_friendly_ownership(root));
     cli_contract_put(checks, counts, "winmd_manifest_contract", cli_contract_winmd_manifest(root));
     cli_contract_put(checks, counts, "winmd_projection_payload", cli_contract_winmd_payload(root));
@@ -329,6 +350,24 @@ unsafe i32 cli_contract_audit_command() {
         friendly_checked && cli_contract_friendly_ownership(root)
     );
 
+    cli_contract_put(
+        checks, counts, "optional_com_winrt_surface",
+        cli_contract_com_winrt(root)
+    );
+    command = d_buffer_create(32768);
+    cli_workflow_command_start(command, compiler, "check");
+    cli_workflow_command_named_argument(command, "--project=", path.join(
+        root, "tests/sh23_com_winrt/openc.project.json"
+    ));
+    bool com_winrt_checked = cli_contract_run(
+        command, 0, "OpenC check: PASS", false
+    );
+    cli_contract_put(
+        checks, counts, "optional_com_winrt_semantic_check",
+        com_winrt_checked
+    );
+    d_buffer_destroy(command);
+
     cli_contract_put(checks, counts, "raw_modules_registered", cli_audit_nonempty(root, "standard_library/windows.raw/generated/windows.raw.window.p") && cli_audit_nonempty(root, "standard_library/windows.raw/generated/windows.raw.graphics.p"));
     cli_contract_put(checks, counts, "release_plan_present", cli_audit_nonempty(root, "release/SH21_NATIVE_RELEASE_PLAN.tsv"));
     cli_contract_put(checks, counts, "historical_payload_not_required", !native_contains(d_buffer_text(checks), "python_invoked"));
@@ -336,7 +375,7 @@ unsafe i32 cli_contract_audit_command() {
     bool passed = cli_contract_write_report(output_path, checks, counts);
     d_buffer_destroy(checks);
     io.print("OpenC native contract audit: ");
-    if passed { io.println("PASS (31/31)"); return 0; }
+    if passed { io.println("PASS (34/34)"); return 0; }
     io.print("FAIL ("); io.print(counts.passed); io.print("/"); io.print(counts.total); io.println(")");
     return 1;
 }

@@ -9,10 +9,10 @@ Core specification:                 1.0 RELEASE-CANDIDATE AUTHORITY
 Hosted specification:               1.0 RELEASE-CANDIDATE AUTHORITY
 Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
-canonical OpenC compiler source:     217 `.p` UNITS; SELF-HOSTED
+canonical OpenC compiler source:     219 `.p` UNITS; SELF-HOSTED
 legacy D reference source:           OPTIONAL AUDIT; NOT AUTHORITY
 legacy Python bootstrap source:      OPTIONAL AUDIT; NOT AUTHORITY
-official OpenC source extension:      .p; 281 MIGRATED, 540 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 545 TOTAL `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
@@ -25,10 +25,10 @@ full semantic/IR pipeline:            SH-3 PASS; 33/33 REACHABLE IR OPCODES
 bootstrap D-source backend:           SH-4A PASS; 4 PROJECTS, 28/28 FILES EXACT
 stage-1 self-compilation:             SH-4B PASS; STAGE 1 BUILDS STAGE 2
 bootstrap closure:                    SH-4C PASS; STAGE 2/STAGE 3 STABILIZED
-self-hosted compiler:                 YES; SH-22 PASS, DIRECT X64/PE32+/COFF FIXED POINT
+self-hosted compiler:                 YES; SH-23 PASS, DIRECT X64/PE32+/COFF FIXED POINT
 trusted native rebuild:               PASS; 20/20 BYTE-IDENTICAL
 public compiler throughput:           C/D-CLASS; SH-20 PASS
-public validating self-build:         11.406 S MEDIAN; VALIDATION 5.677 S
+public validating self-build:         15.063 S MEDIAN; VALIDATION 7.729 S
 coverage-granularity milestone:      PASS; 466/466 RULES, 174/174 GRAMMAR PAIRS
 native validation budget:            PASS; 76.081-233.841 S <= 300 S, 278/278
 native self-rebuild budget:          PASS; 9.965-14.502 S <= 30 S, BYTE-IDENTICAL
@@ -38,8 +38,8 @@ native project workflow:              SH-10 PASS; FMT/INFO/TEST, 21/21
 native language service:              SH-11 PASS; LIFECYCLE/DIAGNOSTICS/FMT, 19/19
 native semantic language service:     SH-12 PASS; SYMBOLS/NAV/COMPLETE/RENAME, 23/23
 human + machine diagnostics:          PASS; `openc.check.v1` + STABLE STREAMS
-completed engineering milestone:     SH-22 PE/COFF ECOSYSTEM COMPLETENESS
-next engineering milestone:          SH-23 OPTIONAL COM AND WINRT PROJECTIONS
+completed engineering milestone:     SH-23 OPTIONAL COM AND WINRT PROJECTIONS
+next engineering milestone:          SH-24 EDITOR INTEGRATION/LSP RESILIENCE
 SH-22 complete workflow:              PASS; NATIVE DAILY 9/9, FULL 14/14
 SH-22 PE/COFF ecosystem audit:        PASS; 40/40, LOAD-TIME + RUN-TIME DLL CALLS
 SH-22 contract audit:                 PASS; 31/31
@@ -62,7 +62,8 @@ SH-17 WinMD projection verification: PASS; 30/30, 7 MODULES, 71,425 RECORDS
 SH-18 friendly Windows verification: PASS; 27/27, 12 MODULES; 10.103 S REBUILD MEDIAN
 SH-19 native backend verification:   PASS; 63/63 SCALARS, 6/6 MEMORY, 20/20 RELEASE
 SH-20 public throughput verification: PASS; OPENC 17.064 S, C 22.732 S, D 17.504 S
-active critical path:                 SH-23 OPTIONAL COM/IUNKNOWN/WINRT PROJECTIONS
+COM/IUnknown/WinRT projections:       SH-23 PASS; 33/33 NATIVE ABI CHECKS
+active critical path:                 SH-24 EDITOR INTEGRATION/LSP RESILIENCE
 DMD/TinyCC-independent compiler:     YES; PUBLIC `openc build`, DIRECT PE32+
 standalone compiler distribution:    YES; NO C/TCC/D/PYTHON/ASM/LINKER
 normal compilation independent:      YES; PYTHON IS OPTIONAL EVIDENCE ONLY
@@ -158,6 +159,9 @@ exact rebuild chain. The measured medians are 11.406 seconds total and 5.677
 seconds validation, with 170,627,072 private bytes and 57,749,504 working-set
 bytes at peak. D/Python/C/TinyCC/assemblers/external linkers remain absent
 from the required compiler, artifact, workflow, and release paths.
-SH-23 optional COM and WinRT projections are active next. Native editor
-integration is deferred to SH-24. Linux, freestanding, and ARM64 remain
-optional later targets.
+SH-23 completes optional COM and WinRT projections. Its 219-source compiler
+passes 33/33 real ABI/runtime checks, including `IUnknown`, HSTRING,
+runtime-instance activation, and `IInspectable`, plus the 15/15 full workflow
+and deterministic relocated release. SH-24 native editor integration and LSP
+resilience is active next. Linux, freestanding, and ARM64 remain optional
+later targets.

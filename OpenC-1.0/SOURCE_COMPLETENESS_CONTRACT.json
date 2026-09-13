@@ -276,6 +276,7 @@
       "compiler/selfhost/source/backend_native_audit.p",
       "compiler/selfhost/source/backend_native_image.p",
       "compiler/selfhost/source/backend_native_library.p",
+      "compiler/selfhost/source/backend_native_com_winrt.p",
       "compiler/selfhost/source/backend_native_runtime.p",
       "compiler/selfhost/source/backend_native_runtime_call_span.p",
       "compiler/selfhost/source/backend_native_runtime_lsp.p",
@@ -324,6 +325,7 @@
       "compiler/selfhost/source/cli_artifact.p",
       "compiler/selfhost/source/cli_audit.p",
       "compiler/selfhost/source/cli_benchmark.p",
+      "compiler/selfhost/source/cli_com_winrt_audit.p",
       "compiler/selfhost/source/cli_contract_audit.p",
       "compiler/selfhost/source/cli_format.p",
       "compiler/selfhost/source/cli_lsp.p",
@@ -498,6 +500,8 @@
       "standard_library/system.path/source/path.p",
       "standard_library/system.process/source/process.p",
       "standard_library/system.text/source/text.p",
+      "standard_library/windows.com/source/com.p",
+      "standard_library/windows.winrt/source/winrt.p",
       "standard_library/windows.resources/source/resources.p"
     ],
     "tests_d": [
@@ -508,7 +512,8 @@
       "tests/source/tool_tests.d"
     ],
     "tests_openc": [
-      "tests/sh22_pe_coff/source/main.p"
+      "tests/sh22_pe_coff/source/main.p",
+      "tests/sh23_com_winrt/source/main.p"
     ],
     "tests_python": [
       "tests/python/test_bootstrap_source.py",
@@ -556,9 +561,12 @@
     "compiler/selfhost/SH21_COMPLETION_EVIDENCE.md",
     "compiler/selfhost/SH22_COMPLETION_EVIDENCE.md",
     "compiler/selfhost/SH22_PE_COFF_ECOSYSTEM_PLAN.md",
+    "compiler/selfhost/SH23_COM_WINRT_PLAN.md",
+    "compiler/selfhost/SH23_COMPLETION_EVIDENCE.md",
     "compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md",
     "compiler/selfhost/WINDOWS_NATIVE_BUDGETS.json",
     "compiler/selfhost/openc.project.json",
+    "compiler/targets/windows-com-winrt-projection-contract.json",
     "conformance/COVERAGE_MILESTONE_EVIDENCE.md",
     "conformance/fixtures/MANIFEST.json",
     "demos/README.md",
@@ -604,11 +612,15 @@
     "standard/hosted/OpenC_Hosted_Current.md",
     "standard/native/OpenC_Native_Current.md",
     "standard/tooling/OpenC_Tooling_Current.md",
+    "standard_library/windows.com/generated/manifest.json",
+    "standard_library/windows.winrt/generated/manifest.json",
     "tests/SH21_NATIVE_REPOSITORY_AUDIT_PLAN.tsv",
     "tests/SH22_PE_COFF_AUDIT_PLAN.tsv",
+    "tests/SH23_COM_WINRT_AUDIT_PLAN.tsv",
     "tests/sh22_pe_coff/app.manifest",
     "tests/sh22_pe_coff/openc.project.json",
     "tests/sh22_pe_coff/resource.txt",
+    "tests/sh23_com_winrt/openc.project.json",
     "tests/tooling/sh10/openc.tests.json",
     "tests/tooling/sh11/session.json",
     "tests/tooling/sh12/session.json"

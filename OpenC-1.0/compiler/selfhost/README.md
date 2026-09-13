@@ -178,9 +178,11 @@ medians are 23.094 and 14.827 seconds under unchanged memory gates. SH-22
 PE/COFF ecosystem completeness is complete: `openc artifact` emits COFF
 objects, DLLs, static/import libraries, resources/manifests, and console/GUI
 PE32+ images, while 40/40 native checks exercise load-time and secure run-time
-DLL interoperability. SH-23 optional COM/WinRT projections are active next.
-Native editor integration and language-service resilience remain deferred to
-SH-24.
+DLL interoperability. SH-23 is also complete: the optional `windows.com` and
+`windows.winrt` modules pass 33/33 real ABI/runtime checks while retaining
+KERNEL32-only static imports. The 219-source compiler closes exactly, the
+full workflow passes 15/15, and SH-24 editor integration/language-service
+resilience is active next.
 
 The same-host SH-14 clean-build comparator is:
 

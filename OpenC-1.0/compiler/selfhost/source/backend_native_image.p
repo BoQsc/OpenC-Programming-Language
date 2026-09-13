@@ -229,7 +229,13 @@ unsafe status native_write_image_options(
             else if target < context.symbols.length {
                 destination = read_usize(addresses, target * size_of(usize));
             }
-            if destination == 0 || offset + 4 > size { linked = false; break; }
+            if destination == 0 || offset + 4 > size {
+                io.error("error[OPENC-NATIVE-LINK-DETAIL]: source-symbol=");
+                io.print(symbol); io.error(" target="); io.print(target);
+                io.error(" relocation-offset="); io.print(offset);
+                io.error(" function-bytes="); io.print(size); io.error("\n");
+                linked = false; break;
+            }
             i64 delta = cast(i64, destination) - cast(i64, start + offset + 4);
             u32 encoded = 0;
             if delta < 0 { encoded = cast(u32, cast(u64, 4294967296) - cast(u64, 0 - delta)); }

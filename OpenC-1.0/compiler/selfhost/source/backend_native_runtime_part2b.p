@@ -68,6 +68,34 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         ) && !native_runtime_name(
             call_span,
             "cli_sh22_dynamic_probe", "cli_sh22_dynamic_probe"
+        ) && !native_runtime_name(
+            call_span, "win_com_initialize_runtime", "ocw_com_initialize"
+        ) && !native_runtime_name(
+            call_span, "win_com_uninitialize_runtime", "ocw_com_uninitialize"
+        ) && !native_runtime_name(
+            call_span, "win_com_create_stream_runtime", "ocw_com_create_stream"
+        ) && !native_runtime_name(
+            call_span, "win_com_query_runtime", "ocw_com_query_interface"
+        ) && !native_runtime_name(
+            call_span, "win_com_add_ref_runtime", "ocw_com_add_ref"
+        ) && !native_runtime_name(
+            call_span, "win_com_release_runtime", "ocw_com_release"
+        ) && !native_runtime_name(
+            call_span, "win_winrt_initialize_runtime", "ocw_winrt_initialize"
+        ) && !native_runtime_name(
+            call_span, "win_winrt_uninitialize_runtime", "ocw_winrt_uninitialize"
+        ) && !native_runtime_name(
+            call_span, "win_winrt_string_create_runtime", "ocw_winrt_string_create"
+        ) && !native_runtime_name(
+            call_span, "win_winrt_string_delete_runtime", "ocw_winrt_string_delete"
+        ) && !native_runtime_name(
+            call_span, "win_winrt_factory_runtime", "ocw_winrt_activation_factory"
+        ) && !native_runtime_name(
+            call_span, "win_winrt_activate_runtime", "ocw_winrt_activate_instance"
+        ) && !native_runtime_name(
+            call_span, "win_winrt_class_name_runtime", "ocw_winrt_runtime_class_name"
+        ) && !native_runtime_name(
+            call_span, "win_winrt_trust_level_runtime", "ocw_winrt_trust_level"
         ) {
             return false;
         }
@@ -184,6 +212,15 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         native_process_argument(function, d_operand_value(context, instruction, 0), result);
         return true;
     }
+    if native_runtime_name(
+            call_span, "process.current_directory",
+            "system.process.current_directory"
+        ) || native_runtime_name(
+            call_span, "runtime_current_directory",
+            "oc_process_current_directory"
+        ) {
+        native_process_current_directory(function, result); return true;
+    }
     if native_runtime_name(call_span, "process.executable_directory",
         "system.process.executable_directory") {
         native_process_executable_directory(function, result); return true;
@@ -265,6 +302,136 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         }
         native_library_dynamic_probe(
             context, function, instruction, result
+        );
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_com_initialize_runtime", "ocw_com_initialize"
+    ) {
+        if d_operand_count(context, instruction) != 2 {
+            function.code.ok = false; return true;
+        }
+        native_com_initialize(context, function, instruction, result);
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_com_uninitialize_runtime", "ocw_com_uninitialize"
+    ) {
+        if d_operand_count(context, instruction) != 1 {
+            function.code.ok = false; return true;
+        }
+        native_com_uninitialize(context, function, instruction); return true;
+    }
+    if native_runtime_name(
+        call_span, "win_com_create_stream_runtime", "ocw_com_create_stream"
+    ) {
+        if d_operand_count(context, instruction) != 1 {
+            function.code.ok = false; return true;
+        }
+        native_com_create_stream(context, function, instruction, result);
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_com_query_runtime", "ocw_com_query_interface"
+    ) {
+        if d_operand_count(context, instruction) != 4 {
+            function.code.ok = false; return true;
+        }
+        native_com_query_interface(context, function, instruction, result);
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_com_add_ref_runtime", "ocw_com_add_ref"
+    ) {
+        if d_operand_count(context, instruction) != 1 {
+            function.code.ok = false; return true;
+        }
+        native_com_reference_call(context, function, instruction, result, 8);
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_com_release_runtime", "ocw_com_release"
+    ) {
+        if d_operand_count(context, instruction) != 1 {
+            function.code.ok = false; return true;
+        }
+        native_com_reference_call(context, function, instruction, result, 16);
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_winrt_initialize_runtime", "ocw_winrt_initialize"
+    ) {
+        if d_operand_count(context, instruction) != 2 {
+            function.code.ok = false; return true;
+        }
+        native_winrt_initialize(context, function, instruction, result);
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_winrt_uninitialize_runtime", "ocw_winrt_uninitialize"
+    ) {
+        if d_operand_count(context, instruction) != 1 {
+            function.code.ok = false; return true;
+        }
+        native_winrt_uninitialize(context, function, instruction); return true;
+    }
+    if native_runtime_name(
+        call_span, "win_winrt_string_create_runtime", "ocw_winrt_string_create"
+    ) {
+        if d_operand_count(context, instruction) != 2 {
+            function.code.ok = false; return true;
+        }
+        native_winrt_string_create(context, function, instruction, result);
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_winrt_string_delete_runtime", "ocw_winrt_string_delete"
+    ) {
+        if d_operand_count(context, instruction) != 1 {
+            function.code.ok = false; return true;
+        }
+        native_winrt_string_delete(context, function, instruction);
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_winrt_factory_runtime", "ocw_winrt_activation_factory"
+    ) {
+        if d_operand_count(context, instruction) != 4 {
+            function.code.ok = false; return true;
+        }
+        native_winrt_activation_factory(context, function, instruction, result);
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_winrt_activate_runtime", "ocw_winrt_activate_instance"
+    ) {
+        if d_operand_count(context, instruction) != 2 {
+            function.code.ok = false; return true;
+        }
+        native_winrt_inspectable_call(
+            context, function, instruction, result, 48
+        );
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_winrt_class_name_runtime", "ocw_winrt_runtime_class_name"
+    ) {
+        if d_operand_count(context, instruction) != 2 {
+            function.code.ok = false; return true;
+        }
+        native_winrt_inspectable_call(
+            context, function, instruction, result, 32
+        );
+        return true;
+    }
+    if native_runtime_name(
+        call_span, "win_winrt_trust_level_runtime", "ocw_winrt_trust_level"
+    ) {
+        if d_operand_count(context, instruction) != 2 {
+            function.code.ok = false; return true;
+        }
+        native_winrt_inspectable_call(
+            context, function, instruction, result, 40
         );
         return true;
     }

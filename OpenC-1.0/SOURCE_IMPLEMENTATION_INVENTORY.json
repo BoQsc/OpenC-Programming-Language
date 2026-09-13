@@ -1283,12 +1283,20 @@
       "sha256": "cbe987780f59bb1c58d7862340c0d3c050d5c7ee80f5e9422ef02385a859d112"
     },
     {
-      "bytes": 14706,
+      "bytes": 11137,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/backend_native_com_winrt.p",
+      "present": true,
+      "sha256": "d6b7b9ba3de24e2d4d93d8fdc3f71a8893edfc4d15093920c0a282be487be095"
+    },
+    {
+      "bytes": 15030,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/backend_native_image.p",
       "present": true,
-      "sha256": "a7304ac53792d16f417280e4ca04a47b1401124600f456393bf18ad30bd6c2b8"
+      "sha256": "70aec635998f8b74b65c1a1ab815c77094553554c9911dcee8991fe27e7f770f"
     },
     {
       "bytes": 4995,
@@ -1339,12 +1347,12 @@
       "sha256": "8130b3f1eac9cbf22bd43201c5520564fc76713bd746738f1df577a2e26c8a7d"
     },
     {
-      "bytes": 14978,
+      "bytes": 19797,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/backend_native_runtime_part2b.p",
       "present": true,
-      "sha256": "b818ffc92c11fbe74aa93b7d194102814301ab8dbb1d8eb4c36e7aac9481986a"
+      "sha256": "bccc39951c20eb64c479152d70ce6f8cfe64314c9669af6c3682d9027c13f007"
     },
     {
       "bytes": 13342,
@@ -1651,12 +1659,12 @@
       "sha256": "a254bb7e060fa568edbed72dcc22303a84a6a1f509e80b1a72026995d1adf32c"
     },
     {
-      "bytes": 18059,
+      "bytes": 18151,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli.p",
       "present": true,
-      "sha256": "5e3a45fea08ee2295850d44147b9d983c426d3f6ebad9d272ecd7d994d53c2b1"
+      "sha256": "c30c6bc10aa4669c874cdda53c4e1344bb98cb384f6f4c2207bd3fdd2c4f7557"
     },
     {
       "bytes": 6184,
@@ -1672,7 +1680,7 @@
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_audit.p",
       "present": true,
-      "sha256": "a265a63f713393e7a9ccda415ec4d2ae363e4b84cb1a1a9a886a7c919a2e212e"
+      "sha256": "901b1412ca91a04c0a8516502a30f63ec9c5fe7fb2d565685fb15e6b81927a21"
     },
     {
       "bytes": 15946,
@@ -1683,12 +1691,20 @@
       "sha256": "7686cc23a3e933e94e9b8124e09c2433fae3600646563a9ac1e07f60fd990e7c"
     },
     {
-      "bytes": 15907,
+      "bytes": 10607,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/source/cli_com_winrt_audit.p",
+      "present": true,
+      "sha256": "10129d9e3a734fb79dd2c65fb90dafc0b0365619fe97e6598e5bf22bfa994488"
+    },
+    {
+      "bytes": 17557,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_contract_audit.p",
       "present": true,
-      "sha256": "e78ad848bebab172f2cee8432b70deabbb464cf413af32a1f19218b4e636723e"
+      "sha256": "36d45381666fefc126dd6a7af8dd789c4970ed2c56cc7b2a03647f3d7cba6611"
     },
     {
       "bytes": 11432,
@@ -1915,12 +1931,12 @@
       "sha256": "1d8d95d05d72102e500c72bd23506f6967d7a982f648159f47918df1381cf398"
     },
     {
-      "bytes": 6551,
+      "bytes": 7314,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_release_verify.p",
       "present": true,
-      "sha256": "abb6a76cca922a86ba6aa73ade7934880c1d039954fc73fbf56b2ddfc430c91a"
+      "sha256": "ef7eaae3e4b9fb096273fc98a90805abdec6c0d85ac8c06384f4b6b09b5b7ad3"
     },
     {
       "bytes": 4641,
@@ -1955,12 +1971,12 @@
       "sha256": "0cd192dbabcc08a0baddc97e5b0b39971c608c257125413d27a64295cafb275e"
     },
     {
-      "bytes": 23212,
+      "bytes": 24140,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_workflow.p",
       "present": true,
-      "sha256": "a4bc3f7332d1c95c0b5471c622b76802aeff5bfce86358e11d2683e0d727fb1d"
+      "sha256": "47d52f40e8325207f4b20b2bd15e83b2e0068f77e46d88f14323462d067666a9"
     },
     {
       "bytes": 8120,
@@ -2363,12 +2379,12 @@
       "sha256": "8634d3b43c18fc2a031c5c7b2f3353fa2e8ce4f8f60843f537951d0af6036955"
     },
     {
-      "bytes": 18309,
+      "bytes": 18429,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/main_driver.p",
       "present": true,
-      "sha256": "58ceffda69c63d117a9af45c02a57ca8e755d596c5eb2ece584fdd440d18e29f"
+      "sha256": "74f7d9166950936bbb2609f62e457ae9d45163b0de14338baa7dee4c2ee93db0"
     },
     {
       "bytes": 6299,
@@ -2995,12 +3011,28 @@
       "sha256": "bb16d7baa1d01ca6396c93a8fdca7baf71d124499bba1a527eb7a4d457418ed7"
     },
     {
+      "bytes": 3783,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_openc",
+      "path": "standard_library/windows.com/source/com.p",
+      "present": true,
+      "sha256": "ceb8afccf5cdbdcb273d6d7b4fed4bf845337925fd6f222badb4b4ab770461c9"
+    },
+    {
       "bytes": 2749,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "standard_library_openc",
       "path": "standard_library/windows.resources/source/resources.p",
       "present": true,
       "sha256": "bc1a876d8005b45eee43ed3e6538befdab15b0c16f9f3a6110ba91eea715704b"
+    },
+    {
+      "bytes": 2537,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "standard_library_openc",
+      "path": "standard_library/windows.winrt/source/winrt.p",
+      "present": true,
+      "sha256": "91a4cab4d5677a23b6f5627daef363950f21d9ea4860149aa33f3333fa8be083"
     },
     {
       "bytes": 3388,
@@ -3049,6 +3081,14 @@
       "path": "tests/sh22_pe_coff/source/main.p",
       "present": true,
       "sha256": "a6c357654349f950a71f38da023ff4c012ec9ec1394bfa648b28b62a3a696f45"
+    },
+    {
+      "bytes": 2936,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "tests_openc",
+      "path": "tests/sh23_com_winrt/source/main.p",
+      "present": true,
+      "sha256": "ef05507145989405e16aa6956c9a672935a27a2a5fd36162966bff0b0173bcd9"
     },
     {
       "bytes": 2536,
@@ -3238,9 +3278,9 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 3290119,
+    "bytes": 3329815,
     "empty": 0,
-    "files": 404,
+    "files": 409,
     "missing": 0
   },
   "version": "1.0.0-rc.9"

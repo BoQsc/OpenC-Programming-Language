@@ -22,7 +22,9 @@ compilation while keeping the OpenC tree as sole compiler authority.
 SH-21 makes required workflow and release orchestration OpenC-native. SH-22
 adds the OpenC-owned PE/COFF ecosystem: object, DLL, static/import-library,
 resource/manifest, subsystem, and secure dynamic-link support plus its
-40-check native audit.
+40-check native audit. SH-23 adds optional COM and WinRT projections with
+native GUID/HRESULT, IUnknown vtable, apartment, HSTRING, and activation
+factory execution plus a 28-check native audit.
 
 ## Legacy bootstrap and comparison material
 
@@ -52,6 +54,8 @@ system.path
 system.process
 system.text
 windows.resources
+windows.com
+windows.winrt
 ```
 
 ## Tools
@@ -69,7 +73,8 @@ performance budgets, the 12-case public native CLI verifier, the 21-case
 native project-workflow verifier, the 19-case native language-service verifier,
 the 23-case native semantic-language-service verifier, the SH-19 63-check
 native-backend and 6-check memory-guard verifiers, the SH-22 PE/COFF fixture
-and 40-check audit plan, transcript schemas and session fixtures,
+and 40-check audit plan, the SH-23 COM/WinRT fixture and 28-check audit plan,
+transcript schemas and session fixtures,
 build scripts, test drivers, release scripts, schemas, and
 source-completeness contracts are included.
 
