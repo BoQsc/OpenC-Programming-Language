@@ -221,6 +221,49 @@ the main architectural target. The self-build median is 7.673 seconds, its
 largest private/working-set peaks are 175,824,896 and 61,136,896 bytes, and all
 process guards pass.
 
+## Stateless-source flow fast path
+
+Automatic push run
+[`34778904952`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34778904952)
+completed successfully at commit `bc7fdd1665edbc45cd536c03e8aaceea2e4d82c5`
+on the same clean Windows image. Artifact
+`OpenC-SH27-production-performance-34778904952`, ID `10324059749`, contains
+13,769,217 ZIP bytes at
+`sha256:b81c5a4380429ef1590bd11b0415694a040e133666097b5df77a24536d6e966c`.
+
+Flow validation now discovers the source's symbol range before allocating or
+constructing its private syntax tree. A conservative semantic/source gate
+returns immediately when the source cannot contain state, pointer, ownership,
+scope, or unsafe flow work; every uncertain source retains the complete
+validator. Seven of the eight generated large-corpus source files qualify for
+the fast path, while the entry source remains fully checked.
+
+The immutable seed again built the checked-out compiler twice under the RAM
+guards. The two 7,133,184-byte outputs are byte-identical at SHA-256
+`43f83afe…d77db6`; guarded builds took 7.976 and 7.767 seconds. Their largest
+private/working-set peaks were 176,263,168 and 57,200,640 bytes. Native
+conformance remains 278/278, and the repository audit remains exact.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.096 s | 0.109 s | 0.117 s | 0.137 s |
+| 24 source files | 0.272 s | 0.330 s | 0.810 s | 0.158 s |
+| 2,048 functions | 2.223 s | 0.496 s | 1.024 s | 0.314 s |
+
+The large median improves another 20.5%, from 2.797 to 2.223 seconds, and is
+91.4% below the original 25.983-second result. The repeated one-source-edit
+median is 0.261 seconds, and four parallel OpenC builds sustain 19.547 projects
+per second. The complete compiler self-build median is 7.634 seconds, with
+176,115,712 peak private bytes and 58,748,928 peak working-set bytes. Every
+process remained below the 512 MiB evidence guard.
+
+Large-program parity remains open at 4.482x MSVC, 2.171x Clang, and 7.080x
+DMD64. The clean large samples attribute 250–265 milliseconds to declarations,
+703–718 milliseconds to resolution, 376–453 milliseconds to validation, and
+766–796 milliseconds to lowering/emission. Flow falls to 110–157 milliseconds;
+its parse component falls to 32–47 milliseconds. Resolution and lowering are
+therefore the next measured architectural targets.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler

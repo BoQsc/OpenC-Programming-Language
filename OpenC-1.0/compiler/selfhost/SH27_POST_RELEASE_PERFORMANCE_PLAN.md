@@ -65,8 +65,10 @@ and expression plus function/scope/enum acceptance falls from about 6.78
 seconds to about 0.12 seconds. Run 34778351292 then verifies project/source
 candidate gates that reduce absent pointer-fact, unsafe-primitive, scope-action,
 and unsafe-call groups to 0 milliseconds. The large median reaches 2.797
-seconds; remaining ratios are 5.583x MSVC, 2.721x Clang, and 8.879x DMD64.
-Repeated parse/syntax construction across declaration collection, resolution,
-flow validation, fused acceptance/lowering, and emission is next. The remaining
-runtime/build-system corpus and measured validation fixes are still open. Broad
-production-comparator parity is correctly OPEN, not assumed from SH-20.
+seconds. Run 34778904952 then verifies a conservative stateless-source flow
+fast path: seven of eight large-corpus sources avoid private flow syntax
+construction, and the median reaches 2.223 seconds. Remaining ratios are
+4.482x MSVC, 2.171x Clang, and 7.080x DMD64. Resolution and lowering/emission
+are now the largest measured costs. The remaining runtime/build-system corpus
+and measured compiler fixes are still open. Broad production-comparator parity
+is correctly OPEN, not assumed from SH-20.
