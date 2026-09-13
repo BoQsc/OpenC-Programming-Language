@@ -69,6 +69,56 @@ unsafe void flow_validate_source(
     );
     if !loaded.ok { return; }
     usize source_length = text.byte_length(source);
+    usize source_symbol_first = 0;
+    while source_symbol_first < symbols.length && read_record_field(
+        symbol_data, source_symbol_first, 1
+    ) != source_record {
+        source_symbol_first = source_symbol_first + 1;
+    }
+    usize source_symbol_end = source_symbol_first;
+    while source_symbol_end < symbols.length && read_record_field(
+        symbol_data, source_symbol_end, 1
+    ) == source_record {
+        source_symbol_end = source_symbol_end + 1;
+    }
+    // Flow diagnostics require stateful symbols or one of the constructs below.
+    // Prove their absence before allocating another token/syntax tree for this
+    // source.  Every uncertain case retains the complete validator.
+    bool source_needs_flow = project_has_unsafe_function ||
+        flow_span_contains_ascii(source, 0, source_length, "scope") ||
+        flow_span_contains_ascii(source, 0, source_length, "unsafe") ||
+        flow_span_contains_ascii(source, 0, source_length, "reinterpret") ||
+        flow_span_contains_ascii(source, 0, source_length, "ref") ||
+        flow_span_contains_ascii(source, 0, source_length, "out") ||
+        flow_span_contains_ascii(source, 0, source_length, "own") ||
+        flow_span_contains_ascii(source, 0, source_length, "&");
+    if !source_needs_flow && project_has_pointer_symbol {
+        source_needs_flow =
+            flow_span_contains_ascii(source, 0, source_length, "*") ||
+            flow_span_contains_ascii(source, 0, source_length, "+") ||
+            flow_span_contains_ascii(source, 0, source_length, "-");
+    }
+    usize flow_symbol = source_symbol_first;
+    while flow_symbol < source_symbol_end && !source_needs_flow {
+        usize flow_kind = read_record_field(
+            symbol_data, flow_symbol, 0
+        );
+        usize flow_type = read_record_field(
+            symbol_data, flow_symbol, 4
+        );
+        usize flow_type_kind = read_record_field(type_data, flow_type, 0);
+        if flow_kind == resolution_symbol_variable() &&
+            read_record_field(detail_data, flow_symbol, 2) != 0 {
+            source_needs_flow = true;
+        }
+        if flow_kind == resolution_symbol_parameter() && (
+            read_record_field(detail_data, flow_symbol, 3) == 1 ||
+            flow_type_kind == 12 || flow_type_kind == 13 ||
+            flow_symbol_resource_type(type_data, symbol_data, flow_symbol)
+        ) { source_needs_flow = true; }
+        flow_symbol = flow_symbol + 1;
+    }
+    if !source_needs_flow { return; }
     PackedBuffer tokens = PackedBuffer{
         length = 0, capacity = source_length + 2
     };
@@ -95,18 +145,6 @@ unsafe void flow_validate_source(
         timings.validation_flow_parse_ms +
         process.monotonic_milliseconds() - source_started;
 
-    usize source_symbol_first = 0;
-    while source_symbol_first < symbols.length && read_record_field(
-        symbol_data, source_symbol_first, 1
-    ) != source_record {
-        source_symbol_first = source_symbol_first + 1;
-    }
-    usize source_symbol_end = source_symbol_first;
-    while source_symbol_end < symbols.length && read_record_field(
-        symbol_data, source_symbol_end, 1
-    ) == source_record {
-        source_symbol_end = source_symbol_end + 1;
-    }
     ptr byte function_owner_data = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
