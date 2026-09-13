@@ -157,11 +157,70 @@ unsafe usize acceptance_validate_duplicate_functions(
     ref IrContext context
 ) {
     usize errors = 0;
+    bool indexed = context.function_bucket_heads != null &&
+        context.function_bucket_next != null &&
+        context.function_bucket_capacity != 0;
+    usize loaded_source_record = context.symbols.length + 1;
+    text left_source = "";
     usize left = 0;
     while left < context.symbols.length {
         if read_record_field(context.symbol_data, left, 0) ==
                 resolution_symbol_function() &&
             read_record_field(context.detail_data, left, 2) == 0 {
+            if indexed {
+                usize source_record = read_record_field(
+                    context.symbol_data, left, 1
+                );
+                if source_record != loaded_source_record {
+                    text loaded_source;
+                    status loaded = project_read_source_record(
+                        context.project_source, context.project_root,
+                        context.source_data, source_record, out loaded_source
+                    );
+                    if loaded.ok {
+                        left_source = loaded_source;
+                        loaded_source_record = source_record;
+                    }
+                }
+                if source_record == loaded_source_record {
+                    usize hash = ir_name_hash(
+                        left_source,
+                        read_record_field(context.symbol_data, left, 2),
+                        read_record_field(context.symbol_data, left, 3),
+                        read_record_field(context.detail_data, left, 0)
+                    );
+                    usize encoded = read_usize(
+                        context.function_bucket_heads,
+                        (hash % context.function_bucket_capacity) *
+                            size_of(usize)
+                    );
+                    while encoded != 0 {
+                        usize candidate = encoded - 1;
+                        if candidate > left && read_record_field(
+                                context.symbol_data, candidate, 0
+                            ) == resolution_symbol_function() &&
+                            read_record_field(
+                                context.detail_data, candidate, 2
+                            ) == 0 && read_record_field(
+                                context.detail_data, left, 0
+                            ) == read_record_field(
+                                context.detail_data, candidate, 0
+                            ) && acceptance_symbol_named(
+                                context, left, candidate
+                            ) && acceptance_same_signature(
+                                context, left, candidate
+                            ) {
+                            errors = errors + 1;
+                        }
+                        encoded = read_usize(
+                            context.function_bucket_next,
+                            candidate * size_of(usize)
+                        );
+                    }
+                }
+                left = left + 1;
+                continue;
+            }
             usize right = left + 1;
             while right < context.symbols.length {
                 if read_record_field(context.symbol_data, right, 0) ==
