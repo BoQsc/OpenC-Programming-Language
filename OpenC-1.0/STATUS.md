@@ -56,7 +56,7 @@ SH-26 GitHub workflow:                PASS; RUN 34770148453
 SH-26 final tag/release:               v1.0.0; d0f77f6; PUBLISHED
 SH-26 public assets:                   PASS; 15/15 STREAM-DOWNLOADED + SHA-256 EXACT
 SH-27 public integrity baseline:       PASS; 15/15, 48,681,989 BYTES
-SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34785359915
+SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34786288051
 SH-27 pointer-free validation scan:    FIXED; 13.138 S -> 0.000 S
 SH-27 indexed acceptance scans:        FIXED; 6.78 S -> ABOUT 0.12 S
 SH-27 candidate-free flow scans:       FIXED; FOUR GROUPS -> 0.000 S
@@ -69,8 +69,9 @@ SH-27 flow feature discovery:           FIXED; 7-10 SOURCE SCANS -> 1
 SH-27 absent expression scans:          FIXED; CANDIDATE-GATED
 SH-27 ordered IR sort:                  FIXED; IDENTITY FAST PATH
 SH-27 call-free constant pools:         FIXED; BOUNDED BY IR LITERAL SPANS
-SH-27 large Clang parity:               INTERMITTENT; LATEST 1.302x, OPEN
-SH-27 large-corpus scaling:             OPEN; OPENC 1.436 S / MSVC 0.623 S
+SH-27 duplicate-function search:        FIXED; QUADRATIC -> INDEXED BUCKETS
+SH-27 large Clang parity:               PASS LATEST; 1.120x
+SH-27 large-corpus scaling:             OPEN; OPENC 1.173 S / MSVC 0.497 S
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
@@ -210,7 +211,7 @@ separate editor and OpenC memory guards. SH-26 then records owner authorization,
 the exact annotated tag, the successful GitHub workflow, and 15/15 remotely
 verified final assets. External review remains openly invited and honestly
 unclaimed. SH-27 now owns public-artifact monitoring and broader production
-MSVC/Clang/DMD performance work. Clean Windows runs through 34785359915 rebuild
+MSVC/Clang/DMD performance work. Clean Windows runs through 34786288051 rebuild
 checked-out source twice under RAM guards, prove exact fixed points, and pass
 every compiler-version, correctness, execution, output, and memory check.
 Semantic pointer gating first removed the 13.138-second pointer-arithmetic
@@ -239,6 +240,9 @@ are next. Candidate-gated expression families, an identity fast path for
 already ordered IR, and IR-bounded call-free constant pools then preserve exact
 closure and all guards. Two consecutive large OpenC/Clang ratios passed at
 1.218x and 1.213x before the latest shared-runner observation moved to 1.302x,
-so that gate remains intermittent. Latest MSVC and DMD64 ratios remain open at
-2.305x and 4.115x.
+so that gate remained intermittent. Indexed duplicate-function validation then
+removes its quadratic all-functions comparison, reduces clean acceptance to
+187–204 milliseconds, and restores a comfortable 1.120x Clang pass. Latest
+MSVC and DMD64 ratios remain open at 2.360x and 3.736x; the many-file DMD64
+ratio is narrowly open at 1.255x.
 Linux, freestanding, and ARM64 remain optional later targets.

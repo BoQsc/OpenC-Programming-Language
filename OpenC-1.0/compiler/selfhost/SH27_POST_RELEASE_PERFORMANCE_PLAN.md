@@ -114,3 +114,11 @@ Clang, and 4.115x DMD64. Because the latest Clang sample follows two gate
 passes but falls just outside 1.25x, Clang parity remains intermittent and
 broad parity remains open. Large validation, indexing, lowering, emission,
 and DMD-relative many-file work remain the highest priority.
+
+Run 34786288051 then replaces quadratic duplicate-function comparison with
+lookups in the already initialized module/name buckets, retaining exact name
+and signature checks plus the original non-indexed fallback. Clean large
+acceptance falls to 187–204 milliseconds and the total median reaches 1.173
+seconds. The latest Clang ratio passes at 1.120x; large MSVC and DMD64 remain
+open at 2.360x and 3.736x. Seven of nine gates pass, with many-file DMD64 only
+narrowly open at 1.255x. Large native pipeline work remains the primary target.

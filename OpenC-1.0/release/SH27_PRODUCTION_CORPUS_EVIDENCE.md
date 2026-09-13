@@ -621,6 +621,46 @@ self-build median is 7.361 seconds with 193,482,752 peak private bytes and
 move materially on this shared runner; isolated phase evidence is retained,
 but no cross-run total-speed claim is made.
 
+## Indexed duplicate-function validation
+
+Automatic push run
+[`34786288051`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34786288051)
+completed successfully at commit `a034b90b10cb73ed280134e75cd638d4822303b2`.
+Artifact `OpenC-SH27-production-performance-34786288051`, ID `10326636966`,
+contains 13,802,487 ZIP bytes at
+`sha256:6c85e7e225c995036ff9a3b140a49fad64517cde4a024313648fc0d987098190`.
+
+Duplicate-function validation formerly compared every top-level function with
+every later symbol, reloading source names across roughly two million pairs in
+the generated large lane. It now uses the already initialized module/name hash
+buckets, checks only later functions in the matching bucket, and retains exact
+name and signature comparison. The complete quadratic implementation remains
+the fallback when indexes are unavailable.
+
+The workflow produces a byte-identical 7,168,512-byte compiler at SHA-256
+`12740066…44c2`. Guarded bootstrap takes 8.181 and 6.215 seconds; largest
+private/working-set peaks are 194,789,376 and 82,161,664 bytes. Local
+three-stage closure has the same hash, native conformance passes 278/278, and
+the repository audit passes. The largest local fixed-point process remains at
+186.3 MiB private and 77.9 MiB working set. Three interleaved large-corpus A/B
+pairs reduce global acceptance overhead from a 203-millisecond median to 31
+milliseconds, total acceptance from 564 to 423 milliseconds, and total build
+time from 2.360 to 2.203 seconds with byte-identical output.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.097 s | 0.110 s | 0.119 s | 0.161 s |
+| 24 source files | 0.202 s | 0.350 s | 0.876 s | 0.161 s |
+| 2,048 functions | 1.173 s | 0.497 s | 1.047 s | 0.314 s |
+
+Clean large acceptance samples are 187, 202, and 204 milliseconds; expression
+work is 109–126 milliseconds and call rules are 31–32 milliseconds. Large
+ratios are 2.360x MSVC, 1.120x Clang, and 3.736x DMD64. The Clang gate passes
+comfortably again. The many-file DMD64 ratio is 1.255x, only 0.5 percentage
+points outside the gate. Seven of nine current workload/comparator gates pass.
+The complete self-build median is 6.182 seconds with 194,011,136 peak private
+bytes and 80,048,128 peak working-set bytes.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler
