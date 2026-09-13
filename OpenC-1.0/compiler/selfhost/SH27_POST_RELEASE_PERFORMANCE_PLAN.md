@@ -96,3 +96,11 @@ makes all comparators materially faster: latest large ratios remain open at
 1.949x MSVC, 1.342x Clang, and 3.073x DMD64. The earlier 1.235x Clang
 observation is therefore retained as evidence but not described as sustained
 parity. Expression acceptance and native index/lower/emit work are next.
+
+Run 34784470942 then candidate-gates empty expression rule families and records
+a 1.218x large Clang ratio. Run 34784845146 adds an identity path when IR
+instructions are already in final block order, avoiding per-function counting
+sort allocations and passes while retaining the stable fallback. Its large
+Clang ratio is 1.213x, the second consecutive pass. Latest large MSVC and DMD64
+ratios remain open at 2.501x and 3.975x; continued compiler-owned
+validation/lowering/emission reduction remains the highest priority.

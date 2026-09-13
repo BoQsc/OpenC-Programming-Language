@@ -507,6 +507,79 @@ The large clean phase ranges are 140–156 milliseconds for declarations,
 remain 15–94, 62–123, and 111–172 milliseconds. Those compiler-owned passes
 are the next measured targets.
 
+## Acceptance expression candidate gates
+
+Automatic push run
+[`34784470942`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34784470942)
+completed successfully at commit `7a0aa56cbe715862152fb80e20986cc87f07b96a`.
+Artifact `OpenC-SH27-production-performance-34784470942`, ID `10325947882`,
+contains 13,795,181 ZIP bytes at
+`sha256:f88e4c095f35e81f809e1e15e7c81f542efdb6fec22dbca42c81c9be56f0f966`.
+
+Acceptance now discovers assignment, binary, index/range, cast, and aggregate
+syntax kinds once per source and does not enter a complete indexed traversal
+for a rule family with no candidate. Every family with a matching kind retains
+its full validator and per-rule reporting. On the generated large lane this
+replaces three known-empty expression traversals with one shared discovery
+traversal.
+
+The workflow produces a byte-identical 7,162,880-byte compiler at SHA-256
+`e908efa1…427181`. Bootstrap takes 8.087 and 6.310 seconds with largest
+private/working-set peaks of 192,778,240 and 77,905,920 bytes. Local exact
+fixed point, 278/278 conformance, repository audit, output equivalence, and all
+512 MiB process guards pass. Interleaved local A/B reduces median expression
+validation from about 281 to 253 milliseconds, although clean absolute timing
+continues to vary across hosts.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.097 s | 0.119 s | 0.118 s | 0.139 s |
+| 24 source files | 0.200 s | 0.338 s | 0.852 s | 0.170 s |
+| 2,048 functions | 1.237 s | 0.500 s | 1.016 s | 0.312 s |
+
+The clean large ratios are 2.474x MSVC, 1.218x Clang, and 3.965x DMD64.
+The Clang gate passes again, and all small and many-file gates pass. The
+complete compiler self-build median is 6.866 seconds with 194,805,760 peak
+private bytes and 81,649,664 peak working-set bytes.
+
+## Already-ordered IR emission path
+
+Automatic push run
+[`34784845146`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/34784845146)
+completed successfully at commit `f36616d6c7f27730bdae0195324add8b0df52fb6`.
+Artifact `OpenC-SH27-production-performance-34784845146`, ID `10325858698`,
+contains 13,796,249 ZIP bytes at
+`sha256:b50e51e7d7a4d6eaeb06e3b2e9e90c1f22646691b7f093d4f76a5637a5c3ad97`.
+
+Native emission previously allocated two counting-sort work arrays and made
+multiple passes for every function even when lowering had already emitted
+instructions in monotonically increasing block order. It now proves that
+property while constructing the identity order and returns it directly. Any
+non-monotonic or invalid block stream retains the complete stable counting
+sort. Emitted order is unchanged, while straight-line and already ordered
+functions avoid the redundant arrays and traversals.
+
+The workflow produces a byte-identical 7,163,904-byte compiler at SHA-256
+`1c20b08f…3b709`. Guarded bootstrap takes 8.085 and 6.469 seconds; largest
+private/working-set peaks are 195,235,840 and 82,681,856 bytes. Local fixed
+point, 278/278 conformance, audit, and three pairs of byte-identical A/B large
+outputs pass under the same 512 MiB limits.
+
+| Workload | OpenC | MSVC | Clang | DMD64 |
+|---|---:|---:|---:|---:|
+| small single file | 0.097 s | 0.127 s | 0.139 s | 0.159 s |
+| 24 source files | 0.235 s | 0.366 s | 0.950 s | 0.194 s |
+| 2,048 functions | 1.248 s | 0.499 s | 1.029 s | 0.314 s |
+
+Clean native-emission samples are 186, 221, and 250 milliseconds, compared
+with 235, 250, and 250 milliseconds in the preceding run. Because other phases
+and total wall time vary, this is localized evidence rather than a cross-run
+total-speed claim. The latest large ratios are 2.501x MSVC, 1.213x Clang, and
+3.975x DMD64: Clang passes for a second consecutive run, while MSVC and DMD64
+remain materially open. Seven of nine latest workload/comparator gates pass.
+The complete self-build median is 6.326 seconds with 195,239,936 peak private
+bytes and 81,907,712 peak working-set bytes.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler
