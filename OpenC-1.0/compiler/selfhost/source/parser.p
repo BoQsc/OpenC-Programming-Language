@@ -28,20 +28,16 @@ NodeResult no_node() {
     return NodeResult{ record = 0, kind = 0, start = 0, length = 0 };
 }
 
-unsafe usize token_field(ref ParserContext context, usize token, usize field) {
-    return read_record_field(context.token_data, token, field);
-}
-
 unsafe usize token_kind(ref ParserContext context, usize token) {
-    return token_field(context, token, 0);
+    return read_record_field(context.token_data, token, 0);
 }
 
 unsafe usize token_start(ref ParserContext context, usize token) {
-    return token_field(context, token, 1);
+    return read_record_field(context.token_data, token, 1);
 }
 
 unsafe usize token_length(ref ParserContext context, usize token) {
-    return token_field(context, token, 2);
+    return read_record_field(context.token_data, token, 2);
 }
 
 unsafe bool token_matches(
@@ -49,10 +45,12 @@ unsafe bool token_matches(
     usize token,
     text expected
 ) {
+    usize start = read_record_field(context.token_data, token, 1);
+    usize length = read_record_field(context.token_data, token, 2);
     return span_equals_ascii(
         context.source,
-        token_start(context, token),
-        token_length(context, token),
+        start,
+        length,
         expected
     );
 }
