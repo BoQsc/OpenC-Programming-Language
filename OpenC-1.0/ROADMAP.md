@@ -386,6 +386,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       records 1.056 seconds: 2.112x MSVC, 1.099x Clang, and 3.280x DMD64.
       Temporary profiling identifies parsing itself, rather than file I/O,
       lexing, or retained-record copying, as the next declaration target.
+      Direct packed-token reads and direct parser match/check dispatch then
+      remove three hot call layers. Across two eleven-pair local experiments,
+      declaration time falls by paired medians of 94 and 31 milliseconds and
+      total time by 109 and 47 milliseconds, with exact output and flat memory.
+      Clean run 34866286255 proves the `ec395588...e73a0` fixed point and
+      records 1.002 seconds: 1.942x MSVC, 1.018x Clang, and 3.074x DMD64.
+      Declarations now measure 188 milliseconds; native emission becomes the
+      largest measured subphase.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

@@ -265,3 +265,32 @@ the clock tick, lexing is materially smaller, and retained-record copying is
 not the bottleneck. Parser call overhead is the next measured target. The
 retained artifact ZIP is 15,176,831 bytes with SHA-256
 `0b5153c81c9ffaf3dff45370d854888700b60fe03bbe192b5b5093bdc636d42b`.
+
+Runs 34865726703 and 34866286255 then remove measured parser call overhead.
+Token kind/start/length access reads the packed record directly, and token
+matching reads start and length once instead of traversing the generic wrapper
+twice. Eleven order-alternated local pairs reduce declarations by a
+94-millisecond paired median in all eleven pairs and reduce total time by 109
+milliseconds with ten wins. Parser check and match then dispatch directly to
+the token matcher instead of adding current-token and check call frames.
+Eleven further pairs reduce declarations by another 31 milliseconds with ten
+wins and total time by 47 milliseconds with eight wins. Both changes preserve
+the exact `54fe73ad...90746b` large output, effectively unchanged RAM, exact
+three-stage compiler closure, structure validation, and 278/278 conformance.
+A direct cursor-advance follow-up has no declaration win and loses seven of
+eleven total pairs, so it is discarded before commit.
+
+Clean run 34866286255 proves the 7,178,240-byte `ec395588...e73a0` stage-two/
+stage-three fixed point and passes every version, correctness, execution,
+output, and memory check. Small OpenC/MSVC/Clang/DMD medians are
+0.087/0.119/0.139/0.152 seconds, many-file medians are
+0.179/0.370/0.969/0.170 seconds, and large medians are
+1.002/0.516/0.984/0.326 seconds. Large ratios are therefore 1.942x MSVC,
+1.018x Clang, and 3.074x DMD64. The guarded complete self-build median is
+6.000 seconds with 183,554,048 private bytes and 68,730,880 working-set bytes.
+Large phase medians are 188 milliseconds declarations, 266 validation, and
+469 combined lowering/emission; compiler-owned subphase medians are 79
+milliseconds indexing, 125 IR lowering, and 220 native emission. Native
+emission is the next measured target. The retained artifact ZIP is 15,176,688
+bytes with SHA-256
+`43b92abfce95783db7b9b0455fd1d5b9f7a52df779fb07dc217d08d8105d630a`.

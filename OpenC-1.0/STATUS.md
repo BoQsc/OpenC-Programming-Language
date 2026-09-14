@@ -78,8 +78,9 @@ SH-27 non-cast relocation scratch:      FIXED; FOUR-EDGE IR BOUND
 SH-27 source-text cache:                FIXED; 10 MIB -> 640 KIB
 SH-27 path-join cache:                  FIXED; 3 MIB -> 768 KIB
 SH-27 transition bootstrap:             FIXED; STAGE 2 == STAGE 3
-SH-27 large Clang parity:               PASS LATEST; 1.099x
-SH-27 large-corpus scaling:             OPEN; OPENC 1.056 S / MSVC 0.500 S
+SH-27 parser token dispatch:            FIXED; TWO CALL LAYERS REMOVED
+SH-27 large Clang parity:               PASS LATEST; 1.018x
+SH-27 large-corpus scaling:             OPEN; OPENC 1.002 S / MSVC 0.516 S
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
@@ -313,4 +314,16 @@ Clean run 34864294052 proves the `6c1baf87...d87e9` fixed point and every guard.
 Its large median is 1.056 seconds: 2.112x MSVC, 1.099x Clang, and 3.280x DMD64.
 Temporary profiling identifies parsing itself as the next declaration target;
 large MSVC/DMD and broad parity remain open.
+Parser token access now reads packed-record fields directly instead of routing
+through a generic wrapper, and token matching reads its start/length once.
+Eleven alternating local pairs reduce declarations by 94 milliseconds in all
+11 pairs and total time by 109 milliseconds with 10 wins. Direct match/check
+dispatch then removes another two parser call layers; eleven more pairs reduce
+declarations by 31 milliseconds and total time by 47 milliseconds. Both retain
+the exact `54fe73ad...90746b` output, effectively flat memory, three-stage exact
+closure, structure, and 278/278 conformance. A direct cursor-advance candidate
+with no targeted improvement is discarded. Clean run 34866286255 proves the
+`ec395588...e73a0` fixed point and every guard. Its large median is 1.002
+seconds: 1.942x MSVC, 1.018x Clang, and 3.074x DMD64. Declarations fall to a
+188-millisecond median; native emission is now the largest measured subphase.
 Linux, freestanding, and ARM64 remain optional later targets.
