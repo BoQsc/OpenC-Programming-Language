@@ -133,11 +133,13 @@ unsafe usize ir_node_type_uncached(
         ResolutionInteger left_integer = acceptance_integer_value(
             context, left
         );
-        ResolutionInteger right_integer = acceptance_integer_value(
-            context, right
-        );
-        if left_integer.valid && !right_integer.valid {
-            return ir_node_type(context, right, expected);
+        if left_integer.valid {
+            ResolutionInteger right_integer = acceptance_integer_value(
+                context, right
+            );
+            if !right_integer.valid {
+                return ir_node_type(context, right, expected);
+            }
         }
         return ir_node_type(context, left, expected);
     }

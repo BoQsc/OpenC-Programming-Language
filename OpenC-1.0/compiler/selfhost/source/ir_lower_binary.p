@@ -28,33 +28,36 @@ unsafe usize ir_lower_binary(
         ResolutionInteger left_integer = acceptance_integer_value(
             context, left_node
         );
-        ResolutionInteger right_integer = acceptance_integer_value(
-            context, right_node
-        );
-        if left_integer.valid && !right_integer.valid {
-            usize right_type = ir_node_type(
-                context, right_node, semantic_type_error()
+        if left_integer.valid {
+            ResolutionInteger right_integer = acceptance_integer_value(
+                context, right_node
             );
-            usize right_node_kind = read_record_field(
-                context.syntax_data, right_node, 0
-            );
-            if right_node_kind != 29 && right_type < context.types.length {
-                usize right_type_kind = read_record_field(
-                    context.type_data, right_type, 0
+            if !right_integer.valid {
+                usize right_type = ir_node_type(
+                    context, right_node, semantic_type_error()
                 );
-                if right_type_kind == 2 || right_type_kind == 3 ||
-                    right_type_kind == 4 || right_type_kind == 6 ||
-                    right_type_kind == 9 {
-                    operand_expected = right_type;
-                }
-            } else if expected < context.types.length {
-                usize expected_kind = read_record_field(
-                    context.type_data, expected, 0
+                usize right_node_kind = read_record_field(
+                    context.syntax_data, right_node, 0
                 );
-                if expected_kind == 2 || expected_kind == 3 ||
-                    expected_kind == 4 || expected_kind == 6 ||
-                    expected_kind == 9 {
-                    operand_expected = expected;
+                if right_node_kind != 29 &&
+                    right_type < context.types.length {
+                    usize right_type_kind = read_record_field(
+                        context.type_data, right_type, 0
+                    );
+                    if right_type_kind == 2 || right_type_kind == 3 ||
+                        right_type_kind == 4 || right_type_kind == 6 ||
+                        right_type_kind == 9 {
+                        operand_expected = right_type;
+                    }
+                } else if expected < context.types.length {
+                    usize expected_kind = read_record_field(
+                        context.type_data, expected, 0
+                    );
+                    if expected_kind == 2 || expected_kind == 3 ||
+                        expected_kind == 4 || expected_kind == 6 ||
+                        expected_kind == 9 {
+                        operand_expected = expected;
+                    }
                 }
             }
         }
