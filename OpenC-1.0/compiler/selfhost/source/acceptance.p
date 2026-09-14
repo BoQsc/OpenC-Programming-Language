@@ -31,6 +31,35 @@ unsafe usize acceptance_source_symbol_end(
     return symbol;
 }
 
+unsafe bool acceptance_source_has_enum(ref IrContext context) {
+    if context.top_symbols != null {
+        usize index = 0;
+        while index < context.top_symbol_count {
+            usize indexed_symbol = read_usize(
+                context.top_symbols, index * size_of(usize)
+            );
+            if read_record_field(context.symbol_data, indexed_symbol, 0) ==
+                    resolution_symbol_enum() && read_record_field(
+                    context.symbol_data, indexed_symbol, 1
+                ) == context.source_record {
+                return true;
+            }
+            index = index + 1;
+        }
+        return false;
+    }
+    usize ranged_symbol = acceptance_source_symbol_first(context);
+    usize symbol_end = acceptance_source_symbol_end(context, ranged_symbol);
+    while ranged_symbol < symbol_end {
+        if read_record_field(context.symbol_data, ranged_symbol, 0) ==
+                resolution_symbol_enum() {
+            return true;
+        }
+        ranged_symbol = ranged_symbol + 1;
+    }
+    return false;
+}
+
 unsafe usize acceptance_kind(ref IrContext context, usize type_id) {
     if type_id >= context.types.length { return 0; }
     return read_record_field(context.type_data, type_id, 0);

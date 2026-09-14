@@ -121,7 +121,10 @@ unsafe usize acceptance_validate_context(
     found = acceptance_validate_scopes(context);
     acceptance_report_count("scopes", context.source_record, found);
     errors = errors + found;
-    found = acceptance_validate_enums(context);
+    found = 0;
+    if acceptance_source_has_enum(context) {
+        found = acceptance_validate_enums(context);
+    }
     acceptance_report_count("enums", context.source_record, found);
     errors = errors + found;
     timings.validation_acceptance_functions_ms =
