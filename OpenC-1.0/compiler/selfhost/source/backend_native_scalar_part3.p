@@ -37,6 +37,7 @@ unsafe void native_emit_function(
     usize scope_count = 0;
     usize maximum_layout_size = 8;
     bool function_has_call = false;
+    bool function_has_cast = false;
     usize direct_constant_capacity = 256;
     index = 0;
     while index < context.instructions.length {
@@ -52,6 +53,7 @@ unsafe void native_emit_function(
             scope_count = scope_count + 1;
         }
         if opcode == ir_op_call() { function_has_call = true; }
+        if opcode == ir_op_cast() { function_has_cast = true; }
         if opcode == ir_op_const_text() {
             direct_constant_capacity = direct_constant_capacity +
                 read_record_field(context.instruction_detail, index, 2) + 1;
@@ -98,11 +100,14 @@ unsafe void native_emit_function(
     if !function_has_call && scope_count == 0 {
         code_capacity = context.instructions.length * 256 +
             maximum_layout_size * 32 + 4096;
-        // The densest call-free, scope-free lowering is a checked float-to-
-        // integer cast: its exactness and range guards contribute six fault
-        // relocations. Reserve one final slot for the mandatory malformed-
-        // fallthrough trap.
-        relocation_capacity = context.instructions.length * 6 + 1;
+        // Non-cast scalar and composite instructions contribute no more than
+        // four fault relocations. A checked float-to-integer cast can
+        // contribute six, so retain the wider bound for any function that
+        // contains a cast. Reserve one final slot for malformed fallthrough.
+        relocation_capacity = context.instructions.length * 4 + 1;
+        if function_has_cast {
+            relocation_capacity = context.instructions.length * 6 + 1;
+        }
     }
     if !function_has_call {
         constant_capacity = direct_constant_capacity;
