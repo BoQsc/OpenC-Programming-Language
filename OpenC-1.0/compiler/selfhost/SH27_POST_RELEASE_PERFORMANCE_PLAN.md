@@ -169,3 +169,17 @@ and memory check. Its small OpenC/MSVC/Clang/DMD medians are
 and 3.209x DMD64. Large MSVC/DMD and broad production parity remain open. The
 retained artifact ZIP is 13,808,921 bytes with SHA-256
 `d3a83451763e826e5c34ba018d53d9c69f983beccabbd14e699045342f33e2b0`.
+
+Run 34810131926 then narrows the ordinary call-free relocation reserve to the
+audited four-edge non-cast maximum while preserving the six-edge bound for any
+function containing a cast. Eleven order-alternated local pairs produce 8
+candidate wins, 1 tie, and 2 losses, a -78-millisecond median paired delta,
+and a native-emission median reduction from 234 to 219 milliseconds. Every
+program remains byte-identical at `54fe73ad...90746b`, 278/278 native fixtures
+pass, and the process guard remains below 512 MiB. The clean run rebuilds to
+the byte-exact 7,174,144-byte `eeecf5dd...4b350901` fixed point and records
+small OpenC/MSVC/Clang/DMD medians of 0.087/0.107/0.118/0.138 seconds,
+many-file medians of 0.191/0.343/0.852/0.160 seconds, and large medians of
+1.075/0.506/0.963/0.312 seconds. Large ratios are 2.125x MSVC, 1.116x Clang,
+and 3.446x DMD64. The retained artifact ZIP is 13,809,470 bytes with SHA-256
+`05a71ebf2c8b88a5d04fb37a46159366cbe3662917ddf1e6300d18bac6a373ba`.

@@ -56,7 +56,7 @@ SH-26 GitHub workflow:                PASS; RUN 34770148453
 SH-26 final tag/release:               v1.0.0; d0f77f6; PUBLISHED
 SH-26 public assets:                   PASS; 15/15 STREAM-DOWNLOADED + SHA-256 EXACT
 SH-27 public integrity baseline:       PASS; 15/15, 48,681,989 BYTES
-SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34809511246
+SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 34810131926
 SH-27 pointer-free validation scan:    FIXED; 13.138 S -> 0.000 S
 SH-27 indexed acceptance scans:        FIXED; 6.78 S -> ABOUT 0.12 S
 SH-27 candidate-free flow scans:       FIXED; FOUR GROUPS -> 0.000 S
@@ -74,8 +74,9 @@ SH-27 native binary copying:            FIXED; CHECKED BULK COPY
 SH-27 per-function unwind arenas:       FIXED; DIRECT SINGLE-OP ENCODING
 SH-27 retained parser copying:          FIXED; FIVE-WORD LOOPS -> BULK COPY
 SH-27 call-free native scratch:         FIXED; IR-BOUNDED CODE/RELOCATIONS
-SH-27 large Clang parity:               PASS LATEST; 1.117x
-SH-27 large-corpus scaling:             OPEN; OPENC 1.091 S / MSVC 0.515 S
+SH-27 non-cast relocation scratch:      FIXED; FOUR-EDGE IR BOUND
+SH-27 large Clang parity:               PASS LATEST; 1.116x
+SH-27 large-corpus scaling:             OPEN; OPENC 1.075 S / MSVC 0.506 S
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
@@ -215,7 +216,7 @@ separate editor and OpenC memory guards. SH-26 then records owner authorization,
 the exact annotated tag, the successful GitHub workflow, and 15/15 remotely
 verified final assets. External review remains openly invited and honestly
 unclaimed. SH-27 now owns public-artifact monitoring and broader production
-MSVC/Clang/DMD performance work. Clean Windows runs through 34809511246 rebuild
+MSVC/Clang/DMD performance work. Clean Windows runs through 34810131926 rebuild
 checked-out source twice under RAM guards, prove exact fixed points, and pass
 every compiler-version, correctness, execution, output, and memory check.
 Semantic pointer gating first removed the 13.138-second pointer-arithmetic
@@ -273,4 +274,11 @@ output and effectively unchanged peak memory. Clean run 34809511246 proves the
 large median is 1.091 seconds: 2.118x MSVC, 1.117x Clang, and 3.209x DMD64.
 Small and 24-file builds remain within the 1.25x gate against every comparator;
 large MSVC/DMD and broad C/D parity remain open.
+The relocation reserve then distinguishes ordinary call-free instructions from
+the exceptional six-edge cast path. Eleven order-alternated local pairs give
+the candidate 8 wins, 1 tie, and 2 losses, a -78 millisecond median paired
+delta, and a 234-to-219-millisecond native-emission median with exact output.
+Clean run 34810131926 proves the 7,174,144-byte
+`eeecf5dd...4b350901` fixed point and records a 1.075-second large median:
+2.125x MSVC, 1.116x Clang, and 3.446x DMD64. Large MSVC/DMD remain open.
 Linux, freestanding, and ARM64 remain optional later targets.
