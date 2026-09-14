@@ -23,11 +23,51 @@ unsafe usize acceptance_validate_assignments(ref IrContext context) {
                 context, node,
                 operator_start + read_record_field(context.syntax_data, node, 4)
             );
-            if !acceptance_lvalue(context, left) { errors = errors + 1; }
-            if !acceptance_mutable(context, left) { errors = errors + 1; }
-            usize expected = ir_node_type(
-                context, left, semantic_type_error()
-            );
+            usize expected = semantic_type_error();
+            bool direct_name = left < context.syntax.length &&
+                read_record_field(context.syntax_data, left, 0) == 27 &&
+                !flow_span_has_byte(
+                    context.source,
+                    read_record_field(context.syntax_data, left, 1),
+                    read_record_field(context.syntax_data, left, 2), 46
+                );
+            if direct_name {
+                usize left_symbol = ir_resolve_name(context, left);
+                if left_symbol >= context.symbols.length {
+                    errors = errors + 1;
+                } else {
+                    usize symbol_kind = read_record_field(
+                        context.symbol_data, left_symbol, 0
+                    );
+                    if symbol_kind != resolution_symbol_variable() &&
+                        symbol_kind != resolution_symbol_parameter() &&
+                        symbol_kind != resolution_symbol_field() {
+                        errors = errors + 1;
+                    }
+                    expected = read_record_field(
+                        context.symbol_data, left_symbol, 4
+                    );
+                    if acceptance_const_type(context, expected) ||
+                        acceptance_prefix_has(
+                            context,
+                            read_record_field(
+                                context.detail_data, left_symbol, 1
+                            ), "const"
+                        ) {
+                        errors = errors + 1;
+                    }
+                }
+            } else {
+                if !acceptance_lvalue(context, left) {
+                    errors = errors + 1;
+                }
+                if !acceptance_mutable(context, left) {
+                    errors = errors + 1;
+                }
+                expected = ir_node_type(
+                    context, left, semantic_type_error()
+                );
+            }
             if acceptance_kind(context, expected) == 12 {
                 expected = read_record_field(context.type_data, expected, 1);
             }
