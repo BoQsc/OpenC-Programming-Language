@@ -205,3 +205,28 @@ lowering/emission; expression acceptance at 139 milliseconds is the next
 frontend target. Large MSVC/DMD and broad production parity remain open. The
 retained artifact ZIP is 13,811,055 bytes with SHA-256
 `d7a9110ef7542c71af36d89c1175d95504f05702d60ca69aaa274b8876f7150c`.
+
+Runs 34834928956 and 34835402812 then optimize the assignment/type-inference
+hot path identified by temporary per-rule profiling. Plain-name assignments
+resolve their left symbol once for lvalue, mutability, and expected type while
+complex member/index/pointer destinations retain the original path. Type
+inference and IR lowering also defer evaluation of the right integer until the
+left operand is actually an integer literal, which avoids reparsing tens of
+thousands of right literals in variable-left arithmetic. The temporary
+profiling instrumentation and two candidates without a targeted win were
+discarded before commit. Eleven order-alternated local pairs for the direct
+assignment path record a -14-millisecond expression-acceptance delta. Eleven
+more pairs for lazy integer evaluation record a -31-millisecond IR-lowering
+delta and -15-millisecond whole-build delta. Both preserve the exact
+`54fe73ad...90746b` large program output, effectively unchanged memory, and
+278/278 native conformance. The combined clean run rebuilds to the byte-exact
+7,178,240-byte `d681b6fd...74ba3cee` fixed point and passes every version,
+correctness, execution, output, and RAM check. Its small
+OpenC/MSVC/Clang/DMD medians are 0.096/0.129/0.117/0.138 seconds, many-file
+medians are 0.179/0.339/0.862/0.159 seconds, and large medians are
+1.014/0.503/1.022/0.324 seconds. Large ratios are therefore 2.016x MSVC,
+0.992x Clang, and 3.130x DMD64. Clean large internal medians are 250
+milliseconds declarations, 236 validation, 110 expression acceptance, 125 IR
+lowering, and 188 native emission. Large MSVC/DMD and broad parity remain
+open. The retained artifact ZIP is 13,812,790 bytes with SHA-256
+`b307c968a9eeed277c8c231b4d2722a8073a2eca41af2238b5d302eae3e69c9c`.

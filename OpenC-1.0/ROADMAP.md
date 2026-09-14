@@ -370,6 +370,11 @@ IR reach closure. Exact evidence and reproduction commands are in
       and reaches 1.058 seconds: 2.058x MSVC, 0.999x Clang, and 3.094x DMD64.
       Clean expression acceptance remains 139 milliseconds and combined
       lowering/emission 407 milliseconds; these are the next measured targets.
+      Single-resolution plain-name assignments and lazy right-literal
+      evaluation then reduce clean expression acceptance to 110 milliseconds
+      and IR lowering to 125 milliseconds. Clean run 34835402812 proves the
+      7,178,240-byte `d681b6fd...74ba3cee` fixed point and reaches 1.014
+      seconds: 2.016x MSVC, 0.992x Clang, and 3.130x DMD64.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

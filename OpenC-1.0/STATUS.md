@@ -289,4 +289,12 @@ to 16 milliseconds and acceptance from 282 to 269 milliseconds. Clean run
 passes every guard. The large median is 1.058 seconds: 2.058x MSVC, 0.999x
 Clang, and 3.094x DMD64. Expression acceptance and combined native
 lowering/emission are next; large MSVC/DMD and broad parity remain open.
+Plain-name assignment validation now resolves its destination once, and
+variable-left binary type inference/lowering no longer evaluates an unused
+right integer literal. Local paired evidence records -14 milliseconds for
+expression acceptance, -31 milliseconds for IR lowering, and exact output.
+Clean run 34835402812 proves the 7,178,240-byte
+`d681b6fd...74ba3cee` fixed point and reaches a 1.014-second large median:
+2.016x MSVC, 0.992x Clang, and 3.130x DMD64. Every small/many-file and large
+Clang gate passes; large MSVC/DMD and broad parity remain open.
 Linux, freestanding, and ARM64 remain optional later targets.
