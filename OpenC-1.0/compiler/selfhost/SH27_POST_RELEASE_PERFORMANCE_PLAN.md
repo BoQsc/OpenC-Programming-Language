@@ -152,3 +152,20 @@ Its host observation records small OpenC/MSVC/Clang/DMD medians of
 and DMD64 parity and broad production parity remain explicitly open. The
 retained artifact ZIP is 13,808,067 bytes with SHA-256
 `1ce2add2e6babd1686741e634af4d52b195a599d2532d46459605d1fe1afd828`.
+
+Run 34809511246 then bounds native code and relocation scratch for call-free,
+scope-free functions by the IR work that can reach those lowering paths. The
+relocation bound explicitly covers the densest checked float-to-integer cast
+and the mandatory malformed-fallthrough trap. Seven paired local large-corpus
+builds reduce the total median from 1.500 to 1.453 seconds and the combined
+lowering/emission median from 643 to 595 milliseconds while preserving the
+exact `54fe73ad...90746b` program output and effectively unchanged peak memory.
+The clean run rebuilds current source to the byte-exact 7,173,632-byte
+`7cc72649...4472501f` fixed point and passes every compiler, execution, output,
+and memory check. Its small OpenC/MSVC/Clang/DMD medians are
+0.097/0.118/0.128/0.148 seconds, many-file medians are
+0.190/0.357/0.919/0.160 seconds, and large medians are
+1.091/0.515/0.977/0.340 seconds. Large ratios are 2.118x MSVC, 1.117x Clang,
+and 3.209x DMD64. Large MSVC/DMD and broad production parity remain open. The
+retained artifact ZIP is 13,808,921 bytes with SHA-256
+`d3a83451763e826e5c34ba018d53d9c69f983beccabbd14e699045342f33e2b0`.
