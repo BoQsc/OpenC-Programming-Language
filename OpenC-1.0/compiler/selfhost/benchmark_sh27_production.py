@@ -352,7 +352,7 @@ def bootstrap_current_compiler(
     max_working_set_bytes: int,
     max_output_bytes: int,
 ) -> tuple[Path, dict[str, object]]:
-    """Rebuild the checked-out OpenC sources twice under the memory gates."""
+    """Build a transition compiler and verify two current-source generations."""
     bootstrap_root = run_root / "bootstrap-current"
     project = ROOT / "compiler" / "selfhost" / "openc.project.json"
     compilers = [seed]
@@ -360,6 +360,7 @@ def bootstrap_current_compiler(
     outputs = [
         bootstrap_root / "stage1" / "openc.exe",
         bootstrap_root / "stage2" / "openc.exe",
+        bootstrap_root / "stage3" / "openc.exe",
     ]
     for index, output in enumerate(outputs):
         output.parent.mkdir(parents=True, exist_ok=False)
@@ -393,15 +394,21 @@ def bootstrap_current_compiler(
         if not measured["passed"]:
             break
         compilers.append(output)
-        print(f"OpenC checked-out-source bootstrap: {index + 1}/2", flush=True)
+        print(f"OpenC checked-out-source bootstrap: {index + 1}/3", flush=True)
 
     exact_fixed_point = bool(
-        len(samples) == 2
+        len(samples) == 3
         and all(sample["passed"] for sample in samples)
+        and outputs[1].read_bytes() == outputs[2].read_bytes()
+    )
+    transition_matches_current = bool(
+        len(samples) >= 2
+        and samples[0]["passed"]
+        and samples[1]["passed"]
         and outputs[0].read_bytes() == outputs[1].read_bytes()
     )
     record = {
-        "schema": "openc.sh27.current_source_bootstrap.v1",
+        "schema": "openc.sh27.current_source_bootstrap.v2",
         "status": "PASS" if exact_fixed_point else "FAIL",
         "project": str(project),
         "seed": {
@@ -417,7 +424,12 @@ def bootstrap_current_compiler(
             "stage2_build_passed_under_memory_guards": bool(
                 len(samples) >= 2 and samples[1]["passed"]
             ),
-            "stage1_stage2_byte_exact_fixed_point": exact_fixed_point,
+            "stage3_build_passed_under_memory_guards": bool(
+                len(samples) >= 3 and samples[2]["passed"]
+            ),
+            "transition_stage_matches_current_generation":
+                transition_matches_current,
+            "stage2_stage3_byte_exact_fixed_point": exact_fixed_point,
         },
     }
     record_path = bootstrap_root / "bootstrap-current.json"
@@ -426,7 +438,7 @@ def bootstrap_current_compiler(
     )
     if not exact_fixed_point:
         raise SystemExit(f"checked-out-source bootstrap failed: {record_path}")
-    return outputs[1], record
+    return outputs[2], record
 
 
 def run_sample(
@@ -494,8 +506,9 @@ def main() -> int:
         action="store_true",
         help=(
             "treat --openc as the retained seed, rebuild the checked-out "
-            "compiler twice under the corpus memory gates, require a byte-exact "
-            "fixed point, and benchmark that current compiler"
+            "compiler through a transition stage and two current generations "
+            "under the corpus memory gates, require a byte-exact fixed point, "
+            "and benchmark that current compiler"
         ),
     )
     parser.add_argument("--msvc", type=Path)

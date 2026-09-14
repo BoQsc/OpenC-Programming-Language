@@ -61,9 +61,10 @@ unsafe void native_file_read(ref IrContext context, ref NativeFunction function,
     native_skip_end(function.code, read_finished);
 }
 
-// A direct-mapped cache keeps source texts process-owned for the compiler
-// lifetime. The 262,144 entries are allocated lazily; collisions remain correct
-// (they reread and replace the entry) and cannot create an unbounded table.
+// A bounded direct-mapped cache keeps source texts process-owned for the
+// compiler lifetime. The 16,384 entries cover ordinary large projects without
+// reserving 10 MiB for a few hundred source paths. Collisions remain correct:
+// they reread and replace the entry.
 unsafe void native_file_read_cached(ref IrContext context, ref NativeFunction function,
     usize instruction, usize result) {
     usize path_value = d_operand_value(context, instruction, 0);
@@ -71,15 +72,25 @@ unsafe void native_file_read_cached(ref IrContext context, ref NativeFunction fu
     x64_mov_r64_memory(function.code, 10, 11, 0);
     x64_emit_u8(function.code, 77); x64_emit_u8(function.code, 133);
     x64_emit_u8(function.code, 210); usize table_ready = native_skip(function.code, 5);
-    x64_mov_r64_imm64(function.code, 8, cast(u64, 10485760));
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 655360));
     native_heap_allocate_named_r8(function,
         "fatal[OPENC-NATIVE-ALLOC-BUDGET]: live allocations exceed 512 MiB in file text cache\n");
     x64_mov_r64_r64(function.code, 10, 0);
     native_data_address(function, 40, 11);
     x64_mov_memory_r64(function.code, 11, 0, 10);
-    // native_heap_allocate_named_r8 requests HEAP_ZERO_MEMORY. The cache is
-    // already empty here; clearing all 10 MiB a second time only delays the
-    // first source read.
+    // Keep explicit initialization for deterministic bootstrap behavior while
+    // touching only the bounded 640 KiB table.
+    x64_mov_r64_r64(function.code, 8, 10);
+    x64_mov_r64_imm64(function.code, 9, cast(u64, 655360));
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    usize clear_loop = function.code.bytes.length;
+    native_runtime_store_byte(function, 8, 0);
+    x64_add_r64_imm8(function.code, 8, 1);
+    x64_emit_u8(function.code, 73); x64_emit_u8(function.code, 255); x64_emit_u8(function.code, 201);
+    x64_emit_u8(function.code, 15); x64_emit_u8(function.code, 133);
+    usize repeat_clear = function.code.bytes.length; x64_emit_u32(function.code, 0);
+    x64_patch_u32(function.code, repeat_clear, cast(u32, cast(u64, 4294967296) -
+        cast(u64, repeat_clear + 4 - clear_loop)));
     native_skip_end(function.code, table_ready);
 
     native_load(function, path_value, 8);
@@ -101,7 +112,7 @@ unsafe void native_file_read_cached(ref IrContext context, ref NativeFunction fu
         cast(u64, repeat_hash + 4 - hash_loop)));
     native_skip_end(function.code, hash_done);
     x64_mov_memory_r64(function.code, 4, 552, 10);
-    x64_mov_r64_imm64(function.code, 11, cast(u64, 262143));
+    x64_mov_r64_imm64(function.code, 11, cast(u64, 16383));
     x64_binary_r64_r64(function.code, 33, 10, 11);
     x64_mov_r64_r64(function.code, 11, 10);
     x64_shift_r64_imm8(function.code, 4, 10, 5);
