@@ -77,17 +77,9 @@ unsafe void native_file_read_cached(ref IrContext context, ref NativeFunction fu
     x64_mov_r64_r64(function.code, 10, 0);
     native_data_address(function, 40, 11);
     x64_mov_memory_r64(function.code, 11, 0, 10);
-    x64_mov_r64_r64(function.code, 8, 10);
-    x64_mov_r64_imm64(function.code, 9, cast(u64, 10485760));
-    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
-    usize clear_loop = function.code.bytes.length;
-    native_runtime_store_byte(function, 8, 0);
-    x64_add_r64_imm8(function.code, 8, 1);
-    x64_emit_u8(function.code, 73); x64_emit_u8(function.code, 255); x64_emit_u8(function.code, 201);
-    x64_emit_u8(function.code, 15); x64_emit_u8(function.code, 133);
-    usize repeat_clear = function.code.bytes.length; x64_emit_u32(function.code, 0);
-    x64_patch_u32(function.code, repeat_clear, cast(u32, cast(u64, 4294967296) -
-        cast(u64, repeat_clear + 4 - clear_loop)));
+    // native_heap_allocate_named_r8 requests HEAP_ZERO_MEMORY. The cache is
+    // already empty here; clearing all 10 MiB a second time only delays the
+    // first source read.
     native_skip_end(function.code, table_ready);
 
     native_load(function, path_value, 8);
