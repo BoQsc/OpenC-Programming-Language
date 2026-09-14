@@ -86,11 +86,11 @@ unsafe usize advance_token(ref ParserContext context) {
 }
 
 unsafe bool parser_check(ref ParserContext context, text expected) {
-    return token_matches(context, current_token(context), expected);
+    return token_matches(context, context.cursor, expected);
 }
 
 unsafe bool parser_match(ref ParserContext context, text expected) {
-    if !parser_check(context, expected) {
+    if !token_matches(context, context.cursor, expected) {
         return false;
     }
     advance_token(context);
