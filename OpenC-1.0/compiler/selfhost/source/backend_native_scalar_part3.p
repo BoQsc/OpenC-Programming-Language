@@ -90,10 +90,20 @@ unsafe void native_emit_function(
     usize frame = x64_align_up(frame_cursor, 16) + 8;
     usize code_capacity = context.instructions.length * 1024 +
         maximum_layout_size * 32 + 65536;
+    usize relocation_capacity = context.instructions.length * 32 + 32;
     usize constant_capacity = context.source.length * 2 + 256;
     // A call-free function cannot enter a runtime intrinsic emitter.  Its
     // constant section contains only decoded source literals, whose encoded
     // IR spans are a conservative exact bound, plus one terminator each.
+    if !function_has_call && scope_count == 0 {
+        code_capacity = context.instructions.length * 256 +
+            maximum_layout_size * 32 + 4096;
+        // The densest call-free, scope-free lowering is a checked float-to-
+        // integer cast: its exactness and range guards contribute six fault
+        // relocations. Reserve one final slot for the mandatory malformed-
+        // fallthrough trap.
+        relocation_capacity = context.instructions.length * 6 + 1;
+    }
     if !function_has_call {
         constant_capacity = direct_constant_capacity;
     }
@@ -113,8 +123,7 @@ unsafe void native_emit_function(
         return;
     }
     NativeFunction function = NativeFunction{
-        code = x64_code_create(code_capacity,
-            context.instructions.length * 32 + 32),
+        code = x64_code_create(code_capacity, relocation_capacity),
         constants = d_buffer_create(constant_capacity),
         first_value = first, frame_size = frame,
         indirect_return = native_indirect_aggregate(context,
