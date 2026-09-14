@@ -75,8 +75,11 @@ SH-27 per-function unwind arenas:       FIXED; DIRECT SINGLE-OP ENCODING
 SH-27 retained parser copying:          FIXED; FIVE-WORD LOOPS -> BULK COPY
 SH-27 call-free native scratch:         FIXED; IR-BOUNDED CODE/RELOCATIONS
 SH-27 non-cast relocation scratch:      FIXED; FOUR-EDGE IR BOUND
-SH-27 large Clang parity:               PASS LATEST; 1.116x
-SH-27 large-corpus scaling:             OPEN; OPENC 1.075 S / MSVC 0.506 S
+SH-27 source-text cache:                FIXED; 10 MIB -> 640 KIB
+SH-27 path-join cache:                  FIXED; 3 MIB -> 768 KIB
+SH-27 transition bootstrap:             FIXED; STAGE 2 == STAGE 3
+SH-27 large Clang parity:               PASS LATEST; 1.099x
+SH-27 large-corpus scaling:             OPEN; OPENC 1.056 S / MSVC 0.500 S
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
@@ -297,4 +300,17 @@ Clean run 34835402812 proves the 7,178,240-byte
 `d681b6fd...74ba3cee` fixed point and reaches a 1.014-second large median:
 2.016x MSVC, 0.992x Clang, and 3.130x DMD64. Every small/many-file and large
 Clang gate passes; large MSVC/DMD and broad parity remain open.
+The explicitly initialized source-text cache is now bounded from 10 MiB to
+640 KiB. Removing its clear was rejected by run 34839072231 when the stronger
+bootstrap check exposed a generation transition; the harness now permits that
+transition and requires byte-exact stage-two/stage-three closure. Run
+34863528233 passes at `0787d816...32059`. Eleven local alternating pairs
+preserve exact output while reducing private bytes by 9,748,480 and working
+set by 9,830,400 in every pair. The collision-safe path-join cache then falls
+from 3 MiB to 768 KiB. Eleven more pairs give 8 wins, a -31-millisecond paired
+total, and another 2,355,200 private / 2,363,392 working-set byte reduction.
+Clean run 34864294052 proves the `6c1baf87...d87e9` fixed point and every guard.
+Its large median is 1.056 seconds: 2.112x MSVC, 1.099x Clang, and 3.280x DMD64.
+Temporary profiling identifies parsing itself as the next declaration target;
+large MSVC/DMD and broad parity remain open.
 Linux, freestanding, and ARM64 remain optional later targets.

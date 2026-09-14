@@ -230,3 +230,38 @@ milliseconds declarations, 236 validation, 110 expression acceptance, 125 IR
 lowering, and 188 native emission. Large MSVC/DMD and broad parity remain
 open. The retained artifact ZIP is 13,812,790 bytes with SHA-256
 `b307c968a9eeed277c8c231b4d2722a8073a2eca41af2238b5d302eae3e69c9c`.
+
+Runs 34839072231 and 34863528233 then test and correct native source-cache
+initialization. Removing the explicit 10 MiB clear reduces local memory and
+project-load time, but the first workflow correctly rejects it because the
+seed-to-stage-one generation is not byte exact. The retained implementation
+keeps deterministic initialization and bounds the direct-mapped cache from
+262,144 to 16,384 entries, reducing its storage from 10 MiB to 640 KiB.
+Eleven alternating local pairs preserve exact output, reduce private bytes by
+9,748,480 and working set by 9,830,400 in every pair, and leave total time
+flat. Generated-runtime changes require one transition compiler, so the
+production harness now builds three stages and requires stage two and stage
+three to be byte identical. Run 34863528233 passes that stronger check at
+`0787d816...32059`; 278/278 native fixtures also pass locally. Its retained
+artifact ZIP is 15,176,896 bytes with SHA-256
+`29e8b12c2a89cd9b630900529138a9e0cef4936a4a8b874342c2c536f3d004c0`.
+
+Run 34864294052 then verifies the same bounded design for path joins. The
+direct-mapped cache falls from 65,536 to 16,384 entries, or 3 MiB to 768 KiB,
+while collisions still recompute and replace the entry. Eleven alternating
+local pairs produce eight wins, a -31-millisecond median paired total, and
+reductions of 2,355,200 private bytes and 2,363,392 working-set bytes in every
+pair. The clean run proves the stage-two/stage-three `6c1baf87...d87e9` fixed
+point and passes all version, correctness, execution, output, and RAM checks.
+Small OpenC/MSVC/Clang/DMD medians are 0.086/0.108/0.128/0.160 seconds,
+many-file medians are 0.200/0.352/0.861/0.168 seconds, and large medians are
+1.056/0.500/0.961/0.322 seconds. Large ratios are 2.112x MSVC, 1.099x Clang,
+and 3.280x DMD64. The full guarded self-build median is 6.116 seconds, with
+183,390,208 private and 68,718,592 working-set bytes. Shared-runner large phase
+medians are 266 milliseconds declarations, 249 validation, and 439 combined
+lowering/emission. Temporary local phase instrumentation was removed after it
+showed that parsing itself dominates declaration time; file reads are below
+the clock tick, lexing is materially smaller, and retained-record copying is
+not the bottleneck. Parser call overhead is the next measured target. The
+retained artifact ZIP is 15,176,831 bytes with SHA-256
+`0b5153c81c9ffaf3dff45370d854888700b60fe03bbe192b5b5093bdc636d42b`.

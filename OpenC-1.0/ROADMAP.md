@@ -375,6 +375,17 @@ IR reach closure. Exact evidence and reproduction commands are in
       and IR lowering to 125 milliseconds. Clean run 34835402812 proves the
       7,178,240-byte `d681b6fd...74ba3cee` fixed point and reaches 1.014
       seconds: 2.016x MSVC, 0.992x Clang, and 3.130x DMD64.
+      Explicitly initialized, collision-safe source-text and path-join caches
+      are then bounded from 10 MiB to 640 KiB and from 3 MiB to 768 KiB.
+      The harness now permits one generated-runtime transition stage and
+      requires byte-exact stage-two/stage-three closure. Local paired evidence
+      removes 12,103,680 private bytes and 12,193,792 working-set bytes across
+      the two changes, while the path-cache change wins 8 of 11 alternating
+      pairs and reduces the paired total by 31 milliseconds. Clean run
+      34864294052 proves the 7,178,240-byte `6c1baf87...d87e9` fixed point and
+      records 1.056 seconds: 2.112x MSVC, 1.099x Clang, and 3.280x DMD64.
+      Temporary profiling identifies parsing itself, rather than file I/O,
+      lexing, or retained-record copying, as the next declaration target.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
