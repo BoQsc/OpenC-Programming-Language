@@ -364,6 +364,12 @@ IR reach closure. Exact evidence and reproduction commands are in
       functions then gives 8 wins, 1 tie, and 2 losses across eleven local
       order-alternated pairs. Clean run 34810131926 reaches 1.075 seconds:
       2.125x MSVC, 1.116x Clang, and 3.446x DMD64.
+      Indexed enum absence then skips the enum validator's full syntax pass
+      without changing enum-bearing or non-indexed behavior. Clean run
+      34811322028 proves the 7,175,680-byte `53394df7...dbde83e6` fixed point
+      and reaches 1.058 seconds: 2.058x MSVC, 0.999x Clang, and 3.094x DMD64.
+      Clean expression acceptance remains 139 milliseconds and combined
+      lowering/emission 407 milliseconds; these are the next measured targets.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

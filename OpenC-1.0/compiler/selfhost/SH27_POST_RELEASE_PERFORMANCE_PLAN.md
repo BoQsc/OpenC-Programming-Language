@@ -183,3 +183,25 @@ many-file medians of 0.191/0.343/0.852/0.160 seconds, and large medians of
 1.075/0.506/0.963/0.312 seconds. Large ratios are 2.125x MSVC, 1.116x Clang,
 and 3.446x DMD64. The retained artifact ZIP is 13,809,470 bytes with SHA-256
 `05a71ebf2c8b88a5d04fb37a46159366cbe3662917ddf1e6300d18bac6a373ba`.
+
+Run 34811322028 then uses the existing top-level symbol index to prove when a
+source has no enum declaration and skips the otherwise unconditional enum
+syntax pass. Enum-bearing sources retain the exact validator, and contexts
+without the index retain a source-symbol fallback. Eleven order-alternated
+local pairs reduce the `functions_scopes_enums` median from 31 to 16
+milliseconds and acceptance from 282 to 269 milliseconds; the paired deltas
+are -15 and -14 milliseconds respectively, while the whole-build paired
+median is flat. Every output remains byte-identical at
+`54fe73ad...90746b`, 278/278 native fixtures pass, and median process memory is
+effectively unchanged. The clean run rebuilds checked-out source to the
+byte-exact 7,175,680-byte `53394df7...dbde83e6` fixed point and passes every
+compiler-version, correctness, execution, output, and memory check. Its small
+OpenC/MSVC/Clang/DMD medians are 0.098/0.119/0.129/0.137 seconds, many-file
+medians are 0.190/0.361/0.929/0.170 seconds, and large medians are
+1.058/0.514/1.059/0.342 seconds. Large ratios are therefore 2.058x MSVC,
+0.999x Clang, and 3.094x DMD64. The clean large internal phase medians are 282
+milliseconds for declarations, 280 for validation, and 407 for combined
+lowering/emission; expression acceptance at 139 milliseconds is the next
+frontend target. Large MSVC/DMD and broad production parity remain open. The
+retained artifact ZIP is 13,811,055 bytes with SHA-256
+`d7a9110ef7542c71af36d89c1175d95504f05702d60ca69aaa274b8876f7150c`.

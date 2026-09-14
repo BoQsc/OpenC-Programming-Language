@@ -281,4 +281,12 @@ delta, and a 234-to-219-millisecond native-emission median with exact output.
 Clean run 34810131926 proves the 7,174,144-byte
 `eeecf5dd...4b350901` fixed point and records a 1.075-second large median:
 2.125x MSVC, 1.116x Clang, and 3.446x DMD64. Large MSVC/DMD remain open.
+The enum validator now uses the existing top-level symbol index to skip its
+full syntax pass for enum-free sources, while retaining exact enum and
+non-indexed paths. Local paired evidence reduces its containing group from 31
+to 16 milliseconds and acceptance from 282 to 269 milliseconds. Clean run
+34811322028 proves the 7,175,680-byte `53394df7...dbde83e6` fixed point and
+passes every guard. The large median is 1.058 seconds: 2.058x MSVC, 0.999x
+Clang, and 3.094x DMD64. Expression acceptance and combined native
+lowering/emission are next; large MSVC/DMD and broad parity remain open.
 Linux, freestanding, and ARM64 remain optional later targets.
