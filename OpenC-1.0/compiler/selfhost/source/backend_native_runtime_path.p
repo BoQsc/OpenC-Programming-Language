@@ -51,14 +51,16 @@ unsafe void native_path_join(ref NativeFunction function, usize left, usize righ
     x64_mov_r64_memory(function.code, 10, 11, 0);
     x64_emit_u8(function.code, 77); x64_emit_u8(function.code, 133);
     x64_emit_u8(function.code, 210); usize join_table_ready = native_skip(function.code, 5);
-    x64_mov_r64_imm64(function.code, 8, cast(u64, 3145728));
+    // 16,384 direct-mapped 48-byte entries bound path-join cache memory to
+    // 768 KiB. Collisions safely recompute and replace the cached spelling.
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 786432));
     native_heap_allocate_named_r8(function,
         "fatal[OPENC-NATIVE-ALLOC-BUDGET]: live allocations exceed 512 MiB in path.join cache\n");
     x64_mov_r64_r64(function.code, 10, 0);
     native_data_address(function, 48, 11);
     x64_mov_memory_r64(function.code, 11, 0, 10);
     x64_mov_r64_r64(function.code, 8, 10);
-    x64_mov_r64_imm64(function.code, 9, cast(u64, 3145728));
+    x64_mov_r64_imm64(function.code, 9, cast(u64, 786432));
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
     usize clear_join_table = function.code.bytes.length;
     native_runtime_store_byte(function, 8, 0);
@@ -78,7 +80,7 @@ unsafe void native_path_join(ref NativeFunction function, usize left, usize righ
     x64_add_r64_memory(function.code, 10, 4, 424);
     x64_mov_r64_memory(function.code, 11, 4, 440);
     x64_binary_r64_r64(function.code, 49, 10, 11);
-    x64_mov_r64_imm64(function.code, 11, cast(u64, 65535));
+    x64_mov_r64_imm64(function.code, 11, cast(u64, 16383));
     x64_binary_r64_r64(function.code, 33, 10, 11);
     x64_mov_r64_r64(function.code, 11, 10);
     x64_shift_r64_imm8(function.code, 4, 10, 5);
