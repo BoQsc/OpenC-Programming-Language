@@ -444,6 +444,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       improves median paired wall time by 12 milliseconds with identical
       executable hashes and flat RAM. Large MSVC/DMD deficits remain the
       primary performance target.
+      A fourth generated comparator lane now covers branches, local variables,
+      loops, and arithmetic in equivalent OpenC/C/D programs. Clean Windows
+      run 35794199084 passes pinned comparators, exact output, RAM guards, and
+      byte-exact bootstrap closure. Its control-flow compiler medians are
+      0.553/0.562/0.637/0.211 seconds for OpenC/MSVC/Clang/DMD: MSVC and Clang
+      pass the 1.25x gate, while DMD remains 2.621x faster. Assignment
+      validation accounts for about 141 milliseconds and is the next measured
+      frontend target. Large MSVC/DMD deficits also remain.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

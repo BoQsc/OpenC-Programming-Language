@@ -450,9 +450,22 @@ OpenC/C/D programs that exercise branches, local variables, loops, arithmetic,
 semantic validation, native code generation, and executable behavior. The
 existing 512 MiB process limits and 1.25x ratio gate apply unchanged. Local
 guarded OpenC and DMD64 builds both compile and execute the first-source
-oracle successfully, but MSVC/Clang comparison and clean-run ratios still
-require the Windows performance workflow. On the local host this fixture
-exposes a substantial new OpenC hotspot: 814 ms validation on 206,637 source
-bytes, of which 657 ms is acceptance, 642 ms expression checks, and 470 ms
-assignments. This workload is a measured target for the next optimization,
-not evidence of broad C/D parity.
+oracle successfully. Clean Windows run 35794199084 then passes every pinned
+comparator, compiler/executable correctness, exact-output, memory, and
+three-stage fixed-point check. The fixed-point compiler is unchanged at
+`6fb216ec...679b04a`; every control-flow OpenC executable hashes to
+`4494ddc0...5330d`. The 17,775,179-byte retained artifact ZIP has SHA-256
+`823a0b5a98c142868f946a52364409171b0c48aa122b615269ab9f6aaa48b42b`.
+Control-flow OpenC/MSVC/Clang/DMD medians are 0.553/0.562/0.637/0.211
+seconds: OpenC meets the 1.25x MSVC and Clang gate (0.984x and 0.868x), but
+misses DMD by 2.621x. Clean control-flow validation is about 282 ms, with
+140–141 ms in assignment checks; that is a measured next optimization target.
+The local host's earlier 814 ms validation on the same 206,637-byte OpenC
+tree reflects different host conditions and is not used as the comparator.
+Large-function medians on this run are 0.902/0.524/1.042/0.326 seconds,
+leaving 1.721x MSVC and 2.767x DMD deficits. Broad C/D parity remains open.
+Record-access, function-selection, operator-dispatch, and binary type-reuse
+candidates were discarded after guarded same-host pairs failed to show a
+credible wall-time gain. The next compiler change should address measured
+right-hand type inference in assignment validation without trading away
+control-flow correctness or memory stability.

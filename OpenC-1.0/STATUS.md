@@ -56,8 +56,9 @@ SH-26 GitHub workflow:                PASS; RUN 34770148453
 SH-26 final tag/release:               v1.0.0; d0f77f6; PUBLISHED
 SH-26 public assets:                   PASS; 15/15 STREAM-DOWNLOADED + SHA-256 EXACT
 SH-27 public integrity baseline:       PASS; 15/15, 48,681,989 BYTES
-SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 35790749519
+SH-27 production C/D corpus:           CLEAN WINDOWS PASS; RUN 35794199084
 SH-27 runtime file/allocation corpus:  CLEAN OPENC/MSVC/CLANG/DMD PASS; ALL <=1.25x
+SH-27 control-flow compile parity:     PASS MSVC 0.984x / CLANG 0.868x; DMD OPEN 2.621x
 SH-27 pointer-free validation scan:    FIXED; 13.138 S -> 0.000 S
 SH-27 indexed acceptance scans:        FIXED; 6.78 S -> ABOUT 0.12 S
 SH-27 candidate-free flow scans:       FIXED; FOUR GROUPS -> 0.000 S
@@ -81,8 +82,8 @@ SH-27 path-join cache:                  FIXED; 3 MIB -> 768 KIB
 SH-27 transition bootstrap:             FIXED; STAGE 2 == STAGE 3
 SH-27 parser token dispatch:            FIXED; TWO CALL LAYERS REMOVED
 SH-27 native byte emitter:              CLEAN PAIRED 10 WINS/1 TIE; -12 MS MEDIAN
-SH-27 large Clang parity:               PASS LATEST CLEAN RUN; 0.958x
-SH-27 large-corpus scaling:             OPEN; OPENC 0.756 S / MSVC 0.413 S / DMD 0.282 S
+SH-27 large Clang parity:               PASS LATEST CLEAN RUN; 0.866x
+SH-27 large-corpus scaling:             OPEN; OPENC 0.902 S / MSVC 0.524 S / DMD 0.326 S
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
