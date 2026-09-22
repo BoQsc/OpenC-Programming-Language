@@ -25,6 +25,20 @@ ROOT = Path(__file__).resolve().parents[2]
 REPOSITORY = ROOT.parent
 SCHEMA = "openc.sh27.production_comparators.v1"
 MIB = 1024 * 1024
+MIN_FREE_DISK_BYTES = 256 * MIB
+
+
+def require_disk_headroom(directory: Path, minimum_bytes: int = MIN_FREE_DISK_BYTES) -> int:
+    """Refuse a sample before it can fill its output volume mid-compile."""
+    volume = Path(directory.resolve().anchor)
+    free_bytes = shutil.disk_usage(volume).free
+    if free_bytes < minimum_bytes:
+        raise RuntimeError(
+            "SH27_DISK_HEADROOM: "
+            f"{volume} has {free_bytes} free bytes; "
+            f"at least {minimum_bytes} are required"
+        )
+    return free_bytes
 
 
 def sha256(path: Path) -> str:
@@ -448,6 +462,7 @@ def bootstrap_current_compiler(
         bootstrap_root / "stage3" / "openc.exe",
     ]
     for index, output in enumerate(outputs):
+        disk_free_before = require_disk_headroom(output.parent)
         output.parent.mkdir(parents=True, exist_ok=False)
         timing = output.parent / "timings.json"
         command = [
@@ -464,6 +479,7 @@ def bootstrap_current_compiler(
             max_captured_output_bytes=max_output_bytes,
         )
         measured["stage"] = index + 1
+        measured["disk_free_bytes_before"] = disk_free_before
         measured["command"] = command
         measured["output_exists"] = output.is_file()
         measured["output_bytes"] = output.stat().st_size if output.is_file() else None
@@ -539,6 +555,7 @@ def run_sample(
     max_output_bytes: int,
     execution_timeout: int,
 ) -> dict[str, object]:
+    disk_free_before = require_disk_headroom(sample_root)
     sample_root.mkdir(parents=True, exist_ok=True)
     output = sample_root / "program.exe"
     timing = sample_root / "openc-timings.json"
@@ -553,6 +570,7 @@ def run_sample(
         max_captured_output_bytes=max_output_bytes,
     )
     measured["command"] = command
+    measured["disk_free_bytes_before"] = disk_free_before
     measured["output_exists"] = output.is_file()
     measured["output_bytes"] = output.stat().st_size if output.is_file() else None
     measured["output_sha256"] = sha256(output) if output.is_file() else None
@@ -661,6 +679,7 @@ def main() -> int:
     output = args.output.resolve()
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     run_root = output.parent / f"{output.stem}-runs-{stamp}"
+    require_disk_headroom(output.parent)
     run_root.mkdir(parents=True, exist_ok=False)
 
     sample_interval = float(measurement["sample_interval_seconds"])

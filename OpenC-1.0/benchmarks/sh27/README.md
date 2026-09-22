@@ -18,6 +18,9 @@ order to reduce systematic bias and records every command, compiler identity,
 source-tree fingerprint, raw sample, median, p95, output bytes and SHA-256,
 and cache policy. Compiler and executable processes both have 512 MiB private
 and working-set limits, bounded captured output, and executable timeouts.
+Before each compiler sample or bootstrap stage, the harness also requires at
+least 256 MiB free on the output volume and records the observed free bytes.
+This rejects a full-volume run before it can leave a partial executable.
 
 Run on Windows from `OpenC-1.0`:
 

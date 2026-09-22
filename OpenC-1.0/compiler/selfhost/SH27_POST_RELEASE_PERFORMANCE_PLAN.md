@@ -488,3 +488,19 @@ medians are not evidence of an improvement because the comparator host also
 changed. The next speed work needs a larger architectural reduction in
 first-time semantic inference and/or pass count, not another unproven lookup
 micro-optimization.
+
+A later local large-pair sample failed with `OPENC-C-BACKEND-WRITE-FAILED`
+because the C: volume had zero free bytes, not because its compiler output
+changed. Ten exact, ignored directories from discarded local trials were
+verified inside `build-output/selfhost-sh27` and removed, recovering about
+646 MiB; the accepted baseline and active compiler candidate were retained.
+The production and paired Python harnesses now enforce a 256 MiB free-space
+floor before every compiler sample and bootstrap stage, and record the
+starting free space in raw evidence. A separate candidate replaced each
+integer-parser per-digit division with mathematically equivalent radix
+thresholds (100,000 randomized boundary checks per radix). It achieved the
+byte-exact three-stage compiler fixed point and exact program outputs, but
+the completed local large workload lost seven of eleven pairs with a
++62 ms median paired wall-time delta. That code was discarded. The remaining
+speed work still requires semantic-pass and first-inference reductions;
+full-volume and noisy-host artifacts must not be mistaken for compiler gains.

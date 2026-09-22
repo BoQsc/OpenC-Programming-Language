@@ -79,6 +79,13 @@ class Sh27ProductionTests(unittest.TestCase):
         sample["program_memory_limit_exceeded"] = True
         self.assertFalse(BENCHMARK.sample_passed(sample))
 
+    def test_disk_headroom_guard_reports_output_volume(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "nested" / "output"
+            self.assertGreaterEqual(BENCHMARK.require_disk_headroom(path, 0), 0)
+            with self.assertRaisesRegex(RuntimeError, "SH27_DISK_HEADROOM"):
+                BENCHMARK.require_disk_headroom(path, 10**30)
+
     @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
     def test_execution_timeout_kills_child(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

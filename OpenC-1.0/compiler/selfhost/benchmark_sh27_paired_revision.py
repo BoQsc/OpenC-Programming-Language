@@ -14,7 +14,7 @@ import sys
 import tempfile
 
 from benchmark_sh27_production import (
-    ROOT, MIB, generate_language, run_measured, run_sample, sha256,
+    ROOT, MIB, generate_language, require_disk_headroom, run_measured, run_sample, sha256,
     summarize, validate_corpus,
 )
 
@@ -42,6 +42,7 @@ def bootstrap(
     stages: list[Path] = []
     for number in (1, 2, 3):
         stage = run_root / "bootstrap" / name / f"stage{number}"
+        disk_free_before = require_disk_headroom(stage)
         stage.mkdir(parents=True, exist_ok=False)
         output = stage / "openc.exe"
         command = [
@@ -58,6 +59,7 @@ def bootstrap(
         )
         sample["command"] = command
         sample["stage"] = number
+        sample["disk_free_bytes_before"] = disk_free_before
         sample["output_exists"] = output.is_file()
         sample["output_sha256"] = sha256(output) if output.is_file() else None
         sample["passed"] = bool(
@@ -123,6 +125,7 @@ def main() -> int:
         output.stem + "-runs-" +
         datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     )
+    require_disk_headroom(output.parent)
     run_root.mkdir(parents=True, exist_ok=False)
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="openc-sh27-pair-") as temporary:
