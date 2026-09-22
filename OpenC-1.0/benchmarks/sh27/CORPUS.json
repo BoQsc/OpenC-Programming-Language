@@ -22,6 +22,14 @@
       "operations_per_function": 12
     }
   ],
+  "runtime_workload": {
+    "id": "startup_file_allocation",
+    "fixture": "runtime",
+    "iterations": 64,
+    "allocation_bytes": 4096,
+    "output_file": "sh27-runtime-payload.bin",
+    "expected_stdout_line": "SH27_RUNTIME_OK"
+  },
   "measurement": {
     "minimum_runs": 3,
     "sample_interval_seconds": 0.01,

@@ -417,6 +417,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       1.826x MSVC and 2.976x DMD (Clang passes at 0.882x). Assignment
       validation is 93 of 108 clean expression milliseconds and remains
       the next target.
+      A checked-in Windows runtime fixture now adds equivalent OpenC/C/D
+      startup, repeated 4 KiB allocation, file write/read, verification,
+      and cleanup. Compiler and produced executables both run under bounded
+      private/working-set RAM and captured-output guards; the executable also
+      has a timeout. The local OpenC/DMD run passes exact payload SHA-256 and
+      output parity. The clean MSVC/Clang/DMD workflow run, broader real-project
+      corpus, incremental object reuse, and large MSVC/DMD compiler-time
+      deficit are the next SH-27 work, not completed parity claims.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

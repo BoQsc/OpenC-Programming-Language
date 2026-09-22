@@ -6,13 +6,17 @@ ISO C `.c`, and D `.d` programs. Each compiler must parse declarations and
 function bodies, perform semantic checks, generate native code, and link a
 Windows executable. The produced executable must run successfully.
 
-The three checked-in workload descriptions cover command startup, many-file
-project overhead, and many/large-function scaling. The harness also measures a
-same-output one-source-edit sequence, executable startup, output bytes and
-SHA-256, compiler peak private bytes and working set, and the complete OpenC
-compiler self-build. It rotates compiler order to reduce systematic bias and
-records every command, compiler identity, source-tree fingerprint, raw sample,
-median, p95, and cache policy.
+The three generated workload descriptions cover command startup, many-file
+project overhead, and many/large-function scaling. The checked-in
+`runtime/{openc,c,d}` fixtures additionally exercise executable startup,
+64 rounds of 4 KiB allocation, typed data writes and reads, file I/O, and
+cleanup. Each run must print the expected line and produce the exact 4 KiB
+payload digest. The harness also measures a same-output one-source-edit
+sequence and the complete OpenC compiler self-build. It rotates compiler
+order to reduce systematic bias and records every command, compiler identity,
+source-tree fingerprint, raw sample, median, p95, output bytes and SHA-256,
+and cache policy. Compiler and executable processes both have 512 MiB private
+and working-set limits, bounded captured output, and executable timeouts.
 
 Run on Windows from `OpenC-1.0`:
 
@@ -35,7 +39,9 @@ build`, is not packaged as part of the compiler, and does not weaken the
 already-complete standalone toolchain independence claim. Likewise, the C and
 D compilers are comparison subjects only.
 
-This tranche deliberately does not claim that generated arithmetic programs
-alone represent every production codebase. File-I/O/allocation runtime work,
-incremental object reuse, LDC, and broader real-project suites remain explicit
-SH-27 expansion items until measured.
+This tranche deliberately does not claim that synthetic arithmetic plus the
+small runtime fixture represents every production codebase. Incremental object
+reuse, LDC, and broader real-project suites remain explicit SH-27 expansion
+items until measured. A 1.25x compiler-time parity gate includes the runtime
+fixture; executable-time results are reported separately, without promoting a
+single small fixture to a broad runtime-performance claim.

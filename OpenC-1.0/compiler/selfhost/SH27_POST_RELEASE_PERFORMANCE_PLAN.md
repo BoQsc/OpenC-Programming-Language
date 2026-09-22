@@ -359,3 +359,18 @@ and 282 combined lowering/emission; compiler-owned subphases are 31 indexing,
 in the prior clean run too, so the lower absolute OpenC median is not treated
 as a same-host relative parity gain. Assignment resolution and right-side
 type inference remain the next measured targets.
+
+The next corpus expansion adds a checked-in startup/file-I/O/allocation
+fixture in OpenC, C, and D. Each executable performs 64 rounds of 4 KiB
+allocation, typed writes, file write/read, value verification, and cleanup.
+The harness now guards executable private bytes and working set as well as
+compiler processes, enforces a 30-second executable timeout, and requires an
+exact final 4 KiB payload digest and one success line. A local three-sample
+OpenC/DMD comparison passes every correctness and RAM check; its runtime-lane
+compile medians are 0.256/0.198 seconds and its executable medians are
+0.414/0.770 seconds. This is a partial comparator set, not a clean-run or
+broad runtime-parity claim. The next clean workflow must execute the same
+fixture with pinned MSVC and Clang. Incremental object reuse, LDC, broader
+real-project programs, and the measured large MSVC/DMD compile deficits remain
+open. Public 15/15 release-asset integrity was reverified before this change;
+the five external review tracks remain open with no reviews received.

@@ -76,6 +76,7 @@ def run_measured(
     max_working_set_bytes: int | None = None,
     max_private_bytes: int | None = None,
     max_captured_output_bytes: int = 8 * 1024 * 1024,
+    timeout_seconds: float | None = None,
 ) -> dict[str, object]:
     if os.name != "nt":
         raise RuntimeError("Windows process measurement is Windows-only")
@@ -83,6 +84,8 @@ def run_measured(
         raise ValueError("sample interval must be positive")
     if max_captured_output_bytes <= 0:
         raise ValueError("captured output limit must be positive")
+    if timeout_seconds is not None and timeout_seconds <= 0:
+        raise ValueError("timeout must be positive")
     started = time.perf_counter()
     with tempfile.TemporaryFile() as stdout_file, tempfile.TemporaryFile() as stderr_file:
         process = subprocess.Popen(
@@ -101,11 +104,19 @@ def run_measured(
         memory_limit_name = ""
         memory_limit_bytes = 0
         memory_observed_bytes = 0
+        timed_out = False
         kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
         kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
         kernel32.CloseHandle.restype = wintypes.BOOL
         try:
             while process.poll() is None:
+                if (
+                    timeout_seconds is not None
+                    and time.perf_counter() - started >= timeout_seconds
+                ):
+                    timed_out = True
+                    process.kill()
+                    break
                 try:
                     counters = _process_memory(handle)
                 except OSError:
@@ -179,6 +190,7 @@ def run_measured(
         "memory_limit_name": memory_limit_name,
         "memory_limit_bytes": memory_limit_bytes,
         "memory_observed_bytes": memory_observed_bytes,
+        "timed_out": timed_out,
         "exit_code": process.returncode,
         "stdout": stdout,
         "stderr": stderr,

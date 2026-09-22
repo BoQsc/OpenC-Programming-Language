@@ -59,6 +59,18 @@ def summarize(samples: list[dict[str, object]]) -> dict[str, object]:
     }
 
 
+def summarize_programs(samples: list[dict[str, object]]) -> dict[str, object]:
+    return summarize([
+        {
+            "elapsed_seconds": sample["program_elapsed_seconds"],
+            "peak_private_bytes": sample["program_peak_private_bytes"],
+            "peak_working_set_bytes": sample["program_peak_working_set_bytes"],
+        }
+        for sample in samples
+        if sample.get("program_elapsed_seconds") is not None
+    ])
+
+
 def validate_corpus(corpus: dict[str, object]) -> None:
     if corpus.get("schema") != "openc.sh27.production_corpus.v1":
         raise SystemExit("unsupported SH-27 corpus schema")
@@ -80,6 +92,16 @@ def validate_corpus(corpus: dict[str, object]) -> None:
             raise SystemExit(f"function limit rejected workload: {identifier}")
         if operations < 1 or operations > int(limits["maximum_operations_per_function"]):
             raise SystemExit(f"operation limit rejected workload: {identifier}")
+    runtime = corpus["runtime_workload"]
+    if (
+        runtime["id"] in seen
+        or runtime["fixture"] != "runtime"
+        or int(runtime["iterations"]) != 64
+        or int(runtime["allocation_bytes"]) != 4096
+        or runtime["output_file"] != "sh27-runtime-payload.bin"
+        or runtime["expected_stdout_line"] != "SH27_RUNTIME_OK"
+    ):
+        raise SystemExit("unsupported SH-27 runtime fixture contract")
 
 
 def source_tree_record(directory: Path, suffix: str) -> dict[str, object]:
@@ -99,6 +121,33 @@ def source_tree_record(directory: Path, suffix: str) -> dict[str, object]:
         "bytes": sum(int(item["bytes"]) for item in records),
         "sha256": combined.hexdigest(),
         "records": records,
+    }
+
+
+def runtime_input(language: str, workload: dict[str, object]) -> dict[str, object]:
+    suffix = {"openc": ".p", "msvc": ".c", "dmd": ".d"}[language]
+    fixture_language = {"openc": "openc", "msvc": "c", "dmd": "d"}[language]
+    directory = ROOT / "benchmarks" / "sh27" / str(workload["fixture"]) / fixture_language
+    source = directory / f"main{suffix}"
+    project = directory / "openc.project.json" if language == "openc" else None
+    if not source.is_file() or (project is not None and not project.is_file()):
+        raise SystemExit(f"missing checked-in SH-27 runtime fixture: {directory}")
+    iterations = int(workload["iterations"])
+    allocation_bytes = int(workload["allocation_bytes"])
+    expected_bytes = b"".join(
+        (iterations - 1 + offset).to_bytes(8, "little")
+        for offset in range(0, allocation_bytes, 8)
+    )
+    return {
+        "directory": directory,
+        "sources": [source],
+        "project": project,
+        "tree": source_tree_record(directory, suffix),
+        "project_sha256": sha256(project) if project is not None else None,
+        "expected_output_file": str(workload["output_file"]),
+        "expected_output_bytes": allocation_bytes,
+        "expected_output_sha256": hashlib.sha256(expected_bytes).hexdigest(),
+        "expected_stdout_line": str(workload["expected_stdout_line"]),
     }
 
 
@@ -339,6 +388,10 @@ def sample_passed(sample: dict[str, object]) -> bool:
         and sample.get("output_exists")
         and int(sample.get("program_exit_code", -1)) == 0
         and not sample.get("program_timed_out")
+        and not sample.get("program_memory_limit_exceeded")
+        and not sample.get("program_stdout_truncated")
+        and not sample.get("program_stderr_truncated")
+        and sample.get("program_output_matches", True)
     )
 
 
@@ -474,19 +527,48 @@ def run_sample(
     measured["program_exit_code"] = None
     measured["program_elapsed_seconds"] = None
     measured["program_timed_out"] = False
+    measured["program_memory_limit_exceeded"] = False
+    measured["program_stdout_truncated"] = False
+    measured["program_stderr_truncated"] = False
+    measured["program_output_matches"] = False
     if int(measured["exit_code"]) == 0 and output.is_file():
-        started = time.perf_counter()
-        try:
-            executed = subprocess.run(
-                [str(output)], cwd=sample_root, capture_output=True,
-                timeout=execution_timeout,
+        executed = run_measured(
+            [str(output)], cwd=sample_root, environment=environment,
+            sample_interval=sample_interval,
+            max_private_bytes=max_private_bytes,
+            max_working_set_bytes=max_working_set_bytes,
+            max_captured_output_bytes=max_output_bytes,
+            timeout_seconds=execution_timeout,
+        )
+        measured["program_exit_code"] = executed["exit_code"]
+        measured["program_elapsed_seconds"] = executed["elapsed_seconds"]
+        measured["program_timed_out"] = executed["timed_out"]
+        measured["program_memory_limit_exceeded"] = executed["memory_limit_exceeded"]
+        measured["program_peak_private_bytes"] = executed["peak_private_bytes"]
+        measured["program_peak_working_set_bytes"] = executed["peak_working_set_bytes"]
+        measured["program_stdout_truncated"] = executed["stdout_truncated"]
+        measured["program_stderr_truncated"] = executed["stderr_truncated"]
+        measured["program_stdout_bytes"] = len(str(executed["stdout"]).encode("utf-8"))
+        measured["program_stderr_bytes"] = len(str(executed["stderr"]).encode("utf-8"))
+        measured["program_stdout_sha256"] = hashlib.sha256(
+            str(executed["stdout"]).encode("utf-8")
+        ).hexdigest()
+        measured["program_stderr_sha256"] = hashlib.sha256(
+            str(executed["stderr"]).encode("utf-8")
+        ).hexdigest()
+        if "expected_output_file" in input_record:
+            payload = sample_root / str(input_record["expected_output_file"])
+            measured["program_payload_exists"] = payload.is_file()
+            measured["program_payload_bytes"] = payload.stat().st_size if payload.is_file() else None
+            measured["program_payload_sha256"] = sha256(payload) if payload.is_file() else None
+            measured["program_output_matches"] = bool(
+                str(executed["stdout"]).splitlines() == [input_record["expected_stdout_line"]]
+                and not executed["stderr"]
+                and measured["program_payload_bytes"] == input_record["expected_output_bytes"]
+                and measured["program_payload_sha256"] == input_record["expected_output_sha256"]
             )
-            measured["program_exit_code"] = executed.returncode
-            measured["program_stdout_bytes"] = len(executed.stdout)
-            measured["program_stderr_bytes"] = len(executed.stderr)
-        except subprocess.TimeoutExpired:
-            measured["program_timed_out"] = True
-        measured["program_elapsed_seconds"] = round(time.perf_counter() - started, 6)
+        else:
+            measured["program_output_matches"] = True
     measured["passed"] = sample_passed(measured)
     return measured
 
@@ -664,6 +746,55 @@ def main() -> int:
             },
         }
 
+    runtime_workload = corpus["runtime_workload"]
+    runtime_id = str(runtime_workload["id"])
+    runtime_inputs = {
+        language: runtime_input(language, runtime_workload)
+        for language in ("openc", "msvc", "dmd")
+    }
+    runtime_samples: dict[str, list[dict[str, object]]] = {
+        name: [] for name in available
+    }
+    for run in range(args.runs):
+        rotated = available[run % len(available):] + available[:run % len(available)]
+        for tool in rotated:
+            path, environment = resolved[tool]
+            sample = run_sample(
+                tool=tool, executable=path, environment=environment,
+                input_record=runtime_inputs[language_for_tool[tool]],
+                sample_root=run_root / "runtime" / runtime_id / tool / f"run-{run + 1:02d}",
+                sample_interval=sample_interval,
+                max_private_bytes=max_private,
+                max_working_set_bytes=max_working,
+                max_output_bytes=max_output,
+                execution_timeout=execution_timeout,
+            )
+            sample["run"] = run + 1
+            sample["cache_state"] = "first_observation" if run == 0 else "warm_os_cache"
+            runtime_samples[tool].append(sample)
+            integrity = integrity and bool(sample["passed"])
+            print(f"{runtime_id}: {tool} {run + 1}/{args.runs}", flush=True)
+    lanes[runtime_id] = {
+        "workload": runtime_workload,
+        "inputs": {
+            language: {
+                **record["tree"],
+                "project_sha256": record["project_sha256"],
+                "expected_output_bytes": record["expected_output_bytes"],
+                "expected_output_sha256": record["expected_output_sha256"],
+            }
+            for language, record in runtime_inputs.items()
+        },
+        "compilers": {
+            tool: {
+                "summary": summarize(samples),
+                "execution_summary": summarize_programs(samples),
+                "samples": samples,
+            }
+            for tool, samples in runtime_samples.items()
+        },
+    }
+
     edit_workload_id = "many_files"
     edit_lanes: dict[str, object] = {}
     for tool in available:
@@ -765,7 +896,7 @@ def main() -> int:
     ratios: dict[str, dict[str, float]] = {}
     ratio_limit = float(corpus["parity"]["maximum_openc_to_comparator_median_ratio"])
     ratio_checks: dict[str, bool] = {}
-    for workload in corpus["workloads"]:
+    for workload in [*corpus["workloads"], runtime_workload]:
         workload_id = str(workload["id"])
         compilers = lanes[workload_id]["compilers"]
         open_median = float(compilers["openc"]["summary"]["median_seconds"])
@@ -847,7 +978,6 @@ def main() -> int:
             "broad_production_parity": parity,
             "normal_toolchain_independence_changed": False,
             "remaining_corpus_expansion": [
-                "file I/O and allocation runtime workloads",
                 "incremental object reuse/build-system integration",
                 "LDC comparator",
                 "broader real-project corpus",

@@ -53,6 +53,10 @@ jobs:
         with:
           compiler: dmd-2.112.0
 
+      - name: Validate SH-27 harness and runtime oracle
+        shell: cmd
+        run: python -m unittest discover -s OpenC-1.0\tests\python -p test_sh27_production.py -v
+
       - name: Run bounded production compiler corpus
         shell: cmd
         run: >-
