@@ -542,3 +542,17 @@ than either median shift, so this candidate was discarded. Native address
 arithmetic is not a credible explanation for the remaining 1.787x MSVC and
 2.843x DMD large-workload deficits; SH-27 still needs a measured architectural
 reduction in semantic work or generated compiler instruction count.
+
+A follow-up trial ran binary validation before assignment validation and
+preseeded the inferred type of simple numeric-name arithmetic from the operand
+types already checked. Its three self-build stages were byte-identical at
+`65002bd2...d1fff0`, and both 11-pair local workloads retained exact output
+and the 512 MiB memory gates. On one control-flow sample, assignment timing
+fell from 281 to 78 ms but total expression validation only fell from 343 to
+327 ms: the work largely moved into the earlier binary pass. Control-flow
+paired wall median was -1 ms (within noise); large-function median was -10 ms
+with seven wins and four losses, below 1% of local baseline time. Because it
+changes diagnostic rule order for negligible total gain, it too was discarded.
+The next candidate must remove semantic work rather than merely change which
+validation group pays for it; whole-compiler wall time and memory remain the
+acceptance criteria.
