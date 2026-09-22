@@ -452,6 +452,19 @@ IR reach closure. Exact evidence and reproduction commands are in
       pass the 1.25x gate, while DMD remains 2.621x faster. Assignment
       validation accounts for about 141 milliseconds and is the next measured
       frontend target. Large MSVC/DMD deficits also remain.
+      Clean run 35797651687 retains every correctness, fixed-point, and RAM
+      pass but measures large OpenC/MSVC/Clang/DMD medians of
+      0.890/0.498/1.033/0.313 seconds (1.787x MSVC, 2.843x DMD); control
+      flow is 2.806x DMD. The new 256 MiB disk-headroom guard also passes.
+      Multiple byte-exact, memory-bounded local trials of lookup shortcuts,
+      syntax-node indexing, record-address code generation, and binary-first
+      validation failed to remove material whole-compiler time; none was
+      promoted. Next: eliminate repeated first-time semantic work across
+      validation and lowering with a bounded typed-expression representation,
+      prove unchanged diagnostics and three-stage fixed points, then demand
+      a same-host paired wall-time gain on both large and control-flow cases.
+      Follow with real-project and incremental-build comparators plus LDC;
+      Linux and freestanding remain optional future work.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
