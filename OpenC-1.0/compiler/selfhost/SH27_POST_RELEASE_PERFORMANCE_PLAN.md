@@ -530,3 +530,15 @@ That index was discarded. Skipping nonmatching expression nodes therefore
 does not justify more memory on these workloads. The next candidate should
 reduce the cost of resolving a first-time name/binary type or safely fuse
 semantic work, with a directly measured phase gain and same-host wall gain.
+
+A native-code-generation trial replaced the compiler's fixed 40-byte record
+address multiply with an x64 scaled-address/shift sequence. It produced a
+byte-exact three-stage bootstrap (`8272c176...45271` at stages 2 and 3),
+and all 11 local pairs in both the large-function and control-flow workloads
+passed the 512 MiB memory and exact-program-output gates. Large-function
+paired median changed by only -7 ms (six wins, five losses); control-flow
+paired median changed by +8 ms (five wins, six losses). Host noise was larger
+than either median shift, so this candidate was discarded. Native address
+arithmetic is not a credible explanation for the remaining 1.787x MSVC and
+2.843x DMD large-workload deficits; SH-27 still needs a measured architectural
+reduction in semantic work or generated compiler instruction count.
