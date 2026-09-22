@@ -57,17 +57,31 @@ unsafe bool backend_native_scalar_emit_basic(
         native_store(function, result, 0); return true;
     }
     if opcode == ir_op_const_integer() || opcode == ir_op_const_bool() {
-        DBuffer literal = d_buffer_create(128);
-        d_put_instruction_text(context, literal, instruction);
         u64 value = cast(u64, 0);
         if opcode == ir_op_const_bool() {
+            DBuffer literal = d_buffer_create(128);
+            d_put_instruction_text(context, literal, instruction);
             if d_buffer_text(literal) == "true" { value = cast(u64, 1); }
+            d_buffer_destroy(literal);
         } else {
-            NativeInteger parsed = native_integer_bits(d_buffer_text(literal));
-            if !parsed.valid { function.code.ok = false; }
-            value = parsed.value;
+            usize text_kind = read_record_field(
+                context.instruction_detail, instruction, 0
+            );
+            if text_kind == 4 {
+                value = cast(u64, read_record_field(
+                    context.instruction_detail, instruction, 1
+                ));
+            } else {
+                DBuffer literal = d_buffer_create(128);
+                d_put_instruction_text(context, literal, instruction);
+                NativeInteger parsed = native_integer_bits(
+                    d_buffer_text(literal)
+                );
+                d_buffer_destroy(literal);
+                if !parsed.valid { function.code.ok = false; }
+                value = parsed.value;
+            }
         }
-        d_buffer_destroy(literal);
         x64_mov_r64_imm64(function.code, 0, value);
         native_store(function, result, 0); return true;
     }

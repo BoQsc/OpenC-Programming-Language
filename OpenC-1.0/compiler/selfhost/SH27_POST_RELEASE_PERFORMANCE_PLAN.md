@@ -294,3 +294,19 @@ milliseconds indexing, 125 IR lowering, and 220 native emission. Native
 emission is the next measured target. The retained artifact ZIP is 15,176,688
 bytes with SHA-256
 `43b92abfce95783db7b9b0455fd1d5b9f7a52df779fb07dc217d08d8105d630a`.
+
+Integer constants within the signed parser range are now lowered to numeric
+IR immediates. Native emission consumes their bits directly, avoiding a
+temporary text buffer and second integer parse. Existing source-text handling
+remains for large unsigned and negative literals. Eleven alternating local
+pairs against the previous accepted compiler show 9 total-time wins, 1 tie,
+and 1 loss; the median paired total improves by 46 milliseconds, with paired
+IR lowering improving 30 milliseconds and native emission 12 milliseconds.
+All pairs preserve the `54fe73ad...90746b` production output and essentially
+flat peak memory. The 7,179,776-byte stage-two/stage-three compiler matches
+byte-for-byte at `ebf1c4f4...fddcd45`; 278/278 conformance fixtures pass under
+the process memory guard. A dedicated executable covers signed and unsigned
+64-bit boundaries, decimal separators, binary/hex radix, negative literals,
+and enum constants; candidate and prior-compiler PE hashes are identical at
+`8fa53c4c...fa3d990a`, and both exit zero. Clean shared-runner evidence is
+pending before this is counted as an accepted SH-27 throughput advance.

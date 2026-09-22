@@ -394,6 +394,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       records 1.002 seconds: 1.942x MSVC, 1.018x Clang, and 3.074x DMD64.
       Declarations now measure 188 milliseconds; native emission becomes the
       largest measured subphase.
+      Numeric IR immediates then remove text materialization and reparsing for
+      signed-range integer constants while preserving fallback paths for large
+      unsigned and negative literals. Eleven alternating local pairs show a
+      46-millisecond median paired total gain, 9 wins and 1 tie, exact large
+      output, flat RAM, byte-identical stage-two/stage-three closure, and
+      278/278 conformance. Boundary-literal executable bytes also match the
+      prior compiler. A clean shared-runner comparison is the next acceptance
+      gate; native emission and large MSVC/DMD parity remain the focus.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

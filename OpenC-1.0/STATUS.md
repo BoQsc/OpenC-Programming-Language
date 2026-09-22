@@ -326,4 +326,15 @@ with no targeted improvement is discarded. Clean run 34866286255 proves the
 `ec395588...e73a0` fixed point and every guard. Its large median is 1.002
 seconds: 1.942x MSVC, 1.018x Clang, and 3.074x DMD64. Declarations fall to a
 188-millisecond median; native emission is now the largest measured subphase.
+Integer literals that fit the signed parser range now enter IR as numeric
+immediates, and the native backend emits those bits directly; larger unsigned
+and negative literal paths retain their prior parsing behavior. Eleven
+order-alternated local pairs show a 46-millisecond median paired total gain
+(9 wins, 1 tie), with exact large-corpus output and effectively flat RAM.
+The 7,179,776-byte stage-two/stage-three compiler is byte identical at
+`ebf1c4f4...fddcd45`; 278/278 conformance fixtures pass. A new executable
+probe covers signed/unsigned limits, decimal separators, binary/hex radix,
+negative literals, and enums; its PE bytes match the previous compiler and
+both binaries exit successfully. Clean shared-runner parity is still pending;
+the next measured target remains native emission and large MSVC/DMD parity.
 Linux, freestanding, and ARM64 remain optional later targets.
