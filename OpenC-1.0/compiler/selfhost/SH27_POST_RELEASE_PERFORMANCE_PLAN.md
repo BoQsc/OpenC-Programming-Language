@@ -426,3 +426,20 @@ survives a clean host because the comparator baselines changed too. A
 same-host baseline/candidate pair is required before promoting the x64 byte
 change as a clean-run speedup. Broad C/D parity, incremental object reuse,
 LDC, and broader real-project programs remain open.
+
+The dedicated manual `openc-performance-paired.yml` workflow now supplies that
+attribution gate. Successful clean Windows run 35791958727 rebuilds both
+`ab7dde464e43b4749beafa5e3cc40603dbea6f81` and the byte-emitter revision
+`a67dda9e` from the retained seed, verifies each stage-two/stage-three fixed
+point, then alternates eleven guarded builds of one identical source tree.
+The candidate wins ten pairs, ties one, loses none, and improves median paired
+wall time by 12 milliseconds (0.754 to 0.741 seconds in the run medians).
+All 22 programs have the exact `54fe73ad...90746b` SHA-256, all checks pass,
+and both revisions peak at 133,337,088 private bytes. The paired artifact ZIP
+is 14,132,215 bytes with SHA-256
+`f78daf369fa304ac3434906c668874e4f0813330baa0330c2545f08221ee205d`.
+Native emission improves by a 31-millisecond median paired delta, though
+other phase timings fluctuate. The change is now supported by same-host clean
+evidence, but the 1.831x MSVC and 2.681x DMD large-compilation deficits remain
+material. Further compiler-owned optimization and broader corpus expansion
+are still SH-27 work.

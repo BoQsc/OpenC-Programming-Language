@@ -436,8 +436,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       conformance checks. Clean production-comparator run 35790749519 passes
       all correctness and memory gates, but large-function ratios still miss
       at 1.831x MSVC and 2.681x DMD. Because cross-run host conditions differ,
-      a same-host baseline/candidate pair is the next speed attribution gate;
+      a same-host baseline/candidate pair was required for attribution;
       broader real-project and incremental object-reuse work remain open.
+      Clean paired run 35791958727 then rebuilds both revisions from the
+      retained seed, verifies byte-exact fixed points, and alternates eleven
+      identical large-corpus builds. The candidate wins ten, ties one, and
+      improves median paired wall time by 12 milliseconds with identical
+      executable hashes and flat RAM. Large MSVC/DMD deficits remain the
+      primary performance target.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
