@@ -45,3 +45,13 @@ reuse, LDC, and broader real-project suites remain explicit SH-27 expansion
 items until measured. A 1.25x compiler-time parity gate includes the runtime
 fixture; executable-time results are reported separately, without promoting a
 single small fixture to a broad runtime-performance claim.
+
+For attribution between two OpenC revisions, manually run the
+`OpenC paired revision performance` GitHub workflow with an earlier commit SHA
+as `baseline_ref`. Its `benchmark_sh27_paired_revision.py` harness rebuilds
+both revisions from the retained seed, requires a stage-two/stage-three exact
+fixed point for each, then alternates guarded builds of the identical large
+corpus on one Windows runner. It records all raw samples and program hashes;
+a successful run proves correctness and measured deltas, not necessarily that
+the candidate is faster. Cross-run compiler ratios are not a substitute for
+this same-host A/B comparison.

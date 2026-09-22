@@ -1,0 +1,50 @@
+name: OpenC paired revision performance
+
+on:
+  workflow_dispatch:
+    inputs:
+      baseline_ref:
+        description: Earlier OpenC commit to compare on the same Windows runner
+        required: true
+        default: ab7dde464e43b4749beafa5e3cc40603dbea6f81
+        type: string
+      pairs:
+        description: Alternating large-corpus baseline/candidate pairs
+        required: true
+        default: '11'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    name: Paired self-hosted OpenC revisions
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - name: Check out current and baseline history
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild both revisions and compare on one runner
+        shell: cmd
+        env:
+          SH27_BASELINE_REF: ${{ inputs.baseline_ref }}
+          SH27_PAIRS: ${{ inputs.pairs }}
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_paired_revision.py
+          --seed .github\bootstrap\openc-stage0.exe
+          --output artifacts\sh27-paired-revision.json
+
+      - name: Retain paired raw evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-SH27-paired-revisions-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: |
+            artifacts/sh27-paired-revision.json
+            artifacts/sh27-paired-revision-runs-*/**
