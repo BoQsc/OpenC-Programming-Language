@@ -309,4 +309,18 @@ the process memory guard. A dedicated executable covers signed and unsigned
 64-bit boundaries, decimal separators, binary/hex radix, negative literals,
 and enum constants; candidate and prior-compiler PE hashes are identical at
 `8fa53c4c...fa3d990a`, and both exit zero. Clean shared-runner evidence is
-pending before this is counted as an accepted SH-27 throughput advance.
+now available from run 35774378673. Its complete 15,178,548-byte artifact ZIP
+has SHA-256 `63086a2b93f5807cfd2bc424b2fbff16282bddad3dc7b6fa2ea4dd679f31da90`.
+All version, correctness, output, execution, bootstrap, and memory checks pass;
+stage two and three match at `ebf1c4f4...fddcd45`. Small OpenC/MSVC/Clang/DMD
+medians are 0.087/0.117/0.118/0.149 seconds; many-file medians are
+0.169/0.349/0.905/0.159 seconds; and large medians are
+0.914/0.509/1.027/0.324 seconds. Large ratios are 1.796x MSVC, 0.890x
+Clang, and 2.821x DMD64. The guarded complete self-build median is 5.752
+seconds with 182,751,232 private and 68,882,432 working-set bytes. Clean large
+phase medians are 172 milliseconds declarations, 265 validation, and 376
+combined lowering/emission; compiler-owned subphases are 63 indexing, 125 IR
+lowering, and 141 native emission. Validation is now the largest phase, with
+186 milliseconds acceptance (108 expression acceptance in the first clean
+sample) and 79 flow. Expression acceptance is next; broad MSVC/DMD parity
+remains open. The workflow reports `EVIDENCE_COMPLETE_DEFICIT`, not parity.

@@ -335,6 +335,11 @@ The 7,179,776-byte stage-two/stage-three compiler is byte identical at
 `ebf1c4f4...fddcd45`; 278/278 conformance fixtures pass. A new executable
 probe covers signed/unsigned limits, decimal separators, binary/hex radix,
 negative literals, and enums; its PE bytes match the previous compiler and
-both binaries exit successfully. Clean shared-runner parity is still pending;
-the next measured target remains native emission and large MSVC/DMD parity.
+both binaries exit successfully. Clean Windows run 35774378673 passes every
+correctness, version, execution, bootstrap, and RAM guard. Its large OpenC/
+MSVC/Clang/DMD medians are 0.914/0.509/1.027/0.324 seconds: 1.796x MSVC,
+0.890x Clang, and 2.821x DMD. Every small and many-file gate passes. The
+clean trace now measures 265 milliseconds validation (186 acceptance, 79
+flow), 125 IR lowering, and 141 native emission; expression acceptance is
+the next measured target. Large MSVC/DMD and broad parity remain open.
 Linux, freestanding, and ARM64 remain optional later targets.

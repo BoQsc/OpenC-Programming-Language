@@ -400,8 +400,11 @@ IR reach closure. Exact evidence and reproduction commands are in
       46-millisecond median paired total gain, 9 wins and 1 tie, exact large
       output, flat RAM, byte-identical stage-two/stage-three closure, and
       278/278 conformance. Boundary-literal executable bytes also match the
-      prior compiler. A clean shared-runner comparison is the next acceptance
-      gate; native emission and large MSVC/DMD parity remain the focus.
+      prior compiler. Clean run 35774378673 passes all guards and reaches a
+      0.914-second large median: 1.796x MSVC, 0.890x Clang, and 2.821x DMD.
+      Every small and many-file gate passes. Clean validation is now the
+      largest phase at 265 milliseconds, including 186 acceptance and 79
+      flow; expression acceptance is the next measured target.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
