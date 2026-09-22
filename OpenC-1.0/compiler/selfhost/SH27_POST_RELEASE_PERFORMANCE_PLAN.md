@@ -504,3 +504,16 @@ the completed local large workload lost seven of eleven pairs with a
 +62 ms median paired wall-time delta. That code was discarded. The remaining
 speed work still requires semantic-pass and first-inference reductions;
 full-volume and noisy-host artifacts must not be mistaken for compiler gains.
+Clean Windows workflow run 35797651687 then verifies the disk guard in the
+full pinned OpenC/MSVC/Clang/DMD corpus: all compiler/executable, version,
+memory, and byte-exact fixed-point checks pass; an OpenC control-flow sample
+records 157,412,061,184 free bytes before compilation. The retained
+17,775,895-byte ZIP hashes to
+`015a31b71456dc9374ab6e27ff14b42f5eeaca97d2557b66d90b3840469bec41`.
+The compiler fixed point remains `6fb216ec...679b04a`. Large medians are
+0.890/0.498/1.033/0.313 seconds (OpenC/MSVC/Clang/DMD), or 1.787x MSVC,
+0.862x Clang, and 2.843x DMD. Control-flow medians are
+0.592/0.567/0.623/0.211 seconds: 1.044x MSVC and 0.950x Clang pass, while
+2.806x DMD remains open. This guard-only revision does not claim a compiler
+speedup. First-time semantic inference and pass count remain the main
+engineering targets for actual throughput gains.
