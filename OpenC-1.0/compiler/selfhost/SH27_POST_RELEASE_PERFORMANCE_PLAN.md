@@ -469,3 +469,22 @@ candidates were discarded after guarded same-host pairs failed to show a
 credible wall-time gain. The next compiler change should address measured
 right-hand type inference in assignment validation without trading away
 control-flow correctness or memory stability.
+
+The paired-revision workflow now accepts either the large-function or the
+control-flow workload, so both can be measured against a previous compiler
+on the same clean Windows runner. A temporary type-query trace on the new
+control-flow source counted about 4,416 assignment-pass type queries per
+source: 1,152 cache hits, 1,152 first-time binary resolutions, 1,152
+first-time name resolutions, and 960 first-time integer resolutions. This
+showed that the hotspot is largely initial inference rather than repeated
+cache misses. A trial replacing fixed built-in type-name scans with their
+canonical IDs passed an exact three-stage bootstrap, 25/25 x64 substrate,
+278/278 native conformance, and byte-identical output, but clean paired
+large-function run 35796488055 lost eight of eleven pairs (median +10 ms).
+Clean paired control-flow run 35796491694 was flat (median 0 ms, four wins,
+two ties, five losses). The candidate is not promoted to master. A separate
+clean full-corpus run 35796531597 completed, but its cross-run absolute
+medians are not evidence of an improvement because the comparator host also
+changed. The next speed work needs a larger architectural reduction in
+first-time semantic inference and/or pass count, not another unproven lookup
+micro-optimization.

@@ -96,6 +96,10 @@ def main() -> int:
     parser.add_argument(
         "--pairs", type=int, default=int(os.environ.get("SH27_PAIRS", "11"))
     )
+    parser.add_argument(
+        "--workload", default=os.environ.get("SH27_WORKLOAD", "large_functions"),
+        choices=("large_functions", "control_flow"),
+    )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.pairs < 3 or args.pairs > 31:
@@ -112,7 +116,7 @@ def main() -> int:
     validate_corpus(corpus)
     workload = next(
         item for item in corpus["workloads"]
-        if item["id"] == "large_functions"
+        if item["id"] == args.workload
     )
     output = args.output.resolve()
     run_root = output.parent / (

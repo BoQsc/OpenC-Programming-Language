@@ -9,10 +9,18 @@ on:
         default: ab7dde464e43b4749beafa5e3cc40603dbea6f81
         type: string
       pairs:
-        description: Alternating large-corpus baseline/candidate pairs
+        description: Alternating baseline/candidate pairs
         required: true
         default: '11'
         type: string
+      workload:
+        description: Shared SH-27 workload to compare
+        required: true
+        default: large_functions
+        type: choice
+        options:
+          - large_functions
+          - control_flow
 
 permissions:
   contents: read
@@ -33,6 +41,7 @@ jobs:
         env:
           SH27_BASELINE_REF: ${{ inputs.baseline_ref }}
           SH27_PAIRS: ${{ inputs.pairs }}
+          SH27_WORKLOAD: ${{ inputs.workload }}
         run: >-
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_paired_revision.py
           --seed .github\bootstrap\openc-stage0.exe
