@@ -422,9 +422,13 @@ IR reach closure. Exact evidence and reproduction commands are in
       and cleanup. Compiler and produced executables both run under bounded
       private/working-set RAM and captured-output guards; the executable also
       has a timeout. The local OpenC/DMD run passes exact payload SHA-256 and
-      output parity. The clean MSVC/Clang/DMD workflow run, broader real-project
-      corpus, incremental object reuse, and large MSVC/DMD compiler-time
-      deficit are the next SH-27 work, not completed parity claims.
+      output parity. Clean Windows run 35785619912 then passes the fixture
+      with pinned MSVC, Clang, and DMD; all runtime-lane compilation ratios
+      meet 1.25x. Large-function compile medians of
+      0.687/0.432/0.738/0.274 seconds leave 1.590x MSVC and 2.507x DMD
+      deficits. The measured next target is the 358-millisecond large
+      lowering/emission phase, followed by broader real-project corpus and
+      incremental object-reuse work.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

@@ -369,8 +369,23 @@ exact final 4 KiB payload digest and one success line. A local three-sample
 OpenC/DMD comparison passes every correctness and RAM check; its runtime-lane
 compile medians are 0.256/0.198 seconds and its executable medians are
 0.414/0.770 seconds. This is a partial comparator set, not a clean-run or
-broad runtime-parity claim. The next clean workflow must execute the same
-fixture with pinned MSVC and Clang. Incremental object reuse, LDC, broader
-real-project programs, and the measured large MSVC/DMD compile deficits remain
-open. Public 15/15 release-asset integrity was reverified before this change;
-the five external review tracks remain open with no reviews received.
+broad runtime-parity claim. Clean Windows workflow run 35785619912 then
+executes that fixture with pinned MSVC and Clang as well as DMD. It passes
+every compiler-version, correctness, payload, execution, fixed-point, and
+memory check; all three runtime-lane compilation ratios pass the 1.25x gate
+(OpenC/MSVC 0.347x, Clang 0.554x, DMD 0.517x). Runtime-lane compiler medians
+are 0.077/0.222/0.139/0.149 seconds and executable medians are
+0.016/0.016/0.016/0.027 seconds, respectively. This small fixture does not
+establish broad runtime parity. The clean large-function medians are
+0.687/0.432/0.738/0.274 seconds, leaving 1.590x MSVC and 2.507x DMD
+compilation deficits while Clang passes at 0.931x. The stage-two/stage-three
+SHA-256 is exactly `3dc01bc0...480067`; the 16,366,949-byte retained evidence
+ZIP has SHA-256
+`f6a2492f65bce83f9bacadb17df7781a9fde5624e7ab40294f6ff7341d5e2596`.
+Large OpenC phase medians are 109 milliseconds declarations, 126 validation,
+and 358 combined lowering/emission. The next optimization should target
+measured lowering/IR and native emission, then remeasure large MSVC/DMD
+ratios. Incremental object reuse, LDC, and broader real-project programs
+remain explicit corpus-expansion work. Public 15/15 release-asset integrity
+was reverified before this change; the five external review tracks remain open
+with no reviews received.
