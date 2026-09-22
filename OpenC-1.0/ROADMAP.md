@@ -433,7 +433,11 @@ IR reach closure. Exact evidence and reproduction commands are in
       helper call and wins eight of eleven alternating large-corpus pairs,
       with -22 milliseconds median paired wall time and -31 milliseconds
       native-emission time. It passes 25/25 x64 substrate and 278/278 native
-      conformance checks; a clean production-comparator rerun is next.
+      conformance checks. Clean production-comparator run 35790749519 passes
+      all correctness and memory gates, but large-function ratios still miss
+      at 1.831x MSVC and 2.681x DMD. Because cross-run host conditions differ,
+      a same-host baseline/candidate pair is the next speed attribution gate;
+      broader real-project and incremental object-reuse work remain open.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

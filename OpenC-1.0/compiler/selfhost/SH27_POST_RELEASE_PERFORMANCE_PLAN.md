@@ -409,4 +409,20 @@ with nine wins. Every output is byte-identical at `54fe73ad...90746b`, peak
 private memory is flat, the three-stage compiler reaches the byte-exact
 `6fb216ec...679b04a` fixed point, the SH-15 substrate passes 25/25, and
 native conformance passes 278/278. Clean MSVC/Clang/DMD comparator evidence
-for this change is still pending; broad C/D parity remains open.
+for this change arrives in successful Windows workflow run 35790749519. Its
+16,387,708-byte retained evidence ZIP has SHA-256
+`463f9ff0fcc3ebc8583f1c86b61d696bd1cdccc085ccb641258f11918308b863`.
+Every compiler-version, executable, output, memory, and three-stage fixed-point
+check passes; stage two and three match at `6fb216ec...679b04a`. Small,
+many-file, and runtime lanes pass every 1.25x compile ratio. Large
+OpenC/MSVC/Clang/DMD medians are 0.756/0.413/0.789/0.282 seconds, leaving
+1.831x MSVC and 2.681x DMD deficits while Clang passes at 0.958x. Clean
+large internal medians are 141 milliseconds declarations, 187 validation,
+and 329 combined lowering/emission, including 47 indexing, 63 IR lowering,
+and 172 native emission. Parent-position indexing accounts for 31 of the 47
+indexed milliseconds; native code reservation remains 40,711,424 bytes for
+2,723,115 used. These cross-run medians do not prove the local paired gain
+survives a clean host because the comparator baselines changed too. A
+same-host baseline/candidate pair is required before promoting the x64 byte
+change as a clean-run speedup. Broad C/D parity, incremental object reuse,
+LDC, and broader real-project programs remain open.
