@@ -324,3 +324,20 @@ lowering, and 141 native emission. Validation is now the largest phase, with
 186 milliseconds acceptance (108 expression acceptance in the first clean
 sample) and 79 flow. Expression acceptance is next; broad MSVC/DMD parity
 remains open. The workflow reports `EVIDENCE_COMPLETE_DEFICIT`, not parity.
+
+The next local profile isolates assignment validation within expression
+acceptance using one clock boundary per source and an additive timing JSON
+field. It consumes about 172–188 of 219 expression milliseconds on the large
+corpus. Operator byte classification, repeated function-selection bypass,
+identical-type assignment bypass, binary-result reuse, and lazy right-side
+typing were explored; the paired evidence did not justify retaining any of
+them. The common name hash was then changed to reduce its modulo-16,777,213
+polynomial once per four bytes rather than after each byte. Four steps stay
+below 4,941,000,000,000,000 on the 64-bit target, and 6,425 generated cases,
+including empty strings and owner-boundary values, match the former hash
+exactly. Twenty-one alternating local build pairs
+against the trace-only compiler preserve the `54fe73ad...90746b` executable,
+keep RAM flat, and improve median paired compiler-owned total by 47
+milliseconds, assignment validation by 13, and wall time by 4. The
+7,182,848-byte compiler stage-two/stage-three SHA is `3dc01bc0...480067`; the native
+conformance suite passes 278/278. Clean Windows parity evidence is pending.

@@ -135,16 +135,29 @@ usize ir_name_hash(
     usize owner
 ) {
     usize hash = (owner % 16777213) + 1;
+    if length == 0 { return hash; }
     usize cursor = 0;
+    // Four base-131 steps fit in 64 bits when the prior chunk is reduced.
+    // Delaying the modulus preserves the exact existing hash while avoiding
+    // three divisions for every complete four-byte name chunk.
+    while cursor + 4 <= length {
+        hash = hash * 131 + cast(usize, byte_at_or_zero(
+            source, start + cursor)) + 1;
+        hash = hash * 131 + cast(usize, byte_at_or_zero(
+            source, start + cursor + 1)) + 1;
+        hash = hash * 131 + cast(usize, byte_at_or_zero(
+            source, start + cursor + 2)) + 1;
+        hash = hash * 131 + cast(usize, byte_at_or_zero(
+            source, start + cursor + 3)) + 1;
+        hash = hash % 16777213;
+        cursor = cursor + 4;
+    }
     while cursor < length {
-        hash = (
-            hash * 131 + cast(usize, byte_at_or_zero(
-                source, start + cursor
-            )) + 1
-        ) % 16777213;
+        hash = hash * 131 + cast(usize, byte_at_or_zero(
+            source, start + cursor)) + 1;
         cursor = cursor + 1;
     }
-    return hash;
+    return hash % 16777213;
 }
 
 unsafe void ir_initialize_symbol_indexes(

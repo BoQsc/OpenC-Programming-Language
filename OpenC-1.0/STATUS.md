@@ -342,4 +342,17 @@ MSVC/Clang/DMD medians are 0.914/0.509/1.027/0.324 seconds: 1.796x MSVC,
 clean trace now measures 265 milliseconds validation (186 acceptance, 79
 flow), 125 IR lowering, and 141 native emission; expression acceptance is
 the next measured target. Large MSVC/DMD and broad parity remain open.
+Assignment validation is now separately reported in the normal throughput
+trace, adding only one clock boundary per source. It accounts for about
+172–188 milliseconds of the 219-millisecond local expression group on the
+large corpus. Five plausible short paths were rejected when paired tests
+showed no total gain or a regression. The name hash now reduces its modulus
+once per four bytes rather than once per byte while preserving the exact
+polynomial hash, including the empty-name seed edge. A 6,425-case arithmetic
+equivalence check passes; 21
+alternating local build pairs keep exact output and flat RAM while improving
+the paired compiler-owned total by 47 milliseconds and assignment validation
+by 13 milliseconds. The stage-two/stage-three compiler is byte identical at
+`3dc01bc0...480067`, and native conformance remains 278/278. Clean Windows
+performance evidence is the remaining acceptance gate for this change.
 Linux, freestanding, and ARM64 remain optional later targets.

@@ -78,10 +78,14 @@ unsafe usize acceptance_validate_context(
     group_started = process.monotonic_milliseconds();
     AcceptanceExpressionFeatures expression_features =
         acceptance_expression_features(context);
+    usize assignments_started = process.monotonic_milliseconds();
     found = 0;
     if expression_features.has_assignments {
         found = acceptance_validate_assignments(context);
     }
+    timings.validation_acceptance_assignments_ms =
+        timings.validation_acceptance_assignments_ms +
+        process.monotonic_milliseconds() - assignments_started;
     acceptance_report_count("assignments", context.source_record, found);
     errors = errors + found;
     found = 0;

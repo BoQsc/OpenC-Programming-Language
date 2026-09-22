@@ -405,6 +405,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       Every small and many-file gate passes. Clean validation is now the
       largest phase at 265 milliseconds, including 186 acceptance and 79
       flow; expression acceptance is the next measured target.
+      Assignment-specific telemetry then confirms that repetitive assignment
+      validation dominates the expression group. Five local shortcuts are
+      rejected for lack of net speed. Exact polynomial name hashing is
+      grouped into four-byte chunks to reduce division count; 21 alternating
+      local pairs show a 47-millisecond compiler-time and 13-millisecond
+      assignment-time median gain with exact output, flat RAM, byte-exact
+      bootstrap closure, and 278/278 conformance. Clean shared-runner
+      comparison remains required before accepting the throughput gain.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

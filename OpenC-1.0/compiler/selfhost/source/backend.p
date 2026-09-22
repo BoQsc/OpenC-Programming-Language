@@ -75,6 +75,7 @@ struct BuildTimings {
     usize validation_acceptance_mask_ms;
     usize validation_acceptance_types_ms;
     usize validation_acceptance_expressions_ms;
+    usize validation_acceptance_assignments_ms;
     usize validation_acceptance_functions_ms;
     usize validation_acceptance_calls_ms;
     usize validation_acceptance_overload_calls_ms;
@@ -167,6 +168,7 @@ BuildTimings build_timings_empty() {
         validation_acceptance_mask_ms = 0,
         validation_acceptance_types_ms = 0,
         validation_acceptance_expressions_ms = 0,
+        validation_acceptance_assignments_ms = 0,
         validation_acceptance_functions_ms = 0,
         validation_acceptance_calls_ms = 0,
         validation_acceptance_overload_calls_ms = 0,

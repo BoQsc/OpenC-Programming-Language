@@ -92,6 +92,9 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.validation_acceptance_types_ms);
     d_put(output, ",\n      \"expressions\": ");
     d_put_usize(output, timings.validation_acceptance_expressions_ms);
+    d_put(output, ",\n      \"expression_details\": {\n        \"assignments\": ");
+    d_put_usize(output, timings.validation_acceptance_assignments_ms);
+    d_put(output, "\n      }");
     d_put(output, ",\n      \"functions_scopes_enums\": ");
     d_put_usize(output, timings.validation_acceptance_functions_ms);
     d_put(output, ",\n      \"calls\": ");
