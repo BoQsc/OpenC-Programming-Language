@@ -18,12 +18,22 @@ struct BuildTimings {
     usize source_bytes;
     usize lex_parse_ms;
     usize index_ms;
+    usize index_nodes_ms;
+    usize index_parents_ms;
+    usize index_statements_ms;
+    usize index_function_positions_ms;
     usize ir_lower_ms;
     usize c_emit_ms;
     usize syntax_nodes;
     usize functions;
     usize instructions;
     usize output_bytes;
+    usize native_code_reserved_bytes;
+    usize native_code_used_bytes;
+    usize native_relocation_reserved_records;
+    usize native_relocation_used_records;
+    usize native_constant_reserved_bytes;
+    usize native_constant_used_bytes;
     usize slow_function_ms;
     usize slow_function_source;
     usize slow_function_node;
@@ -111,12 +121,22 @@ BuildTimings build_timings_empty() {
         source_bytes = 0,
         lex_parse_ms = 0,
         index_ms = 0,
+        index_nodes_ms = 0,
+        index_parents_ms = 0,
+        index_statements_ms = 0,
+        index_function_positions_ms = 0,
         ir_lower_ms = 0,
         c_emit_ms = 0,
         syntax_nodes = 0,
         functions = 0,
         instructions = 0,
         output_bytes = 0,
+        native_code_reserved_bytes = 0,
+        native_code_used_bytes = 0,
+        native_relocation_reserved_records = 0,
+        native_relocation_used_records = 0,
+        native_constant_reserved_bytes = 0,
+        native_constant_used_bytes = 0,
         slow_function_ms = 0,
         slow_function_source = 0,
         slow_function_node = 0,

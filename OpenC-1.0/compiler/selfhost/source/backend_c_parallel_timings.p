@@ -65,11 +65,34 @@ unsafe void c_merge_worker_timings(
 ) {
     target.lex_parse_ms = target.lex_parse_ms + worker.lex_parse_ms;
     target.index_ms = target.index_ms + worker.index_ms;
+    target.index_nodes_ms = target.index_nodes_ms + worker.index_nodes_ms;
+    target.index_parents_ms = target.index_parents_ms + worker.index_parents_ms;
+    target.index_statements_ms = target.index_statements_ms +
+        worker.index_statements_ms;
+    target.index_function_positions_ms =
+        target.index_function_positions_ms +
+        worker.index_function_positions_ms;
     target.ir_lower_ms = target.ir_lower_ms + worker.ir_lower_ms;
     target.c_emit_ms = target.c_emit_ms + worker.c_emit_ms;
     target.syntax_nodes = target.syntax_nodes + worker.syntax_nodes;
     target.functions = target.functions + worker.functions;
     target.instructions = target.instructions + worker.instructions;
+    target.native_code_reserved_bytes = target.native_code_reserved_bytes +
+        worker.native_code_reserved_bytes;
+    target.native_code_used_bytes = target.native_code_used_bytes +
+        worker.native_code_used_bytes;
+    target.native_relocation_reserved_records =
+        target.native_relocation_reserved_records +
+        worker.native_relocation_reserved_records;
+    target.native_relocation_used_records =
+        target.native_relocation_used_records +
+        worker.native_relocation_used_records;
+    target.native_constant_reserved_bytes =
+        target.native_constant_reserved_bytes +
+        worker.native_constant_reserved_bytes;
+    target.native_constant_used_bytes =
+        target.native_constant_used_bytes +
+        worker.native_constant_used_bytes;
     target.total_statement_candidates =
         target.total_statement_candidates +
         worker.total_statement_candidates;

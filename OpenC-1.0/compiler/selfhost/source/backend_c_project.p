@@ -174,7 +174,7 @@ unsafe void c_lower_and_emit_function(
     if timings.emission_mode == 1 {
         native_audit_function(context, output, owner - 1, timings.functions);
     } else if timings.emission_mode == 2 {
-        native_emit_function(context, output, owner - 1, entry_module);
+        native_emit_function(context, output, timings, owner - 1, entry_module);
     } else {
         c_emit_function(context, output, owner - 1, entry_module);
     }

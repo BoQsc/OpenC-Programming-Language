@@ -80,6 +80,7 @@ SH-27 source-text cache:                FIXED; 10 MIB -> 640 KIB
 SH-27 path-join cache:                  FIXED; 3 MIB -> 768 KIB
 SH-27 transition bootstrap:             FIXED; STAGE 2 == STAGE 3
 SH-27 parser token dispatch:            FIXED; TWO CALL LAYERS REMOVED
+SH-27 native byte emitter:              LOCAL 8/11 PAIRED WINS; CLEAN RUN PENDING
 SH-27 large Clang parity:               PASS LATEST CLEAN RUN; 0.931x
 SH-27 large-corpus scaling:             OPEN; OPENC 0.687 S / MSVC 0.432 S / DMD 0.274 S
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16

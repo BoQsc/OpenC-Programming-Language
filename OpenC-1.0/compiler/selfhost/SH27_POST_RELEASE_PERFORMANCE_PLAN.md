@@ -389,3 +389,24 @@ ratios. Incremental object reuse, LDC, and broader real-project programs
 remain explicit corpus-expansion work. Public 15/15 release-asset integrity
 was reverified before this change; the five external review tracks remain open
 with no reviews received.
+
+The next compiler-owned profile separates syntax indexing into node,
+parent-position, statement, and function-position work and records native
+code/relocation/constant reservation versus actual use. In the local large
+corpus, parent-position indexing takes 93 of 124 indexed milliseconds, while
+the native emitter reserves 40,711,424 code bytes and uses 2,723,115. Three
+candidate shortcuts are rejected before publication: bypassing two node-kind
+helpers, skipping empty control-position construction, and replacing indexed
+word helpers directly have no credible paired gain. A bounded grow-on-demand
+code buffer reduces reservation to 11,220,224 bytes but loses 49 milliseconds
+in median paired wall time and 78 milliseconds in native emission, so it too
+is discarded. The retained candidate instead eliminates the extra `d_put_byte`
+call from each x64 byte emission while preserving overflow/error semantics.
+Eleven order-alternated local large-corpus pairs against an equally
+instrumented baseline give eight wins and a -22-millisecond median paired
+wall-time delta; native emission improves by a -31-millisecond paired median
+with nine wins. Every output is byte-identical at `54fe73ad...90746b`, peak
+private memory is flat, the three-stage compiler reaches the byte-exact
+`6fb216ec...679b04a` fixed point, the SH-15 substrate passes 25/25, and
+native conformance passes 278/278. Clean MSVC/Clang/DMD comparator evidence
+for this change is still pending; broad C/D parity remains open.

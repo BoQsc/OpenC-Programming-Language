@@ -309,16 +309,29 @@ unsafe bool c_emit_source_record(
     context.continue_data = ir_pointer_alias(continue_data);
     ir_initialize_local_values(context);
     phase_started = process.monotonic_milliseconds();
+    usize index_started = phase_started;
     ir_initialize_node_indexes(context);
+    timings.index_nodes_ms = timings.index_nodes_ms +
+        process.monotonic_milliseconds() - phase_started;
+    phase_started = process.monotonic_milliseconds();
     ir_initialize_parent_position_caches(context);
+    timings.index_parents_ms = timings.index_parents_ms +
+        process.monotonic_milliseconds() - phase_started;
     ir_initialize_control_adjacency(context);
+    phase_started = process.monotonic_milliseconds();
     ir_initialize_statement_adjacency(context);
+    timings.index_statements_ms = timings.index_statements_ms +
+        process.monotonic_milliseconds() - phase_started;
     ir_initialize_initializer_fields(context);
     ir_initialize_array_elements(context);
     ir_initialize_declaration_symbols(context);
+    phase_started = process.monotonic_milliseconds();
     ir_initialize_function_positions(context);
-    timings.index_ms = timings.index_ms +
+    timings.index_function_positions_ms =
+        timings.index_function_positions_ms +
         process.monotonic_milliseconds() - phase_started;
+    timings.index_ms = timings.index_ms +
+        process.monotonic_milliseconds() - index_started;
     if validate_acceptance {
         // Acceptance treats every declared local as semantically available;
         // lowering later replaces these sentinels with concrete SSA values.

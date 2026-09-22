@@ -25,8 +25,14 @@ unsafe void x64_code_destroy(ref X64Code code) {
 
 unsafe void x64_emit_u8(ref X64Code code, usize value) {
     if value > 255 || !code.ok { code.ok = false; return; }
-    d_put_byte(code.bytes, cast(u8, value));
-    if !code.bytes.ok { code.ok = false; }
+    if !code.bytes.ok || code.bytes.length >= code.bytes.capacity {
+        code.bytes.ok = false;
+        code.ok = false;
+        return;
+    }
+    *(code.bytes.data + code.bytes.length) =
+        cast_unchecked(byte, cast(u8, value));
+    code.bytes.length = code.bytes.length + 1;
 }
 
 unsafe void x64_emit_u16(ref X64Code code, usize value) {

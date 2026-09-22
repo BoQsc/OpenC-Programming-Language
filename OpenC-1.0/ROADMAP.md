@@ -429,6 +429,11 @@ IR reach closure. Exact evidence and reproduction commands are in
       deficits. The measured next target is the 358-millisecond large
       lowering/emission phase, followed by broader real-project corpus and
       incremental object-reuse work.
+      A local, byte-exact x64 emitter optimization then removes a per-byte
+      helper call and wins eight of eleven alternating large-corpus pairs,
+      with -22 milliseconds median paired wall time and -31 milliseconds
+      native-emission time. It passes 25/25 x64 substrate and 278/278 native
+      conformance checks; a clean production-comparator rerun is next.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

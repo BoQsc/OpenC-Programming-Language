@@ -3,7 +3,8 @@ import system.memory;
 import system.text;
 
 unsafe void native_emit_function(
-    ref IrContext context, ref DBuffer output, usize symbol, usize entry_module
+    ref IrContext context, ref DBuffer output, ref BuildTimings timings,
+    usize symbol, usize entry_module
 ) {
     if !output.ok { return; }
     // These are compiler-engineering budgets, not language limits. They stop a
@@ -246,6 +247,18 @@ unsafe void native_emit_function(
         io.error("\n");
         output.ok = false;
     }
+    timings.native_code_reserved_bytes =
+        timings.native_code_reserved_bytes + code_capacity;
+    timings.native_code_used_bytes =
+        timings.native_code_used_bytes + function.code.bytes.length;
+    timings.native_relocation_reserved_records =
+        timings.native_relocation_reserved_records + relocation_capacity;
+    timings.native_relocation_used_records =
+        timings.native_relocation_used_records + function.code.relocations.length;
+    timings.native_constant_reserved_bytes =
+        timings.native_constant_reserved_bytes + constant_capacity;
+    timings.native_constant_used_bytes =
+        timings.native_constant_used_bytes + function.constants.length;
     memory.free(order); memory.free(references);
     memory.free(function.branch_patches); memory.free(function.blocks);
     memory.free(function.short_patches);
