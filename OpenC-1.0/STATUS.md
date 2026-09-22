@@ -349,10 +349,16 @@ large corpus. Five plausible short paths were rejected when paired tests
 showed no total gain or a regression. The name hash now reduces its modulus
 once per four bytes rather than once per byte while preserving the exact
 polynomial hash, including the empty-name seed edge. A 6,425-case arithmetic
-equivalence check passes; 21
-alternating local build pairs keep exact output and flat RAM while improving
-the paired compiler-owned total by 47 milliseconds and assignment validation
-by 13 milliseconds. The stage-two/stage-three compiler is byte identical at
-`3dc01bc0...480067`, and native conformance remains 278/278. Clean Windows
-performance evidence is the remaining acceptance gate for this change.
+equivalence check passes; 21 alternating local build pairs for the exact final
+revision keep output and RAM unchanged while improving the paired compiler-
+owned total by 16 milliseconds, assignment validation by 3 milliseconds,
+and wall time by 5 milliseconds. The stage-two/stage-three compiler is byte
+identical at `3dc01bc0...480067`, and native conformance remains 278/278.
+Clean Windows run 35782427590 passes every correctness, version, execution,
+bootstrap, and RAM guard. Its large OpenC/MSVC/Clang/DMD medians are
+0.747/0.409/0.847/0.251 seconds: 1.826x MSVC, 0.882x Clang, and 2.976x
+DMD. Small and many-file gates pass. Assignment validation is 93 of 108
+milliseconds in clean expression acceptance. Large MSVC/DMD and broad
+parity remain open; lower absolute time alone does not prove relative gain
+because the comparators also sped up on this runner.
 Linux, freestanding, and ARM64 remain optional later targets.

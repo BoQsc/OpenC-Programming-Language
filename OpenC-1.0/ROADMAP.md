@@ -409,10 +409,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       validation dominates the expression group. Five local shortcuts are
       rejected for lack of net speed. Exact polynomial name hashing is
       grouped into four-byte chunks to reduce division count; 21 alternating
-      local pairs show a 47-millisecond compiler-time and 13-millisecond
-      assignment-time median gain with exact output, flat RAM, byte-exact
-      bootstrap closure, and 278/278 conformance. Clean shared-runner
-      comparison remains required before accepting the throughput gain.
+      local pairs for the final code show a 16-millisecond compiler-time,
+      3-millisecond assignment-time, and 5-millisecond wall-time paired
+      median gain with exact output, flat RAM, byte-exact bootstrap closure,
+      and 278/278 conformance. Clean run 35782427590 passes all guards and
+      records a 0.747-second large median, but same-run ratios remain
+      1.826x MSVC and 2.976x DMD (Clang passes at 0.882x). Assignment
+      validation is 93 of 108 clean expression milliseconds and remains
+      the next target.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop

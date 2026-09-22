@@ -335,9 +335,27 @@ them. The common name hash was then changed to reduce its modulo-16,777,213
 polynomial once per four bytes rather than after each byte. Four steps stay
 below 4,941,000,000,000,000 on the 64-bit target, and 6,425 generated cases,
 including empty strings and owner-boundary values, match the former hash
-exactly. Twenty-one alternating local build pairs
+exactly. Twenty-one alternating local build pairs for the exact final revision
 against the trace-only compiler preserve the `54fe73ad...90746b` executable,
-keep RAM flat, and improve median paired compiler-owned total by 47
-milliseconds, assignment validation by 13, and wall time by 4. The
+keep RAM flat, and improve median paired compiler-owned total by 16
+milliseconds, assignment validation by 3, and wall time by 5. The
 7,182,848-byte compiler stage-two/stage-three SHA is `3dc01bc0...480067`; the native
-conformance suite passes 278/278. Clean Windows parity evidence is pending.
+conformance suite passes 278/278.
+
+Clean Windows run 35782427590 passes every version, correctness, output,
+execution, fixed-point, and memory check. Its 15,183,173-byte retained
+artifact ZIP has SHA-256
+`fdfed423d417e2aeca2232982822a4ccaa75e8ebc6ab2566186b39d54765cd29`.
+Small OpenC/MSVC/Clang/DMD medians are 0.066/0.107/0.095/0.188 seconds;
+many-file medians are 0.137/0.276/0.735/0.138 seconds; large medians are
+0.747/0.409/0.847/0.251 seconds. Large ratios are 1.826x MSVC, 0.882x
+Clang, and 2.976x DMD64. All small and many-file gates pass, but large
+MSVC/DMD and broad parity remain open. The guarded self-build median is
+4.611 seconds with 182,247,424 private and 65,400,832 working-set bytes.
+Clean large phase medians are 141 milliseconds declarations, 249 validation,
+and 282 combined lowering/emission; compiler-owned subphases are 31 indexing,
+62 IR lowering, and 155 native emission. The new assignment trace measures
+93 of 108 expression-validation milliseconds. Comparators were faster than
+in the prior clean run too, so the lower absolute OpenC median is not treated
+as a same-host relative parity gain. Assignment resolution and right-side
+type inference remain the next measured targets.
