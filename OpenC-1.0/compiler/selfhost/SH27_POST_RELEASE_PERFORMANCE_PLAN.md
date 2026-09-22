@@ -517,3 +517,16 @@ The compiler fixed point remains `6fb216ec...679b04a`. Large medians are
 2.806x DMD remains open. This guard-only revision does not claim a compiler
 speedup. First-time semantic inference and pass count remain the main
 engineering targets for actual throughput gains.
+
+A structural validation-index trial then recorded assignment and binary
+syntax nodes during the existing indexing pass in one syntax-sized array,
+preserving each rule's original traversal order. The three-stage compiler
+closed byte-exactly at `6cf302ee...9740fe1`, and all eleven local paired
+builds for each workload produced the exact prior executable hashes.
+However, the control-flow paired median worsened by 15 ms (five wins,
+six losses), the large-function paired median was flat at +2 ms (five wins,
+six losses), and peak private memory increased by about 0.14–0.20 MiB.
+That index was discarded. Skipping nonmatching expression nodes therefore
+does not justify more memory on these workloads. The next candidate should
+reduce the cost of resolving a first-time name/binary type or safely fuse
+semantic work, with a directly measured phase gain and same-host wall gain.
