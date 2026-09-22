@@ -443,3 +443,16 @@ other phase timings fluctuate. The change is now supported by same-host clean
 evidence, but the 1.831x MSVC and 2.681x DMD large-compilation deficits remain
 material. Further compiler-owned optimization and broader corpus expansion
 are still SH-27 work.
+
+The next corpus expansion adds a deterministic `control_flow` lane: four
+source files, 256 total functions, nine operations per function, and matched
+OpenC/C/D programs that exercise branches, local variables, loops, arithmetic,
+semantic validation, native code generation, and executable behavior. The
+existing 512 MiB process limits and 1.25x ratio gate apply unchanged. Local
+guarded OpenC and DMD64 builds both compile and execute the first-source
+oracle successfully, but MSVC/Clang comparison and clean-run ratios still
+require the Windows performance workflow. On the local host this fixture
+exposes a substantial new OpenC hotspot: 814 ms validation on 206,637 source
+bytes, of which 657 ms is acceptance, 642 ms expression checks, and 470 ms
+assignments. This workload is a measured target for the next optimization,
+not evidence of broad C/D parity.

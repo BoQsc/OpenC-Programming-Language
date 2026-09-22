@@ -18,6 +18,34 @@ SPEC.loader.exec_module(BENCHMARK)
 
 
 class Sh27ProductionTests(unittest.TestCase):
+    def test_control_flow_workload_is_bounded_and_equivalent(self) -> None:
+        corpus = json.loads((ROOT / "benchmarks/sh27/CORPUS.json").read_text())
+        BENCHMARK.validate_corpus(corpus)
+        workload = next(
+            item for item in corpus["workloads"] if item["id"] == "control_flow"
+        )
+        self.assertEqual(workload["shape"], "control_flow")
+        with tempfile.TemporaryDirectory() as directory:
+            records = {
+                language: BENCHMARK.generate_language(
+                    Path(directory) / language, language, workload
+                )
+                for language in ("openc", "msvc", "dmd")
+            }
+            self.assertEqual(
+                {record["equivalent_functions"] for record in records.values()},
+                {256},
+            )
+            for record in records.values():
+                self.assertEqual(record["tree"]["files"], 4)
+                source = record["sources"][0].read_text(encoding="ascii")
+                self.assertIn("if ", source)
+                self.assertIn("while ", source)
+                self.assertIn("cursor_1", source)
+        self.assertEqual(
+            BENCHMARK.apply_operations(0, 0, 9, "control_flow"), 59
+        )
+
     def test_runtime_fixture_contract_and_oracle(self) -> None:
         corpus = json.loads((ROOT / "benchmarks/sh27/CORPUS.json").read_text())
         BENCHMARK.validate_corpus(corpus)

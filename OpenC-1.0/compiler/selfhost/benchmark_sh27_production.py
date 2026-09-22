@@ -81,9 +81,12 @@ def validate_corpus(corpus: dict[str, object]) -> None:
         files = int(workload["source_files"])
         functions = int(workload["functions_per_file"])
         operations = int(workload["operations_per_function"])
+        shape = str(workload.get("shape", "arithmetic"))
         if not identifier or identifier in seen:
             raise SystemExit(f"duplicate or empty workload id: {identifier!r}")
         seen.add(identifier)
+        if shape not in {"arithmetic", "control_flow"}:
+            raise SystemExit(f"unsupported workload shape: {identifier}: {shape}")
         if files < 1 or files > int(limits["maximum_source_files_per_workload"]):
             raise SystemExit(f"source file limit rejected workload: {identifier}")
         if functions < 1 or files * functions > int(
@@ -151,12 +154,33 @@ def runtime_input(language: str, workload: dict[str, object]) -> dict[str, objec
     }
 
 
-def function_text(language: str, index: int, operations: int) -> str:
+def function_text(
+    language: str, index: int, operations: int, shape: str = "arithmetic"
+) -> str:
     type_name = "i64" if language == "openc" else ("long long" if language == "msvc" else "long")
     lines = [f"{type_name} sh27_work_{index:06d}({type_name} value) {{"]
     for operation in range(operations):
         amount = ((index + 1) * (operation + 3)) % 97 + 1
-        if operation % 3 == 0:
+        if shape == "control_flow" and operation % 3 == 0:
+            condition = "value % 2 == 0"
+            if language != "openc":
+                condition = f"({condition})"
+            lines.append(f"    if {condition} {{")
+            lines.append(f"        value = value + {amount};")
+            lines.append("    } else {")
+            lines.append(f"        value = value - {amount};")
+            lines.append("    }")
+        elif shape == "control_flow" and operation % 3 == 1:
+            cursor = f"cursor_{operation}"
+            lines.append(f"    {type_name} {cursor} = 0;")
+            condition = f"{cursor} < 2"
+            if language != "openc":
+                condition = f"({condition})"
+            lines.append(f"    while {condition} {{")
+            lines.append(f"        value = value + {cursor} + {amount};")
+            lines.append(f"        {cursor} = {cursor} + 1;")
+            lines.append("    }")
+        elif operation % 3 == 0:
             lines.append(f"    value = value + {amount};")
         elif operation % 3 == 1:
             lines.append(f"    value = value * 1 + {amount};")
@@ -167,10 +191,17 @@ def function_text(language: str, index: int, operations: int) -> str:
     return "\n".join(lines) + "\n"
 
 
-def apply_operations(value: int, index: int, operations: int) -> int:
+def apply_operations(
+    value: int, index: int, operations: int, shape: str = "arithmetic"
+) -> int:
     for operation in range(operations):
         amount = ((index + 1) * (operation + 3)) % 97 + 1
-        if operation % 3 == 0:
+        if shape == "control_flow" and operation % 3 == 0:
+            value = value + amount if value % 2 == 0 else value - amount
+        elif shape == "control_flow" and operation % 3 == 1:
+            for cursor in range(2):
+                value = value + cursor + amount
+        elif operation % 3 == 0:
             value += amount
         elif operation % 3 == 1:
             value = value * 1 + amount
@@ -186,6 +217,7 @@ def generate_language(
     source_files = int(workload["source_files"])
     functions_per_file = int(workload["functions_per_file"])
     operations = int(workload["operations_per_function"])
+    shape = str(workload.get("shape", "arithmetic"))
     root.mkdir(parents=True, exist_ok=False)
     names: list[str] = []
     expected = 0
@@ -198,7 +230,7 @@ def generate_language(
             pieces.append(f"module sh27_source_{file_index:04d};\n\n")
         first_index = function_index
         for _ in range(functions_per_file):
-            pieces.append(function_text(language, function_index, operations))
+            pieces.append(function_text(language, function_index, operations, shape))
             pieces.append("\n")
             function_index += 1
         if file_index == 0:
@@ -208,7 +240,7 @@ def generate_language(
             pieces.append(f"    {type_name} value = 0;\n")
             for index in range(first_index, function_index):
                 pieces.append(f"    value = sh27_work_{index:06d}(value);\n")
-                expected = apply_operations(expected, index, operations)
+                expected = apply_operations(expected, index, operations, shape)
             if language == "openc":
                 pieces.append(f"    if value != {expected} {{ return 1; }}\n")
             else:

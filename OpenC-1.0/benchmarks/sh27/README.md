@@ -6,8 +6,9 @@ ISO C `.c`, and D `.d` programs. Each compiler must parse declarations and
 function bodies, perform semantic checks, generate native code, and link a
 Windows executable. The produced executable must run successfully.
 
-The three generated workload descriptions cover command startup, many-file
-project overhead, and many/large-function scaling. The checked-in
+The generated workload descriptions cover command startup, many-file
+project overhead, many/large-function scaling, and a bounded control-flow
+case with conditional branches, local variables, and loops. The checked-in
 `runtime/{openc,c,d}` fixtures additionally exercise executable startup,
 64 rounds of 4 KiB allocation, typed data writes and reads, file I/O, and
 cleanup. Each run must print the expected line and produce the exact 4 KiB
@@ -39,8 +40,9 @@ build`, is not packaged as part of the compiler, and does not weaken the
 already-complete standalone toolchain independence claim. Likewise, the C and
 D compilers are comparison subjects only.
 
-This tranche deliberately does not claim that synthetic arithmetic plus the
-small runtime fixture represents every production codebase. Incremental object
+This tranche deliberately does not claim that generated arithmetic/control
+flow plus the small runtime fixture represents every production codebase.
+Incremental object
 reuse, LDC, and broader real-project suites remain explicit SH-27 expansion
 items until measured. A 1.25x compiler-time parity gate includes the runtime
 fixture; executable-time results are reported separately, without promoting a

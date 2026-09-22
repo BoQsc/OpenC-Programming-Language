@@ -20,6 +20,13 @@
       "source_files": 8,
       "functions_per_file": 256,
       "operations_per_function": 12
+    },
+    {
+      "id": "control_flow",
+      "shape": "control_flow",
+      "source_files": 4,
+      "functions_per_file": 64,
+      "operations_per_function": 9
     }
   ],
   "runtime_workload": {
