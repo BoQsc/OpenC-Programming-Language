@@ -17,6 +17,11 @@ usize semantic_type_bool() { return 2; }
 usize semantic_type_byte() { return 3; }
 usize semantic_type_text() { return 4; }
 usize semantic_type_status() { return 5; }
+usize semantic_type_i32() { return 10; }
+usize semantic_type_i64() { return 12; }
+usize semantic_type_isize() { return 14; }
+usize semantic_type_usize() { return 15; }
+usize semantic_type_f64() { return 17; }
 
 unsafe usize semantic_add_type(
     ptr byte type_data,

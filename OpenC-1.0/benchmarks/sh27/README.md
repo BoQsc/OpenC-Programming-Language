@@ -50,9 +50,10 @@ single small fixture to a broad runtime-performance claim.
 
 For attribution between two OpenC revisions, manually run the
 `OpenC paired revision performance` GitHub workflow with an earlier commit SHA
-as `baseline_ref`. Its `benchmark_sh27_paired_revision.py` harness rebuilds
+as `baseline_ref` and either `large_functions` or `control_flow` as the
+workload. Its `benchmark_sh27_paired_revision.py` harness rebuilds
 both revisions from the retained seed, requires a stage-two/stage-three exact
-fixed point for each, then alternates guarded builds of the identical large
+fixed point for each, then alternates guarded builds of the identical selected
 corpus on one Windows runner. It records all raw samples and program hashes;
 a successful run proves correctness and measured deltas, not necessarily that
 the candidate is faster. Cross-run compiler ratios are not a substitute for

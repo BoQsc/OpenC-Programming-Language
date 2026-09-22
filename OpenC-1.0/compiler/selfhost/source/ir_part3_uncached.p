@@ -29,16 +29,16 @@ unsafe usize ir_node_type_uncached(
             read_record_field(context.syntax_data, node, 2)
         );
         if literal.valid && literal.value > cast(i64, 2147483647) {
-            return semantic_builtin_type("i64", 0, 3);
+            return semantic_type_i64();
         }
-        return semantic_builtin_type("i32", 0, 3);
+        return semantic_type_i32();
     }
     if kind == 30 {
         if expected != semantic_type_error() &&
             read_record_field(context.type_data, expected, 0) == 4 {
             return expected;
         }
-        return semantic_builtin_type("f64", 0, 3);
+        return semantic_type_f64();
     }
     if kind == 31 { return semantic_type_text(); }
     if kind == 32 { return semantic_type_bool(); }
@@ -128,7 +128,7 @@ unsafe usize ir_node_type_uncached(
             read_record_field(context.type_data, left_type, 0) == 13 &&
             read_record_field(context.type_data, right_type, 0) == 13 &&
             flow_node_operator(context.source, context.syntax_data, node, "-") {
-            return semantic_builtin_type("isize", 0, 5);
+            return semantic_type_isize();
         }
         ResolutionInteger left_integer = acceptance_integer_value(
             context, left
@@ -198,7 +198,7 @@ unsafe usize ir_node_type_uncached(
             ) || span_equals_ascii(
                 context.source, callee_start, callee_length,
                 "system.memory.load_usize"
-            ) { return semantic_builtin_type("usize", 0, 5); }
+            ) { return semantic_type_usize(); }
             if span_equals_ascii(
                 context.source, callee_start, callee_length,
                 "memory.store_usize"
@@ -230,7 +230,7 @@ unsafe usize ir_node_type_uncached(
             ) || span_equals_ascii(
                 context.source, callee_start, callee_length,
                 "system.process.monotonic_milliseconds"
-            ) { return semantic_builtin_type("usize", 0, 5); }
+            ) { return semantic_type_usize(); }
             if span_equals_ascii(
                 context.source, callee_start, callee_length,
                 "text.scalar_at"
@@ -377,7 +377,7 @@ unsafe usize ir_node_type_uncached(
             ) || span_equals_ascii(
                 context.source, callee_start, callee_length,
                 "system.text.compare"
-            ) { return semantic_builtin_type("i32", 0, 3); }
+            ) { return semantic_type_i32(); }
             if ir_intrinsic_call(
                 context.source, callee_start, callee_length
             ) {
@@ -416,7 +416,7 @@ unsafe usize ir_node_type_uncached(
         return semantic_type_error();
     }
     if kind == 45 { return semantic_type_void(); }
-    if kind == 46 { return semantic_builtin_type("usize", 0, 5); }
+    if kind == 46 { return semantic_type_usize(); }
     if kind == 47 { return semantic_type_status(); }
     if kind == 48 {
         usize name = ir_first_name(context, node);
@@ -486,13 +486,13 @@ unsafe usize ir_node_type_uncached(
                 ) { return semantic_type_bool(); }
                 if span_equals_ascii(
                     context.source, member_start, member_length, "code"
-                ) { return semantic_builtin_type("i32", 0, 3); }
+                ) { return semantic_type_i32(); }
                 return semantic_type_text();
             }
             if base_type < context.types.length && read_record_field(
                 context.type_data, base_type, 0
             ) == 11 {
-                return semantic_builtin_type("usize", 0, 5);
+                return semantic_type_usize();
             }
             usize aggregate_symbol = ir_aggregate_for_type(
                 context, base_type
