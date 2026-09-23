@@ -556,3 +556,17 @@ changes diagnostic rule order for negligible total gain, it too was discarded.
 The next candidate must remove semantic work rather than merely change which
 validation group pays for it; whole-compiler wall time and memory remain the
 acceptance criteria.
+
+A scope-safe spelling-cache trial then activated the existing bounded
+per-source table only for resolutions whose binding cannot change at another
+position in the function: a parameter without any same-spelled local, or a
+nonlocal symbol without any same-spelled local. Candidate `78347e9` passed a
+byte-exact three-stage bootstrap, 25/25 Windows x64 substrate checks, 278/278
+native conformance checks, and a direct invalid-shadowing build comparison.
+Both clean, 11-pair Windows revision runs passed fixed-point, executable-output,
+and RAM gates. Large-function run 35800708154 improved median paired wall time
+by 12 ms (7 wins, 4 losses), but control-flow run 35800761353 regressed by
+9 ms (3 wins, 1 tie, 7 losses). The trial remains isolated on
+`codex/sh27-stable-name-cache` and is not promoted to master. Its mixed result
+reinforces that a scope-safe lookup shortcut is not the missing broad C/D
+throughput gain; the accepted compiler remains at `6fb216ec...679b04a`.
