@@ -83,33 +83,31 @@ unsafe usize acceptance_validate_assignments(ref IrContext context) {
     return errors;
 }
 
-unsafe usize acceptance_validate_binary(ref IrContext context) {
-    usize errors = 0;
-    usize node_index = 0;
-    usize node_count = context.syntax.length;
-    if context.expression_nodes != null { node_count = context.expression_count; }
-    while node_index < node_count {
-        usize node = node_index;
-        if context.expression_nodes != null {
-            node = read_usize(
-                context.expression_nodes, node_index * size_of(usize)
-            );
-        }
-        if read_record_field(context.syntax_data, node, 0) == 36 {
-            usize operator_start = read_record_field(context.syntax_data, node, 3);
-            usize left = ir_left_expression(
-                context, node, operator_start
-            );
-            usize right = ir_right_expression(
-                context, node,
-                operator_start + read_record_field(context.syntax_data, node, 4)
-            );
-            usize left_type = ir_node_type(
-                context, left, semantic_type_error()
-            );
-            usize right_type = ir_node_type(
-                context, right, semantic_type_error()
-            );
+// A binary's rule facts are expectation-independent once its two operands
+// have been indexed. Compute them during the first type visit when possible;
+// the later rule-family pass only emits details in its historical order.
+// Bit 0..7 correspond to the detail reasons in acceptance_emit_binary_flags.
+unsafe usize acceptance_binary_rule_flags(
+    ref IrContext context,
+    usize node
+) {
+    if context.typed_expression_cache != null {
+        usize cached = ir_typed_expression_read(context, node, 1);
+        if cached != 0 { return cached - 1; }
+    }
+    usize flags = 0;
+    usize operator_start = read_record_field(context.syntax_data, node, 3);
+    usize left = ir_left_expression(context, node, operator_start);
+    usize right = ir_right_expression(
+        context, node,
+        operator_start + read_record_field(context.syntax_data, node, 4)
+    );
+    usize left_type = ir_node_type(
+        context, left, semantic_type_error()
+    );
+    usize right_type = ir_node_type(
+        context, right, semantic_type_error()
+    );
             bool logical = flow_node_operator(
                 context.source, context.syntax_data, node, "&&"
             ) || flow_node_operator(
@@ -132,10 +130,7 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
             if logical {
                 if left_type != semantic_type_bool() ||
                     right_type != semantic_type_bool() {
-                    acceptance_report_node(
-                        context, "binary", "logical_type", node
-                    );
-                    errors = errors + 1;
+                    flags = flags | 1;
                 }
             } else if comparison {
                 bool null_pointer = (read_record_field(
@@ -150,26 +145,17 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
                     acceptance_literal_fits(context, right, left_type) ||
                     null_pointer;
                 if !compatible {
-                    acceptance_report_node(
-                        context, "binary", "comparison_type", node
-                    );
-                    errors = errors + 1;
+                    flags = flags | 2;
                 }
                 if equality && (acceptance_resource(context, left_type) ||
                     acceptance_resource(context, right_type)) {
-                    acceptance_report_node(
-                        context, "binary", "resource_equality", node
-                    );
-                    errors = errors + 1;
+                    flags = flags | 4;
                 }
             } else if acceptance_kind(context, left_type) != 13 &&
                 acceptance_kind(context, right_type) != 13 {
                 if !acceptance_numeric(context, left_type) ||
                     !acceptance_numeric(context, right_type) {
-                    acceptance_report_node(
-                        context, "binary", "numeric_type", node
-                    );
-                    errors = errors + 1;
+                    flags = flags | 8;
                 } else if !acceptance_lossless(
                     context, left_type, right_type
                 ) && !acceptance_lossless(
@@ -179,10 +165,7 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
                 ) && !acceptance_literal_fits(
                     context, right, left_type
                 ) {
-                    acceptance_report_node(
-                        context, "binary", "numeric_conversion", node
-                    );
-                    errors = errors + 1;
+                    flags = flags | 16;
                 }
             }
             bool bitwise = flow_node_operator(
@@ -193,10 +176,7 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
                 context.source, context.syntax_data, node, "^"
             );
             if bitwise && acceptance_kind(context, left_type) == 2 {
-                acceptance_report_node(
-                    context, "binary", "signed_bitwise", node
-                );
-                errors = errors + 1;
+                flags = flags | 32;
             }
             bool shift = flow_node_operator(
                 context.source, context.syntax_data, node, "<<"
@@ -211,10 +191,7 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
                     amount.value >= cast(i64, acceptance_bits(
                         context, left_type
                     ))) {
-                    acceptance_report_node(
-                        context, "binary", "shift_range", node
-                    );
-                    errors = errors + 1;
+                    flags = flags | 64;
                 }
             }
             if flow_node_operator(
@@ -229,12 +206,73 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
                 if left_value.valid && right_value.valid &&
                     left_value.value == cast(i64, -2147483647) - 1 &&
                     right_value.value == -1 {
-                    acceptance_report_node(
-                        context, "binary", "division_overflow", node
-                    );
-                    errors = errors + 1;
+                    flags = flags | 128;
                 }
             }
+    if context.typed_expression_cache != null {
+        ir_typed_expression_write(context, node, 1, flags + 1);
+    }
+    return flags;
+}
+
+unsafe usize acceptance_emit_binary_flags(
+    ref IrContext context,
+    usize node,
+    usize flags
+) {
+    usize errors = 0;
+    if (flags & 1) != 0 {
+        acceptance_report_node(context, "binary", "logical_type", node);
+        errors = errors + 1;
+    }
+    if (flags & 2) != 0 {
+        acceptance_report_node(context, "binary", "comparison_type", node);
+        errors = errors + 1;
+    }
+    if (flags & 4) != 0 {
+        acceptance_report_node(context, "binary", "resource_equality", node);
+        errors = errors + 1;
+    }
+    if (flags & 8) != 0 {
+        acceptance_report_node(context, "binary", "numeric_type", node);
+        errors = errors + 1;
+    }
+    if (flags & 16) != 0 {
+        acceptance_report_node(context, "binary", "numeric_conversion", node);
+        errors = errors + 1;
+    }
+    if (flags & 32) != 0 {
+        acceptance_report_node(context, "binary", "signed_bitwise", node);
+        errors = errors + 1;
+    }
+    if (flags & 64) != 0 {
+        acceptance_report_node(context, "binary", "shift_range", node);
+        errors = errors + 1;
+    }
+    if (flags & 128) != 0 {
+        acceptance_report_node(context, "binary", "division_overflow", node);
+        errors = errors + 1;
+    }
+    return errors;
+}
+
+unsafe usize acceptance_validate_binary(ref IrContext context) {
+    usize errors = 0;
+    usize node_index = 0;
+    usize node_count = context.syntax.length;
+    if context.expression_nodes != null { node_count = context.expression_count; }
+    while node_index < node_count {
+        usize node = node_index;
+        if context.expression_nodes != null {
+            node = read_usize(
+                context.expression_nodes, node_index * size_of(usize)
+            );
+        }
+        if read_record_field(context.syntax_data, node, 0) == 36 {
+            usize flags = acceptance_binary_rule_flags(context, node);
+            errors = errors + acceptance_emit_binary_flags(
+                context, node, flags
+            );
         }
         node_index = node_index + 1;
     }

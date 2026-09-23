@@ -98,6 +98,27 @@ unsafe usize ir_node_type_uncached(
         return child_type;
     }
     if kind == 36 {
+        if context.typed_expression_cache != null &&
+            ir_typed_expression_read(context, node, 1) == 0 {
+            usize rule_operator_start = read_record_field(
+                context.syntax_data, node, 3
+            );
+            usize rule_left = ir_left_expression(
+                context, node, rule_operator_start
+            );
+            usize rule_right = ir_right_expression(
+                context, node,
+                rule_operator_start + read_record_field(
+                    context.syntax_data, node, 4
+                )
+            );
+            // Malformed syntax may not have indexed operands. In that case
+            // leave rule evaluation to the existing source-order pass,
+            // after this node's type has returned and can be queried safely.
+            if rule_left != node && rule_right != node {
+                acceptance_binary_rule_flags(context, node);
+            }
+        }
         if flow_node_operator(context.source, context.syntax_data, node, "==") ||
             flow_node_operator(context.source, context.syntax_data, node, "!=") ||
             flow_node_operator(context.source, context.syntax_data, node, "<") ||
