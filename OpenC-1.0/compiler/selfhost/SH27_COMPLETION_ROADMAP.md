@@ -1,8 +1,10 @@
 # SH-27 completion roadmap
 
-Status: **ACTIVE; not performance-complete**. This is the forward execution
-plan. `SH27_POST_RELEASE_PERFORMANCE_PLAN.md`, `SH27_NATIVE_CHUNK_PROOF.md`,
-and `../../release/SH27_PRODUCTION_CORPUS_EVIDENCE.md` retain the historical evidence.
+Status: **ACTIVE; not performance-complete**. The ordered, falsifiable
+implementation checklist is `SH27_EXECUTION_PLAN.md`; this file retains the
+full measurement history and work-package rationale.
+`SH27_POST_RELEASE_PERFORMANCE_PLAN.md`, `SH27_NATIVE_CHUNK_PROOF.md`, and
+`../../release/SH27_PRODUCTION_CORPUS_EVIDENCE.md` retain the historical evidence.
 Do not mistake a green evidence-only workflow for throughput parity.
 `SH27_TYPED_EXPRESSION_CUTOVER.md` specifies the Gate C implementation and
 cutover proof, including the current pass-order and call-node dependency traps.

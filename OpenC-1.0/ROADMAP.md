@@ -27,8 +27,10 @@ performance milestone. Windows concepts remain outside Core, and
 Linux/freestanding remain nonblocking targets. The architecture is in
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
-The remaining SH-27 engineering work is sequenced with measurable redesign,
-incremental-build, real-project, and blocking parity gates in
+The remaining SH-27 engineering work has an ordered implementation and
+closure checklist in
+[`compiler/selfhost/SH27_EXECUTION_PLAN.md`](compiler/selfhost/SH27_EXECUTION_PLAN.md),
+with measurement history and redesign rationale in
 [`compiler/selfhost/SH27_COMPLETION_ROADMAP.md`](compiler/selfhost/SH27_COMPLETION_ROADMAP.md).
 The current clean-runner comparator workflow is evidence-only and does not
 mean the 1.25x C/D target has passed.
