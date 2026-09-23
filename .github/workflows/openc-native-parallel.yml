@@ -9,6 +9,7 @@ on:
       - OpenC-1.0/compiler/selfhost/openc.project.json
       - OpenC-1.0/compiler/selfhost/bootstrap_sh27_native_parallel.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_native_chunks.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_worker_tradeoff.py
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_native_parallel.py
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
@@ -72,6 +73,23 @@ jobs:
           --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
           --output artifacts\sh27-native-parallel\source-worker-proof.json
 
+      - name: Check two-worker bytes, diagnostics, and process-tree RAM
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\verify_sh27_native_chunks.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks 2
+          --output artifacts\sh27-native-parallel\source-worker-two-proof.json
+
+      - name: Require material two-worker RAM savings
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\verify_sh27_worker_tradeoff.py
+          --two-proof artifacts\sh27-native-parallel\source-worker-two-proof.json
+          --four-proof artifacts\sh27-native-parallel\source-worker-proof.json
+          --minimum-savings-mib 32
+          --output artifacts\sh27-native-parallel\worker-ram-tradeoff.json
+
       - name: Compare control-flow compilation
         shell: cmd
         run: >-
@@ -98,6 +116,33 @@ jobs:
           --workload selfhost --pairs ${{ inputs.pairs || '11' }}
           --require-gain
           --output artifacts\sh27-native-parallel\selfhost-pairs.json
+
+      - name: Compare two-worker control-flow compilation
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_native_parallel.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks 2 --workload control_flow
+          --pairs ${{ inputs.pairs || '11' }} --require-gain
+          --output artifacts\sh27-native-parallel\two-worker-control-flow-pairs.json
+
+      - name: Compare two-worker large-function compilation
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_native_parallel.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks 2 --workload large_functions
+          --pairs ${{ inputs.pairs || '11' }} --require-gain
+          --output artifacts\sh27-native-parallel\two-worker-large-functions-pairs.json
+
+      - name: Compare two-worker compiler self-build
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_native_parallel.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks 2 --workload selfhost
+          --pairs ${{ inputs.pairs || '11' }} --require-gain
+          --output artifacts\sh27-native-parallel\two-worker-selfhost-pairs.json
 
       - name: Configure pinned MSVC comparator
         uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1.13.0

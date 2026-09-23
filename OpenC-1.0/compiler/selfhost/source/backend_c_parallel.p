@@ -64,6 +64,8 @@ unsafe i32 c_parallel_jobs(
 
 unsafe i32 c_native_parallel_jobs(ptr CNativeChunkState state) { return 3; }
 
+unsafe i32 c_native_parallel_jobs_two(ptr CNativeChunkState state) { return 3; }
+
 unsafe usize c_project_source_count(ref IrContext base) {
     usize source_count = 0;
     usize module_index = 0;

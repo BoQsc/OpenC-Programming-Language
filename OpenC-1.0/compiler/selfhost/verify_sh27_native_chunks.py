@@ -17,13 +17,14 @@ from benchmark_sh27_production import (
 
 def measured_build(
     compiler: Path, project: Path, output: Path, chunked: bool,
+    source_chunks: int = 4,
 ) -> dict[str, object]:
     output.parent.mkdir(parents=True, exist_ok=False)
     disk_free_before = require_disk_headroom(output)
     if chunked:
         command = [
             str(compiler), "artifact", f"--project={project}", "--kind=exe",
-            f"--output={output}", "--source-chunks=4",
+            f"--output={output}", f"--source-chunks={source_chunks}",
             f"--report={output.parent / 'artifact.json'}",
         ]
     else:
@@ -63,6 +64,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--compiler", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--source-chunks", type=int, choices=(2, 4), default=4)
     args = parser.parse_args()
     compiler = args.compiler.resolve()
     if not compiler.is_file():
@@ -80,7 +82,9 @@ def main() -> int:
         ("selfhost", ROOT / "compiler/selfhost/openc.project.json")
     ]
     for workload in corpus["workloads"]:
-        if workload["id"] not in {"many_files", "large_functions", "control_flow"}:
+        if workload["id"] not in {
+            "small_single_file", "many_files", "large_functions", "control_flow"
+        }:
             continue
         generated = generate_language(
             run_root / "sources" / str(workload["id"]), "openc", workload
@@ -93,7 +97,8 @@ def main() -> int:
             compiler, project, run_root / name / "serial" / "program.exe", False
         )
         chunked = measured_build(
-            compiler, project, run_root / name / "chunked" / "program.exe", True
+            compiler, project, run_root / name / "chunked" / "program.exe", True,
+            args.source_chunks,
         )
         exact = bool(
             serial["passed"] and chunked["passed"]
@@ -127,6 +132,7 @@ def main() -> int:
     invalid_chunked = measured_build(
         compiler, invalid_project,
         run_root / "invalid" / "chunked" / "program.exe", True,
+        args.source_chunks,
     )
     serial_diagnostics = str(invalid_serial["stdout"])
     chunked_diagnostics = str(invalid_chunked["stdout"]).replace(
@@ -177,7 +183,7 @@ def main() -> int:
         measured_build(
             compiler, two_invalid_project,
             run_root / "two_invalid" / f"chunked-{index:02d}" / "program.exe",
-            True,
+            True, args.source_chunks,
         )
         for index in range(5)
     ]
@@ -211,8 +217,8 @@ def main() -> int:
         "schema": "openc.sh27.native_source_chunks.v1",
         "status": "PASS" if passed else "FAIL",
         "compiler_sha256": sha256(compiler),
-        "source_chunks": 4,
-        "execution": "opt-in four source chunks; scheduling is compiler-revision-specific",
+        "source_chunks": args.source_chunks,
+        "execution": "opt-in native source chunks; scheduling is compiler-revision-specific",
         "results": results,
     }
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

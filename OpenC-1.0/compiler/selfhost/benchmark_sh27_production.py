@@ -408,11 +408,12 @@ def build_command(
 ) -> list[str]:
     sources = [str(path) for path in input_record["sources"]]
     if tool == "openc":
-        if openc_source_chunks == 4:
+        if openc_source_chunks in (2, 4):
             return [
                 str(executable), "artifact",
                 f"--project={input_record['project']}", "--kind=exe",
-                f"--output={output}", "--source-chunks=4",
+                f"--output={output}",
+                f"--source-chunks={openc_source_chunks}",
                 f"--report={timing}",
             ]
         return [
@@ -687,8 +688,8 @@ def main() -> int:
     parser.add_argument("--self-build-runs", type=int, default=1)
     parser.add_argument("--parallel-projects", type=int, default=4)
     parser.add_argument(
-        "--openc-source-chunks", type=int, choices=(1, 4), default=1,
-        help="use opt-in native four-chunk artifact builds for the OpenC lane",
+        "--openc-source-chunks", type=int, choices=(1, 2, 4), default=1,
+        help="use opt-in native two- or four-chunk artifact builds for the OpenC lane",
     )
     parser.add_argument(
         "--output", type=Path,
@@ -912,7 +913,7 @@ def main() -> int:
                 openc_source_chunks=args.openc_source_chunks,
                 output_filename=(
                     f"program-run-{run + 1:02d}.exe"
-                    if args.openc_source_chunks == 4 else "program.exe"
+                    if args.openc_source_chunks != 1 else "program.exe"
                 ),
             )
             sample["run"] = run + 1
@@ -928,8 +929,8 @@ def main() -> int:
         "policy": (
             "same source tree and output directory; exactly one source text "
             "changes before each full compiler invocation; the opt-in "
-            "four-chunk lane uses a fresh executable filename per edit"
-            if args.openc_source_chunks == 4 else
+            "chunked lane uses a fresh executable filename per edit"
+            if args.openc_source_chunks != 1 else
             "same source tree and output directory; exactly one source text "
             "changes before each full compiler invocation"
         ),

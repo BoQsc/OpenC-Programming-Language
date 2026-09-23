@@ -280,14 +280,46 @@ unsafe CParallelChunk c_native_source_chunk(
     return chunk;
 }
 
+unsafe CParallelChunk c_native_empty_chunk(
+    ref IrContext base,
+    usize source_count
+) {
+    CParallelChunk chunk = c_parallel_chunk(base, source_count,
+        source_count, 1);
+    chunk.timings.emission_mode = 2;
+    chunk.result = 0;
+    return chunk;
+}
+
 unsafe CNativeChunkState c_native_chunk_state_create(
     ref IrContext base,
     usize source_count,
     usize chunk_capacity,
     usize entry_module,
     ptr byte validation_source_ms,
-    ptr byte parsed_source_cache
+    ptr byte parsed_source_cache,
+    usize worker_count
 ) {
+    if worker_count == 2 {
+        usize half = source_count / 2;
+        return CNativeChunkState{
+            chunk_one = c_native_source_chunk(
+                base, 0, half,
+                c_native_chunk_output_capacity(base, 0, half, chunk_capacity)
+            ),
+            chunk_two = c_native_source_chunk(
+                base, half, source_count,
+                c_native_chunk_output_capacity(base, half, source_count,
+                    chunk_capacity)
+            ),
+            chunk_three = c_native_empty_chunk(base, source_count),
+            chunk_four = c_native_empty_chunk(base, source_count),
+            entry_module = entry_module,
+            frozen_type_count = base.types.length,
+            validation_source_ms = ir_pointer_alias(validation_source_ms),
+            parsed_source_cache = ir_pointer_alias(parsed_source_cache)
+        };
+    }
     usize cut_one = source_count / 4;
     usize cut_two = source_count / 2;
     usize cut_three = source_count * 3 / 4;
@@ -389,10 +421,12 @@ unsafe bool c_emit_native_sources_chunked(
     usize entry_module,
     ref BuildTimings timings,
     ptr byte validation_source_ms,
-    ptr byte parsed_source_cache
+    ptr byte parsed_source_cache,
+    usize worker_count
 ) {
     usize source_count = c_project_source_count(base);
-    if source_count < 4 { return false; }
+    if worker_count != 2 && worker_count != 4 { return false; }
+    if source_count < worker_count { return false; }
     if output.ok && output.capacity > output.length + 65536 {
         DBuffer header = d_buffer_create(output.length + 65536);
         d_put(header, d_buffer_text(output));
@@ -401,9 +435,15 @@ unsafe bool c_emit_native_sources_chunked(
     }
     CNativeChunkState state = c_native_chunk_state_create(
         base, source_count, output_capacity + 65536,
-        entry_module, validation_source_ms, parsed_source_cache
+        entry_module, validation_source_ms, parsed_source_cache,
+        worker_count
     );
-    i32 launch_result = c_native_parallel_jobs(&state);
+    i32 launch_result = 3;
+    if worker_count == 2 {
+        launch_result = c_native_parallel_jobs_two(&state);
+    } else {
+        launch_result = c_native_parallel_jobs(&state);
+    }
     // A failed or unavailable launch returns only after joining the threads
     // already started; run precisely the chunks still marked unstarted.
     if state.chunk_one.result == -1 {
@@ -457,6 +497,23 @@ unsafe bool c_emit_native_sources_chunked(
         c_parallel_chunk_append(output, timings, state.chunk_three);
         c_parallel_chunk_append(output, timings, state.chunk_four);
         passed = output.ok;
+    }
+    if !passed {
+        io.print("OPENC-NATIVE-CHUNK-FAILED launch=");
+        io.print(launch_result);
+        io.print(" results=");
+        io.print(state.chunk_one.result); io.print(",");
+        io.print(state.chunk_two.result); io.print(",");
+        io.print(state.chunk_three.result); io.print(",");
+        io.print(state.chunk_four.result);
+        io.print(" type_lengths=");
+        io.print(state.chunk_one.base.types.length); io.print(",");
+        io.print(state.chunk_two.base.types.length); io.print(",");
+        io.print(state.frozen_type_count);
+        io.print(" output_ok=");
+        io.print(state.chunk_one.output.ok); io.print(",");
+        io.print(state.chunk_two.output.ok);
+        io.println("");
     }
     c_native_chunk_state_destroy(state);
     return passed;

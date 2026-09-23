@@ -545,6 +545,18 @@ IR reach closure. Exact evidence and reproduction commands are in
       tool-presence, correctness, execution, output, and RAM checks and retains
       JSON evidence as artifact 10734212162. Workflow success is not a parity
       claim; the throughput deficit remains real and explicitly open.
+      An opt-in two-worker mode then passes byte-exact five-workload output,
+      repeated multi-error diagnostics, 278/278 conformance, 25/25 x64,
+      and a byte-exact compiler fixed point. Eleven local pairs win 11/11
+      control-flow, 10/11 large-functions, and 11/11 self-build comparisons,
+      while peak private memory is 97.4, 191.7, and 223.0 MiB. It is slower
+      than four workers and remains 2.917x/2.726x DMD on the local large and
+      control corpora. Clean two-worker proof, adaptive scheduling, and
+      substantive semantic-pass reduction remain next.
+      A same-compiler RAM trade-off gate now requires at least 32 MiB of
+      two-worker savings on control flow, large functions, and self-build;
+      local savings are 64.4, 114.4, and 60.3 MiB. The expanded commit/manual
+      workflow will test this on a clean host.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

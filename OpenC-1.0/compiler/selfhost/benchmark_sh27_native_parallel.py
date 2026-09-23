@@ -18,7 +18,7 @@ from benchmark_sh27_production import (
 
 def build(
     compiler: Path, project: Path, directory: Path, parallel: bool,
-    retain_binary: bool,
+    retain_binary: bool, source_chunks: int,
 ) -> dict[str, object]:
     free_bytes = require_disk_headroom(directory)
     directory.mkdir(parents=True, exist_ok=False)
@@ -28,7 +28,7 @@ def build(
         f"--output={output}", f"--report={directory / 'artifact.json'}",
     ]
     if parallel:
-        command.append("--source-chunks=4")
+        command.append(f"--source-chunks={source_chunks}")
     sample = run_measured(
         command, cwd=ROOT, environment=dict(os.environ),
         sample_interval=0.01, max_private_bytes=512 * MIB,
@@ -67,6 +67,7 @@ def main() -> int:
         "selfhost", "many_files", "large_functions", "control_flow",
     ))
     parser.add_argument("--pairs", type=int, default=11)
+    parser.add_argument("--source-chunks", type=int, choices=(2, 4), default=4)
     parser.add_argument("--require-gain", action="store_true",
                         help="fail unless a majority of pairs win and median delta is negative")
     parser.add_argument("--output", type=Path, required=True)
@@ -99,6 +100,7 @@ def main() -> int:
         project = Path(str(source["project"]))
         source = json.loads(json.dumps(source, default=str))
     samples: dict[str, list[dict[str, object]]] = {"serial": [], "parallel": []}
+    checkpoint = output.with_name(output.stem + "-checkpoint.json")
     for pair in range(args.pairs):
         order = ("serial", "parallel") if pair % 2 == 0 else (
             "parallel", "serial"
@@ -106,7 +108,8 @@ def main() -> int:
         for name in order:
             directory = run_root / "pairs" / f"pair-{pair + 1:02d}" / name
             result = build(
-                compiler, project, directory, name == "parallel", pair == 0
+                compiler, project, directory, name == "parallel", pair == 0,
+                args.source_chunks,
             )
             samples[name].append(result)
             print(
@@ -119,6 +122,17 @@ def main() -> int:
                     f"{name} pair {pair + 1} failed; "
                     f"measurement={directory / 'measurement.json'}"
                 )
+        checkpoint.write_text(
+            json.dumps({
+                "schema": "openc.sh27.native_parallel_checkpoint.v1",
+                "compiler_sha256": sha256(compiler),
+                "workload": args.workload,
+                "source_chunks": args.source_chunks,
+                "pairs_requested": args.pairs,
+                "pairs_completed": pair + 1,
+                "samples": samples,
+            }, indent=2, default=str) + "\n", encoding="utf-8",
+        )
     hashes = {
         str(item["output_sha256"])
         for group in samples.values() for item in group
@@ -145,6 +159,7 @@ def main() -> int:
         },
         "compiler": {"path": str(compiler), "sha256": sha256(compiler)},
         "workload": args.workload, "source": source, "pairs": args.pairs,
+        "source_chunks": args.source_chunks,
         "binary_retention": "first pair retained; later hashes recorded before removal",
         "checks": {
             "all_outputs_byte_exact": exact,

@@ -4,6 +4,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -110,12 +111,56 @@ class Sh27ProductionTests(unittest.TestCase):
             "openc", Path("openc.exe"), input_record, output, report,
             openc_source_chunks=4,
         )
+        two_workers = BENCHMARK.build_command(
+            "openc", Path("openc.exe"), input_record, output, report,
+            openc_source_chunks=2,
+        )
         self.assertEqual(serial[1], "build")
         self.assertNotIn("--source-chunks=4", serial)
         self.assertEqual(parallel[1], "artifact")
         self.assertIn("--kind=exe", parallel)
         self.assertIn("--source-chunks=4", parallel)
         self.assertIn(f"--report={report}", parallel)
+        self.assertEqual(two_workers[1], "artifact")
+        self.assertIn("--source-chunks=2", two_workers)
+
+    def test_worker_tradeoff_requires_same_compiler_and_material_savings(self) -> None:
+        script = ROOT / "compiler/selfhost/verify_sh27_worker_tradeoff.py"
+        def proof(chunks: int, peak_mib: int) -> dict[str, object]:
+            return {
+                "status": "PASS", "source_chunks": chunks,
+                "compiler_sha256": "same-compiler",
+                "results": {
+                    name: {
+                        "byte_exact": True,
+                        "serial": {"output_sha256": "same-program"},
+                        "chunked": {"peak_job_private_bytes": peak_mib * BENCHMARK.MIB},
+                    }
+                    for name in ("control_flow", "large_functions", "selfhost")
+                },
+            }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            two = root / "two.json"
+            four = root / "four.json"
+            output = root / "result.json"
+            two.write_text(json.dumps(proof(2, 100)), encoding="utf-8")
+            four_record = proof(4, 140)
+            four.write_text(json.dumps(four_record), encoding="utf-8")
+            command = [
+                sys.executable, str(script), "--two-proof", str(two),
+                "--four-proof", str(four), "--output", str(output),
+            ]
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            self.assertEqual(json.loads(output.read_text())["status"], "PASS")
+            four_record["results"]["large_functions"]["chunked"][
+                "peak_job_private_bytes"
+            ] = 120 * BENCHMARK.MIB
+            four.write_text(json.dumps(four_record), encoding="utf-8")
+            self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            four_record["compiler_sha256"] = "different-compiler"
+            four.write_text(json.dumps(four_record), encoding="utf-8")
+            self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
 
     @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
     def test_failed_paired_bootstrap_preserves_stage_measurement(self) -> None:

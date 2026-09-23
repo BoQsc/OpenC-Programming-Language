@@ -27,7 +27,12 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
     DCompilerCallSpan call_span = d_compiler_call_span(
         context, kind, one, two
     );
-    if native_compiler_span_is(call_span, "c_native_parallel_jobs") {
+    bool two_workers = native_compiler_span_is(
+        call_span, "c_native_parallel_jobs_two"
+    );
+    if two_workers || native_compiler_span_is(
+        call_span, "c_native_parallel_jobs"
+    ) {
         if d_operand_count(context, instruction) != 1 {
             function.code.ok = false; return true;
         }
@@ -63,8 +68,10 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
 
         x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
         x64_mov_memory_r64(function.code, 4, 1464, 0);
+        usize spawned_workers = 3;
+        if two_workers { spawned_workers = 1; }
         usize worker = 0;
-        while worker < 3 {
+        while worker < spawned_workers {
             usize callback = callback_one;
             if worker == 1 { callback = callback_two; }
             if worker == 2 { callback = callback_three; }
@@ -88,9 +95,11 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         }
 
         x64_mov_r64_memory(function.code, 1, 4, 1424);
-        x64_call_symbol(function.code, callback_four, 0);
+        usize caller_callback = callback_four;
+        if two_workers { caller_callback = callback_two; }
+        x64_call_symbol(function.code, caller_callback, 0);
         worker = 0;
-        while worker < 3 {
+        while worker < spawned_workers {
             x64_mov_r64_memory(function.code, 1, 4, 1440 + worker * 8);
             x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
             x64_emit_u8(function.code, 201);
