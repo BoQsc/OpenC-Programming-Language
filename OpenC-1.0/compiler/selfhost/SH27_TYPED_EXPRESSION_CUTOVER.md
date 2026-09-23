@@ -280,3 +280,17 @@ ratio.
   neither is a material reduction of the SH-27 gap. The experimental compiler
   edits were removed. This does not satisfy any part of the typed-record
   cutover and must not be counted as an accepted speed improvement.
+- Eager binary-rule facts in a packed typed-expression record: rejected as
+  an isolated semantic-fusion experiment at `5a256cd` on
+  `codex/sh27-semantic-fusion`. It passed byte-exact fixed point,
+  278/278 conformance, and serial/adaptive executable and invalid-diagnostic
+  proofs. Against the otherwise identical packed-record plus scalar-flow
+  baseline `71da7a4`, eleven guarded order-alternated pairs gave **0 ms**
+  large-function median delta (5/11 candidate wins) and **+3 ms** control
+  median delta (5/11 wins); generated binaries were byte-identical. The
+  result shows that moving binary rule evaluation into first type visits
+  and replaying its diagnostic flags later does not reduce end-to-end wall
+  time. No self-build speed claim was made; the candidate fails the targeted
+  speed gate before production promotion. Keep the experiment isolated and
+  redesign first-visit semantic evaluation rather than extending this
+  flag-cache strategy.
