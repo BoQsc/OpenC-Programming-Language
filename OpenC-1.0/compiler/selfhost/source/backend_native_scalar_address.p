@@ -74,7 +74,7 @@ unsafe void native_copy_value(ref NativeFunction function, usize size) {
 
 unsafe void native_analyze_values(ref IrContext context, usize first,
     ptr byte value_types, ptr byte reference_storage,
-    ptr byte instruction_order) {
+    ptr byte instruction_order, ptr byte use_counts, usize value_capacity) {
     usize ordered = 0;
     while ordered < context.instructions.length {
         usize instruction = read_usize(
@@ -86,6 +86,19 @@ unsafe void native_analyze_values(ref IrContext context, usize first,
         usize opcode = read_record_field(
             context.instruction_data, instruction, 2
         );
+        if use_counts != null {
+            usize operand = 0;
+            usize count = d_operand_count(context, instruction);
+            while operand < count {
+                usize value = d_operand_value(context, instruction, operand);
+                if value >= first && value - first < value_capacity {
+                    usize offset = (value - first) * size_of(usize);
+                    write_usize(use_counts, offset,
+                        read_usize(use_counts, offset) + 1);
+                }
+                operand = operand + 1;
+            }
+        }
         if result != 0 {
             write_usize(value_types, (result - first) * size_of(usize),
                 read_record_field(context.instruction_data, instruction, 3));

@@ -19,5 +19,13 @@ i32 main() {
     if last_imm32 != 0xffff_ffff { return 8; }
     u64 first_imm64 = 4294967296;
     if first_imm64 != 0x1_0000_0000 { return 9; }
+    u64 across_imm32 = last_imm32 + 1;
+    if across_imm32 != first_imm64 { return 10; }
+    i64 near_signed_max = 9223372036854775806;
+    i64 signed_max_after_add = near_signed_max + 1;
+    if signed_max_after_add != 9223372036854775807 { return 11; }
+    u8 small = 127;
+    u8 small_after_sub = small - 1;
+    if small_after_sub != 126 { return 12; }
     return 0;
 }

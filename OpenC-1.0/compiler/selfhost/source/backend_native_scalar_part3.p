@@ -2,6 +2,63 @@ import system.io;
 import system.memory;
 import system.text;
 
+unsafe bool native_try_integer_immediate(
+    ref IrContext context, ref NativeFunction function,
+    usize constant_instruction, usize binary_instruction,
+    ptr byte use_counts
+) {
+    if read_record_field(context.instruction_data, constant_instruction, 2) !=
+            ir_op_const_integer() ||
+        read_record_field(context.instruction_detail, constant_instruction, 0) != 4 ||
+        read_record_field(context.instruction_data, binary_instruction, 2) !=
+            ir_op_binary() ||
+        d_operand_count(context, binary_instruction) != 2 {
+        return false;
+    }
+    usize constant = read_record_field(
+        context.instruction_data, constant_instruction, 1);
+    if constant < function.first_value ||
+        constant > context.next_value ||
+        d_operand_value(context, binary_instruction, 1) != constant ||
+        read_usize(use_counts,
+            (constant - function.first_value) * size_of(usize)) != 1 {
+        return false;
+    }
+    usize immediate = read_record_field(
+        context.instruction_detail, constant_instruction, 1);
+    if immediate > 127 { return false; }
+    usize type_id = read_record_field(
+        context.instruction_data, binary_instruction, 3);
+    if type_id >= context.types.length { return false; }
+    usize kind = read_record_field(context.type_data, type_id, 0);
+    if kind != 2 && kind != 3 { return false; }
+    usize left = d_operand_value(context, binary_instruction, 0);
+    if left < function.first_value ||
+        left > context.next_value ||
+        native_value_read(function, function.value_types, left) != type_id {
+        return false;
+    }
+    usize operation = 8;
+    if d_instruction_text_is(context, binary_instruction, "+") {
+        operation = 0;
+    } else if d_instruction_text_is(context, binary_instruction, "-") {
+        operation = 5;
+    }
+    if operation == 8 { return false; }
+    usize result = read_record_field(
+        context.instruction_data, binary_instruction, 1);
+    NativeLayout layout = native_layout(context, type_id, 0);
+    if result == 0 || !layout.valid { function.code.ok = false; return true; }
+    native_load(function, left, 0);
+    x64_alu_r64_imm8(function.code, operation, 0, immediate);
+    usize no_overflow = 3;
+    if kind == 2 { no_overflow = 1; }
+    native_require(function.code, no_overflow);
+    native_check_result(context, function, type_id);
+    native_store(function, result, 0);
+    return true;
+}
+
 unsafe void native_emit_function(
     ref IrContext context, ref DBuffer output, ref BuildTimings timings,
     usize symbol, usize entry_module
@@ -39,6 +96,7 @@ unsafe void native_emit_function(
     usize maximum_layout_size = 8;
     bool function_has_call = false;
     bool function_has_cast = false;
+    bool function_has_small_integer = false;
     usize direct_constant_capacity = 256;
     index = 0;
     while index < context.instructions.length {
@@ -55,6 +113,11 @@ unsafe void native_emit_function(
         }
         if opcode == ir_op_call() { function_has_call = true; }
         if opcode == ir_op_cast() { function_has_cast = true; }
+        if opcode == ir_op_const_integer() &&
+            read_record_field(context.instruction_detail, index, 0) == 4 &&
+            read_record_field(context.instruction_detail, index, 1) <= 127 {
+            function_has_small_integer = true;
+        }
         if opcode == ir_op_const_text() {
             direct_constant_capacity = direct_constant_capacity +
                 read_record_field(context.instruction_detail, index, 2) + 1;
@@ -66,10 +129,14 @@ unsafe void native_emit_function(
     // clearing every value produced by all preceding functions.
     usize value_capacity = context.next_value - first + 1;
     ptr byte value_types = memory.alloc(value_capacity * size_of(usize));
-    ptr byte references = memory.alloc(value_capacity * size_of(usize));
-    ptr byte order = d_instruction_order(context);
-    native_analyze_values(context, first, value_types, references, order);
     ptr byte value_slots = memory.alloc(value_capacity * size_of(usize));
+    ptr byte references = null;
+    if function_has_small_integer {
+        references = memory.alloc(value_capacity * size_of(usize));
+    }
+    ptr byte order = d_instruction_order(context);
+    native_analyze_values(context, first, value_types, value_slots,
+        order, references, value_capacity);
     usize frame_cursor = 1536;
     index = first;
     while index <= context.next_value {
@@ -195,9 +262,27 @@ unsafe void native_emit_function(
             context.instruction_data, read_usize(order, index * size_of(usize)), 0
         ) == block && function.code.ok {
             usize lowering_instruction = read_usize(order, index * size_of(usize));
-            native_scalar_instruction(context, function, lowering_instruction);
-            if !function.code.ok { failed_instruction = lowering_instruction; }
-            index = index + 1;
+            bool immediate_pair = false;
+            if function_has_small_integer &&
+                index + 1 < context.instructions.length {
+                usize next_instruction = read_usize(
+                    order, (index + 1) * size_of(usize));
+                if read_record_field(context.instruction_data,
+                        next_instruction, 0) == block {
+                    immediate_pair = native_try_integer_immediate(
+                        context, function, lowering_instruction,
+                        next_instruction, references);
+                    if immediate_pair {
+                        if !function.code.ok { failed_instruction = next_instruction; }
+                        index = index + 2;
+                    }
+                }
+            }
+            if !immediate_pair {
+                native_scalar_instruction(context, function, lowering_instruction);
+                if !function.code.ok { failed_instruction = lowering_instruction; }
+                index = index + 1;
+            }
         }
         block = block + 1;
     }

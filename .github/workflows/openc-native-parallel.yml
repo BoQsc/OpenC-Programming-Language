@@ -18,6 +18,9 @@ on:
       - OpenC-1.0/compiler/selfhost/verify_sh27_integer_boundaries.py
       - OpenC-1.0/tests/sh27_nested_aggregate/**
       - OpenC-1.0/tests/sh27_integer_literals/**
+      - OpenC-1.0/tests/sh27_integer_immediate_signed_overflow/**
+      - OpenC-1.0/tests/sh27_integer_immediate_unsigned_underflow/**
+      - OpenC-1.0/tests/sh27_integer_immediate_narrow_overflow/**
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
       - OpenC-1.0/benchmarks/sh27/**
