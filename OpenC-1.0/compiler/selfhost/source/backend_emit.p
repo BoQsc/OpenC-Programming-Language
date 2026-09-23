@@ -72,7 +72,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     timings.source_bytes = total_source_length;
     if timings.emission_mode == 2 && artifact_options.source_chunks == 0 {
         timings.auto_source_chunks = true;
-        // The opt-in policy keeps tiny projects serial and caps the input
+        // The default policy keeps tiny projects serial and caps the input
         // size on which it will duplicate native worker state. Four chunks
         // target substantial multi-file work; two cover the middle range.
         if sources.length >= 4 && total_source_length >= 196608 &&

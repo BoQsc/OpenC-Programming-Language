@@ -19,6 +19,7 @@ from benchmark_sh27_production import (
 def build(
     compiler: Path, project: Path, directory: Path, parallel: bool,
     retain_binary: bool, source_chunks: int | str,
+    explicit_serial: bool = False,
 ) -> dict[str, object]:
     free_bytes = require_disk_headroom(directory)
     directory.mkdir(parents=True, exist_ok=False)
@@ -31,6 +32,8 @@ def build(
     ]
     if parallel:
         command.append(f"--source-chunks={source_chunks}")
+    elif explicit_serial:
+        command.append("--source-chunks=1")
     sample = run_measured(
         command, cwd=ROOT, environment=dict(os.environ),
         sample_interval=0.01, max_private_bytes=512 * MIB,
@@ -121,7 +124,7 @@ def main() -> int:
             directory = run_root / "pairs" / f"pair-{pair + 1:02d}" / name
             result = build(
                 compiler, project, directory, name == "parallel", pair == 0,
-                source_chunks,
+                source_chunks, explicit_serial=name == "serial",
             )
             samples[name].append(result)
             print(

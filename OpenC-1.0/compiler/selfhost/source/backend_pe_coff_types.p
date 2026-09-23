@@ -18,7 +18,7 @@ NativeArtifactOptions native_artifact_default_options() {
     return NativeArtifactOptions{
         kind = 0,
         subsystem = 3,
-        source_chunks = 1,
+        source_chunks = 0,
         manifest_path = "",
         resource_path = "",
         dll_name = ""

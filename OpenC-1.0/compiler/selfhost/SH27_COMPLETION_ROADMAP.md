@@ -4,6 +4,10 @@ Status: **ACTIVE; not performance-complete**. This is the forward execution
 plan. `SH27_POST_RELEASE_PERFORMANCE_PLAN.md`, `SH27_NATIVE_CHUNK_PROOF.md`,
 and `../../release/SH27_PRODUCTION_CORPUS_EVIDENCE.md` retain the historical evidence.
 Do not mistake a green evidence-only workflow for throughput parity.
+`SH27_TYPED_EXPRESSION_CUTOVER.md` specifies the Gate C implementation and
+cutover proof, including the current pass-order and call-node dependency traps.
+`SH27_DEFAULT_AUTO_EVIDENCE.md` records an isolated adaptive-default candidate;
+local paired wins do not yet close the clean production-policy gate.
 
 ## Objective and boundary
 
@@ -70,8 +74,10 @@ and clean-CI-proved opt-in first-visit expression-kind profiles plus a pinned
 DMD source comparison exist; first-visit time and allocation attribution
 remain incomplete; two enforced five-sample runs identify the same failing
 lane), B is **clean-CI proved
-on its isolated branch**, C and D are **not started**, E has **partial opt-in
-parallelism but no default policy, true incremental reuse, or complete project
+on its isolated branch**, C has an **implementation contract but no compiler
+cut or speed proof**, D is **not started**, E has an **experimental locally
+proved adaptive-default candidate but no clean production-policy proof, true
+incremental reuse, or complete project
 suite**, and F is **not passed**. The already published Windows 1.0 release
 and existing green evidence workflows do not change those states.
 
@@ -165,8 +171,12 @@ architectural problem, not a cache-tuning exercise:
    source-text parse, and expected-type-dependent fallback. Distinguish time
    within the first semantic visit from the number of visits; a high uncached
    count alone cannot justify memoization.
-2. Build a compact per-source typed-expression record **during the existing
-   dependency-ordered syntax/semantic walk**, not as an extra full prepass.
+2. Build a compact per-source typed-expression record **during source
+   acceptance**, using explicit dependency-aware evaluation rather than an
+   extra full prepass. The current compiler has separate rule-family passes
+   and mixed syntax creation order (calls precede their arguments); it does
+   not already have a dependency-ordered semantic walk. Follow
+   `SH27_TYPED_EXPRESSION_CUTOVER.md` for the required cutover.
    Carry direct child/operand and resolved-symbol references into that record,
    plus the expectation-independent type or a tagged contextual constraint.
    Preserve the exact fallback for expected-type-sensitive literals and
@@ -375,3 +385,10 @@ for the large assignment count. Native emission is not the first bet. Do
 peepholes, or output-size-only changes unless a refreshed profile shows they
 can close a material fraction of the measured ~60-79 ms default-mode
 large-function deficit and leave headroom for runner variation.
+
+An isolated adaptive-default policy candidate now has substantial local
+eleven-pair wins and exact-output/RAM proof (see
+`SH27_DEFAULT_AUTO_EVIDENCE.md`). It has not passed the clean five-compiler
+normal-default gate. Its local DMD ratios remain above 1.25x, so it is a
+parallel production-policy improvement, not a substitute for Gate C's
+first-visit semantic redesign or the remaining SH-27 work packages.

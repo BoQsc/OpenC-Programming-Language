@@ -72,6 +72,7 @@ unsafe i32 cli_artifact_command() {
     usize argument = 1;
     bool valid = true;
     bool profile_type_queries = false;
+    bool source_chunks_explicit = false;
     while argument < process.argument_count() {
         text value = process.argument(argument);
         if cli_has_prefix(value, "--project=") {
@@ -102,8 +103,10 @@ unsafe i32 cli_artifact_command() {
         } else if cli_has_prefix(value, "--dll-name=") {
             options.dll_name = cli_remove_prefix(value, "--dll-name=");
         } else if cli_has_prefix(value, "--source-chunks=") {
+            source_chunks_explicit = true;
             text chunks = cli_remove_prefix(value, "--source-chunks=");
-            if chunks == "2" { options.source_chunks = 2; }
+            if chunks == "1" { options.source_chunks = 1; }
+            else if chunks == "2" { options.source_chunks = 2; }
             else if chunks == "4" { options.source_chunks = 4; }
             else if chunks == "auto" { options.source_chunks = 0; }
             else { valid = false; }
@@ -113,6 +116,10 @@ unsafe i32 cli_artifact_command() {
         argument = argument + 1;
     }
     options.kind = cli_artifact_kind(kind_name);
+    if !source_chunks_explicit &&
+        options.kind != native_artifact_executable() {
+        options.source_chunks = 1;
+    }
     if text.byte_length(project) == 0 ||
         text.byte_length(output_path) == 0 || options.kind > 4 {
         valid = false;
@@ -135,7 +142,7 @@ unsafe i32 cli_artifact_command() {
         valid = false;
     }
     if !valid {
-        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|dll|static-library|import-library) --output=FILE [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--source-chunks=(2|4|auto) (experimental)]\n");
+        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|dll|static-library|import-library) --output=FILE [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--source-chunks=(1|2|4|auto)]\n");
         return 64;
     }
     BuildTimings timings = build_timings_empty();

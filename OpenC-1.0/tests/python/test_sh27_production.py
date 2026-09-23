@@ -99,13 +99,17 @@ class Sh27ProductionTests(unittest.TestCase):
             self.assertEqual(command[1:4], ["-O2", "-release", "-boundscheck=off"])
             self.assertEqual(command[4:], [str(source), f"-of={output}", f"-od={root}"])
 
-    def test_native_chunk_comparator_lane_is_explicit_opt_in(self) -> None:
+    def test_normal_default_and_explicit_chunk_modes_are_distinct(self) -> None:
         project = Path("example.project.json")
         output = Path("program.exe")
         report = Path("report.json")
         input_record = {"project": project, "sources": []}
+        normal_default = BENCHMARK.build_command(
+            "openc", Path("openc.exe"), input_record, output, report,
+        )
         serial = BENCHMARK.build_command(
             "openc", Path("openc.exe"), input_record, output, report,
+            openc_source_chunks=1,
         )
         parallel = BENCHMARK.build_command(
             "openc", Path("openc.exe"), input_record, output, report,
@@ -119,8 +123,10 @@ class Sh27ProductionTests(unittest.TestCase):
             "openc", Path("openc.exe"), input_record, output, report,
             openc_source_chunks="auto",
         )
-        self.assertEqual(serial[1], "build")
-        self.assertNotIn("--source-chunks=4", serial)
+        self.assertEqual(normal_default[1], "build")
+        self.assertNotIn("--source-chunks=1", normal_default)
+        self.assertEqual(serial[1], "artifact")
+        self.assertIn("--source-chunks=1", serial)
         self.assertEqual(parallel[1], "artifact")
         self.assertIn("--kind=exe", parallel)
         self.assertIn("--source-chunks=4", parallel)

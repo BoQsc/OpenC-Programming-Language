@@ -202,11 +202,17 @@ def measured_build(
     compiler: Path, project: Path, output: Path, chunked: bool,
     source_chunks: int | str = 4,
     profile_type_queries: bool = False,
+    default_mode: bool = False,
 ) -> dict[str, object]:
     output.parent.mkdir(parents=True, exist_ok=False)
     disk_free_before = require_disk_headroom(output)
     timing = output.parent / "timings.json"
-    if chunked:
+    if default_mode:
+        command = [
+            str(compiler), "build", f"--project={project}",
+            f"--output={output}", f"--timings={timing}",
+        ]
+    elif chunked:
         command = [
             str(compiler), "artifact", f"--project={project}", "--kind=exe",
             f"--output={output}", f"--source-chunks={source_chunks}",
@@ -215,8 +221,9 @@ def measured_build(
         ]
     else:
         command = [
-            str(compiler), "build", f"--project={project}",
+            str(compiler), "artifact", f"--project={project}", "--kind=exe",
             f"--output={output}",
+            "--source-chunks=1",
             f"--timings={timing}",
         ]
     if profile_type_queries and chunked:
@@ -302,13 +309,23 @@ def main() -> int:
             compiler, project, run_root / name / "chunked" / "program.exe", True,
             source_chunks, args.profile_type_queries,
         )
+        default = measured_build(
+            compiler, project, run_root / name / "default" / "program.exe",
+            True, "auto", args.profile_type_queries, default_mode=True,
+        )
         exact = bool(
-            serial["passed"] and chunked["passed"]
+            serial["passed"] and chunked["passed"] and default["passed"]
             and serial["output_sha256"] == chunked["output_sha256"]
+            and serial["output_sha256"] == default["output_sha256"]
             and serial["output_bytes"] == chunked["output_bytes"]
+            and serial["output_bytes"] == default["output_bytes"]
+            and (source_chunks != "auto" or
+                 chunked["compiler_timings"]["parallel_source_chunks"]
+                 == default["compiler_timings"]["parallel_source_chunks"])
         )
         results[name] = {
-            "serial": serial, "chunked": chunked, "byte_exact": exact
+            "serial": serial, "chunked": chunked, "default": default,
+            "byte_exact": exact,
         }
         passed = passed and exact
         print(
@@ -337,25 +354,40 @@ def main() -> int:
         run_root / "invalid" / "chunked" / "program.exe", True,
         source_chunks, args.profile_type_queries,
     )
-    serial_diagnostics = str(invalid_serial["stdout"])
+    invalid_default = measured_build(
+        compiler, invalid_project,
+        run_root / "invalid" / "default" / "program.exe", True,
+        "auto", args.profile_type_queries, default_mode=True,
+    )
+    serial_diagnostics = str(invalid_serial["stdout"]).replace(
+        "OpenC Windows artifact: FAIL (exe)\n", ""
+    )
     chunked_diagnostics = str(invalid_chunked["stdout"]).replace(
         "OpenC Windows artifact: FAIL (exe)\n", ""
     )
+    default_diagnostics = str(invalid_default["stdout"])
     diagnostic_exact = bool(
         invalid_serial["exit_code"] != 0
         and invalid_chunked["exit_code"] != 0
+        and invalid_default["exit_code"] != 0
         and not invalid_serial["memory_limit_exceeded"]
         and not invalid_chunked["memory_limit_exceeded"]
+        and not invalid_default["memory_limit_exceeded"]
         and not invalid_serial["stdout_truncated"]
         and not invalid_chunked["stdout_truncated"]
+        and not invalid_default["stdout_truncated"]
         and not invalid_serial["stderr_truncated"]
         and not invalid_chunked["stderr_truncated"]
+        and not invalid_default["stderr_truncated"]
         and serial_diagnostics
         and serial_diagnostics == chunked_diagnostics
+        and serial_diagnostics == default_diagnostics
         and invalid_serial["stderr"] == invalid_chunked["stderr"]
+        and invalid_serial["stderr"] == invalid_default["stderr"]
     )
     results["invalid_control_flow"] = {
         "serial": invalid_serial, "chunked": invalid_chunked,
+        "default": invalid_default,
         "diagnostic_exact": diagnostic_exact,
     }
     passed = passed and diagnostic_exact
@@ -391,10 +423,23 @@ def main() -> int:
         )
         for index in range(5)
     ]
-    two_serial_diagnostics = str(two_invalid_serial["stdout"])
+    two_invalid_default = measured_build(
+        compiler, two_invalid_project,
+        run_root / "two_invalid" / "default" / "program.exe", True,
+        "auto", args.profile_type_queries, default_mode=True,
+    )
+    two_serial_diagnostics = str(two_invalid_serial["stdout"]).replace(
+        "OpenC Windows artifact: FAIL (exe)\n", ""
+    )
     two_invalid_exact = bool(
         two_invalid_serial["exit_code"] != 0
         and two_serial_diagnostics
+        and two_invalid_default["exit_code"] != 0
+        and not two_invalid_default["memory_limit_exceeded"]
+        and not two_invalid_default["stdout_truncated"]
+        and not two_invalid_default["stderr_truncated"]
+        and str(two_invalid_default["stdout"]) == two_serial_diagnostics
+        and two_invalid_default["stderr"] == two_invalid_serial["stderr"]
         and all(
             sample["exit_code"] != 0
             and not sample["memory_limit_exceeded"]
@@ -409,6 +454,7 @@ def main() -> int:
     )
     results["two_invalid_control_flow"] = {
         "serial": two_invalid_serial,
+        "default": two_invalid_default,
         "chunked_repetitions": two_invalid_parallel,
         "diagnostic_exact": two_invalid_exact,
     }
@@ -422,7 +468,7 @@ def main() -> int:
         "status": "PASS" if passed else "FAIL",
         "compiler_sha256": sha256(compiler),
         "source_chunks": source_chunks,
-        "execution": "opt-in native source chunks; scheduling is compiler-revision-specific",
+        "execution": "explicit serial versus chunked source scheduling",
         "results": results,
     }
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

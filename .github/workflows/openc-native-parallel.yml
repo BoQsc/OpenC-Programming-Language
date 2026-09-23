@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - codex/sh27-native-chunk-proof
+      - codex/sh27-default-auto
     paths:
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
@@ -349,6 +350,20 @@ jobs:
           --expected-ldc-version 1.43.0
           --antivirus-state github-hosted-windows-2025-default-not-modified
           --output artifacts\sh27-native-parallel\production-auto-comparators.json
+
+      - name: Enforce normal-default OpenC parity with pinned C and D compilers
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_production.py
+          --openc artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --runs 5 --self-build-runs 3 --parallel-projects 4
+          --require-all --enforce-parity
+          --expected-msvc-version 19.44
+          --expected-clang-version 20.1.8
+          --expected-dmd-version DMD64
+          --expected-ldc-version 1.43.0
+          --antivirus-state github-hosted-windows-2025-default-not-modified
+          --output artifacts\sh27-native-parallel\production-default-enforced.json
 
       - name: Retain machine-readable proof
         if: always()

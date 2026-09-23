@@ -26,8 +26,10 @@ def run_selfhost_sample(
     command = [
         str(compiler), "artifact", f"--project={project}", "--kind=exe",
         f"--output={output}", f"--report={sample_root / 'artifact.json'}",
-        f"--timings={timing}", f"--source-chunks={chunks}",
+        f"--timings={timing}",
     ]
+    if chunks != "default":
+        command.append(f"--source-chunks={chunks}")
     sample = run_measured(
         command, cwd=ROOT, environment=dict(os.environ),
         sample_interval=0.01, max_private_bytes=512 * MIB,
@@ -70,8 +72,12 @@ def main() -> int:
         "--workload", choices=("large_functions", "control_flow", "selfhost"),
         required=True,
     )
-    parser.add_argument("--source-chunks", choices=("1", "2", "4", "auto"),
+    parser.add_argument("--source-chunks", choices=("default", "1", "2", "4", "auto"),
                         default="auto")
+    parser.add_argument("--baseline-source-chunks",
+                        choices=("default", "1", "2", "4", "auto"))
+    parser.add_argument("--candidate-source-chunks",
+                        choices=("default", "1", "2", "4", "auto"))
     parser.add_argument("--pairs", type=int, default=11)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -79,8 +85,12 @@ def main() -> int:
         raise SystemExit("--pairs must be 3..31")
     baseline = args.baseline.resolve(strict=True)
     candidate = args.candidate.resolve(strict=True)
-    if baseline == candidate or sha256(baseline) == sha256(candidate):
-        raise SystemExit("baseline and candidate must be different compilers")
+    modes = {
+        "baseline": args.baseline_source_chunks or args.source_chunks,
+        "candidate": args.candidate_source_chunks or args.source_chunks,
+    }
+    if sha256(baseline) == sha256(candidate) and modes["baseline"] == modes["candidate"]:
+        raise SystemExit("baseline and candidate must differ by compiler or source-chunk mode")
     output = args.output.resolve()
     require_disk_headroom(output.parent)
     run_root = output.parent / (
@@ -106,9 +116,10 @@ def main() -> int:
     }
     compilers = {"baseline": baseline, "candidate": candidate}
     candidate_hash = sha256(candidate)
-    chunks: int | str = (
-        int(args.source_chunks) if args.source_chunks != "auto" else "auto"
-    )
+    chunks: dict[str, int | str] = {
+        name: int(mode) if mode in ("1", "2", "4") else mode
+        for name, mode in modes.items()
+    }
     for pair in range(args.pairs):
         order = ("baseline", "candidate") if pair % 2 == 0 else (
             "candidate", "baseline"
@@ -117,7 +128,7 @@ def main() -> int:
             sample_root = run_root / "pairs" / f"pair-{pair + 1:02d}" / name
             if args.workload == "selfhost":
                 sample = run_selfhost_sample(
-                    compilers[name], project, sample_root, chunks,
+                    compilers[name], project, sample_root, chunks[name],
                     candidate_hash,
                 )
             else:
@@ -128,7 +139,7 @@ def main() -> int:
                     sample_interval=0.01, max_private_bytes=512 * MIB,
                     max_working_set_bytes=512 * MIB,
                     max_output_bytes=2 * MIB, execution_timeout=30,
-                    openc_source_chunks=chunks,
+                    openc_source_chunks=chunks[name],
                 )
             samples[name].append(sample)
             print(
@@ -166,7 +177,10 @@ def main() -> int:
         "candidate": {"path": str(candidate), "sha256": sha256(candidate)},
         "corpus_sha256": corpus_hash,
         "source": source if args.workload == "selfhost" else None,
-        "workload": args.workload, "source_chunks": chunks,
+        "workload": args.workload,
+        "source_chunks": chunks["baseline"] if chunks["baseline"] == chunks["candidate"] else None,
+        "baseline_source_chunks": chunks["baseline"],
+        "candidate_source_chunks": chunks["candidate"],
         "pairs": args.pairs,
         "paired_delta_seconds": deltas,
         "median_paired_delta_seconds": median_delta,
