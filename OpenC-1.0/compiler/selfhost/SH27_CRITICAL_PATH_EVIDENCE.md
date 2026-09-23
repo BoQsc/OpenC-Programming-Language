@@ -171,6 +171,14 @@ parser links alone do not solve first-visit semantic cost. The branch remains
 isolated and is **not** in the production compiler. The next prototype must
 fuse type/symbol/operand work across acceptance and lowering; merely retaining
 the operand indexes adds storage and copying without material end-to-end gain.
+The same paired local baseline reported 297 ms median top-level declarations
+on large functions, 31 ms resolution, 125 ms validation, and 375 ms for the
+lowering/native phase (which includes worker acceptance). These top-level
+phase medians are separate observations from the 172 ms critical-chunk
+acceptance median; do not sum a nested worker value into them. Declaration
+collection is a substantial serial cost. The refreshed clean-runner profile
+must decide whether the declaration/index redesign precedes the native
+value-location backend experiment.
 
 ## Correctness and interpretation limits
 

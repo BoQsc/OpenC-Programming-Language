@@ -128,7 +128,11 @@ path is not completion.
 The generated large/control workloads have many arithmetic and store/load
 instructions; the current emitter often materializes SSA values in stack
 slots. After Step 1, prototype a *per-basic-block value-location model* if
-lowering/emission is a material remaining wall-time cost. It keeps short-
+lowering/emission is a material remaining wall-time cost **and exceeds the
+remaining declaration/index cost on the refreshed critical path**. Otherwise
+execute Step 3 first. The Step 2/3 numbers are work-package labels, not a
+mandate to optimize the backend before a larger serial front-end cost. The
+value-location model keeps short-
 lived values in registers, writes directly to final destinations where
 legal, and spills only for liveness, calls, address-taking, or pressure.
 
@@ -153,6 +157,13 @@ migrating the full compiler. Keep the old pipeline behind a test-only
 comparison until exact output/behavior and speed gates pass.
 
 ### 3. Remove serial front-end work that remains on the critical path
+
+The latest local 11-pair large-function baseline attributed a 297 ms median
+to top-level declarations, versus 172 ms median acceptance on the critical
+native worker. These are differently scoped wall observations, not additive
+subphases, but declarations are too large to leave automatically behind the
+backend. Treat this package as the immediate successor to Step 1 if a clean
+profile confirms the serial declaration path remains dominant.
 
 1. Profile declaration collection and first semantic inference by source
    file and pass. Check whether the same syntax, symbol, type, or export data
