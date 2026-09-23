@@ -369,11 +369,17 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 );
                 validation_source = validation_source + 1;
             }
-            timings.validation_ms = timings.validation_flow_ms +
-                timings.validation_acceptance_ms;
-            if lowering_elapsed >= timings.validation_acceptance_ms {
-                lowering_elapsed = lowering_elapsed -
+            if timings.parallel_source_chunks != 0 {
+                // Worker acceptance timings are summed elapsed times, not
+                // wall time; the whole fused stage belongs in this phase.
+                timings.validation_ms = timings.validation_flow_ms;
+            } else {
+                timings.validation_ms = timings.validation_flow_ms +
                     timings.validation_acceptance_ms;
+                if lowering_elapsed >= timings.validation_acceptance_ms {
+                    lowering_elapsed = lowering_elapsed -
+                        timings.validation_acceptance_ms;
+                }
             }
         }
         timings.lowering_emit_ms = lowering_elapsed;

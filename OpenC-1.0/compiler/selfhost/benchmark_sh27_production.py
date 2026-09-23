@@ -414,7 +414,8 @@ def build_command(
                 f"--project={input_record['project']}", "--kind=exe",
                 f"--output={output}",
                 f"--source-chunks={openc_source_chunks}",
-                f"--report={timing}",
+                f"--report={output.parent / 'openc-artifact.json'}",
+                f"--timings={timing}",
             ]
         return [
             str(executable), "build", f"--project={input_record['project']}",
@@ -599,6 +600,10 @@ def run_sample(
     measured["output_exists"] = output.is_file()
     measured["output_bytes"] = output.stat().st_size if output.is_file() else None
     measured["output_sha256"] = sha256(output) if output.is_file() else None
+    measured["compiler_timings"] = (
+        json.loads(timing.read_text(encoding="utf-8"))
+        if tool == "openc" and timing.is_file() else None
+    )
     measured["program_exit_code"] = None
     measured["program_elapsed_seconds"] = None
     measured["program_timed_out"] = False
@@ -647,7 +652,12 @@ def run_sample(
             )
         else:
             measured["program_output_matches"] = True
-    measured["passed"] = sample_passed(measured)
+    measured["passed"] = bool(
+        sample_passed(measured)
+        and (tool != "openc" or openc_source_chunks == 1
+             or (isinstance(measured["compiler_timings"], dict)
+                 and measured["compiler_timings"].get("status") == "PASS"))
+    )
     return measured
 
 

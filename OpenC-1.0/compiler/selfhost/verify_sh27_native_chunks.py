@@ -15,23 +15,47 @@ from benchmark_sh27_production import (
 )
 
 
+def timing_accounting_valid(
+    timing: object, chunked: bool, source_chunks: int,
+) -> bool:
+    if not isinstance(timing, dict):
+        return False
+    expected_chunks = (
+        source_chunks if chunked and timing.get("source_files", 0) >= source_chunks
+        else 0
+    )
+    return bool(
+        timing.get("status") == "PASS"
+        and timing.get("parallel_source_chunks") == expected_chunks
+        and timing.get("phase_accounting") == (
+            "wall_elapsed_with_acceptance_in_lowering"
+            if expected_chunks else "wall_elapsed_with_acceptance_in_validation"
+        )
+        and timing.get("validation_profile", {}).get("acceptance_time_basis") == (
+            "summed_worker_elapsed" if expected_chunks else "wall_elapsed"
+        )
+    )
+
+
 def measured_build(
     compiler: Path, project: Path, output: Path, chunked: bool,
     source_chunks: int = 4,
 ) -> dict[str, object]:
     output.parent.mkdir(parents=True, exist_ok=False)
     disk_free_before = require_disk_headroom(output)
+    timing = output.parent / "timings.json"
     if chunked:
         command = [
             str(compiler), "artifact", f"--project={project}", "--kind=exe",
             f"--output={output}", f"--source-chunks={source_chunks}",
             f"--report={output.parent / 'artifact.json'}",
+            f"--timings={timing}",
         ]
     else:
         command = [
             str(compiler), "build", f"--project={project}",
             f"--output={output}",
-            f"--timings={output.parent / 'timings.json'}",
+            f"--timings={timing}",
         ]
     sample = run_measured(
         command, cwd=ROOT, environment=dict(os.environ),
@@ -44,6 +68,13 @@ def measured_build(
     sample["output_exists"] = output.is_file()
     sample["output_sha256"] = sha256(output) if output.is_file() else None
     sample["output_bytes"] = output.stat().st_size if output.is_file() else None
+    sample["compiler_timings"] = (
+        json.loads(timing.read_text(encoding="utf-8"))
+        if timing.is_file() else None
+    )
+    sample["timing_accounting_valid"] = timing_accounting_valid(
+        sample["compiler_timings"], chunked, source_chunks
+    )
     sample["passed"] = bool(
         sample["exit_code"] == 0
         and not sample["timed_out"]
@@ -51,6 +82,7 @@ def measured_build(
         and not sample["stdout_truncated"]
         and not sample["stderr_truncated"]
         and sample["output_exists"]
+        and sample["timing_accounting_valid"]
     )
     (output.parent / "measurement.json").write_text(
         json.dumps(sample, indent=2) + "\n", encoding="utf-8"

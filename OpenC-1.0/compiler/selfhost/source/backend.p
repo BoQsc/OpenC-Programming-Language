@@ -12,6 +12,7 @@ struct BuildTimings {
     usize resolution_ms;
     usize validation_ms;
     usize lowering_emit_ms;
+    usize parallel_source_chunks;
     usize backend_ms;
     usize total_ms;
     usize source_files;
@@ -115,6 +116,7 @@ BuildTimings build_timings_empty() {
         resolution_ms = 0,
         validation_ms = 0,
         lowering_emit_ms = 0,
+        parallel_source_chunks = 0,
         backend_ms = 0,
         total_ms = 0,
         source_files = 0,

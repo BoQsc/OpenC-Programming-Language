@@ -29,6 +29,15 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.source_files);
     d_put(output, ",\n  \"source_bytes\": ");
     d_put_usize(output, timings.source_bytes);
+    d_put(output, ",\n  \"parallel_source_chunks\": ");
+    d_put_usize(output, timings.parallel_source_chunks);
+    d_put(output, ",\n  \"phase_accounting\": \"");
+    if timings.parallel_source_chunks != 0 {
+        d_put(output, "wall_elapsed_with_acceptance_in_lowering");
+    } else {
+        d_put(output, "wall_elapsed_with_acceptance_in_validation");
+    }
+    d_put(output, "\"");
     d_put(output, ",\n  \"phases_ms\": {\n");
     d_put(output, "    \"project_load\": ");
     d_put_usize(output, timings.project_load_ms);
@@ -58,6 +67,13 @@ unsafe bool write_build_timings(
     d_put(output, ",\n    \"path_cache_misses\": ");
     d_put_usize(output, timings.validation_path_cache_misses);
     d_put(output, "\n  },\n  \"validation_profile\": {\n");
+    d_put(output, "    \"acceptance_time_basis\": \"");
+    if timings.parallel_source_chunks != 0 {
+        d_put(output, "summed_worker_elapsed");
+    } else {
+        d_put(output, "wall_elapsed");
+    }
+    d_put(output, "\",\n");
     d_put(output, "    \"flow_ms\": ");
     d_put_usize(output, timings.validation_flow_ms);
     d_put(output, ",\n    \"flow_groups_ms\": {");

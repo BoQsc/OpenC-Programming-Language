@@ -555,6 +555,15 @@ IR reach closure. Exact evidence and reproduction commands are in
       proofs, speed gates, RAM trade-off, and pinned C/D corpus at `51bcb47`;
       JSON artifact 10735084414 retains the evidence. Adaptive scheduling
       and substantive semantic-pass reduction remain next.
+      Native artifact builds now expose an optional compiler-owned timing
+      record separate from artifact metadata. Parallel acceptance timings are
+      explicitly labeled summed worker elapsed and are no longer subtracted
+      from wall-clock phases. Local byte/diagnostic/RAM proofs pass for two
+      and four workers with the corrected accounting, and the phase evidence
+      still identifies serial self-build flow work and fused source processing
+      as material costs. This is measurement integrity, not throughput parity;
+      adaptive scheduling, semantic-pass reduction, incremental reuse, and
+      real-project parity remain SH-27 work.
       A same-compiler RAM trade-off gate now requires at least 32 MiB of
       two-worker savings on control flow, large functions, and self-build;
       local savings are 64.4, 114.4, and 60.3 MiB. The expanded commit/manual

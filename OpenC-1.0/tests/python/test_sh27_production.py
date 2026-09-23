@@ -120,9 +120,33 @@ class Sh27ProductionTests(unittest.TestCase):
         self.assertEqual(parallel[1], "artifact")
         self.assertIn("--kind=exe", parallel)
         self.assertIn("--source-chunks=4", parallel)
-        self.assertIn(f"--report={report}", parallel)
+        self.assertIn(f"--timings={report}", parallel)
+        self.assertIn("--report=openc-artifact.json", parallel)
         self.assertEqual(two_workers[1], "artifact")
         self.assertIn("--source-chunks=2", two_workers)
+
+    def test_native_chunk_timing_basis_tracks_actual_worker_mode(self) -> None:
+        script_directory = str(MODULE_PATH.parent)
+        sys.path.insert(0, script_directory)
+        try:
+            import verify_sh27_native_chunks as proof
+        finally:
+            sys.path.remove(script_directory)
+        timing = {
+            "status": "PASS", "source_files": 4,
+            "parallel_source_chunks": 2,
+            "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
+            "validation_profile": {"acceptance_time_basis": "summed_worker_elapsed"},
+        }
+        self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
+        self.assertFalse(proof.timing_accounting_valid(timing, False, 2))
+        timing["source_files"] = 1
+        timing["parallel_source_chunks"] = 0
+        timing["phase_accounting"] = "wall_elapsed_with_acceptance_in_validation"
+        timing["validation_profile"]["acceptance_time_basis"] = "wall_elapsed"
+        self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
+        timing["validation_profile"]["acceptance_time_basis"] = "summed_worker_elapsed"
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
 
     def test_worker_tradeoff_requires_same_compiler_and_material_savings(self) -> None:
         script = ROOT / "compiler/selfhost/verify_sh27_worker_tradeoff.py"

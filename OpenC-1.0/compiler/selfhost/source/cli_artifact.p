@@ -66,6 +66,7 @@ unsafe i32 cli_artifact_command() {
     text project = "";
     text output_path = "";
     text report_path = "";
+    text timing_path = "";
     text kind_name = "";
     NativeArtifactOptions options = native_artifact_default_options();
     usize argument = 1;
@@ -78,6 +79,8 @@ unsafe i32 cli_artifact_command() {
             output_path = cli_remove_prefix(value, "--output=");
         } else if cli_has_prefix(value, "--report=") {
             report_path = cli_remove_prefix(value, "--report=");
+        } else if cli_has_prefix(value, "--timings=") {
+            timing_path = cli_remove_prefix(value, "--timings=");
         } else if cli_has_prefix(value, "--kind=") {
             kind_name = cli_remove_prefix(value, "--kind=");
         } else if cli_has_prefix(value, "--subsystem=") {
@@ -125,7 +128,7 @@ unsafe i32 cli_artifact_command() {
     if options.source_chunks != 1 &&
         options.kind != native_artifact_executable() { valid = false; }
     if !valid {
-        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|dll|static-library|import-library) --output=FILE [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--source-chunks=(2|4) (experimental)]\n");
+        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|dll|static-library|import-library) --output=FILE [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--source-chunks=(2|4) (experimental)]\n");
         return 64;
     }
     BuildTimings timings = build_timings_empty();
@@ -134,6 +137,10 @@ unsafe i32 cli_artifact_command() {
         project, output_path, true, true, timings, options
     );
     bool passed = result == 0;
+    if !write_build_timings(timing_path, timings, passed) {
+        io.error("error: artifact timings could not be written\n");
+        return 1;
+    }
     if !cli_artifact_write_record(
         report_path, project, output_path, options, timings, passed
     ) {

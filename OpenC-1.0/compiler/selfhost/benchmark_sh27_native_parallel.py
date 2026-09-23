@@ -23,9 +23,11 @@ def build(
     free_bytes = require_disk_headroom(directory)
     directory.mkdir(parents=True, exist_ok=False)
     output = directory / "program.exe"
+    timing = directory / "timings.json"
     command = [
         str(compiler), "artifact", f"--project={project}", "--kind=exe",
         f"--output={output}", f"--report={directory / 'artifact.json'}",
+        f"--timings={timing}",
     ]
     if parallel:
         command.append(f"--source-chunks={source_chunks}")
@@ -40,11 +42,17 @@ def build(
     sample["output_exists_at_measurement"] = output.is_file()
     sample["output_sha256"] = sha256(output) if output.is_file() else None
     sample["output_bytes"] = output.stat().st_size if output.is_file() else None
+    sample["compiler_timings"] = (
+        json.loads(timing.read_text(encoding="utf-8"))
+        if timing.is_file() else None
+    )
     sample["passed"] = bool(
         sample["exit_code"] == 0 and not sample["timed_out"]
         and not sample["memory_limit_exceeded"]
         and not sample["stdout_truncated"] and not sample["stderr_truncated"]
         and sample["output_exists_at_measurement"]
+        and isinstance(sample["compiler_timings"], dict)
+        and sample["compiler_timings"].get("status") == "PASS"
     )
     sample["binary_retained"] = retain_binary
     if sample["passed"] and not retain_binary:

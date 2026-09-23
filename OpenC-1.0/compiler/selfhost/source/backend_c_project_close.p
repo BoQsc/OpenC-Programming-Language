@@ -237,6 +237,7 @@ unsafe i32 c_emit_project(
         (artifact_options.source_chunks == 2 ||
             artifact_options.source_chunks == 4) &&
         c_project_source_count(base) >= artifact_options.source_chunks {
+        timings.parallel_source_chunks = artifact_options.source_chunks;
         emitted_parallel = c_emit_native_sources_chunked(
             base, output, output_capacity, entry_module, timings,
             validation_source_ms, parsed_source_cache,

@@ -128,6 +128,27 @@ The workflow succeeds when comparator evidence is complete and all
 correctness/memory gates pass, even if throughput parity still misses; the
 exact clean-host ratios are in that artifact and are not inferred here.
 
+`openc artifact` now accepts `--timings=PATH` alongside its separate artifact
+`--report=PATH`. The native-worker proof and paired/production harnesses retain
+the compiler-owned phase record for each sample. The timing record identifies
+the actual worker count, including serial fallback on a one-file project.
+Its top-level phases are wall elapsed: when chunks run in parallel, validation
+contains the serial flow pass, while `lowering_and_c_emission` includes the
+fused worker stage. `validation_profile.acceptance_ms` and its groups are
+**summed worker elapsed**, not wall time, in that mode. The proof rejects a
+timing record with the wrong basis so we do not mistake aggregate worker time
+for the compiler's critical path.
+
+One guarded local two-worker proof after that accounting correction recorded
+4,531 ms serial validation and 5,844 ms fused stage for self-build; the
+large-function case recorded 172/750 ms and control flow 156/391 ms. These
+are single samples, not stable speed estimates. They show that the serial
+front-end still matters on the compiler itself and the fused stage still
+dominates the bounded generated examples. The next performance change needs
+paired wall-time evidence and a substantive reduction in first-time semantic
+work; merely relabeling the phase or summing worker timings cannot close the
+C/D deficit.
+
 ## Promotion boundary and next work
 
 This is an opt-in, Windows-x64-only compiler experiment. Before production
