@@ -111,6 +111,17 @@ changed sharply; the green run was not robust parity evidence. The local
 cut's speedup. Neither the already published Windows 1.0 release nor a
 single green run changes SH-27 completion state.
 
+The isolated packed typed-expression storage branch later passed one clean
+normal-default [run 35920825397](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35920825397),
+including 20/20 ratios, strict memory, fixed point, and correctness. Its
+same-run large/control OpenC/DMD medians were 0.504/0.537 s and
+0.313/0.430 s. This does not reverse the failed repeat on the prior source
+or prove a packed-record speedup: the comparator changed markedly, and the
+storage branch's local complete self-build regressed. Its literal-value
+successor passed local correctness and RAM but regressed self-build by a
+326 ms paired median; see `SH27_TYPED_EXPRESSION_CUTOVER.md`. Both remain
+experimental and SH-27 remains active.
+
 The parser cut in gate B has passed local and clean Windows proof. Locally, the fast
 precedence-climbing version preserved parser output/diagnostics on 503
 checked-in `.p` sources and fixtures and produced 11/11 same-host wins on

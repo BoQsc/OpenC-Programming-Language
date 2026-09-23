@@ -137,15 +137,25 @@ speedup or evidence that the 241/100 ms deficits are closed. The full cut
 must fuse dependency-aware type/rule evaluation and lowering reuse before
 another promotion decision.
 
+That storage-only source passed one clean Windows pinned-comparator,
+strict-memory, fixed-point, conformance, and exact-worker
+[run 35920825397](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35920825397).
+The normal-default medians were OpenC/DMD **0.504/0.537 s** on large
+functions (0.9385x) and **0.313/0.430 s** on control flow (0.7279x), with
+20/20 comparator ratios passing. This is one green run on an experimental
+source, **not** an A/B proof that packing sped up compilation or a repeatable
+parity result. The earlier parallel-declaration repeat failed both DMD
+ratios; do not combine medians across these runs.
+
 An attempted literal-value extension of that record was rejected before
 commit. The seed-built Stage 2 compiler built, but using it for Stage 3
 failed with a checked failure; `openc check` on the compiler project reported
 655 semantic violations (predominantly binary comparison/conversion rules),
 versus PASS with the packed-record compiler before this extension. A
 null-cache direct-parser fallback did not repair it. The literal changes
-were removed; the passing packed-record source remains intact. The next
-semantic cut must prove a contextual literal representation and its ABI/
-return behavior on small fixtures *before* broad self-build migration.
+were removed; the passing packed-record source remained intact. The later
+boolean-plus-output prototype below repaired this bootstrap failure, but its
+full semantic and performance cutover is still unproved.
 
 The existing artifact path keeps one `IrContext` across
 `acceptance_validate_context` and `c_lower_and_emit_function`; this is the
@@ -153,6 +163,24 @@ handoff point. `check` constructs an acceptance-only context and must use
 the same resolver/diagnostic semantics but need not retain records for
 emission. Each native worker owns source-local records; sharing mutable
 records between workers would violate deterministic output and RAM bounds.
+
+A second literal-value attempt at local commit `0390cd5` changes the helper
+contract from returning `ResolutionInteger` to a boolean plus `ref i64`
+result. For literal syntax nodes it stores a three-state parse result and
+all 64 value bits in the existing record; acceptance and native lowering
+read the same decoded value. This repaired the earlier failed Stage 3
+bootstrap: the new candidate passed byte-exact Stage 2/3, 278/278
+conformance, the serial/adaptive exact-output and invalid-diagnostic proof,
+integer-boundary checks, and the strict 20/20 self-build chain (peak
+250,068,992 private bytes and 51,949,568 working-set bytes, below both
+declared child limits). But eleven same-host pairs against the storage-only
+source gave only **-7 ms** large and **-5 ms** control paired medians (8/11
+wins each), versus **+326 ms** complete self-build (3/11 wins, with a
+9.179-second candidate outlier). All binaries remained byte-identical.
+The >5% self-build paired regression rejects this as a standalone
+performance promotion. Retain it only as an isolated enabling step while
+testing the full semantic/rule/lowering cut; do not represent the small
+generated-workload wins as SH-27 parity closure.
 
 ## Implementation sequence (one architectural change, gated cuts)
 
