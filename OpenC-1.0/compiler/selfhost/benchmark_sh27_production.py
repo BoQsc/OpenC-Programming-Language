@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the bounded SH-27 OpenC/MSVC/Clang/DMD production corpus on Windows."""
+"""Run the bounded SH-27 OpenC/MSVC/Clang/DMD/LDC corpus on Windows."""
 from __future__ import annotations
 
 import argparse
@@ -422,6 +422,11 @@ def build_command(
             str(executable), "-O", "-release", "-boundscheck=off",
             *sources, f"-of={output}", f"-od={output.parent}",
         ]
+    if tool == "ldc":
+        return [
+            str(executable), "-O2", "-release", "-boundscheck=off",
+            *sources, f"-of={output}", f"-od={output.parent}",
+        ]
     raise AssertionError(tool)
 
 
@@ -646,10 +651,12 @@ def main() -> int:
     parser.add_argument("--msvc", type=Path)
     parser.add_argument("--clang", type=Path)
     parser.add_argument("--dmd", type=Path)
+    parser.add_argument("--ldc", type=Path)
     parser.add_argument("--msvc-toolset")
     parser.add_argument("--expected-msvc-version")
     parser.add_argument("--expected-clang-version")
     parser.add_argument("--expected-dmd-version")
+    parser.add_argument("--expected-ldc-version")
     parser.add_argument(
         "--antivirus-state",
         default="not controlled or queried by the benchmark harness",
@@ -718,6 +725,7 @@ def main() -> int:
         bin64_dmd = configured_dmd.parent.parent / "bin64" / configured_name
         dmd_explicit = bin64_dmd if bin64_dmd.is_file() else configured_dmd
     dmd_path = resolve_tool(dmd_explicit, ["dmd.exe", "dmd"], base_environment)
+    ldc_path = resolve_tool(args.ldc, ["ldc2.exe", "ldc2"], base_environment)
     msvc_path = (
         resolve_tool(args.msvc, ["cl.exe"], msvc_environment)
         if msvc_environment is not None else None
@@ -727,14 +735,15 @@ def main() -> int:
         "msvc": (msvc_path, msvc_environment or base_environment),
         "clang": (clang_path, msvc_environment or base_environment),
         "dmd": (dmd_path, base_environment),
+        "ldc": (ldc_path, base_environment),
     }
     missing = [name for name, (path, _) in resolved.items() if path is None]
     if args.require_all and missing:
         raise SystemExit("missing required production comparators: " + ", ".join(missing))
-    available = [name for name in ("openc", "msvc", "clang", "dmd") if name not in missing]
+    available = [name for name in ("openc", "msvc", "clang", "dmd", "ldc") if name not in missing]
     version_arguments = {
         "openc": ["version"], "msvc": [], "clang": ["--version"],
-        "dmd": ["--version"],
+        "dmd": ["--version"], "ldc": ["--version"],
     }
     tools: dict[str, object] = {}
     for name in available:
@@ -744,6 +753,7 @@ def main() -> int:
         "msvc": args.expected_msvc_version,
         "clang": args.expected_clang_version,
         "dmd": args.expected_dmd_version,
+        "ldc": args.expected_ldc_version,
     }
     version_pin_checks = {
         name: expected is None or expected in str(tools.get(name, {}).get("output", ""))
@@ -751,7 +761,10 @@ def main() -> int:
         if name in available
     }
 
-    language_for_tool = {"openc": "openc", "msvc": "msvc", "clang": "msvc", "dmd": "dmd"}
+    language_for_tool = {
+        "openc": "openc", "msvc": "msvc", "clang": "msvc",
+        "dmd": "dmd", "ldc": "dmd",
+    }
     generated: dict[str, dict[str, dict[str, object]]] = {}
     for workload in corpus["workloads"]:
         workload_id = str(workload["id"])
@@ -952,7 +965,7 @@ def main() -> int:
         compilers = lanes[workload_id]["compilers"]
         open_median = float(compilers["openc"]["summary"]["median_seconds"])
         ratios[workload_id] = {}
-        for comparator in ("msvc", "clang", "dmd"):
+        for comparator in ("msvc", "clang", "dmd", "ldc"):
             if comparator not in compilers:
                 continue
             comparator_median = float(compilers[comparator]["summary"]["median_seconds"])
@@ -1030,7 +1043,6 @@ def main() -> int:
             "normal_toolchain_independence_changed": False,
             "remaining_corpus_expansion": [
                 "incremental object reuse/build-system integration",
-                "LDC comparator",
                 "broader real-project corpus",
             ],
         },

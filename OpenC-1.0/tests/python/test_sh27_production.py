@@ -86,6 +86,18 @@ class Sh27ProductionTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "SH27_DISK_HEADROOM"):
                 BENCHMARK.require_disk_headroom(path, 10**30)
 
+    def test_ldc_uses_d_sources_and_bounded_release_build(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source_0000.d"
+            output = root / "program.exe"
+            command = BENCHMARK.build_command(
+                "ldc", root / "ldc2.exe", {"sources": [source]},
+                output, root / "unused-timings.json",
+            )
+            self.assertEqual(command[1:4], ["-O2", "-release", "-boundscheck=off"])
+            self.assertEqual(command[4:], [str(source), f"-of={output}", f"-od={root}"])
+
     @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
     def test_execution_timeout_kills_child(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
