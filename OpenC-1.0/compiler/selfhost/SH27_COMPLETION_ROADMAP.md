@@ -127,6 +127,16 @@ and eleven-pair same-host comparisons. Paired medians were -9 ms large,
 `SH27_FLOW_FRONT_END_EVIDENCE.md`. This is a material partial reduction on
 control flow, not clean-CI proof or large-function parity closure.
 
+The follow-on scalar-source flow cut at `738bea3` conservatively skips the
+entire flow validator when an error-free retained parse proves every local
+initialized and scalar and no applicable stateful rule remains. It passed
+local fixed point, 278/278 conformance, exact worker/invalid diagnostics,
+strict 20/20 RAM, and eleven-pair same-host comparisons: -93 ms large
+(10/11 wins), -42 ms control (11/11), and flat -2 ms self-build. This is a
+material local wall-time reduction, **not** a cross-run C/D parity claim;
+see `SH27_SCALAR_FLOW_EVIDENCE.md`. Clean CI and independent final-source
+repeatability remain open.
+
 The parser cut in gate B has passed local and clean Windows proof. Locally, the fast
 precedence-climbing version preserved parser output/diagnostics on 503
 checked-in `.p` sources and fixtures and produced 11/11 same-host wins on

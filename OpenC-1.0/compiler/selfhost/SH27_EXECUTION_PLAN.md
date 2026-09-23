@@ -237,3 +237,11 @@ The separate source-evidence ownership flow gate in
 paired median and no self-build regression. It is not yet clean-CI proved;
 its -9 ms large-function paired median leaves most of that lane's gap open.
 It cannot replace Steps 2-4 or the two final same-source parity runs.
+
+The broader scalar-source proof at `738bea3` then removed the full flow
+stage for error-free sources with only initialized scalar locals and no
+applicable stateful rule. Eleven guarded local pairs saved 93 ms on large
+functions (10/11 wins) and 42 ms on control flow (11/11), with a flat
+self-build (-2 ms paired median). `SH27_SCALAR_FLOW_EVIDENCE.md` records the
+proof and fallback boundary. This is a material architectural reduction,
+but clean pinned parity and the other completion gates remain open.
