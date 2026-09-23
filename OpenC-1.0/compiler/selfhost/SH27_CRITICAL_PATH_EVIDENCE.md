@@ -235,10 +235,27 @@ same candidate source. The 11-pair rerun passed. The first failed report is
 retained as `selfhost-fast-pairs.json`; the valid rerun is
 `selfhost-fast-pairs-corrected.json`.
 
-This is a locally proved improvement, not clean-CI approval, 1.25x C/D
-parity, or SH-27 completion. The parser prototype remains isolated pending
-an independent clean Windows run. The semantic first-visit and assignment
-costs remain the next larger redesign target even if this cut is promoted.
+The isolated candidate subsequently passed the full clean Windows
+[native proof run 35882311463](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35882311463)
+at `c4f20fa`. Two independent 11-pair clean Windows revision comparisons
+against `75bd633` also passed at the same compiler-source cut: the
+[large-function run 35883340256](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35883340256)
+reported a -39 ms paired median with 11/11 candidate wins, and the
+[control-flow run 35883343485](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35883343485)
+reported -4 ms with 6/11 wins, one tie, and no material regression. Both
+compilers reached their Stage 2/Stage 3 fixed points, produced byte-identical
+generated executables and runtime output, and passed the Job memory checks.
+The local paired self-build passed 10/11 wins with -64 ms median. This clears
+the parser promotion gate for the SH-27 working proof branch; it is **not**
+SH-27 completion.
+
+The native proof's two production-corpus artifacts explicitly run OpenC with
+`--source-chunks=4` and `--source-chunks=auto`. Both happened to report
+`PASS_PARITY` on that runner, but they are **opt-in modes**, only three samples
+per lane, and not the normal/default OpenC compiler. They cannot satisfy the
+roadmap's two-run, five-sample default-mode parity gate. A separate
+normal-default parity-enforcing workflow is pending. The semantic first-visit
+and assignment costs remain the next larger redesign target.
 
 ## Pinned DMD source comparison: architectural hypotheses
 

@@ -53,20 +53,22 @@ change. Keep all failed prototypes and their measurements disclosed.
 | F. Release gate (Steps 8-9) | Two independent clean Windows parity runs, all 20 pinned comparator checks, all correctness/RAM/release-integrity checks, raw artifacts, and an updated public status. | Close SH-27 only if every mandatory gate passes; otherwise publish the exact remaining deficit and continue at the new critical path. |
 
 As of this plan update: A is **in progress** (critical-worker and declaration
-profiles exist; allocation/DMD analysis and clean-runner confirmation do not),
-B is **experimental**, C and D are **not started**, E has **partial opt-in
+profiles and a pinned DMD source comparison exist; allocation attribution
+and a stable normal-default parity baseline do not), B is **clean-CI proved
+on its isolated branch**, C and D are **not started**, E has **partial opt-in
 parallelism but no default policy, true incremental reuse, or complete project
 suite**, and F is **not passed**. The already published Windows 1.0 release
 and existing green evidence workflows do not change those states.
 
-The current prototype in gate B is **unpromoted**. Locally, the fast
+The parser cut in gate B has passed local and clean Windows proof. Locally, the fast
 precedence-climbing version preserved parser output/diagnostics on 503
 checked-in `.p` sources and fixtures and produced 11/11 same-host wins on
 `large_functions` (median paired delta -46 ms) and 9/11 on `control_flow`
-(-9 ms). These are useful directional results, not a substitute for the
-remaining safety checks, self-build comparison, clean-runner confirmation,
-or the approximately 221/121 ms planning deficits above. The branch must
-not displace gate C's much larger semantic redesign.
+(-9 ms). Clean 11-pair Windows runs against its pre-change compiler measured
+-39 ms (11/11 wins) and -4 ms (6/11 wins) in normal serial mode; the full
+native proof also passed. This establishes a bounded parser improvement,
+not a new normal-default C/D parity result. The cut must not displace gate
+C's much larger semantic redesign.
 
 For each gate, record four states: **not started**, **experimental**,
 **locally proved**, or **clean-CI proved**. Never mark a gate done from a
@@ -347,12 +349,12 @@ object reuse. Separate full rebuilds from warm incremental builds.
 
 ## Immediate next decision
 
-Close gate B for the existing isolated parser prototype: run the remaining
-adaptive/serial proofs, 11 paired self-builds, native conformance, RAM checks,
-and clean-runner confirmation. Promote or reject it once; do not enter another
-round of small parser tweaks. In parallel with that decision, finish Step 0's
-first-visit cost/allocation attribution and source-linked DMD comparison, then
-begin Step 1's fused typed-expression/assignment design. The distinct-node
+Gate B's parser cut has passed its local and clean-runner decision; promote
+it to the SH-27 working proof branch and stop parser micro-tuning. Complete
+the pending five-sample **normal-default** C/D parity run and distinguish it
+from the opt-in four-chunk and adaptive evidence runs. Then finish Step 0's
+first-visit cost/allocation attribution and begin Step 1's fused typed-
+expression/assignment design. The distinct-node
 counter has already ruled out repeated uncached evaluation as the explanation
 for the large assignment count. Native emission is not the first bet. Do
 **not** spend another cycle on cache-threshold nudges, isolated instruction
