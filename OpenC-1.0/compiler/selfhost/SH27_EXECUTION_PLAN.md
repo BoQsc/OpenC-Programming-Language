@@ -230,3 +230,9 @@ paired median against the packed source. These are isolated enabling
 experiments, **not** the SH-27 solution. The next code cut must integrate
 semantic/rule/lowering reuse (or a profile-backed second architecture) and
 be judged by the whole-compiler gates above.
+
+The separate source-evidence ownership flow gate in
+`SH27_FLOW_FRONT_END_EVIDENCE.md` has a locally guarded -26 ms control-flow
+paired median and no self-build regression. It is not yet clean-CI proved;
+its -9 ms large-function paired median leaves most of that lane's gap open.
+It cannot replace Steps 2-4 or the two final same-source parity runs.

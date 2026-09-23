@@ -115,6 +115,14 @@ successor passed local correctness and RAM but regressed self-build by a
 326 ms paired median; see `SH27_TYPED_EXPRESSION_CUTOVER.md`. Both remain
 experimental and SH-27 remains active.
 
+An independent source-evidence flow cut at `884c1ef` gates the inapplicable
+ownership analysis for scalar functions. It passed local fixed point,
+278/278 conformance, exact worker/invalid diagnostics, strict 20/20 RAM,
+and eleven-pair same-host comparisons. Paired medians were -9 ms large,
+-26 ms control, and -47 ms complete self-build; see
+`SH27_FLOW_FRONT_END_EVIDENCE.md`. This is a material partial reduction on
+control flow, not clean-CI proof or large-function parity closure.
+
 The parser cut in gate B has passed local and clean Windows proof. Locally, the fast
 precedence-climbing version preserved parser output/diagnostics on 503
 checked-in `.p` sources and fixtures and produced 11/11 same-host wins on
