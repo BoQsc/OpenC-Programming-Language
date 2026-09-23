@@ -140,8 +140,15 @@ local fixed point, 278/278 conformance, exact worker/invalid diagnostics,
 strict 20/20 RAM, and eleven-pair same-host comparisons: -93 ms large
 (10/11 wins), -42 ms control (11/11), and flat -2 ms self-build. This is a
 material local wall-time reduction, **not** a cross-run C/D parity claim;
-see `SH27_SCALAR_FLOW_EVIDENCE.md`. Clean CI and independent final-source
-repeatability remain open.
+see `SH27_SCALAR_FLOW_EVIDENCE.md`. Its first clean
+[run 35928451776](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35928451776)
+passed fixed-point, conformance, strict memory, x64, worker/diagnostic,
+and historical speed steps, but failed enforced normal-default DMD parity
+on large functions at 0.451/0.315 s (1.4317x) and control flow at
+0.272/0.211 s (1.2891x). The other 18 ratios passed. Its same-run public
+1.25x deficits are 57.25/8.25 ms, with 73.0/18.8 ms required for the
+internal 1.20x margin. This candidate has no clean 20/20 pass; final-source
+repeatability and the remaining architecture stay open.
 
 The parser cut in gate B has passed local and clean Windows proof. Locally, the fast
 precedence-climbing version preserved parser output/diagnostics on 503

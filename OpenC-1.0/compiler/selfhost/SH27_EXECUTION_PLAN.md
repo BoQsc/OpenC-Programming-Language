@@ -63,7 +63,7 @@ closure, not a substitute for the compile-throughput goal.
 
 | Step | State | Next decisive evidence |
 | --- | --- | --- |
-| 0. Freeze proof | Partial | Keep the scalar-flow source `738bea3`, raw local pairs, and clean run `35928451776` as one traceable candidate; do not compare its absolute times to a different runner. |
+| 0. Freeze proof | Partial | Keep the scalar-flow source `738bea3`, raw local pairs, and failed-parity clean run `35928451776` as one traceable candidate; do not compare its absolute times to a different runner. |
 | 1. Account for wall time | Partial | Reprofile that exact source with nonoverlapping critical-path and first-visit/allocation attribution. The flow pass changed the profile, so the older cost split is no longer a design budget. |
 | 2-3. Fused semantics and lowering | Not implemented | Make one vertical cut from accepted typed expression to IR lowering. The packed-record and eager binary-flag experiments passed correctness but did not deliver a guarded end-to-end gain; do not extend them as micro-optimizations. |
 | 4. Remaining architecture | Not implemented | Choose a compact/value-location backend or a larger measured front-end cut only after the new critical-path budget. |
@@ -79,6 +79,18 @@ cover the same-run DMD deficit, design Step 4 concurrently rather than
 waiting for a succession of small wins. A prototype advances only after
 11 same-host paired large/control/self-build measurements, byte-exact
 behavior, fixed point, and strict RAM; otherwise record and reject it.
+
+The clean comparator for `738bea3` has now finished: [run
+35928451776](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35928451776)
+passed its pre-parity correctness, strict-memory, and historical speed
+steps, but the enforced normal-default matrix failed **large functions
+versus DMD** at 0.451/0.315 s (1.4317x) and **control flow versus DMD** at
+0.272/0.211 s (1.2891x). The other 18 ratios passed. On that same runner,
+the 1.25x public ceiling requires 57.25/8.25 ms less OpenC wall time;
+the 1.20x internal margin requires 73.0/18.8 ms. These replace the earlier
+parallel-declaration run's 241/100 ms as the **latest candidate's**
+same-run planning budget, not as a cross-run speedup attribution. The
+local 93/42 ms scalar-flow gain did not close clean parity.
 
 ### 0. Establish the comparison contract
 
@@ -267,4 +279,5 @@ applicable stateful rule. Eleven guarded local pairs saved 93 ms on large
 functions (10/11 wins) and 42 ms on control flow (11/11), with a flat
 self-build (-2 ms paired median). `SH27_SCALAR_FLOW_EVIDENCE.md` records the
 proof and fallback boundary. This is a material architectural reduction,
-but clean pinned parity and the other completion gates remain open.
+but its first clean pinned comparator failed two DMD ratios; the remaining
+architecture and all later completion gates remain open.

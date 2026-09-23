@@ -1,6 +1,6 @@
 # SH-27 scalar-source flow cut
 
-Status: **locally proved; clean Windows comparator proof pending**. This is
+Status: **locally proved; clean Windows comparator parity failed**. This is
 the second cut on `codex/sh27-flow-front-end-cut`, source commit `738bea3`,
 measured against the immediately preceding ownership-gated compiler
 `ab1d2d4`. It is a whole-flow-pass proof gate, not a relaxation of OpenC
@@ -53,15 +53,32 @@ local host's absolute times vary materially; only within-pair deltas are
 used as speed evidence. Do not subtract these values from a separate CI
 run's DMD medians.
 
+The first clean [Windows workflow run 35928451776](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35928451776)
+passed byte-exact fixed point, native conformance, the strict 20-generation
+memory chain, x64 and integer checks, exact worker outputs/diagnostics and
+Job RAM, historical speed guards, and the opt-in comparator lanes. Its
+**enforced normal-default** five-compiler step failed two of the 20 ratios:
+
+| Workload | OpenC/DMD same-run medians | Ratio | OpenC reduction needed for 1.25x / 1.20x |
+| --- | ---: | ---: | ---: |
+| Large functions | 0.451/0.315 s | 1.4317x | 57.25/73.0 ms |
+| Control flow | 0.272/0.211 s | 1.2891x | 8.25/18.8 ms |
+
+The other 18 ratios passed. These are same-run deficits from the workflow's
+check annotations, not a comparison to another source or runner. The local
+93/42 ms paired gains were genuine but insufficient for sustained pinned
+parity. This run does not establish any clean pass of this exact source;
+the next cut must close the large-function wall gap with margin before
+SH-27 can advance to its two final-source runs.
+
 One diagnostic snapshot changed top-level validation from 63 to 16 ms on
 large functions and 47 to 0 ms on control flow relative to the previous
 local snapshot. Those snapshots are **not** paired wall measurements; they
 only confirm that the intended flow stage was bypassed. The 93/42 ms
-paired whole-compiler reductions are the relevant local result. The clean
-five-compiler workflow must still prove all 20 pinned ratios and RAM on a
-Windows runner. Even if that passes once, SH-27 still needs a same-source
-repeat, the remaining large-function architecture, genuine incremental
-object reuse, and representative projects.
+paired whole-compiler reductions are the relevant local A/B result. The
+clean comparator failure above, the remaining large-function architecture,
+genuine incremental object reuse, and representative projects all keep
+SH-27 open.
 
 Raw local reports are retained under ignored
 `build-output/selfhost-sh27/sh27-scalar-flow-proof-20260924/`.

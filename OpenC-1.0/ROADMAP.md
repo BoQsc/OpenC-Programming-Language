@@ -628,6 +628,21 @@ IR reach closure. Exact evidence and reproduction commands are in
       pinned C/D comparator lanes at `f068167`; artifact 10741544122 retains
       the machine-readable evidence. SH-27 throughput parity remains open.
 
+      The current SH-27 execution contract is
+      `compiler/selfhost/SH27_EXECUTION_PLAN.md`: measured semantic-to-lowering
+      and, if needed, backend redesign precede real incremental COFF reuse,
+      representative projects, and two clean final-source parity runs. The
+      scalar-source flow cut at `738bea3` passes local fixed point, 278
+      conformance cases, strict 20-generation RAM, exact worker/diagnostic
+      checks, and eleven-pair local speed comparisons (-93 ms large functions,
+      -42 ms control flow, flat self-build). Its first clean Windows
+      [run 35928451776](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35928451776)
+      passes all pre-parity gates but fails normal-default DMD ratios on large
+      functions (0.451/0.315 s, 1.4317x) and control flow (0.272/0.211 s,
+      1.2891x); the other 18 pinned ratios pass. The same-run 1.25x deficits
+      are 57.25/8.25 ms. SH-27 is not complete, and neither a local gain nor
+      the earlier green run on a different compiler source changes that.
+
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records
 remain optional future work and begin only when those targets become active
