@@ -99,6 +99,31 @@ class Sh27ProductionTests(unittest.TestCase):
             self.assertEqual(command[4:], [str(source), f"-of={output}", f"-od={root}"])
 
     @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_failed_paired_bootstrap_preserves_stage_measurement(self) -> None:
+        script_directory = str(MODULE_PATH.parent)
+        sys.path.insert(0, script_directory)
+        try:
+            import benchmark_sh27_paired_revision as paired
+        finally:
+            sys.path.remove(script_directory)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            project = root / "project" / "compiler" / "selfhost"
+            project.mkdir(parents=True)
+            (project / "openc.project.json").write_text("{}", encoding="utf-8")
+            run_root = root / "runs"
+            with self.assertRaisesRegex(RuntimeError, "measurement="):
+                paired.bootstrap("baseline", root / "project", Path(sys.executable), run_root)
+            measurement = json.loads(
+                (run_root / "bootstrap" / "baseline" / "stage1" / "measurement.json")
+                .read_text(encoding="utf-8")
+            )
+            self.assertFalse(measurement["passed"])
+            self.assertEqual(measurement["stage"], 1)
+            self.assertFalse(measurement["output_exists"])
+            self.assertNotEqual(measurement["exit_code"], 0)
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
     def test_execution_timeout_kills_child(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             result = BENCHMARK.run_measured(
