@@ -179,6 +179,38 @@ unsafe usize ir_spelling_cache_entry(
     return context.spelling_cache_capacity;
 }
 
+unsafe bool ir_spelling_resolution_stable(
+    ref IrContext context,
+    usize start,
+    usize length,
+    usize resolved
+) {
+    if resolved >= context.symbols.length ||
+        context.function_symbol >= context.symbols.length ||
+        flow_span_has_byte(context.source, start, length, 46) {
+        return false;
+    }
+    usize candidate = context.function_local_first;
+    while candidate < context.function_local_end {
+        usize kind = read_record_field(context.symbol_data, candidate, 0);
+        if read_record_field(context.detail_data, candidate, 2) ==
+                context.function_symbol + 1 &&
+            (kind == resolution_symbol_parameter() ||
+             kind == resolution_symbol_variable()) &&
+            semantic_spans_equal(
+                context.source, start, length,
+                context.source,
+                read_record_field(context.symbol_data, candidate, 2),
+                read_record_field(context.symbol_data, candidate, 3)
+            ) &&
+            (candidate != resolved || kind != resolution_symbol_parameter()) {
+            return false;
+        }
+        candidate = candidate + 1;
+    }
+    return true;
+}
+
 unsafe void ir_cache_name_resolution(
     ref IrContext context,
     usize node,
@@ -194,6 +226,9 @@ unsafe void ir_cache_name_resolution(
     }
     if context.spelling_cache == null ||
         context.spelling_cache_capacity == 0 { return; }
+    if !ir_spelling_resolution_stable(
+        context, start, length, resolved
+    ) { return; }
     usize entry = hash % context.spelling_cache_capacity;
     usize probes = 0;
     while probes < context.spelling_cache_capacity {

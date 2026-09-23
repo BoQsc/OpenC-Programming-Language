@@ -101,9 +101,18 @@ unsafe bool c_emit_source_record(
     ptr byte name_cache = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
-    // Spelling-only caching is not scope-safe when locals are shadowed.
-    usize spelling_cache_capacity = 0;
-    ptr byte spelling_cache = null;
+    // Bound the optional cache per source. Only names whose binding cannot
+    // change with lexical position are inserted (see ir_part2.p).
+    usize spelling_cache_requested = syntax.length / 8 + 16;
+    if spelling_cache_requested > 1024 {
+        spelling_cache_requested = 1024;
+    }
+    usize spelling_cache_capacity = ir_index_capacity(
+        spelling_cache_requested
+    );
+    ptr byte spelling_cache = memory.alloc(
+        spelling_cache_capacity * record_stride()
+    );
     ptr byte call_cache = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
