@@ -150,10 +150,17 @@ unsafe usize ir_indexed_call_selection(
 
 unsafe usize ir_select_call(ref IrContext context, usize call) {
     ir_select_node_function(context, call);
-    if context.call_cache != null && call < context.syntax.length {
-        usize cached = read_usize(
-            context.call_cache, call * size_of(usize)
-        );
+    if (context.call_cache != null ||
+        context.typed_expression_cache != null) &&
+        call < context.syntax.length {
+        usize cached = 0;
+        if context.typed_expression_cache != null {
+            cached = ir_typed_expression_read(context, call, 1);
+        } else {
+            cached = read_usize(
+                context.call_cache, call * size_of(usize)
+            );
+        }
         if cached != 0 { return cached - 1; }
     }
     usize selected = context.symbols.length;
@@ -180,11 +187,15 @@ unsafe usize ir_select_call(ref IrContext context, usize call) {
         // `file`, `memory`, or `process`. A declared function has precedence;
         // Hosted built-in routing is only the fallback for an unresolved name.
         if builtin_spelling && declared >= context.symbols.length {
-            if context.call_cache != null && call < context.syntax.length {
-                write_usize(
-                    context.call_cache,
-                    call * size_of(usize), selected + 1
+            if context.typed_expression_cache != null &&
+                call < context.syntax.length {
+                ir_typed_expression_write(
+                    context, call, 1, selected + 1
                 );
+            } else if context.call_cache != null &&
+                call < context.syntax.length {
+                write_usize(context.call_cache,
+                    call * size_of(usize), selected + 1);
             }
             return selected;
         }
@@ -223,11 +234,19 @@ unsafe usize ir_select_call(ref IrContext context, usize call) {
     // changes source/function context and completes argument indexing. Keep
     // only real symbol selections; otherwise a precheck miss becomes a false
     // permanent error during acceptance and lowering.
-    if context.call_cache != null && call < context.syntax.length &&
+    if (context.call_cache != null ||
+        context.typed_expression_cache != null) &&
+        call < context.syntax.length &&
         selected < context.symbols.length {
-        write_usize(
-            context.call_cache, call * size_of(usize), selected + 1
-        );
+        if context.typed_expression_cache != null {
+            ir_typed_expression_write(
+                context, call, 1, selected + 1
+            );
+        } else {
+            write_usize(
+                context.call_cache, call * size_of(usize), selected + 1
+            );
+        }
     }
     return selected;
 }

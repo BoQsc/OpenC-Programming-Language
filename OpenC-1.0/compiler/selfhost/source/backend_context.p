@@ -52,6 +52,7 @@ unsafe IrContext backend_base_context(
         resolved_type_ref_cache = null,
         left_expression_cache = null,
         right_expression_cache = null,
+        typed_expression_cache = null,
         block_parent_cache = null,
         control_parent_cache = null,
         statement_nodes = null,

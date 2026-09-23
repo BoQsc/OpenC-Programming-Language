@@ -7,10 +7,17 @@ import system.text;
 unsafe usize ir_resolve_name(ref IrContext context, usize node) {
     ir_select_node_function(context, node);
     if node >= context.syntax.length { return context.symbols.length; }
-    if context.name_cache != null && node < context.syntax.length {
-        usize cached = read_usize(
-            context.name_cache, node * size_of(usize)
-        );
+    if (context.name_cache != null ||
+        context.typed_expression_cache != null) &&
+        node < context.syntax.length {
+        usize cached = 0;
+        if context.typed_expression_cache != null {
+            cached = ir_typed_expression_read(context, node, 1);
+        } else {
+            cached = read_usize(
+                context.name_cache, node * size_of(usize)
+            );
+        }
         if cached != 0 { return cached - 1; }
     }
     usize start = read_record_field(context.syntax_data, node, 1);
@@ -28,7 +35,11 @@ unsafe usize ir_resolve_name(ref IrContext context, usize node) {
             usize cached = read_record_field(
                 context.spelling_cache, spelling_entry, 4
             ) - 1;
-            if context.name_cache != null {
+            if context.typed_expression_cache != null {
+                ir_typed_expression_write(
+                    context, node, 1, cached + 1
+                );
+            } else if context.name_cache != null {
                 write_usize(
                     context.name_cache, node * size_of(usize), cached + 1
                 );
