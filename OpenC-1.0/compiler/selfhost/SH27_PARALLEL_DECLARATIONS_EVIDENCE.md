@@ -74,6 +74,17 @@ A separate three-sample local DMD-only corpus was noisy (large OpenC samples
 ratios are not promotion evidence. The 11-pair same-host compiler A/B and
 clean pinned Windows CI are the throughput decisions.
 
+The final candidate's diagnostic-only profile refreshes the next critical
+path (one local sample, not a timed A/B claim). On large functions, serial
+declarations were **62 ms**, native worker-stage wall **297 ms**, and the
+critical worker spent **140 ms** in acceptance, of which **78 ms** was the
+assignment rule family. Control flow showed 15 ms declarations, 141 ms
+worker stage, and 93/62 ms acceptance/assignments. On self-build, acceptance
+and native emission remain material at 701/516 ms on the critical worker.
+These nested worker fields cannot be added to top-level wall phases. They do
+justify making Gate C's first-visit typed-expression/assignment redesign the
+next architecture after the declaration cut's clean CI decision.
+
 ## Next decision
 
 Run the full clean Windows workflow on this isolated cut, including all 20
