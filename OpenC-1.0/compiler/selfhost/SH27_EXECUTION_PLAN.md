@@ -100,17 +100,23 @@ new critical-path profile, not another cache experiment.
 | 7. Representative projects | Not implemented | Version equivalent real-project inputs and guard cold/warm/edit/runtime/memory results separately from the synthetic corpus. |
 | 8. Final-source certification | Not started | Two independent clean 20/20 normal-default runs of one final compiler source, plus every correctness, memory, project, incremental, and release-integrity gate. |
 
-The first broad batch has already rejected two tempting partial cuts. The
-independent function queue is a no-go before immutable typed facts and bounded
-worker scratch; its zero-overhead local model is documented in
-`SH27_FUNCTION_SCHEDULING_DECISION.md`. The indexed call-summary candidate
+The first broad batch rejected three partial source cuts and one scheduling
+proposal. The independent function queue is a no-go before immutable typed
+facts and bounded worker scratch; its zero-overhead local model is documented
+in `SH27_FUNCTION_SCHEDULING_DECISION.md`. The indexed call-summary candidate
 passed its fixed point and workload correctness/RAM checks, but not a speed
 signal above same-run null noise, and control flow regressed; see
-`SH27_CALL_PATH_BATCH_EVIDENCE.md`. Neither source patch belongs in the
-production branch. The normalized typed-operation cut remains under
-correctness and throughput evaluation. A distinct compact/value-location
-backend hypothesis should be prepared from the new profile rather than
-restarting the rejected call-cache experiment.
+`SH27_CALL_PATH_BATCH_EVIDENCE.md`. The packed typed-record/validator-batch
+candidate moved assignment timing without removing first-visit work; see
+`SH27_TYPED_OPS_BATCH_CANDIDATE.md`. The direct native slot-layout cut reduced
+one subphase but did not improve whole-compiler wall above host noise and has
+an unproved strict working-set gate; see
+`SH27_BACKEND_VALUE_LOCATION_EVIDENCE.md`. None of those source patches
+belongs in the production branch. The next two source tracks must replace
+the complete typed semantic-to-lowering path and the function-level compact
+value path, respectively; a second narrow cache/slot cut is not an acceptable
+substitute. The clean CI batch runner is a third, independent track because
+this desktop's baseline-vs-baseline jitter often exceeds the remaining gap.
 
 `SH27_WORKER_BALANCE_EVIDENCE.md` now records four-worker wall times from
 eleven guarded local runs per large/control workload. The first chunk was

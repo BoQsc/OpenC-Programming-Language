@@ -5,6 +5,7 @@ from __future__ import annotations
 import unittest
 
 from benchmark_sh27_candidate_matrix import candidate_spec, compare_pairs
+from analyze_sh27_candidate_matrix import numeric_phase
 
 
 def sample(seconds: float, digest: str, passed: bool = True) -> dict[str, object]:
@@ -80,6 +81,23 @@ class CandidateMatrixTests(unittest.TestCase):
         self.assertEqual(path.name, "openc.exe")
         with self.assertRaises(Exception):
             candidate_spec("../outside=compiler.exe")
+
+    def test_nested_phase_extraction_is_explicit(self) -> None:
+        sample_record = {
+            "compiler_timings": {
+                "total_ms": 100,
+                "phases_ms": {"declarations": 20},
+                "native_parallel_profile": {
+                    "critical_chunk": {"acceptance_ms": 30}
+                },
+            }
+        }
+        self.assertEqual(numeric_phase(sample_record, "total_ms"), 100)
+        self.assertEqual(
+            numeric_phase(sample_record, "phases_ms.declarations"), 20
+        )
+        self.assertEqual(numeric_phase(sample_record, "acceptance_ms"), 30)
+        self.assertIsNone(numeric_phase(sample_record, "native_emit_ms"))
 
 
 if __name__ == "__main__":
