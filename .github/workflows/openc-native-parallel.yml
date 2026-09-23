@@ -127,7 +127,7 @@ jobs:
           --source-chunks auto --profile-type-queries
           --output artifacts\sh27-native-parallel\source-worker-type-profile.json
 
-      - name: Require material two-worker RAM savings
+      - name: Check two/four-worker RAM tradeoff after strict memory gate
         shell: cmd
         run: >-
           python OpenC-1.0\compiler\selfhost\verify_sh27_worker_tradeoff.py

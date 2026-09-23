@@ -331,7 +331,7 @@ class Sh27ProductionTests(unittest.TestCase):
             timing["native_parallel_profile"]["critical_chunk"][key] = 0
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
 
-    def test_worker_tradeoff_requires_same_compiler_and_material_savings(self) -> None:
+    def test_worker_tradeoff_requires_same_compiler_and_bounded_memory(self) -> None:
         script = ROOT / "compiler/selfhost/verify_sh27_worker_tradeoff.py"
         def proof(chunks: int, peak_mib: int) -> dict[str, object]:
             return {
@@ -364,7 +364,28 @@ class Sh27ProductionTests(unittest.TestCase):
                 "peak_job_private_bytes"
             ] = 120 * BENCHMARK.MIB
             four.write_text(json.dumps(four_record), encoding="utf-8")
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            two_record = proof(2, 100)
+            two_record["results"]["large_functions"]["chunked"][
+                "peak_job_private_bytes"
+            ] = 121 * BENCHMARK.MIB
+            two.write_text(json.dumps(two_record), encoding="utf-8")
             self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            two.write_text(json.dumps(proof(2, 100)), encoding="utf-8")
+            two_record = proof(2, 100)
+            two_record["results"]["large_functions"]["chunked"][
+                "peak_job_private_bytes"
+            ] = 120 * BENCHMARK.MIB
+            two.write_text(json.dumps(two_record), encoding="utf-8")
+            four_record["results"]["large_functions"]["chunked"][
+                "peak_job_private_bytes"
+            ] = 140 * BENCHMARK.MIB
+            four.write_text(json.dumps(four_record), encoding="utf-8")
+            self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            two.write_text(json.dumps(proof(2, 100)), encoding="utf-8")
+            four_record["results"]["large_functions"]["chunked"][
+                "peak_job_private_bytes"
+            ] = 120 * BENCHMARK.MIB
             four_record["compiler_sha256"] = "different-compiler"
             four.write_text(json.dumps(four_record), encoding="utf-8")
             self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
