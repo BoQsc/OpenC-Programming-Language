@@ -79,6 +79,12 @@ def timing_accounting_valid(
         query_profile.get("validation_uncached"),
         query_profile.get("validation_failures"),
     )
+    distinct_counts = (
+        query_profile.get("validation_distinct_uncached"),
+        query_profile.get("validation_repeated_uncached"),
+        query_profile.get("assignment_distinct_uncached"),
+        query_profile.get("assignment_repeated_uncached"),
+    )
     validation_assignments = (
         query_profile.get("assignment_queries"),
         query_profile.get("assignment_cache_hits"),
@@ -87,7 +93,7 @@ def timing_accounting_valid(
     if not all(isinstance(value, int) and value >= 0 for value in (
         worker_ms, merge_ms, chunk_ms, first, end, *parts,
         *query_counts, *assignment_counts,
-        *validation_queries, *validation_assignments,
+        *validation_queries, *validation_assignments, *distinct_counts,
     )):
         return False
     if query_profile.get("enabled") is True:
@@ -105,6 +111,12 @@ def timing_accounting_valid(
             and assignment_counts[0] <= query_counts[0]
             and validation_assignments[0] <= validation_queries[0]
             and assignment_counts[0] <= validation_assignments[0]
+            and distinct_counts[0] + distinct_counts[1] ==
+                validation_queries[2]
+            and distinct_counts[2] + distinct_counts[3] ==
+                validation_assignments[2]
+            and distinct_counts[2] <= distinct_counts[0]
+            and distinct_counts[3] <= distinct_counts[1]
             and (not expected_chunks or query_counts[0] > 0)
         )
     else:
@@ -113,6 +125,7 @@ def timing_accounting_valid(
             and all(value == 0 for value in (
                 *query_counts, *assignment_counts,
                 *validation_queries, *validation_assignments,
+                *distinct_counts,
             ))
         )
     if expected_chunks:

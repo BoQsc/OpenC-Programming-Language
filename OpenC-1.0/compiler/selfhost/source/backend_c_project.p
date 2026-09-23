@@ -41,6 +41,7 @@ unsafe void c_release_source_context(
     memory.free(context.left_expression_cache);
     memory.free(context.resolved_type_ref_cache);
     memory.free(context.type_cache);
+    memory.free(context.profile_type_seen);
     memory.free(context.argument_next);
     memory.free(context.call_argument_last);
     memory.free(context.call_argument_first);

@@ -85,6 +85,28 @@ workload occur during assignment validation; the corresponding control-flow
 fraction is 13,120/20,358 (64.4%). The self-build has a different profile,
 which is why call validation and emission must remain guarded.
 
+A second diagnostic-only profile allocated one seen-bit record per source
+syntax node and distinguished each first uncached evaluation from a repeat.
+The rebuilt Stage-2/Stage-3 compiler was byte-exact, and the adaptive
+five-workload/invalid-diagnostic proof passed with and without profiling;
+native conformance passed 278/278. Its measured native lane was:
+
+| Workload | Uncached evaluations | Distinct nodes | Repeated uncached nodes | Assignment uncached / distinct / repeated |
+| --- | ---: | ---: | ---: | ---: |
+| Large functions | 92,678 | 92,678 | 0 | 90,368 / 90,368 / 0 |
+| Control flow | 20,358 | 20,358 | 0 | 13,120 / 13,120 / 0 |
+| Compiler self-build | 100,060 | 100,060 | 0 | 9,085 / 9,085 / 0 |
+
+These counts are from
+`build-output/selfhost-sh27/sh27-distinct-type-profile-20260923/auto-fixed-proof.json`
+and its adjacent timing records. The self-build source/compiler revision is
+newer than the first table, so its absolute count is not an A/B speed result.
+The zero repeat count changes the hypothesis: the large assignment cost is
+**first-visit inference and surrounding source/symbol/operand work**, not
+repeated uncached inference. A bigger type cache alone cannot remove the
+measured first-visit cost. Profiling allocation and first-visit kind/call
+breakdowns remains necessary before promoting a fused typed-record design.
+
 Eleven same-host order-alternated revision pairs checked the cost of this
 instrumentation against the pre-instrumentation compiler on identical input.
 Both compilers produced byte-identical outputs; every build stayed within the
@@ -109,6 +131,11 @@ medians. Both self-build series were substantially slower and noisier than
 the earlier calm-host comparison. This is an unresolved promotion guard,
 not evidence that the final revision is faster or slower on a clean host.
 The clean Windows workflow must decide; do not silently waive the failure.
+The commit-triggered clean Windows run for `a66e49d` subsequently completed
+successfully ([run 35869263867](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35869263867)).
+That clears the workflow's bounded self-build speed guard for **that commit**;
+it does not erase the local noisy A/B result, prove 1.25x C/D parity, or
+pre-approve the later distinct-node instrumentation in this working tree.
 
 ## Correctness and interpretation limits
 
@@ -130,12 +157,14 @@ The clean Windows workflow must decide; do not silently waive the failure.
 
 ## Decision for the next architectural prototype
 
-Instrument type-query hits/misses and repeated node/name probes during
-acceptance. Then replace repeated assignment-side recursive inference with a
-typed-expression table that is built once per source, respects contextual
-expected types, and is reused by validation and lowering. Preserve the
-existing fallback where type inference is expectation-dependent. Require
-same-command paired wall-time gains, exact diagnostics, full correctness,
-and the 512 MiB Job guard before considering production promotion. If the
-refreshed critical path then moves to native lowering/emission, begin the
-register/value-location redesign in `SH27_COMPLETION_ROADMAP.md`.
+Profile first-visit expression kinds, name/symbol probes, operand lookup,
+and allocation during acceptance. Then prototype a fused typed-expression
+record produced during the existing syntax/semantic walk, carrying direct
+operand and symbol references into validation and lowering. It must remove
+work on the *first* visit rather than merely cache duplicate queries that
+the measured workloads do not make. Preserve the fallback where inference
+depends on an expected type. Require same-command paired wall-time gains,
+exact diagnostics, full correctness, and the 512 MiB Job guard before
+production promotion. If the refreshed critical path moves to native
+lowering/emission, begin the register/value-location redesign in
+`SH27_COMPLETION_ROADMAP.md`.

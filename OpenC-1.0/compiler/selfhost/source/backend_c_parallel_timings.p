@@ -105,6 +105,12 @@ unsafe void c_merge_worker_timings(
         worker.validation_type_cache_hits;
     target.validation_type_uncached = target.validation_type_uncached +
         worker.validation_type_uncached;
+    target.validation_type_distinct_uncached =
+        target.validation_type_distinct_uncached +
+        worker.validation_type_distinct_uncached;
+    target.validation_type_repeated_uncached =
+        target.validation_type_repeated_uncached +
+        worker.validation_type_repeated_uncached;
     target.validation_type_failures = target.validation_type_failures +
         worker.validation_type_failures;
     target.validation_assignment_type_queries =
@@ -116,6 +122,12 @@ unsafe void c_merge_worker_timings(
     target.validation_assignment_type_uncached =
         target.validation_assignment_type_uncached +
         worker.validation_assignment_type_uncached;
+    target.validation_assignment_type_distinct_uncached =
+        target.validation_assignment_type_distinct_uncached +
+        worker.validation_assignment_type_distinct_uncached;
+    target.validation_assignment_type_repeated_uncached =
+        target.validation_assignment_type_repeated_uncached +
+        worker.validation_assignment_type_repeated_uncached;
     target.lex_parse_ms = target.lex_parse_ms + worker.lex_parse_ms;
     target.index_ms = target.index_ms + worker.index_ms;
     target.index_nodes_ms = target.index_nodes_ms + worker.index_nodes_ms;

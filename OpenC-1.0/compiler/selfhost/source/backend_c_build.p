@@ -186,6 +186,10 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.validation_type_cache_hits);
     d_put(output, ",\n    \"validation_uncached\": ");
     d_put_usize(output, timings.validation_type_uncached);
+    d_put(output, ",\n    \"validation_distinct_uncached\": ");
+    d_put_usize(output, timings.validation_type_distinct_uncached);
+    d_put(output, ",\n    \"validation_repeated_uncached\": ");
+    d_put_usize(output, timings.validation_type_repeated_uncached);
     d_put(output, ",\n    \"validation_failures\": ");
     d_put_usize(output, timings.validation_type_failures);
     d_put(output, ",\n    \"assignment_queries\": ");
@@ -194,6 +198,10 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.validation_assignment_type_cache_hits);
     d_put(output, ",\n    \"assignment_uncached\": ");
     d_put_usize(output, timings.validation_assignment_type_uncached);
+    d_put(output, ",\n    \"assignment_distinct_uncached\": ");
+    d_put_usize(output, timings.validation_assignment_type_distinct_uncached);
+    d_put(output, ",\n    \"assignment_repeated_uncached\": ");
+    d_put_usize(output, timings.validation_assignment_type_repeated_uncached);
     d_put(output, "\n  },\n  \"total_ms\": ");
     d_put_usize(output, timings.total_ms);
     d_put(output, ",\n  \"compiler_owned\": {\n");

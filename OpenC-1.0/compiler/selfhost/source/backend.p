@@ -123,10 +123,14 @@ struct BuildTimings {
     usize validation_type_queries;
     usize validation_type_cache_hits;
     usize validation_type_uncached;
+    usize validation_type_distinct_uncached;
+    usize validation_type_repeated_uncached;
     usize validation_type_failures;
     usize validation_assignment_type_queries;
     usize validation_assignment_type_cache_hits;
     usize validation_assignment_type_uncached;
+    usize validation_assignment_type_distinct_uncached;
+    usize validation_assignment_type_repeated_uncached;
     usize validation_slowest_source_ms;
     usize validation_slowest_source_record;
     usize validation_second_source_ms;
@@ -259,10 +263,14 @@ BuildTimings build_timings_empty() {
         validation_type_queries = 0,
         validation_type_cache_hits = 0,
         validation_type_uncached = 0,
+        validation_type_distinct_uncached = 0,
+        validation_type_repeated_uncached = 0,
         validation_type_failures = 0,
         validation_assignment_type_queries = 0,
         validation_assignment_type_cache_hits = 0,
         validation_assignment_type_uncached = 0,
+        validation_assignment_type_distinct_uncached = 0,
+        validation_assignment_type_repeated_uncached = 0,
         validation_slowest_source_ms = 0,
         validation_slowest_source_record = 0,
         validation_second_source_ms = 0,

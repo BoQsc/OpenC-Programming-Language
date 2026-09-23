@@ -79,28 +79,37 @@ they did not close these time budgets.
 
 The first critical-worker measurements are in
 `SH27_CRITICAL_PATH_EVIDENCE.md`. They point to first-time semantic acceptance,
-especially assignments, as the first redesign target. Keep validating that
-result on clean runners; do not promote a local three/five-sample profile to
-a universal performance claim.
+especially assignments, as the first redesign target. A follow-up distinct-node
+profile found **zero repeated uncached type evaluations** in the three measured
+workloads. The problem is not an unfilled memoization cache; it is the cost of
+the first visit and the surrounding acceptance/index/lowering architecture.
+Keep validating that result on clean runners; do not promote a local
+three/five-sample profile to a universal performance claim.
 
 ### 1. Redesign first-time semantic acceptance and type inference
 
 The slowest native chunk currently spends more time in semantic acceptance
 than in native emission on both failing generated workloads. Treat the
-assignment pass and its recursive type queries as one architectural problem:
+assignment pass and its first-time recursive type inference as one
+architectural problem, not a cache-tuning exercise:
 
-1. Count type-query hits/misses, repeated node visits, name/symbol probes,
-   and expected-type-dependent fallbacks during assignment validation. Make
-   the counters diagnostic-only or prove their normal-build overhead small.
-2. Build a per-source typed-expression table in one dependency-ordered walk.
-   Infer expectation-independent expressions once; represent contextual
-   literal/aggregate constraints explicitly and retain the exact existing
-   fallback for cases whose type depends on an expected type. Do not cache a
-   failed lookup across contexts that can legitimately resolve later.
-3. Validate assignment lvalue/mutability/conversion rules while consuming
-   those typed records rather than recursively re-inferring the same right-
-   hand tree. Lowering must reuse the same records; no second parse or type
-   scan. Preserve diagnostic text and source order, including invalid input.
+1. Keep the diagnostic-only unique/repeated type-query counter and count
+   first-visit work by expression kind, name/symbol probe, operand lookup,
+   source-text parse, and expected-type-dependent fallback. Distinguish time
+   within the first semantic visit from the number of visits; a high uncached
+   count alone cannot justify memoization.
+2. Build a compact per-source typed-expression record **during the existing
+   dependency-ordered syntax/semantic walk**, not as an extra full prepass.
+   Carry direct child/operand and resolved-symbol references into that record,
+   plus the expectation-independent type or a tagged contextual constraint.
+   Preserve the exact fallback for expected-type-sensitive literals and
+   aggregates. Do not cache a failed lookup across contexts that can resolve
+   later. The target is fewer source rescans, repeated function-context
+   selections, per-node dispatches, and transient allocations on first visit.
+3. Validate assignment lvalue/mutability/conversion rules as typed records
+   are produced, then let lowering consume those same records. Avoid a second
+   parse, type scan, or full expression walk. Preserve diagnostic text and
+   source order, including invalid input.
 4. Prove equivalent `check`, serial and parallel `artifact`, self-build,
    overflow/aggregate behavior, and bounded memory. Run 11 same-host pairs
    on both failing lanes and self-build; require a material wall-time gain,
@@ -264,10 +273,11 @@ object reuse. Separate full rebuilds from warm incremental builds.
 
 ## Immediate next decision
 
-Finish Step 0's allocation/query-count and clean-runner confirmation, then
-start Step 1's typed-expression/assignment redesign. The new local critical-
-chunk records show assignment validation is the larger available target;
-native emission is not the first bet. Do **not** spend another cycle on
-isolated instruction peepholes, threshold nudges, or output-size-only changes
-unless a refreshed profile shows they can close a material fraction of the
-~221 ms/~121 ms same-run deficits.
+Finish Step 0's first-visit cost/allocation attribution and clean-runner
+confirmation, then start Step 1's fused typed-expression/assignment redesign.
+The distinct-node counter has already ruled out repeated uncached evaluation
+as the explanation for the large assignment count. Native emission is not the
+first bet. Do **not** spend another cycle on cache-threshold nudges, isolated
+instruction peepholes, or output-size-only changes unless a refreshed profile
+shows they can close a material fraction of the ~221 ms/~121 ms same-run
+deficits.

@@ -81,6 +81,10 @@ unsafe usize acceptance_validate_context(
     usize assignment_queries_before = context.profile_type_queries;
     usize assignment_hits_before = context.profile_type_cache_hits;
     usize assignment_uncached_before = context.profile_type_uncached;
+    usize assignment_distinct_before =
+        context.profile_type_distinct_uncached;
+    usize assignment_repeated_before =
+        context.profile_type_repeated_uncached;
     usize assignments_started = process.monotonic_milliseconds();
     found = 0;
     if expression_features.has_assignments {
@@ -98,6 +102,12 @@ unsafe usize acceptance_validate_context(
     timings.validation_assignment_type_uncached =
         timings.validation_assignment_type_uncached +
         context.profile_type_uncached - assignment_uncached_before;
+    timings.validation_assignment_type_distinct_uncached =
+        timings.validation_assignment_type_distinct_uncached +
+        context.profile_type_distinct_uncached - assignment_distinct_before;
+    timings.validation_assignment_type_repeated_uncached =
+        timings.validation_assignment_type_repeated_uncached +
+        context.profile_type_repeated_uncached - assignment_repeated_before;
     acceptance_report_source_count(context, "assignments", found);
     errors = errors + found;
     found = 0;

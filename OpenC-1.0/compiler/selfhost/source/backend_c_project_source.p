@@ -119,6 +119,22 @@ unsafe bool c_emit_source_record(
     ptr byte type_cache = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
+    ptr byte profile_type_seen = null;
+    if base.profile_type_queries_enabled {
+        profile_type_seen = memory.alloc(
+            (syntax.length + 1) * size_of(usize)
+        );
+        if profile_type_seen != null {
+            usize profile_node = 0;
+            while profile_node <= syntax.length {
+                write_usize(
+                    profile_type_seen,
+                    profile_node * size_of(usize), 0
+                );
+                profile_node = profile_node + 1;
+            }
+        }
+    }
     ptr byte resolved_type_ref_cache = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
@@ -257,6 +273,7 @@ unsafe bool c_emit_source_record(
     context.call_argument_last = ir_pointer_alias(call_argument_last);
     context.argument_next = ir_pointer_alias(argument_next);
     context.type_cache = ir_pointer_alias(type_cache);
+    context.profile_type_seen = ir_pointer_alias(profile_type_seen);
     context.resolved_type_ref_cache = ir_pointer_alias(
         resolved_type_ref_cache
     );
@@ -353,6 +370,12 @@ unsafe bool c_emit_source_record(
         timings.validation_type_uncached =
             timings.validation_type_uncached +
             context.profile_type_uncached;
+        timings.validation_type_distinct_uncached =
+            timings.validation_type_distinct_uncached +
+            context.profile_type_distinct_uncached;
+        timings.validation_type_repeated_uncached =
+            timings.validation_type_repeated_uncached +
+            context.profile_type_repeated_uncached;
         timings.validation_type_failures =
             timings.validation_type_failures +
             context.profile_type_failures;

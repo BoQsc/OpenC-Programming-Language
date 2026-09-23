@@ -186,13 +186,20 @@ class Sh27ProductionTests(unittest.TestCase):
                 "enabled": True, "validation_queries": 500,
                 "validation_cache_hits": 100,
                 "validation_uncached": 400,
+                "validation_distinct_uncached": 300,
+                "validation_repeated_uncached": 100,
                 "validation_failures": 0,
                 "assignment_queries": 180,
                 "assignment_cache_hits": 70,
                 "assignment_uncached": 110,
+                "assignment_distinct_uncached": 80,
+                "assignment_repeated_uncached": 30,
             },
         }
         self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
+        timing["type_query_profile"]["validation_distinct_uncached"] = 0
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing["type_query_profile"]["validation_distinct_uncached"] = 300
         timing["type_query_profile"]["validation_uncached"] = 399
         self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
         timing["type_query_profile"]["validation_uncached"] = 400
@@ -250,8 +257,12 @@ class Sh27ProductionTests(unittest.TestCase):
         timing["type_query_profile"] = {
             "enabled": False, "validation_queries": 0,
             "validation_cache_hits": 0, "validation_uncached": 0,
+            "validation_distinct_uncached": 0,
+            "validation_repeated_uncached": 0,
             "validation_failures": 0, "assignment_queries": 0,
             "assignment_cache_hits": 0, "assignment_uncached": 0,
+            "assignment_distinct_uncached": 0,
+            "assignment_repeated_uncached": 0,
         }
         for key in (
             "type_queries", "type_cache_hits", "type_uncached",

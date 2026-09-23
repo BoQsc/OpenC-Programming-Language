@@ -261,6 +261,18 @@ unsafe usize ir_node_type(
     if context.profile_type_queries_enabled {
         context.profile_type_uncached =
             context.profile_type_uncached + 1;
+        if context.profile_type_seen != null &&
+            node < context.syntax.length {
+            usize offset = node * size_of(usize);
+            if read_usize(context.profile_type_seen, offset) == 0 {
+                write_usize(context.profile_type_seen, offset, 1);
+                context.profile_type_distinct_uncached =
+                    context.profile_type_distinct_uncached + 1;
+            } else {
+                context.profile_type_repeated_uncached =
+                    context.profile_type_repeated_uncached + 1;
+            }
+        }
     }
     usize resolved = ir_node_type_uncached(context, node, expected);
     if context.profile_type_queries_enabled &&
