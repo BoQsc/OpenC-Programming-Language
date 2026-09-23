@@ -52,6 +52,9 @@ def timing_accounting_valid(
         return False
     worker_ms = profile.get("workers_wall_ms")
     merge_ms = profile.get("merge_wall_ms")
+    chunk_walls = profile.get("chunk_walls_ms")
+    if not isinstance(chunk_walls, list) or len(chunk_walls) != 4:
+        return False
     chunk_ms = critical.get("wall_ms")
     first = critical.get("first_source")
     end = critical.get("end_source_exclusive")
@@ -110,7 +113,7 @@ def timing_accounting_valid(
         return False
     kind_values = tuple(kind_counts[name] for name in expected_kinds)
     if not all(isinstance(value, int) and value >= 0 for value in (
-        worker_ms, merge_ms, chunk_ms, first, end, *parts,
+        worker_ms, merge_ms, chunk_ms, first, end, *chunk_walls, *parts,
         *query_counts, *assignment_counts,
         *validation_queries, *validation_assignments, *distinct_counts,
         *declaration_parts, *kind_values,
@@ -169,6 +172,10 @@ def timing_accounting_valid(
             ))
         )
     if expected_chunks:
+        if max(chunk_walls) != chunk_ms or any(
+            chunk_walls[index] != 0 for index in range(expected_chunks, 4)
+        ):
+            return False
         # GetTickCount64-like millisecond clocks can report zero for every
         # worker on the very small explicit-chunk workload. An actual local
         # 80-run probe observed this once on a correct 24-file, 80 KiB build.
@@ -198,6 +205,7 @@ def timing_accounting_valid(
         profile_valid = bool(
             profile.get("launch_completed") is False
             and worker_ms == 0 and merge_ms == 0
+            and all(value == 0 for value in chunk_walls)
             and chunk_ms == 0 and first == 0 and end == 0
             and all(value == 0 for value in parts)
             and all(value == 0 for value in query_counts)

@@ -271,6 +271,15 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.native_workers_wall_ms);
     d_put(output, ",\n    \"merge_wall_ms\": ");
     d_put_usize(output, timings.native_merge_ms);
+    d_put(output, ",\n    \"chunk_walls_ms\": [");
+    d_put_usize(output, timings.native_chunk_one_wall_ms);
+    d_put(output, ", ");
+    d_put_usize(output, timings.native_chunk_two_wall_ms);
+    d_put(output, ", ");
+    d_put_usize(output, timings.native_chunk_three_wall_ms);
+    d_put(output, ", ");
+    d_put_usize(output, timings.native_chunk_four_wall_ms);
+    d_put(output, "]");
     d_put(output, ",\n    \"critical_chunk\": {\n");
     d_put(output, "      \"first_source\": ");
     d_put_usize(output, timings.native_critical_chunk_first);

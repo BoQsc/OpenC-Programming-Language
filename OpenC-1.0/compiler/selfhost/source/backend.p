@@ -23,6 +23,10 @@ struct BuildTimings {
     bool native_parallel_launch_completed;
     usize native_workers_wall_ms;
     usize native_merge_ms;
+    usize native_chunk_one_wall_ms;
+    usize native_chunk_two_wall_ms;
+    usize native_chunk_three_wall_ms;
+    usize native_chunk_four_wall_ms;
     usize native_critical_chunk_ms;
     usize native_critical_chunk_first;
     usize native_critical_chunk_end;
@@ -177,6 +181,10 @@ BuildTimings build_timings_empty() {
         native_parallel_launch_completed = false,
         native_workers_wall_ms = 0,
         native_merge_ms = 0,
+        native_chunk_one_wall_ms = 0,
+        native_chunk_two_wall_ms = 0,
+        native_chunk_three_wall_ms = 0,
+        native_chunk_four_wall_ms = 0,
         native_critical_chunk_ms = 0,
         native_critical_chunk_first = 0,
         native_critical_chunk_end = 0,

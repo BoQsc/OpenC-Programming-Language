@@ -504,6 +504,10 @@ unsafe bool c_emit_native_sources_chunked(
     timings.native_workers_wall_ms =
         process.monotonic_milliseconds() - workers_started;
     timings.native_parallel_launch_completed = launch_result == 0;
+    timings.native_chunk_one_wall_ms = state.chunk_one.elapsed_ms;
+    timings.native_chunk_two_wall_ms = state.chunk_two.elapsed_ms;
+    timings.native_chunk_three_wall_ms = state.chunk_three.elapsed_ms;
+    timings.native_chunk_four_wall_ms = state.chunk_four.elapsed_ms;
     c_record_native_critical_chunk(timings, state.chunk_one);
     c_record_native_critical_chunk(timings, state.chunk_two);
     c_record_native_critical_chunk(timings, state.chunk_three);
