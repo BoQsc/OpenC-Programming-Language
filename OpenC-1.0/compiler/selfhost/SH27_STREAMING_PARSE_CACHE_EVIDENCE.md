@@ -1,6 +1,7 @@
 # SH-27 streaming parse-cache lifetime experiment
 
-Status: **one full clean Windows proof passed; repeatability pending; SH-27 active**.
+Status: **strict memory repeated on clean Windows; production parity failed
+independent repeat; SH-27 active**.
 Branch: `codex/sh27-streaming-parse-cache`. This cut builds on the bounded-IR
 experiment and restores the default four-worker source policy.
 
@@ -76,6 +77,18 @@ will publish each of the 20 ratio decisions as check annotations after the
 timed samples, making the clean result inspectable without artifact download
 permission. The annotation code is outside the timed compiler path.
 
+That independent [run 35906561161](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35906561161)
+passed all steps through the strict memory chain, exact source-worker proof,
+and historical speed guards, then failed the **enforced normal-default parity
+step**. Public check annotations report `large_functions` OpenC/DMD
+0.484/0.250 s (**1.936x**) and `control_flow` 0.276/0.200 s (**1.380x**).
+The former needs about 172 ms and the latter 26 ms of OpenC time removed to
+reach 1.25x on those same-run DMD medians. This is a real repeatability
+failure, not a green proof. GitHub surfaced only ten notice annotations from
+the 20 individual ratios, so the harness now emits one summary notice per
+workload and separate error annotations for failing ratios. The full JSON
+artifact remains the authoritative record of all 20 decisions.
+
 Eleven order-alternated, same-host pairs against the bounded-IR-only compiler
 showed median paired deltas (candidate minus baseline) of **-4 ms** on large
 functions, **0 ms** on control flow, and **+224 ms** on complete self-build.
@@ -111,7 +124,9 @@ new C/D ratio claim.
 The commit-triggered `openc-native-parallel.yml` workflow on this branch now
 enforces the strict 20-generation benchmark after bootstrap, in addition to
 fixed point, conformance, x64, exact-output/diagnostic, worker speed, and the
-normal-default pinned C/D parity gate. Require a second independent clean
-pass and investigate any repeated worker-proof failure before promoting.
-If clean CI fails a speed or memory gate, retain its raw samples and rework
-the lifetime/allocator design; do not raise the standing limits.
+normal-default pinned C/D parity gate. The second independent run confirms
+the strict-memory and worker gates but fails throughput. Do not promote the
+streaming cut as a completed SH-27 compiler, and do not seek a favorable
+rerun in place of architectural work. Investigate any repeated worker-proof
+failure if it recurs. Retain failing speed or memory samples and do not raise
+the standing limits.

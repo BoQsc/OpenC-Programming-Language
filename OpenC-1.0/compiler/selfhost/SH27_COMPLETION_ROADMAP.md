@@ -85,13 +85,14 @@ As of 2026-09-23: A is **in progress** (critical-worker, declaration,
 and first-visit expression-kind profiles plus a pinned DMD source comparison
 exist; nonoverlapping first-visit time and allocation attribution remain
 incomplete), B is **clean-CI proved**, C has an **implementation contract but
-no compiler cut or speed proof**, and D is **not started on the current
-critical path**. The bounded-IR and streaming-cache changes are memory
-architecture, not Gate C/D throughput cuts. E has a **normal adaptive
-default and one full clean strict-memory proof**, but still lacks an
-independent repeat, true incremental object reuse, and the representative
+no compiler cut or speed proof**, and D has a **locally proved parallel
+declaration-parse candidate**, but no clean CI proof or backend cut. The
+bounded-IR and streaming-cache changes are memory architecture, not Gate C/D
+throughput cuts. E has a **normal adaptive default and two clean strict-
+memory passes**, but still lacks true incremental object reuse and the representative
 suite. F has **one full clean normal-default 20/20 parity run** of the current
-streaming compiler source; the independent repeat is running. Neither the
+streaming compiler source; its independent repeat failed the enforced DMD
+ratios on large functions and control flow. Neither the
 already published Windows 1.0 release nor a single green run changes the
 SH-27 completion state.
 
@@ -284,10 +285,14 @@ integration needs a fresh paired comparison because wins need not add linearly.
 
 - Count allocation calls/bytes/lifetimes in the hot phases before changing
   the allocator. Test per-invocation or per-worker scratch arenas only if
-  allocator overhead or fragmentation is material. The pinned DMD source's
-  `root/rmem.d` uses GC allocation by default with a malloc fallback; do not
-  attribute DMD throughput to a presumed universal bump allocator. Arena
-  allocation remains an OpenC-specific hypothesis requiring a profile.
+  allocator overhead or fragmentation is material. In pinned DMD 2.112.0,
+  [`main.d`](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/main.d)
+  selects a bump-pointer path and disables its GC by default unless
+  `-lowmem` is supplied; [`root/rmem.d`](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/root/rmem.d)
+  implements that path in large malloc-backed chunks, while its separate
+  `Mem.xmalloc` helpers may use GC or malloc. The DMD choice is an applicable
+  architecture to measure against, **not** evidence that allocation explains
+  OpenC's entire wall-time gap or a reason to trade away RAM safety.
 - Reuse bounded buffers and pre-size IR/output structures from checked
   counts. Define overflow handling, arena reset points, and ownership when a
   worker fails. Retain the 256 MiB single-allocation, 512 MiB live-byte, and
@@ -413,7 +418,8 @@ object reuse. Separate full rebuilds from warm incremental builds.
 
 Stop parser/cache/peephole micro-tuning. The default adaptive policy now has
 one full clean 20/20 comparator and strict-memory success for the streaming
-compiler source, but repeatability is not yet proved. Execute these in order:
+compiler source, but the next clean run failed DMD parity. Execute these in
+order:
 
 1. **Freeze and repeat the current production baseline.** Preserve
    `codex/sh27-streaming-parse-cache` at `e21e6ea`. Its first full clean
@@ -421,11 +427,15 @@ compiler source, but repeatability is not yet proved. Execute these in order:
    passed the strict 20-generation memory chain and normal-default parity.
    The independent
    [repeat](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35906561161)
-   is in progress. Require 20/20 ratio decisions, exact worker proof, and the
-   64 MiB working-set / 256 MiB child-private / 512 MiB Job guards in both.
-   If it fails, classify the *actual* failing step before changing compiler
-   code. Do not raise a memory cap to get a green result. This is a blocker
-   for promotion, but parallel design/profiling work on Gate C may proceed.
+   completed its strict memory, fixed-point, conformance, x64, exact-worker,
+   and historical speed steps, but failed normal-default DMD parity. Public
+   check annotations give large functions 0.484/0.250 s = **1.936x** and
+   control flow 0.276/0.200 s = **1.380x**. Their same-run 1.25x ceilings
+   are 0.3125/0.250 s, requiring about **172/26 ms** respectively; 1.20x
+   margin would require **184/36 ms**. Do not average these ratios with the
+   previous green runner or retry until a favorable DMD sample appears.
+   Treat this as a genuine architectural throughput deficit. The strict
+   64 MiB working-set / 256 MiB child-private / 512 MiB Job guards stay.
 2. **Finish critical-path attribution before editing the semantic core.**
    On that frozen compiler, capture same-run pinned comparator time budgets
    and nonoverlapping wall attribution for large functions, control flow,
@@ -433,9 +443,21 @@ compiler source, but repeatability is not yet proved. Execute these in order:
    discovery, contextual typing, assignment checks, and allocations. The
    local default profile already shows 235 ms serial declarations and 187 ms
    critical-worker acceptance on large functions; worker and top-level times
-   are nested, not additive. State the milliseconds Gate C can plausibly
-   remove and the exact A/B acceptance threshold before implementation.
-3. **Implement Gate C as one architectural cutover.** Build dependency-ordered
+   are nested, not additive. The newer local eleven-pair baseline measured
+   188 ms serial declarations and 312 ms worker-stage wall (medians), also
+   with different host conditions. State the milliseconds each architecture
+   can plausibly remove and the exact A/B acceptance threshold before
+   implementation. Parallel declaration parsing and semantic fusion must be
+   evaluated as *jointly necessary* for the observed 172 ms clean-run gap;
+   neither should be declared sufficient from a local phase counter.
+3. **Prove the parallel-declaration architecture on clean Windows.** The
+   isolated cut in `SH27_PARALLEL_DECLARATIONS_EVIDENCE.md` parses independent
+   source files concurrently, then predeclares and merges in the old source
+   order. Final local paired medians improved 108 ms on large functions and 16 ms
+   on control flow, with exact outputs, conformance, and strict RAM proof.
+   Require clean pinned comparator and self-build speed results before
+   promotion. The local result is not a cross-run C/D parity claim.
+4. **Implement Gate C as one architectural cutover.** Build dependency-ordered
    typed-expression records *during* acceptance, validate assignments from
    those records, and lower from the same records. Follow
    `SH27_TYPED_EXPRESSION_CUTOVER.md`; it includes source-order, contextual
@@ -444,18 +466,19 @@ compiler source, but repeatability is not yet proved. Execute these in order:
    sub-threshold change is rejected. The selected-function cache experiment
    was rejected after -5 ms large-function and +10 ms control-flow paired
    medians; it is not part of the compiler.
-4. **Choose the next architecture from the new profile.** If declaration
-   indexing is the critical path, do private parse/index plus deterministic
-   merge (Step 3); if lowering/emission dominates, do the value-location or
-   compact-IR backend (Step 2). Repeat until the 1.20x internal target is
-   robust across the pinned corpus with no >5% protected-lane regression.
-5. **Finish the production model.** Recheck the adaptive default after each
+5. **Choose the remaining architecture from the new profile.** After the
+   declaration and semantic cuts, if lowering/emission dominates, do the
+   value-location or compact-IR backend (Step 2). Otherwise target the
+   largest newly measured front-end cost. Repeat until the 1.20x internal
+   target is robust across the pinned corpus with no >5% protected-lane
+   regression.
+6. **Finish the production model.** Recheck the adaptive default after each
    architecture change; implement actual object-level incremental reuse with
    dependency invalidation, atomic cache entries, and clean-build-equivalent
    outputs. Add the separately versioned representative project suite and
    guard cold/warm/edit/self-build time, executable behavior, and whole-Job
    RAM. Synthetic 20/20 alone is not a substitute for these steps.
-6. **Certify and ship only after all gates hold together.** Require two
+7. **Certify and ship only after all gates hold together.** Require two
    independent clean Windows normal-default 20/20 parity runs of the *final*
    compiler source, exact fixed point, all conformance/native/diagnostic and
    RAM gates, incremental/project checks, and immutable `v1.0.0` release

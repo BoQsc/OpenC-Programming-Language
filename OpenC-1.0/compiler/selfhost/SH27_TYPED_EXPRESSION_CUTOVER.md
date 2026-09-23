@@ -8,8 +8,9 @@ substitute for its normal-default DMD parity gate.
 
 The two earlier clean normal-default five-compiler runs failed only
 `large_functions` versus DMD (1.390x and 1.376x). A later adaptive-default
-policy achieved one clean 20/20 pass, but repeatability, memory, and real-
-project headroom remain unproved. The large-function
+policy achieved one clean 20/20 pass; its independent repeat passed strict
+memory and correctness but failed DMD ratios at 1.936x large functions and
+1.380x control flow. Real-project headroom remains unproved. The large-function
 assignment pass accounts for 90,368 of 92,678 uncached type evaluations in
 the diagnostic profile, but every one of those 92,678 evaluations visits a
 different node. A larger memo table cannot remove the first evaluation.

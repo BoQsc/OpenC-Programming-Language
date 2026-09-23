@@ -333,6 +333,128 @@ unsafe bool resolution_module_name_equals(
     );
 }
 
+// Parsing is source-local. The following workers fill disjoint entries of
+// the retained parse cache; type predeclaration and symbol insertion stay in
+// deterministic source order in backend_emit.
+struct ResolutionParseChunk {
+    usize first;
+    usize end;
+    ResolutionParseProfile profile;
+    i32 result;
+}
+
+struct ResolutionParseState {
+    ResolutionParseChunk one;
+    ResolutionParseChunk two;
+    ResolutionParseChunk three;
+    ResolutionParseChunk four;
+    text project_source;
+    text project_root;
+    ptr byte source_data;
+    ptr byte parsed_source_cache;
+}
+
+unsafe i32 resolution_parse_chunk_run(
+    ref ResolutionParseChunk chunk,
+    ref ResolutionParseState state
+) {
+    usize source_record = chunk.first;
+    while source_record < chunk.end {
+        ResolutionParsedSource parsed =
+            resolution_parse_source_retained_profiled(
+                state.project_source, state.project_root,
+                state.source_data, source_record, chunk.profile
+            );
+        resolution_cache_parsed_source(
+            state.parsed_source_cache, source_record, parsed
+        );
+        if !parsed.reusable { resolution_release_parsed_source(parsed); }
+        source_record = source_record + 1;
+    }
+    chunk.result = 0;
+    return 0;
+}
+
+unsafe u32 resolution_parse_thread_entry_one(ref ResolutionParseState state) {
+    return cast(u32, resolution_parse_chunk_run(state.one, state));
+}
+unsafe u32 resolution_parse_thread_entry_two(ref ResolutionParseState state) {
+    return cast(u32, resolution_parse_chunk_run(state.two, state));
+}
+unsafe u32 resolution_parse_thread_entry_three(ref ResolutionParseState state) {
+    return cast(u32, resolution_parse_chunk_run(state.three, state));
+}
+unsafe u32 resolution_parse_thread_entry_four(ref ResolutionParseState state) {
+    return cast(u32, resolution_parse_chunk_run(state.four, state));
+}
+
+// The native backend replaces this with the same guarded CreateThread/Wait
+// substrate used by native source and flow workers. Older bootstrap seeds
+// return 3 and use the deterministic serial fallback below.
+unsafe i32 resolution_parse_parallel_jobs(ptr ResolutionParseState state) {
+    return 3;
+}
+
+unsafe bool resolution_parse_sources_parallel(
+    text project_source,
+    text project_root,
+    ptr byte source_data,
+    usize source_count,
+    ptr byte parsed_source_cache,
+    bool profile_enabled,
+    ref ResolutionParseProfile aggregate
+) {
+    if parsed_source_cache == null || source_count < 4 { return false; }
+    usize cut_one = source_count / 4;
+    usize cut_two = source_count * 2 / 4;
+    usize cut_three = source_count * 3 / 4;
+    ResolutionParseProfile initial = resolution_parse_profile_empty();
+    initial.enabled = profile_enabled;
+    ResolutionParseState state = ResolutionParseState{
+        one = ResolutionParseChunk{
+            first = 0, end = cut_one, profile = initial, result = -1
+        },
+        two = ResolutionParseChunk{
+            first = cut_one, end = cut_two, profile = initial, result = -1
+        },
+        three = ResolutionParseChunk{
+            first = cut_two, end = cut_three,
+            profile = initial, result = -1
+        },
+        four = ResolutionParseChunk{
+            first = cut_three, end = source_count,
+            profile = initial, result = -1
+        },
+        project_source = project_source,
+        project_root = project_root,
+        source_data = ir_pointer_alias(source_data),
+        parsed_source_cache = ir_pointer_alias(parsed_source_cache)
+    };
+    i32 launch = resolution_parse_parallel_jobs(&state);
+    if state.one.result == -1 { resolution_parse_chunk_run(state.one, state); }
+    if state.two.result == -1 { resolution_parse_chunk_run(state.two, state); }
+    if state.three.result == -1 { resolution_parse_chunk_run(state.three, state); }
+    if state.four.result == -1 { resolution_parse_chunk_run(state.four, state); }
+    bool passed = (launch == 0 || launch == 3) &&
+        state.one.result == 0 && state.two.result == 0 &&
+        state.three.result == 0 && state.four.result == 0;
+    if profile_enabled {
+        aggregate.read_ms = aggregate.read_ms + state.one.profile.read_ms +
+            state.two.profile.read_ms + state.three.profile.read_ms +
+            state.four.profile.read_ms;
+        aggregate.lex_ms = aggregate.lex_ms + state.one.profile.lex_ms +
+            state.two.profile.lex_ms + state.three.profile.lex_ms +
+            state.four.profile.lex_ms;
+        aggregate.parse_ms = aggregate.parse_ms + state.one.profile.parse_ms +
+            state.two.profile.parse_ms + state.three.profile.parse_ms +
+            state.four.profile.parse_ms;
+        aggregate.compact_ms = aggregate.compact_ms +
+            state.one.profile.compact_ms + state.two.profile.compact_ms +
+            state.three.profile.compact_ms + state.four.profile.compact_ms;
+    }
+    return passed;
+}
+
 unsafe usize resolution_function_for_node(
     ptr byte syntax_data,
     ref PackedBuffer syntax,

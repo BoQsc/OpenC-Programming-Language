@@ -130,6 +130,28 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     declaration_parse_profile.enabled = timings.profile_type_queries_enabled;
 
     phase_started = process.monotonic_milliseconds();
+    // Source-local lexing/parsing may run in private workers. Keep the
+    // predeclaration and symbol passes below ordered: they mutate shared
+    // type/symbol buffers and determine stable diagnostic/source order.
+    // Large self-builds retain the serial parse path while the 256 MiB
+    // child-private benchmark cap is in force.
+    bool parallel_parsed = false;
+    if parsed_source_cache != null && artifact_options.source_chunks == 4 &&
+        sources.length >= 4 && sources.length <= 16 &&
+        total_source_length <= 1048576 {
+        usize parallel_parse_started = process.monotonic_milliseconds();
+        parallel_parsed = resolution_parse_sources_parallel(
+            project_source, project_root, source_data, sources.length,
+            parsed_source_cache, timings.profile_type_queries_enabled,
+            declaration_parse_profile
+        );
+        if timings.profile_type_queries_enabled {
+            timings.declaration_parse_retained_ms =
+                timings.declaration_parse_retained_ms +
+                process.monotonic_milliseconds() - parallel_parse_started;
+        }
+        if !parallel_parsed { return 1; }
+    }
     module_index = 0;
     while module_index < modules.length {
         usize first = read_record_field(module_data, module_index, 2);
@@ -144,11 +166,15 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                         process.monotonic_milliseconds();
                 }
                 ResolutionParsedSource parsed =
-                    resolution_parse_source_retained_profiled(
-                        project_source, project_root,
-                        source_data, source_record,
-                        declaration_parse_profile
+                    resolution_cached_parsed_source(
+                        parsed_source_cache, source_record
                     );
+                if !parallel_parsed || !parsed.reusable {
+                    parsed = resolution_parse_source_retained_profiled(
+                        project_source, project_root, source_data,
+                        source_record, declaration_parse_profile
+                    );
+                }
                 if timings.profile_type_queries_enabled {
                     timings.declaration_parse_retained_ms =
                         timings.declaration_parse_retained_ms +

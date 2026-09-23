@@ -30,10 +30,13 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
     bool flow_workers = native_compiler_span_is(
         call_span, "flow_parallel_jobs_two"
     ) || native_compiler_span_is(call_span, "flow_parallel_jobs");
+    bool parse_workers = native_compiler_span_is(
+        call_span, "resolution_parse_parallel_jobs"
+    );
     bool two_workers = native_compiler_span_is(
         call_span, "c_native_parallel_jobs_two"
     ) || native_compiler_span_is(call_span, "flow_parallel_jobs_two");
-    if two_workers || flow_workers || native_compiler_span_is(
+    if two_workers || flow_workers || parse_workers || native_compiler_span_is(
         call_span, "c_native_parallel_jobs"
     ) {
         if d_operand_count(context, instruction) != 1 {
@@ -48,6 +51,12 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
             name_two = "flow_parallel_thread_entry_two";
             name_three = "flow_parallel_thread_entry_three";
             name_four = "flow_parallel_thread_entry_four";
+        }
+        if parse_workers {
+            name_one = "resolution_parse_thread_entry_one";
+            name_two = "resolution_parse_thread_entry_two";
+            name_three = "resolution_parse_thread_entry_three";
+            name_four = "resolution_parse_thread_entry_four";
         }
         usize callback_one = native_compiler_named_function(context, name_one);
         usize callback_two = native_compiler_named_function(context, name_two);

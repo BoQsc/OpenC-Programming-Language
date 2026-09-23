@@ -32,7 +32,8 @@ class Sh27ProductionTests(unittest.TestCase):
         output = io.StringIO()
         with redirect_stdout(output):
             BENCHMARK.emit_parity_annotations(lanes, ratios, 1.25)
-        self.assertIn("::notice title=SH-27 large_functions vs dmd::", output.getvalue())
+        self.assertIn("::notice title=SH-27 large_functions parity summary::", output.getvalue())
+        self.assertIn("dmd=0.8000s/1.2500x/PASS", output.getvalue())
         lanes["large_functions"]["compilers"]["dmd"]["summary"][
             "median_seconds"
         ] = 0.799
@@ -40,6 +41,27 @@ class Sh27ProductionTests(unittest.TestCase):
         with redirect_stdout(output):
             BENCHMARK.emit_parity_annotations(lanes, ratios, 1.25)
         self.assertIn("::error title=SH-27 large_functions vs dmd::", output.getvalue())
+        self.assertIn("dmd=0.7990s/1.2516x/FAIL", output.getvalue())
+
+    def test_parity_annotations_fit_notice_cap(self) -> None:
+        lanes = {}
+        ratios = {}
+        for workload in ("small", "many", "large", "control", "runtime"):
+            lanes[workload] = {"compilers": {
+                "openc": {"summary": {"median_seconds": 1.0}},
+                **{name: {"summary": {"median_seconds": 1.0}}
+                   for name in ("msvc", "clang", "dmd", "ldc")},
+            }}
+            ratios[workload] = {
+                f"openc_to_{name}": 1.0
+                for name in ("msvc", "clang", "dmd", "ldc")
+            }
+        output = io.StringIO()
+        with redirect_stdout(output):
+            BENCHMARK.emit_parity_annotations(lanes, ratios, 1.25)
+        text = output.getvalue()
+        self.assertEqual(text.count("::notice"), 5)
+        self.assertEqual(text.count("/PASS"), 20)
 
     def test_control_flow_workload_is_bounded_and_equivalent(self) -> None:
         corpus = json.loads((ROOT / "benchmarks/sh27/CORPUS.json").read_text())
