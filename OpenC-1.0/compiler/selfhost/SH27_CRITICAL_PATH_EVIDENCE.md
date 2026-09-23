@@ -240,6 +240,52 @@ parity, or SH-27 completion. The parser prototype remains isolated pending
 an independent clean Windows run. The semantic first-visit and assignment
 costs remain the next larger redesign target even if this cut is promoted.
 
+## Pinned DMD source comparison: architectural hypotheses
+
+The comparator source reviewed here is official DMD **v2.112.0**, the version
+pinned by the production corpus. This is a source-structure comparison, not
+proof that any single DMD choice causes its measured speed advantage.
+
+- DMD's [multiplicative and additive parser levels](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/parse.d#L9128-L9189)
+  are also recursive-descent precedence levels, but they dispatch on a token
+  enum (`TOK.mul`, `TOK.add`, etc.). OpenC's previous ten-level parser checked
+  source spellings repeatedly with `parser_check`; the isolated prototype
+  replaces that dispatch. Precedence climbing itself is **not** something
+  established as necessary by DMD's design.
+- DMD's [Expression](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/expression.d#L296-L305)
+  retains a semantic `type`, while its
+  [BinExp](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/expression.d#L2621-L2631)
+  retains direct `e1`/`e2` operands. Its
+  [expression-semantic entry](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/expressionsem.d#L14703-L14727)
+  returns immediately for a completed expression; the assignment visitor
+  operates on those direct operands. The
+  [DMD backend handoff](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/glue/e2ir.d)
+  consumes the semantically typed expression tree. In contrast, OpenC's
+  `ir_node_type_uncached` and `ir_left_expression`/`ir_right_expression`
+  often recover operands from flat syntax records and source positions on
+  the first visit. The **inference** is that a compact typed-expression
+  record reused across OpenC acceptance and lowering is a promising
+  architectural experiment; a parser-only child-index sidecar already
+  failed the local speed gate and must not be mistaken for this design.
+- DMD's [root memory wrapper](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/root/rmem.d#L19-L50)
+  defaults to `GC.malloc` with a malloc fallback. The earlier roadmap's
+  shorthand about a DMD-wide bump allocator was unsupported and has been
+  corrected. OpenC should profile its own allocation calls and lifetimes
+  before selecting any arena scheme.
+- DMD's [link path](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/link.d#L187-L333)
+  invokes an external linker. OpenC's Windows native/CRT-free binary path is
+  an independence requirement, so an external-linker substitution is not a
+  valid shortcut to match DMD's compile/link measurement. Measure PE writing
+  separately and improve it only if it occupies a material critical path.
+
+The next first-visit profile should therefore time symbol resolution,
+operand discovery, contextual type fallback, and allocation inside
+assignment acceptance. The proposed redesign must remove those first-visit
+costs across acceptance *and* lowering; reducing cache misses or moving
+records between buffers is not success. Re-measure wall time and memory on
+the same workload after each prototype, with DMD left as a comparator, not
+a toolchain dependency.
+
 ## Correctness and interpretation limits
 
 - The final instrumented compiler passed exact self-hosting closure, native

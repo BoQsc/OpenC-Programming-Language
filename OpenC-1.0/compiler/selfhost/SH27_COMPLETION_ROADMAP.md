@@ -243,8 +243,10 @@ integration needs a fresh paired comparison because wins need not add linearly.
 
 - Count allocation calls/bytes/lifetimes in the hot phases before changing
   the allocator. Test per-invocation or per-worker scratch arenas only if
-  allocator overhead or fragmentation is material; the DMD bump-allocation
-  design is a hypothesis, not evidence that allocation is OpenC's bottleneck.
+  allocator overhead or fragmentation is material. The pinned DMD source's
+  `root/rmem.d` uses GC allocation by default with a malloc fallback; do not
+  attribute DMD throughput to a presumed universal bump allocator. Arena
+  allocation remains an OpenC-specific hypothesis requiring a profile.
 - Reuse bounded buffers and pre-size IR/output structures from checked
   counts. Define overflow handling, arena reset points, and ownership when a
   worker fails. Retain the 256 MiB single-allocation, 512 MiB live-byte, and
