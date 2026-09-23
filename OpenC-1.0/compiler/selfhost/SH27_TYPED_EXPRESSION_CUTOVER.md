@@ -67,6 +67,43 @@ its contextual type. Integer parsing must happen once for accepted literal
 spelling and feed acceptance and lowering; overflow and invalid-literal
 diagnostics must remain byte-for-byte identical.
 
+## Source-grounded record and dependency contract
+
+The native artifact path is `c_compile_project_source` in
+`source/backend_c_project_source.p`: it constructs one `IrContext`, runs
+`ir_initialize_node_indexes` and the other source indexes, invokes
+`acceptance_validate_context`, then calls `c_lower_and_emit_function` on
+that *same context*. This is the only hot path that may be cut over first;
+the acceptance-only `check` path in `acceptance_driver_project.p`, JSON/D
+backends, and diagnostic fallbacks must retain equivalent semantics. The
+current five native arrays are each `(syntax.length + 1) * sizeof(usize)`:
+`name_cache`, `call_cache`, `type_cache`, `left_expression_cache`, and
+`right_expression_cache`. A dense four-word record would use four-fifths
+their combined bytes before any sparse mapping; a sparse expression map is
+acceptable only if its map-plus-record bytes and lookup time beat that dense
+bound on the self-build and generated corpus. Do not allocate the new store
+beside all five old arrays in the normal native path.
+
+| Syntax kind | Dependency order and stable source | Record payloads | Contextual rule |
+| --- | --- | --- | --- |
+| Name `27`, out name `51` | Symbol context selected after function-position index; failed lookup is retryable | Successful symbol ID and type | A failed symbol is never frozen |
+| Integer/float/null/none `29`-`34` | No expression children; spelling is in the source span | Parsed integer bits where applicable, type state | Expected type can change result; retain a constraint, not an unconditional type |
+| Unary `35` | Parser creates child before parent | Child ID, resulting type | Pass expected type to child where current inference does |
+| Binary `36`, assignment `37` | Parser creates both operands before parent, but semantic evaluation may request a different expected type | Left/right IDs, resulting type and operator/rule flags | Preserve the exact literal-fit and assignment-conversion checks |
+| Call `38` | Parser creates call before argument nodes; callee ID is syntax field 3 and argument count is field 4 | Selected symbol, result type; arguments stay in indexed adjacency | Do not use syntax record order as postorder or cache a failed overload |
+| Member/index/range `39`-`41` | Base and index are recovered from span/index adjacency | Stable base/index IDs and resolved type when independent | Optional, aggregate, and index expectations use fallback until proved stable |
+
+The four words are *tagged by syntax kind*: one type/state word and three
+payload words. A name/call uses a payload for the selected symbol; a binary
+uses two for child IDs; a literal uses one for decoded value. Unused payload
+bits may carry flags, but no valid symbol, type, child ID, or full-width
+literal value may be truncated to make room. Zero is the absent state;
+successful IDs use an explicit offset encoding so symbol/type/child zero is
+representable. An error result remains absent or contextual, never a
+reusable successful type. Allocation arithmetic must be checked before
+`memory.alloc`, and normal production may not carry both full old caches
+and the new store merely to simplify migration.
+
 After the isolated parallel-declaration cut, one local diagnostic profile
 shows 62 ms serial declarations but 140 ms acceptance on the large workload's
 critical worker, including 78 ms in assignment rules. The 11-pair local

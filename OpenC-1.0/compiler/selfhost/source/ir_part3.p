@@ -225,13 +225,19 @@ unsafe usize ir_node_type(
     if context.profile_type_queries_enabled {
         context.profile_type_queries = context.profile_type_queries + 1;
     }
-    bool has_cache = context.type_cache != null &&
+    bool has_cache = (context.type_cache != null ||
+        context.typed_expression_cache != null) &&
         node < context.syntax.length;
     bool cacheable = expected == semantic_type_error() && has_cache;
     if has_cache {
-        usize cached = read_usize(
-            context.type_cache, node * size_of(usize)
-        );
+        usize cached = 0;
+        if context.typed_expression_cache != null {
+            cached = ir_typed_expression_read(context, node, 0);
+        } else {
+            cached = read_usize(
+                context.type_cache, node * size_of(usize)
+            );
+        }
         if cached != 0 {
             usize cached_type = cached - 1;
             if cacheable {
@@ -313,11 +319,17 @@ unsafe usize ir_node_type(
     // only resolved types prevents an early miss from poisoning the fused
     // acceptance/lowering pass while retaining the successful hot path.
     if cacheable && resolved != semantic_type_error() {
-        write_usize(
-            context.type_cache,
-            node * size_of(usize),
-            resolved + 1
-        );
+        if context.typed_expression_cache != null {
+            ir_typed_expression_write(
+                context, node, 0, resolved + 1
+            );
+        } else {
+            write_usize(
+                context.type_cache,
+                node * size_of(usize),
+                resolved + 1
+            );
+        }
     }
     return resolved;
 }

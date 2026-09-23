@@ -98,15 +98,12 @@ unsafe bool c_emit_source_record(
     ptr byte local_values = memory.alloc(
         (base.symbols.length + 1) * size_of(usize)
     );
-    ptr byte name_cache = memory.alloc(
-        (syntax.length + 1) * size_of(usize)
+    ptr byte typed_expression_cache = memory.alloc(
+        (syntax.length + 1) * 4 * size_of(usize)
     );
     // Spelling-only caching is not scope-safe when locals are shadowed.
     usize spelling_cache_capacity = 0;
     ptr byte spelling_cache = null;
-    ptr byte call_cache = memory.alloc(
-        (syntax.length + 1) * size_of(usize)
-    );
     ptr byte call_argument_first = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
@@ -114,9 +111,6 @@ unsafe bool c_emit_source_record(
         (syntax.length + 1) * size_of(usize)
     );
     ptr byte argument_next = memory.alloc(
-        (syntax.length + 1) * size_of(usize)
-    );
-    ptr byte type_cache = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
     ptr byte profile_type_seen = null;
@@ -136,12 +130,6 @@ unsafe bool c_emit_source_record(
         }
     }
     ptr byte resolved_type_ref_cache = memory.alloc(
-        (syntax.length + 1) * size_of(usize)
-    );
-    ptr byte left_expression_cache = memory.alloc(
-        (syntax.length + 1) * size_of(usize)
-    );
-    ptr byte right_expression_cache = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
     ptr byte block_parent_cache = memory.alloc(
@@ -227,17 +215,17 @@ unsafe bool c_emit_source_record(
     );
     usize cache_node = 0;
     while cache_node <= syntax.length {
-        write_usize(name_cache, cache_node * size_of(usize), 0);
-        write_usize(call_cache, cache_node * size_of(usize), 0);
-        write_usize(type_cache, cache_node * size_of(usize), 0);
+        usize base = cache_node * 4 * size_of(usize);
+        write_usize(typed_expression_cache, base, 0);
+        write_usize(typed_expression_cache, base + size_of(usize), 0);
         write_usize(
-            left_expression_cache,
-            cache_node * size_of(usize),
+            typed_expression_cache,
+            base + 2 * size_of(usize),
             syntax.length + 1
         );
         write_usize(
-            right_expression_cache,
-            cache_node * size_of(usize),
+            typed_expression_cache,
+            base + 3 * size_of(usize),
             syntax.length + 1
         );
         cache_node = cache_node + 1;
@@ -265,21 +253,22 @@ unsafe bool c_emit_source_record(
     context.module_index = module_index;
     context.source_record = source_record;
     context.function_result = semantic_type_void();
-    context.name_cache = ir_pointer_alias(name_cache);
+    context.name_cache = null;
     context.spelling_cache = ir_pointer_alias(spelling_cache);
     context.spelling_cache_capacity = spelling_cache_capacity;
-    context.call_cache = ir_pointer_alias(call_cache);
+    context.call_cache = null;
     context.call_argument_first = ir_pointer_alias(call_argument_first);
     context.call_argument_last = ir_pointer_alias(call_argument_last);
     context.argument_next = ir_pointer_alias(argument_next);
-    context.type_cache = ir_pointer_alias(type_cache);
+    context.type_cache = null;
     context.profile_type_seen = ir_pointer_alias(profile_type_seen);
     context.resolved_type_ref_cache = ir_pointer_alias(
         resolved_type_ref_cache
     );
-    context.left_expression_cache = ir_pointer_alias(left_expression_cache);
-    context.right_expression_cache = ir_pointer_alias(
-        right_expression_cache
+    context.left_expression_cache = null;
+    context.right_expression_cache = null;
+    context.typed_expression_cache = ir_pointer_alias(
+        typed_expression_cache
     );
     context.block_parent_cache = ir_pointer_alias(block_parent_cache);
     context.control_parent_cache = ir_pointer_alias(control_parent_cache);

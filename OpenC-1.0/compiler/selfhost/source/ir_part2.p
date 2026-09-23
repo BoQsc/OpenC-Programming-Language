@@ -187,7 +187,10 @@ unsafe void ir_cache_name_resolution(
     usize hash,
     usize resolved
 ) {
-    if context.name_cache != null && node < context.syntax.length {
+    if context.typed_expression_cache != null &&
+        node < context.syntax.length {
+        ir_typed_expression_write(context, node, 1, resolved + 1);
+    } else if context.name_cache != null && node < context.syntax.length {
         write_usize(
             context.name_cache, node * size_of(usize), resolved + 1
         );
