@@ -35,6 +35,49 @@ policy determine the final gate; an opt-in four-worker success alone is not
 closure. Earlier code-size reductions and local paired wins are real, but
 they did not close these time budgets.
 
+## Execution contract: what happens next
+
+This is one program of work, not an open-ended series of small optimizations.
+The order below is the decision sequence; the numbered work packages below
+specify the implementation and proof for each decision. Re-profile and choose
+the largest *remaining wall-clock* cost after each accepted architectural
+change. Keep all failed prototypes and their measurements disclosed.
+
+| Gate | Required deliverable | Exit decision |
+| --- | --- | --- |
+| A. Baseline and DMD comparison (Step 0) | One pinned five-compiler clean-run report, 11-pair OpenC baseline samples on large functions/control flow/self-build, nonoverlapping critical-path and allocation profiles, and a written comparison of DMD's relevant parser, semantic, allocation, and code-generation paths with OpenC's equivalents. | Identify the largest avoidable cost and a design able to remove a material part of the measured gap. Source-level resemblance to DMD is not a success criterion. |
+| B. Resolve the current parser experiment (Step 3.1) | Complete the isolated precedence-climbing prototype's adaptive/serial, self-build, conformance, diagnostic, and memory proofs. Its current local 11-pair results are promising on large functions but do **not** constitute a promotion or parity result. | Promote only if all correctness guards pass, self-build has no >5% regression, and clean-runner wall-time improvement is material; otherwise reject it and move on. Cap further parser micro-tuning at this decision. |
+| C. Fused typed-expression and assignment pipeline (Step 1) | A design and implementation that resolves symbols/types/operands during the existing walk and reuses the result in acceptance and lowering, with first-visit work counted before/after. | Exact behavior, bounded RAM, and a material end-to-end reduction on the two failing lanes; otherwise redesign rather than add caches. |
+| D. Remaining front-end or backend architecture (Steps 2-4) | Refresh the profile, then implement parallel/private declaration indexing if serial parse/index dominates, or a value-location/compact-IR backend if lowering and native emission dominate. Address allocation only if measured. | The combined normal-mode wall budget closes on large functions and control flow without a self-build cliff. No sum-of-worker-time or output-size proxy can substitute for this measurement. |
+| E. Production behavior (Steps 5-7) | Make a proved adaptive chunk policy the default; add real per-module/object incremental reuse; verify a versioned representative project suite. | Normal `openc` use, not an opt-in benchmark setting, is fast, deterministic, correct, and within the Job memory budget on cold, warm, small, and large builds. |
+| F. Release gate (Steps 8-9) | Two independent clean Windows parity runs, all 20 pinned comparator checks, all correctness/RAM/release-integrity checks, raw artifacts, and an updated public status. | Close SH-27 only if every mandatory gate passes; otherwise publish the exact remaining deficit and continue at the new critical path. |
+
+As of this plan update: A is **in progress** (critical-worker and declaration
+profiles exist; allocation/DMD analysis and clean-runner confirmation do not),
+B is **experimental**, C and D are **not started**, E has **partial opt-in
+parallelism but no default policy, true incremental reuse, or complete project
+suite**, and F is **not passed**. The already published Windows 1.0 release
+and existing green evidence workflows do not change those states.
+
+The current prototype in gate B is **unpromoted**. Locally, the fast
+precedence-climbing version preserved parser output/diagnostics on 503
+checked-in `.p` sources and fixtures and produced 11/11 same-host wins on
+`large_functions` (median paired delta -46 ms) and 9/11 on `control_flow`
+(-9 ms). These are useful directional results, not a substitute for the
+remaining safety checks, self-build comparison, clean-runner confirmation,
+or the approximately 221/121 ms planning deficits above. The branch must
+not displace gate C's much larger semantic redesign.
+
+For each gate, record four states: **not started**, **experimental**,
+**locally proved**, or **clean-CI proved**. Never mark a gate done from a
+green evidence-only workflow. A change earns production promotion only when
+it either removes at least 10% of the *then-measured* failing-lane gap or is
+an indispensable enabling step for the architectural design, while keeping
+the other lanes within the 5% regression guard. One bounded experiment may
+test a narrower idea; repeated sub-threshold instruction or cache tweaks are
+not the SH-27 strategy. The final 1.25x gate, not this screening rule, decides
+completion.
+
 ## Execution rules
 
 1. Work from the critical-path profile, not from source-code aesthetics or
@@ -76,6 +119,13 @@ they did not close these time budgets.
   run. Rank costs by wall time and scaling with source files, declarations,
   IR instructions, and output bytes. First gate: explain at least 80% of the
   target-lane wall time and identify the largest avoidable critical path.
+- Inspect the pinned DMD implementation and capture a short source-linked
+  comparison of its expression parsing, symbol/type resolution, memory
+  allocation, IR/code-generation handoff, and object/link pipeline against
+  OpenC's corresponding paths. Identify data-structure and pass-count
+  differences, then test the strongest applicable hypothesis in OpenC.
+  Do not assume that copying DMD's implementation or importing a D runtime
+  is appropriate for OpenC's semantics and independent native toolchain.
 
 The first critical-worker measurements are in
 `SH27_CRITICAL_PATH_EVIDENCE.md`. They point to first-time semantic acceptance,
@@ -295,11 +345,14 @@ object reuse. Separate full rebuilds from warm incremental builds.
 
 ## Immediate next decision
 
-Finish Step 0's first-visit cost/allocation attribution and clean-runner
-confirmation, then start Step 1's fused typed-expression/assignment redesign.
-The distinct-node counter has already ruled out repeated uncached evaluation
-as the explanation for the large assignment count. Native emission is not the
-first bet. Do **not** spend another cycle on cache-threshold nudges, isolated
-instruction peepholes, or output-size-only changes unless a refreshed profile
-shows they can close a material fraction of the ~221 ms/~121 ms same-run
-deficits.
+Close gate B for the existing isolated parser prototype: run the remaining
+adaptive/serial proofs, 11 paired self-builds, native conformance, RAM checks,
+and clean-runner confirmation. Promote or reject it once; do not enter another
+round of small parser tweaks. In parallel with that decision, finish Step 0's
+first-visit cost/allocation attribution and source-linked DMD comparison, then
+begin Step 1's fused typed-expression/assignment design. The distinct-node
+counter has already ruled out repeated uncached evaluation as the explanation
+for the large assignment count. Native emission is not the first bet. Do
+**not** spend another cycle on cache-threshold nudges, isolated instruction
+peepholes, or output-size-only changes unless a refreshed profile shows they
+can close a material fraction of the ~221 ms/~121 ms same-run deficits.
