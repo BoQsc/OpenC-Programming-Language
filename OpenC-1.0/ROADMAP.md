@@ -460,9 +460,13 @@ IR reach closure. Exact evidence and reproduction commands are in
       syntax-node indexing, record-address code generation, and binary-first
       validation failed to remove material whole-compiler time; none was
       promoted. Next: eliminate repeated first-time semantic work across
-      validation and lowering with a bounded typed-expression representation,
-      prove unchanged diagnostics and three-stage fixed points, then demand
-      a same-host paired wall-time gain on both large and control-flow cases.
+      validation and lowering by fusing checks into first-time expression
+      resolution and reusing the existing per-node type cache. Prove unchanged
+      diagnostics and three-stage fixed points, then demand a same-host paired
+      wall-time gain on both large and control-flow cases. Clean paired runs
+      35800708154 and 35800761353 reject a scope-safe name-cache shortcut:
+      -12 ms large-function median but +9 ms control-flow median; the
+      candidate remains isolated and accepted compiler behavior is unchanged.
       Follow with real-project and incremental-build comparators plus LDC;
       Linux and freestanding remain optional future work.
       Large MSVC/DMD and broad C/D parity remain explicitly open.

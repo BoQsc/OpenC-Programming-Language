@@ -570,3 +570,10 @@ by 12 ms (7 wins, 4 losses), but control-flow run 35800761353 regressed by
 `codex/sh27-stable-name-cache` and is not promoted to master. Its mixed result
 reinforces that a scope-safe lookup shortcut is not the missing broad C/D
 throughput gain; the accepted compiler remains at `6fb216ec...679b04a`.
+The build path already keeps `type_cache` in the same `IrContext` across
+acceptance and IR lowering. The next architectural prototype must therefore
+fuse assignment/binary checks with first-time expression resolution and reuse
+that existing cache, rather than add another syntax-sized array or change
+validator order. It must preserve invalid-source diagnostics, not just hashes
+of valid executables, and show a material paired gain on both representative
+workloads before promotion.
