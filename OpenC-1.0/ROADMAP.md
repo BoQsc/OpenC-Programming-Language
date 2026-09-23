@@ -467,7 +467,7 @@ IR reach closure. Exact evidence and reproduction commands are in
       35800708154 and 35800761353 reject a scope-safe name-cache shortcut:
       -12 ms large-function median but +9 ms control-flow median; the
       candidate remains isolated and accepted compiler behavior is unchanged.
-      Follow with real-project and incremental-build comparators plus LDC;
+      Follow with real-project and incremental-build comparators;
       Linux and freestanding remain optional future work.
       Two byte-exact local prototypes that fused only simple numeric binary
       checks into the existing type cache did not improve both workloads;
@@ -477,6 +477,16 @@ IR reach closure. Exact evidence and reproduction commands are in
       thread-safe native allocator/type state and deterministic chunk merging;
       the existing hosted-C worker runtime cannot serve as a native shortcut.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
+      A pinned LDC 1.43.0 lane now shares the D source and runtime oracle with
+      DMD. Clean Windows run 35802679817 passes all five compiler-version,
+      fixed-point, execution, output, and memory checks. OpenC/LDC large and
+      control-flow ratios are 0.807x and 0.740x; the same-run OpenC/DMD ratios
+      remain 3.071x and 2.611x, and large MSVC remains 1.830x faster.
+      LDC comparison is complete for the bounded corpus, but SH-27 is not:
+      the next compiler tranche must remove a material semantic traversal or
+      implement bounded native source concurrency, then prove same-host gains
+      on both large and control-flow workloads. Real-project and incremental
+      reuse evidence remain open. Linux/freestanding remain optional.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

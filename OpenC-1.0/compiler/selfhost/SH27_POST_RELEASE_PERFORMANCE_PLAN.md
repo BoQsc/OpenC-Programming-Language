@@ -608,3 +608,16 @@ worker arenas, frozen type table, failure propagation, deterministic chunk
 merge, and whole-process RAM budget. Only then can it compare bounded 2/3/4
 worker builds against the serial compiler on both workloads; a serial fallback
 must remain correct and independently benchmarked.
+
+The next corpus expansion adds pinned LDC 1.43.0 to the automatic Windows
+workflow without changing the accepted compiler. Clean run 35802679817
+passes all five tool-version, fixed-point, compilation, execution, output,
+and 512 MiB per-process memory checks. Large OpenC/MSVC/Clang/DMD/LDC
+medians are 0.734/0.401/0.743/0.239/0.909 seconds. Control-flow medians
+are 0.436/0.418/0.479/0.167/0.589 seconds. LDC meets the 1.25x ratio
+everywhere, but large OpenC/MSVC and OpenC/DMD ratios are still 1.830x and
+3.071x and control-flow OpenC/DMD is 2.611x. The report correctly remains
+`EVIDENCE_COMPLETE_DEFICIT`. Do not use cross-run absolute-time changes as
+evidence of a compiler speedup; the next accepted optimization still requires
+a same-host paired gain on both target workloads with exact outputs, intact
+diagnostics, fixed-point closure, and bounded RAM.

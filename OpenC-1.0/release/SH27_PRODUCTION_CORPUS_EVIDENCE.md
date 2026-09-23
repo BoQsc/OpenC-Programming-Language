@@ -1,6 +1,6 @@
 # SH-27 production compiler corpus evidence
 
-Status: **CLEAN WINDOWS OPENC/MSVC/CLANG/DMD PASS; SCALING DEFICIT OPEN**
+Status: **CLEAN WINDOWS OPENC/MSVC/CLANG/DMD/LDC PASS; SCALING DEFICIT OPEN**
 
 SH-27 now has a checked-in deterministic corpus and bounded Windows harness
 for equivalent OpenC, ISO C, and D parsing, semantics, native code generation,
@@ -735,6 +735,38 @@ remain open at 1.735x and 2.776x. Seven of nine current gates pass. The complete
 self-build median is 4.864 seconds with 194,088,960 peak private bytes and
 77,447,168 peak working-set bytes.
 
+## Pinned LDC expansion
+
+Automatic clean Windows run
+[`35802679817`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35802679817)
+at `e797df0` adds LDC 1.43.0 as a fifth compiler. It compiles the same D
+sources and runtime fixture as DMD with `-O2 -release -boundscheck=off`.
+The workflow keeps DMD setup last so its `DC` path is not replaced by LDC.
+The retained 22,184,418-byte evidence ZIP is artifact `10726691543` at
+`sha256:71b7433bcd478e986d6e283e6688ce104eb96472d6f38158530ad52d079149b2`.
+
+All five tool-version checks, current-source stage-two/stage-three byte-exact
+closure, compilation/execution, output oracles, and per-process 512 MiB
+memory checks pass. The checked-out compiler remains at
+`6fb216ec...679b04a`; this tranche changes the evidence harness, not the
+compiler. The report status is `EVIDENCE_COMPLETE_DEFICIT`.
+
+| Workload | OpenC | MSVC | Clang | DMD64 | LDC |
+|---|---:|---:|---:|---:|---:|
+| small single file | 0.064 s | 0.095 s | 0.105 s | 0.117 s | 0.137 s |
+| 24 source files | 0.137 s | 0.273 s | 0.641 s | 0.127 s | 0.261 s |
+| 2,048 functions | 0.734 s | 0.401 s | 0.743 s | 0.239 s | 0.909 s |
+| control flow | 0.436 s | 0.418 s | 0.479 s | 0.167 s | 0.589 s |
+| startup/file/allocation | 0.065 s | 0.107 s | 0.139 s | 0.119 s | 0.148 s |
+
+LDC passes the 1.25x compile-time ratio on every checked-in workload;
+OpenC is 0.807x LDC on the large workload and 0.740x on control flow.
+This does not close D-class throughput: OpenC is 3.071x DMD64 on the large
+workload and 2.611x on control flow, and large MSVC remains 1.830x faster.
+The OpenC complete self-build median is 4.582 seconds on this host. These
+same-run ratios are valid; differences in absolute times from older runner
+runs are not attributed to a compiler change.
+
 ## Workflow contract
 
 `.github/workflows/openc-performance.yml` runs automatically when the compiler
@@ -742,16 +774,17 @@ source/project, corpus, harness, memory sampler, bootstrap seed, or workflow
 changes and can also be started manually. It rebuilds the checked-out compiler
 twice under the RAM guards, requires a byte-exact fixed point, and benchmarks
 that current binary. It uses the Windows 2025 runner, requests MSVC toolset
-14.44, requires MSVC 19.44, Clang 20.1.8, and DMD 2.112.0 version evidence,
-and requires all four compilers. It retains the complete JSON and run tree for
+14.44, requires MSVC 19.44, Clang 20.1.8, DMD 2.112.0, and LDC 1.43.0
+version evidence, and requires all five compilers. It retains the complete JSON and run tree for
 90 days and accepts an explicit manual `enforce_parity` switch. The normal run
 preserves correctly measured deficits as evidence; compiler, execution,
 missing-tool, version-pin, output, or RAM failures remain blocking.
 
-Python and the three comparison compilers are optional evidence tools only.
+Python and the four comparison compilers are optional evidence tools only.
 Normal `openc build`, the self-hosting compiler, and the standalone release
 remain independent of Python, C, D, TinyCC, assemblers, and external linkers.
 
 SH-27 remains active after this tranche. The production corpus still needs
-file-I/O/allocation runtime cases, incremental object/build-system reuse, LDC,
-broader real projects, and fixes for every material measured compiler deficit.
+incremental object/build-system reuse, broader real projects, and fixes for
+every material measured compiler deficit, especially large MSVC and DMD64 and
+control-flow DMD64.
