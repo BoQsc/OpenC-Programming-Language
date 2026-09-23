@@ -604,7 +604,8 @@ IR reach closure. Exact evidence and reproduction commands are in
       A partial DMD comparison still finds 2.657x large and 2.579x control
       deficits. Full SH-27 remains open on broad C/D-class throughput,
       arbitrary-project RAM behavior, representative project coverage,
-      incremental reuse, and the native nested-aggregate copy defect.
+      and incremental reuse. A separate native aggregate defect was still
+      present at this point in the proof history.
       The aggregate defect has since been minimized: a ref-to-value field
       initializer copied the reference address instead of its pointee.
       Aggregate IR now emits the explicit load, and a pinned pre-fix versus
@@ -613,7 +614,11 @@ IR reach closure. Exact evidence and reproduction commands are in
       RAM proof, and structure validation pass. Eleven paired local runs
       against the pre-fix flow compiler remain within 5% on control flow,
       large functions, and self-build; self-build is close to the boundary
-      at +307 ms paired median. Clean-runner regression gates are pending.
+      at +307 ms paired median. Clean Windows run 35841915276 passes the
+      aggregate executable regression, both pinned baseline rebuilds, all
+      three direct speed guards, correctness/RAM/fixed-point gates, and both
+      pinned C/D comparator lanes at `f068167`; artifact 10741544122 retains
+      the machine-readable evidence. SH-27 throughput parity remains open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

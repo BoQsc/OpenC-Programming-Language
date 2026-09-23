@@ -264,6 +264,15 @@ to that guard and varied substantially across samples, so clean-runner
 repetition is required before treating the performance effect as settled.
 The commit/manual workflow now rebuilds a pinned pre-fix compiler and runs
 these direct speed guards in addition to the existing pre-flow comparison.
+Clean Windows
+[run 35841915276](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35841915276)
+passes the ref-to-value regression, both pinned-baseline rebuilds, all three
+direct aggregate speed guards, fixed point, conformance, x64 substrate,
+adaptive output/diagnostic/RAM proofs, and both pinned C/D comparator lanes
+at `f068167`. Its retained JSON artifact is
+`OpenC-SH27-native-parallel-35841915276` (ID `10741544122`, 2,026,768
+bytes). Exact clean-host timing ratios are in that artifact; its workflow
+success does not assert C/D throughput parity.
 
 ## Promotion boundary and next work
 
