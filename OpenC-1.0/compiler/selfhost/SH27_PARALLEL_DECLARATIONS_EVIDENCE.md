@@ -1,7 +1,8 @@
 # SH-27 parallel source parsing before ordered declarations
 
-Status: **isolated local candidate; clean Windows parity and self-build A/B
-still open**. Branch: `codex/sh27-parallel-declarations`.
+Status: **one clean Windows native/parity proof; independent repeat and
+representative-project/incremental gates open**. Branch:
+`codex/sh27-parallel-declarations`.
 
 ## Architectural cut
 
@@ -27,8 +28,12 @@ to zero on the 79,873-byte input. A local 80-build explicit-four probe
 reproduced exactly one such zero-tick record. The verifier now permits this
 specific all-zero timing profile only below 192 KiB while retaining the
 launch-state, selected-mode, exact-byte, exit, and RAM gates; larger inputs
-still require a positive critical-worker clock. A third clean proof is
-required before interpreting pinned comparator results for this candidate.
+still require a positive critical-worker clock. The third clean
+[run 35913434471](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35913434471)
+passed that verifier, the strict self-build memory chain, conformance,
+substrate, serial/parallel exactness, current and historical speed guards,
+and all normal-default pinned comparator ratios. This is the first clean
+proof for this compiler source, not a two-run release gate.
 
 The first policy only enables concurrent parsing for native four-chunk builds
 with 4-16 files and at most 1 MiB of source. This is a bounded RAM policy,
@@ -77,12 +82,26 @@ valid timing records, and guarded RAM on both sides; its paired median was
 `FAIL` because the old compiler's output hashes differ from the new fixed
 point, so this is **not** a self-build non-regression proof. The candidate's
 own fixed point and strict chain pass. A valid same-revision self-build
-speed comparison or clean workflow guard remains required.
+speed comparison is still absent; the clean workflow's existing self-build
+speed guards passed in run 35913434471.
 
 A separate three-sample local DMD-only corpus was noisy (large OpenC samples
 0.876, 4.794, and 2.805 seconds) and lacks MSVC/Clang/LDC. Its partial
 ratios are not promotion evidence. The 11-pair same-host compiler A/B and
 clean pinned Windows CI are the throughput decisions.
+
+The clean normal-default comparator summarized five medians per workload and
+returned **20/20 PASS_PARITY**. Its hardest ratio was `large_functions`:
+OpenC **0.666 s**, DMD **0.608 s**, **1.0954x** (within both the public 1.25x
+limit and internal 1.20x margin). `control_flow` was **0.395/0.515 s**,
+**0.7670x**. The other three workloads passed all four compilers. The
+independent streaming-baseline run had OpenC/DMD **0.484/0.250 s** on large
+functions, so the new clean result cannot be read as a 108 ms OpenC speedup
+against DMD: both host/compiler medians shifted substantially across runs.
+The guarded same-host OpenC A/B above establishes the local declaration gain;
+the clean ratio establishes one same-run parity pass. A second independent
+clean run of this exact compiler source and the representative-project and
+incremental gates remain mandatory.
 
 The final candidate's diagnostic-only profile refreshes the next critical
 path (one local sample, not a timed A/B claim). On large functions, serial
@@ -97,11 +116,10 @@ next architecture after the declaration cut's clean CI decision.
 
 ## Next decision
 
-Run the full clean Windows workflow on this isolated cut, including all 20
-normal-default pinned ratios and historical self-build speed guards. Keep
-raw timing and memory artifacts. If the self-build guard fails, separate
-source-size/capacity effects from runtime policy (self-build parsing remains
-serial); do not waive it. If clean DMD large-function parity remains open,
-continue the fused typed-expression/assignment cutover from
-`SH27_TYPED_EXPRESSION_CUTOVER.md`. No parser micro-tuning or policy retargeting
-substitutes for that architecture.
+Repeat the full clean Windows workflow on this exact compiler source and keep
+raw timing and memory artifacts. The first clean proof passed, but the
+cross-run DMD swing means one favorable median is not robust parity evidence.
+Continue the fused typed-expression/assignment cutover from
+`SH27_TYPED_EXPRESSION_CUTOVER.md` unless the repeated clean critical path
+contradicts that target. No parser micro-tuning or policy retargeting
+substitutes for the architectural and production-model gates.

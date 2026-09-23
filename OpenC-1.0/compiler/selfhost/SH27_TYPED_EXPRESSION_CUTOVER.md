@@ -77,6 +77,13 @@ budget, not a proven new DMD gap. Gate C must target the whole first-visit
 assignment/type path, with the clean comparator rerun setting the actual
 remaining budget.
 
+The first clean parallel-declaration run subsequently passed 20/20 ratios;
+large functions measured OpenC/DMD 0.666/0.608 s (1.0954x). That run does
+not erase the prior 0.484/0.250 s failure: the DMD median changed by more
+than the local OpenC declaration gain. The typed cut remains the next
+architectural experiment until an independent same-source clean repeat and
+the post-parallel first-visit profile show a robustly smaller target.
+
 The existing artifact path keeps one `IrContext` across
 `acceptance_validate_context` and `c_lower_and_emit_function`; this is the
 handoff point. `check` constructs an acceptance-only context and must use
