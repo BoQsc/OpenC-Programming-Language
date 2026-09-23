@@ -761,14 +761,16 @@ caller and leaves the other two chunk slots without private caches. Its
 compiler reaches byte-exact Stage 2/Stage 3 closure at
 `638777db...ac26cb`, passes five-workload byte-equivalence proofs (including
 single-file fallback), both invalid-source diagnostic fixtures, 278/278
-conformance, and 25/25 x64
-substrate. Eleven same-command local pairs show two-worker control-flow
+conformance, and 25/25 x64 substrate. Eleven same-command local pairs show
+two-worker control-flow
 0.842 to 0.612 seconds (11/11 wins), large-functions 1.335 to 1.088 seconds
 (10/11), and compiler self-build 9.519 to 6.924 seconds (11/11). Peak
 two-worker Job private is 97.4, 191.7, and 223.0 MiB respectively; the
 large-function four-worker proof peak is 306.1 MiB. A partial three-run
 OpenC/DMD64 corpus still misses parity at 2.917x large and 2.726x control
-flow. Clean workflow evidence for both worker counts is pending. The
+flow. Clean workflow run 35826688929 at `51bcb47` passes both worker-count
+proofs, the RAM-savings gate, both sets of paired-speed gates, and the pinned
+C/D comparator step; JSON artifact `10735084414` retains the evidence. The
 256 MiB disk-headroom guard stopped one local 11-pair attempt after ten
 successful pairs; reproducible generated executables were removed and a
 full retry passed. The paired harness now checkpoints each complete pair.
@@ -777,4 +779,4 @@ throughput solution.
 The same-compiler trade-off verifier requires at least 32 MiB of two-worker
 Job-private savings on control flow, large functions, and self-build; the
 local comparison passes at 64.4, 114.4, and 60.3 MiB. The expanded workflow
-will enforce this gate and both worker-count correctness/speed proofs.
+also enforces this gate and both worker-count correctness/speed proofs.

@@ -551,12 +551,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       control-flow, 10/11 large-functions, and 11/11 self-build comparisons,
       while peak private memory is 97.4, 191.7, and 223.0 MiB. It is slower
       than four workers and remains 2.917x/2.726x DMD on the local large and
-      control corpora. Clean two-worker proof, adaptive scheduling, and
-      substantive semantic-pass reduction remain next.
+      control corpora. Clean Windows run 35826688929 passes both worker-count
+      proofs, speed gates, RAM trade-off, and pinned C/D corpus at `51bcb47`;
+      JSON artifact 10735084414 retains the evidence. Adaptive scheduling
+      and substantive semantic-pass reduction remain next.
       A same-compiler RAM trade-off gate now requires at least 32 MiB of
       two-worker savings on control flow, large functions, and self-build;
       local savings are 64.4, 114.4, and 60.3 MiB. The expanded commit/manual
-      workflow will test this on a clean host.
+      workflow also passes this gate on a clean host.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

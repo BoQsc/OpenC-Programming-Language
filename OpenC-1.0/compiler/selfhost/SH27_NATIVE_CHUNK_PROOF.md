@@ -86,8 +86,12 @@ order-alternated direct comparison of two versus four workers.
 `verify_sh27_worker_tradeoff.py` requires at least 32 MiB less Job private
 memory with two workers on control flow, large functions, and self-build,
 using passing proofs from the same compiler. Local savings are 64.4, 114.4,
-and 60.3 MiB respectively. The commit/manual workflow now runs both worker
-counts and this RAM gate; its first two-worker clean-runner result is pending.
+and 60.3 MiB respectively. The commit/manual workflow runs both worker
+counts and this RAM gate. Clean Windows [run 35826688929](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35826688929)
+passes every step at `51bcb47`, including the pinned C/D corpus. Its JSON
+artifact is `OpenC-SH27-native-parallel-35826688929` (ID `10735084414`,
+362,653 bytes). As with the earlier clean run, job success certifies
+correctness, memory, and the required relative speed gains—not C/D parity.
 
 Run the proof and paired benchmark with:
 
@@ -127,8 +131,8 @@ exact clean-host ratios are in that artifact and are not inferred here.
 ## Promotion boundary and next work
 
 This is an opt-in, Windows-x64-only compiler experiment. Before production
-promotion, expand the invalid-source and thread-failure matrix, confirm both
-worker counts on a clean Windows run, and decide an adaptive default that
+promotion, expand the invalid-source and thread-failure matrix and decide an
+adaptive default that
 does not impose a 2.5x private-memory penalty on small programs. Compare that
 default against pinned MSVC, Clang, DMD, and LDC on the same clean runner.
 Incremental object reuse, representative real projects, and broad C/D-class
