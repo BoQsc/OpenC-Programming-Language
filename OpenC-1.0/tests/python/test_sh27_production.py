@@ -318,6 +318,16 @@ class Sh27ProductionTests(unittest.TestCase):
         timing["validation_profile"]["flow_group_time_basis"] = "summed_worker_elapsed"
         timing["native_parallel_profile"] = active_profile
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["declaration_profile"].update({
+            "parse_retained_ms": 75, "source_read_ms": 0,
+            "lex_ms": 100, "parse_ms": 200, "compact_ms": 0,
+        })
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["declaration_profile"]["parse_retained_ms"] = 74
+        self.assertFalse(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["declaration_profile"].update({
+            "parse_retained_ms": 300, "lex_ms": 100, "parse_ms": 200,
+        })
         timing["source_bytes"] = 196608
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
         timing["source_bytes"] = 196607

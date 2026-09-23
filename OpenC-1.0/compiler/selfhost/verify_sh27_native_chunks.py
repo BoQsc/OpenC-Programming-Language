@@ -121,7 +121,18 @@ def timing_accounting_valid(
     if declaration_profile.get("enabled") is not query_profile.get("enabled"):
         return False
     if query_profile.get("enabled") is True:
-        if sum(declaration_parts[3:]) > declaration_parts[0]:
+        # The parse-retained counter is wall time. Under the bounded
+        # four-source-worker policy, read/lex/parse/compact counters are
+        # summed worker time and can exceed that wall time by at most 4x.
+        declaration_workers = (
+            4 if expected_chunks == 4
+            and 4 <= timing.get("source_files", 0) <= 16
+            and timing.get("source_bytes", 0) <= 1048576
+            else 1
+        )
+        if sum(declaration_parts[3:]) > (
+            declaration_parts[0] * declaration_workers
+        ):
             return False
     elif any(declaration_parts):
         return False

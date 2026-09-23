@@ -14,6 +14,12 @@ source order. Invalid parsed sources are reparsed in that ordered pass, so
 diagnostics are not emitted from workers. Thread-launch failure uses the
 existing deterministic serial fallback.
 
+The diagnostic profile reports parse-retained **wall time** and read/lex/
+parse/compact **summed worker time**. Its verifier now checks the latter
+against at most four times wall time only under this bounded four-worker
+policy; serial paths retain the one-times bound. The profiled native proof
+passed exact output and diagnostic checks after that accounting correction.
+
 The first policy only enables concurrent parsing for native four-chunk builds
 with 4-16 files and at most 1 MiB of source. This is a bounded RAM policy,
 not a special case for named benchmark inputs. The 222-file self-build keeps
@@ -55,10 +61,13 @@ The complete self-build A/B harness insists that *both* old and new compiler
 binaries reproduce the new compiler source's hash. The old compiler emits
 the new thread hook as its serial stub, so its new-source output is not the
 candidate's fixed-point binary; those samples correctly fail that semantic
-gate. An interrupted six-pair timing-only diagnostic showed build execution
-on both sides, but it is **not** a self-build non-regression proof. The
-candidate's own fixed point and strict chain pass. A valid same-revision
-self-build speed comparison or clean workflow guard remains required.
+gate. A completed eleven-pair timing-only diagnostic had exit code zero,
+valid timing records, and guarded RAM on both sides; its paired median was
+-192 ms with 7/11 candidate wins. The report's overall status is correctly
+`FAIL` because the old compiler's output hashes differ from the new fixed
+point, so this is **not** a self-build non-regression proof. The candidate's
+own fixed point and strict chain pass. A valid same-revision self-build
+speed comparison or clean workflow guard remains required.
 
 A separate three-sample local DMD-only corpus was noisy (large OpenC samples
 0.876, 4.794, and 2.805 seconds) and lacks MSVC/Clang/LDC. Its partial
