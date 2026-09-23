@@ -661,6 +661,33 @@ def run_sample(
     return measured
 
 
+def emit_parity_annotations(
+    lanes: dict[str, object], ratios: dict[str, dict[str, float]],
+    ratio_limit: float,
+) -> None:
+    """Expose all enforced ratio decisions after timed sampling is complete."""
+    for workload_id, comparator_ratios in ratios.items():
+        compilers = lanes[workload_id]["compilers"]
+        open_median = float(compilers["openc"]["summary"]["median_seconds"])
+        for comparator in ("msvc", "clang", "dmd", "ldc"):
+            if f"openc_to_{comparator}" not in comparator_ratios:
+                continue
+            comparator_median = float(
+                compilers[comparator]["summary"]["median_seconds"]
+            )
+            ratio = (
+                open_median / comparator_median
+                if comparator_median else float("inf")
+            )
+            level = "notice" if ratio <= ratio_limit else "error"
+            print(
+                f"::{level} title=SH-27 {workload_id} vs {comparator}::"
+                f"OpenC={open_median:.4f}s comparator={comparator_median:.4f}s "
+                f"ratio={ratio:.4f}x limit={ratio_limit:.2f}x",
+                flush=True,
+            )
+
+
 def main() -> int:
     if os.name != "nt":
         raise SystemExit("SH-27 production comparison currently requires Windows")
@@ -1106,6 +1133,11 @@ def main() -> int:
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n")
+    if args.enforce_parity and os.environ.get("GITHUB_ACTIONS") == "true":
+        # Public check annotations expose the complete ratio decision even
+        # when Actions artifact downloads require account permissions. They
+        # are emitted only after all timed samples and never affect medians.
+        emit_parity_annotations(lanes, ratios, ratio_limit)
     for workload_id in ("large_functions", "control_flow"):
         if "openc_to_dmd" in ratios.get(workload_id, {}):
             compilers = lanes[workload_id]["compilers"]

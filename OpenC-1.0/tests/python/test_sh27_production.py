@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from contextlib import redirect_stdout
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -19,6 +21,26 @@ SPEC.loader.exec_module(BENCHMARK)
 
 
 class Sh27ProductionTests(unittest.TestCase):
+    def test_parity_annotations_use_unrounded_decision(self) -> None:
+        lanes = {
+            "large_functions": {"compilers": {
+                "openc": {"summary": {"median_seconds": 1.0}},
+                "dmd": {"summary": {"median_seconds": 0.8}},
+            }},
+        }
+        ratios = {"large_functions": {"openc_to_dmd": 1.25}}
+        output = io.StringIO()
+        with redirect_stdout(output):
+            BENCHMARK.emit_parity_annotations(lanes, ratios, 1.25)
+        self.assertIn("::notice title=SH-27 large_functions vs dmd::", output.getvalue())
+        lanes["large_functions"]["compilers"]["dmd"]["summary"][
+            "median_seconds"
+        ] = 0.799
+        output = io.StringIO()
+        with redirect_stdout(output):
+            BENCHMARK.emit_parity_annotations(lanes, ratios, 1.25)
+        self.assertIn("::error title=SH-27 large_functions vs dmd::", output.getvalue())
+
     def test_control_flow_workload_is_bounded_and_equivalent(self) -> None:
         corpus = json.loads((ROOT / "benchmarks/sh27/CORPUS.json").read_text())
         BENCHMARK.validate_corpus(corpus)

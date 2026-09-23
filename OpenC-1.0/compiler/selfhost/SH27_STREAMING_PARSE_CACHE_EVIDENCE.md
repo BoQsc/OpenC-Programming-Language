@@ -1,6 +1,6 @@
 # SH-27 streaming parse-cache lifetime experiment
 
-Status: **local proof passed; clean Windows CI retry pending; SH-27 active**.
+Status: **one full clean Windows proof passed; repeatability pending; SH-27 active**.
 Branch: `codex/sh27-streaming-parse-cache`. This cut builds on the bounded-IR
 experiment and restores the default four-worker source policy.
 
@@ -62,8 +62,19 @@ classified from step status alone. The public job page does not expose its
 raw log or artifact contents through the available read-only API credential.
 The verifier now emits a compact failure annotation containing the selected
 mode, exit, memory observation, timing-validity flag, and output hash for
-each failed case; the next clean retry must identify and resolve the actual
-failure before promotion. This is not treated as a green proof.
+each failed case; a later clean retry can identify the actual failure if it
+recurs. This failed run is not treated as a green proof.
+
+The next clean [run 35903863226](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35903863226)
+completed successfully: strict 20-generation memory, exact worker outputs
+and diagnostics, all historical speed/correctness checks, and enforced
+normal-default pinned C/D parity. This is one full clean pass for the
+streaming-cache compiler source, not the required two independent passes.
+The earlier intermittent worker-proof failure remains disclosed; three
+additional local four-worker proof repetitions all passed. A follow-up run
+will publish each of the 20 ratio decisions as check annotations after the
+timed samples, making the clean result inspectable without artifact download
+permission. The annotation code is outside the timed compiler path.
 
 Eleven order-alternated, same-host pairs against the bounded-IR-only compiler
 showed median paired deltas (candidate minus baseline) of **-4 ms** on large
@@ -100,6 +111,7 @@ new C/D ratio claim.
 The commit-triggered `openc-native-parallel.yml` workflow on this branch now
 enforces the strict 20-generation benchmark after bootstrap, in addition to
 fixed point, conformance, x64, exact-output/diagnostic, worker speed, and the
-normal-default pinned C/D parity gate. Do not promote from the local proof
-alone. If clean CI fails a speed or memory gate, retain its raw samples and
-rework the lifetime/allocator design; do not raise the standing limits.
+normal-default pinned C/D parity gate. Require a second independent clean
+pass and investigate any repeated worker-proof failure before promoting.
+If clean CI fails a speed or memory gate, retain its raw samples and rework
+the lifetime/allocator design; do not raise the standing limits.
