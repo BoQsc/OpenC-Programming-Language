@@ -738,10 +738,9 @@ runner comparison with C or D. The ordinary `build` path remains serial and
 the release remains untouched. Clean Windows worker workflow run 35823166323
 passes every step at `e5a4daa` and retains JSON artifact `10733434100`.
 This independently confirms fixed-point, output, diagnostic, RAM, and
-majority-speed gates, but does not yet supply a C/D comparison for the opt-in
-lane. Before promotion, broaden failure/diagnostic cases, test two-worker and
-adaptive RAM
-policies, and compare with pinned C/D compilers on the same runner. Incremental
+majority-speed gates. Before promotion, broaden failure/diagnostic cases,
+test two-worker and adaptive RAM policies, and compare with pinned C/D
+compilers on the same runner. Incremental
 object reuse and representative real-project coverage remain open; SH-27
 cannot yet claim C/D-class throughput or completion. Detailed proof and
 commands are in `SH27_NATIVE_CHUNK_PROOF.md`.
@@ -750,7 +749,9 @@ The production comparator harness now accepts opt-in
 `--openc-source-chunks 4` without changing its default serial lane. A
 three-run local partial OpenC/DMD64 2.112.0 pass preserves all compile,
 execution, output, and RAM checks but leaves large and control-flow ratios
-at 2.421x and 2.275x DMD. The commit/manual native-worker workflow has been
-extended with the pinned MSVC, Clang, DMD, and LDC corpus; clean same-host
-four-comparator evidence for this opt-in path is pending. These measured
-deficits keep throughput parity explicitly open.
+at 2.421x and 2.275x DMD. Clean worker workflow run 35824022202 at
+`fdd0e5a` passes the pinned MSVC, Clang, DMD, and LDC comparator step and
+retains JSON artifact `10734212162`. Job-level success certifies tool
+presence and all correctness, output, execution, and memory gates, not
+throughput parity: the comparator step is evidence-only while parity remains
+a separate explicit gate. The local DMD deficits keep throughput parity open.

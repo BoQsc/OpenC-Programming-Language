@@ -541,8 +541,10 @@ IR reach closure. Exact evidence and reproduction commands are in
       The opt-in production comparator harness also passes a local three-run
       OpenC/DMD64 2.112.0 correctness, execution, and RAM pass, but four-chunk
       OpenC still measures 2.421x DMD on large functions and 2.275x on control
-      flow. Clean pinned C/D comparison is scheduled in the worker workflow;
-      the throughput deficit remains real and explicitly open.
+      flow. Clean pinned C/D comparator workflow run 35824022202 passes all
+      tool-presence, correctness, execution, output, and RAM checks and retains
+      JSON evidence as artifact 10734212162. Workflow success is not a parity
+      claim; the throughput deficit remains real and explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

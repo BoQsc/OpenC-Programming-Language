@@ -78,9 +78,13 @@ option; its default remains the serial `build` command. A three-run local
 OpenC/DMD64 2.112.0 pass preserves every compile, execution, output, and RAM
 gate. It still measures OpenC at 2.421x DMD on large functions and 2.275x on
 control flow. This is a partial comparator set, not a C/D parity claim.
-The commit/manual worker workflow now also runs the full pinned MSVC, Clang,
-DMD, and LDC production corpus on the same clean Windows host; its first
-four-compiler result is pending.
+The extended commit/manual worker workflow also passes the full pinned MSVC,
+Clang, DMD, and LDC corpus on a clean Windows host: [run 35824022202](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35824022202)
+at `fdd0e5a`. Its JSON artifact is
+`OpenC-SH27-native-parallel-35824022202` (ID `10734212162`, 198,538 bytes).
+The workflow succeeds when comparator evidence is complete and all
+correctness/memory gates pass, even if throughput parity still misses; the
+exact clean-host ratios are in that artifact and are not inferred here.
 
 ## Promotion boundary and next work
 
