@@ -196,6 +196,7 @@ def main() -> int:
             "max_job_private_bytes": 512 * MIB,
             "max_working_set_bytes": 512 * MIB,
             "max_captured_output_bytes": 2 * MIB,
+            "compiler_timeout_seconds": 120,
             "execution_timeout_seconds": 30,
         },
         "workloads": {},
@@ -242,6 +243,7 @@ def main() -> int:
                             max_working_set_bytes=512 * MIB,
                             max_output_bytes=2 * MIB,
                             execution_timeout=30,
+                            compiler_timeout=120,
                         )
                         sample_pair[
                             "baseline" if side == "baseline" else "candidate"

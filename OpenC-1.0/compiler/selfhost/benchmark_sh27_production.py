@@ -447,6 +447,7 @@ def build_command(
 def sample_passed(sample: dict[str, object]) -> bool:
     return bool(
         int(sample["exit_code"]) == 0
+        and not sample.get("timed_out")
         and not sample["memory_limit_exceeded"]
         and not sample["stdout_truncated"]
         and not sample["stderr_truncated"]
@@ -573,6 +574,7 @@ def run_sample(
     max_working_set_bytes: int,
     max_output_bytes: int,
     execution_timeout: int,
+    compiler_timeout: int | None = None,
     openc_source_chunks: int | str = "default",
     output_filename: str = "program.exe",
 ) -> dict[str, object]:
@@ -594,6 +596,7 @@ def run_sample(
         max_private_bytes=max_private_bytes,
         max_working_set_bytes=max_working_set_bytes,
         max_captured_output_bytes=max_output_bytes,
+        timeout_seconds=compiler_timeout,
     )
     measured["command"] = command
     measured["disk_free_bytes_before"] = disk_free_before

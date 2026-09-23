@@ -121,6 +121,9 @@ class Sh27ProductionTests(unittest.TestCase):
         self.assertFalse(BENCHMARK.sample_passed(sample))
         sample["program_output_matches"] = True
         self.assertTrue(BENCHMARK.sample_passed(sample))
+        sample["timed_out"] = True
+        self.assertFalse(BENCHMARK.sample_passed(sample))
+        sample["timed_out"] = False
         sample["program_memory_limit_exceeded"] = True
         self.assertFalse(BENCHMARK.sample_passed(sample))
 
@@ -215,6 +218,7 @@ class Sh27ProductionTests(unittest.TestCase):
         active_profile = {
             "launch_completed": True, "workers_wall_ms": 400,
             "merge_wall_ms": 0,
+            "chunk_walls_ms": [350, 300, 0, 0],
             "critical_chunk": {
                 "first_source": 0, "end_source_exclusive": 1,
                 "wall_ms": 350, "lex_parse_ms": 0, "index_ms": 20,
@@ -231,6 +235,7 @@ class Sh27ProductionTests(unittest.TestCase):
         serial_profile = {
             "launch_completed": False, "workers_wall_ms": 0,
             "merge_wall_ms": 0,
+            "chunk_walls_ms": [0, 0, 0, 0],
             "critical_chunk": {
                 "first_source": 0, "end_source_exclusive": 0,
                 "wall_ms": 0, "lex_parse_ms": 0, "index_ms": 0,
