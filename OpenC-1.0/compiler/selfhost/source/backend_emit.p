@@ -125,6 +125,9 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     scope resolution_release_parse_cache(
         parsed_source_cache, sources.length
     );
+    ResolutionParseProfile declaration_parse_profile =
+        resolution_parse_profile_empty();
+    declaration_parse_profile.enabled = timings.profile_type_queries_enabled;
 
     phase_started = process.monotonic_milliseconds();
     module_index = 0;
@@ -135,18 +138,44 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         while index < count {
             usize source_record = first + index;
             if parsed_source_cache != null {
+                usize declaration_part_started = 0;
+                if timings.profile_type_queries_enabled {
+                    declaration_part_started =
+                        process.monotonic_milliseconds();
+                }
                 ResolutionParsedSource parsed =
-                    resolution_parse_source_retained(
+                    resolution_parse_source_retained_profiled(
                         project_source, project_root,
-                        source_data, source_record
+                        source_data, source_record,
+                        declaration_parse_profile
                     );
+                if timings.profile_type_queries_enabled {
+                    timings.declaration_parse_retained_ms =
+                        timings.declaration_parse_retained_ms +
+                        process.monotonic_milliseconds() -
+                        declaration_part_started;
+                }
                 if parsed.token_data != null {
                     text source;
+                    if timings.profile_type_queries_enabled {
+                        declaration_part_started =
+                            process.monotonic_milliseconds();
+                    }
                     status source_status = project_read_source_record(
                         project_source, project_root, source_data,
                         source_record, out source
                     );
+                    if timings.profile_type_queries_enabled {
+                        timings.declaration_reread_ms =
+                            timings.declaration_reread_ms +
+                            process.monotonic_milliseconds() -
+                            declaration_part_started;
+                    }
                     if source_status.ok {
+                        if timings.profile_type_queries_enabled {
+                            declaration_part_started =
+                                process.monotonic_milliseconds();
+                        }
                         semantic_predeclare_parsed_source(
                             project_source, project_root,
                             module_data, modules, source_data,
@@ -154,6 +183,12 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                             source, parsed.token_data, parsed.tokens,
                             parsed.syntax_data, parsed.syntax
                         );
+                        if timings.profile_type_queries_enabled {
+                            timings.declaration_predeclare_ms =
+                                timings.declaration_predeclare_ms +
+                                process.monotonic_milliseconds() -
+                                declaration_part_started;
+                        }
                     }
                 }
                 resolution_cache_parsed_source(
@@ -175,6 +210,10 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     }
     timings.declarations_ms =
         process.monotonic_milliseconds() - phase_started;
+    timings.declaration_read_ms = declaration_parse_profile.read_ms;
+    timings.declaration_lex_ms = declaration_parse_profile.lex_ms;
+    timings.declaration_parse_ms = declaration_parse_profile.parse_ms;
+    timings.declaration_compact_ms = declaration_parse_profile.compact_ms;
     phase_started = process.monotonic_milliseconds();
     module_index = 0;
     while module_index < modules.length {

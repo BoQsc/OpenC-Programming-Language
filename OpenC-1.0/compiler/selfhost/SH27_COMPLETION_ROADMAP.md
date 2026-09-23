@@ -168,6 +168,13 @@ profile confirms the serial declaration path remains dominant.
 1. Profile declaration collection and first semantic inference by source
    file and pass. Check whether the same syntax, symbol, type, or export data
    is recomputed; eliminate repeated scans through stable indexed records.
+   The first two opt-in subprofiles attribute roughly 200 ms of large-function
+   declaration work to parsing and 78-94 ms to lex/alloc; source reread and
+   type predeclaration are negligible at the millisecond clock resolution.
+   Prototype a single precedence-climbing expression walk in place of the
+   current ten-level recursive operator dispatch before adding declaration
+   workers. Prove exact AST/diagnostic output and material paired wall gain;
+   if it fails, retain the counterexample and choose the next measured cost.
 2. Parse/index independent source declarations in private worker contexts;
    merge symbol records and diagnostics in source order, then perform the
    genuinely cross-file resolution once. Cross-file cycles, duplicate names,

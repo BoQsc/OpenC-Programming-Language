@@ -73,6 +73,18 @@ def timing_accounting_valid(
     query_profile = timing.get("type_query_profile")
     if not isinstance(query_profile, dict):
         return False
+    declaration_profile = timing.get("declaration_profile")
+    if not isinstance(declaration_profile, dict):
+        return False
+    declaration_parts = (
+        declaration_profile.get("parse_retained_ms"),
+        declaration_profile.get("source_reread_ms"),
+        declaration_profile.get("predeclare_ms"),
+        declaration_profile.get("source_read_ms"),
+        declaration_profile.get("lex_ms"),
+        declaration_profile.get("parse_ms"),
+        declaration_profile.get("compact_ms"),
+    )
     validation_queries = (
         query_profile.get("validation_queries"),
         query_profile.get("validation_cache_hits"),
@@ -94,7 +106,15 @@ def timing_accounting_valid(
         worker_ms, merge_ms, chunk_ms, first, end, *parts,
         *query_counts, *assignment_counts,
         *validation_queries, *validation_assignments, *distinct_counts,
+        *declaration_parts,
     )):
+        return False
+    if declaration_profile.get("enabled") is not query_profile.get("enabled"):
+        return False
+    if query_profile.get("enabled") is True:
+        if sum(declaration_parts[3:]) > declaration_parts[0]:
+            return False
+    elif any(declaration_parts):
         return False
     if query_profile.get("enabled") is True:
         query_valid = bool(

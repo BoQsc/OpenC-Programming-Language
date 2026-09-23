@@ -180,6 +180,30 @@ collection is a substantial serial cost. The refreshed clean-runner profile
 must decide whether the declaration/index redesign precedes the native
 value-location backend experiment.
 
+## Serial declaration cost resolved to parser work
+
+Two opt-in diagnostic adaptive proofs of the same instrumented compiler
+(`sh27-declaration-detail-20260923/auto-proof.json` and
+`auto-strict-proof.json`) passed exact output, invalid-input diagnostics,
+fixed-point bootstrap, and the process-tree RAM guard. The declaration
+subprofile reported:
+
+| Workload | Declaration phase, two observations | Lex/alloc | Parse/syntax alloc | Compact copy | Reread/predeclare |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Large functions | 312 / 281 ms | 94 / 78 ms | 202 / 203 ms | 0 / 0 ms | 0+16 / 0+0 ms |
+| Control flow | 94 / 63 ms | 0 / 0 ms | 94 / 63 ms | 0 / 0 ms | 0 / 0 ms |
+| Compiler self-build | 610 / 609 ms | 189 / 171 ms | 375 / 391 ms | 46 / 31 ms | 0 / 16 ms |
+
+The Windows millisecond clock is coarse and these are diagnostic-mode
+single observations, not paired speed comparisons. Nonetheless, the parser
+is consistently the largest declaration subphase on large functions and
+self-build; source reread and type predeclaration are not the explanation.
+The current expression parser recursively enters ten binary-precedence
+levels and checks operator spellings at each level. A single precedence-
+climbing expression walk is the next *architectural hypothesis* to prove on
+an isolated branch with exact syntax/diagnostics and paired wall time. It
+must not be promoted merely because a parser counter falls.
+
 ## Correctness and interpretation limits
 
 - The final instrumented compiler passed exact self-hosting closure, native

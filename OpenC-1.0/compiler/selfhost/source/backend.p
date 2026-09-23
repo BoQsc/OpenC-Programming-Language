@@ -9,6 +9,13 @@ struct BuildTimings {
     usize emission_mode;
     usize project_load_ms;
     usize declarations_ms;
+    usize declaration_parse_retained_ms;
+    usize declaration_reread_ms;
+    usize declaration_predeclare_ms;
+    usize declaration_read_ms;
+    usize declaration_lex_ms;
+    usize declaration_parse_ms;
+    usize declaration_compact_ms;
     usize resolution_ms;
     usize validation_ms;
     usize lowering_emit_ms;
@@ -149,6 +156,13 @@ BuildTimings build_timings_empty() {
         emission_mode = 0,
         project_load_ms = 0,
         declarations_ms = 0,
+        declaration_parse_retained_ms = 0,
+        declaration_reread_ms = 0,
+        declaration_predeclare_ms = 0,
+        declaration_read_ms = 0,
+        declaration_lex_ms = 0,
+        declaration_parse_ms = 0,
+        declaration_compact_ms = 0,
         resolution_ms = 0,
         validation_ms = 0,
         lowering_emit_ms = 0,

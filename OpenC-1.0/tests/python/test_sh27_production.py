@@ -182,6 +182,12 @@ class Sh27ProductionTests(unittest.TestCase):
                 "flow_group_time_basis": "summed_worker_elapsed",
             },
             "native_parallel_profile": active_profile,
+            "declaration_profile": {
+                "enabled": True, "parse_retained_ms": 300,
+                "source_reread_ms": 0, "predeclare_ms": 0,
+                "source_read_ms": 0, "lex_ms": 100,
+                "parse_ms": 200, "compact_ms": 0,
+            },
             "type_query_profile": {
                 "enabled": True, "validation_queries": 500,
                 "validation_cache_hits": 100,
@@ -197,6 +203,9 @@ class Sh27ProductionTests(unittest.TestCase):
             },
         }
         self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
+        timing["declaration_profile"]["parse_retained_ms"] = 100
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing["declaration_profile"]["parse_retained_ms"] = 300
         timing["type_query_profile"]["validation_distinct_uncached"] = 0
         self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
         timing["type_query_profile"]["validation_distinct_uncached"] = 300
@@ -263,6 +272,12 @@ class Sh27ProductionTests(unittest.TestCase):
             "assignment_cache_hits": 0, "assignment_uncached": 0,
             "assignment_distinct_uncached": 0,
             "assignment_repeated_uncached": 0,
+        }
+        timing["declaration_profile"] = {
+            "enabled": False, "parse_retained_ms": 0,
+            "source_reread_ms": 0, "predeclare_ms": 0,
+            "source_read_ms": 0, "lex_ms": 0,
+            "parse_ms": 0, "compact_ms": 0,
         }
         for key in (
             "type_queries", "type_cache_hits", "type_uncached",

@@ -40,6 +40,24 @@ struct ResolutionParsedSource {
     PackedBuffer syntax;
 }
 
+struct ResolutionParseProfile {
+    bool enabled;
+    usize read_ms;
+    usize lex_ms;
+    usize parse_ms;
+    usize compact_ms;
+}
+
+ResolutionParseProfile resolution_parse_profile_empty() {
+    return ResolutionParseProfile{
+        enabled = false,
+        read_ms = 0,
+        lex_ms = 0,
+        parse_ms = 0,
+        compact_ms = 0
+    };
+}
+
 usize resolution_symbol_function() { return 1; }
 usize resolution_symbol_struct() { return 2; }
 usize resolution_symbol_resource() { return 3; }

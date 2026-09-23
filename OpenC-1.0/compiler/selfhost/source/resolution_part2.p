@@ -2,6 +2,7 @@ import system.file;
 import system.io;
 import system.memory;
 import system.path;
+import system.process;
 import system.text;
 
 unsafe usize resolution_pointer_encode(ptr byte value) {
@@ -28,16 +29,23 @@ unsafe void resolution_copy_records(
     );
 }
 
-unsafe ResolutionParsedSource resolution_parse_source_retained(
+unsafe ResolutionParsedSource resolution_parse_source_retained_profiled(
     text project_source,
     text project_root,
     ptr byte source_data,
-    usize source_record
+    usize source_record,
+    ref ResolutionParseProfile profile
 ) {
     text source;
+    usize part_started = 0;
+    if profile.enabled { part_started = process.monotonic_milliseconds(); }
     status source_status = project_read_source_record(
         project_source, project_root, source_data, source_record, out source
     );
+    if profile.enabled {
+        profile.read_ms = profile.read_ms +
+            process.monotonic_milliseconds() - part_started;
+    }
     if !source_status.ok {
         return ResolutionParsedSource{
             reusable = false,
@@ -48,6 +56,7 @@ unsafe ResolutionParsedSource resolution_parse_source_retained(
         };
     }
     usize source_length = text.byte_length(source);
+    if profile.enabled { part_started = process.monotonic_milliseconds(); }
     PackedBuffer tokens = PackedBuffer{
         length = 0, capacity = source_length + 2
     };
@@ -59,6 +68,11 @@ unsafe ResolutionParsedSource resolution_parse_source_retained(
         diagnostics.capacity * record_stride()
     );
     lex_source(source, token_data, tokens, diagnostic_data, diagnostics);
+    if profile.enabled {
+        profile.lex_ms = profile.lex_ms +
+            process.monotonic_milliseconds() - part_started;
+        part_started = process.monotonic_milliseconds();
+    }
     PackedBuffer syntax = PackedBuffer{
         length = 0, capacity = tokens.length * 6 + 8
     };
@@ -67,6 +81,11 @@ unsafe ResolutionParsedSource resolution_parse_source_retained(
         source, token_data, tokens, syntax_data, syntax,
         diagnostic_data, diagnostics
     );
+    if profile.enabled {
+        profile.parse_ms = profile.parse_ms +
+            process.monotonic_milliseconds() - part_started;
+        part_started = process.monotonic_milliseconds();
+    }
     ResolutionParsedSource retained = ResolutionParsedSource{
         reusable = false,
         token_data = null,
@@ -96,7 +115,23 @@ unsafe ResolutionParsedSource resolution_parse_source_retained(
     memory.free(syntax_data);
     memory.free(token_data);
     memory.free(diagnostic_data);
+    if profile.enabled {
+        profile.compact_ms = profile.compact_ms +
+            process.monotonic_milliseconds() - part_started;
+    }
     return retained;
+}
+
+unsafe ResolutionParsedSource resolution_parse_source_retained(
+    text project_source,
+    text project_root,
+    ptr byte source_data,
+    usize source_record
+) {
+    ResolutionParseProfile profile = resolution_parse_profile_empty();
+    return resolution_parse_source_retained_profiled(
+        project_source, project_root, source_data, source_record, profile
+    );
 }
 
 unsafe ResolutionParsedSource resolution_collect_source_symbols_retained(

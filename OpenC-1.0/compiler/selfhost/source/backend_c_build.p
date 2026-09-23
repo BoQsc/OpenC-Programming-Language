@@ -66,6 +66,27 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.lowering_emit_ms);
     d_put(output, ",\n    \"tinycc\": ");
     d_put_usize(output, timings.backend_ms);
+    d_put(output, "\n  },\n  \"declaration_profile\": {\n");
+    d_put(output, "    \"enabled\": ");
+    if timings.profile_type_queries_enabled {
+        d_put(output, "true");
+    } else {
+        d_put(output, "false");
+    }
+    d_put(output, ",\n    \"parse_retained_ms\": ");
+    d_put_usize(output, timings.declaration_parse_retained_ms);
+    d_put(output, ",\n    \"source_reread_ms\": ");
+    d_put_usize(output, timings.declaration_reread_ms);
+    d_put(output, ",\n    \"predeclare_ms\": ");
+    d_put_usize(output, timings.declaration_predeclare_ms);
+    d_put(output, ",\n    \"source_read_ms\": ");
+    d_put_usize(output, timings.declaration_read_ms);
+    d_put(output, ",\n    \"lex_ms\": ");
+    d_put_usize(output, timings.declaration_lex_ms);
+    d_put(output, ",\n    \"parse_ms\": ");
+    d_put_usize(output, timings.declaration_parse_ms);
+    d_put(output, ",\n    \"compact_ms\": ");
+    d_put_usize(output, timings.declaration_compact_ms);
     d_put(output, "\n  },\n  \"native_memory\": {\n");
     d_put(output, "    \"validation_initial_live_bytes\": ");
     d_put_usize(output, timings.validation_initial_live_bytes);
