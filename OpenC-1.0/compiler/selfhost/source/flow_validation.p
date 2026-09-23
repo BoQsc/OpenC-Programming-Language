@@ -14,6 +14,7 @@ struct FlowFrontendObservation {
 struct FlowSourceFeatures {
     bool needs_flow;
     bool has_own;
+    bool has_destroy;
 }
 
 unsafe FlowSourceFeatures flow_source_features(
@@ -22,7 +23,8 @@ unsafe FlowSourceFeatures flow_source_features(
 ) {
     FlowSourceFeatures features = FlowSourceFeatures{
         needs_flow = false,
-        has_own = false
+        has_own = false,
+        has_destroy = false
     };
     usize length = text.byte_length(source);
     usize position = 0;
@@ -39,6 +41,10 @@ unsafe FlowSourceFeatures flow_source_features(
         ) {
             features.needs_flow = true;
             features.has_own = true;
+        } else if octet == 100 && starts_with_ascii(
+            source, position, "destroy"
+        ) {
+            features.has_destroy = true;
         } else if octet == 114 && starts_with_ascii(
             source, position, "ref"
         ) {
@@ -405,16 +411,30 @@ unsafe void flow_validate_source(
                         process.monotonic_milliseconds() - analysis_started;
                 }
                 analysis_started = process.monotonic_milliseconds();
-                flow_analyze_ownership(
-                    project_source, project_root,
-                    module_data, modules, source_data,
-                    type_data, symbol_data, detail_data, symbols,
-                    token_data, tokens, syntax_data, syntax,
-                    module_index, source_record, function_node,
-                    function_owner, source_symbol_first, source_symbol_end,
-                    ownership_relevant_data, source,
-                    error_data, errors
-                );
+                // Ownership analysis can only produce work for an owned or
+                // resource-typed symbol, or an explicit own/destroy construct.
+                // The source scan and symbol index already establish those
+                // facts once; avoid a second function-body word scan for
+                // every scalar function. Unknown function ownership retains
+                // the complete validator and its original diagnostics.
+                bool ownership_needed = function_owner == 0 ||
+                    source_features.has_own || source_features.has_destroy;
+                if !ownership_needed && read_usize(
+                    ownership_relevant_data,
+                    function_owner * size_of(usize)
+                ) != 0 { ownership_needed = true; }
+                if ownership_needed {
+                    flow_analyze_ownership(
+                        project_source, project_root,
+                        module_data, modules, source_data,
+                        type_data, symbol_data, detail_data, symbols,
+                        token_data, tokens, syntax_data, syntax,
+                        module_index, source_record, function_node,
+                        function_owner, source_symbol_first, source_symbol_end,
+                        ownership_relevant_data, source,
+                        error_data, errors
+                    );
+                }
                 timings.validation_flow_ownership_ms =
                     timings.validation_flow_ownership_ms +
                     process.monotonic_milliseconds() - analysis_started;
