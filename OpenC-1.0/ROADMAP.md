@@ -469,6 +469,13 @@ IR reach closure. Exact evidence and reproduction commands are in
       candidate remains isolated and accepted compiler behavior is unchanged.
       Follow with real-project and incremental-build comparators plus LDC;
       Linux and freestanding remain optional future work.
+      Two byte-exact local prototypes that fused only simple numeric binary
+      checks into the existing type cache did not improve both workloads;
+      one was flat on large functions and the other lost 19 ms on control
+      flow. The next implementation must remove a full semantic traversal or
+      add genuinely native, bounded per-source concurrency. The latter needs
+      thread-safe native allocator/type state and deterministic chunk merging;
+      the existing hosted-C worker runtime cannot serve as a native shortcut.
       Large MSVC/DMD and broad C/D parity remain explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
