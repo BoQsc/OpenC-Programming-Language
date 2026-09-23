@@ -16,8 +16,11 @@ payload digest. The harness also measures a same-output one-source-edit
 sequence and the complete OpenC compiler self-build. It rotates compiler
 order to reduce systematic bias and records every command, compiler identity,
 source-tree fingerprint, raw sample, median, p95, output bytes and SHA-256,
-and cache policy. Compiler and executable processes both have 512 MiB private
-and working-set limits, bounded captured output, and executable timeouts.
+and cache policy. Each compiler or executable invocation runs in a Windows
+Job with 512 MiB process and whole-job private-commit limits. The harness
+also samples the Job peak and the parent process's working set every 10 ms,
+terminates the process tree on a detected violation or timeout, and records
+any threshold crossing. Captured output is bounded.
 Before each compiler sample or bootstrap stage, the harness also requires at
 least 256 MiB free on the output volume and records the observed free bytes.
 This rejects a full-volume run before it can leave a partial executable.
@@ -28,7 +31,7 @@ Run on Windows from `OpenC-1.0`:
 python compiler/selfhost/benchmark_sh27_production.py --runs 3 --output build-output/selfhost-sh27/production-comparators.json
 ```
 
-Use `--require-all` when MSVC, `clang-cl`, and DMD must all be present. The
+Use `--require-all` when MSVC, `clang-cl`, DMD, and LDC must all be present. The
 `--msvc-toolset` and `--expected-*-version` switches make clean-host tool
 selection/version drift blocking. The GitHub gate requires the x64 DMD driver,
 not the package's default 32-bit executable. Use `--enforce-parity` for a blocking
@@ -45,9 +48,8 @@ D compilers are comparison subjects only.
 
 This tranche deliberately does not claim that generated arithmetic/control
 flow plus the small runtime fixture represents every production codebase.
-Incremental object
-reuse, LDC, and broader real-project suites remain explicit SH-27 expansion
-items until measured. A 1.25x compiler-time parity gate includes the runtime
+Incremental object reuse and broader real-project suites remain explicit
+SH-27 expansion items until measured. A 1.25x compiler-time parity gate includes the runtime
 fixture; executable-time results are reported separately, without promoting a
 single small fixture to a broad runtime-performance claim.
 

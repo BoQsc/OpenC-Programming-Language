@@ -487,6 +487,15 @@ IR reach closure. Exact evidence and reproduction commands are in
       implement bounded native source concurrency, then prove same-host gains
       on both large and control-flow workloads. Real-project and incremental
       reuse evidence remain open. Linux/freestanding remain optional.
+      The SH-27 sampler now measures and limits the whole Windows Job process
+      tree as well as the parent process, so external linker children can no
+      longer be omitted from private-memory evidence. Local OpenC/DMD and
+      clean five-compiler run 35803835781 pass the new guard; large DMD's
+      parent/Job peak is 92/157 MiB. A same-host eleven-pair DMD run
+      35804273006 finds no median timing difference between old and new
+      samplers (0.153 seconds each). This safety/evidence change is not a
+      compiler speedup, and its cross-run timing shift is not treated as one.
+      Full SH-27 throughput parity still requires substantive compiler work.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

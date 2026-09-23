@@ -621,3 +621,27 @@ everywhere, but large OpenC/MSVC and OpenC/DMD ratios are still 1.830x and
 evidence of a compiler speedup; the next accepted optimization still requires
 a same-host paired gain on both target workloads with exact outputs, intact
 diagnostics, fixed-point closure, and bounded RAM.
+
+The Windows evidence sampler now uses a Job object per compiler/executable
+invocation, records `peak_job_private_bytes`, applies both per-process and
+aggregate 512 MiB commit limits, and terminates the process tree on timeout
+or observed overage. This closes the parent-only PSAPI blind spot for linker
+children and is prerequisite evidence for any future native parallel worker
+tranche. A local parent/child test demonstrates aggregate threshold detection;
+the complete local OpenC/DMD corpus passes integrity and fixed-point gates.
+Clean five-compiler workflow run 35803835781 passes the same gates and retains
+artifact `10727335466` at
+`sha256:a48371754b57cd779d22cc06714622d24ffcf6dc3faf6c1e0594689dde9bf25a`.
+The large OpenC parent/Job private peak is 126/127 MiB; DMD is 92/157 MiB.
+Windows does not retroactively constrain commit made before Job assignment, so
+observed threshold crossings still fail even when the Job peak exceeds its
+nominal cap. The guard is not presented as a compiler optimization.
+
+Clean-run absolute times for external compilers shifted markedly, so manual
+same-host sampler A/B run 35804273006 alternated eleven DMD compiles with
+the pre-Job and Job-scoped samplers. Both medians are 0.153 seconds and the
+median paired difference is zero. The cross-run shift is therefore not used
+as evidence for or against compiler throughput. Broad MSVC/DMD parity remains
+open; the next actual compiler change still needs to eliminate major
+first-time semantic work or implement bounded, deterministic native
+per-source concurrency.

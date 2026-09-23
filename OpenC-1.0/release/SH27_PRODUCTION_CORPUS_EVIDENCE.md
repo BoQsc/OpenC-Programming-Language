@@ -11,8 +11,10 @@ one-source-edit lane, four independent projects concurrently, output
 size/SHA-256 capture, executable startup, and complete OpenC compiler
 self-builds.
 
-Every compiler process is sampled through PSAPI and killed if it crosses the
-checked-in 512 MiB private or working-set ceiling. Compiler output is spooled
+The current harness puts each compiler and executable invocation in a Windows
+Job with 512 MiB per-process and aggregate private-commit limits, samples
+the whole-Job peak, and keeps the parent-process PSAPI working-set guard.
+It terminates the tree on a detected overage or timeout. Compiler output is spooled
 to bounded temporary files instead of being retained in RAM. The harness
 records raw samples, medians, p95, tool hashes and versions, source hashes and
 bytes, exact commands, deterministic rotated run order, and the unflushed OS
@@ -767,6 +769,40 @@ workload and 2.611x on control flow, and large MSVC remains 1.830x faster.
 The OpenC complete self-build median is 4.582 seconds on this host. These
 same-run ratios are valid; differences in absolute times from older runner
 runs are not attributed to a compiler change.
+
+## Process-tree RAM guard
+
+The sampler now assigns each invocation to a Windows Job, limits both
+per-process and aggregate private commit, queries `PeakJobMemoryUsed`, and
+terminates the Job rather than only its parent on timeout or a sampled
+threshold crossing. The report keeps the prior parent-process private and
+working-set peaks and adds `peak_job_private_bytes` to each sample and
+summary. A local parent-plus-child test confirms aggregate overage detection;
+another confirms that a child is included in the Job peak. Memory committed
+between process creation and Job assignment is not retroactively constrained,
+so a sampled peak can exceed the nominal threshold; such an overage fails the
+gate rather than being reported as compliant.
+
+Automatic clean Windows run
+[`35803835781`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35803835781)
+at `7f09858` passes all five compiler versions, byte-exact bootstrap closure,
+compilation/execution, output, and Job-level memory checks. Its retained
+22,186,617-byte artifact `10727335466` hashes to
+`sha256:a48371754b57cd779d22cc06714622d24ffcf6dc3faf6c1e0594689dde9bf25a`.
+For the large workload, parent/whole-Job peak private MiB are OpenC 126/127,
+MSVC 27/89, Clang 9/54, DMD 92/157, and LDC 75/131. The gap between the
+two counters confirms that parent-only sampling understated linker-child RAM.
+This is a measurement and safety change, not a compiler speedup.
+
+Because this clean run's absolute comparator times differ markedly from the
+previous host, a separate same-host eleven-pair DMD A/B check compares the
+prior sampler against the Job sampler. Manual run
+[`35804273006`](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35804273006)
+passes with both medians at 0.153 seconds and zero median paired difference.
+Its first old-sampler cold observation is 2.929 seconds, but the later
+interleaved pairs are stable. The clean cross-run timing shift is not
+attributed to the new guard. SH-27 still requires an actual compiler-owned
+speed improvement and same-host evidence on both target workloads.
 
 ## Workflow contract
 
