@@ -299,10 +299,10 @@ unsafe bool ir_observe_emit_source(
     memory.free(call_cache);
     memory.free(name_cache);
     memory.free(local_values);
-    memory.free(operand_data);
-    memory.free(instruction_detail);
-    memory.free(instruction_data);
-    memory.free(block_data);
+    memory.free(context.operand_data);
+    memory.free(context.instruction_detail);
+    memory.free(context.instruction_data);
+    memory.free(context.block_data);
     memory.free(syntax_data);
     memory.free(diagnostic_data);
     memory.free(token_data);

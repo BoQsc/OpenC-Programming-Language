@@ -75,13 +75,13 @@ unsafe bool c_emit_source_record(
         process.monotonic_milliseconds() - phase_started;
     timings.syntax_nodes = timings.syntax_nodes + syntax.length;
     PackedBuffer blocks = PackedBuffer{
-        length = 0, capacity = source_length + 32
+        length = 0, capacity = syntax.length / 2 + 32
     };
     PackedBuffer instructions = PackedBuffer{
-        length = 0, capacity = source_length * 3 + 64
+        length = 0, capacity = syntax.length + 64
     };
     PackedBuffer operands = PackedBuffer{
-        length = 0, capacity = source_length * 4 + 64
+        length = 0, capacity = syntax.length * 2 + 64
     };
     ptr byte block_data = memory.alloc(
         blocks.capacity * record_stride()
