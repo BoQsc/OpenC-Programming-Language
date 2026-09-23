@@ -125,7 +125,13 @@ ownership analysis for scalar functions. It passed local fixed point,
 and eleven-pair same-host comparisons. Paired medians were -9 ms large,
 -26 ms control, and -47 ms complete self-build; see
 `SH27_FLOW_FRONT_END_EVIDENCE.md`. This is a material partial reduction on
-control flow, not clean-CI proof or large-function parity closure.
+control flow, not large-function parity closure.
+
+Its first clean [run 35926214112](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35926214112)
+subsequently passed all correctness/RAM steps and 20/20 normal-default
+ratios; same-run large/control OpenC/DMD medians were 0.490/0.570 s and
+0.369/0.516 s. This is one clean pass of that source, not repeatable parity
+or a cross-run measurement of the flow cut's speedup.
 
 The follow-on scalar-source flow cut at `738bea3` conservatively skips the
 entire flow validator when an error-free retained parse proves every local

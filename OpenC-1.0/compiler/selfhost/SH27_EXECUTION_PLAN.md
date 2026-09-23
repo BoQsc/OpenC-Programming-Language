@@ -234,7 +234,9 @@ be judged by the whole-compiler gates above.
 
 The separate source-evidence ownership flow gate in
 `SH27_FLOW_FRONT_END_EVIDENCE.md` has a locally guarded -26 ms control-flow
-paired median and no self-build regression. It is not yet clean-CI proved;
+paired median and no self-build regression. One clean workflow passed all
+20 pinned ratios and the strict memory gate, but there is no independent
+same-source repeat;
 its -9 ms large-function paired median leaves most of that lane's gap open.
 It cannot replace Steps 2-4 or the two final same-source parity runs.
 

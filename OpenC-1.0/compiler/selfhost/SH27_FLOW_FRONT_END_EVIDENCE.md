@@ -1,6 +1,6 @@
 # SH-27 source-evidence ownership flow gate
 
-Status: **locally proved, not clean-CI proved or SH-27 complete**. Candidate
+Status: **one clean-CI proof, not repeatably parity-proved or SH-27 complete**. Candidate
 source commit `884c1ef` is isolated on `codex/sh27-flow-front-end-cut` and
 compared with the unchanged parallel-declaration compiler at `4205c1c`.
 The purpose is to remove an entire inapplicable ownership analysis from
@@ -61,6 +61,14 @@ the speed evidence. This cut removes a useful part of the control-flow
 gap, not the 241 ms large-function budget. SH-27 still requires the fused
 semantic/lowering or another measured larger architecture, representative
 projects, incremental reuse, and two final clean normal-default parity
-runs. Run clean CI before promoting this candidate into any production
-branch; retain raw local reports under ignored
+runs. Retain raw local reports under ignored
 `build-output/selfhost-sh27/sh27-flow-front-end-cut-20260924/`.
+
+The candidate's first clean Windows
+[run 35926214112](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35926214112)
+passed fixed point, conformance, strict 20-generation RAM, exact worker
+output/diagnostics, historical guards, and all 20 normal-default pinned
+comparator ratios. Its same-run OpenC/DMD medians were **0.490/0.570 s**
+on large functions (0.8596x) and **0.369/0.516 s** on control flow
+(0.7151x). This is one clean run on this source, not an A/B speed estimate
+or the two independent final-source passes required for SH-27 closure.
