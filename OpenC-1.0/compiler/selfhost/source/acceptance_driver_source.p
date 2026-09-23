@@ -15,6 +15,16 @@ struct AcceptanceExpressionFeatures {
 unsafe AcceptanceExpressionFeatures acceptance_expression_features(
     ref IrContext context
 ) {
+    if context.expression_nodes != null {
+        usize mask = context.expression_feature_mask;
+        return AcceptanceExpressionFeatures{
+            has_assignments = (mask & 1) != 0,
+            has_binary = (mask & 2) != 0,
+            has_index_ranges = (mask & 4) != 0,
+            has_casts = (mask & 8) != 0,
+            has_aggregates = (mask & 16) != 0
+        };
+    }
     AcceptanceExpressionFeatures features = AcceptanceExpressionFeatures{
         has_assignments = false,
         has_binary = false,

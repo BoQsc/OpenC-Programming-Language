@@ -172,6 +172,7 @@ unsafe void ir_initialize_node_indexes(ref IrContext context) {
     context.block_count = 0;
     context.control_count = 0;
     context.expression_count = 0;
+    context.expression_feature_mask = 0;
     context.call_count = 0;
     context.name_count = 0;
     context.type_ref_count = 0;
@@ -253,6 +254,25 @@ unsafe void ir_initialize_node_indexes(ref IrContext context) {
             context.control_count = context.control_count + 1;
         }
         if flow_expression_kind(kind) || kind == 52 {
+            // This walk already classifies every expression. Retain the
+            // presence bits for acceptance instead of scanning the list a
+            // second time only to discover which validators to run.
+            if kind == 37 {
+                context.expression_feature_mask =
+                    context.expression_feature_mask | 1;
+            } else if kind == 36 {
+                context.expression_feature_mask =
+                    context.expression_feature_mask | 2;
+            } else if kind == 40 || kind == 41 {
+                context.expression_feature_mask =
+                    context.expression_feature_mask | 4;
+            } else if kind == 42 || kind == 43 || kind == 46 {
+                context.expression_feature_mask =
+                    context.expression_feature_mask | 8;
+            } else if kind == 48 {
+                context.expression_feature_mask =
+                    context.expression_feature_mask | 16;
+            }
             write_usize(
                 context.expression_nodes,
                 context.expression_count * size_of(usize), node

@@ -59,6 +59,7 @@ struct IrContext {
     usize control_count;
     ptr byte expression_nodes;
     usize expression_count;
+    usize expression_feature_mask;
     ptr byte call_nodes;
     usize call_count;
     ptr byte expression_start_heads;

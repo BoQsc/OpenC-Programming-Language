@@ -191,6 +191,7 @@ unsafe bool ir_observe_emit_source(
         control_count = 0,
         expression_nodes = ir_pointer_alias(expression_nodes),
         expression_count = 0,
+        expression_feature_mask = 0,
         call_nodes = null,
         call_count = 0,
         expression_start_heads = null,

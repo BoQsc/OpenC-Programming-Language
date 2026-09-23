@@ -530,6 +530,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 control_count = 0,
                 expression_nodes = null,
                 expression_count = 0,
+                expression_feature_mask = 0,
                 call_nodes = null,
                 call_count = 0,
                 expression_start_heads = null,

@@ -397,6 +397,7 @@ unsafe usize acceptance_validate_project(
                 control_count = 0,
                 expression_nodes = ir_pointer_alias(expression_nodes),
                 expression_count = 0,
+                expression_feature_mask = 0,
                 call_nodes = ir_pointer_alias(call_nodes),
                 call_count = 0,
                 expression_start_heads = ir_pointer_alias(
