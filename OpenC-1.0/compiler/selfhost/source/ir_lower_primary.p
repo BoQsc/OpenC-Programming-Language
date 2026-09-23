@@ -14,13 +14,14 @@ unsafe usize ir_lower_primary(
     usize type_id
 ) {
     if kind == 29 {
-        ResolutionInteger literal = resolution_parse_integer(
-            context.source, start, length
+        i64 literal_value = 0;
+        bool literal_valid = ir_literal_integer(
+            context, node, literal_value
         );
-        if literal.valid {
+        if literal_valid {
             return ir_emit_value(
                 context, ir_op_const_integer(), type_id, node,
-                4, cast(usize, literal.value), 0,
+                4, cast(usize, literal_value), 0,
                 context.operands.length, 0
             );
         }

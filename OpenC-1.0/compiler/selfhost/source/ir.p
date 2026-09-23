@@ -162,6 +162,45 @@ unsafe void ir_typed_expression_write(
     );
 }
 
+// A literal's decoded value is independent of its expected type. Keep that
+// fact in the native typed-expression record so acceptance and lowering use
+// one parse. Field 1 is the literal state (0 absent, 1 invalid, 2 valid);
+// field 2 holds all 64 value bits. No failed symbol or contextual type is
+// memoized here. The acceptance-only path simply parses without a record.
+unsafe bool ir_literal_integer(
+    ref IrContext context,
+    usize node,
+    ref i64 value
+) {
+    if node >= context.syntax.length ||
+        read_record_field(context.syntax_data, node, 0) != 29 {
+        value = 0;
+        return false;
+    }
+    if context.typed_expression_cache != null {
+        usize state = ir_typed_expression_read(context, node, 1);
+        if state != 0 {
+            value = cast(i64, ir_typed_expression_read(context, node, 2));
+            return state == 2;
+        }
+    }
+    ResolutionInteger parsed = resolution_parse_integer(
+        context.source,
+        read_record_field(context.syntax_data, node, 1),
+        read_record_field(context.syntax_data, node, 2)
+    );
+    value = parsed.value;
+    if context.typed_expression_cache != null {
+        usize state = 1;
+        if parsed.valid { state = 2; }
+        ir_typed_expression_write(context, node, 1, state);
+        ir_typed_expression_write(
+            context, node, 2, cast(usize, parsed.value)
+        );
+    }
+    return parsed.valid;
+}
+
 usize ir_index_capacity(usize requested) {
     usize capacity = 16;
     while capacity < requested { capacity = capacity * 2; }

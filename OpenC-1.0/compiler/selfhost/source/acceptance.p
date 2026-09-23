@@ -211,11 +211,9 @@ unsafe ResolutionInteger acceptance_integer_value(
     }
     usize kind = read_record_field(context.syntax_data, node, 0);
     if kind == 29 {
-        return resolution_parse_integer(
-            context.source,
-            read_record_field(context.syntax_data, node, 1),
-            read_record_field(context.syntax_data, node, 2)
-        );
+        i64 value = 0;
+        bool valid = ir_literal_integer(context, node, value);
+        return ResolutionInteger{ value = value, valid = valid };
     }
     if kind == 35 && flow_node_operator(
         context.source, context.syntax_data, node, "-"

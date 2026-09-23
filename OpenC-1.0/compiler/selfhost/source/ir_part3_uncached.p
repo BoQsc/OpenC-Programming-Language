@@ -23,12 +23,11 @@ unsafe usize ir_node_type_uncached(
                 return expected;
             }
         }
-        ResolutionInteger literal = resolution_parse_integer(
-            context.source,
-            read_record_field(context.syntax_data, node, 1),
-            read_record_field(context.syntax_data, node, 2)
+        i64 literal_value = 0;
+        bool literal_valid = ir_literal_integer(
+            context, node, literal_value
         );
-        if literal.valid && literal.value > cast(i64, 2147483647) {
+        if literal_valid && literal_value > cast(i64, 2147483647) {
             return semantic_builtin_type("i64", 0, 3);
         }
         return semantic_builtin_type("i32", 0, 3);
