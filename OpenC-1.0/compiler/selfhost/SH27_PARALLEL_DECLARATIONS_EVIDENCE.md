@@ -1,7 +1,8 @@
 # SH-27 parallel source parsing before ordered declarations
 
-Status: **one clean Windows native/parity proof; independent repeat and
-representative-project/incremental gates open**. Branch:
+Status: **two clean Windows correctness/RAM proofs; independent parity
+repeat failed 2/20 DMD ratios; representative-project/incremental gates
+open**. Branch:
 `codex/sh27-parallel-declarations`.
 
 ## Architectural cut
@@ -33,7 +34,10 @@ still require a positive critical-worker clock. The third clean
 passed that verifier, the strict self-build memory chain, conformance,
 substrate, serial/parallel exactness, current and historical speed guards,
 and all normal-default pinned comparator ratios. This is the first clean
-proof for this compiler source, not a two-run release gate.
+proof for this compiler source, not a two-run release gate. A fourth clean
+[run 35916904066](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35916904066)
+used the same compiler `.p` source on an isolated branch and passed all
+pre-parity checks, but failed the normal-default DMD ratios below.
 
 The first policy only enables concurrent parsing for native four-chunk builds
 with 4-16 files and at most 1 MiB of source. This is a bounded RAM policy,
@@ -99,9 +103,15 @@ independent streaming-baseline run had OpenC/DMD **0.484/0.250 s** on large
 functions, so the new clean result cannot be read as a 108 ms OpenC speedup
 against DMD: both host/compiler medians shifted substantially across runs.
 The guarded same-host OpenC A/B above establishes the local declaration gain;
-the clean ratio establishes one same-run parity pass. A second independent
-clean run of this exact compiler source and the representative-project and
-incremental gates remain mandatory.
+the clean ratio establishes one same-run parity pass. The independent
+same-source repeat measured large functions OpenC/DMD **0.677/0.349 s**
+(**1.9398x**, FAIL) and control flow **0.392/0.234 s** (**1.6752x**, FAIL).
+The other 18 ratios passed. The same-run 1.25x ceilings require about
+**241 ms** and **100 ms** from OpenC on those lanes; the internal 1.20x
+margin requires about **258/111 ms**. OpenC medians stayed nearly stable
+between the two clean runs while DMD medians swung sharply. The current
+architecture is therefore not robustly C/D-class even though one run was
+green; representative-project and incremental gates also remain open.
 
 The final candidate's diagnostic-only profile refreshes the next critical
 path (one local sample, not a timed A/B claim). On large functions, serial
@@ -116,10 +126,10 @@ next architecture after the declaration cut's clean CI decision.
 
 ## Next decision
 
-Repeat the full clean Windows workflow on this exact compiler source and keep
-raw timing and memory artifacts. The first clean proof passed, but the
-cross-run DMD swing means one favorable median is not robust parity evidence.
 Continue the fused typed-expression/assignment cutover from
-`SH27_TYPED_EXPRESSION_CUTOVER.md` unless the repeated clean critical path
-contradicts that target. No parser micro-tuning or policy retargeting
-substitutes for the architectural and production-model gates.
+`SH27_TYPED_EXPRESSION_CUTOVER.md`, then re-profile and select the next
+front-end or native-backend architecture. The latest 241/100 ms deficit is
+larger than the 78 ms assignment-rule critical-worker observation alone,
+so this cannot be represented as one helper-cache fix. No parser micro-
+tuning or policy retargeting substitutes for the architectural and
+production-model gates. Keep raw local and clean-run timing/memory evidence.

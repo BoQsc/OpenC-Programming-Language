@@ -1,8 +1,9 @@
 # SH-27 typed-expression cutover contract
 
-Status: **design in progress; no compiler speedup claimed**. This is the
-implementation contract for Gate C of `SH27_COMPLETION_ROADMAP.md`, not a
-substitute for its normal-default DMD parity gate.
+Status: **isolated storage prototype; semantic/rule fusion not implemented
+and no production speedup claimed**. This is the implementation contract
+for Gate C of `SH27_COMPLETION_ROADMAP.md`, not a substitute for its
+normal-default DMD parity gate.
 
 ## Why a cache tweak is insufficient
 
@@ -46,13 +47,13 @@ One source-local, bounded typed-expression store lives from source indexing
 through acceptance and native lowering. It replaces, rather than supplements,
 the five broad per-syntax-node arrays now used for name selection, call
 selection, type, left operand, and right operand. A four-word tagged record
-per expression node is the initial RAM ceiling: type/result state, payload
-A, payload B, and flags. Payloads are kind-specific (symbol for a name or
-call, child IDs for unary/binary/assignment, parsed integer bits for a
-literal). A record is indexed through a compact expression-node map; avoid
-allocating a full four-word record for every declaration or statement. If
-the map or tags force more live bytes than the arrays they replace, redesign
-the layout before promoting it. Keep current cache arrays behind the
+per expression node is the initial RAM ceiling: type/result state and three
+kind-specific payload words (symbol for a name or call, child IDs for
+unary/binary/assignment, parsed integer bits or flags for a literal). Test
+both a dense syntax-indexed record and a compact expression-node map;
+choose the layout from same-host time and peak memory, not the smaller
+array alone. If map or tags force more live bytes than the arrays they
+replace, redesign the layout before promoting it. Keep current cache arrays behind the
 test-only comparison path until cutover is proved, but never allocate both
 in normal production mode.
 
@@ -107,19 +108,44 @@ and the new store merely to simplify migration.
 After the isolated parallel-declaration cut, one local diagnostic profile
 shows 62 ms serial declarations but 140 ms acceptance on the large workload's
 critical worker, including 78 ms in assignment rules. The 11-pair local
-compiler comparison saved 108 ms on that workload. Comparing this gain with
-the previous clean runner's 172 ms deficit is only a planning estimate, but
-it makes a roughly 64 ms *additional* wall-time reduction a useful design
-budget, not a proven new DMD gap. Gate C must target the whole first-visit
-assignment/type path, with the clean comparator rerun setting the actual
-remaining budget.
+compiler comparison saved 108 ms on that workload. These remain useful
+phase observations, but they cannot be subtracted from independent CI
+medians to establish a new DMD gap.
 
-The first clean parallel-declaration run subsequently passed 20/20 ratios;
-large functions measured OpenC/DMD 0.666/0.608 s (1.0954x). That run does
-not erase the prior 0.484/0.250 s failure: the DMD median changed by more
-than the local OpenC declaration gain. The typed cut remains the next
-architectural experiment until an independent same-source clean repeat and
-the post-parallel first-visit profile show a robustly smaller target.
+The first clean parallel-declaration run passed 20/20 ratios; large
+functions measured OpenC/DMD 0.666/0.608 s (1.0954x). Its independent
+same-source clean repeat failed two DMD ratios: large functions
+0.677/0.349 s (1.9398x) and control flow 0.392/0.234 s (1.6752x).
+That runner requires about **241/100 ms** of OpenC wall-time reduction for
+the public 1.25x limit and **258/111 ms** for the internal 1.20x margin.
+The 78 ms local assignment-rule critical-worker time alone cannot close
+this gap. Gate C must remove broader first-visit acceptance and lowering
+work, then a fresh profile must select further front-end or native-backend
+architecture. Do not sell a packed cache as the entire semantic cut.
+
+The first isolated dense four-word prototype on
+`codex/sh27-typed-expression-cutover` replaces the five native cache arrays
+without changing semantic traversal. It passed Stage 2/3 fixed point,
+278/278 conformance, exact serial/adaptive executables and invalid-input
+diagnostics, and a strict 20/20 self-build chain (251.9 MB peak child
+private, 54.5 MB working set). Same-host eleven-pair medians against the
+unchanged compiler were **-28 ms** large functions (7/11 wins), **-39 ms**
+control flow (7/11 wins), and **+136 ms** complete self-build (4/11 wins).
+All generated compiler binaries were byte-identical. This is an enabling
+storage experiment with a self-build regression, **not** a promoted Gate C
+speedup or evidence that the 241/100 ms deficits are closed. The full cut
+must fuse dependency-aware type/rule evaluation and lowering reuse before
+another promotion decision.
+
+An attempted literal-value extension of that record was rejected before
+commit. The seed-built Stage 2 compiler built, but using it for Stage 3
+failed with a checked failure; `openc check` on the compiler project reported
+655 semantic violations (predominantly binary comparison/conversion rules),
+versus PASS with the packed-record compiler before this extension. A
+null-cache direct-parser fallback did not repair it. The literal changes
+were removed; the passing packed-record source remains intact. The next
+semantic cut must prove a contextual literal representation and its ABI/
+return behavior on small fixtures *before* broad self-build migration.
 
 The existing artifact path keeps one `IrContext` across
 `acceptance_validate_context` and `c_lower_and_emit_function`; this is the
@@ -137,11 +163,12 @@ records between workers would violate deterministic output and RAM bounds.
    symbol selection, literal parse, operand discovery, contextual type
    inference, assignment rules, and binary rules. Count calls and temporary
    allocation bytes in a diagnostic build. Keep instrumentation out of timed
-   A/B samples. This decides whether the typed cut can plausibly remove the
-   earlier 60-79 ms observed serial-policy parity deficit and provide margin
-   on the current default; if it cannot, move the critical path to
-   declaration/index parallelism instead of finishing an expensive cache
-   refactor for its own sake.
+   A/B samples. This decides which part of the current **241/100 ms**
+   same-run large/control deficits the typed cut can remove. Parallel
+   declarations are already implemented; if semantic first visits cannot
+   plausibly close a material share, begin the measured native-backend or
+   remaining front-end redesign in parallel with this cut rather than
+   finishing a storage refactor for its own sake.
 2. **Define dependency edges and storage.** For binary, assignment, unary,
    member/index, and call forms, specify how child IDs are obtained and when
    they become stable. Calls require argument indexing and cannot use syntax

@@ -15,7 +15,7 @@ import tempfile
 
 from benchmark_sh27_production import (
     ROOT, MIB, generate_language, require_disk_headroom, run_measured, run_sample, sha256,
-    summarize, validate_corpus,
+    source_tree_record, summarize, validate_corpus,
 )
 
 
@@ -106,7 +106,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--workload", default=os.environ.get("SH27_WORKLOAD", "large_functions"),
-        choices=("large_functions", "control_flow"),
+        choices=("large_functions", "control_flow", "selfhost"),
     )
     parser.add_argument(
         "--allow-binary-difference", action="store_true",
@@ -131,10 +131,13 @@ def main() -> int:
     corpus_path = ROOT / "benchmarks/sh27/CORPUS.json"
     corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
     validate_corpus(corpus)
-    workload = next(
-        item for item in corpus["workloads"]
-        if item["id"] == args.workload
-    )
+    if args.workload == "selfhost":
+        workload = {"id": "selfhost", "shape": "complete_compiler"}
+    else:
+        workload = next(
+            item for item in corpus["workloads"]
+            if item["id"] == args.workload
+        )
     output = args.output.resolve()
     run_root = output.parent / (
         output.stem + "-runs-" +
@@ -161,9 +164,19 @@ def main() -> int:
             candidate_compiler, candidate_bootstrap = bootstrap(
                 "candidate", ROOT, seed, run_root
             )
-            source = generate_language(
-                run_root / "corpus" / "openc", "openc", workload
-            )
+            if args.workload == "selfhost":
+                source = {
+                    "project": ROOT / "compiler/selfhost/openc.project.json",
+                    "sources": [],
+                    "tree": source_tree_record(ROOT / "compiler/selfhost/source", ".p"),
+                    "project_sha256": sha256(
+                        ROOT / "compiler/selfhost/openc.project.json"
+                    ),
+                }
+            else:
+                source = generate_language(
+                    run_root / "corpus" / "openc", "openc", workload
+                )
             samples: dict[str, list[dict[str, object]]] = {
                 "baseline": [], "candidate": [],
             }

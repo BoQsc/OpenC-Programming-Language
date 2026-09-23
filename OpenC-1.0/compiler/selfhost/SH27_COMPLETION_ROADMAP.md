@@ -84,23 +84,30 @@ change. Keep all failed prototypes and their measurements disclosed.
 As of 2026-09-23: A is **in progress** (critical-worker, declaration,
 and first-visit expression-kind profiles plus a pinned DMD source comparison
 exist; nonoverlapping first-visit time and allocation attribution remain
-incomplete), B is **clean-CI proved**, C has an **implementation contract but
-no compiler cut or speed proof**, and D has **one clean-CI proved parallel
-declaration-parse cut**, but no independent repeat or backend cut. The
+incomplete), B is **clean-CI proved**, C has an **implementation contract and
+an isolated packed-record prototype but no fused compiler cut or speed
+proof**, and D has a **clean-CI proved parallel declaration-parse cut**, but
+its independent repeat failed throughput parity; no backend cut exists. The
 bounded-IR and streaming-cache changes are memory architecture, not Gate C/D
 throughput cuts. E has a **normal adaptive default and two clean strict-
 memory passes**, but still lacks true incremental object reuse and the representative
 suite. F has **one full clean normal-default 20/20 parity run** of the
 streaming compiler source; its independent repeat failed the enforced DMD
 ratios on large functions and control flow. The newer parallel-declaration
-source also has one clean 20/20 pass in
+source had one clean 20/20 pass in
 [run 35913434471](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35913434471),
 with large functions OpenC/DMD 0.666/0.608 s (1.0954x) and control flow
-0.395/0.515 s (0.7670x). The DMD large-function median was 0.250 s in the
-earlier failing run, so this cross-run ratio swing does not establish robust
-parity or quantify the architecture's speedup; the same-host 11-pair local
-gain is the direct compiler comparison. Neither the already published
-Windows 1.0 release nor a single green run changes SH-27 completion state.
+0.395/0.515 s (0.7670x). Its independent same-compiler-source
+[repeat 35916904066](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35916904066)
+passed the correctness, exact-output, strict-memory, and historical speed
+guards but failed **2/20** DMD ratios: large functions 0.677/0.349 s
+(1.9398x) and control flow 0.392/0.234 s (1.6752x). On that runner, the
+1.25x ceilings are 0.436/0.293 s, leaving about **241/100 ms** of OpenC
+wall time. OpenC medians were stable across these two runs while DMD medians
+changed sharply; the green run was not robust parity evidence. The local
+11-pair OpenC comparison remains the direct evidence for the declaration
+cut's speedup. Neither the already published Windows 1.0 release nor a
+single green run changes SH-27 completion state.
 
 The parser cut in gate B has passed local and clean Windows proof. Locally, the fast
 precedence-climbing version preserved parser output/diagnostics on 503
@@ -453,18 +460,25 @@ order:
    188 ms serial declarations and 312 ms worker-stage wall (medians), also
    with different host conditions. State the milliseconds each architecture
    can plausibly remove and the exact A/B acceptance threshold before
-   implementation. Parallel declaration parsing and semantic fusion must be
-   evaluated as *jointly necessary* for the observed 172 ms clean-run gap;
-   neither should be declared sufficient from a local phase counter.
-3. **Repeat the parallel-declaration architecture on clean Windows.** The
+   implementation. Parallel declaration parsing and semantic fusion are
+   *jointly necessary* but not automatically sufficient for the latest
+   241/100 ms clean-run large/control deficits. The latest local critical
+   worker spends about 140 ms in acceptance and 78 ms in assignment rules
+   under one host interval; even deleting that entire measured cost cannot
+   by itself guarantee a 241 ms end-to-end reduction. Plan a second
+   architecture on the refreshed front-end/backend critical path rather
+   than asserting that typed records alone finish the milestone.
+3. **Record the parallel-declaration repeat and reset the budget.** The
    isolated cut in `SH27_PARALLEL_DECLARATIONS_EVIDENCE.md` parses independent
    source files concurrently, then predeclares and merges in the old source
    order. Final local paired medians improved 108 ms on large functions and 16 ms
    on control flow, with exact outputs, conformance, and strict RAM proof.
    First clean pinned comparator, strict-memory, and self-build speed guards
-   passed in run 35913434471, including 20/20 normal-default ratios.
-   Require an independent same-source clean repeat before treating this as
-   stable parity. The local result is not a cross-run C/D parity claim.
+   passed in run 35913434471, including 20/20 normal-default ratios. The
+   independent same-source repeat passed the non-parity guards but failed
+   DMD large/control ratios at 1.9398x/1.6752x. Use its same-run
+   **241/100 ms** public-ceiling deficits as the current design budget; the
+   local declaration gain is not a cross-run C/D parity claim.
 4. **Implement Gate C as one architectural cutover.** Build dependency-ordered
    typed-expression records *during* acceptance, validate assignments from
    those records, and lower from the same records. Follow
