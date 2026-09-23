@@ -66,8 +66,8 @@ change. Keep all failed prototypes and their measurements disclosed.
 | F. Release gate (Steps 8-9) | Two independent clean Windows parity runs, all 20 pinned comparator checks, all correctness/RAM/release-integrity checks, raw artifacts, and an updated public status. | Close SH-27 only if every mandatory gate passes; otherwise publish the exact remaining deficit and continue at the new critical path. |
 
 As of this plan update: A is **in progress** (critical-worker, declaration,
-and opt-in first-visit expression-kind profiles plus a pinned DMD source
-comparison exist; first-visit time and allocation attribution
+and clean-CI-proved opt-in first-visit expression-kind profiles plus a pinned
+DMD source comparison exist; first-visit time and allocation attribution
 remain incomplete; two enforced five-sample runs identify the same failing
 lane), B is **clean-CI proved
 on its isolated branch**, C and D are **not started**, E has **partial opt-in

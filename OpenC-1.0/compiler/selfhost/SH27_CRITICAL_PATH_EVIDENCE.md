@@ -352,7 +352,10 @@ median deltas were +2 ms large functions (5/11 candidate wins), -3 ms
 control flow (6/11), and -105 ms self-build (7/11, noisy). These are not
 claimed speedups; none breaches the 5% guard. Raw local reports are in
 ignored `build-output/selfhost-sh27/sh27-firstvisit-profile-20260923/`.
-The instrumented cut is not yet promoted to the working proof branch.
+The isolated cut subsequently passed the full clean Windows
+[native proof run 35888341779](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35888341779)
+at `b66e41c` and is promoted to the SH-27 working proof branch. It adds
+diagnostic evidence, **not** a claimed production speedup or SH-27 parity.
 
 ## Correctness and interpretation limits
 
