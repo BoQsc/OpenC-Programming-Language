@@ -735,9 +735,12 @@ Eleven order-alternated `artifact` pairs on the final corrected compiler show
 large-functions 1.397 to 0.900 seconds, and compiler self-build 9.471 to
 5.761 seconds. This is meaningful local OpenC-on-OpenC speedup, not a clean-
 runner comparison with C or D. The ordinary `build` path remains serial and
-the release remains untouched. Before promotion, collect a passing run of the
-new commit/manual Windows worker workflow, broaden failure/diagnostic cases,
-test two-worker and adaptive RAM
+the release remains untouched. Clean Windows worker workflow run 35823166323
+passes every step at `e5a4daa` and retains JSON artifact `10733434100`.
+This independently confirms fixed-point, output, diagnostic, RAM, and
+majority-speed gates, but does not yet supply a C/D comparison for the opt-in
+lane. Before promotion, broaden failure/diagnostic cases, test two-worker and
+adaptive RAM
 policies, and compare with pinned C/D compilers on the same runner. Incremental
 object reuse and representative real-project coverage remain open; SH-27
 cannot yet claim C/D-class throughput or completion. Detailed proof and

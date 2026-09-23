@@ -64,14 +64,19 @@ python compiler/selfhost/benchmark_sh27_native_parallel.py --compiler PATH/TO/op
 experimental branch or by manual dispatch. It rebuilds the checked-out
 compiler to a guarded byte-exact fixed point, runs correctness and diagnostic
 proofs, and requires a majority of paired speed wins on all three workloads.
-Its first clean-runner result is pending; the local bootstrap smoke test
-produced the same compiler hash as the direct self-rebuild.
+Clean Windows run [35823166323](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35823166323)
+passes every step at commit `e5a4daa`: guarded byte-exact bootstrap,
+conformance, x64 substrate, ordered diagnostics, RAM, and majority paired
+speed gains on all three workloads. Its machine-readable JSON artifact is
+`OpenC-SH27-native-parallel-35823166323` (ID `10733434100`, 149,873 bytes).
+The local bootstrap smoke test produced the same compiler hash as the direct
+self-rebuild. The clean runner's exact timing samples are in its artifact;
+the table above remains explicitly local evidence.
 
 ## Promotion boundary and next work
 
 This is an opt-in, Windows-x64-only compiler experiment. Before production
-promotion, collect a passing clean Windows workflow run, expand the
-invalid-source and thread-failure matrix, measure RAM and
+promotion, expand the invalid-source and thread-failure matrix, measure RAM and
 speed for two as well as four workers, and decide an adaptive default that
 does not impose a 2.5x private-memory penalty on small programs. Compare that
 default against pinned MSVC, Clang, DMD, and LDC on the same clean runner.

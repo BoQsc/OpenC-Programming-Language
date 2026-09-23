@@ -531,8 +531,10 @@ IR reach closure. Exact evidence and reproduction commands are in
       and the compiler self-build show 11/11 parallel wins and median times
       of 0.931 to 0.548, 1.397 to 0.900, and 9.471 to 5.761 seconds,
       respectively. The largest parallel Job private peak is 306.1 MiB,
-      below the 512 MiB guard but a material RAM cost. `openc build` stays
-      serial. Clean-runner C/D comparisons, two-worker/adaptive scheduling,
+      below the 512 MiB guard but a material RAM cost. Clean Windows worker
+      workflow run 35823166323 passes all correctness, RAM, and majority-speed
+      gates at `e5a4daa`; `openc build` stays serial. Clean-runner C/D
+      comparisons, two-worker/adaptive scheduling,
       expanded failure cases, incremental object reuse, and broader real-
       project parity are still required before SH-27 can close. The detail
       and commands are in `compiler/selfhost/SH27_NATIVE_CHUNK_PROOF.md`.
