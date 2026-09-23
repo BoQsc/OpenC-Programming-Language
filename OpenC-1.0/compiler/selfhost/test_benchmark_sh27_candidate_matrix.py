@@ -8,11 +8,17 @@ from benchmark_sh27_candidate_matrix import candidate_spec, compare_pairs
 from analyze_sh27_candidate_matrix import numeric_phase
 
 
-def sample(seconds: float, digest: str, passed: bool = True) -> dict[str, object]:
+def sample(
+    seconds: float, digest: str, passed: bool = True,
+    program_stdout: str = "empty",
+) -> dict[str, object]:
     return {
         "elapsed_seconds": seconds,
         "output_sha256": digest,
         "passed": passed,
+        "program_exit_code": 0,
+        "program_stdout_sha256": program_stdout,
+        "program_stderr_sha256": "empty",
         "peak_private_bytes": 10,
         "peak_job_private_bytes": 20,
         "peak_working_set_bytes": 5,
@@ -74,6 +80,20 @@ class CandidateMatrixTests(unittest.TestCase):
         self.assertFalse(
             result["checks"]["all_compiles_executions_and_memory_guards_passed"]
         )
+
+    def test_codegen_difference_does_not_allow_runtime_output_difference(self) -> None:
+        pairs = [
+            {
+                "baseline": sample(1.0, "old"),
+                "candidate": sample(0.8, "new", program_stdout="surprise"),
+            }
+            for _ in range(3)
+        ]
+        result = compare_pairs(
+            pairs, allow_binary_difference=True, require_gain=False
+        )
+        self.assertEqual(result["status"], "FAIL")
+        self.assertFalse(result["checks"]["all_program_outputs_byte_exact"])
 
     def test_candidate_name_is_path_safe(self) -> None:
         name, path = candidate_spec("typed_ops=C:\\artifact\\openc.exe")

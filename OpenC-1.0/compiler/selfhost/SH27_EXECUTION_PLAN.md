@@ -79,7 +79,9 @@ adjacent baseline/candidate samples, runs a baseline-vs-baseline null control
 for host jitter, and writes raw guarded results for both failing workloads.
 With `--require-gain`, a result must exceed that null median absolute paired
 delta as well as win a majority of pairs. The matrix is a triage tool, not
-the final parity gate:
+the final parity gate. Codegen candidates may opt out of cross-revision PE
+byte identity, but the matrix still requires each revision to be deterministic
+and every executed program's exit/stdout/stderr to match exactly:
 each surviving candidate also needs complete self-build, strict child/Job
 RAM, conformance, and the pinned clean five-compiler run. Integrate survivors
 one at a time and remeasure the combination; nonadditive wins or regressions

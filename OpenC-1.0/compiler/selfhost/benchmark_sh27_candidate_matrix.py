@@ -59,6 +59,14 @@ def compare_pairs(
         baseline_deterministic and candidate_deterministic
         and baseline_hashes == candidate_hashes
     )
+    program_output_exact = all(
+        old.get("program_exit_code") == new.get("program_exit_code")
+        and old.get("program_stdout_sha256") is not None
+        and old.get("program_stdout_sha256") == new.get("program_stdout_sha256")
+        and old.get("program_stderr_sha256") is not None
+        and old.get("program_stderr_sha256") == new.get("program_stderr_sha256")
+        for old, new in zip(baseline, candidate)
+    )
     deltas = [
         round(
             float(new["elapsed_seconds"]) - float(old["elapsed_seconds"]),
@@ -71,7 +79,8 @@ def compare_pairs(
     speed_gain = median_delta < 0 and wins > len(pairs) // 2
     signal_above_noise = median_delta < -noise_floor_seconds
     correctness = (
-        all_passed and baseline_deterministic and candidate_deterministic
+        all_passed and program_output_exact
+        and baseline_deterministic and candidate_deterministic
         and (binary_exact or allow_binary_difference)
     )
     status = (
@@ -83,6 +92,7 @@ def compare_pairs(
         "status": status,
         "checks": {
             "all_compiles_executions_and_memory_guards_passed": all_passed,
+            "all_program_outputs_byte_exact": program_output_exact,
             "baseline_binary_deterministic": baseline_deterministic,
             "candidate_binary_deterministic": candidate_deterministic,
             "generated_binaries_byte_exact": binary_exact,
