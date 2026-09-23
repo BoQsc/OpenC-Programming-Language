@@ -6,8 +6,10 @@ substitute for its normal-default DMD parity gate.
 
 ## Why a cache tweak is insufficient
 
-The two clean normal-default five-compiler runs still fail only
-`large_functions` versus DMD (1.390x and 1.376x). The large-function
+The two earlier clean normal-default five-compiler runs failed only
+`large_functions` versus DMD (1.390x and 1.376x). A later adaptive-default
+policy achieved one clean 20/20 pass, but repeatability, memory, and real-
+project headroom remain unproved. The large-function
 assignment pass accounts for 90,368 of 92,678 uncached type evaluations in
 the diagnostic profile, but every one of those 92,678 evaluations visits a
 different node. A larger memo table cannot remove the first evaluation.
@@ -65,13 +67,15 @@ records between workers would violate deterministic output and RAM bounds.
 ## Implementation sequence (one architectural change, gated cuts)
 
 1. **Freeze the phase budget.** Capture a clean-runner critical-path report
-   for the currently promoted parser revision, with normal serial mode and
-   explicit chunk modes separate. Attribute first-visit wall time among
+   for the currently promoted adaptive-default revision, with normal default,
+   explicit serial, and explicit chunk modes separate. Attribute first-visit
+   wall time among
    symbol selection, literal parse, operand discovery, contextual type
    inference, assignment rules, and binary rules. Count calls and temporary
    allocation bytes in a diagnostic build. Keep instrumentation out of timed
    A/B samples. This decides whether the typed cut can plausibly remove the
-   60-79 ms observed parity deficit; if it cannot, move the critical path to
+   earlier 60-79 ms observed serial-policy parity deficit and provide margin
+   on the current default; if it cannot, move the critical path to
    declaration/index parallelism instead of finishing an expensive cache
    refactor for its own sake.
 2. **Define dependency edges and storage.** For binary, assignment, unary,
@@ -114,10 +118,11 @@ records between workers would violate deterministic output and RAM bounds.
 
 After promotion, refresh the nonoverlapping critical-path profile. If serial
 declarations are now largest, execute roadmap Step 3; if native emission is
-largest, execute Step 2. Then make the proved adaptive policy the default,
-deliver real incremental object reuse, add representative projects, and run
-two independent normal-default twenty-ratio clean Windows parity proofs.
-Those later gates remain mandatory even if this cut clears the DMD ratio.
+largest, execute Step 2. Keep the adaptive policy default, close its memory
+gate, deliver real incremental object reuse, add representative projects,
+and run two independent normal-default twenty-ratio clean Windows parity
+proofs. Those later gates remain mandatory even if this cut clears the DMD
+ratio.
 
 ## Invariants to test explicitly
 

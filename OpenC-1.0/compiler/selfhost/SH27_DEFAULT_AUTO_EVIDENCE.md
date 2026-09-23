@@ -1,6 +1,7 @@
-# SH-27 adaptive-default candidate: local proof
+# SH-27 adaptive-default candidate: local and first clean proof
 
-Status: **experimental branch `codex/sh27-default-auto`; not SH-27 closure**.
+Status: **first clean production-policy proof on branch
+`codex/sh27-default-auto`; not SH-27 closure**.
 This records a production-policy change, not the typed-expression redesign or
 a claim of five-compiler parity. The previous default was serial; this
 candidate uses the already bounded adaptive two/four-source worker policy
@@ -48,11 +49,11 @@ be mixed to infer a clean-runner ratio. The full report is
 `sh27-default-auto-candidate-20260923/production-local-dmd.json`.
 
 This policy is therefore a material wall-time improvement, but SH-27 stays
-active. Clean Windows default-mode parity with all twenty checks, two
-independent runs, representative projects, genuine incremental reuse, and
-the first-visit semantic redesign remain open. If the clean proof shows a
-material small-project or memory cliff, revise the adaptive thresholds or
-revert the default policy; do not waive the gate.
+active. Two independent clean Windows default-mode parity runs,
+representative projects, genuine incremental reuse, the first-visit semantic
+redesign, and complete memory proof remain open. If the clean proof shows a
+material small-project or memory cliff, revise the implementation or policy;
+do not waive the gate.
 
 The first candidate clean [run 35894838235](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35894838235)
 stopped at the diagnostic-only type-profile proof before comparator timing.
@@ -62,3 +63,14 @@ invocation failed locally in the same way; after restricting that flag to
 explicit `artifact`, the local profile proof passed and a command-construction
 unit test was added. This run is a harness failure, not a passed clean proof
 or evidence of a compiler regression.
+
+The repaired candidate at `447353c` then passed clean Windows
+[run 35895744348](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35895744348),
+including the normal-default parity-enforcing five-compiler step. This is
+**one** successful clean run, not the required two independent runs. A
+separate legacy 20-run self-build benchmark exposes a memory-policy conflict:
+the four-worker default can reach about 283 MiB private bytes against that
+harness's 256 MiB child cap. The 512 MiB Job-level proof in the workflow did
+not fail, but SH-27 cannot quietly disregard the narrower standing guard.
+The bounded-IR experiment and its still-open 64 MiB working-set issue are
+tracked in `SH27_COMPLETION_ROADMAP.md`.
