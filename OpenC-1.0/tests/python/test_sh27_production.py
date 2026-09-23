@@ -384,6 +384,21 @@ class Sh27ProductionTests(unittest.TestCase):
         ):
             timing["native_parallel_profile"]["critical_chunk"][key] = 0
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing.update({
+            "source_files": 24, "source_bytes": 79873,
+            "parallel_source_chunks": 4,
+            "parallel_flow_workers": 0, "flow_threads_launched": False,
+            "source_chunks_policy": "explicit_or_default",
+        })
+        timing["validation_profile"]["flow_group_time_basis"] = "wall_elapsed"
+        timing["native_parallel_profile"] = json.loads(json.dumps(serial_profile))
+        timing["native_parallel_profile"]["launch_completed"] = True
+        self.assertTrue(proof.timing_accounting_valid(timing, True, 4))
+        timing["source_bytes"] = 196608
+        timing["parallel_flow_workers"] = 2
+        timing["flow_threads_launched"] = True
+        timing["validation_profile"]["flow_group_time_basis"] = "summed_worker_elapsed"
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 4))
 
     def test_worker_tradeoff_requires_same_compiler_and_bounded_memory(self) -> None:
         script = ROOT / "compiler/selfhost/verify_sh27_worker_tradeoff.py"

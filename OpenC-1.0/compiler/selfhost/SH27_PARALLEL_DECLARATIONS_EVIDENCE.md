@@ -19,6 +19,16 @@ parse/compact **summed worker time**. Its verifier now checks the latter
 against at most four times wall time only under this bounded four-worker
 policy; serial paths retain the one-times bound. The profiled native proof
 passed exact output and diagnostic checks after that accounting correction.
+The first clean candidate run stopped at this old serial-only accounting
+assertion. The second stopped at the unrelated explicit-four `many_files`
+timing assertion: the compiler exited successfully with byte-exact output
+and bounded RAM, but its worker wall/critical counters sometimes all round
+to zero on the 79,873-byte input. A local 80-build explicit-four probe
+reproduced exactly one such zero-tick record. The verifier now permits this
+specific all-zero timing profile only below 192 KiB while retaining the
+launch-state, selected-mode, exact-byte, exit, and RAM gates; larger inputs
+still require a positive critical-worker clock. A third clean proof is
+required before interpreting pinned comparator results for this candidate.
 
 The first policy only enables concurrent parsing for native four-chunk builds
 with 4-16 files and at most 1 MiB of source. This is a bounded RAM policy,

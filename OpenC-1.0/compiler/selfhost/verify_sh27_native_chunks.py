@@ -169,13 +169,30 @@ def timing_accounting_valid(
             ))
         )
     if expected_chunks:
+        # GetTickCount64-like millisecond clocks can report zero for every
+        # worker on the very small explicit-chunk workload. An actual local
+        # 80-run probe observed this once on a correct 24-file, 80 KiB build.
+        # Require the launch record, a genuinely tiny input, zero nested
+        # counters, and the ordinary byte/exit/RAM proof outside this helper.
+        zero_tick_chunk = bool(
+            timing.get("source_bytes", 0) < 196608
+            and worker_ms == 0 and chunk_ms == 0
+            and first == 0 and end == 0
+            and all(value == 0 for value in parts)
+            and all(value == 0 for value in query_counts)
+            and all(value == 0 for value in assignment_counts)
+        )
         profile_valid = bool(
             isinstance(profile.get("launch_completed"), bool)
-            and 0 <= first < end <= timing.get("source_files", 0)
-            and 0 < chunk_ms <= worker_ms
-            and parts[4] <= parts[3] <= parts[2] <= chunk_ms
-            and parts[5] <= parts[2]
-            and all(value <= chunk_ms for value in parts)
+            and (
+                zero_tick_chunk or (
+                    0 <= first < end <= timing.get("source_files", 0)
+                    and 0 < chunk_ms <= worker_ms
+                    and parts[4] <= parts[3] <= parts[2] <= chunk_ms
+                    and parts[5] <= parts[2]
+                    and all(value <= chunk_ms for value in parts)
+                )
+            )
         )
     else:
         profile_valid = bool(
