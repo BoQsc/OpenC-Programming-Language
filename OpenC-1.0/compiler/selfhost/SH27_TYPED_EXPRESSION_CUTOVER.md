@@ -31,6 +31,15 @@ Syntax record order is therefore not a universal expression topological
 order. No new code may rely on `child < parent` without proving it for the
 specific expression kind.
 
+The pinned [DMD 2.112.0 `Expression` definition](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/expression.d)
+stores the semantic `type` on the expression object and stores parsed integer
+values on `IntegerExp`; its [source map](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/README.md)
+separates parsing, expression semantics, and native backend. This is useful
+evidence for keeping resolved facts beside expression structure in OpenC,
+not proof that copying DMD's AST or allocation model will produce DMD speed.
+OpenC's compact record must additionally preserve its contextual typing,
+checked arithmetic, and exact diagnostics.
+
 ## Target shape
 
 One source-local, bounded typed-expression store lives from source indexing
