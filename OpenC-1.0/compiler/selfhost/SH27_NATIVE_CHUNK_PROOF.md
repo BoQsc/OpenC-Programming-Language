@@ -42,3 +42,31 @@ prevalidation, a Windows thread entry independent of the hosted-C runtime,
 bounded 2/4-worker scheduling, failure-to-serial fallback, and memory/headroom
 proofs under actual concurrent execution. Only then can paired throughput
 results determine whether this architecture should be promoted.
+
+## Atomic allocator prerequisite
+
+The native heap's live-byte limit now uses a locked compare/exchange loop for
+both reservation and release. Its file/path diagnostic counters use locked
+increments. This prevents two future workers from independently admitting
+allocations against the same 512 MiB live-byte headroom. The 256 MiB
+single-allocation cap is unchanged. A failed HeapAlloc still
+exits through the existing checked failure path; it never continues with an
+unaccounted allocation. This is only an allocator prerequisite, not evidence
+that compiler source lowering is thread-safe.
+
+The allocator version self-rebuilds byte-identically at SHA-256
+`b2c8764b34ac48631dcadc7a6477965589b3584e6c4dfbecbff0c7114f35138b`.
+The guarded four-workload proof in
+`build-output/selfhost-sh27/native-chunk-proof/final-atomic-report.json`
+passes byte-exact executables and the invalid-source diagnostic. The largest
+measured process-tree private peak is 300 MiB in the four-chunk self-build,
+still below the 512 MiB guard. The x64 substrate passes 25/25 and final native
+conformance passes 278/278.
+
+A first Windows-thread launch experiment was **discarded**. Its opt-in
+artifact path access-violated; reducing the new call to a no-thread sentinel
+still reproduced the violation. The direct threaded code, the sentinel call,
+and callback scaffolding were removed. The precise call-boundary defect is
+not yet proven, so native workers remain disabled. The next attempt needs a
+minimal reproducible call/ABI fixture before restoring any CreateThread path,
+then isolated-cache and ordered-diagnostic tests under actual concurrency.

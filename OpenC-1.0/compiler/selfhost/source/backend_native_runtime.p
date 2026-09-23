@@ -28,9 +28,28 @@ unsafe void native_data_address(ref NativeFunction function, usize offset, usize
 
 unsafe void native_counter_increment(ref NativeFunction function, usize offset) {
     native_data_address(function, offset, 11);
-    x64_mov_r64_memory(function.code, 0, 11, 0);
-    x64_add_r64_imm8(function.code, 0, 1);
-    x64_mov_memory_r64(function.code, 11, 0, 0);
+    // LOCK INC qword ptr [r11]: worker diagnostics may update these counters.
+    x64_emit_u8(function.code, 240);
+    x64_emit_rex(function.code, true, 0, 0, 11);
+    x64_emit_u8(function.code, 255);
+    x64_emit_memory_modrm(function.code, 0, 11, 0);
+}
+
+unsafe void native_atomic_compare_exchange_r10_r11(ref NativeFunction function) {
+    // LOCK CMPXCHG qword ptr [r10], r11. RAX holds the expected old value;
+    // on contention it receives the observed value for the retry loop.
+    x64_emit_u8(function.code, 240);
+    x64_emit_rex(function.code, true, 11, 0, 10);
+    x64_emit_u8(function.code, 15);
+    x64_emit_u8(function.code, 177);
+    x64_emit_memory_modrm(function.code, 11, 10, 0);
+}
+
+unsafe void native_atomic_retry(ref NativeFunction function, usize loop_start) {
+    usize retry = native_skip(function.code, 5);
+    x64_patch_u32(function.code, retry,
+        cast(u32, cast(u64, 4294967296) -
+            cast(u64, retry + 4 - loop_start)));
 }
 
 unsafe void native_runtime_nonzero(ref NativeFunction function) {
@@ -42,10 +61,11 @@ unsafe void native_heap_allocate_named_r8(ref NativeFunction function, text live
     native_allocation_budget(function, 8);
     x64_mov_memory_r64(function.code, 4, 456, 8);
     native_data_address(function, 32, 10);
-    x64_mov_r64_memory(function.code, 9, 10, 0);
-    x64_mov_r64_r64(function.code, 11, 9);
+    usize reservation_start = function.code.bytes.length;
+    x64_mov_r64_memory(function.code, 0, 10, 0);
+    x64_mov_r64_r64(function.code, 11, 0);
     x64_add_r64_r64(function.code, 11, 8);
-    x64_cmp_r64_r64(function.code, 11, 9);
+    x64_cmp_r64_r64(function.code, 11, 0);
     usize no_overflow = native_skip(function.code, 3);
     native_allocation_fatal(function,
         "fatal[OPENC-NATIVE-ALLOC-BUDGET]: live allocation byte counter overflow\n");
@@ -55,7 +75,8 @@ unsafe void native_heap_allocate_named_r8(ref NativeFunction function, text live
     usize within_live_budget = native_skip(function.code, 6);
     native_allocation_fatal(function, live_message);
     native_skip_end(function.code, within_live_budget);
-    x64_mov_memory_r64(function.code, 4, 464, 11);
+    native_atomic_compare_exchange_r10_r11(function);
+    native_atomic_retry(function, reservation_start);
     native_import(function, 7); x64_mov_r64_r64(function.code, 1, 0);
     // The compiler's packed arenas contain sparse caches whose unused slots
     // must start at zero. Keep this deterministic under the live-byte guard.
@@ -67,9 +88,6 @@ unsafe void native_heap_allocate_named_r8(ref NativeFunction function, text live
     x64_mov_r64_memory(function.code, 11, 4, 456);
     x64_mov_memory_r64(function.code, 10, 0, 11);
     x64_mov_r64_r64(function.code, 9, 10); x64_add_r64_imm8(function.code, 9, 16);
-    native_data_address(function, 32, 10);
-    x64_mov_r64_memory(function.code, 11, 4, 464);
-    x64_mov_memory_r64(function.code, 10, 0, 11);
     x64_mov_r64_r64(function.code, 0, 9);
 }
 
@@ -105,10 +123,18 @@ unsafe void native_heap_free_r8(ref NativeFunction function) {
     x64_mov_memory_r64(function.code, 4, 456, 8);
     x64_mov_r64_memory(function.code, 11, 8, 0);
     native_data_address(function, 32, 10);
-    x64_mov_r64_memory(function.code, 9, 10, 0);
-    x64_cmp_r64_r64(function.code, 11, 9); native_require(function.code, 6);
+    usize release_start = function.code.bytes.length;
+    x64_mov_r64_memory(function.code, 0, 10, 0);
+    x64_cmp_r64_r64(function.code, 11, 0); native_require(function.code, 6);
+    x64_mov_r64_r64(function.code, 9, 0);
     x64_binary_r64_r64(function.code, 41, 9, 11);
-    x64_mov_memory_r64(function.code, 10, 0, 9);
+    // The desired value is in R9; CMPXCHG consumes R11, so preserve the
+    // allocation size in the existing frame slot across CAS retries.
+    x64_mov_memory_r64(function.code, 4, 464, 11);
+    x64_mov_r64_r64(function.code, 11, 9);
+    native_atomic_compare_exchange_r10_r11(function);
+    x64_mov_r64_memory(function.code, 11, 4, 464);
+    native_atomic_retry(function, release_start);
     native_import(function, 7); x64_mov_r64_r64(function.code, 1, 0);
     x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
     x64_mov_r64_memory(function.code, 8, 4, 456);
