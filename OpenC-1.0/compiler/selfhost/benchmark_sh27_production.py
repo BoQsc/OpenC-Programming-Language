@@ -67,6 +67,9 @@ def summarize(samples: list[dict[str, object]]) -> dict[str, object]:
         "maximum_seconds": round(max(values), 6),
         "raw_seconds": values,
         "peak_private_bytes": max(int(item["peak_private_bytes"]) for item in samples),
+        "peak_job_private_bytes": max(
+            int(item["peak_job_private_bytes"]) for item in samples
+        ),
         "peak_working_set_bytes": max(
             int(item["peak_working_set_bytes"]) for item in samples
         ),
@@ -78,6 +81,7 @@ def summarize_programs(samples: list[dict[str, object]]) -> dict[str, object]:
         {
             "elapsed_seconds": sample["program_elapsed_seconds"],
             "peak_private_bytes": sample["program_peak_private_bytes"],
+            "peak_job_private_bytes": sample["program_peak_job_private_bytes"],
             "peak_working_set_bytes": sample["program_peak_working_set_bytes"],
         }
         for sample in samples
@@ -600,6 +604,9 @@ def run_sample(
         measured["program_timed_out"] = executed["timed_out"]
         measured["program_memory_limit_exceeded"] = executed["memory_limit_exceeded"]
         measured["program_peak_private_bytes"] = executed["peak_private_bytes"]
+        measured["program_peak_job_private_bytes"] = executed[
+            "peak_job_private_bytes"
+        ]
         measured["program_peak_working_set_bytes"] = executed["peak_working_set_bytes"]
         measured["program_stdout_truncated"] = executed["stdout_truncated"]
         measured["program_stderr_truncated"] = executed["stderr_truncated"]

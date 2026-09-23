@@ -111,6 +111,76 @@ class Sh27ProductionTests(unittest.TestCase):
         self.assertNotEqual(result["exit_code"], 0)
         self.assertLess(result["elapsed_seconds"], 2)
 
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_memory_guard_accounts_for_compiler_children(self) -> None:
+        child = (
+            "import time; payload = bytearray(48 * 1024 * 1024); "
+            "time.sleep(0.3)"
+        )
+        parent = (
+            "import subprocess, sys; "
+            f"child = subprocess.Popen([sys.executable, '-c', {child!r}]); "
+            "sys.exit(child.wait())"
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            result = BENCHMARK.run_measured(
+                [sys.executable, "-c", parent],
+                cwd=directory,
+                sample_interval=0.01,
+                timeout_seconds=3,
+                max_private_bytes=128 * BENCHMARK.MIB,
+            )
+        self.assertEqual(result["exit_code"], 0, result["stderr"])
+        self.assertGreater(
+            result["peak_job_private_bytes"], result["peak_private_bytes"]
+        )
+        self.assertFalse(result["memory_limit_exceeded"])
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_memory_guard_caps_compiler_child_allocation(self) -> None:
+        child = "payload = bytearray(48 * 1024 * 1024)"
+        parent = (
+            "import subprocess, sys; "
+            f"child = subprocess.Popen([sys.executable, '-c', {child!r}]); "
+            "sys.exit(child.wait())"
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            result = BENCHMARK.run_measured(
+                [sys.executable, "-c", parent],
+                cwd=directory,
+                sample_interval=0.01,
+                timeout_seconds=3,
+                max_private_bytes=32 * BENCHMARK.MIB,
+            )
+        self.assertNotEqual(result["exit_code"], 0)
+        self.assertLessEqual(
+            result["peak_job_private_bytes"], 32 * BENCHMARK.MIB, result
+        )
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_memory_guard_flags_aggregate_parent_and_child(self) -> None:
+        child = "payload = bytearray(18 * 1024 * 1024)"
+        parent = (
+            "import subprocess, sys; "
+            "payload = bytearray(18 * 1024 * 1024); "
+            f"child = subprocess.Popen([sys.executable, '-c', {child!r}]); "
+            "sys.exit(child.wait())"
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            result = BENCHMARK.run_measured(
+                [sys.executable, "-c", parent],
+                cwd=directory,
+                sample_interval=0.01,
+                timeout_seconds=3,
+                max_private_bytes=48 * BENCHMARK.MIB,
+            )
+        self.assertNotEqual(result["exit_code"], 0, result)
+        self.assertTrue(result["memory_limit_exceeded"], result)
+        self.assertEqual(result["memory_limit_name"], "job_private_bytes")
+        self.assertGreaterEqual(
+            result["peak_job_private_bytes"], 48 * BENCHMARK.MIB
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
