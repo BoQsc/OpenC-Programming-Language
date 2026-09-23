@@ -33,7 +33,7 @@ jobs:
   proof:
     name: Exact output, diagnostics, RAM, and paired speed
     runs-on: windows-2025
-    timeout-minutes: 25
+    timeout-minutes: 45
 
     steps:
       - name: Check out candidate revision
@@ -98,6 +98,37 @@ jobs:
           --workload selfhost --pairs ${{ inputs.pairs || '11' }}
           --require-gain
           --output artifacts\sh27-native-parallel\selfhost-pairs.json
+
+      - name: Configure pinned MSVC comparator
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1.13.0
+        with:
+          arch: x64
+          toolset: 14.44
+
+      - name: Install pinned LDC comparator
+        uses: dlang-community/setup-dlang@0a7469b93f791d83f30932c6fd105796c6966e20 # v2.0.0
+        with:
+          compiler: ldc-1.43.0
+
+      - name: Install pinned DMD comparator
+        uses: dlang-community/setup-dlang@0a7469b93f791d83f30932c6fd105796c6966e20 # v2.0.0
+        with:
+          compiler: dmd-2.112.0
+
+      - name: Compare opt-in four-chunk OpenC with pinned C and D compilers
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_production.py
+          --openc artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --openc-source-chunks 4
+          --runs 3 --self-build-runs 3 --parallel-projects 4
+          --require-all
+          --expected-msvc-version 19.44
+          --expected-clang-version 20.1.8
+          --expected-dmd-version DMD64
+          --expected-ldc-version 1.43.0
+          --antivirus-state github-hosted-windows-2025-default-not-modified
+          --output artifacts\sh27-native-parallel\production-comparators.json
 
       - name: Retain machine-readable proof
         if: always()

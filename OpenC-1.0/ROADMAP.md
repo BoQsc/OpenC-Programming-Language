@@ -538,6 +538,11 @@ IR reach closure. Exact evidence and reproduction commands are in
       expanded failure cases, incremental object reuse, and broader real-
       project parity are still required before SH-27 can close. The detail
       and commands are in `compiler/selfhost/SH27_NATIVE_CHUNK_PROOF.md`.
+      The opt-in production comparator harness also passes a local three-run
+      OpenC/DMD64 2.112.0 correctness, execution, and RAM pass, but four-chunk
+      OpenC still measures 2.421x DMD on large functions and 2.275x on control
+      flow. Clean pinned C/D comparison is scheduled in the worker workflow;
+      the throughput deficit remains real and explicitly open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

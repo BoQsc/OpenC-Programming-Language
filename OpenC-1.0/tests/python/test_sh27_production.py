@@ -98,6 +98,25 @@ class Sh27ProductionTests(unittest.TestCase):
             self.assertEqual(command[1:4], ["-O2", "-release", "-boundscheck=off"])
             self.assertEqual(command[4:], [str(source), f"-of={output}", f"-od={root}"])
 
+    def test_native_chunk_comparator_lane_is_explicit_opt_in(self) -> None:
+        project = Path("example.project.json")
+        output = Path("program.exe")
+        report = Path("report.json")
+        input_record = {"project": project, "sources": []}
+        serial = BENCHMARK.build_command(
+            "openc", Path("openc.exe"), input_record, output, report,
+        )
+        parallel = BENCHMARK.build_command(
+            "openc", Path("openc.exe"), input_record, output, report,
+            openc_source_chunks=4,
+        )
+        self.assertEqual(serial[1], "build")
+        self.assertNotIn("--source-chunks=4", serial)
+        self.assertEqual(parallel[1], "artifact")
+        self.assertIn("--kind=exe", parallel)
+        self.assertIn("--source-chunks=4", parallel)
+        self.assertIn(f"--report={report}", parallel)
+
     @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
     def test_failed_paired_bootstrap_preserves_stage_measurement(self) -> None:
         script_directory = str(MODULE_PATH.parent)

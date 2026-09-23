@@ -73,6 +73,15 @@ The local bootstrap smoke test produced the same compiler hash as the direct
 self-rebuild. The clean runner's exact timing samples are in its artifact;
 the table above remains explicitly local evidence.
 
+The production corpus harness now has an explicit `--openc-source-chunks 4`
+option; its default remains the serial `build` command. A three-run local
+OpenC/DMD64 2.112.0 pass preserves every compile, execution, output, and RAM
+gate. It still measures OpenC at 2.421x DMD on large functions and 2.275x on
+control flow. This is a partial comparator set, not a C/D parity claim.
+The commit/manual worker workflow now also runs the full pinned MSVC, Clang,
+DMD, and LDC production corpus on the same clean Windows host; its first
+four-compiler result is pending.
+
 ## Promotion boundary and next work
 
 This is an opt-in, Windows-x64-only compiler experiment. Before production

@@ -404,9 +404,17 @@ def build_command(
     input_record: dict[str, object],
     output: Path,
     timing: Path,
+    openc_source_chunks: int = 1,
 ) -> list[str]:
     sources = [str(path) for path in input_record["sources"]]
     if tool == "openc":
+        if openc_source_chunks == 4:
+            return [
+                str(executable), "artifact",
+                f"--project={input_record['project']}", "--kind=exe",
+                f"--output={output}", "--source-chunks=4",
+                f"--report={timing}",
+            ]
         return [
             str(executable), "build", f"--project={input_record['project']}",
             f"--output={output}", f"--timings={timing}",
@@ -563,12 +571,19 @@ def run_sample(
     max_working_set_bytes: int,
     max_output_bytes: int,
     execution_timeout: int,
+    openc_source_chunks: int = 1,
+    output_filename: str = "program.exe",
 ) -> dict[str, object]:
     disk_free_before = require_disk_headroom(sample_root)
     sample_root.mkdir(parents=True, exist_ok=True)
-    output = sample_root / "program.exe"
+    if Path(output_filename).name != output_filename or not output_filename.endswith(".exe"):
+        raise ValueError("output_filename must be a plain .exe filename")
+    output = sample_root / output_filename
     timing = sample_root / "openc-timings.json"
-    command = build_command(tool, executable, input_record, output, timing)
+    command = build_command(
+        tool, executable, input_record, output, timing,
+        openc_source_chunks=openc_source_chunks,
+    )
     measured = run_measured(
         command,
         cwd=sample_root,
@@ -671,6 +686,10 @@ def main() -> int:
     parser.add_argument("--runs", type=int, default=3)
     parser.add_argument("--self-build-runs", type=int, default=1)
     parser.add_argument("--parallel-projects", type=int, default=4)
+    parser.add_argument(
+        "--openc-source-chunks", type=int, choices=(1, 4), default=1,
+        help="use opt-in native four-chunk artifact builds for the OpenC lane",
+    )
     parser.add_argument(
         "--output", type=Path,
         default=ROOT / "build-output" / "selfhost-sh27" / "production-comparators.json",
@@ -800,6 +819,7 @@ def main() -> int:
                     max_working_set_bytes=max_working,
                     max_output_bytes=max_output,
                     execution_timeout=execution_timeout,
+                    openc_source_chunks=args.openc_source_chunks,
                 )
                 sample["run"] = run + 1
                 sample["cache_state"] = "first_observation" if run == 0 else "warm_os_cache"
@@ -839,6 +859,7 @@ def main() -> int:
                 max_working_set_bytes=max_working,
                 max_output_bytes=max_output,
                 execution_timeout=execution_timeout,
+                openc_source_chunks=args.openc_source_chunks,
             )
             sample["run"] = run + 1
             sample["cache_state"] = "first_observation" if run == 0 else "warm_os_cache"
@@ -888,6 +909,11 @@ def main() -> int:
                 max_working_set_bytes=max_working,
                 max_output_bytes=max_output,
                 execution_timeout=execution_timeout,
+                openc_source_chunks=args.openc_source_chunks,
+                output_filename=(
+                    f"program-run-{run + 1:02d}.exe"
+                    if args.openc_source_chunks == 4 else "program.exe"
+                ),
             )
             sample["run"] = run + 1
             sample["changed_source"] = edit_file.name
@@ -899,7 +925,14 @@ def main() -> int:
         edit_lanes[tool] = {"summary": summarize(samples), "samples": samples}
     lanes["one_source_edit"] = {
         "base_workload": edit_workload_id,
-        "policy": "same source tree and output directory; exactly one source text changes before each full compiler invocation",
+        "policy": (
+            "same source tree and output directory; exactly one source text "
+            "changes before each full compiler invocation; the opt-in "
+            "four-chunk lane uses a fresh executable filename per edit"
+            if args.openc_source_chunks == 4 else
+            "same source tree and output directory; exactly one source text "
+            "changes before each full compiler invocation"
+        ),
         "compilers": edit_lanes,
     }
 
@@ -920,6 +953,7 @@ def main() -> int:
                     max_working_set_bytes=max_working,
                     max_output_bytes=max_output,
                     execution_timeout=execution_timeout,
+                    openc_source_chunks=args.openc_source_chunks,
                 )
                 for index in range(args.parallel_projects)
             ]
@@ -953,6 +987,7 @@ def main() -> int:
             max_working_set_bytes=max_working,
             max_output_bytes=max_output,
             execution_timeout=execution_timeout,
+            openc_source_chunks=args.openc_source_chunks,
         )
         sample["run"] = run + 1
         self_build_samples.append(sample)
@@ -1016,6 +1051,7 @@ def main() -> int:
             "schema": corpus["schema"], "version": corpus["version"],
         },
         "environment": {
+            "openc_source_chunks": args.openc_source_chunks,
             "cache_policy": "OS cache is not flushed; first observation and subsequent warm observations are labeled",
             "run_order": "deterministically rotated by workload and run",
             "msvc_vcvars64": vcvars,

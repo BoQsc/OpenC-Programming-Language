@@ -745,3 +745,12 @@ policies, and compare with pinned C/D compilers on the same runner. Incremental
 object reuse and representative real-project coverage remain open; SH-27
 cannot yet claim C/D-class throughput or completion. Detailed proof and
 commands are in `SH27_NATIVE_CHUNK_PROOF.md`.
+
+The production comparator harness now accepts opt-in
+`--openc-source-chunks 4` without changing its default serial lane. A
+three-run local partial OpenC/DMD64 2.112.0 pass preserves all compile,
+execution, output, and RAM checks but leaves large and control-flow ratios
+at 2.421x and 2.275x DMD. The commit/manual native-worker workflow has been
+extended with the pinned MSVC, Clang, DMD, and LDC corpus; clean same-host
+four-comparator evidence for this opt-in path is pending. These measured
+deficits keep throughput parity explicitly open.
