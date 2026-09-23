@@ -1105,6 +1105,18 @@ def main() -> int:
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n")
+    for workload_id in ("large_functions", "control_flow"):
+        if "openc_to_dmd" in ratios.get(workload_id, {}):
+            compilers = lanes[workload_id]["compilers"]
+            open_median = compilers["openc"]["summary"]["median_seconds"]
+            dmd_median = compilers["dmd"]["summary"]["median_seconds"]
+            print(
+                f"SH-27 {workload_id}: OpenC={open_median:.3f}s "
+                f"DMD={dmd_median:.3f}s "
+                f"OpenC/DMD={ratios[workload_id]['openc_to_dmd']:.3f}x "
+                f"(target <= {ratio_limit:.2f}x)",
+                flush=True,
+            )
     print(f"SH-27 production comparison: {status}; report={output}", flush=True)
     if status in ("FAIL", "FAIL_PARITY"):
         return 1

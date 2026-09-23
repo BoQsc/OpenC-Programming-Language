@@ -341,8 +341,34 @@ three-run DMD comparison measures 1.961x large functions and 2.560x control
 flow. DMD's large median in this observation is 0.633 s, versus 0.474 s
 in the earlier local observation, so the raw ratio change is not a reliable
 cross-run speedup claim. The direct paired OpenC comparison above is the
-relevant local evidence; clean pinned comparators remain pending for this
-follow-on candidate.
+relevant local evidence. Clean Windows
+[run 35852491916](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35852491916)
+passes the committed checked-immediate cut at `6a32258`: fixed point,
+278/278 conformance, 25/25 x64 substrate checks, integer boundaries and
+checked-overflow traps, adaptive byte/diagnostic/RAM proof, speed guards,
+and the pinned C/D comparator evidence. Its JSON artifact is
+`OpenC-SH27-native-parallel-35852491916` (ID `10746178667`). The workflow
+does not enforce or prove the 1.25x parity target.
+
+The next local candidate fuses a checked immediate `+`/`-` with an adjacent
+plain scalar store only when the arithmetic result has one use, the store
+is in the same block, and type, reference, dereference, and address guards
+all permit replacing the result spill/reload with a direct destination
+store. It retains the original path otherwise. Against `6a32258`,
+large-function output falls from 1,737,728 to 1,344,512 bytes; 11 paired
+local runs win 7/11 with a 515 ms median paired gain, but this local host
+was heavily contended (individual builds reached 13.7 s). Control flow
+falls from 548,352 to 486,912 bytes and wins 8/11 with a 28 ms gain.
+Compiler self-build falls from 7,022,080 to 7,003,648 bytes and wins
+10/11 with a 282 ms gain. These timings need clean-runner confirmation.
+The candidate passes byte-exact fixed point, 278/278 conformance, 25/25
+x64 substrate checks, integer/overflow fixtures, adaptive byte/diagnostic/
+RAM proof, and the historical flow-fallback and nested-aggregate gates.
+The paired harness confirms compiled-program execution and bounded RAM.
+Clean pinned C/D comparators remain pending for this candidate.
+A positive 32-bit-immediate extension was also tested and rejected: the
+large-function corpus uses only 8-bit-range arithmetic literals, so its
+binary was unchanged and the 11-pair speed-gain gate failed.
 
 [DMD's compiler source](https://github.com/dlang/dmd/blob/master/compiler/src/dmd/main.d)
 explicitly selects bump-pointer allocation and disables GC by default outside
@@ -356,8 +382,7 @@ wall phases. DMD's source separates its front end and native backend; its
 identifies the relevant codegen and object-emission components. We are using
 that architecture for diagnosis, not copying code into OpenC.
 
-Next engineering cuts, in priority order, are a general integer-immediate IR
-path beyond this adjacent small-literal peephole, block-local register reuse
+Next engineering cuts, in priority order, are block-local register reuse
 instead of mandatory stack traffic for each SSA value, and parallel per-source
 declaration parsing with a deterministic ordered merge. A bounded compiler-
 scratch arena should be tested against DMD's bump-allocation model only after

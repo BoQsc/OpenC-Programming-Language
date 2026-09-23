@@ -5,7 +5,8 @@ import system.text;
 unsafe bool native_try_integer_immediate(
     ref IrContext context, ref NativeFunction function,
     usize constant_instruction, usize binary_instruction,
-    ptr byte use_counts
+    usize following_instruction, ptr byte use_counts,
+    ref usize instruction_count
 ) {
     if read_record_field(context.instruction_data, constant_instruction, 2) !=
             ir_op_const_integer() ||
@@ -48,14 +49,35 @@ unsafe bool native_try_integer_immediate(
     usize result = read_record_field(
         context.instruction_data, binary_instruction, 1);
     NativeLayout layout = native_layout(context, type_id, 0);
+    instruction_count = 2;
     if result == 0 || !layout.valid { function.code.ok = false; return true; }
+    usize store_destination = result;
+    if following_instruction < context.instructions.length &&
+        read_record_field(context.instruction_data, following_instruction, 2) ==
+            ir_op_store() &&
+        d_operand_count(context, following_instruction) == 2 &&
+        d_operand_value(context, following_instruction, 1) == result &&
+        result >= function.first_value && result <= context.next_value &&
+        read_usize(use_counts,
+            (result - function.first_value) * size_of(usize)) == 1 &&
+        !d_operand_immediate_is(context, following_instruction, 0, "deref") &&
+        !d_operand_immediate_is(context, following_instruction, 0, "bind") {
+        usize destination = d_operand_value(context, following_instruction, 0);
+        if destination >= function.first_value &&
+            destination <= context.next_value &&
+            native_value_read(function, function.value_types, destination) == type_id &&
+            native_value_read(function, function.address_values, destination) == 0 {
+            store_destination = destination;
+            instruction_count = 3;
+        }
+    }
     native_load(function, left, 0);
     x64_alu_r64_imm8(function.code, operation, 0, immediate);
     usize no_overflow = 3;
     if kind == 2 { no_overflow = 1; }
     native_require(function.code, no_overflow);
     native_check_result(context, function, type_id);
-    native_store(function, result, 0);
+    native_store(function, store_destination, 0);
     return true;
 }
 
@@ -263,18 +285,31 @@ unsafe void native_emit_function(
         ) == block && function.code.ok {
             usize lowering_instruction = read_usize(order, index * size_of(usize));
             bool immediate_pair = false;
+            usize fused_count = 0;
             if function_has_small_integer &&
                 index + 1 < context.instructions.length {
                 usize next_instruction = read_usize(
                     order, (index + 1) * size_of(usize));
                 if read_record_field(context.instruction_data,
                         next_instruction, 0) == block {
+                    usize following_instruction = context.instructions.length;
+                    if index + 2 < context.instructions.length {
+                        usize candidate = read_usize(
+                            order, (index + 2) * size_of(usize));
+                        if read_record_field(context.instruction_data,
+                                candidate, 0) == block {
+                            following_instruction = candidate;
+                        }
+                    }
                     immediate_pair = native_try_integer_immediate(
                         context, function, lowering_instruction,
-                        next_instruction, references);
+                        next_instruction, following_instruction,
+                        references, fused_count);
                     if immediate_pair {
-                        if !function.code.ok { failed_instruction = next_instruction; }
-                        index = index + 2;
+                        if !function.code.ok {
+                            failed_instruction = next_instruction;
+                        }
+                        index = index + fused_count;
                     }
                 }
             }
