@@ -513,6 +513,9 @@ IR reach closure. Exact evidence and reproduction commands are in
       runs improve by 59, 27, and 11 ms at their paired medians. This is an
       incremental local gain pending clean-runner confirmation; broad C/D
       throughput parity and native parallelism are still open.
+      Automatic five-compiler Windows run 35814722551 then passes its
+      correctness, fixed-point, and memory gates at the accepted revision;
+      the report remains `EVIDENCE_COMPLETE_DEFICIT`, so SH-27 remains active.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

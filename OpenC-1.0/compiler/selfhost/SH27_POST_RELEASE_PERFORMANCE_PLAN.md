@@ -703,3 +703,13 @@ failure during one confirmation attempt can therefore be diagnosed without
 discarding its exit, captured output, and memory evidence; the subsequent
 full retry passed. This changes optional evidence tooling only, not the
 standalone compiler dependency set.
+
+Clean automatic Windows workflow run 35814722551 at `ef7d326` completes the
+pinned MSVC/Clang/DMD/LDC corpus, all correctness and memory gates, and
+artifact upload. Its report remains `EVIDENCE_COMPLETE_DEFICIT`, not a parity
+pass. The 22,189,079-byte retained artifact `10730899980` has SHA-256
+`3dae22f9e79d4638ca1953c581e1f529f18d76203eb920951dcadf0a9da159ff`.
+The accepted four-byte writer is therefore clean-runner verified as a safe
+incremental improvement; no cross-run absolute-time delta is attributed to
+it. A later local harness unit test also passes 10/10 and confirms failed
+paired bootstrap measurements remain available for diagnosis.

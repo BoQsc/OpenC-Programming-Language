@@ -850,3 +850,9 @@ write shortcut was removed after its control-flow confirmation was flat.
 These are local same-host effects, not evidence that the larger MSVC/DMD
 parity deficits have closed. The clean five-comparator workflow remains the
 next public performance check.
+
+Automatic Windows workflow run 35814722551 at `ef7d326` subsequently passes
+the five-compiler harness and uploads artifact `10730899980` (22,189,079
+bytes, SHA-256 `3dae22f9e79d4638ca1953c581e1f529f18d76203eb920951dcadf0a9da159ff`).
+The report status remains `EVIDENCE_COMPLETE_DEFICIT`; no unmeasured C/D
+parity claim follows from the local emitter improvement.
