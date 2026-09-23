@@ -645,3 +645,19 @@ as evidence for or against compiler throughput. Broad MSVC/DMD parity remains
 open; the next actual compiler change still needs to eliminate major
 first-time semantic work or implement bounded, deterministic native
 per-source concurrency.
+
+A compiler-private packed-record helper trial removed the intermediate
+`read_usize`/`write_usize` and `record_stride` calls from
+`read_record_field`/`write_record_field`, replacing them with direct memory
+loads/stores and algebraically identical offsets. Isolated candidate
+`4090e9c` reaches byte-exact stage-two/stage-three closure at
+`e2477f9e...12c64e701`; all 44 paired generated programs across two
+eleven-pair local workloads preserve their respective exact baseline
+executable hashes and stay within the 512 MiB process-tree guards. It does
+not improve the actual compiler: large-function paired median is +12 ms
+(3 wins, 8 losses), and control flow is flat at 0 ms (5 wins, 3 ties,
+3 losses). The branch `codex/sh27-record-helper-collapse` is retained for
+audit but not promoted to master. This rules out that wrapper call layer as
+a material cause of the remaining C/D throughput gap. Further narrow helper
+rewrites are not the next action; the critical path remains architectural
+semantic-pass reduction or native bounded concurrency.

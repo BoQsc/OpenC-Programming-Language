@@ -496,6 +496,13 @@ IR reach closure. Exact evidence and reproduction commands are in
       samplers (0.153 seconds each). This safety/evidence change is not a
       compiler speedup, and its cross-run timing shift is not treated as one.
       Full SH-27 throughput parity still requires substantive compiler work.
+      A direct packed-record helper implementation on isolated branch
+      `codex/sh27-record-helper-collapse` reaches exact compiler fixed points
+      and output hashes, but eleven-pair local evidence rejects it: large
+      compilation regresses 12 ms at the paired median (3 wins, 8 losses),
+      while control flow is flat. It is not promoted. The next throughput
+      change must remove a substantial semantic traversal or deliver safe
+      native per-source parallelism, not another wrapper-level shortcut.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records
