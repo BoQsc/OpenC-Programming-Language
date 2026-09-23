@@ -198,6 +198,32 @@ def timing_accounting_valid(
     )
 
 
+def build_mode_command(
+    compiler: Path, project: Path, output: Path, timing: Path,
+    chunked: bool, source_chunks: int | str,
+    profile_type_queries: bool, default_mode: bool,
+) -> list[str]:
+    if default_mode:
+        return [
+            str(compiler), "build", f"--project={project}",
+            f"--output={output}", f"--timings={timing}",
+        ]
+    command = [
+        str(compiler), "artifact", f"--project={project}", "--kind=exe",
+        f"--output={output}", f"--timings={timing}",
+    ]
+    if chunked:
+        command.extend((
+            f"--source-chunks={source_chunks}",
+            f"--report={output.parent / 'artifact.json'}",
+        ))
+        if profile_type_queries:
+            command.append("--profile-type-queries")
+    else:
+        command.append("--source-chunks=1")
+    return command
+
+
 def measured_build(
     compiler: Path, project: Path, output: Path, chunked: bool,
     source_chunks: int | str = 4,
@@ -207,27 +233,10 @@ def measured_build(
     output.parent.mkdir(parents=True, exist_ok=False)
     disk_free_before = require_disk_headroom(output)
     timing = output.parent / "timings.json"
-    if default_mode:
-        command = [
-            str(compiler), "build", f"--project={project}",
-            f"--output={output}", f"--timings={timing}",
-        ]
-    elif chunked:
-        command = [
-            str(compiler), "artifact", f"--project={project}", "--kind=exe",
-            f"--output={output}", f"--source-chunks={source_chunks}",
-            f"--report={output.parent / 'artifact.json'}",
-            f"--timings={timing}",
-        ]
-    else:
-        command = [
-            str(compiler), "artifact", f"--project={project}", "--kind=exe",
-            f"--output={output}",
-            "--source-chunks=1",
-            f"--timings={timing}",
-        ]
-    if profile_type_queries and chunked:
-        command.append("--profile-type-queries")
+    command = build_mode_command(
+        compiler, project, output, timing, chunked, source_chunks,
+        profile_type_queries, default_mode,
+    )
     sample = run_measured(
         command, cwd=ROOT, environment=dict(os.environ),
         sample_interval=0.01, max_private_bytes=512 * MIB,

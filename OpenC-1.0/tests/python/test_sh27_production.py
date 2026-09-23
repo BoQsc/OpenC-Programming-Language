@@ -137,6 +137,30 @@ class Sh27ProductionTests(unittest.TestCase):
         self.assertEqual(adaptive[1], "artifact")
         self.assertIn("--source-chunks=auto", adaptive)
 
+    def test_diagnostic_profile_flag_stays_on_artifact_only(self) -> None:
+        script_directory = str(MODULE_PATH.parent)
+        sys.path.insert(0, script_directory)
+        try:
+            import verify_sh27_native_chunks as proof
+        finally:
+            sys.path.remove(script_directory)
+        paths = tuple(Path(name) for name in (
+            "openc.exe", "example.project.json", "program.exe", "timings.json"
+        ))
+        normal_default = proof.build_mode_command(
+            *paths, True, "auto", True, True,
+        )
+        explicit_auto = proof.build_mode_command(
+            *paths, True, "auto", True, False,
+        )
+        explicit_serial = proof.build_mode_command(
+            *paths, False, 1, True, False,
+        )
+        self.assertEqual(normal_default[1], "build")
+        self.assertNotIn("--profile-type-queries", normal_default)
+        self.assertIn("--profile-type-queries", explicit_auto)
+        self.assertIn("--source-chunks=1", explicit_serial)
+
     def test_native_chunk_timing_basis_tracks_actual_worker_mode(self) -> None:
         script_directory = str(MODULE_PATH.parent)
         sys.path.insert(0, script_directory)

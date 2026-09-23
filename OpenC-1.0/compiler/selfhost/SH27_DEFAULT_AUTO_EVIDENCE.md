@@ -53,3 +53,12 @@ independent runs, representative projects, genuine incremental reuse, and
 the first-visit semantic redesign remain open. If the clean proof shows a
 material small-project or memory cliff, revise the adaptive thresholds or
 revert the default policy; do not waive the gate.
+
+The first candidate clean [run 35894838235](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35894838235)
+stopped at the diagnostic-only type-profile proof before comparator timing.
+The extended verifier accidentally forwarded `--profile-type-queries` to the
+flag-free default `build` command, which accepts no such option. The exact
+invocation failed locally in the same way; after restricting that flag to
+explicit `artifact`, the local profile proof passed and a command-construction
+unit test was added. This run is a harness failure, not a passed clean proof
+or evidence of a compiler regression.
