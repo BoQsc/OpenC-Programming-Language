@@ -294,3 +294,15 @@ ratio.
   speed gate before production promotion. Keep the experiment isolated and
   redesign first-visit semantic evaluation rather than extending this
   flag-cache strategy.
+- Packed binary-operator facts shared by type inference, binary acceptance,
+  and native lowering: rejected as a standalone slice at `bbcfefe` on
+  `codex/sh27-integrated-semantic-path`. It passed byte-exact self-host
+  fixed point, 278/278 conformance, exact serial/adaptive executables and
+  invalid diagnostics, and guarded Job RAM. Eleven order-alternated local
+  revision pairs against the otherwise identical packed-record baseline
+  `66a7d47` had **+32 ms** large-function paired median (4/11 wins), despite
+  byte-identical generated binaries. This falsifies the hypothesis that
+  repeated binary operator spelling checks are the material remaining
+  critical path. No speed promotion or clean comparator claim is made.
+  Target the first-visit assignment/call algorithm and semantic-to-lowering
+  handoff as a whole; do not extend the operator-code cache.
