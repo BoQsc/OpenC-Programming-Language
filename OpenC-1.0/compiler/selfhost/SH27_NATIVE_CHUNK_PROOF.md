@@ -63,6 +63,29 @@ measured process-tree private peak is 300 MiB in the four-chunk self-build,
 still below the 512 MiB guard. The x64 substrate passes 25/25 and final native
 conformance passes 278/278.
 
+Eleven-pair guarded same-host comparisons against the preceding chunk-proof
+commit also pass every build, exact-output, memory, and fixed-point check.
+Control-flow has a +3 ms median paired delta (five candidate wins, six losses);
+large-functions has +24 ms (four wins, seven losses). Both runs show substantial
+host variability, so these results establish no speed gain and do not justify
+promoting the atomic path as a production performance change. The underlying
+reports are `atomic-paired-control.json` and `atomic-paired-large.json` in the
+same ignored build-output directory.
+
+The next isolated change sizes each chunk's binary stream from its actual
+cached source bytes: at most 12 bytes of capacity per source byte plus 128 KiB,
+clamped to the original whole-project ceiling. Overflow still fails the
+experimental command; it cannot silently truncate a binary. This reduces the
+guarded four-chunk self-build private peak from 300 MiB to 259-261 MiB, about
+a 40 MiB reduction. All four valid workload executables remain byte-identical to serial
+builds, and the invalid-source diagnostic remains exact. The compiler reaches
+a byte-exact stage-two/stage-three fixed point at SHA-256
+`0a662e7d4a0db4201a12f64ed8da51eaa3b3fb53141a4a34a34fcd89eeb51857`.
+The final compiler also passes 25/25 x64 substrate and 278/278 native
+conformance; its detailed proof is `sized-final-report.json` under the same
+ignored output tree. The path still runs serially and cannot count as
+compilation-speed progress.
+
 A first Windows-thread launch experiment was **discarded**. Its opt-in
 artifact path access-violated; reducing the new call to a no-thread sentinel
 still reproduced the violation. The direct threaded code, the sentinel call,

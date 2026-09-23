@@ -1,5 +1,6 @@
 import system.io;
 import system.memory;
+import system.text;
 
 unsafe IrContext c_parallel_base(ref IrContext base) {
     IrContext worker = backend_base_context(
@@ -288,22 +289,55 @@ unsafe CNativeChunkState c_native_chunk_state_create(
     usize cut_three = source_count * 3 / 4;
     return CNativeChunkState{
         chunk_one = c_native_source_chunk(
-            base, 0, cut_one, chunk_capacity
+            base, 0, cut_one,
+            c_native_chunk_output_capacity(base, 0, cut_one, chunk_capacity)
         ),
         chunk_two = c_native_source_chunk(
-            base, cut_one, cut_two, chunk_capacity
+            base, cut_one, cut_two,
+            c_native_chunk_output_capacity(base, cut_one, cut_two, chunk_capacity)
         ),
         chunk_three = c_native_source_chunk(
-            base, cut_two, cut_three, chunk_capacity
+            base, cut_two, cut_three,
+            c_native_chunk_output_capacity(base, cut_two, cut_three, chunk_capacity)
         ),
         chunk_four = c_native_source_chunk(
-            base, cut_three, source_count, chunk_capacity
+            base, cut_three, source_count,
+            c_native_chunk_output_capacity(base, cut_three, source_count,
+                chunk_capacity)
         ),
         entry_module = entry_module,
         frozen_type_count = base.types.length,
         validation_source_ms = ir_pointer_alias(validation_source_ms),
         parsed_source_cache = ir_pointer_alias(parsed_source_cache)
     };
+}
+
+unsafe usize c_native_chunk_output_capacity(
+    ref IrContext base,
+    usize first,
+    usize end,
+    usize ceiling
+) {
+    // The old proof gave every chunk the entire-project 8x output budget.
+    // That committed four mostly empty buffers. Keep a 12x per-range budget
+    // plus 128 KiB slack, never exceeding the established global ceiling.
+    if ceiling <= 131072 { return ceiling; }
+    usize limit = (ceiling - 131072) / 12;
+    usize source_bytes = 0;
+    usize source_record = first;
+    while source_record < end {
+        text source;
+        status loaded = project_read_source_record(
+            base.project_source, base.project_root, base.source_data,
+            source_record, out source
+        );
+        if !loaded.ok { return ceiling; }
+        usize length = text.byte_length(source);
+        if length > limit - source_bytes { return ceiling; }
+        source_bytes = source_bytes + length;
+        source_record = source_record + 1;
+    }
+    return source_bytes * 12 + 131072;
 }
 
 unsafe i32 c_native_chunk_run(

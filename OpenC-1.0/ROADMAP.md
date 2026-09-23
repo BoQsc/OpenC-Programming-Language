@@ -516,6 +516,22 @@ IR reach closure. Exact evidence and reproduction commands are in
       Automatic five-compiler Windows run 35814722551 then passes its
       correctness, fixed-point, and memory gates at the accepted revision;
       the report remains `EVIDENCE_COMPLETE_DEFICIT`, so SH-27 remains active.
+      The isolated `codex/sh27-native-chunk-proof` branch proves four ordered
+      native source chunks produce byte-identical binaries, but currently
+      executes them serially and adds up to roughly 115 MiB to the self-build
+      private peak. An atomic native allocation-accounting prerequisite passes
+      25/25 x64, 278/278 conformance, exact self-rebuild, and guarded source
+      equivalence. An early thread-launch attempt was discarded after an
+      access violation reproducible even with the launcher disabled. It is
+      not a speedup or a production milestone. Next: reduce first-time
+      semantic inference/pass work on the accepted compiler; separately
+      isolate the native call-boundary fault with a minimal fixture, then
+      prove bounded worker concurrency and deterministic diagnostics before
+      any parallel path can be promoted. Incremental object reuse and broader
+      real-project parity remain open.
+      Per-chunk output sizing then reduces this isolated four-chunk self-build
+      peak from about 300 MiB to 259-261 MiB while preserving byte-exact output; it
+      remains a memory prerequisite, not a throughput or parity result.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records
