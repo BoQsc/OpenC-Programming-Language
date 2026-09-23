@@ -300,11 +300,14 @@ proof that any single DMD choice causes its measured speed advantage.
   record reused across OpenC acceptance and lowering is a promising
   architectural experiment; a parser-only child-index sidecar already
   failed the local speed gate and must not be mistaken for this design.
-- DMD's [root memory wrapper](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/root/rmem.d#L19-L50)
-  defaults to `GC.malloc` with a malloc fallback. The earlier roadmap's
-  shorthand about a DMD-wide bump allocator was unsupported and has been
-  corrected. OpenC should profile its own allocation calls and lifetimes
-  before selecting any arena scheme.
+- DMD's [console entry point](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/main.d)
+  selects a bump-pointer scheme and disables the GC before `_Dmain` unless
+  `-lowmem` is present. Its separate
+  [root memory wrapper](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/root/rmem.d)
+  also exposes GC/malloc allocation helpers; reading that wrapper alone
+  led to the earlier incorrect claim that DMD defaults to GC allocation.
+  The applicable hypothesis is bounded scratch/arena lifetime, but OpenC
+  still needs allocation-call and critical-path evidence before adopting it.
 - DMD's [link path](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/link.d#L187-L333)
   invokes an external linker. OpenC's Windows native/CRT-free binary path is
   an independence requirement, so an external-linker substitution is not a

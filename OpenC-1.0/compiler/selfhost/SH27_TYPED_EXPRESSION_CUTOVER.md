@@ -67,6 +67,16 @@ its contextual type. Integer parsing must happen once for accepted literal
 spelling and feed acceptance and lowering; overflow and invalid-literal
 diagnostics must remain byte-for-byte identical.
 
+After the isolated parallel-declaration cut, one local diagnostic profile
+shows 62 ms serial declarations but 140 ms acceptance on the large workload's
+critical worker, including 78 ms in assignment rules. The 11-pair local
+compiler comparison saved 108 ms on that workload. Comparing this gain with
+the previous clean runner's 172 ms deficit is only a planning estimate, but
+it makes a roughly 64 ms *additional* wall-time reduction a useful design
+budget, not a proven new DMD gap. Gate C must target the whole first-visit
+assignment/type path, with the clean comparator rerun setting the actual
+remaining budget.
+
 The existing artifact path keeps one `IrContext` across
 `acceptance_validate_context` and `c_lower_and_emit_function`; this is the
 handoff point. `check` constructs an acceptance-only context and must use
