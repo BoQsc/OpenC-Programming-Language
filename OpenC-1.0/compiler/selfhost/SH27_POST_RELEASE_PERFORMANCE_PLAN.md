@@ -782,9 +782,14 @@ local comparison passes at 64.4, 114.4, and 60.3 MiB. The expanded workflow
 also enforces this gate and both worker-count correctness/speed proofs.
 
 The subsequent DMD-gap investigation and measured backend changes are in
-`SH27_NATIVE_CHUNK_PROOF.md` under “DMD throughput gap.” A local partial
-three-run comparison remains at 2.477x DMD on large functions and 2.640x
-on control flow after those changes. The next engineering work is direct
-checked integer-immediate lowering, block-local register reuse, and
+`SH27_NATIVE_CHUNK_PROOF.md` under “DMD throughput gap.” Clean pinned
+Windows run 35855850195 at `ad71baf` passes every correctness and memory
+step but reports adaptive OpenC/DMD ratios of 1.875x on large functions
+and 1.913x on control flow. Explicit four-chunk control flow is 1.630x;
+the adaptive threshold was therefore moved down to 192 KiB for four-file
+projects, subject to the unchanged 512 MiB process-tree guard. Local paired
+control-flow compilation improves 85 ms with 11/11 wins, while large
+functions and self-build pass non-regression. Clean confirmation of this
+policy change is pending. Next are block-local SSA/register reuse and
 parallel declaration parsing with deterministic merge. The 1.25x clean-host
-throughput gate remains open; code-size and single-host wins do not close it.
+throughput gate remains open; code-size and local wins do not close it.

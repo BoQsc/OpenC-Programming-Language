@@ -75,7 +75,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         // The opt-in policy keeps tiny projects serial and caps the input
         // size on which it will duplicate native worker state. Four chunks
         // target substantial multi-file work; two cover the middle range.
-        if sources.length >= 4 && total_source_length >= 524288 &&
+        if sources.length >= 4 && total_source_length >= 196608 &&
             total_source_length <= 3145728 {
             artifact_options.source_chunks = 4;
         } else if sources.length >= 2 &&

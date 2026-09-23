@@ -79,10 +79,10 @@ def main() -> int:
     passed = bool(
         fallback["passed"] and threaded["passed"]
         and fallback["output_sha256"] == threaded["output_sha256"]
-        and fallback_timing.get("parallel_source_chunks") == 2
+        and fallback_timing.get("parallel_source_chunks") == 4
         and fallback_timing.get("parallel_flow_workers") == 2
         and fallback_timing.get("flow_threads_launched") is False
-        and threaded_timing.get("parallel_source_chunks") == 2
+        and threaded_timing.get("parallel_source_chunks") == 4
         and threaded_timing.get("parallel_flow_workers") == 2
         and threaded_timing.get("flow_threads_launched") is True
     )

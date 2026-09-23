@@ -24,7 +24,7 @@ def timing_accounting_valid(
         files = timing.get("source_files", 0)
         size = timing.get("source_bytes", 0)
         selected = (
-            4 if files >= 4 and 524288 <= size <= 3145728
+            4 if files >= 4 and 196608 <= size <= 3145728
             else 2 if files >= 2 and 196608 <= size <= 4194304
             else 1
         )

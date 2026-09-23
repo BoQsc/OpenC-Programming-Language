@@ -160,7 +160,7 @@ C/D deficit.
 
 An experimental `artifact --source-chunks=auto` policy now uses measured
 project source bytes and file count: fewer than two files or under 192 KiB
-stays serial; at least four files and 512 KiB–3 MiB selects four chunks;
+stays serial; at least four files and 192 KiB–3 MiB selects four chunks;
 other multi-file inputs from 192 KiB–4 MiB select two; larger inputs stay
 serial. It is opt-in, deterministic, and recorded as `source_chunks_policy`
 plus the selected `parallel_source_chunks` in the timing report. The 512 MiB
@@ -350,7 +350,7 @@ and the pinned C/D comparator evidence. Its JSON artifact is
 `OpenC-SH27-native-parallel-35852491916` (ID `10746178667`). The workflow
 does not enforce or prove the 1.25x parity target.
 
-The next local candidate fuses a checked immediate `+`/`-` with an adjacent
+The next committed cut fuses a checked immediate `+`/`-` with an adjacent
 plain scalar store only when the arithmetic result has one use, the store
 is in the same block, and type, reference, dereference, and address guards
 all permit replacing the result spill/reload with a direct destination
@@ -360,15 +360,37 @@ local runs win 7/11 with a 515 ms median paired gain, but this local host
 was heavily contended (individual builds reached 13.7 s). Control flow
 falls from 548,352 to 486,912 bytes and wins 8/11 with a 28 ms gain.
 Compiler self-build falls from 7,022,080 to 7,003,648 bytes and wins
-10/11 with a 282 ms gain. These timings need clean-runner confirmation.
-The candidate passes byte-exact fixed point, 278/278 conformance, 25/25
+10/11 with a 282 ms gain. These local deltas are not a cross-run parity claim.
+The cut passes byte-exact fixed point, 278/278 conformance, 25/25
 x64 substrate checks, integer/overflow fixtures, adaptive byte/diagnostic/
 RAM proof, and the historical flow-fallback and nested-aggregate gates.
 The paired harness confirms compiled-program execution and bounded RAM.
-Clean pinned C/D comparators remain pending for this candidate.
+Clean Windows
+[run 35855850195](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35855850195)
+passes all proof steps at `ad71baf` and retains artifact
+`OpenC-SH27-native-parallel-35855850195` (ID `10748316373`). The pinned
+four-chunk medians are 0.724 s OpenC / 0.367 s DMD (1.973x) for large
+functions and 0.344 s / 0.211 s (1.630x) for control flow. Adaptive mode
+measures 0.628 s / 0.335 s (1.875x) for large functions and 0.442 s /
+0.231 s (1.913x) for control flow. Thus the 1.25x gate remains open;
+workflow success certifies evidence integrity, not parity.
 A positive 32-bit-immediate extension was also tested and rejected: the
 large-function corpus uses only 8-bit-range arithmetic literals, so its
 binary was unchanged and the 11-pair speed-gain gate failed.
+
+The adaptive policy had a measurable control-flow mistake: four files and
+206,637 source bytes selected two chunks, although explicit four-chunk
+compilation was faster on the clean runner. The current policy candidate
+selects four chunks starting at 192 KiB for at least four files while
+retaining the 3 MiB upper cap. Eleven local control-flow pairs against
+`ad71baf` win 11/11, with median 0.732 to 0.642 s and byte-identical
+executables. Peak process-tree private rises from 102,096,896 to
+169,918,464 bytes, still below the 512 MiB guard. Large-function pairs
+pass 5% non-regression (6/11 wins, -3 ms median); self-build pairs pass
+the same guard (4/11 wins, +23 ms median). The candidate reaches a
+byte-exact fixed point and passes 278/278 conformance, 25/25 x64 checks,
+and serial/adaptive output, diagnostic, and RAM equivalence. Clean pinned
+C/D ratios for this policy change remain pending.
 
 [DMD's compiler source](https://github.com/dlang/dmd/blob/master/compiler/src/dmd/main.d)
 explicitly selects bump-pointer allocation and disables GC by default outside
@@ -386,7 +408,8 @@ Next engineering cuts, in priority order, are block-local register reuse
 instead of mandatory stack traffic for each SSA value, and parallel per-source
 declaration parsing with a deterministic ordered merge. A bounded compiler-
 scratch arena should be tested against DMD's bump-allocation model only after
-profiling allocation counts and lifetimes; it may not solve a 2.5x gap alone.
+profiling allocation counts and lifetimes; it may not solve the remaining
+gap alone.
 Each cut must pass fixed-point self-build, conformance, x64 ABI/substrate,
 serial/adaptive semantic and diagnostic equivalence, 512 MiB process-tree
 guards, and order-alternated same-host speed tests. The milestone remains

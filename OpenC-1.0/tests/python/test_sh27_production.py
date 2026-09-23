@@ -164,13 +164,15 @@ class Sh27ProductionTests(unittest.TestCase):
         self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
         timing.update({
             "source_files": 4, "source_bytes": 206637,
-            "parallel_source_chunks": 2, "source_chunks_policy": "auto",
+            "parallel_source_chunks": 4, "source_chunks_policy": "auto",
             "parallel_flow_workers": 2, "flow_threads_launched": True,
             "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
         })
         timing["validation_profile"]["flow_group_time_basis"] = "summed_worker_elapsed"
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
-        timing["source_bytes"] = 79873
+        timing["source_bytes"] = 196608
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["source_bytes"] = 196607
         timing["parallel_source_chunks"] = 0
         timing["parallel_flow_workers"] = 0
         timing["flow_threads_launched"] = False
