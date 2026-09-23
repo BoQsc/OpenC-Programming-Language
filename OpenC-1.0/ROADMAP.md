@@ -596,7 +596,11 @@ IR reach closure. Exact evidence and reproduction commands are in
       control flow by 0.068 s and self-build by 2.601 s paired median;
       large functions are effectively flat (6/11 wins), so the clean
       workflow guards that workload against over 5% regression rather than
-      claiming a gain. Clean-runner verification of this tranche is pending.
+      claiming a gain. Clean Windows run 35837859544 passes fixed-point,
+      conformance, substrate, fallback, revision-paired flow, RAM, and
+      pinned C/D comparator gates at `5038e34`; artifact 10740382922
+      retains the machine-readable evidence. This is a proof-gate pass,
+      not broad C/D throughput parity.
       A partial DMD comparison still finds 2.657x large and 2.579x control
       deficits. Full SH-27 remains open on broad C/D-class throughput,
       arbitrary-project RAM behavior, representative project coverage,

@@ -230,7 +230,14 @@ speedup; the separate medians and paired median differ because measurements
 are order-alternated. Local reports are `flow-proto4-*` in the ignored SH-27
 output tree. The new commit/manual workflow rebuilds the pinned baseline and
 requires paired gains on control flow and self-build, with a 5% paired-median
-regression ceiling on large functions. Clean-runner validation is pending.
+regression ceiling on large functions. Clean Windows
+[run 35837859544](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35837859544)
+passes the fixed point, conformance, x64 substrate, adaptive byte/diagnostic/
+RAM proofs, pre-flow fallback, all three revision-paired flow gates, and both
+pinned C/D comparator lanes at `5038e34`. The retained JSON artifact is
+`OpenC-SH27-native-parallel-35837859544` (ID `10740382922`, 1,698,468
+bytes). The public artifact download was unavailable without authentication
+here, so exact clean-host timing ratios are not asserted.
 The candidate's partial three-run DMD comparison passes correctness and RAM
 but still measures 2.657x DMD on large functions and 2.579x on control flow.
 This is not C/D-class throughput or a claim about arbitrary real projects.
