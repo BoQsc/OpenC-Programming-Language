@@ -503,6 +503,10 @@ IR reach closure. Exact evidence and reproduction commands are in
       while control flow is flat. It is not promoted. The next throughput
       change must remove a substantial semantic traversal or deliver safe
       native per-source parallelism, not another wrapper-level shortcut.
+      Indexed expression-feature discovery also reaches a byte-exact fixed
+      point and 278/278 conformance but is rejected after two guarded
+      eleven-pair workloads: -2 ms large, +1 ms control flow at the paired
+      medians. The accepted compiler remains unchanged; SH-27 remains open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

@@ -825,3 +825,14 @@ SH-27 remains active after this tranche. The production corpus still needs
 incremental object/build-system reuse, broader real projects, and fixes for
 every material measured compiler deficit, especially large MSVC and DMD64 and
 control-flow DMD64.
+
+An isolated compiler trial at `6809d84` carried expression-rule presence
+bits from source indexing into acceptance. It passed the byte-exact
+stage-two/stage-three fixed point and 278/278 native conformance checks.
+Eleven alternating local pairs per workload passed executable-output and
+512 MiB process-tree memory gates: large-function candidate-minus-baseline
+median was -0.002 s (6 wins, 5 losses), while control flow was +0.001 s
+(5 wins, 6 losses). That mixed, noise-scale result does not justify
+promotion or narrow the documented C/D throughput deficit. The candidate
+remains on `codex/sh27-expression-feature-index`; master retains the prior
+compiler. Full JSON evidence is in the local ignored SH-27 build-output tree.

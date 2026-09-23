@@ -661,3 +661,22 @@ audit but not promoted to master. This rules out that wrapper call layer as
 a material cause of the remaining C/D throughput gap. Further narrow helper
 rewrites are not the next action; the critical path remains architectural
 semantic-pass reduction or native bounded concurrency.
+
+An indexed-expression feature-presence trial reuses the source indexer's
+existing expression walk to avoid a separate acceptance discovery pass.
+Isolated candidate `6809d84` reaches the byte-exact stage-two/stage-three
+fixed point (`125c76d3...883432d830`) and passes 278/278 native conformance
+fixtures. Eleven alternating, 512 MiB-guarded local pairs on each target
+workload preserve exact executable hashes. The large-function paired median
+improves only 2 ms (6 wins, 5 losses); control flow regresses 1 ms (5 wins,
+6 losses). Both are within noise, so `codex/sh27-expression-feature-index`
+is retained for audit but not promoted. Moving a small traversal into the
+index pass is not a material compiler speedup.
+
+The next engineering tranche must address a measured whole phase. A native
+source-worker prototype needs private type, export, and layout state; a
+thread-safe bounded allocator; Windows thread startup without the hosted-C
+runtime; deterministic diagnostics and object-stream merge; a serial fallback;
+and 2/4-worker comparisons on both generated workloads under the aggregate
+512 MiB guard. An alternative semantic change must remove a full validation
+traversal, not just its feature-presence prepass. Neither path is complete.
