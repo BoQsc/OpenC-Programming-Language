@@ -1,95 +1,87 @@
-# SH-27 native source-chunk proof (experimental)
+# SH-27 native source workers (experimental)
 
-This isolated branch establishes a prerequisite for native source workers. It
-does **not** run sources concurrently or claim a compilation-speed gain.
+This isolated branch now executes four native source chunks concurrently on
+Windows x64. `openc artifact --kind=exe --source-chunks=4` starts three Windows
+threads through documented DLL APIs and runs the fourth chunk on the caller.
+Each chunk owns its mutable type table, export cache, layout caches, timings,
+and binary object stream. The streams merge in source-record order. The
+ordinary `openc build` path remains serial; no release artifact is replaced.
+The generated compiler does not use a C runtime, TinyCC, D, Python, an
+external assembler, or an external linker to compile programs. Python is
+optional verification tooling only.
 
-`openc artifact --kind=exe --source-chunks=4` closes derived types, creates
-four private type tables, export caches, and native layout caches, then emits
-source ranges into separate binary object streams. The ranges currently run
-serially and merge in source-record order. The normal `openc build` path
-remains serial and unchanged. A type-table growth or buffer failure fails the
-experimental command rather than silently emitting a non-deterministic image.
+The native allocator reserves and releases live bytes with locked atomic
+operations. Its 256 MiB single-allocation and 512 MiB live-byte limits still
+apply. A partial thread-launch failure joins started threads and runs only
+unstarted chunks on the caller. Failed type-table freeze or output-capacity
+checks reject the experimental build. The binary streams use a 12x per-range
+source-byte capacity plus 128 KiB, clamped to the existing global ceiling.
 
-Run the bounded proof with:
+Worker acceptance diagnostics are suppressed. A build with any semantic
+errors releases the worker arenas, replays validation serially, and reports
+errors in source-record order. This costs extra time only on rejected builds.
+The proof includes two simultaneously invalid sources, repeated five times,
+in addition to the original one-error case. This is not a claim that every
+possible error path has been exhaustively proven under concurrency.
+
+## Local proof on the corrected revision
+
+The byte-exact Stage 2/Stage 3 compiler SHA-256 is
+`f4008fc4dfcdcc50e7cba8aa64f4289c14a58ded4317412d04e2277934a89231`.
+The four valid workloads (221-source compiler, 24-file many-functions,
+eight-file large-functions, four-file control-flow) produce byte-identical
+serial and parallel executables under the 512 MiB process-tree private and
+working-set guards. Both invalid fixtures preserve the serial diagnostic
+stream. Native conformance passes 278/278, x64 substrate 25/25, and the
+SH-27 Python harness 10/10. The detailed local report is
+`build-output/selfhost-sh27/native-call-repro/ordered-proof.json`.
+
+Eleven order-alternated, same-command `artifact` pairs on the corrected
+compiler, each with exact output-hash and 512 MiB process-tree guards, show:
+
+| Workload | Serial median | Four chunks median | Median paired delta | Wins | Peak parallel Job private |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Control flow | 0.931 s | 0.548 s | -0.369 s | 11/11 | 162.0 MiB |
+| Large functions | 1.397 s | 0.900 s | -0.484 s | 11/11 | 306.1 MiB |
+| Compiler self-build | 9.471 s | 5.761 s | -3.674 s | 11/11 | 281.7 MiB |
+
+The reports are `ordered-paired-control.json`, `ordered-paired-large.json`,
+and `ordered-paired-selfhost.json` beside the proof report. The harness keeps
+only first-pair binaries; later hashes are recorded before deleting their
+generated outputs to avoid exhausting local disk. An earlier diagnostic fix
+revision also showed 11/11 wins on each workload, but the table above is for
+the final corrected revision. Local numbers are not clean-runner C/D parity
+results.
+
+Run the proof and paired benchmark with:
 
 ```text
-python compiler/selfhost/verify_sh27_native_chunks.py \
-  --compiler PATH/TO/openc.exe \
-  --output build-output/selfhost-sh27/native-chunks.json
+python compiler/selfhost/verify_sh27_native_chunks.py --compiler PATH/TO/openc.exe --output build-output/selfhost-sh27/native-proof.json
+python compiler/selfhost/benchmark_sh27_native_parallel.py --compiler PATH/TO/openc.exe --workload control_flow --pairs 11 --output build-output/selfhost-sh27/control-pairs.json
 ```
 
-The local proof at compiler SHA-256 `1a066723d02f36732c43c1e3eb0562b5320cabd763419ce7d3cc806156561bb3`
-passes byte-exact serial/chunked executable comparison for the 221-source
-self-hosted compiler, the 24-file generated corpus, the eight-file large
-corpus, and the four-file control-flow corpus. A modified control-flow source
-also preserves the exact semantic diagnostic. Stage-two, serial stage-three,
-and chunked compiler binaries share that SHA-256. The same compiler passes
-25/25 x64 substrate, 278/278 native conformance, and 10/10 SH-27 harness
-tests. The maximum measured process-tree private peaks in MiB are:
+`.github/workflows/openc-native-parallel.yml` runs on commits to this
+experimental branch or by manual dispatch. It rebuilds the checked-out
+compiler to a guarded byte-exact fixed point, runs correctness and diagnostic
+proofs, and requires a majority of paired speed wins on all three workloads.
+Its first clean-runner result is pending; the local bootstrap smoke test
+produced the same compiler hash as the direct self-rebuild.
 
-| Workload | Serial | Four isolated chunks |
-| --- | ---: | ---: |
-| Self-hosted compiler | 174 | 289 |
-| Many files | 28 | 48 |
-| Large functions | 127 | 177 |
-| Control flow | 61 | 86 |
+## Promotion boundary and next work
 
-All stay below the 512 MiB guard, but the ~115 MiB self-build overhead is too
-large to ignore. Threads would overlap source arenas and could raise the peak
-further. Before enabling concurrency, the native runtime needs thread-safe
-allocation accounting, deterministic diagnostic buffering or serial
-prevalidation, a Windows thread entry independent of the hosted-C runtime,
-bounded 2/4-worker scheduling, failure-to-serial fallback, and memory/headroom
-proofs under actual concurrent execution. Only then can paired throughput
-results determine whether this architecture should be promoted.
+This is an opt-in, Windows-x64-only compiler experiment. Before production
+promotion, collect a passing clean Windows workflow run, expand the
+invalid-source and thread-failure matrix, measure RAM and
+speed for two as well as four workers, and decide an adaptive default that
+does not impose a 2.5x private-memory penalty on small programs. Compare that
+default against pinned MSVC, Clang, DMD, and LDC on the same clean runner.
+Incremental object reuse, representative real projects, and broad C/D-class
+throughput remain open SH-27 goals. Linux and freestanding remain optional.
 
-## Atomic allocator prerequisite
-
-The native heap's live-byte limit now uses a locked compare/exchange loop for
-both reservation and release. Its file/path diagnostic counters use locked
-increments. This prevents two future workers from independently admitting
-allocations against the same 512 MiB live-byte headroom. The 256 MiB
-single-allocation cap is unchanged. A failed HeapAlloc still
-exits through the existing checked failure path; it never continues with an
-unaccounted allocation. This is only an allocator prerequisite, not evidence
-that compiler source lowering is thread-safe.
-
-The allocator version self-rebuilds byte-identically at SHA-256
-`b2c8764b34ac48631dcadc7a6477965589b3584e6c4dfbecbff0c7114f35138b`.
-The guarded four-workload proof in
-`build-output/selfhost-sh27/native-chunk-proof/final-atomic-report.json`
-passes byte-exact executables and the invalid-source diagnostic. The largest
-measured process-tree private peak is 300 MiB in the four-chunk self-build,
-still below the 512 MiB guard. The x64 substrate passes 25/25 and final native
-conformance passes 278/278.
-
-Eleven-pair guarded same-host comparisons against the preceding chunk-proof
-commit also pass every build, exact-output, memory, and fixed-point check.
-Control-flow has a +3 ms median paired delta (five candidate wins, six losses);
-large-functions has +24 ms (four wins, seven losses). Both runs show substantial
-host variability, so these results establish no speed gain and do not justify
-promoting the atomic path as a production performance change. The underlying
-reports are `atomic-paired-control.json` and `atomic-paired-large.json` in the
-same ignored build-output directory.
-
-The next isolated change sizes each chunk's binary stream from its actual
-cached source bytes: at most 12 bytes of capacity per source byte plus 128 KiB,
-clamped to the original whole-project ceiling. Overflow still fails the
-experimental command; it cannot silently truncate a binary. This reduces the
-guarded four-chunk self-build private peak from 300 MiB to 259-261 MiB, about
-a 40 MiB reduction. All four valid workload executables remain byte-identical to serial
-builds, and the invalid-source diagnostic remains exact. The compiler reaches
-a byte-exact stage-two/stage-three fixed point at SHA-256
-`0a662e7d4a0db4201a12f64ed8da51eaa3b3fb53141a4a34a34fcd89eeb51857`.
-The final compiler also passes 25/25 x64 substrate and 278/278 native
-conformance; its detailed proof is `sized-final-report.json` under the same
-ignored output tree. The path still runs serially and cannot count as
-compilation-speed progress.
-
-A first Windows-thread launch experiment was **discarded**. Its opt-in
-artifact path access-violated; reducing the new call to a no-thread sentinel
-still reproduced the violation. The direct threaded code, the sentinel call,
-and callback scaffolding were removed. The precise call-boundary defect is
-not yet proven, so native workers remain disabled. The next attempt needs a
-minimal reproducible call/ABI fixture before restoring any CreateThread path,
-then isolated-cache and ordered-diagnostic tests under actual concurrency.
+For provenance, this branch first proved serially isolated chunks, then
+atomic allocator accounting, then right-sized output buffers. A preliminary
+thread experiment access-violated. The subsequent call-boundary investigation
+found an invalid absolute-address relocation in the native object stream and
+a by-reference temporary-copy at the launch intrinsic. RIP-relative callback
+addresses and an explicit state pointer corrected those defects; the current
+parallel proof does not rely on the discarded experiment.

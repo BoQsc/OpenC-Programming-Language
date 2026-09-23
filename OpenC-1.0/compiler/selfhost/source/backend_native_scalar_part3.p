@@ -208,6 +208,18 @@ unsafe void native_emit_function(
         index = index + 1;
     }
     usize unwind_size = x64_unwind_allocation_size(prolog, frame);
+    // This compact native stream serializes relocation offset and symbol,
+    // not kind or width. Reject an unsupported kind before it can be patched
+    // as a relative32 and turn a function pointer into an invalid address.
+    index = 0;
+    while index < function.code.relocations.length {
+        if read_record_field(function.code.relocation_data, index, 1) !=
+                x64_relocation_relative32() ||
+            read_record_field(function.code.relocation_data, index, 4) != 4 {
+            function.code.ok = false;
+        }
+        index = index + 1;
+    }
     if function.code.ok && unwind_size != 0 && function.constants.ok {
         pe32_put_u32(output, symbol);
         usize entry = 0; if c_function_is_entry(context, symbol, entry_module) { entry = 1; }

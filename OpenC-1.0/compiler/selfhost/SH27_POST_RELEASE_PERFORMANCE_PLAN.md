@@ -714,20 +714,31 @@ incremental improvement; no cross-run absolute-time delta is attributed to
 it. A later local harness unit test also passes 10/10 and confirms failed
 paired bootstrap measurements remain available for diagnosis.
 
-An isolated native-source-worker prerequisite branch,
-`codex/sh27-native-chunk-proof`, now partitions native output into four private
-ordered chunks but executes them serially. It reaches a byte-exact compiler
-fixed point, passes 25/25 x64 substrate and 278/278 native conformance, and
-produces byte-identical executables for the self-host, many-files,
-large-functions, and control-flow workloads. Per-range output sizing lowers
-the guarded four-chunk self-build peak from about 300 MiB to 259-261 MiB.
-Atomic live-byte reservation/release closes a necessary allocator race, but
-guarded eleven-pair local A/B tests show no credible throughput gain from it
-(+3 ms control flow and +24 ms large functions at paired medians, with noisy
-host timings). A first thread-launch attempt access-violated even with the
-launcher disabled; it was removed. The production `build` path is unchanged.
-Next: isolate that native call boundary in a minimal fixture, then prove
-thread-safe private state, diagnostic ordering, serial fallback, and bounded
-2/4-worker speedups before considering native parallelism for master. In
-parallel, reduce the measured first-time semantic inference work; SH-27 still
-does not meet C/D-class throughput or incremental-object-reuse goals.
+An isolated native-source-worker branch,
+`codex/sh27-native-chunk-proof`, first established byte-identical, privately
+buffered source chunks, atomic allocator accounting, and right-sized output
+streams. The apparent no-thread call failure was traced to testing with a
+stale compiler; the actual threaded prototype exposed an unsupported
+absolute callback relocation and a by-reference temporary-copy. After fixing
+both, the opt-in `artifact --source-chunks=4` path runs three native Windows
+threads plus the caller without C-runtime thread support. Successful output
+merges in source order; semantic-error builds suppress worker diagnostics and
+replay them serially after releasing worker arenas. The corrected compiler
+reaches the byte-exact `f4008fc4...34a89231` fixed point, passes 278/278
+native conformance, 25/25 x64 substrate, 10/10 harness tests, byte-exact
+serial/parallel artifacts on four workloads, and both one-error and repeated
+two-error diagnostic comparisons. The largest proof process-tree private peak
+is 306.1 MiB, under the 512 MiB guard.
+
+Eleven order-alternated `artifact` pairs on the final corrected compiler show
+11/11 parallel wins each: control-flow median 0.931 to 0.548 seconds,
+large-functions 1.397 to 0.900 seconds, and compiler self-build 9.471 to
+5.761 seconds. This is meaningful local OpenC-on-OpenC speedup, not a clean-
+runner comparison with C or D. The ordinary `build` path remains serial and
+the release remains untouched. Before promotion, collect a passing run of the
+new commit/manual Windows worker workflow, broaden failure/diagnostic cases,
+test two-worker and adaptive RAM
+policies, and compare with pinned C/D compilers on the same runner. Incremental
+object reuse and representative real-project coverage remain open; SH-27
+cannot yet claim C/D-class throughput or completion. Detailed proof and
+commands are in `SH27_NATIVE_CHUNK_PROOF.md`.

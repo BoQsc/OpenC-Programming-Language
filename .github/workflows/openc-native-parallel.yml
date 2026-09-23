@@ -1,0 +1,109 @@
+name: OpenC native source-worker proof
+
+on:
+  push:
+    branches:
+      - codex/sh27-native-chunk-proof
+    paths:
+      - OpenC-1.0/compiler/selfhost/source/**
+      - OpenC-1.0/compiler/selfhost/openc.project.json
+      - OpenC-1.0/compiler/selfhost/bootstrap_sh27_native_parallel.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_native_chunks.py
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_native_parallel.py
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
+      - OpenC-1.0/compiler/selfhost/windows_process_measure.py
+      - OpenC-1.0/benchmarks/sh27/**
+      - .github/workflows/openc-native-parallel.yml
+  workflow_dispatch:
+    inputs:
+      pairs:
+        description: Order-alternated pairs per workload
+        required: true
+        default: '11'
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openc-sh27-native-parallel-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  proof:
+    name: Exact output, diagnostics, RAM, and paired speed
+    runs-on: windows-2025
+    timeout-minutes: 25
+
+    steps:
+      - name: Check out candidate revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Check SH-27 harness
+        shell: cmd
+        run: python -m unittest discover -s OpenC-1.0\tests\python -p test_sh27_production.py -v
+
+      - name: Rebuild candidate to byte-exact fixed point under RAM guards
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\bootstrap_sh27_native_parallel.py
+          --output-dir artifacts\sh27-native-parallel
+
+      - name: Check native conformance
+        shell: cmd
+        run: >-
+          artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          validate
+          --manifest=OpenC-1.0\conformance\fixtures\MANIFEST.json
+          --output=artifacts\sh27-native-parallel\conformance.json
+
+      - name: Check Windows x64 substrate
+        shell: cmd
+        run: >-
+          python OpenC-1.0\scripts\verify_sh15_windows_x64.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --output artifacts\sh27-native-parallel\x64-substrate.json
+          --enforce
+
+      - name: Check serial/parallel bytes, diagnostics, and process-tree RAM
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\verify_sh27_native_chunks.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --output artifacts\sh27-native-parallel\source-worker-proof.json
+
+      - name: Compare control-flow compilation
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_native_parallel.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --workload control_flow --pairs ${{ inputs.pairs || '11' }}
+          --require-gain
+          --output artifacts\sh27-native-parallel\control-flow-pairs.json
+
+      - name: Compare large-function compilation
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_native_parallel.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --workload large_functions --pairs ${{ inputs.pairs || '11' }}
+          --require-gain
+          --output artifacts\sh27-native-parallel\large-functions-pairs.json
+
+      - name: Compare full compiler self-build
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_native_parallel.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --workload selfhost --pairs ${{ inputs.pairs || '11' }}
+          --require-gain
+          --output artifacts\sh27-native-parallel\selfhost-pairs.json
+
+      - name: Retain machine-readable proof
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-SH27-native-parallel-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: artifacts/sh27-native-parallel/**/*.json

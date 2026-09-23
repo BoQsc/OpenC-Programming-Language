@@ -578,7 +578,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 profile_parent_candidates = 0,
                 profile_expression_positions = 0,
                 profile_syntax_candidates = 0,
-                profile_symbol_candidates = 0
+                profile_symbol_candidates = 0,
+                suppress_acceptance_diagnostics = false
             };
             ir_initialize_local_values(context);
             usize node = 0;

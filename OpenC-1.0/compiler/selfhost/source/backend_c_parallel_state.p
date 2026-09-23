@@ -32,6 +32,8 @@ unsafe IrContext c_parallel_base(ref IrContext base) {
     worker.native_layout_size_cache = base.native_layout_size_cache;
     worker.native_layout_alignment_cache = base.native_layout_alignment_cache;
     worker.native_layout_state_cache = base.native_layout_state_cache;
+    worker.suppress_acceptance_diagnostics =
+        base.suppress_acceptance_diagnostics;
     return worker;
 }
 
@@ -227,7 +229,9 @@ unsafe CParallelChunk c_native_source_chunk(
     usize capacity
 ) {
     CParallelChunk chunk = c_parallel_chunk(base, first, end, capacity);
+    chunk.base.suppress_acceptance_diagnostics = true;
     chunk.timings.emission_mode = 2;
+    chunk.result = -1;
     usize type_bytes = base.types.capacity * record_stride();
     chunk.owned_type_data = memory.alloc(type_bytes);
     usize type_word = 0;
@@ -355,6 +359,22 @@ unsafe i32 c_native_chunk_run(
     return result;
 }
 
+unsafe u32 c_native_chunk_thread_entry(ref CNativeChunkState state) {
+    return cast(u32, c_native_chunk_run(state.chunk_one, state));
+}
+
+unsafe u32 c_native_chunk_thread_entry_two(ref CNativeChunkState state) {
+    return cast(u32, c_native_chunk_run(state.chunk_two, state));
+}
+
+unsafe u32 c_native_chunk_thread_entry_three(ref CNativeChunkState state) {
+    return cast(u32, c_native_chunk_run(state.chunk_three, state));
+}
+
+unsafe u32 c_native_chunk_thread_entry_four(ref CNativeChunkState state) {
+    return cast(u32, c_native_chunk_run(state.chunk_four, state));
+}
+
 unsafe void c_native_chunk_state_destroy(ref CNativeChunkState state) {
     c_parallel_chunk_destroy(state.chunk_four);
     c_parallel_chunk_destroy(state.chunk_three);
@@ -383,10 +403,46 @@ unsafe bool c_emit_native_sources_chunked(
         base, source_count, output_capacity + 65536,
         entry_module, validation_source_ms, parsed_source_cache
     );
-    bool passed = c_native_chunk_run(state.chunk_one, state) == 0;
-    if passed { passed = c_native_chunk_run(state.chunk_two, state) == 0; }
-    if passed { passed = c_native_chunk_run(state.chunk_three, state) == 0; }
-    if passed { passed = c_native_chunk_run(state.chunk_four, state) == 0; }
+    i32 launch_result = c_native_parallel_jobs(&state);
+    // A failed or unavailable launch returns only after joining the threads
+    // already started; run precisely the chunks still marked unstarted.
+    if state.chunk_one.result == -1 {
+        c_native_chunk_run(state.chunk_one, state);
+    }
+    if state.chunk_two.result == -1 {
+        c_native_chunk_run(state.chunk_two, state);
+    }
+    if state.chunk_three.result == -1 {
+        c_native_chunk_run(state.chunk_three, state);
+    }
+    if state.chunk_four.result == -1 {
+        c_native_chunk_run(state.chunk_four, state);
+    }
+    bool passed = (launch_result == 0 || launch_result == 3) &&
+        state.chunk_one.result == 0 && state.chunk_two.result == 0 &&
+        state.chunk_three.result == 0 && state.chunk_four.result == 0;
+    bool has_errors = state.chunk_one.timings.validation_acceptance_errors != 0 ||
+        state.chunk_two.timings.validation_acceptance_errors != 0 ||
+        state.chunk_three.timings.validation_acceptance_errors != 0 ||
+        state.chunk_four.timings.validation_acceptance_errors != 0;
+    if passed && has_errors {
+        // Successful builds never pay this cost. On a rejected build, release
+        // all four worker arenas before replaying diagnostics in source order.
+        c_merge_worker_timings(timings, state.chunk_one.timings);
+        c_merge_worker_timings(timings, state.chunk_two.timings);
+        c_merge_worker_timings(timings, state.chunk_three.timings);
+        c_merge_worker_timings(timings, state.chunk_four.timings);
+        c_native_chunk_state_destroy(state);
+        DBuffer discarded = d_buffer_create(output_capacity + 65536);
+        BuildTimings replay_timings = build_timings_empty();
+        replay_timings.emission_mode = 2;
+        i32 replay_result = c_emit_source_range_validating(
+            base, discarded, 0, source_count, entry_module,
+            replay_timings, null, parsed_source_cache
+        );
+        d_buffer_destroy(discarded);
+        return replay_result == 0;
+    }
     if passed {
         usize required = output.length + state.chunk_one.output.length +
             state.chunk_two.output.length +

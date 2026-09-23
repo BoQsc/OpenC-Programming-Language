@@ -151,12 +151,68 @@ def main() -> int:
     }
     passed = passed and diagnostic_exact
     print(f"invalid_control_flow: diagnostic_exact={diagnostic_exact}", flush=True)
+
+    # Separate source chunks can reject simultaneously. The user-visible
+    # diagnostic stream must still match source-order serial validation.
+    two_invalid_root = run_root / "two_invalid_control_flow"
+    shutil.copytree(run_root / "sources" / "control_flow", two_invalid_root)
+    for name, needle in (
+        ("source_0000.p", "value = value + 4;"),
+        ("source_0001.p", "value = value + 2;"),
+    ):
+        source_path = two_invalid_root / name
+        original = source_path.read_text(encoding="ascii")
+        if needle not in original:
+            raise RuntimeError(f"two-error fixture shape changed: {name}")
+        source_path.write_text(
+            original.replace(needle, "value = value + true;", 1),
+            encoding="ascii", newline="\n",
+        )
+    two_invalid_project = two_invalid_root / "openc.project.json"
+    two_invalid_serial = measured_build(
+        compiler, two_invalid_project,
+        run_root / "two_invalid" / "serial" / "program.exe", False,
+    )
+    two_invalid_parallel = [
+        measured_build(
+            compiler, two_invalid_project,
+            run_root / "two_invalid" / f"chunked-{index:02d}" / "program.exe",
+            True,
+        )
+        for index in range(5)
+    ]
+    two_serial_diagnostics = str(two_invalid_serial["stdout"])
+    two_invalid_exact = bool(
+        two_invalid_serial["exit_code"] != 0
+        and two_serial_diagnostics
+        and all(
+            sample["exit_code"] != 0
+            and not sample["memory_limit_exceeded"]
+            and not sample["stdout_truncated"]
+            and not sample["stderr_truncated"]
+            and str(sample["stdout"]).replace(
+                "OpenC Windows artifact: FAIL (exe)\n", ""
+            ) == two_serial_diagnostics
+            and sample["stderr"] == two_invalid_serial["stderr"]
+            for sample in two_invalid_parallel
+        )
+    )
+    results["two_invalid_control_flow"] = {
+        "serial": two_invalid_serial,
+        "chunked_repetitions": two_invalid_parallel,
+        "diagnostic_exact": two_invalid_exact,
+    }
+    passed = passed and two_invalid_exact
+    print(
+        f"two_invalid_control_flow: diagnostic_exact={two_invalid_exact}",
+        flush=True,
+    )
     report = {
         "schema": "openc.sh27.native_source_chunks.v1",
         "status": "PASS" if passed else "FAIL",
         "compiler_sha256": sha256(compiler),
         "source_chunks": 4,
-        "execution": "serial proof; Windows threads are not enabled",
+        "execution": "opt-in four source chunks; scheduling is compiler-revision-specific",
         "results": results,
     }
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

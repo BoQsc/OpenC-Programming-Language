@@ -108,6 +108,7 @@ struct IrContext {
     usize profile_expression_positions;
     usize profile_syntax_candidates;
     usize profile_symbol_candidates;
+    bool suppress_acceptance_diagnostics;
 }
 
 struct IrBounds {

@@ -516,22 +516,26 @@ IR reach closure. Exact evidence and reproduction commands are in
       Automatic five-compiler Windows run 35814722551 then passes its
       correctness, fixed-point, and memory gates at the accepted revision;
       the report remains `EVIDENCE_COMPLETE_DEFICIT`, so SH-27 remains active.
-      The isolated `codex/sh27-native-chunk-proof` branch proves four ordered
-      native source chunks produce byte-identical binaries, but currently
-      executes them serially and adds up to roughly 115 MiB to the self-build
-      private peak. An atomic native allocation-accounting prerequisite passes
-      25/25 x64, 278/278 conformance, exact self-rebuild, and guarded source
-      equivalence. An early thread-launch attempt was discarded after an
-      access violation reproducible even with the launcher disabled. It is
-      not a speedup or a production milestone. Next: reduce first-time
-      semantic inference/pass work on the accepted compiler; separately
-      isolate the native call-boundary fault with a minimal fixture, then
-      prove bounded worker concurrency and deterministic diagnostics before
-      any parallel path can be promoted. Incremental object reuse and broader
-      real-project parity remain open.
-      Per-chunk output sizing then reduces this isolated four-chunk self-build
-      peak from about 300 MiB to 259-261 MiB while preserving byte-exact output; it
-      remains a memory prerequisite, not a throughput or parity result.
+      The isolated `codex/sh27-native-chunk-proof` branch first proved ordered
+      private source chunks, atomic native allocation accounting, and
+      right-sized per-chunk streams. A preliminary thread launch was discarded
+      after an access violation; investigation then found an invalid absolute
+      callback relocation and a temporary-copy at the launch boundary. The
+      corrected opt-in `artifact --source-chunks=4` path now runs three native
+      Windows worker threads plus the caller, then merges byte-identical
+      outputs. A semantic-error build replays diagnostics serially after
+      worker arenas are released; the two-source error fixture passes five
+      repetitions. The compiler reaches a byte-exact Stage 2/Stage 3 fixed
+      point and passes 278/278 conformance and 25/25 x64 substrate checks.
+      Eleven same-command local pairs each on control-flow, large-functions,
+      and the compiler self-build show 11/11 parallel wins and median times
+      of 0.931 to 0.548, 1.397 to 0.900, and 9.471 to 5.761 seconds,
+      respectively. The largest parallel Job private peak is 306.1 MiB,
+      below the 512 MiB guard but a material RAM cost. `openc build` stays
+      serial. Clean-runner C/D comparisons, two-worker/adaptive scheduling,
+      expanded failure cases, incremental object reuse, and broader real-
+      project parity are still required before SH-27 can close. The detail
+      and commands are in `compiler/selfhost/SH27_NATIVE_CHUNK_PROOF.md`.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

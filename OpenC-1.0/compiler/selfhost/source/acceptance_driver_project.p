@@ -473,7 +473,8 @@ unsafe usize acceptance_validate_project(
                 profile_parent_candidates = 0,
                 profile_expression_positions = 0,
                 profile_syntax_candidates = 0,
-                profile_symbol_candidates = 0
+                profile_symbol_candidates = 0,
+                suppress_acceptance_diagnostics = false
             };
             ir_initialize_node_indexes(context);
             ir_initialize_parent_position_caches(context);

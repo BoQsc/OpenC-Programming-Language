@@ -26,6 +26,18 @@ unsafe void native_data_address(ref NativeFunction function, usize offset, usize
         cast(usize, 3221225472) + offset, 0, 4);
 }
 
+unsafe void native_symbol_address(ref NativeFunction function,
+    usize symbol, usize reg) {
+    // LEA reg, [RIP+disp32] keeps function pointers in the relative32
+    // relocation format understood by the native PE object stream.
+    x64_emit_rex(function.code, true, reg, 0, 5);
+    x64_emit_u8(function.code, 141);
+    x64_emit_u8(function.code, 5 + (reg & 7) * 8);
+    usize patch = function.code.bytes.length; x64_emit_u32(function.code, 0);
+    x64_add_relocation(function.code, patch, x64_relocation_relative32(),
+        symbol, 0, 4);
+}
+
 unsafe void native_counter_increment(ref NativeFunction function, usize offset) {
     native_data_address(function, offset, 11);
     // LOCK INC qword ptr [r11]: worker diagnostics may update these counters.
