@@ -305,10 +305,13 @@ median paired delta; 5 candidate wins). However, the 20-run legacy self-build
 benchmark still intermittently exceeds its 64 MiB child working-set cap.
 Forcing two workers passes that cap but regresses self-build by about 1.3 s
 in paired measurement. Thus neither the IR cut alone nor a two-worker policy
-closes the memory gate. Keep the 64/256 MiB cap conflict visible, profile the
-live-set ownership at the peak, and choose a structural live-memory reduction
-that keeps the four-worker wall-time advantage; do not silently raise or
-disable a guard to obtain a green result.
+closes the memory gate. The subsequent streaming parse-cache lifetime cut on
+`codex/sh27-streaming-parse-cache` passed the strict 20-generation chain
+locally with four workers (peak 251.1 MB private, 55.2 MB working set) and
+preserved exact output/diagnostics; see `SH27_STREAMING_PARSE_CACHE_EVIDENCE.md`.
+Its paired self-build speed is borderline and clean CI is pending, so the
+memory gate is **locally proved, not production-promoted**. Do not silently
+raise or disable a guard to obtain a green result.
 
 ### 5. Turn adaptive parallelism into the measured production policy
 
@@ -413,12 +416,12 @@ repeatability are not yet acceptable. Execute these in order:
    private and working-set peaks in the old benchmark under the same Job
    policy. The outcome is a stable time/RAM budget, not an assumption that
    the first green run will repeat.
-2. **Close the live-memory defect without losing the worker win.** Profile
-   allocation ownership at the self-build peak. Retain bounded IR only if
-   its exact-output and speed gates stay green. Remove duplicated or
-   overallocated per-worker state, then require 20/20 successful legacy
-   self-build repetitions plus the 512 MiB whole-Job guard. The two-worker
-   fallback has already failed the self-build speed guard.
+2. **Close the live-memory defect without losing the worker win.** The
+   streaming parse-cache cut has passed 20/20 strict self-build repetitions
+   and the 512 MiB whole-Job guard locally with four workers. Now require the
+   same result on clean CI and reject it if the borderline local self-build
+   speed regression becomes sustained. The two-worker fallback already
+   failed the speed guard.
 3. **Implement Gate C as one architectural cutover.** Build dependency-ordered
    typed-expression records *during* acceptance, validate assignments from
    those records, and lower from the same records. Follow

@@ -5,6 +5,7 @@ on:
     branches:
       - codex/sh27-native-chunk-proof
       - codex/sh27-default-auto
+      - codex/sh27-streaming-parse-cache
     paths:
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
@@ -70,6 +71,15 @@ jobs:
           validate
           --manifest=OpenC-1.0\conformance\fixtures\MANIFEST.json
           --output=artifacts\sh27-native-parallel\conformance.json
+
+      - name: Enforce 20-generation self-build working-set and private-byte limits
+        shell: cmd
+        run: >-
+          artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          benchmark
+          --project=OpenC-1.0\compiler\selfhost\openc.project.json
+          --output=artifacts\sh27-native-parallel\strict-self-build-benchmark.json
+          --runs=20
 
       - name: Check Windows x64 substrate
         shell: cmd
