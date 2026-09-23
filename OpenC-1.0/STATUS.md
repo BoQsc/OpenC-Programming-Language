@@ -84,8 +84,9 @@ SH-27 parser token dispatch:            FIXED; TWO CALL LAYERS REMOVED
 SH-27 native byte emitter:              CLEAN PAIRED 10 WINS/1 TIE; -12 MS MEDIAN
 SH-27 four-byte x64 field emission:     LOCAL FIXED POINT/278 PASS; -59 MS LARGE, -11/-27 MS CONTROL
 SH-27 benchmark disk headroom:          256 MIB FLOOR; FREE BYTES RECORDED
-SH-27 large Clang parity:               PASS LATEST CLEAN RUN; 0.862x
-SH-27 large-corpus scaling:             OPEN; OPENC 0.890 S / MSVC 0.498 S / DMD 0.313 S
+SH-27 large Clang parity:               PRIOR CLEAN PASS; RUN 35803835781, 0.862x
+SH-27 large-corpus scaling:             OPEN; PRIOR RUN 35797651687: 0.890/0.498/0.313 S OPENC/MSVC/DMD
+SH-27 latest five-comparator run:       35814722551 PASS; EVIDENCE_COMPLETE_DEFICIT
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
