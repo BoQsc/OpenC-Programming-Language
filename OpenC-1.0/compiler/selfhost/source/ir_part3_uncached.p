@@ -98,14 +98,8 @@ unsafe usize ir_node_type_uncached(
         return child_type;
     }
     if kind == 36 {
-        if flow_node_operator(context.source, context.syntax_data, node, "==") ||
-            flow_node_operator(context.source, context.syntax_data, node, "!=") ||
-            flow_node_operator(context.source, context.syntax_data, node, "<") ||
-            flow_node_operator(context.source, context.syntax_data, node, "<=") ||
-            flow_node_operator(context.source, context.syntax_data, node, ">") ||
-            flow_node_operator(context.source, context.syntax_data, node, ">=") ||
-            flow_node_operator(context.source, context.syntax_data, node, "&&") ||
-            flow_node_operator(context.source, context.syntax_data, node, "||") {
+        usize operator_code = ir_binary_operator_code(context, node);
+        if (operator_code >= 6 && operator_code <= 13) {
             return semantic_type_bool();
         }
         usize left = ir_left_expression(
@@ -127,7 +121,7 @@ unsafe usize ir_node_type_uncached(
             right_type < context.types.length &&
             read_record_field(context.type_data, left_type, 0) == 13 &&
             read_record_field(context.type_data, right_type, 0) == 13 &&
-            flow_node_operator(context.source, context.syntax_data, node, "-") {
+            operator_code == 2 {
             return semantic_builtin_type("isize", 0, 5);
         }
         ResolutionInteger left_integer = acceptance_integer_value(
@@ -138,9 +132,11 @@ unsafe usize ir_node_type_uncached(
                 context, right
             );
             if !right_integer.valid {
+                if expected == semantic_type_error() { return right_type; }
                 return ir_node_type(context, right, expected);
             }
         }
+        if expected == semantic_type_error() { return left_type; }
         return ir_node_type(context, left, expected);
     }
     if kind == 37 {

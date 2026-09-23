@@ -162,6 +162,50 @@ unsafe void ir_typed_expression_write(
     );
 }
 
+// Binary operator facts share the packed record with the accepted type and
+// operand nodes. Decode once, then use the same operator in validation and
+// lowering rather than rescanning the source spelling in each pass.
+// 1:+ 2:- 3:* 4:/ 5:% 6:== 7:!= 8:< 9:<= 10:> 11:>=
+// 12:&& 13:|| 14:& 15:| 16:^ 17:<< 18:>>.
+unsafe usize ir_binary_operator_code(ref IrContext context, usize node) {
+    if context.typed_expression_cache != null &&
+        node < context.syntax.length {
+        usize cached = ir_typed_expression_read(context, node, 1);
+        if cached != 0 { return cached; }
+    }
+    usize start = read_record_field(context.syntax_data, node, 3);
+    usize length = read_record_field(context.syntax_data, node, 4);
+    usize first = cast(usize, byte_at_or_zero(context.source, start));
+    usize second = cast(usize, byte_at_or_zero(context.source, start + 1));
+    usize code = 0;
+    if length == 1 {
+        if first == 43 { code = 1; }
+        else if first == 45 { code = 2; }
+        else if first == 42 { code = 3; }
+        else if first == 47 { code = 4; }
+        else if first == 37 { code = 5; }
+        else if first == 60 { code = 8; }
+        else if first == 62 { code = 10; }
+        else if first == 38 { code = 14; }
+        else if first == 124 { code = 15; }
+        else if first == 94 { code = 16; }
+    } else if length == 2 {
+        if first == 61 && second == 61 { code = 6; }
+        else if first == 33 && second == 61 { code = 7; }
+        else if first == 60 && second == 61 { code = 9; }
+        else if first == 62 && second == 61 { code = 11; }
+        else if first == 38 && second == 38 { code = 12; }
+        else if first == 124 && second == 124 { code = 13; }
+        else if first == 60 && second == 60 { code = 17; }
+        else if first == 62 && second == 62 { code = 18; }
+    }
+    if code != 0 && context.typed_expression_cache != null &&
+        node < context.syntax.length {
+        ir_typed_expression_write(context, node, 1, code);
+    }
+    return code;
+}
+
 usize ir_index_capacity(usize requested) {
     usize capacity = 16;
     while capacity < requested { capacity = capacity * 2; }

@@ -14,6 +14,7 @@ unsafe usize ir_lower_binary(
     usize type_id
 ) {
     if kind == 36 {
+        usize operator_code = ir_binary_operator_code(context, node);
         usize operator_start = read_record_field(context.syntax_data, node, 3);
         usize operator_length = read_record_field(context.syntax_data, node, 4);
         usize left_node = ir_left_expression(
@@ -72,7 +73,7 @@ unsafe usize ir_lower_binary(
             (read_record_field(context.type_data, type_id, 0) == 2 ||
              read_record_field(context.type_data, type_id, 0) == 3) &&
             read_record_field(context.syntax_data, right_node, 0) == 29 &&
-            flow_node_operator(context.source, context.syntax_data, node, "*") {
+            operator_code == 3 {
             ResolutionInteger identity = resolution_parse_integer(
                 context.source,
                 read_record_field(context.syntax_data, right_node, 1),
@@ -80,11 +81,7 @@ unsafe usize ir_lower_binary(
             );
             if identity.valid && identity.value == 1 { return left; }
         }
-        bool short_circuit = flow_node_operator(
-            context.source, context.syntax_data, node, "&&"
-        ) || flow_node_operator(
-            context.source, context.syntax_data, node, "||"
-        );
+        bool short_circuit = operator_code == 12 || operator_code == 13;
         if short_circuit {
             usize short_first = context.operands.length;
             ir_operand_empty(context, left);
@@ -117,9 +114,7 @@ unsafe usize ir_lower_binary(
         bool pointer_fault = ir_pointer_binary_fault(
             context, node, left_node, right_node
         );
-        if !pointer_fault && flow_node_operator(
-            context.source, context.syntax_data, node, "+"
-        ) && flow_span_contains_ascii(
+        if !pointer_fault && operator_code == 1 && flow_span_contains_ascii(
             context.source,
             read_record_field(
                 context.syntax_data, context.function_node, 1
@@ -153,12 +148,7 @@ unsafe usize ir_lower_binary(
         ir_operand_empty(context, left);
         ir_operand_empty(context, right);
         usize opcode = ir_op_binary();
-        if flow_node_operator(context.source, context.syntax_data, node, "==") ||
-            flow_node_operator(context.source, context.syntax_data, node, "!=") ||
-            flow_node_operator(context.source, context.syntax_data, node, "<") ||
-            flow_node_operator(context.source, context.syntax_data, node, "<=") ||
-            flow_node_operator(context.source, context.syntax_data, node, ">") ||
-            flow_node_operator(context.source, context.syntax_data, node, ">=") {
+        if operator_code >= 6 && operator_code <= 11 {
             opcode = ir_op_compare();
         }
         return ir_emit_value(
