@@ -66,6 +66,24 @@ the clean workflow remains the promotion gate. The largest locally measured
 candidate whole-Job private peak in the adaptive proof was 253,734,912 bytes,
 under the 512 MiB Job cap.
 
+The candidate timing records from those paired runs give a fresh default-mode
+critical-path baseline (median of each field, ms):
+
+| Workload | Serial declarations | Validation wall | Worker stage wall | Critical worker acceptance | Critical worker IR lower | Critical worker native emit |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Large functions | 235 | 110 | 344 | 187 | 32 | 63 |
+| Control flow | 62 | 78 | 218 | 125 | 31 | 16 |
+| Compiler self-build | 421 | 1109 | 1359 | 656 | 111 | 452 |
+
+Critical-worker values are nested within worker wall time and must not be
+added to top-level phases. Both serial declaration work and first-visit
+acceptance remain substantial for large functions; self-build also has a
+large native-emission component. The next architectural cut is the planned
+fused typed-expression/assignment path, with a fresh profile afterward to
+decide whether declaration indexing or backend value-location work is the
+next larger wall-clock target. This is one local diagnostic baseline, not a
+new C/D ratio claim.
+
 ## Promotion decision
 
 The commit-triggered `openc-native-parallel.yml` workflow on this branch now
