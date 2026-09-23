@@ -577,6 +577,11 @@ IR reach closure. Exact evidence and reproduction commands are in
       A partial local DMD comparison still shows 2.263x large and 2.788x
       control-flow deficits. The policy remains experimental until clean
       pinned-comparator and broader real-project evidence is complete.
+      Clean Windows run 35831483331 passes the adaptive proof, all nine
+      eleven-pair worker-speed gates, and both pinned C/D comparator lanes
+      at `89eecff`; artifact 10737339417 retains the evidence. This closes
+      the clean-runner evidence gap, not C/D throughput parity, arbitrary-
+      project memory safety, or the incremental-reuse/real-project gates.
       A same-compiler RAM trade-off gate now requires at least 32 MiB of
       two-worker savings on control flow, large functions, and self-build;
       local savings are 64.4, 114.4, and 60.3 MiB. The expanded commit/manual

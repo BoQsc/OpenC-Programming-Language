@@ -185,16 +185,24 @@ The corresponding ignored local reports are `adaptive-auto-proof.json` and
 OpenC/DMD comparator also passes compilation, execution, output, and RAM
 checks, but OpenC/DMD ratios remain 2.263x on large functions and 2.788x
 on control flow. Its status is `PARTIAL_COMPARATOR_SET`, because MSVC,
-Clang, and LDC were not included locally. Clean-runner paired and full
-comparator evidence is still needed before considering promotion.
+Clang, and LDC were not included locally. Clean Windows
+[run 35831483331](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35831483331)
+at `89eecff` passes the fixed point, conformance, x64 substrate, manual and
+adaptive byte/diagnostic/RAM proofs, all nine eleven-pair speed gates, and
+both four-chunk and adaptive pinned MSVC/Clang/DMD/LDC comparator lanes. Its
+JSON artifact is `OpenC-SH27-native-parallel-35831483331` (ID
+`10737339417`, 1,348,499 bytes). The workflow deliberately treats the
+comparator lanes as evidence, not parity gates. The local DMD deficit, broader
+real-project coverage, failure-injection matrix, and incremental reuse keep
+the policy experimental and SH-27 open.
 
 ## Promotion boundary and next work
 
 This is an opt-in, Windows-x64-only compiler experiment. Before production
-promotion, expand the invalid-source and thread-failure matrix and decide an
-adaptive default that
-does not impose a 2.5x private-memory penalty on small programs. Compare that
-default against pinned MSVC, Clang, DMD, and LDC on the same clean runner.
+promotion, expand the invalid-source and thread-failure matrix, then test
+adaptive selection on real projects before making it a default. The bounded
+corpus and clean pinned MSVC/Clang/DMD/LDC comparisons are not enough to
+guarantee speed or memory use for arbitrary programs.
 Incremental object reuse, representative real projects, and broad C/D-class
 throughput remain open SH-27 goals. Linux and freestanding remain optional.
 

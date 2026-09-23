@@ -87,6 +87,7 @@ SH-27 benchmark disk headroom:          256 MIB FLOOR; FREE BYTES RECORDED
 SH-27 large Clang parity:               PRIOR CLEAN PASS; RUN 35803835781, 0.862x
 SH-27 large-corpus scaling:             OPEN; PRIOR RUN 35797651687: 0.890/0.498/0.313 S OPENC/MSVC/DMD
 SH-27 latest five-comparator run:       35814722551 PASS; EVIDENCE_COMPLETE_DEFICIT
+SH-27 adaptive native workers:          CLEAN RUN 35831483331 PASS; OPT-IN, PARITY OPEN
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36
