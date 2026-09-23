@@ -87,7 +87,10 @@ unsafe i32 c_emit_project(
     // The fused validating path remains sequential and lets lowering create
     // only the derived types it actually needs.  Eagerly closing every type
     // before acceptance doubles the lookup set and defeats cache reuse.
-    if !validate_acceptance { c_close_lowering_types(base); }
+    if !validate_acceptance ||
+        (timings.emission_mode == 2 && artifact_options.source_chunks == 4) {
+        c_close_lowering_types(base);
+    }
     usize native_layout_cache_bytes =
         (base.types.capacity + 1) * size_of(usize);
     ptr byte native_layout_sizes = memory.alloc(native_layout_cache_bytes);
@@ -228,6 +231,30 @@ unsafe i32 c_emit_project(
     }
 
     bool emitted_parallel = false;
+    if timings.emission_mode == 2 &&
+        artifact_options.source_chunks == 4 &&
+        c_project_source_count(base) >= 4 {
+        emitted_parallel = c_emit_native_sources_chunked(
+            base, output, output_capacity, entry_module, timings,
+            validation_source_ms, parsed_source_cache
+        );
+        if !emitted_parallel {
+            io.error("error[OPENC-NATIVE-CHUNK-PROOF]: isolated source emission failed\n");
+            memory.free(enum_item_value);
+            memory.free(field_next);
+            memory.free(aggregate_field_first);
+            memory.free(type_aggregate_symbols);
+            memory.free(function_local_range_end);
+            memory.free(function_local_range_first);
+            memory.free(parameter_next);
+            memory.free(function_parameter_count);
+            memory.free(function_parameter_first);
+            memory.free(function_bucket_next);
+            memory.free(function_bucket_heads);
+            d_buffer_destroy(output);
+            return 1;
+        }
+    }
     if timings.emission_mode == 0 && output_capacity >= 262144 && c_project_source_count(base) >= 16 {
         emitted_parallel = c_emit_sources_parallel(
             base, output, output_capacity, entry_module, timings

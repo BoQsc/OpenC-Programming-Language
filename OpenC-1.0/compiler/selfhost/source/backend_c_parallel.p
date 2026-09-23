@@ -8,9 +8,25 @@ struct CParallelChunk {
     IrContext base;
     DBuffer output;
     BuildTimings timings;
+    ptr byte owned_type_data;
+    ptr byte owned_export_cache;
+    ptr byte owned_layout_sizes;
+    ptr byte owned_layout_alignments;
+    ptr byte owned_layout_states;
     usize first;
     usize end;
     i32 result;
+}
+
+struct CNativeChunkState {
+    CParallelChunk chunk_one;
+    CParallelChunk chunk_two;
+    CParallelChunk chunk_three;
+    CParallelChunk chunk_four;
+    usize entry_module;
+    usize frozen_type_count;
+    ptr byte validation_source_ms;
+    ptr byte parsed_source_cache;
 }
 
 struct CParallelState {
@@ -144,6 +160,31 @@ unsafe i32 c_emit_source_range(
         if module_index >= base.modules.length || !c_emit_source_record(
                 base, output, module_index, source_record,
                 entry_module, timings, false, null, null
+            ) {
+            return 1;
+        }
+        source_record = source_record + 1;
+    }
+    return 0;
+}
+
+unsafe i32 c_emit_source_range_validating(
+    ref IrContext base,
+    ref DBuffer output,
+    usize source_first,
+    usize source_end,
+    usize entry_module,
+    ref BuildTimings timings,
+    ptr byte validation_source_ms,
+    ptr byte parsed_source_cache
+) {
+    usize source_record = source_first;
+    while source_record < source_end {
+        usize module_index = c_source_module(base, source_record);
+        if module_index >= base.modules.length || !c_emit_source_record(
+                base, output, module_index, source_record,
+                entry_module, timings, true, validation_source_ms,
+                parsed_source_cache
             ) {
             return 1;
         }

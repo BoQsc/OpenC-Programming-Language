@@ -1,4 +1,5 @@
 import system.io;
+import system.memory;
 
 unsafe IrContext c_parallel_base(ref IrContext base) {
     IrContext worker = backend_base_context(
@@ -43,6 +44,11 @@ unsafe CParallelChunk c_parallel_chunk(
         base = c_parallel_base(base),
         output = d_buffer_create(capacity),
         timings = build_timings_empty(),
+        owned_type_data = null,
+        owned_export_cache = null,
+        owned_layout_sizes = null,
+        owned_layout_alignments = null,
+        owned_layout_states = null,
         first = first,
         end = end,
         result = 1
@@ -64,6 +70,21 @@ unsafe void c_parallel_chunk_append(
 
 unsafe void c_parallel_chunk_destroy(ref CParallelChunk chunk) {
     d_buffer_destroy(chunk.output);
+    if chunk.owned_layout_states != null {
+        memory.free(chunk.owned_layout_states);
+    }
+    if chunk.owned_layout_alignments != null {
+        memory.free(chunk.owned_layout_alignments);
+    }
+    if chunk.owned_layout_sizes != null {
+        memory.free(chunk.owned_layout_sizes);
+    }
+    if chunk.owned_export_cache != null {
+        memory.free(chunk.owned_export_cache);
+    }
+    if chunk.owned_type_data != null {
+        memory.free(chunk.owned_type_data);
+    }
 }
 
 unsafe CParallelState c_parallel_state_create(
@@ -195,5 +216,158 @@ unsafe bool c_emit_sources_parallel(
     if passed { c_parallel_state_append(output, timings, state); }
     c_parallel_state_destroy(state);
     if !passed { c_parallel_state_report_failure(state, parallel_result); }
+    return passed;
+}
+
+unsafe CParallelChunk c_native_source_chunk(
+    ref IrContext base,
+    usize first,
+    usize end,
+    usize capacity
+) {
+    CParallelChunk chunk = c_parallel_chunk(base, first, end, capacity);
+    chunk.timings.emission_mode = 2;
+    usize type_bytes = base.types.capacity * record_stride();
+    chunk.owned_type_data = memory.alloc(type_bytes);
+    usize type_word = 0;
+    while type_word < base.types.length * 5 {
+        write_usize(
+            chunk.owned_type_data, type_word * size_of(usize),
+            read_usize(base.type_data, type_word * size_of(usize))
+        );
+        type_word = type_word + 1;
+    }
+    chunk.base.type_data = ir_pointer_alias(chunk.owned_type_data);
+
+    usize export_bytes = (base.symbols.length + 1) * size_of(usize);
+    chunk.owned_export_cache = memory.alloc(export_bytes);
+    usize symbol = 0;
+    while symbol <= base.symbols.length {
+        write_usize(
+            chunk.owned_export_cache, symbol * size_of(usize), 0
+        );
+        symbol = symbol + 1;
+    }
+    chunk.base.symbol_export_cache = ir_pointer_alias(
+        chunk.owned_export_cache
+    );
+
+    usize layout_bytes = (base.types.capacity + 1) * size_of(usize);
+    chunk.owned_layout_sizes = memory.alloc(layout_bytes);
+    chunk.owned_layout_alignments = memory.alloc(layout_bytes);
+    chunk.owned_layout_states = memory.alloc(layout_bytes);
+    usize type_id = 0;
+    while type_id <= base.types.capacity {
+        write_usize(
+            chunk.owned_layout_states, type_id * size_of(usize), 0
+        );
+        type_id = type_id + 1;
+    }
+    chunk.base.native_layout_size_cache = ir_pointer_alias(
+        chunk.owned_layout_sizes
+    );
+    chunk.base.native_layout_alignment_cache = ir_pointer_alias(
+        chunk.owned_layout_alignments
+    );
+    chunk.base.native_layout_state_cache = ir_pointer_alias(
+        chunk.owned_layout_states
+    );
+    return chunk;
+}
+
+unsafe CNativeChunkState c_native_chunk_state_create(
+    ref IrContext base,
+    usize source_count,
+    usize chunk_capacity,
+    usize entry_module,
+    ptr byte validation_source_ms,
+    ptr byte parsed_source_cache
+) {
+    usize cut_one = source_count / 4;
+    usize cut_two = source_count / 2;
+    usize cut_three = source_count * 3 / 4;
+    return CNativeChunkState{
+        chunk_one = c_native_source_chunk(
+            base, 0, cut_one, chunk_capacity
+        ),
+        chunk_two = c_native_source_chunk(
+            base, cut_one, cut_two, chunk_capacity
+        ),
+        chunk_three = c_native_source_chunk(
+            base, cut_two, cut_three, chunk_capacity
+        ),
+        chunk_four = c_native_source_chunk(
+            base, cut_three, source_count, chunk_capacity
+        ),
+        entry_module = entry_module,
+        frozen_type_count = base.types.length,
+        validation_source_ms = ir_pointer_alias(validation_source_ms),
+        parsed_source_cache = ir_pointer_alias(parsed_source_cache)
+    };
+}
+
+unsafe i32 c_native_chunk_run(
+    ref CParallelChunk chunk,
+    ref CNativeChunkState state
+) {
+    i32 result = c_emit_source_range_validating(
+        chunk.base, chunk.output, chunk.first, chunk.end,
+        state.entry_module, chunk.timings,
+        state.validation_source_ms, state.parsed_source_cache
+    );
+    if chunk.base.types.length != state.frozen_type_count { result = 2; }
+    if !chunk.output.ok { result = 3; }
+    chunk.result = result;
+    return result;
+}
+
+unsafe void c_native_chunk_state_destroy(ref CNativeChunkState state) {
+    c_parallel_chunk_destroy(state.chunk_four);
+    c_parallel_chunk_destroy(state.chunk_three);
+    c_parallel_chunk_destroy(state.chunk_two);
+    c_parallel_chunk_destroy(state.chunk_one);
+}
+
+unsafe bool c_emit_native_sources_chunked(
+    ref IrContext base,
+    ref DBuffer output,
+    usize output_capacity,
+    usize entry_module,
+    ref BuildTimings timings,
+    ptr byte validation_source_ms,
+    ptr byte parsed_source_cache
+) {
+    usize source_count = c_project_source_count(base);
+    if source_count < 4 { return false; }
+    if output.ok && output.capacity > output.length + 65536 {
+        DBuffer header = d_buffer_create(output.length + 65536);
+        d_put(header, d_buffer_text(output));
+        d_buffer_destroy(output);
+        output = header;
+    }
+    CNativeChunkState state = c_native_chunk_state_create(
+        base, source_count, output_capacity + 65536,
+        entry_module, validation_source_ms, parsed_source_cache
+    );
+    bool passed = c_native_chunk_run(state.chunk_one, state) == 0;
+    if passed { passed = c_native_chunk_run(state.chunk_two, state) == 0; }
+    if passed { passed = c_native_chunk_run(state.chunk_three, state) == 0; }
+    if passed { passed = c_native_chunk_run(state.chunk_four, state) == 0; }
+    if passed {
+        usize required = output.length + state.chunk_one.output.length +
+            state.chunk_two.output.length +
+            state.chunk_three.output.length +
+            state.chunk_four.output.length + 65536;
+        DBuffer combined = d_buffer_create(required);
+        d_put(combined, d_buffer_text(output));
+        d_buffer_destroy(output);
+        output = combined;
+        c_parallel_chunk_append(output, timings, state.chunk_one);
+        c_parallel_chunk_append(output, timings, state.chunk_two);
+        c_parallel_chunk_append(output, timings, state.chunk_three);
+        c_parallel_chunk_append(output, timings, state.chunk_four);
+        passed = output.ok;
+    }
+    c_native_chunk_state_destroy(state);
     return passed;
 }

@@ -3,6 +3,7 @@ import system.text;
 struct NativeArtifactOptions {
     usize kind;
     usize subsystem;
+    usize source_chunks;
     text manifest_path;
     text resource_path;
     text dll_name;
@@ -17,6 +18,7 @@ NativeArtifactOptions native_artifact_default_options() {
     return NativeArtifactOptions{
         kind = 0,
         subsystem = 3,
+        source_chunks = 1,
         manifest_path = "",
         resource_path = "",
         dll_name = ""

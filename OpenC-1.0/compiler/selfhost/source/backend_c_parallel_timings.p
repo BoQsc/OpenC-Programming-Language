@@ -63,6 +63,41 @@ unsafe void c_merge_worker_timings(
     ref BuildTimings target,
     ref BuildTimings worker
 ) {
+    target.validation_acceptance_ms =
+        target.validation_acceptance_ms + worker.validation_acceptance_ms;
+    target.validation_acceptance_mask_ms =
+        target.validation_acceptance_mask_ms + worker.validation_acceptance_mask_ms;
+    target.validation_acceptance_types_ms =
+        target.validation_acceptance_types_ms + worker.validation_acceptance_types_ms;
+    target.validation_acceptance_expressions_ms =
+        target.validation_acceptance_expressions_ms +
+        worker.validation_acceptance_expressions_ms;
+    target.validation_acceptance_assignments_ms =
+        target.validation_acceptance_assignments_ms +
+        worker.validation_acceptance_assignments_ms;
+    target.validation_acceptance_functions_ms =
+        target.validation_acceptance_functions_ms +
+        worker.validation_acceptance_functions_ms;
+    target.validation_acceptance_calls_ms =
+        target.validation_acceptance_calls_ms + worker.validation_acceptance_calls_ms;
+    target.validation_acceptance_overload_calls_ms =
+        target.validation_acceptance_overload_calls_ms +
+        worker.validation_acceptance_overload_calls_ms;
+    target.validation_acceptance_slice_aliases_ms =
+        target.validation_acceptance_slice_aliases_ms +
+        worker.validation_acceptance_slice_aliases_ms;
+    target.validation_acceptance_call_rules_ms =
+        target.validation_acceptance_call_rules_ms +
+        worker.validation_acceptance_call_rules_ms;
+    target.validation_acceptance_resources_ms =
+        target.validation_acceptance_resources_ms +
+        worker.validation_acceptance_resources_ms;
+    target.validation_acceptance_pointers_ms =
+        target.validation_acceptance_pointers_ms +
+        worker.validation_acceptance_pointers_ms;
+    target.validation_acceptance_errors =
+        target.validation_acceptance_errors +
+        worker.validation_acceptance_errors;
     target.lex_parse_ms = target.lex_parse_ms + worker.lex_parse_ms;
     target.index_ms = target.index_ms + worker.index_ms;
     target.index_nodes_ms = target.index_nodes_ms + worker.index_nodes_ms;
