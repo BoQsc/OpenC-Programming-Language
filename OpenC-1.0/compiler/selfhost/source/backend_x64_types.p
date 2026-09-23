@@ -58,6 +58,8 @@ struct X64Code {
     DBuffer bytes;
     ptr byte relocation_data;
     PackedBuffer relocations;
+    usize byte_limit;
+    usize relocation_limit;
     bool ok;
 }
 

@@ -113,6 +113,14 @@ unsafe void native_emit_function(
     if !function_has_call {
         constant_capacity = direct_constant_capacity;
     }
+    usize initial_code_capacity = context.instructions.length * 64 + 512;
+    if initial_code_capacity > code_capacity {
+        initial_code_capacity = code_capacity;
+    }
+    usize initial_relocation_capacity = context.instructions.length + 8;
+    if initial_relocation_capacity > relocation_capacity {
+        initial_relocation_capacity = relocation_capacity;
+    }
     if frame > maximum_frame_bytes || code_capacity > maximum_code_bytes ||
         constant_capacity > maximum_constant_bytes {
         io.error("error[OPENC-NATIVE-BUDGET]: function ");
@@ -129,7 +137,10 @@ unsafe void native_emit_function(
         return;
     }
     NativeFunction function = NativeFunction{
-        code = x64_code_create(code_capacity, relocation_capacity),
+        code = x64_code_create_bounded(
+            initial_code_capacity, code_capacity,
+            initial_relocation_capacity, relocation_capacity
+        ),
         constants = d_buffer_create(constant_capacity),
         first_value = first, frame_size = frame,
         indirect_return = native_indirect_aggregate(context,
@@ -260,11 +271,12 @@ unsafe void native_emit_function(
         output.ok = false;
     }
     timings.native_code_reserved_bytes =
-        timings.native_code_reserved_bytes + code_capacity;
+        timings.native_code_reserved_bytes + function.code.bytes.capacity;
     timings.native_code_used_bytes =
         timings.native_code_used_bytes + function.code.bytes.length;
     timings.native_relocation_reserved_records =
-        timings.native_relocation_reserved_records + relocation_capacity;
+        timings.native_relocation_reserved_records +
+        function.code.relocations.capacity;
     timings.native_relocation_used_records =
         timings.native_relocation_used_records + function.code.relocations.length;
     timings.native_constant_reserved_bytes =

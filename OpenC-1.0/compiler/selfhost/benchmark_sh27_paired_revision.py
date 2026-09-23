@@ -108,6 +108,15 @@ def main() -> int:
         "--workload", default=os.environ.get("SH27_WORKLOAD", "large_functions"),
         choices=("large_functions", "control_flow"),
     )
+    parser.add_argument(
+        "--allow-binary-difference", action="store_true",
+        help=("accept semantically correct compiled programs with different "
+              "machine code when comparing code-generator revisions"),
+    )
+    parser.add_argument(
+        "--require-gain", action="store_true",
+        help="require a negative paired median and a majority of candidate wins",
+    )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.pairs < 3 or args.pairs > 31:
@@ -204,9 +213,14 @@ def main() -> int:
               float(baseline["elapsed_seconds"]), 6)
         for baseline, candidate in zip(samples["baseline"], samples["candidate"])
     ]
+    median_delta = statistics.median(deltas)
+    candidate_wins = sum(delta < 0 for delta in deltas)
+    speed_gain = median_delta < 0 and candidate_wins > args.pairs // 2
     result = {
         "schema": SCHEMA,
-        "status": "PASS" if all_passed and byte_exact else "FAIL",
+        "status": "PASS" if all_passed and (
+            byte_exact or args.allow_binary_difference) and (
+            speed_gain or not args.require_gain) else "FAIL",
         "measured_at_utc": datetime.now(timezone.utc).isoformat(),
         "host": {
             "system": platform.system(), "release": platform.release(),
@@ -225,6 +239,11 @@ def main() -> int:
         "checks": {
             "all_compiles_executions_and_memory_guards_passed": all_passed,
             "all_program_outputs_byte_exact": byte_exact,
+            "generated_binaries_byte_exact": byte_exact,
+            "generated_binary_identity_required": not args.allow_binary_difference,
+            "all_programs_executed_correctly": all_passed,
+            "paired_speed_gain_required": args.require_gain,
+            "paired_speed_gain_observed": speed_gain,
             "baseline_fixed_point": baseline_bootstrap["stage2_stage3_byte_exact"],
             "candidate_fixed_point": candidate_bootstrap["stage2_stage3_byte_exact"],
         },
@@ -233,8 +252,8 @@ def main() -> int:
             "baseline": summarize(samples["baseline"]),
             "candidate": summarize(samples["candidate"]),
             "candidate_minus_baseline_seconds": deltas,
-            "median_paired_delta_seconds": round(statistics.median(deltas), 6),
-            "candidate_wins": sum(delta < 0 for delta in deltas),
+            "median_paired_delta_seconds": round(median_delta, 6),
+            "candidate_wins": candidate_wins,
             "ties": sum(delta == 0 for delta in deltas),
             "candidate_losses": sum(delta > 0 for delta in deltas),
             "output_sha256": next(iter(hashes)) if byte_exact else None,

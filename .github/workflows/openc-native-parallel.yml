@@ -15,7 +15,9 @@ on:
       - OpenC-1.0/compiler/selfhost/prepare_sh27_flow_baseline.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_flow_fallback.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_nested_aggregate.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_integer_boundaries.py
       - OpenC-1.0/tests/sh27_nested_aggregate/**
+      - OpenC-1.0/tests/sh27_integer_literals/**
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
       - OpenC-1.0/benchmarks/sh27/**
@@ -72,6 +74,13 @@ jobs:
           --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
           --output artifacts\sh27-native-parallel\x64-substrate.json
           --enforce
+
+      - name: Check integer immediate boundaries in serial and adaptive modes
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\verify_sh27_integer_boundaries.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --output artifacts\sh27-native-parallel\integer-boundaries.json
 
       - name: Check serial/parallel bytes, diagnostics, and process-tree RAM
         shell: cmd
@@ -216,6 +225,7 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
           --baseline artifacts\sh27-native-parallel\flow-baseline\bootstrap\baseline\stage3\openc.exe
           --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --allow-binary-difference
           --source-chunks auto --workload control_flow
           --pairs ${{ inputs.pairs || '11' }} --require-gain
           --output artifacts\sh27-native-parallel\flow-control-baseline-pairs.json
@@ -226,6 +236,7 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
           --baseline artifacts\sh27-native-parallel\flow-baseline\bootstrap\baseline\stage3\openc.exe
           --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --allow-binary-difference
           --source-chunks auto --workload large_functions
           --pairs ${{ inputs.pairs || '11' }} --max-regression-percent 5
           --output artifacts\sh27-native-parallel\flow-large-baseline-pairs.json
@@ -236,6 +247,7 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
           --baseline artifacts\sh27-native-parallel\flow-baseline\bootstrap\baseline\stage3\openc.exe
           --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --allow-binary-difference
           --source-chunks auto --workload selfhost
           --pairs ${{ inputs.pairs || '11' }} --require-gain
           --output artifacts\sh27-native-parallel\flow-selfhost-baseline-pairs.json
@@ -254,6 +266,7 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
           --baseline artifacts\sh27-native-parallel\aggregate-baseline\bootstrap\baseline\stage3\openc.exe
           --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --allow-binary-difference
           --source-chunks auto --workload control_flow
           --pairs ${{ inputs.pairs || '11' }} --max-regression-percent 5
           --output artifacts\sh27-native-parallel\aggregate-control-pairs.json
@@ -264,6 +277,7 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
           --baseline artifacts\sh27-native-parallel\aggregate-baseline\bootstrap\baseline\stage3\openc.exe
           --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --allow-binary-difference
           --source-chunks auto --workload large_functions
           --pairs ${{ inputs.pairs || '11' }} --max-regression-percent 5
           --output artifacts\sh27-native-parallel\aggregate-large-pairs.json
@@ -274,6 +288,7 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
           --baseline artifacts\sh27-native-parallel\aggregate-baseline\bootstrap\baseline\stage3\openc.exe
           --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --allow-binary-difference
           --source-chunks auto --workload selfhost
           --pairs ${{ inputs.pairs || '11' }} --max-regression-percent 5
           --output artifacts\sh27-native-parallel\aggregate-selfhost-pairs.json

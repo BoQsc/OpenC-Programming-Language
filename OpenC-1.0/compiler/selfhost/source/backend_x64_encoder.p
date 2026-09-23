@@ -1,6 +1,10 @@
 import system.memory;
+import system.text;
 
-unsafe X64Code x64_code_create(usize byte_capacity, usize relocation_capacity) {
+unsafe X64Code x64_code_create_bounded(
+    usize byte_capacity, usize byte_limit,
+    usize relocation_capacity, usize relocation_limit
+) {
     PackedBuffer relocations = PackedBuffer{
         length = 0,
         capacity = relocation_capacity
@@ -11,8 +15,71 @@ unsafe X64Code x64_code_create(usize byte_capacity, usize relocation_capacity) {
             relocation_capacity * record_stride()
         ),
         relocations = relocations,
+        byte_limit = byte_limit,
+        relocation_limit = relocation_limit,
         ok = true
     };
+}
+
+unsafe X64Code x64_code_create(usize byte_capacity, usize relocation_capacity) {
+    return x64_code_create_bounded(
+        byte_capacity, byte_capacity,
+        relocation_capacity, relocation_capacity
+    );
+}
+
+unsafe bool x64_grow_bytes(ref X64Code code, usize required) {
+    if required <= code.bytes.capacity { return true; }
+    if required > code.byte_limit { return false; }
+    usize capacity = code.bytes.capacity;
+    if capacity == 0 { capacity = 1; }
+    while capacity < required {
+        if capacity > code.byte_limit / 2 {
+            capacity = code.byte_limit;
+        } else {
+            capacity = capacity * 2;
+        }
+    }
+    ptr byte replacement = memory.alloc(capacity);
+    if replacement == null { return false; }
+    if code.bytes.length != 0 {
+        text.copy_utf8_unchecked(
+            replacement,
+            text.from_utf8(code.bytes.data, code.bytes.length)
+        );
+    }
+    memory.free(code.bytes.data);
+    code.bytes.data = replacement;
+    code.bytes.capacity = capacity;
+    return true;
+}
+
+unsafe bool x64_grow_relocations(ref X64Code code, usize required) {
+    if required <= code.relocations.capacity { return true; }
+    if required > code.relocation_limit { return false; }
+    usize capacity = code.relocations.capacity;
+    if capacity == 0 { capacity = 1; }
+    while capacity < required {
+        if capacity > code.relocation_limit / 2 {
+            capacity = code.relocation_limit;
+        } else {
+            capacity = capacity * 2;
+        }
+    }
+    ptr byte replacement = memory.alloc(capacity * record_stride());
+    if replacement == null { return false; }
+    if code.relocations.length != 0 {
+        text.copy_utf8_unchecked(
+            replacement, text.from_utf8(
+                code.relocation_data,
+                code.relocations.length * record_stride()
+            )
+        );
+    }
+    memory.free(code.relocation_data);
+    code.relocation_data = replacement;
+    code.relocations.capacity = capacity;
+    return true;
 }
 
 unsafe void x64_code_destroy(ref X64Code code) {
@@ -25,7 +92,8 @@ unsafe void x64_code_destroy(ref X64Code code) {
 
 unsafe void x64_emit_u8(ref X64Code code, usize value) {
     if value > 255 || !code.ok { code.ok = false; return; }
-    if !code.bytes.ok || code.bytes.length >= code.bytes.capacity {
+    if !code.bytes.ok || (code.bytes.length >= code.bytes.capacity &&
+        !x64_grow_bytes(code, code.bytes.length + 1)) {
         code.bytes.ok = false;
         code.ok = false;
         return;
@@ -106,7 +174,8 @@ unsafe void x64_add_relocation(
     i64 addend,
     usize width
 ) {
-    if code.relocations.length >= code.relocations.capacity {
+    if code.relocations.length >= code.relocations.capacity &&
+        !x64_grow_relocations(code, code.relocations.length + 1) {
         code.ok = false;
         return;
     }
@@ -240,6 +309,16 @@ unsafe void x64_mov_r64_imm64(
     usize destination,
     u64 value
 ) {
+    if destination > 15 { code.ok = false; return; }
+    // Writing a 32-bit register zero-extends it on x64. Most compiler
+    // constants fit this encoding, saving four bytes and four byte-emitter
+    // calls without changing the resulting 64-bit value.
+    if value <= cast(u64, 4294967295) {
+        if destination >= 8 { x64_emit_u8(code, 65); }
+        x64_emit_u8(code, 184 + (destination & 7));
+        x64_emit_u32(code, cast(usize, value));
+        return;
+    }
     x64_emit_rex(code, true, 0, 0, destination);
     x64_emit_u8(code, 184 + (destination & 7));
     x64_emit_u64(code, value);

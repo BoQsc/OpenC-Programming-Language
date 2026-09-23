@@ -13,5 +13,11 @@ i32 main() {
     if negative != 0 - 9223372036854775807 { return 5; }
     Choice selected = Choice.second;
     if selected != Choice.second { return 6; }
+    u64 high_bit_32 = 2147483648;
+    if high_bit_32 != 0x8000_0000 { return 7; }
+    u64 last_imm32 = 4294967295;
+    if last_imm32 != 0xffff_ffff { return 8; }
+    u64 first_imm64 = 4294967296;
+    if first_imm64 != 0x1_0000_0000 { return 9; }
     return 0;
 }

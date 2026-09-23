@@ -64,6 +64,22 @@ unsafe usize ir_lower_binary(
         usize left = ir_lower_node(
             context, left_node, operand_expected, 0
         );
+        // Multiplication by the integer identity cannot overflow and the
+        // literal has no effects. Keep the left value instead of emitting a
+        // constant, a checked multiply, and another stack-backed SSA value.
+        if type_id < context.types.length &&
+            ir_node_type(context, left_node, semantic_type_error()) == type_id &&
+            (read_record_field(context.type_data, type_id, 0) == 2 ||
+             read_record_field(context.type_data, type_id, 0) == 3) &&
+            read_record_field(context.syntax_data, right_node, 0) == 29 &&
+            flow_node_operator(context.source, context.syntax_data, node, "*") {
+            ResolutionInteger identity = resolution_parse_integer(
+                context.source,
+                read_record_field(context.syntax_data, right_node, 1),
+                read_record_field(context.syntax_data, right_node, 2)
+            );
+            if identity.valid && identity.value == 1 { return left; }
+        }
         bool short_circuit = flow_node_operator(
             context.source, context.syntax_data, node, "&&"
         ) || flow_node_operator(

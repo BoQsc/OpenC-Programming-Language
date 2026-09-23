@@ -274,6 +274,69 @@ at `f068167`. Its retained JSON artifact is
 bytes). Exact clean-host timing ratios are in that artifact; its workflow
 success does not assert C/D throughput parity.
 
+## DMD throughput gap: measured cause and current cut
+
+The local OpenC/DMD gap is a release blocker, not a completed SH-27 item.
+The shared large-function corpus contains repeated `value * 1` expressions.
+OpenC had emitted a literal load, checked multiplication, and a fresh SSA
+stack slot for every identity operation. The IR lowerer now removes that
+specific operation only for a same-typed integer operand: multiplication by
+one cannot overflow, and the integer literal has no effects. The x64 encoder
+also uses a zero-extending 32-bit immediate move for 64-bit constants in
+`0..4294967295`, retaining the 64-bit encoding above that boundary. Native
+code and relocation buffers now grow from bounded small reserves up to the
+unchanged per-function hard limits instead of eagerly reserving their maxima.
+
+On the eight-file local large-function workload, the previous compiler's
+2,786,304-byte program becomes 2,229,248 bytes (20.0% smaller). An
+order-alternated serial comparison wins 9/11 pairs, with a 48 ms median
+paired improvement; the adaptive comparison also wins 9/11 pairs, with a
+20 ms median paired improvement. An adaptive control-flow comparison wins
+9/11 pairs with a 10 ms median paired improvement. The executable bytes
+intentionally differ. Compiler self-build wins 7/11 adaptive pairs with a
+124 ms median paired improvement, but host contention made individual
+self-build samples vary from about 5 to 11 seconds; that local number is
+not a clean-runner claim. Both versions execute the corpus oracle
+successfully under the process-tree RAM cap, and each version is
+deterministic. Native compiler self-build
+reserves 247,634,944 -> 13,711,872 code bytes across function emissions;
+that is reservation accounting, not a claimed reduction in peak process RAM.
+
+The final partial three-run local DMD64 2.112 comparison is still 2.477x on
+large functions and 2.640x on control flow. Large-function medians are
+1.174 s OpenC and 0.474 s DMD; the SH-27 1.25x ceiling would require OpenC
+at or below 0.593 s on that observation. OpenC emits 2,182,680 bytes of
+`.text` for the large executable; DMD's entire `.text`, including its
+runtime, is 245,334 bytes. The code-size gap is therefore at least 8.9x,
+although those section sizes are not themselves a fair one-to-one measure
+of equivalent safety semantics. OpenC retains checked arithmetic where the
+benchmark invokes DMD with `-O -release -boundscheck=off`; we must optimize
+without silently discarding OpenC's overflow behavior.
+
+[DMD's compiler source](https://github.com/dlang/dmd/blob/master/compiler/src/dmd/main.d)
+explicitly selects bump-pointer allocation and disables GC by default outside
+`-lowmem`. This is a concrete architecture to examine, not proof that the
+allocator alone explains our measured deficit. In one final OpenC large-run
+timing, declaration collection took 296 ms, validation 141 ms, and native
+lowering/emission 437 ms of wall time; the compiler-owned index, IR-lowering,
+and emitter counters are summed worker times and must not be added to those
+wall phases. DMD's source separates its front end and native backend; its
+[source map](https://github.com/dlang/dmd/blob/master/compiler/src/dmd/README.md)
+identifies the relevant codegen and object-emission components. We are using
+that architecture for diagnosis, not copying code into OpenC.
+
+Next engineering cuts, in priority order, are a direct integer-immediate IR
+path with checked arithmetic preserved, block-local register reuse instead
+of mandatory stack traffic for each SSA value, and parallel per-source
+declaration parsing with a deterministic ordered merge. A bounded compiler-
+scratch arena should be tested against DMD's bump-allocation model only after
+profiling allocation counts and lifetimes; it may not solve a 2.5x gap alone.
+Each cut must pass fixed-point self-build, conformance, x64 ABI/substrate,
+serial/adaptive semantic and diagnostic equivalence, 512 MiB process-tree
+guards, and order-alternated same-host speed tests. The milestone remains
+open until the pinned clean-host C/D comparator gate is at or below 1.25x
+on every required lane, with no hidden safety-mode change.
+
 ## Promotion boundary and next work
 
 This is an opt-in, Windows-x64-only compiler experiment. Before production

@@ -45,6 +45,8 @@ jobs:
         run: >-
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_paired_revision.py
           --seed .github\bootstrap\openc-stage0.exe
+          --allow-binary-difference
+          --require-gain
           --output artifacts\sh27-paired-revision.json
 
       - name: Retain paired raw evidence

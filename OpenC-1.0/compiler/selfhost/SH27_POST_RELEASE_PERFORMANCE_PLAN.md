@@ -780,3 +780,11 @@ The same-compiler trade-off verifier requires at least 32 MiB of two-worker
 Job-private savings on control flow, large functions, and self-build; the
 local comparison passes at 64.4, 114.4, and 60.3 MiB. The expanded workflow
 also enforces this gate and both worker-count correctness/speed proofs.
+
+The subsequent DMD-gap investigation and measured backend changes are in
+`SH27_NATIVE_CHUNK_PROOF.md` under “DMD throughput gap.” A local partial
+three-run comparison remains at 2.477x DMD on large functions and 2.640x
+on control flow after those changes. The next engineering work is direct
+checked integer-immediate lowering, block-local register reuse, and
+parallel declaration parsing with deterministic merge. The 1.25x clean-host
+throughput gate remains open; code-size and single-host wins do not close it.

@@ -12,7 +12,8 @@ import statistics
 
 from benchmark_sh27_native_parallel import build
 from benchmark_sh27_production import (
-    ROOT, generate_language, require_disk_headroom, sha256, summarize,
+    MIB, ROOT, generate_language, require_disk_headroom, run_measured,
+    sha256, summarize,
     validate_corpus,
 )
 from verify_sh27_native_chunks import timing_accounting_valid
@@ -31,6 +32,10 @@ def main() -> int:
     parser.add_argument("--source-chunks", choices=("2", "4", "auto"), default="auto")
     parser.add_argument("--pairs", type=int, default=11)
     parser.add_argument("--require-gain", action="store_true")
+    parser.add_argument(
+        "--allow-binary-difference", action="store_true",
+        help="execute both corpus binaries when code-generator revisions differ",
+    )
     parser.add_argument("--max-regression-percent", type=float)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -107,6 +112,27 @@ def main() -> int:
         and "None" not in baseline_hashes and "None" not in candidate_hashes
     )
     cross_revision_exact = baseline_hashes == candidate_hashes
+    executions: dict[str, dict[str, object]] = {}
+    if args.allow_binary_difference and args.workload != "selfhost":
+        for name in ("baseline", "candidate"):
+            binary = run_root / "pair-01" / name / "program.exe"
+            executions[name] = run_measured(
+                [str(binary)], cwd=ROOT, environment=dict(os.environ),
+                sample_interval=0.01, max_private_bytes=512 * MIB,
+                max_working_set_bytes=512 * MIB,
+                max_captured_output_bytes=64 * 1024, timeout_seconds=30,
+            )
+    semantic_equivalence = bool(
+        len(executions) == 2 and all(
+            sample["exit_code"] == 0
+            and not sample["timed_out"]
+            and not sample["memory_limit_exceeded"]
+            and not sample["stdout_truncated"]
+            and not sample["stderr_truncated"]
+            and sample["stdout"] == "" and sample["stderr"] == ""
+            for sample in executions.values()
+        )
+    )
     candidate_flow_policy_valid = all(
         timing_accounting_valid(sample["compiler_timings"], True, source_chunks)
         for sample in samples["candidate"]
@@ -131,7 +157,8 @@ def main() -> int:
     )
     passed = bool(
         each_revision_stable and candidate_flow_policy_valid
-        and (args.workload == "selfhost" or cross_revision_exact)
+        and (args.workload == "selfhost" or cross_revision_exact
+             or (args.allow_binary_difference and semantic_equivalence))
         and (not args.require_gain or gained)
         and nonregression_passed
     )
@@ -153,6 +180,8 @@ def main() -> int:
             "all_bounded_builds_passed": True,
             "each_revision_output_stable": each_revision_stable,
             "cross_revision_output_exact": cross_revision_exact,
+            "cross_revision_semantic_equivalence": semantic_equivalence,
+            "binary_difference_allowed": args.allow_binary_difference,
             "candidate_flow_policy_valid": candidate_flow_policy_valid,
             "parallel_gain_required": args.require_gain,
             "parallel_gain_passed": gained,
@@ -169,6 +198,7 @@ def main() -> int:
             "candidate_losses": sum(delta > 0 for delta in deltas),
         },
         "samples": samples,
+        "executions": executions,
     }
     output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(f"SH-27 flow-worker paired: {result['status']}; report={output}")
