@@ -106,6 +106,10 @@ architectural problem, not a cache-tuning exercise:
    aggregates. Do not cache a failed lookup across contexts that can resolve
    later. The target is fewer source rescans, repeated function-context
    selections, per-node dispatches, and transient allocations on first visit.
+   Do not promote a parser-edge sidecar alone: the isolated 11-pair experiment
+   in `SH27_CRITICAL_PATH_EVIDENCE.md` regressed large functions and did not
+   reduce critical acceptance time. The record must replace work across
+   acceptance and lowering, not merely retain two child indexes.
 3. Validate assignment lvalue/mutability/conversion rules as typed records
    are produced, then let lowering consume those same records. Avoid a second
    parse, type scan, or full expression walk. Preserve diagnostic text and

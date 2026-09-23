@@ -136,6 +136,41 @@ successfully ([run 35869263867](https://github.com/BoQsc/OpenC-Programming-Langu
 That clears the workflow's bounded self-build speed guard for **that commit**;
 it does not erase the local noisy A/B result, prove 1.25x C/D parity, or
 pre-approve the later distinct-node instrumentation in this working tree.
+The later diagnostic revision `2db2aa8` also passed its clean Windows
+[run 35871657516](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35871657516).
+
+## Rejected parser-edge-only prototype
+
+The parser already has direct left/right `NodeResult.record` IDs when it
+creates binary and assignment expressions. The retained parse cache discards
+them, so native semantic analysis later rediscovers operands from source
+positions. The existing **serial** candidate counter recorded 150,539
+expression-position probes for `large_functions`, 34,315 for `control_flow`,
+and 200,635 for the compiler self-build. These are candidate visits, not
+milliseconds; the parallel timing merge currently does not carry those five
+older candidate counters.
+
+An isolated, unpromoted prototype on local branch `codex/sh27-parser-edges`
+(`33607b6`) retained direct binary/assignment child links with the parsed
+syntax. It passed byte-exact Stage-2/Stage-3 bootstrap and the adaptive
+five-workload/invalid-diagnostic proof. Eleven same-host order-alternated
+adaptive pairs against `2db2aa8`, using the guarded
+`benchmark_sh27_existing_compilers.py` harness, gave:
+
+| Workload | Paired median candidate minus baseline | Candidate wins | Decision |
+| --- | ---: | ---: | --- |
+| Large functions | +41 ms | 4/11 | Regression; reject |
+| Control flow | -8 ms | 8/11 | Too small to close the gap |
+
+The raw local reports are
+`build-output/selfhost-sh27/sh27-parser-edges-prototype-20260923/large-pairs.json`
+and `control-pairs.json`. Both variants compiled and executed the same output
+bytes within the 512 MiB Job guard. The measured critical-chunk acceptance
+median did not improve on large functions (172 ms in both groups), so direct
+parser links alone do not solve first-visit semantic cost. The branch remains
+isolated and is **not** in the production compiler. The next prototype must
+fuse type/symbol/operand work across acceptance and lowering; merely retaining
+the operand indexes adds storage and copying without material end-to-end gain.
 
 ## Correctness and interpretation limits
 
