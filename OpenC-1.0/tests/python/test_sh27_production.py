@@ -115,6 +115,10 @@ class Sh27ProductionTests(unittest.TestCase):
             "openc", Path("openc.exe"), input_record, output, report,
             openc_source_chunks=2,
         )
+        adaptive = BENCHMARK.build_command(
+            "openc", Path("openc.exe"), input_record, output, report,
+            openc_source_chunks="auto",
+        )
         self.assertEqual(serial[1], "build")
         self.assertNotIn("--source-chunks=4", serial)
         self.assertEqual(parallel[1], "artifact")
@@ -124,6 +128,8 @@ class Sh27ProductionTests(unittest.TestCase):
         self.assertIn("--report=openc-artifact.json", parallel)
         self.assertEqual(two_workers[1], "artifact")
         self.assertIn("--source-chunks=2", two_workers)
+        self.assertEqual(adaptive[1], "artifact")
+        self.assertIn("--source-chunks=auto", adaptive)
 
     def test_native_chunk_timing_basis_tracks_actual_worker_mode(self) -> None:
         script_directory = str(MODULE_PATH.parent)
@@ -135,6 +141,7 @@ class Sh27ProductionTests(unittest.TestCase):
         timing = {
             "status": "PASS", "source_files": 4,
             "parallel_source_chunks": 2,
+            "source_chunks_policy": "explicit_or_default",
             "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
             "validation_profile": {"acceptance_time_basis": "summed_worker_elapsed"},
         }
@@ -147,6 +154,19 @@ class Sh27ProductionTests(unittest.TestCase):
         self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
         timing["validation_profile"]["acceptance_time_basis"] = "summed_worker_elapsed"
         self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing.update({
+            "source_files": 4, "source_bytes": 206637,
+            "parallel_source_chunks": 2, "source_chunks_policy": "auto",
+            "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
+        })
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["source_bytes"] = 79873
+        timing["parallel_source_chunks"] = 0
+        timing["phase_accounting"] = "wall_elapsed_with_acceptance_in_validation"
+        timing["validation_profile"]["acceptance_time_basis"] = "wall_elapsed"
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["parallel_source_chunks"] = 2
+        self.assertFalse(proof.timing_accounting_valid(timing, True, "auto"))
 
     def test_worker_tradeoff_requires_same_compiler_and_material_savings(self) -> None:
         script = ROOT / "compiler/selfhost/verify_sh27_worker_tradeoff.py"

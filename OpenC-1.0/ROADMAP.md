@@ -569,6 +569,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       C/D comparison with the timing correction at `9d37ca2`; artifact
       10735889275 retains the JSON evidence. No C/D parity is inferred from
       that workflow success.
+      An opt-in `--source-chunks=auto` prototype now chooses serial for tiny
+      inputs, two workers for mid-sized projects, and four for bounded larger
+      projects; the chosen mode is reported. Five byte-exact workload proofs,
+      repeated diagnostics, 278/278 conformance, 25/25 x64 substrate, and
+      three eleven-pair local speed gates pass under the 512 MiB Job guard.
+      A partial local DMD comparison still shows 2.263x large and 2.788x
+      control-flow deficits. The policy remains experimental until clean
+      pinned-comparator and broader real-project evidence is complete.
       A same-compiler RAM trade-off gate now requires at least 32 MiB of
       two-worker savings on control flow, large functions, and self-build;
       local savings are 64.4, 114.4, and 60.3 MiB. The expanded commit/manual

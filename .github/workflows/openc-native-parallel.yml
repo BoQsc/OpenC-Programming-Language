@@ -81,6 +81,14 @@ jobs:
           --source-chunks 2
           --output artifacts\sh27-native-parallel\source-worker-two-proof.json
 
+      - name: Check adaptive bytes, diagnostics, selection, and process-tree RAM
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\verify_sh27_native_chunks.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto
+          --output artifacts\sh27-native-parallel\source-worker-auto-proof.json
+
       - name: Require material two-worker RAM savings
         shell: cmd
         run: >-
@@ -144,6 +152,33 @@ jobs:
           --pairs ${{ inputs.pairs || '11' }} --require-gain
           --output artifacts\sh27-native-parallel\two-worker-selfhost-pairs.json
 
+      - name: Compare adaptive control-flow compilation
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_native_parallel.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto --workload control_flow
+          --pairs ${{ inputs.pairs || '11' }} --require-gain
+          --output artifacts\sh27-native-parallel\auto-control-flow-pairs.json
+
+      - name: Compare adaptive large-function compilation
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_native_parallel.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto --workload large_functions
+          --pairs ${{ inputs.pairs || '11' }} --require-gain
+          --output artifacts\sh27-native-parallel\auto-large-functions-pairs.json
+
+      - name: Compare adaptive compiler self-build
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_native_parallel.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto --workload selfhost
+          --pairs ${{ inputs.pairs || '11' }} --require-gain
+          --output artifacts\sh27-native-parallel\auto-selfhost-pairs.json
+
       - name: Configure pinned MSVC comparator
         uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1.13.0
         with:
@@ -174,6 +209,21 @@ jobs:
           --expected-ldc-version 1.43.0
           --antivirus-state github-hosted-windows-2025-default-not-modified
           --output artifacts\sh27-native-parallel\production-comparators.json
+
+      - name: Compare opt-in adaptive OpenC with pinned C and D compilers
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_production.py
+          --openc artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --openc-source-chunks auto
+          --runs 3 --self-build-runs 3 --parallel-projects 4
+          --require-all
+          --expected-msvc-version 19.44
+          --expected-clang-version 20.1.8
+          --expected-dmd-version DMD64
+          --expected-ldc-version 1.43.0
+          --antivirus-state github-hosted-windows-2025-default-not-modified
+          --output artifacts\sh27-native-parallel\production-auto-comparators.json
 
       - name: Retain machine-readable proof
         if: always()

@@ -31,6 +31,13 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.source_bytes);
     d_put(output, ",\n  \"parallel_source_chunks\": ");
     d_put_usize(output, timings.parallel_source_chunks);
+    d_put(output, ",\n  \"source_chunks_policy\": \"");
+    if timings.auto_source_chunks {
+        d_put(output, "auto");
+    } else {
+        d_put(output, "explicit_or_default");
+    }
+    d_put(output, "\"");
     d_put(output, ",\n  \"phase_accounting\": \"");
     if timings.parallel_source_chunks != 0 {
         d_put(output, "wall_elapsed_with_acceptance_in_lowering");

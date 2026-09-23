@@ -404,11 +404,11 @@ def build_command(
     input_record: dict[str, object],
     output: Path,
     timing: Path,
-    openc_source_chunks: int = 1,
+    openc_source_chunks: int | str = 1,
 ) -> list[str]:
     sources = [str(path) for path in input_record["sources"]]
     if tool == "openc":
-        if openc_source_chunks in (2, 4):
+        if str(openc_source_chunks) in ("2", "4", "auto"):
             return [
                 str(executable), "artifact",
                 f"--project={input_record['project']}", "--kind=exe",
@@ -573,7 +573,7 @@ def run_sample(
     max_working_set_bytes: int,
     max_output_bytes: int,
     execution_timeout: int,
-    openc_source_chunks: int = 1,
+    openc_source_chunks: int | str = 1,
     output_filename: str = "program.exe",
 ) -> dict[str, object]:
     disk_free_before = require_disk_headroom(sample_root)
@@ -654,7 +654,7 @@ def run_sample(
             measured["program_output_matches"] = True
     measured["passed"] = bool(
         sample_passed(measured)
-        and (tool != "openc" or openc_source_chunks == 1
+        and (tool != "openc" or str(openc_source_chunks) == "1"
              or (isinstance(measured["compiler_timings"], dict)
                  and measured["compiler_timings"].get("status") == "PASS"))
     )
@@ -698,8 +698,8 @@ def main() -> int:
     parser.add_argument("--self-build-runs", type=int, default=1)
     parser.add_argument("--parallel-projects", type=int, default=4)
     parser.add_argument(
-        "--openc-source-chunks", type=int, choices=(1, 2, 4), default=1,
-        help="use opt-in native two- or four-chunk artifact builds for the OpenC lane",
+        "--openc-source-chunks", choices=("1", "2", "4", "auto"), default="1",
+        help="use opt-in native two-, four-, or auto-chunk artifact builds for the OpenC lane",
     )
     parser.add_argument(
         "--output", type=Path,
@@ -708,6 +708,8 @@ def main() -> int:
     parser.add_argument("--require-all", action="store_true")
     parser.add_argument("--enforce-parity", action="store_true")
     args = parser.parse_args()
+    if args.openc_source_chunks != "auto":
+        args.openc_source_chunks = int(args.openc_source_chunks)
 
     corpus_path = args.corpus.resolve()
     corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
@@ -923,7 +925,7 @@ def main() -> int:
                 openc_source_chunks=args.openc_source_chunks,
                 output_filename=(
                     f"program-run-{run + 1:02d}.exe"
-                    if args.openc_source_chunks != 1 else "program.exe"
+                    if str(args.openc_source_chunks) != "1" else "program.exe"
                 ),
             )
             sample["run"] = run + 1
@@ -940,7 +942,7 @@ def main() -> int:
             "same source tree and output directory; exactly one source text "
             "changes before each full compiler invocation; the opt-in "
             "chunked lane uses a fresh executable filename per edit"
-            if args.openc_source_chunks != 1 else
+            if str(args.openc_source_chunks) != "1" else
             "same source tree and output directory; exactly one source text "
             "changes before each full compiler invocation"
         ),

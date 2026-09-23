@@ -18,7 +18,7 @@ from benchmark_sh27_production import (
 
 def build(
     compiler: Path, project: Path, directory: Path, parallel: bool,
-    retain_binary: bool, source_chunks: int,
+    retain_binary: bool, source_chunks: int | str,
 ) -> dict[str, object]:
     free_bytes = require_disk_headroom(directory)
     directory.mkdir(parents=True, exist_ok=False)
@@ -75,11 +75,15 @@ def main() -> int:
         "selfhost", "many_files", "large_functions", "control_flow",
     ))
     parser.add_argument("--pairs", type=int, default=11)
-    parser.add_argument("--source-chunks", type=int, choices=(2, 4), default=4)
+    parser.add_argument("--source-chunks", choices=("2", "4", "auto"), default="4")
     parser.add_argument("--require-gain", action="store_true",
                         help="fail unless a majority of pairs win and median delta is negative")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    source_chunks: int | str = (
+        args.source_chunks if args.source_chunks == "auto"
+        else int(args.source_chunks)
+    )
     if args.pairs < 3 or args.pairs > 31:
         raise SystemExit("pairs must be 3..31")
     compiler = args.compiler.resolve(strict=True)
@@ -117,7 +121,7 @@ def main() -> int:
             directory = run_root / "pairs" / f"pair-{pair + 1:02d}" / name
             result = build(
                 compiler, project, directory, name == "parallel", pair == 0,
-                args.source_chunks,
+                source_chunks,
             )
             samples[name].append(result)
             print(
@@ -135,7 +139,7 @@ def main() -> int:
                 "schema": "openc.sh27.native_parallel_checkpoint.v1",
                 "compiler_sha256": sha256(compiler),
                 "workload": args.workload,
-                "source_chunks": args.source_chunks,
+                "source_chunks": source_chunks,
                 "pairs_requested": args.pairs,
                 "pairs_completed": pair + 1,
                 "samples": samples,
@@ -167,7 +171,7 @@ def main() -> int:
         },
         "compiler": {"path": str(compiler), "sha256": sha256(compiler)},
         "workload": args.workload, "source": source, "pairs": args.pairs,
-        "source_chunks": args.source_chunks,
+        "source_chunks": source_chunks,
         "binary_retention": "first pair retained; later hashes recorded before removal",
         "checks": {
             "all_outputs_byte_exact": exact,

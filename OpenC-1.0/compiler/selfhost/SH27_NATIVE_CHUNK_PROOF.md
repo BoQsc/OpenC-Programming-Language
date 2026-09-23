@@ -158,6 +158,36 @@ paired wall-time evidence and a substantive reduction in first-time semantic
 work; merely relabeling the phase or summing worker timings cannot close the
 C/D deficit.
 
+An experimental `artifact --source-chunks=auto` policy now uses measured
+project source bytes and file count: fewer than two files or under 192 KiB
+stays serial; at least four files and 512 KiB–3 MiB selects four chunks;
+other multi-file inputs from 192 KiB–4 MiB select two; larger inputs stay
+serial. It is opt-in, deterministic, and recorded as `source_chunks_policy`
+plus the selected `parallel_source_chunks` in the timing report. The 512 MiB
+Job-memory guard remains part of the proof and benchmarks; source size alone
+is not a universal memory-safety guarantee, so this is not the default.
+
+The local auto proof selects serial on the one-file and 80 KiB many-file
+cases, two workers on 207 KiB control flow, and four on the 742 KiB large
+case and 2.07 MiB compiler self-build. All five outputs are byte-exact;
+one-error and repeated two-error diagnostics match serial, 278/278 native
+conformance and 25/25 x64 substrate pass. Eleven order-alternated local
+pairs each show 11/11 adaptive wins:
+
+| Workload | Serial median | Auto median | Paired median delta | Auto Job-private peak |
+| --- | ---: | ---: | ---: | ---: |
+| Control flow | 1.729 s | 1.204 s | -0.449 s | 97.3 MiB |
+| Large functions | 1.824 s | 1.209 s | -0.580 s | 306.1 MiB |
+| Compiler self-build | 12.799 s | 8.458 s | -3.978 s | 284.3 MiB |
+
+The corresponding ignored local reports are `adaptive-auto-proof.json` and
+`adaptive-auto-{control,large,selfhost}-pairs.json`. A local three-run
+OpenC/DMD comparator also passes compilation, execution, output, and RAM
+checks, but OpenC/DMD ratios remain 2.263x on large functions and 2.788x
+on control flow. Its status is `PARTIAL_COMPARATOR_SET`, because MSVC,
+Clang, and LDC were not included locally. Clean-runner paired and full
+comparator evidence is still needed before considering promotion.
+
 ## Promotion boundary and next work
 
 This is an opt-in, Windows-x64-only compiler experiment. Before production

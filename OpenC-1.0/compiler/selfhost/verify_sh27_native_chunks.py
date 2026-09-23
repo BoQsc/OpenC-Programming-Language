@@ -16,17 +16,32 @@ from benchmark_sh27_production import (
 
 
 def timing_accounting_valid(
-    timing: object, chunked: bool, source_chunks: int,
+    timing: object, chunked: bool, source_chunks: int | str,
 ) -> bool:
     if not isinstance(timing, dict):
         return False
+    if source_chunks == "auto":
+        files = timing.get("source_files", 0)
+        size = timing.get("source_bytes", 0)
+        selected = (
+            4 if files >= 4 and 524288 <= size <= 3145728
+            else 2 if files >= 2 and 196608 <= size <= 4194304
+            else 1
+        )
+    else:
+        selected = source_chunks
     expected_chunks = (
-        source_chunks if chunked and timing.get("source_files", 0) >= source_chunks
+        selected if chunked and timing.get("source_files", 0) >= selected
+        and selected != 1
         else 0
     )
     return bool(
         timing.get("status") == "PASS"
         and timing.get("parallel_source_chunks") == expected_chunks
+        and timing.get("source_chunks_policy") == (
+            "auto" if chunked and source_chunks == "auto"
+            else "explicit_or_default"
+        )
         and timing.get("phase_accounting") == (
             "wall_elapsed_with_acceptance_in_lowering"
             if expected_chunks else "wall_elapsed_with_acceptance_in_validation"
@@ -39,7 +54,7 @@ def timing_accounting_valid(
 
 def measured_build(
     compiler: Path, project: Path, output: Path, chunked: bool,
-    source_chunks: int = 4,
+    source_chunks: int | str = 4,
 ) -> dict[str, object]:
     output.parent.mkdir(parents=True, exist_ok=False)
     disk_free_before = require_disk_headroom(output)
@@ -96,8 +111,12 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--compiler", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--source-chunks", type=int, choices=(2, 4), default=4)
+    parser.add_argument("--source-chunks", choices=("2", "4", "auto"), default="4")
     args = parser.parse_args()
+    source_chunks: int | str = (
+        args.source_chunks if args.source_chunks == "auto"
+        else int(args.source_chunks)
+    )
     compiler = args.compiler.resolve()
     if not compiler.is_file():
         raise SystemExit(f"missing compiler: {compiler}")
@@ -130,7 +149,7 @@ def main() -> int:
         )
         chunked = measured_build(
             compiler, project, run_root / name / "chunked" / "program.exe", True,
-            args.source_chunks,
+            source_chunks,
         )
         exact = bool(
             serial["passed"] and chunked["passed"]
@@ -164,7 +183,7 @@ def main() -> int:
     invalid_chunked = measured_build(
         compiler, invalid_project,
         run_root / "invalid" / "chunked" / "program.exe", True,
-        args.source_chunks,
+        source_chunks,
     )
     serial_diagnostics = str(invalid_serial["stdout"])
     chunked_diagnostics = str(invalid_chunked["stdout"]).replace(
@@ -215,7 +234,7 @@ def main() -> int:
         measured_build(
             compiler, two_invalid_project,
             run_root / "two_invalid" / f"chunked-{index:02d}" / "program.exe",
-            True, args.source_chunks,
+            True, source_chunks,
         )
         for index in range(5)
     ]
@@ -249,7 +268,7 @@ def main() -> int:
         "schema": "openc.sh27.native_source_chunks.v1",
         "status": "PASS" if passed else "FAIL",
         "compiler_sha256": sha256(compiler),
-        "source_chunks": args.source_chunks,
+        "source_chunks": source_chunks,
         "execution": "opt-in native source chunks; scheduling is compiler-revision-specific",
         "results": results,
     }
