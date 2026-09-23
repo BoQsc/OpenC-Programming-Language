@@ -112,8 +112,12 @@ same-run large/control OpenC/DMD medians were 0.504/0.537 s and
 or prove a packed-record speedup: the comparator changed markedly, and the
 storage branch's local complete self-build regressed. Its literal-value
 successor passed local correctness and RAM but regressed self-build by a
-326 ms paired median; see `SH27_TYPED_EXPRESSION_CUTOVER.md`. Both remain
-experimental and SH-27 remains active.
+326 ms paired median. Its clean
+[run 35924359345](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35924359345)
+passed the correctness/RAM steps but failed large-function DMD parity at
+0.701/0.337 s (2.0801x), a same-run public-ceiling deficit of about
+280 ms; see `SH27_TYPED_EXPRESSION_CUTOVER.md`. Both remain experimental
+and SH-27 remains active.
 
 An independent source-evidence flow cut at `884c1ef` gates the inapplicable
 ownership analysis for scalar functions. It passed local fixed point,

@@ -226,7 +226,8 @@ does not fuse semantic evaluation. One clean branch workflow passed 20/20
 pinned ratios; no independent same-source repeat establishes parity. Its
 literal-value successor fixed an earlier self-bootstrap defect and passed
 local correctness and strict RAM, but regressed self-build by a 326 ms
-paired median against the packed source. These are isolated enabling
+paired median against the packed source. Its clean workflow then failed
+the enforced large-function DMD ratio at 2.0801x. These are isolated enabling
 experiments, **not** the SH-27 solution. The next code cut must integrate
 semantic/rule/lowering reuse (or a profile-backed second architecture) and
 be judged by the whole-compiler gates above.

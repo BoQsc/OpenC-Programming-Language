@@ -145,6 +145,17 @@ performance promotion. Retain it only as an isolated enabling step while
 testing the full semantic/rule/lowering cut; do not represent the small
 generated-workload wins as SH-27 parity closure.
 
+The literal-value successor's clean Windows
+[run 35924359345](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35924359345)
+passed every step before enforced normal-default parity, then failed only
+`large_functions` versus DMD: OpenC **0.701 s**, DMD **0.337 s**,
+**2.0801x** against the 1.25x limit. Control flow passed at
+0.317/0.337 s (0.9407x). On that same run, the large-function public
+ceiling was about 0.421 s, a **280 ms** OpenC deficit. This is not an
+across-run estimate of the literal change's effect; its local paired
+self-build regression already rejected standalone promotion. The clean
+failure confirms that the full architectural gap remains.
+
 ## Implementation sequence (one architectural change, gated cuts)
 
 1. **Freeze the phase budget.** Capture a clean-runner critical-path report
