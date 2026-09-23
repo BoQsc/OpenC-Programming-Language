@@ -71,9 +71,15 @@ def bootstrap(
             and sample["output_exists"]
         )
         samples.append(sample)
+        (stage / "measurement.json").write_text(
+            json.dumps(sample, indent=2) + "\n", encoding="utf-8"
+        )
         print(f"{name} bootstrap {number}/3: {sample['passed']}", flush=True)
         if not sample["passed"]:
-            raise RuntimeError(f"{name} bootstrap failed at stage {number}")
+            raise RuntimeError(
+                f"{name} bootstrap failed at stage {number}; "
+                f"measurement={stage / 'measurement.json'}"
+            )
         stages.append(output)
         current = output
     fixed = stages[1].read_bytes() == stages[2].read_bytes()
