@@ -10,3 +10,9 @@
 
 # Preserve the audited upstream distribution byte-for-byte.
 third_party/tinycc-win64/** -text
+
+# OpenC .p files are not Gnuplot.
+*.p linguist-language=Text
+
+# Generated Windows bindings are retained source artifacts.
+standard_library/windows.raw/generated/** linguist-generated
