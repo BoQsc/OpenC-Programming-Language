@@ -78,6 +78,9 @@ unsafe usize acceptance_validate_context(
     group_started = process.monotonic_milliseconds();
     AcceptanceExpressionFeatures expression_features =
         acceptance_expression_features(context);
+    usize assignment_queries_before = context.profile_type_queries;
+    usize assignment_hits_before = context.profile_type_cache_hits;
+    usize assignment_uncached_before = context.profile_type_uncached;
     usize assignments_started = process.monotonic_milliseconds();
     found = 0;
     if expression_features.has_assignments {
@@ -86,6 +89,15 @@ unsafe usize acceptance_validate_context(
     timings.validation_acceptance_assignments_ms =
         timings.validation_acceptance_assignments_ms +
         process.monotonic_milliseconds() - assignments_started;
+    timings.validation_assignment_type_queries =
+        timings.validation_assignment_type_queries +
+        context.profile_type_queries - assignment_queries_before;
+    timings.validation_assignment_type_cache_hits =
+        timings.validation_assignment_type_cache_hits +
+        context.profile_type_cache_hits - assignment_hits_before;
+    timings.validation_assignment_type_uncached =
+        timings.validation_assignment_type_uncached +
+        context.profile_type_uncached - assignment_uncached_before;
     acceptance_report_source_count(context, "assignments", found);
     errors = errors + found;
     found = 0;

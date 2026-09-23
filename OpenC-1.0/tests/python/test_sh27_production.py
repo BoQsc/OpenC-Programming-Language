@@ -138,6 +138,38 @@ class Sh27ProductionTests(unittest.TestCase):
             import verify_sh27_native_chunks as proof
         finally:
             sys.path.remove(script_directory)
+        active_profile = {
+            "launch_completed": True, "workers_wall_ms": 400,
+            "merge_wall_ms": 0,
+            "critical_chunk": {
+                "first_source": 0, "end_source_exclusive": 1,
+                "wall_ms": 350, "lex_parse_ms": 0, "index_ms": 20,
+                "acceptance_ms": 160, "expression_ms": 120,
+                "assignment_ms": 90, "calls_ms": 10,
+                "ir_lower_ms": 70, "native_emit_ms": 50,
+                "type_queries": 300, "type_cache_hits": 100,
+                "type_uncached": 200, "type_failures": 0,
+                "assignment_type_queries": 100,
+                "assignment_type_cache_hits": 40,
+                "assignment_type_uncached": 60,
+            },
+        }
+        serial_profile = {
+            "launch_completed": False, "workers_wall_ms": 0,
+            "merge_wall_ms": 0,
+            "critical_chunk": {
+                "first_source": 0, "end_source_exclusive": 0,
+                "wall_ms": 0, "lex_parse_ms": 0, "index_ms": 0,
+                "acceptance_ms": 0, "expression_ms": 0,
+                "assignment_ms": 0, "calls_ms": 0,
+                "ir_lower_ms": 0, "native_emit_ms": 0,
+                "type_queries": 0, "type_cache_hits": 0,
+                "type_uncached": 0, "type_failures": 0,
+                "assignment_type_queries": 0,
+                "assignment_type_cache_hits": 0,
+                "assignment_type_uncached": 0,
+            },
+        }
         timing = {
             "status": "PASS", "source_files": 4, "source_bytes": 206637,
             "parallel_source_chunks": 2,
@@ -149,8 +181,24 @@ class Sh27ProductionTests(unittest.TestCase):
                 "acceptance_time_basis": "summed_worker_elapsed",
                 "flow_group_time_basis": "summed_worker_elapsed",
             },
+            "native_parallel_profile": active_profile,
+            "type_query_profile": {
+                "enabled": True, "validation_queries": 500,
+                "validation_cache_hits": 100,
+                "validation_uncached": 400,
+                "validation_failures": 0,
+                "assignment_queries": 180,
+                "assignment_cache_hits": 70,
+                "assignment_uncached": 110,
+            },
         }
         self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
+        timing["type_query_profile"]["validation_uncached"] = 399
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing["type_query_profile"]["validation_uncached"] = 400
+        timing["native_parallel_profile"]["critical_chunk"]["assignment_ms"] = 170
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing["native_parallel_profile"]["critical_chunk"]["assignment_ms"] = 90
         self.assertFalse(proof.timing_accounting_valid(timing, False, 2))
         timing["source_files"] = 1
         timing["parallel_source_chunks"] = 0
@@ -159,6 +207,7 @@ class Sh27ProductionTests(unittest.TestCase):
         timing["phase_accounting"] = "wall_elapsed_with_acceptance_in_validation"
         timing["validation_profile"]["acceptance_time_basis"] = "wall_elapsed"
         timing["validation_profile"]["flow_group_time_basis"] = "wall_elapsed"
+        timing["native_parallel_profile"] = serial_profile
         self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
         timing["validation_profile"]["acceptance_time_basis"] = "summed_worker_elapsed"
         self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
@@ -169,6 +218,7 @@ class Sh27ProductionTests(unittest.TestCase):
             "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
         })
         timing["validation_profile"]["flow_group_time_basis"] = "summed_worker_elapsed"
+        timing["native_parallel_profile"] = active_profile
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
         timing["source_bytes"] = 196608
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
@@ -179,6 +229,7 @@ class Sh27ProductionTests(unittest.TestCase):
         timing["phase_accounting"] = "wall_elapsed_with_acceptance_in_validation"
         timing["validation_profile"]["acceptance_time_basis"] = "wall_elapsed"
         timing["validation_profile"]["flow_group_time_basis"] = "wall_elapsed"
+        timing["native_parallel_profile"] = serial_profile
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
         timing["parallel_source_chunks"] = 2
         self.assertFalse(proof.timing_accounting_valid(timing, True, "auto"))
@@ -190,10 +241,24 @@ class Sh27ProductionTests(unittest.TestCase):
         })
         timing["validation_profile"]["acceptance_time_basis"] = "summed_worker_elapsed"
         timing["validation_profile"]["flow_group_time_basis"] = "summed_worker_elapsed"
+        timing["native_parallel_profile"] = active_profile
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
         timing["source_files"] = 221
         timing["source_bytes"] = 2066330
         timing["parallel_flow_workers"] = 4
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["type_query_profile"] = {
+            "enabled": False, "validation_queries": 0,
+            "validation_cache_hits": 0, "validation_uncached": 0,
+            "validation_failures": 0, "assignment_queries": 0,
+            "assignment_cache_hits": 0, "assignment_uncached": 0,
+        }
+        for key in (
+            "type_queries", "type_cache_hits", "type_uncached",
+            "type_failures", "assignment_type_queries",
+            "assignment_type_cache_hits", "assignment_type_uncached",
+        ):
+            timing["native_parallel_profile"]["critical_chunk"][key] = 0
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
 
     def test_worker_tradeoff_requires_same_compiler_and_material_savings(self) -> None:

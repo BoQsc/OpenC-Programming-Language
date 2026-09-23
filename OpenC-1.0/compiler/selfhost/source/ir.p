@@ -108,6 +108,11 @@ struct IrContext {
     usize profile_expression_positions;
     usize profile_syntax_candidates;
     usize profile_symbol_candidates;
+    bool profile_type_queries_enabled;
+    usize profile_type_queries;
+    usize profile_type_cache_hits;
+    usize profile_type_uncached;
+    usize profile_type_failures;
     bool suppress_acceptance_diagnostics;
 }
 

@@ -2,6 +2,11 @@
 
 Status: **ACTIVE — PUBLIC INTEGRITY BASELINE PASS; PERFORMANCE EXPANSION OPEN**
 
+The dependency-ordered remaining work and explicit completion gates are in
+[`SH27_COMPLETION_ROADMAP.md`](SH27_COMPLETION_ROADMAP.md). This file retains
+the original scope and chronological evidence; quantified historical deficits
+are disclosure, not throughput-parity or SH-27 completion claims.
+
 SH-27 begins after the immutable Windows x86-64 Hosted 1.0.0 publication. It
 does not modify or relabel the released artifacts and does not add Linux or
 freestanding work to the supported 1.0 scope.
@@ -43,9 +48,11 @@ percentiles, and individual samples are published; selectively favorable
 cases cannot be promoted as the overall result.
 
 SH-27 performance closes only when the representative corpus and harness are
-checked in, MSVC plus Clang and at least one D compiler have executed it on a
-clean Windows runner, OpenC has no correctness or memory regression, and every
-remaining material deficit has either been fixed or is explicitly quantified.
+checked in, the pinned MSVC, Clang, DMD, and LDC comparators pass the 1.25x
+normal-production-mode gate on clean Windows runners, OpenC has no correctness
+or memory regression, and the incremental and real-project gates in
+`SH27_COMPLETION_ROADMAP.md` pass. Quantifying a material deficit is necessary
+disclosure, not completion.
 The first deterministic corpus and bounded harness are now checked in at
 `benchmarks/sh27/CORPUS.json` and
 `compiler/selfhost/benchmark_sh27_production.py`. The automatic/manual

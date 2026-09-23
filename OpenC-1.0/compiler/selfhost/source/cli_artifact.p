@@ -71,6 +71,7 @@ unsafe i32 cli_artifact_command() {
     NativeArtifactOptions options = native_artifact_default_options();
     usize argument = 1;
     bool valid = true;
+    bool profile_type_queries = false;
     while argument < process.argument_count() {
         text value = process.argument(argument);
         if cli_has_prefix(value, "--project=") {
@@ -81,6 +82,8 @@ unsafe i32 cli_artifact_command() {
             report_path = cli_remove_prefix(value, "--report=");
         } else if cli_has_prefix(value, "--timings=") {
             timing_path = cli_remove_prefix(value, "--timings=");
+        } else if value == "--profile-type-queries" {
+            profile_type_queries = true;
         } else if cli_has_prefix(value, "--kind=") {
             kind_name = cli_remove_prefix(value, "--kind=");
         } else if cli_has_prefix(value, "--subsystem=") {
@@ -128,12 +131,16 @@ unsafe i32 cli_artifact_command() {
     }
     if options.source_chunks != 1 &&
         options.kind != native_artifact_executable() { valid = false; }
+    if profile_type_queries && text.byte_length(timing_path) == 0 {
+        valid = false;
+    }
     if !valid {
-        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|dll|static-library|import-library) --output=FILE [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--source-chunks=(2|4|auto) (experimental)]\n");
+        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|dll|static-library|import-library) --output=FILE [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--source-chunks=(2|4|auto) (experimental)]\n");
         return 64;
     }
     BuildTimings timings = build_timings_empty();
     timings.emission_mode = 2;
+    timings.profile_type_queries_enabled = profile_type_queries;
     i32 result = emit_bootstrap_d_mode_artifact(
         project, output_path, true, true, timings, options
     );

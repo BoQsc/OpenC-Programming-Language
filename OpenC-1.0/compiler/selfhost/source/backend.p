@@ -13,6 +13,27 @@ struct BuildTimings {
     usize validation_ms;
     usize lowering_emit_ms;
     usize parallel_source_chunks;
+    bool native_parallel_launch_completed;
+    usize native_workers_wall_ms;
+    usize native_merge_ms;
+    usize native_critical_chunk_ms;
+    usize native_critical_chunk_first;
+    usize native_critical_chunk_end;
+    usize native_critical_lex_parse_ms;
+    usize native_critical_index_ms;
+    usize native_critical_acceptance_ms;
+    usize native_critical_expression_ms;
+    usize native_critical_assignment_ms;
+    usize native_critical_calls_ms;
+    usize native_critical_ir_lower_ms;
+    usize native_critical_emit_ms;
+    usize native_critical_type_queries;
+    usize native_critical_type_cache_hits;
+    usize native_critical_type_uncached;
+    usize native_critical_type_failures;
+    usize native_critical_assignment_type_queries;
+    usize native_critical_assignment_type_cache_hits;
+    usize native_critical_assignment_type_uncached;
     usize parallel_flow_workers;
     bool flow_threads_launched;
     bool auto_source_chunks;
@@ -98,6 +119,14 @@ struct BuildTimings {
     usize validation_acceptance_resources_ms;
     usize validation_acceptance_pointers_ms;
     usize validation_acceptance_errors;
+    bool profile_type_queries_enabled;
+    usize validation_type_queries;
+    usize validation_type_cache_hits;
+    usize validation_type_uncached;
+    usize validation_type_failures;
+    usize validation_assignment_type_queries;
+    usize validation_assignment_type_cache_hits;
+    usize validation_assignment_type_uncached;
     usize validation_slowest_source_ms;
     usize validation_slowest_source_record;
     usize validation_second_source_ms;
@@ -120,6 +149,27 @@ BuildTimings build_timings_empty() {
         validation_ms = 0,
         lowering_emit_ms = 0,
         parallel_source_chunks = 0,
+        native_parallel_launch_completed = false,
+        native_workers_wall_ms = 0,
+        native_merge_ms = 0,
+        native_critical_chunk_ms = 0,
+        native_critical_chunk_first = 0,
+        native_critical_chunk_end = 0,
+        native_critical_lex_parse_ms = 0,
+        native_critical_index_ms = 0,
+        native_critical_acceptance_ms = 0,
+        native_critical_expression_ms = 0,
+        native_critical_assignment_ms = 0,
+        native_critical_calls_ms = 0,
+        native_critical_ir_lower_ms = 0,
+        native_critical_emit_ms = 0,
+        native_critical_type_queries = 0,
+        native_critical_type_cache_hits = 0,
+        native_critical_type_uncached = 0,
+        native_critical_type_failures = 0,
+        native_critical_assignment_type_queries = 0,
+        native_critical_assignment_type_cache_hits = 0,
+        native_critical_assignment_type_uncached = 0,
         parallel_flow_workers = 0,
         flow_threads_launched = false,
         auto_source_chunks = false,
@@ -205,6 +255,14 @@ BuildTimings build_timings_empty() {
         validation_acceptance_resources_ms = 0,
         validation_acceptance_pointers_ms = 0,
         validation_acceptance_errors = 0,
+        profile_type_queries_enabled = false,
+        validation_type_queries = 0,
+        validation_type_cache_hits = 0,
+        validation_type_uncached = 0,
+        validation_type_failures = 0,
+        validation_assignment_type_queries = 0,
+        validation_assignment_type_cache_hits = 0,
+        validation_assignment_type_uncached = 0,
         validation_slowest_source_ms = 0,
         validation_slowest_source_record = 0,
         validation_second_source_ms = 0,

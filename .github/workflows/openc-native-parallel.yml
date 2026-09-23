@@ -108,6 +108,14 @@ jobs:
           --source-chunks auto
           --output artifacts\sh27-native-parallel\source-worker-auto-proof.json
 
+      - name: Profile critical-worker type queries outside timed lanes
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\verify_sh27_native_chunks.py
+          --compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto --profile-type-queries
+          --output artifacts\sh27-native-parallel\source-worker-type-profile.json
+
       - name: Require material two-worker RAM savings
         shell: cmd
         run: >-

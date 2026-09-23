@@ -222,6 +222,9 @@ unsafe usize ir_node_type(
     usize node,
     usize expected
 ) {
+    if context.profile_type_queries_enabled {
+        context.profile_type_queries = context.profile_type_queries + 1;
+    }
     bool has_cache = context.type_cache != null &&
         node < context.syntax.length;
     bool cacheable = expected == semantic_type_error() && has_cache;
@@ -231,7 +234,13 @@ unsafe usize ir_node_type(
         );
         if cached != 0 {
             usize cached_type = cached - 1;
-            if cacheable { return cached_type; }
+            if cacheable {
+                if context.profile_type_queries_enabled {
+                    context.profile_type_cache_hits =
+                        context.profile_type_cache_hits + 1;
+                }
+                return cached_type;
+            }
             usize kind = read_record_field(
                 context.syntax_data, node, 0
             );
@@ -241,11 +250,24 @@ unsafe usize ir_node_type(
             if expectation_independent ||
                 ((kind == 39 || kind == 40 || kind == 41) &&
                  cached_type != semantic_type_error()) {
+                if context.profile_type_queries_enabled {
+                    context.profile_type_cache_hits =
+                        context.profile_type_cache_hits + 1;
+                }
                 return cached_type;
             }
         }
     }
+    if context.profile_type_queries_enabled {
+        context.profile_type_uncached =
+            context.profile_type_uncached + 1;
+    }
     usize resolved = ir_node_type_uncached(context, node, expected);
+    if context.profile_type_queries_enabled &&
+        resolved == semantic_type_error() {
+        context.profile_type_failures =
+            context.profile_type_failures + 1;
+    }
     // A failed lookup can be transient while validation selects a different
     // function/source context or finishes indexing call arguments. Caching
     // only resolved types prevents an early miss from poisoning the fused

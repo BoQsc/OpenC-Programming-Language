@@ -390,6 +390,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         source_data, type_data, types, symbol_data, detail_data,
         symbols, next_value
     );
+    base.profile_type_queries_enabled = timings.profile_type_queries_enabled;
     phase_started = process.monotonic_milliseconds();
     if c_backend {
         i32 c_result = c_emit_project(
@@ -628,6 +629,11 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 profile_expression_positions = 0,
                 profile_syntax_candidates = 0,
                 profile_symbol_candidates = 0,
+                profile_type_queries_enabled = false,
+                profile_type_queries = 0,
+                profile_type_cache_hits = 0,
+                profile_type_uncached = 0,
+                profile_type_failures = 0,
                 suppress_acceptance_diagnostics = false
             };
             ir_initialize_local_values(context);

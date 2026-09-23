@@ -474,6 +474,11 @@ unsafe usize acceptance_validate_project(
                 profile_expression_positions = 0,
                 profile_syntax_candidates = 0,
                 profile_symbol_candidates = 0,
+                profile_type_queries_enabled = timings.profile_type_queries_enabled,
+                profile_type_queries = 0,
+                profile_type_cache_hits = 0,
+                profile_type_uncached = 0,
+                profile_type_failures = 0,
                 suppress_acceptance_diagnostics = false
             };
             ir_initialize_node_indexes(context);
@@ -495,6 +500,17 @@ unsafe usize acceptance_validate_project(
                 checked_duplicates = true;
             }
             errors = errors + acceptance_validate_context(context, timings);
+            timings.validation_type_queries = timings.validation_type_queries +
+                context.profile_type_queries;
+            timings.validation_type_cache_hits =
+                timings.validation_type_cache_hits +
+                context.profile_type_cache_hits;
+            timings.validation_type_uncached =
+                timings.validation_type_uncached +
+                context.profile_type_uncached;
+            timings.validation_type_failures =
+                timings.validation_type_failures +
+                context.profile_type_failures;
             write_usize(
                 validation_source_ms,
                 source_record * size_of(usize),

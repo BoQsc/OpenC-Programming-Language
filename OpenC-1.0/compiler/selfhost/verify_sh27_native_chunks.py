@@ -44,8 +44,98 @@ def timing_accounting_valid(
             and timing.get("source_bytes", 0) >= 1048576
         ):
             expected_flow = 4
+    profile = timing.get("native_parallel_profile")
+    if not isinstance(profile, dict):
+        return False
+    critical = profile.get("critical_chunk")
+    if not isinstance(critical, dict):
+        return False
+    worker_ms = profile.get("workers_wall_ms")
+    merge_ms = profile.get("merge_wall_ms")
+    chunk_ms = critical.get("wall_ms")
+    first = critical.get("first_source")
+    end = critical.get("end_source_exclusive")
+    parts = (
+        critical.get("lex_parse_ms"), critical.get("index_ms"),
+        critical.get("acceptance_ms"), critical.get("expression_ms"),
+        critical.get("assignment_ms"), critical.get("calls_ms"),
+        critical.get("ir_lower_ms"), critical.get("native_emit_ms"),
+    )
+    query_counts = (
+        critical.get("type_queries"), critical.get("type_cache_hits"),
+        critical.get("type_uncached"), critical.get("type_failures"),
+    )
+    assignment_counts = (
+        critical.get("assignment_type_queries"),
+        critical.get("assignment_type_cache_hits"),
+        critical.get("assignment_type_uncached"),
+    )
+    query_profile = timing.get("type_query_profile")
+    if not isinstance(query_profile, dict):
+        return False
+    validation_queries = (
+        query_profile.get("validation_queries"),
+        query_profile.get("validation_cache_hits"),
+        query_profile.get("validation_uncached"),
+        query_profile.get("validation_failures"),
+    )
+    validation_assignments = (
+        query_profile.get("assignment_queries"),
+        query_profile.get("assignment_cache_hits"),
+        query_profile.get("assignment_uncached"),
+    )
+    if not all(isinstance(value, int) and value >= 0 for value in (
+        worker_ms, merge_ms, chunk_ms, first, end, *parts,
+        *query_counts, *assignment_counts,
+        *validation_queries, *validation_assignments,
+    )):
+        return False
+    if query_profile.get("enabled") is True:
+        query_valid = bool(
+            validation_queries[0] ==
+                validation_queries[1] + validation_queries[2]
+            and validation_queries[3] <= validation_queries[2]
+            and query_counts[0] == query_counts[1] + query_counts[2]
+            and query_counts[3] <= query_counts[2]
+            and query_counts[0] <= validation_queries[0]
+            and assignment_counts[0] ==
+                assignment_counts[1] + assignment_counts[2]
+            and validation_assignments[0] ==
+                validation_assignments[1] + validation_assignments[2]
+            and assignment_counts[0] <= query_counts[0]
+            and validation_assignments[0] <= validation_queries[0]
+            and assignment_counts[0] <= validation_assignments[0]
+            and (not expected_chunks or query_counts[0] > 0)
+        )
+    else:
+        query_valid = bool(
+            query_profile.get("enabled") is False
+            and all(value == 0 for value in (
+                *query_counts, *assignment_counts,
+                *validation_queries, *validation_assignments,
+            ))
+        )
+    if expected_chunks:
+        profile_valid = bool(
+            isinstance(profile.get("launch_completed"), bool)
+            and 0 <= first < end <= timing.get("source_files", 0)
+            and 0 < chunk_ms <= worker_ms
+            and parts[4] <= parts[3] <= parts[2] <= chunk_ms
+            and parts[5] <= parts[2]
+            and all(value <= chunk_ms for value in parts)
+        )
+    else:
+        profile_valid = bool(
+            profile.get("launch_completed") is False
+            and worker_ms == 0 and merge_ms == 0
+            and chunk_ms == 0 and first == 0 and end == 0
+            and all(value == 0 for value in parts)
+            and all(value == 0 for value in query_counts)
+            and all(value == 0 for value in assignment_counts)
+        )
     return bool(
         timing.get("status") == "PASS"
+        and profile_valid and query_valid
         and timing.get("parallel_source_chunks") == expected_chunks
         and timing.get("parallel_flow_workers") == expected_flow
         and timing.get("flow_threads_launched") is (expected_flow != 0)
@@ -69,6 +159,7 @@ def timing_accounting_valid(
 def measured_build(
     compiler: Path, project: Path, output: Path, chunked: bool,
     source_chunks: int | str = 4,
+    profile_type_queries: bool = False,
 ) -> dict[str, object]:
     output.parent.mkdir(parents=True, exist_ok=False)
     disk_free_before = require_disk_headroom(output)
@@ -86,6 +177,8 @@ def measured_build(
             f"--output={output}",
             f"--timings={timing}",
         ]
+    if profile_type_queries and chunked:
+        command.append("--profile-type-queries")
     sample = run_measured(
         command, cwd=ROOT, environment=dict(os.environ),
         sample_interval=0.01, max_private_bytes=512 * MIB,
@@ -126,6 +219,7 @@ def main() -> int:
     parser.add_argument("--compiler", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source-chunks", choices=("2", "4", "auto"), default="4")
+    parser.add_argument("--profile-type-queries", action="store_true")
     args = parser.parse_args()
     source_chunks: int | str = (
         args.source_chunks if args.source_chunks == "auto"
@@ -159,11 +253,12 @@ def main() -> int:
     passed = True
     for name, project in workloads:
         serial = measured_build(
-            compiler, project, run_root / name / "serial" / "program.exe", False
+            compiler, project, run_root / name / "serial" / "program.exe", False,
+            profile_type_queries=args.profile_type_queries,
         )
         chunked = measured_build(
             compiler, project, run_root / name / "chunked" / "program.exe", True,
-            source_chunks,
+            source_chunks, args.profile_type_queries,
         )
         exact = bool(
             serial["passed"] and chunked["passed"]
@@ -193,11 +288,12 @@ def main() -> int:
     invalid_serial = measured_build(
         compiler, invalid_project,
         run_root / "invalid" / "serial" / "program.exe", False,
+        profile_type_queries=args.profile_type_queries,
     )
     invalid_chunked = measured_build(
         compiler, invalid_project,
         run_root / "invalid" / "chunked" / "program.exe", True,
-        source_chunks,
+        source_chunks, args.profile_type_queries,
     )
     serial_diagnostics = str(invalid_serial["stdout"])
     chunked_diagnostics = str(invalid_chunked["stdout"]).replace(
@@ -243,12 +339,13 @@ def main() -> int:
     two_invalid_serial = measured_build(
         compiler, two_invalid_project,
         run_root / "two_invalid" / "serial" / "program.exe", False,
+        profile_type_queries=args.profile_type_queries,
     )
     two_invalid_parallel = [
         measured_build(
             compiler, two_invalid_project,
             run_root / "two_invalid" / f"chunked-{index:02d}" / "program.exe",
-            True, source_chunks,
+            True, source_chunks, args.profile_type_queries,
         )
         for index in range(5)
     ]

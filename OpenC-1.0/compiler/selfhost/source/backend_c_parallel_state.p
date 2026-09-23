@@ -1,5 +1,6 @@
 import system.io;
 import system.memory;
+import system.process;
 import system.text;
 
 unsafe IrContext c_parallel_base(ref IrContext base) {
@@ -34,6 +35,8 @@ unsafe IrContext c_parallel_base(ref IrContext base) {
     worker.native_layout_state_cache = base.native_layout_state_cache;
     worker.suppress_acceptance_diagnostics =
         base.suppress_acceptance_diagnostics;
+    worker.profile_type_queries_enabled =
+        base.profile_type_queries_enabled;
     return worker;
 }
 
@@ -54,6 +57,7 @@ unsafe CParallelChunk c_parallel_chunk(
         owned_layout_states = null,
         first = first,
         end = end,
+        elapsed_ms = 0,
         result = 1
     };
 }
@@ -380,6 +384,7 @@ unsafe i32 c_native_chunk_run(
     ref CParallelChunk chunk,
     ref CNativeChunkState state
 ) {
+    usize started = process.monotonic_milliseconds();
     i32 result = c_emit_source_range_validating(
         chunk.base, chunk.output, chunk.first, chunk.end,
         state.entry_module, chunk.timings,
@@ -387,8 +392,45 @@ unsafe i32 c_native_chunk_run(
     );
     if chunk.base.types.length != state.frozen_type_count { result = 2; }
     if !chunk.output.ok { result = 3; }
+    chunk.elapsed_ms = process.monotonic_milliseconds() - started;
     chunk.result = result;
     return result;
+}
+
+unsafe void c_record_native_critical_chunk(
+    ref BuildTimings timings,
+    ref CParallelChunk chunk
+) {
+    if chunk.elapsed_ms <= timings.native_critical_chunk_ms { return; }
+    timings.native_critical_chunk_ms = chunk.elapsed_ms;
+    timings.native_critical_chunk_first = chunk.first;
+    timings.native_critical_chunk_end = chunk.end;
+    timings.native_critical_lex_parse_ms = chunk.timings.lex_parse_ms;
+    timings.native_critical_index_ms = chunk.timings.index_ms;
+    timings.native_critical_acceptance_ms =
+        chunk.timings.validation_acceptance_ms;
+    timings.native_critical_expression_ms =
+        chunk.timings.validation_acceptance_expressions_ms;
+    timings.native_critical_assignment_ms =
+        chunk.timings.validation_acceptance_assignments_ms;
+    timings.native_critical_calls_ms =
+        chunk.timings.validation_acceptance_calls_ms;
+    timings.native_critical_ir_lower_ms = chunk.timings.ir_lower_ms;
+    timings.native_critical_emit_ms = chunk.timings.c_emit_ms;
+    timings.native_critical_type_queries =
+        chunk.timings.validation_type_queries;
+    timings.native_critical_type_cache_hits =
+        chunk.timings.validation_type_cache_hits;
+    timings.native_critical_type_uncached =
+        chunk.timings.validation_type_uncached;
+    timings.native_critical_type_failures =
+        chunk.timings.validation_type_failures;
+    timings.native_critical_assignment_type_queries =
+        chunk.timings.validation_assignment_type_queries;
+    timings.native_critical_assignment_type_cache_hits =
+        chunk.timings.validation_assignment_type_cache_hits;
+    timings.native_critical_assignment_type_uncached =
+        chunk.timings.validation_assignment_type_uncached;
 }
 
 unsafe u32 c_native_chunk_thread_entry(ref CNativeChunkState state) {
@@ -438,6 +480,7 @@ unsafe bool c_emit_native_sources_chunked(
         entry_module, validation_source_ms, parsed_source_cache,
         worker_count
     );
+    usize workers_started = process.monotonic_milliseconds();
     i32 launch_result = 3;
     if worker_count == 2 {
         launch_result = c_native_parallel_jobs_two(&state);
@@ -458,6 +501,13 @@ unsafe bool c_emit_native_sources_chunked(
     if state.chunk_four.result == -1 {
         c_native_chunk_run(state.chunk_four, state);
     }
+    timings.native_workers_wall_ms =
+        process.monotonic_milliseconds() - workers_started;
+    timings.native_parallel_launch_completed = launch_result == 0;
+    c_record_native_critical_chunk(timings, state.chunk_one);
+    c_record_native_critical_chunk(timings, state.chunk_two);
+    c_record_native_critical_chunk(timings, state.chunk_three);
+    c_record_native_critical_chunk(timings, state.chunk_four);
     bool passed = (launch_result == 0 || launch_result == 3) &&
         state.chunk_one.result == 0 && state.chunk_two.result == 0 &&
         state.chunk_three.result == 0 && state.chunk_four.result == 0;
@@ -484,6 +534,7 @@ unsafe bool c_emit_native_sources_chunked(
         return replay_result == 0;
     }
     if passed {
+        usize merge_started = process.monotonic_milliseconds();
         usize required = output.length + state.chunk_one.output.length +
             state.chunk_two.output.length +
             state.chunk_three.output.length +
@@ -496,6 +547,8 @@ unsafe bool c_emit_native_sources_chunked(
         c_parallel_chunk_append(output, timings, state.chunk_two);
         c_parallel_chunk_append(output, timings, state.chunk_three);
         c_parallel_chunk_append(output, timings, state.chunk_four);
+        timings.native_merge_ms =
+            process.monotonic_milliseconds() - merge_started;
         passed = output.ok;
     }
     if !passed {

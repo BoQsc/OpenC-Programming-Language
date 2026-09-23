@@ -15,6 +15,7 @@ struct CParallelChunk {
     ptr byte owned_layout_states;
     usize first;
     usize end;
+    usize elapsed_ms;
     i32 result;
 }
 

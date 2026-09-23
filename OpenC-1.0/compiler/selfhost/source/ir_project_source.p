@@ -242,6 +242,11 @@ unsafe bool ir_observe_emit_source(
         profile_expression_positions = 0,
         profile_syntax_candidates = 0,
         profile_symbol_candidates = 0,
+        profile_type_queries_enabled = false,
+        profile_type_queries = 0,
+        profile_type_cache_hits = 0,
+        profile_type_uncached = 0,
+        profile_type_failures = 0,
         suppress_acceptance_diagnostics = false
     };
     ir_initialize_local_values(context);

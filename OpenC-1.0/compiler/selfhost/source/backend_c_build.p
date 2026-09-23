@@ -19,7 +19,7 @@ unsafe bool write_build_timings(
     bool passed
 ) {
     if text.byte_length(timing_path) == 0 { return true; }
-    DBuffer output = d_buffer_create(4096);
+    DBuffer output = d_buffer_create(8192);
     d_put(output, "{\n  \"schema\": \"openc.native_build_timings.v1\",\n");
     d_put(output, "  \"status\": \"");
     if passed { d_put(output, "PASS"); } else { d_put(output, "FAIL"); }
@@ -173,7 +173,28 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.validation_third_source_record);
     d_put(output, ", \"milliseconds\": ");
     d_put_usize(output, timings.validation_third_source_ms);
-    d_put(output, "}\n    ]\n  },\n  \"total_ms\": ");
+    d_put(output, "}\n    ]\n  },\n  \"type_query_profile\": {\n");
+    d_put(output, "    \"enabled\": ");
+    if timings.profile_type_queries_enabled {
+        d_put(output, "true");
+    } else {
+        d_put(output, "false");
+    }
+    d_put(output, ",\n    \"validation_queries\": ");
+    d_put_usize(output, timings.validation_type_queries);
+    d_put(output, ",\n    \"validation_cache_hits\": ");
+    d_put_usize(output, timings.validation_type_cache_hits);
+    d_put(output, ",\n    \"validation_uncached\": ");
+    d_put_usize(output, timings.validation_type_uncached);
+    d_put(output, ",\n    \"validation_failures\": ");
+    d_put_usize(output, timings.validation_type_failures);
+    d_put(output, ",\n    \"assignment_queries\": ");
+    d_put_usize(output, timings.validation_assignment_type_queries);
+    d_put(output, ",\n    \"assignment_cache_hits\": ");
+    d_put_usize(output, timings.validation_assignment_type_cache_hits);
+    d_put(output, ",\n    \"assignment_uncached\": ");
+    d_put_usize(output, timings.validation_assignment_type_uncached);
+    d_put(output, "\n  },\n  \"total_ms\": ");
     d_put_usize(output, timings.total_ms);
     d_put(output, ",\n  \"compiler_owned\": {\n");
     d_put(output, "    \"lex_parse_ms\": ");
@@ -194,7 +215,55 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.ir_lower_ms);
     d_put(output, ",\n    \"c_emit_ms\": ");
     d_put_usize(output, timings.c_emit_ms);
-    d_put(output, "\n  },\n  \"native_emission_capacity\": {\n");
+    d_put(output, "\n  },\n  \"native_parallel_profile\": {\n");
+    d_put(output, "    \"launch_completed\": ");
+    if timings.native_parallel_launch_completed {
+        d_put(output, "true");
+    } else {
+        d_put(output, "false");
+    }
+    d_put(output, ",\n    \"workers_wall_ms\": ");
+    d_put_usize(output, timings.native_workers_wall_ms);
+    d_put(output, ",\n    \"merge_wall_ms\": ");
+    d_put_usize(output, timings.native_merge_ms);
+    d_put(output, ",\n    \"critical_chunk\": {\n");
+    d_put(output, "      \"first_source\": ");
+    d_put_usize(output, timings.native_critical_chunk_first);
+    d_put(output, ",\n      \"end_source_exclusive\": ");
+    d_put_usize(output, timings.native_critical_chunk_end);
+    d_put(output, ",\n      \"wall_ms\": ");
+    d_put_usize(output, timings.native_critical_chunk_ms);
+    d_put(output, ",\n      \"lex_parse_ms\": ");
+    d_put_usize(output, timings.native_critical_lex_parse_ms);
+    d_put(output, ",\n      \"index_ms\": ");
+    d_put_usize(output, timings.native_critical_index_ms);
+    d_put(output, ",\n      \"acceptance_ms\": ");
+    d_put_usize(output, timings.native_critical_acceptance_ms);
+    d_put(output, ",\n      \"expression_ms\": ");
+    d_put_usize(output, timings.native_critical_expression_ms);
+    d_put(output, ",\n      \"assignment_ms\": ");
+    d_put_usize(output, timings.native_critical_assignment_ms);
+    d_put(output, ",\n      \"calls_ms\": ");
+    d_put_usize(output, timings.native_critical_calls_ms);
+    d_put(output, ",\n      \"ir_lower_ms\": ");
+    d_put_usize(output, timings.native_critical_ir_lower_ms);
+    d_put(output, ",\n      \"native_emit_ms\": ");
+    d_put_usize(output, timings.native_critical_emit_ms);
+    d_put(output, ",\n      \"type_queries\": ");
+    d_put_usize(output, timings.native_critical_type_queries);
+    d_put(output, ",\n      \"type_cache_hits\": ");
+    d_put_usize(output, timings.native_critical_type_cache_hits);
+    d_put(output, ",\n      \"type_uncached\": ");
+    d_put_usize(output, timings.native_critical_type_uncached);
+    d_put(output, ",\n      \"type_failures\": ");
+    d_put_usize(output, timings.native_critical_type_failures);
+    d_put(output, ",\n      \"assignment_type_queries\": ");
+    d_put_usize(output, timings.native_critical_assignment_type_queries);
+    d_put(output, ",\n      \"assignment_type_cache_hits\": ");
+    d_put_usize(output, timings.native_critical_assignment_type_cache_hits);
+    d_put(output, ",\n      \"assignment_type_uncached\": ");
+    d_put_usize(output, timings.native_critical_assignment_type_uncached);
+    d_put(output, "\n    }\n  },\n  \"native_emission_capacity\": {\n");
     d_put(output, "    \"code_reserved_bytes\": ");
     d_put_usize(output, timings.native_code_reserved_bytes);
     d_put(output, ",\n    \"code_used_bytes\": ");

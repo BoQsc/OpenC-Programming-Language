@@ -345,6 +345,17 @@ unsafe bool c_emit_source_record(
         }
         usize acceptance_started = process.monotonic_milliseconds();
         usize found = acceptance_validate_context(context, timings);
+        timings.validation_type_queries = timings.validation_type_queries +
+            context.profile_type_queries;
+        timings.validation_type_cache_hits =
+            timings.validation_type_cache_hits +
+            context.profile_type_cache_hits;
+        timings.validation_type_uncached =
+            timings.validation_type_uncached +
+            context.profile_type_uncached;
+        timings.validation_type_failures =
+            timings.validation_type_failures +
+            context.profile_type_failures;
         usize acceptance_elapsed =
             process.monotonic_milliseconds() - acceptance_started;
         timings.validation_acceptance_ms =
