@@ -72,6 +72,15 @@ closure, not a substitute for the compile-throughput goal.
 | 7. Representative projects | Not implemented | Version equivalent real-project inputs and guard cold/warm/edit/runtime/memory results separately from the synthetic corpus. |
 | 8. Final-source certification | Not started | Two independent clean 20/20 normal-default runs of one final compiler source, plus every correctness, memory, project, incremental, and release-integrity gate. |
 
+`SH27_WORKER_BALANCE_EVIDENCE.md` now records four-worker wall times from
+eleven guarded local runs per large/control workload. The first chunk was
+critical in 11/11 large and 8/11 control runs; its large/control acceptance
+medians were 187/219 ms. The observed worker imbalance is not an available
+125/94 ms speedup: control already has one file per worker, and a different
+eight-file partition can create a three-file critical chunk. Step 1 still
+needs first-visit and allocation attribution; the next semantic/lowering cut
+must target **whole critical-path wall**, not only a summed rule counter.
+
 The next implementation decision is **not** another isolated cache or rule
 flag. First put a measured upper bound on the remaining semantic, lowering,
 and backend wall time of `738bea3`. If the semantic/lowering ceiling cannot
