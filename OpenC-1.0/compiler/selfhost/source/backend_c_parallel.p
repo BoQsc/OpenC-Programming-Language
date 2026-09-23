@@ -186,13 +186,16 @@ unsafe i32 c_emit_source_range_validating(
     usize source_record = source_first;
     while source_record < source_end {
         usize module_index = c_source_module(base, source_record);
-        if module_index >= base.modules.length || !c_emit_source_record(
+        if module_index >= base.modules.length { return 1; }
+        bool emitted = c_emit_source_record(
                 base, output, module_index, source_record,
                 entry_module, timings, true, validation_source_ms,
                 parsed_source_cache
-            ) {
-            return 1;
-        }
+            );
+        resolution_release_cached_parsed_source(
+            parsed_source_cache, source_record
+        );
+        if !emitted { return 1; }
         source_record = source_record + 1;
     }
     return 0;

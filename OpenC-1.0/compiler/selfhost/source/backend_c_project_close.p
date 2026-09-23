@@ -276,12 +276,16 @@ unsafe i32 c_emit_project(
             );
             usize source_index = 0;
             while source_index < source_count {
-                if !c_emit_source_record(
+                bool emitted = c_emit_source_record(
                     base, output, module_index,
                     source_first + source_index, entry_module, timings,
                     validate_acceptance, validation_source_ms,
                     parsed_source_cache
-                ) {
+                );
+                resolution_release_cached_parsed_source(
+                    parsed_source_cache, source_first + source_index
+                );
+                if !emitted {
                     io.print("OPENC-C-BACKEND-SOURCE-FAILED module=");
                     io.print(module_index); io.print(" source=");
                     io.println(source_first + source_index);

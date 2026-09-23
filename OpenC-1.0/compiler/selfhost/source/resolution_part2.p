@@ -237,6 +237,26 @@ unsafe ResolutionParsedSource resolution_cached_parsed_source(
     };
 }
 
+// Native emission consumes each retained source exactly once on the success
+// path. Release its parse records as soon as lowering is done rather than
+// keeping the entire project's token and syntax stores live until build exit.
+// A diagnostic replay can reparse an entry whose reusable flag was cleared.
+unsafe void resolution_release_cached_parsed_source(
+    ptr byte cache_data,
+    usize source_record
+) {
+    if cache_data == null || read_record_field(
+        cache_data, source_record, 4
+    ) == 0 { return; }
+    ResolutionParsedSource parsed = resolution_cached_parsed_source(
+        cache_data, source_record
+    );
+    resolution_release_parsed_source(parsed);
+    write_record_field(cache_data, source_record, 0, 0);
+    write_record_field(cache_data, source_record, 2, 0);
+    write_record_field(cache_data, source_record, 4, 0);
+}
+
 unsafe void resolution_release_parse_cache(
     ptr byte cache_data,
     usize source_count
@@ -244,10 +264,7 @@ unsafe void resolution_release_parse_cache(
     if cache_data == null { return; }
     usize source_record = 0;
     while source_record < source_count {
-        ResolutionParsedSource parsed = resolution_cached_parsed_source(
-            cache_data, source_record
-        );
-        resolution_release_parsed_source(parsed);
+        resolution_release_cached_parsed_source(cache_data, source_record);
         source_record = source_record + 1;
     }
     memory.free(cache_data);
