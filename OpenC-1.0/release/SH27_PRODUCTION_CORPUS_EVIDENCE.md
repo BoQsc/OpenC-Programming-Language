@@ -4,11 +4,12 @@ Status: **CLEAN WINDOWS OPENC/MSVC/CLANG/DMD/LDC PASS; SCALING DEFICIT OPEN**
 
 SH-27 now has a checked-in deterministic corpus and bounded Windows harness
 for equivalent OpenC, ISO C, and D parsing, semantics, native code generation,
-linking, and executable checks. `benchmarks/sh27/CORPUS.json` defines three
-workloads: a small single file, 24 source files, and 2,048 arithmetic
-functions. The harness also executes a repeated one-source-edit lane, four
-independent projects concurrently, output size/SHA-256 capture, executable
-startup, and complete OpenC compiler self-builds.
+linking, and executable checks. `benchmarks/sh27/CORPUS.json` defines four
+workloads: a small single file, 24 source files, 2,048 arithmetic functions,
+and 256 control-flow functions. The harness also executes a repeated
+one-source-edit lane, four independent projects concurrently, output
+size/SHA-256 capture, executable startup, and complete OpenC compiler
+self-builds.
 
 Every compiler process is sampled through PSAPI and killed if it crosses the
 checked-in 512 MiB private or working-set ceiling. Compiler output is spooled
