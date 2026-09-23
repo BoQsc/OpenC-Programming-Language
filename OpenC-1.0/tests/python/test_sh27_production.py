@@ -139,34 +139,60 @@ class Sh27ProductionTests(unittest.TestCase):
         finally:
             sys.path.remove(script_directory)
         timing = {
-            "status": "PASS", "source_files": 4,
+            "status": "PASS", "source_files": 4, "source_bytes": 206637,
             "parallel_source_chunks": 2,
+            "parallel_flow_workers": 2,
+            "flow_threads_launched": True,
             "source_chunks_policy": "explicit_or_default",
             "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
-            "validation_profile": {"acceptance_time_basis": "summed_worker_elapsed"},
+            "validation_profile": {
+                "acceptance_time_basis": "summed_worker_elapsed",
+                "flow_group_time_basis": "summed_worker_elapsed",
+            },
         }
         self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
         self.assertFalse(proof.timing_accounting_valid(timing, False, 2))
         timing["source_files"] = 1
         timing["parallel_source_chunks"] = 0
+        timing["parallel_flow_workers"] = 0
+        timing["flow_threads_launched"] = False
         timing["phase_accounting"] = "wall_elapsed_with_acceptance_in_validation"
         timing["validation_profile"]["acceptance_time_basis"] = "wall_elapsed"
+        timing["validation_profile"]["flow_group_time_basis"] = "wall_elapsed"
         self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
         timing["validation_profile"]["acceptance_time_basis"] = "summed_worker_elapsed"
         self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
         timing.update({
             "source_files": 4, "source_bytes": 206637,
             "parallel_source_chunks": 2, "source_chunks_policy": "auto",
+            "parallel_flow_workers": 2, "flow_threads_launched": True,
             "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
         })
+        timing["validation_profile"]["flow_group_time_basis"] = "summed_worker_elapsed"
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
         timing["source_bytes"] = 79873
         timing["parallel_source_chunks"] = 0
+        timing["parallel_flow_workers"] = 0
+        timing["flow_threads_launched"] = False
         timing["phase_accounting"] = "wall_elapsed_with_acceptance_in_validation"
         timing["validation_profile"]["acceptance_time_basis"] = "wall_elapsed"
+        timing["validation_profile"]["flow_group_time_basis"] = "wall_elapsed"
         self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
         timing["parallel_source_chunks"] = 2
         self.assertFalse(proof.timing_accounting_valid(timing, True, "auto"))
+        timing.update({
+            "source_files": 8, "source_bytes": 741660,
+            "parallel_source_chunks": 4, "parallel_flow_workers": 2,
+            "flow_threads_launched": True,
+            "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
+        })
+        timing["validation_profile"]["acceptance_time_basis"] = "summed_worker_elapsed"
+        timing["validation_profile"]["flow_group_time_basis"] = "summed_worker_elapsed"
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["source_files"] = 221
+        timing["source_bytes"] = 2066330
+        timing["parallel_flow_workers"] = 4
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
 
     def test_worker_tradeoff_requires_same_compiler_and_material_savings(self) -> None:
         script = ROOT / "compiler/selfhost/verify_sh27_worker_tradeoff.py"

@@ -196,6 +196,45 @@ comparator lanes as evidence, not parity gates. The local DMD deficit, broader
 real-project coverage, failure-injection matrix, and incremental reuse keep
 the policy experimental and SH-27 open.
 
+## Opt-in parallel flow validation
+
+The native `artifact` path now also distributes source-independent flow
+validation across private error buffers for projects selected by the adaptive
+source-worker policy. Control flow uses two flow workers, large functions two
+(rather than four, which regressed locally), and compiler self-build four.
+The ordinary `build` and `check` paths remain serial. Diagnostics merge in
+source order, and the timing report distinguishes wall-clock
+`validation_flow_ms` from summed-worker flow groups. It records
+`parallel_flow_workers` and whether native flow threads actually launched.
+The native aggregate writer currently mishandles nested `PackedBuffer` copies
+in a structure initializer; the flow state explicitly assigns the four
+length/capacity words after initialization. This compiler defect still merits
+a general fix and regression test.
+
+The capped-flow candidate reaches a byte-exact Stage 2/Stage 3 fixed point,
+passes all five adaptive byte/diagnostic/RAM workloads, 278/278 conformance,
+25/25 x64 substrate checks, and the 512 MiB process-tree guard. A separate
+transition proof compiles the new sources with the pre-flow compiler, confirms
+flow-thread fallback, and checks exact executable bytes against the newly
+bootstrapped threaded compiler. Eleven order-alternated local pairs against
+the pinned pre-flow compiler (`fd4f630`) show:
+
+| Workload | Pre-flow median | Candidate median | Paired median delta | Candidate wins | Peak candidate Job private |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Control flow | 0.849 s | 0.781 s | -0.068 s | 11/11 | 97.7 MiB |
+| Large functions | 1.195 s | 1.199 s | -0.009 s | 6/11 | 306.0 MiB |
+| Compiler self-build | 7.785 s | 5.356 s | -2.601 s | 11/11 | 285.4 MiB |
+
+The large-function result is a non-regression result, not a demonstrated
+speedup; the separate medians and paired median differ because measurements
+are order-alternated. Local reports are `flow-proto4-*` in the ignored SH-27
+output tree. The new commit/manual workflow rebuilds the pinned baseline and
+requires paired gains on control flow and self-build, with a 5% paired-median
+regression ceiling on large functions. Clean-runner validation is pending.
+The candidate's partial three-run DMD comparison passes correctness and RAM
+but still measures 2.657x DMD on large functions and 2.579x on control flow.
+This is not C/D-class throughput or a claim about arbitrary real projects.
+
 ## Promotion boundary and next work
 
 This is an opt-in, Windows-x64-only compiler experiment. Before production

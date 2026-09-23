@@ -35,9 +35,20 @@ def timing_accounting_valid(
         and selected != 1
         else 0
     )
+    expected_flow = 0
+    if expected_chunks and timing.get("source_bytes", 0) >= 196608:
+        expected_flow = 2
+        if (
+            expected_chunks == 4
+            and timing.get("source_files", 0) >= 32
+            and timing.get("source_bytes", 0) >= 1048576
+        ):
+            expected_flow = 4
     return bool(
         timing.get("status") == "PASS"
         and timing.get("parallel_source_chunks") == expected_chunks
+        and timing.get("parallel_flow_workers") == expected_flow
+        and timing.get("flow_threads_launched") is (expected_flow != 0)
         and timing.get("source_chunks_policy") == (
             "auto" if chunked and source_chunks == "auto"
             else "explicit_or_default"
@@ -48,6 +59,9 @@ def timing_accounting_valid(
         )
         and timing.get("validation_profile", {}).get("acceptance_time_basis") == (
             "summed_worker_elapsed" if expected_chunks else "wall_elapsed"
+        )
+        and timing.get("validation_profile", {}).get("flow_group_time_basis") == (
+            "summed_worker_elapsed" if expected_flow else "wall_elapsed"
         )
     )
 

@@ -88,6 +88,9 @@ SH-27 large Clang parity:               PRIOR CLEAN PASS; RUN 35803835781, 0.862
 SH-27 large-corpus scaling:             OPEN; PRIOR RUN 35797651687: 0.890/0.498/0.313 S OPENC/MSVC/DMD
 SH-27 latest five-comparator run:       35814722551 PASS; EVIDENCE_COMPLETE_DEFICIT
 SH-27 adaptive native workers:          CLEAN RUN 35831483331 PASS; OPT-IN, PARITY OPEN
+SH-27 parallel flow validation:         LOCAL FIXED POINT/278/25 PASS; CLEAN RUN PENDING
+SH-27 pre-flow paired self-build:        LOCAL 11/11 WINS; -2.601 S PAIRED MEDIAN
+SH-27 pre-flow large functions:         LOCAL 6/11 WINS; NON-REGRESSION ONLY
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36

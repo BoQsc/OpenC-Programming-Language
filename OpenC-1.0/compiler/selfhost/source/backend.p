@@ -13,6 +13,8 @@ struct BuildTimings {
     usize validation_ms;
     usize lowering_emit_ms;
     usize parallel_source_chunks;
+    usize parallel_flow_workers;
+    bool flow_threads_launched;
     bool auto_source_chunks;
     usize backend_ms;
     usize total_ms;
@@ -118,6 +120,8 @@ BuildTimings build_timings_empty() {
         validation_ms = 0,
         lowering_emit_ms = 0,
         parallel_source_chunks = 0,
+        parallel_flow_workers = 0,
+        flow_threads_launched = false,
         auto_source_chunks = false,
         backend_ms = 0,
         total_ms = 0,

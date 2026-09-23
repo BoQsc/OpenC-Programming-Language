@@ -31,6 +31,14 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.source_bytes);
     d_put(output, ",\n  \"parallel_source_chunks\": ");
     d_put_usize(output, timings.parallel_source_chunks);
+    d_put(output, ",\n  \"parallel_flow_workers\": ");
+    d_put_usize(output, timings.parallel_flow_workers);
+    d_put(output, ",\n  \"flow_threads_launched\": ");
+    if timings.flow_threads_launched {
+        d_put(output, "true");
+    } else {
+        d_put(output, "false");
+    }
     d_put(output, ",\n  \"source_chunks_policy\": \"");
     if timings.auto_source_chunks {
         d_put(output, "auto");
@@ -76,6 +84,13 @@ unsafe bool write_build_timings(
     d_put(output, "\n  },\n  \"validation_profile\": {\n");
     d_put(output, "    \"acceptance_time_basis\": \"");
     if timings.parallel_source_chunks != 0 {
+        d_put(output, "summed_worker_elapsed");
+    } else {
+        d_put(output, "wall_elapsed");
+    }
+    d_put(output, "\",\n");
+    d_put(output, "    \"flow_group_time_basis\": \"");
+    if timings.parallel_flow_workers != 0 {
         d_put(output, "summed_worker_elapsed");
     } else {
         d_put(output, "wall_elapsed");

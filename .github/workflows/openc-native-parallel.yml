@@ -11,6 +11,9 @@ on:
       - OpenC-1.0/compiler/selfhost/verify_sh27_native_chunks.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_worker_tradeoff.py
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_native_parallel.py
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_flow_parallel.py
+      - OpenC-1.0/compiler/selfhost/prepare_sh27_flow_baseline.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_flow_fallback.py
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
       - OpenC-1.0/benchmarks/sh27/**
@@ -39,6 +42,8 @@ jobs:
     steps:
       - name: Check out candidate revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
 
       - name: Check SH-27 harness
         shell: cmd
@@ -178,6 +183,52 @@ jobs:
           --source-chunks auto --workload selfhost
           --pairs ${{ inputs.pairs || '11' }} --require-gain
           --output artifacts\sh27-native-parallel\auto-selfhost-pairs.json
+
+      - name: Rebuild pinned pre-flow baseline under RAM guards
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\prepare_sh27_flow_baseline.py
+          --baseline-ref fd4f630
+          --seed .github\bootstrap\openc-stage0.exe
+          --output-dir artifacts\sh27-native-parallel\flow-baseline
+
+      - name: Check serial fallback against threaded flow output
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\verify_sh27_flow_fallback.py
+          --baseline-compiler artifacts\sh27-native-parallel\flow-baseline\bootstrap\baseline\stage3\openc.exe
+          --candidate-compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --output artifacts\sh27-native-parallel\flow-fallback-proof.json
+
+      - name: Compare adaptive control-flow compilation with pre-flow baseline
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
+          --baseline artifacts\sh27-native-parallel\flow-baseline\bootstrap\baseline\stage3\openc.exe
+          --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto --workload control_flow
+          --pairs ${{ inputs.pairs || '11' }} --require-gain
+          --output artifacts\sh27-native-parallel\flow-control-baseline-pairs.json
+
+      - name: Guard adaptive large-function regression against pre-flow baseline
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
+          --baseline artifacts\sh27-native-parallel\flow-baseline\bootstrap\baseline\stage3\openc.exe
+          --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto --workload large_functions
+          --pairs ${{ inputs.pairs || '11' }} --max-regression-percent 5
+          --output artifacts\sh27-native-parallel\flow-large-baseline-pairs.json
+
+      - name: Compare adaptive compiler self-build with pre-flow baseline
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
+          --baseline artifacts\sh27-native-parallel\flow-baseline\bootstrap\baseline\stage3\openc.exe
+          --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto --workload selfhost
+          --pairs ${{ inputs.pairs || '11' }} --require-gain
+          --output artifacts\sh27-native-parallel\flow-selfhost-baseline-pairs.json
 
       - name: Configure pinned MSVC comparator
         uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1.13.0

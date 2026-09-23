@@ -27,23 +27,32 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
     DCompilerCallSpan call_span = d_compiler_call_span(
         context, kind, one, two
     );
+    bool flow_workers = native_compiler_span_is(
+        call_span, "flow_parallel_jobs_two"
+    ) || native_compiler_span_is(call_span, "flow_parallel_jobs");
     bool two_workers = native_compiler_span_is(
         call_span, "c_native_parallel_jobs_two"
-    );
-    if two_workers || native_compiler_span_is(
+    ) || native_compiler_span_is(call_span, "flow_parallel_jobs_two");
+    if two_workers || flow_workers || native_compiler_span_is(
         call_span, "c_native_parallel_jobs"
     ) {
         if d_operand_count(context, instruction) != 1 {
             function.code.ok = false; return true;
         }
-        usize callback_one = native_compiler_named_function(
-            context, "c_native_chunk_thread_entry");
-        usize callback_two = native_compiler_named_function(
-            context, "c_native_chunk_thread_entry_two");
-        usize callback_three = native_compiler_named_function(
-            context, "c_native_chunk_thread_entry_three");
-        usize callback_four = native_compiler_named_function(
-            context, "c_native_chunk_thread_entry_four");
+        text name_one = "c_native_chunk_thread_entry";
+        text name_two = "c_native_chunk_thread_entry_two";
+        text name_three = "c_native_chunk_thread_entry_three";
+        text name_four = "c_native_chunk_thread_entry_four";
+        if flow_workers {
+            name_one = "flow_parallel_thread_entry_one";
+            name_two = "flow_parallel_thread_entry_two";
+            name_three = "flow_parallel_thread_entry_three";
+            name_four = "flow_parallel_thread_entry_four";
+        }
+        usize callback_one = native_compiler_named_function(context, name_one);
+        usize callback_two = native_compiler_named_function(context, name_two);
+        usize callback_three = native_compiler_named_function(context, name_three);
+        usize callback_four = native_compiler_named_function(context, name_four);
         if callback_one == context.symbols.length ||
             callback_two == context.symbols.length ||
             callback_three == context.symbols.length ||

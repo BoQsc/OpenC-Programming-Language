@@ -255,6 +255,32 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 project_source, project_root, source_data,
                 symbol_data, detail_data, symbols
             );
+        bool parallel_flow = c_backend && timings.emission_mode == 2 &&
+            (artifact_options.source_chunks == 2 ||
+             artifact_options.source_chunks == 4) &&
+            sources.length >= 2 && total_source_length >= 196608;
+        if parallel_flow {
+            usize flow_worker_count = 2;
+            if artifact_options.source_chunks == 4 &&
+                sources.length >= 32 && total_source_length >= 1048576 {
+                flow_worker_count = 4;
+            }
+            timings.parallel_flow_workers = flow_worker_count;
+            if !flow_validate_project_parallel(
+                project_source, project_root, module_data, modules,
+                source_data, sources, type_data, symbol_data, detail_data,
+                symbols, project_has_pointer_symbol,
+                project_has_unsafe_function, parsed_source_cache,
+                validation_source_ms, error_data, errors, timings,
+                flow_worker_count
+            ) {
+                timings.validation_ms =
+                    process.monotonic_milliseconds() - phase_started;
+                timings.total_ms =
+                    process.monotonic_milliseconds() - total_started;
+                return 1;
+            }
+        } else {
         module_index = 0;
         while module_index < modules.length {
             usize first = read_record_field(module_data, module_index, 2);
@@ -301,6 +327,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 index = index + 1;
             }
             module_index = module_index + 1;
+        }
         }
         timings.validation_flow_ms =
             process.monotonic_milliseconds() - flow_started;

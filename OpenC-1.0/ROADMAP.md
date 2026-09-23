@@ -586,6 +586,21 @@ IR reach closure. Exact evidence and reproduction commands are in
       two-worker savings on control flow, large functions, and self-build;
       local savings are 64.4, 114.4, and 60.3 MiB. The expanded commit/manual
       workflow also passes this gate on a clean host.
+      An additional opt-in native flow-validation tranche divides
+      source-independent flow checks over private error buffers and merges
+      diagnostics in source order. The capped policy uses two flow workers
+      on the control-flow and large-function corpora and four on compiler
+      self-build. Its local byte-exact fixed point, five output/diagnostic/RAM
+      proofs, 278 conformance cases, 25 x64 checks, and a pre-flow-compiler
+      fallback proof pass. Eleven local revision-paired comparisons improve
+      control flow by 0.068 s and self-build by 2.601 s paired median;
+      large functions are effectively flat (6/11 wins), so the clean
+      workflow guards that workload against over 5% regression rather than
+      claiming a gain. Clean-runner verification of this tranche is pending.
+      A partial DMD comparison still finds 2.657x large and 2.579x control
+      deficits. Full SH-27 remains open on broad C/D-class throughput,
+      arbitrary-project RAM behavior, representative project coverage,
+      incremental reuse, and the native nested-aggregate copy defect.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records
