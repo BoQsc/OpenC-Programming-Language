@@ -142,13 +142,28 @@ unsafe void flow_validate_source(
     ) == source_record {
         source_symbol_end = source_symbol_end + 1;
     }
+    ResolutionParsedSource parsed = resolution_cached_parsed_source(
+        parsed_source_cache, source_record
+    );
     // Flow diagnostics require stateful symbols or one of the constructs below.
     // Prove their absence before allocating another token/syntax tree for this
     // source.  Every uncertain case retains the complete validator.
     FlowSourceFeatures source_features = flow_source_features(
         source, project_has_pointer_symbol
     );
-    bool source_needs_flow = project_has_unsafe_function ||
+    bool has_possible_unsafe_call = project_has_unsafe_function;
+    if has_possible_unsafe_call && parsed.reusable {
+        has_possible_unsafe_call = false;
+        usize call_candidate = 0;
+        while call_candidate < parsed.syntax.length &&
+            !has_possible_unsafe_call {
+            has_possible_unsafe_call = read_record_field(
+                parsed.syntax_data, call_candidate, 0
+            ) == 38;
+            call_candidate = call_candidate + 1;
+        }
+    }
+    bool source_needs_flow = has_possible_unsafe_call ||
         source_features.needs_flow;
     usize flow_symbol = source_symbol_first;
     while flow_symbol < source_symbol_end && !source_needs_flow {
@@ -161,7 +176,34 @@ unsafe void flow_validate_source(
         usize flow_type_kind = read_record_field(type_data, flow_type, 0);
         if flow_kind == resolution_symbol_variable() &&
             read_record_field(detail_data, flow_symbol, 2) != 0 {
-            source_needs_flow = true;
+            // The initialization rule only examines locals with no '=' in
+            // their declaration. A retained error-free parse lets us prove
+            // a scalar local initialized without entering the full flow
+            // analysis. Resource, pointer, ref, and uncertain declarations
+            // keep the old path and diagnostic ordering.
+            bool safe_local = parsed.reusable &&
+                flow_type_kind != 12 && flow_type_kind != 13 &&
+                !flow_symbol_resource_type(
+                    type_data, symbol_data, flow_symbol
+                );
+            if safe_local {
+                usize declaration = read_record_field(
+                    detail_data, flow_symbol, 1
+                );
+                safe_local = declaration < parsed.syntax.length &&
+                    read_record_field(
+                        parsed.syntax_data, declaration, 0
+                    ) == 12 && flow_span_has_byte(
+                        source,
+                        read_record_field(
+                            parsed.syntax_data, declaration, 1
+                        ),
+                        read_record_field(
+                            parsed.syntax_data, declaration, 2
+                        ), 61
+                    );
+            }
+            if !safe_local { source_needs_flow = true; }
         }
         if flow_kind == resolution_symbol_parameter() && (
             read_record_field(detail_data, flow_symbol, 3) == 1 ||
@@ -171,9 +213,6 @@ unsafe void flow_validate_source(
         flow_symbol = flow_symbol + 1;
     }
     if !source_needs_flow { return; }
-    ResolutionParsedSource parsed = resolution_cached_parsed_source(
-        parsed_source_cache, source_record
-    );
     bool parsed_source_reused = parsed.reusable;
     PackedBuffer tokens = parsed.tokens;
     ptr byte token_data = parsed.token_data;
