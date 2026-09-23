@@ -204,6 +204,42 @@ climbing expression walk is the next *architectural hypothesis* to prove on
 an isolated branch with exact syntax/diagnostics and paired wall time. It
 must not be promoted merely because a parser counter falls.
 
+## Isolated precedence-climbing parser prototype
+
+On `codex/sh27-pratt-parser`, a single precedence-climbing walk replaces the
+ten binary levels and classifies one- or two-byte operator tokens directly.
+The Stage 2/Stage 3 compiler fixed point is byte-exact. A guarded local
+baseline/candidate comparison found identical parser output and diagnostics
+on all 503 checked-in `.p` compiler sources and conformance fixtures. The
+candidate passed the adaptive five-workload/invalid-diagnostic proof,
+native conformance **278/278**, x64 substrate **25/25**, and the 13 SH-27
+Python harness tests. All compared compiler processes stayed within the
+512 MiB Windows Job guard. Raw reports are under ignored
+`build-output/selfhost-sh27/sh27-pratt-prototype-20260923/`.
+
+Eleven order-alternated same-host baseline/candidate pairs gave:
+
+| Workload and mode | Paired candidate-minus-baseline median | Candidate wins | Output proof |
+| --- | ---: | ---: | --- |
+| Large functions, adaptive | -46 ms | 11/11 | byte-identical executable and runtime output |
+| Control flow, adaptive | -9 ms | 9/11 | byte-identical executable and runtime output |
+| Large functions, serial/default | -44 ms | 11/11 | byte-identical executable and runtime output |
+| Control flow, serial/default | -11 ms | 9/11 | byte-identical executable and runtime output |
+| Full compiler self-build, adaptive | -64 ms | 10/11 | both compiler revisions produce the same candidate fixed-point binary |
+
+The self-build A/B harness initially and incorrectly required the older
+baseline compiler to reproduce its own binary while compiling *candidate*
+source; that run reported a false failure. The corrected harness checks that
+both compiler revisions produce the candidate fixed-point binary from the
+same candidate source. The 11-pair rerun passed. The first failed report is
+retained as `selfhost-fast-pairs.json`; the valid rerun is
+`selfhost-fast-pairs-corrected.json`.
+
+This is a locally proved improvement, not clean-CI approval, 1.25x C/D
+parity, or SH-27 completion. The parser prototype remains isolated pending
+an independent clean Windows run. The semantic first-visit and assignment
+costs remain the next larger redesign target even if this cut is promoted.
+
 ## Correctness and interpretation limits
 
 - The final instrumented compiler passed exact self-hosting closure, native

@@ -5,7 +5,7 @@ import system.path;
 import system.text;
 
 unsafe NodeResult parse_logical_or(ref ParserContext context) {
-    return parse_binary_level(context, 10);
+    return parse_binary_climbing(context, 1);
 }
 
 unsafe NodeResult parse_assignment(ref ParserContext context) {

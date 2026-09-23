@@ -10,9 +10,54 @@ from pathlib import Path
 import statistics
 
 from benchmark_sh27_production import (
-    MIB, ROOT, generate_language, require_disk_headroom, run_sample,
+    MIB, ROOT, generate_language, require_disk_headroom, run_measured, run_sample,
     sha256, validate_corpus,
 )
+
+
+def run_selfhost_sample(
+    compiler: Path, project: Path, sample_root: Path, chunks: int | str,
+    expected_output_sha256: str,
+) -> dict[str, object]:
+    disk_free_before = require_disk_headroom(sample_root)
+    sample_root.mkdir(parents=True, exist_ok=False)
+    output = sample_root / "openc.exe"
+    timing = sample_root / "timings.json"
+    command = [
+        str(compiler), "artifact", f"--project={project}", "--kind=exe",
+        f"--output={output}", f"--report={sample_root / 'artifact.json'}",
+        f"--timings={timing}", f"--source-chunks={chunks}",
+    ]
+    sample = run_measured(
+        command, cwd=ROOT, environment=dict(os.environ),
+        sample_interval=0.01, max_private_bytes=512 * MIB,
+        max_working_set_bytes=512 * MIB,
+        max_captured_output_bytes=2 * MIB, timeout_seconds=180,
+    )
+    sample["command"] = command
+    sample["disk_free_bytes_before"] = disk_free_before
+    sample["output_sha256"] = sha256(output) if output.is_file() else None
+    sample["output_bytes"] = output.stat().st_size if output.is_file() else None
+    sample["compiler_timings"] = (
+        json.loads(timing.read_text(encoding="utf-8"))
+        if timing.is_file() else None
+    )
+    sample["fixed_point"] = sample["output_sha256"] == sha256(compiler)
+    sample["matches_current_source_binary"] = (
+        sample["output_sha256"] == expected_output_sha256
+    )
+    sample["passed"] = bool(
+        sample["exit_code"] == 0 and not sample["timed_out"]
+        and not sample["memory_limit_exceeded"]
+        and not sample["stdout_truncated"] and not sample["stderr_truncated"]
+        and isinstance(sample["compiler_timings"], dict)
+        and sample["compiler_timings"].get("status") == "PASS"
+        and sample["matches_current_source_binary"]
+    )
+    (sample_root / "measurement.json").write_text(
+        json.dumps(sample, indent=2) + "\n", encoding="utf-8"
+    )
+    return sample
 
 
 def main() -> int:
@@ -22,7 +67,7 @@ def main() -> int:
     parser.add_argument("--baseline", type=Path, required=True)
     parser.add_argument("--candidate", type=Path, required=True)
     parser.add_argument(
-        "--workload", choices=("large_functions", "control_flow"),
+        "--workload", choices=("large_functions", "control_flow", "selfhost"),
         required=True,
     )
     parser.add_argument("--source-chunks", choices=("1", "2", "4", "auto"),
@@ -36,12 +81,6 @@ def main() -> int:
     candidate = args.candidate.resolve(strict=True)
     if baseline == candidate or sha256(baseline) == sha256(candidate):
         raise SystemExit("baseline and candidate must be different compilers")
-    corpus_path = ROOT / "benchmarks/sh27/CORPUS.json"
-    corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
-    validate_corpus(corpus)
-    workload = next(
-        item for item in corpus["workloads"] if item["id"] == args.workload
-    )
     output = args.output.resolve()
     require_disk_headroom(output.parent)
     run_root = output.parent / (
@@ -49,11 +88,24 @@ def main() -> int:
         datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     )
     run_root.mkdir(parents=True, exist_ok=False)
-    source = generate_language(run_root / "corpus", "openc", workload)
+    if args.workload == "selfhost":
+        project = ROOT / "compiler/selfhost/openc.project.json"
+        source: dict[str, object] = {"project": str(project)}
+        corpus_hash: str | None = None
+    else:
+        corpus_path = ROOT / "benchmarks/sh27/CORPUS.json"
+        corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
+        validate_corpus(corpus)
+        workload = next(
+            item for item in corpus["workloads"] if item["id"] == args.workload
+        )
+        source = generate_language(run_root / "corpus", "openc", workload)
+        corpus_hash = sha256(corpus_path)
     samples: dict[str, list[dict[str, object]]] = {
         "baseline": [], "candidate": [],
     }
     compilers = {"baseline": baseline, "candidate": candidate}
+    candidate_hash = sha256(candidate)
     chunks: int | str = (
         int(args.source_chunks) if args.source_chunks != "auto" else "auto"
     )
@@ -62,15 +114,22 @@ def main() -> int:
             "candidate", "baseline"
         )
         for name in order:
-            sample = run_sample(
-                tool="openc", executable=compilers[name],
-                environment=dict(os.environ), input_record=source,
-                sample_root=run_root / "pairs" / f"pair-{pair + 1:02d}" / name,
-                sample_interval=0.01, max_private_bytes=512 * MIB,
-                max_working_set_bytes=512 * MIB,
-                max_output_bytes=2 * MIB, execution_timeout=30,
-                openc_source_chunks=chunks,
-            )
+            sample_root = run_root / "pairs" / f"pair-{pair + 1:02d}" / name
+            if args.workload == "selfhost":
+                sample = run_selfhost_sample(
+                    compilers[name], project, sample_root, chunks,
+                    candidate_hash,
+                )
+            else:
+                sample = run_sample(
+                    tool="openc", executable=compilers[name],
+                    environment=dict(os.environ), input_record=source,
+                    sample_root=sample_root,
+                    sample_interval=0.01, max_private_bytes=512 * MIB,
+                    max_working_set_bytes=512 * MIB,
+                    max_output_bytes=2 * MIB, execution_timeout=30,
+                    openc_source_chunks=chunks,
+                )
             samples[name].append(sample)
             print(
                 f"pair {pair + 1}/{args.pairs} {name}: "
@@ -93,13 +152,20 @@ def main() -> int:
         for group in samples.values() for sample in group
     )
     exact = len(output_hashes) == 1 and "None" not in output_hashes
+    matches_current_source = bool(
+        args.workload == "selfhost" and all(
+            bool(sample["matches_current_source_binary"])
+            for group in samples.values() for sample in group
+        )
+    )
     median_delta = statistics.median(deltas)
     result = {
         "schema": "openc.sh27.existing_compiler_pair.v1",
         "status": "PASS" if all_passed and exact else "FAIL",
         "baseline": {"path": str(baseline), "sha256": sha256(baseline)},
         "candidate": {"path": str(candidate), "sha256": sha256(candidate)},
-        "corpus_sha256": sha256(corpus_path),
+        "corpus_sha256": corpus_hash,
+        "source": source if args.workload == "selfhost" else None,
         "workload": args.workload, "source_chunks": chunks,
         "pairs": args.pairs,
         "paired_delta_seconds": deltas,
@@ -107,7 +173,10 @@ def main() -> int:
         "candidate_wins": sum(delta < 0 for delta in deltas),
         "baseline_wins": sum(delta > 0 for delta in deltas),
         "all_compiles_executions_and_ram_guards_passed": all_passed,
-        "all_executables_byte_exact": exact,
+        "all_executables_byte_exact": exact if args.workload != "selfhost" else None,
+        "all_self_builds_match_candidate_fixed_point": (
+            matches_current_source if args.workload == "selfhost" else None
+        ),
         "samples": samples,
     }
     output.parent.mkdir(parents=True, exist_ok=True)
