@@ -63,19 +63,6 @@ unsafe void x64_emit_u32(ref X64Code code, usize value) {
 }
 
 unsafe void x64_emit_u64(ref X64Code code, u64 value) {
-    if code.ok && code.bytes.ok &&
-        code.bytes.length <= code.bytes.capacity &&
-        code.bytes.capacity - code.bytes.length >= 8 {
-        ptr byte destination = code.bytes.data + code.bytes.length;
-        usize index = 0;
-        while index < 8 {
-            *(destination + index) = cast_unchecked(
-                byte, cast(u8, (value >> (index * 8)) & 255));
-            index = index + 1;
-        }
-        code.bytes.length = code.bytes.length + 8;
-        return;
-    }
     usize shift = 0;
     while shift < 64 {
         x64_emit_u8(code, cast(usize, (value >> shift) & 255));
