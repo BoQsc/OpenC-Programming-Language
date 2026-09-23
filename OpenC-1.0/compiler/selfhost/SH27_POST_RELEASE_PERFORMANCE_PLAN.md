@@ -713,3 +713,21 @@ The accepted four-byte writer is therefore clean-runner verified as a safe
 incremental improvement; no cross-run absolute-time delta is attributed to
 it. A later local harness unit test also passes 10/10 and confirms failed
 paired bootstrap measurements remain available for diagnosis.
+
+An isolated native-source-worker prerequisite branch,
+`codex/sh27-native-chunk-proof`, now partitions native output into four private
+ordered chunks but executes them serially. It reaches a byte-exact compiler
+fixed point, passes 25/25 x64 substrate and 278/278 native conformance, and
+produces byte-identical executables for the self-host, many-files,
+large-functions, and control-flow workloads. Per-range output sizing lowers
+the guarded four-chunk self-build peak from about 300 MiB to 259-261 MiB.
+Atomic live-byte reservation/release closes a necessary allocator race, but
+guarded eleven-pair local A/B tests show no credible throughput gain from it
+(+3 ms control flow and +24 ms large functions at paired medians, with noisy
+host timings). A first thread-launch attempt access-violated even with the
+launcher disabled; it was removed. The production `build` path is unchanged.
+Next: isolate that native call boundary in a minimal fixture, then prove
+thread-safe private state, diagnostic ordering, serial fallback, and bounded
+2/4-worker speedups before considering native parallelism for master. In
+parallel, reduce the measured first-time semantic inference work; SH-27 still
+does not meet C/D-class throughput or incremental-object-reuse goals.
