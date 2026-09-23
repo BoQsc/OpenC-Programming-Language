@@ -564,6 +564,11 @@ IR reach closure. Exact evidence and reproduction commands are in
       as material costs. This is measurement integrity, not throughput parity;
       adaptive scheduling, semantic-pass reduction, incremental reuse, and
       real-project parity remain SH-27 work.
+      Clean Windows run 35829019593 passes fixed-point, conformance,
+      substrate, both worker proofs, RAM and paired-speed gates, and pinned
+      C/D comparison with the timing correction at `9d37ca2`; artifact
+      10735889275 retains the JSON evidence. No C/D parity is inferred from
+      that workflow success.
       A same-compiler RAM trade-off gate now requires at least 32 MiB of
       two-worker savings on control flow, large functions, and self-build;
       local savings are 64.4, 114.4, and 60.3 MiB. The expanded commit/manual

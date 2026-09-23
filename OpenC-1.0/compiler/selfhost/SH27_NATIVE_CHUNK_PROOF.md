@@ -131,13 +131,22 @@ exact clean-host ratios are in that artifact and are not inferred here.
 `openc artifact` now accepts `--timings=PATH` alongside its separate artifact
 `--report=PATH`. The native-worker proof and paired/production harnesses retain
 the compiler-owned phase record for each sample. The timing record identifies
-the actual worker count, including serial fallback on a one-file project.
+the selected chunk count, including serial fallback on a one-file project;
+it does not assert that every requested native thread launched.
 Its top-level phases are wall elapsed: when chunks run in parallel, validation
 contains the serial flow pass, while `lowering_and_c_emission` includes the
 fused worker stage. `validation_profile.acceptance_ms` and its groups are
 **summed worker elapsed**, not wall time, in that mode. The proof rejects a
 timing record with the wrong basis so we do not mistake aggregate worker time
 for the compiler's critical path.
+
+Clean Windows [run 35829019593](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35829019593)
+passes the checked-out-source fixed point, 278/278 conformance, 25/25 x64
+substrate, both worker-count proofs, the RAM trade-off, paired speed gates,
+and the pinned C/D comparator at commit `9d37ca2`. Its machine-readable
+artifact is `OpenC-SH27-native-parallel-35829019593` (ID `10735889275`,
+864,115 bytes). This verifies the timing-report change on a clean runner;
+the comparator step remains evidence-only, not a throughput-parity gate.
 
 One guarded local two-worker proof after that accounting correction recorded
 4,531 ms serial validation and 5,844 ms fused stage for self-build; the
