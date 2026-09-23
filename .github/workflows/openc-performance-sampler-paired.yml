@@ -1,0 +1,27 @@
+name: OpenC SH-27 sampler overhead A/B
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    name: Same-host DMD sampler comparison
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - name: Check out sampler and historical baseline
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pinned DMD comparator
+        uses: dlang-community/setup-dlang@0a7469b93f791d83f30932c6fd105796c6966e20 # v2.0.0
+        with:
+          compiler: dmd-2.112.0
+
+      - name: Compare eleven alternating source-identical compiles
+        shell: cmd
+        run: python OpenC-1.0\compiler\selfhost\diagnose_sh27_job_overhead.py
