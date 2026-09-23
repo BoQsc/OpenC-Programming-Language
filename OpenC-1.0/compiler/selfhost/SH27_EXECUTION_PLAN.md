@@ -59,6 +59,27 @@ platforms, or a sequence of tiny parser/cache/peephole changes while the
 large/control compile deficit is open. Steps 6-7 are required for full SH-27
 closure, not a substitute for the compile-throughput goal.
 
+## Current checkpoint (2026-09-24)
+
+| Step | State | Next decisive evidence |
+| --- | --- | --- |
+| 0. Freeze proof | Partial | Keep the scalar-flow source `738bea3`, raw local pairs, and clean run `35928451776` as one traceable candidate; do not compare its absolute times to a different runner. |
+| 1. Account for wall time | Partial | Reprofile that exact source with nonoverlapping critical-path and first-visit/allocation attribution. The flow pass changed the profile, so the older cost split is no longer a design budget. |
+| 2-3. Fused semantics and lowering | Not implemented | Make one vertical cut from accepted typed expression to IR lowering. The packed-record and eager binary-flag experiments passed correctness but did not deliver a guarded end-to-end gain; do not extend them as micro-optimizations. |
+| 4. Remaining architecture | Not implemented | Choose a compact/value-location backend or a larger measured front-end cut only after the new critical-path budget. |
+| 5. Production policy/RAM | Partial | Retain normal adaptive mode and repeat exact-output, complete self-build, 64/256 MiB child, and 512 MiB Job guards after each accepted architecture. |
+| 6. Incremental objects | Not implemented | Demonstrate content-validated COFF reuse and correct implementation/API invalidation, not merely a one-file rebuild timer. |
+| 7. Representative projects | Not implemented | Version equivalent real-project inputs and guard cold/warm/edit/runtime/memory results separately from the synthetic corpus. |
+| 8. Final-source certification | Not started | Two independent clean 20/20 normal-default runs of one final compiler source, plus every correctness, memory, project, incremental, and release-integrity gate. |
+
+The next implementation decision is **not** another isolated cache or rule
+flag. First put a measured upper bound on the remaining semantic, lowering,
+and backend wall time of `738bea3`. If the semantic/lowering ceiling cannot
+cover the same-run DMD deficit, design Step 4 concurrently rather than
+waiting for a succession of small wins. A prototype advances only after
+11 same-host paired large/control/self-build measurements, byte-exact
+behavior, fixed point, and strict RAM; otherwise record and reject it.
+
 ### 0. Establish the comparison contract
 
 - Preserve the current known-good parallel-declaration compiler and its
