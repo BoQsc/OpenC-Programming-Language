@@ -7,6 +7,7 @@ on:
       - codex/sh27-default-auto
       - codex/sh27-streaming-parse-cache
       - codex/sh27-parallel-declarations
+      - codex/sh27-typed-expression-cutover
     paths:
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
