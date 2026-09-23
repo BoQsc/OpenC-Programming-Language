@@ -253,9 +253,17 @@ The native proof's two production-corpus artifacts explicitly run OpenC with
 `--source-chunks=4` and `--source-chunks=auto`. Both happened to report
 `PASS_PARITY` on that runner, but they are **opt-in modes**, only three samples
 per lane, and not the normal/default OpenC compiler. They cannot satisfy the
-roadmap's two-run, five-sample default-mode parity gate. A separate
-normal-default parity-enforcing workflow is pending. The semantic first-visit
-and assignment costs remain the next larger redesign target.
+roadmap's two-run, five-sample default-mode parity gate. The separate
+[five-sample normal-default run 35884325763](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35884325763)
+enforced parity and returned `FAIL_PARITY`: **19/20** pinned checks passed,
+but `large_functions` was 0.781 s OpenC versus 0.562 s DMD median, or
+**1.390x**. The same-run 1.25x ceiling is 0.7025 s, leaving about **79 ms**
+of OpenC default-mode wall time to remove. `control_flow` was 0.510/0.448 s,
+or 1.138x and passed. All comparator version, compile, execution, memory,
+and current-source fixed-point checks passed. This is one clean runner, not
+the required two-run parity result, and the real-project/incremental gates
+remain open. The semantic first-visit and assignment costs remain the next
+larger redesign target.
 
 ## Pinned DMD source comparison: architectural hypotheses
 
