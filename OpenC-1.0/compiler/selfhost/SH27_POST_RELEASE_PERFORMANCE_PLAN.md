@@ -596,3 +596,15 @@ the immediate route to broad D/C throughput parity; the next prototype must
 remove an entire semantic traversal or exploit bounded per-source concurrency,
 while retaining diagnostic order, fixed-point determinism, and aggregate RAM
 limits. Neither route is claimed complete.
+
+The existing parallel source-chunk machinery is not yet a native shortcut:
+`c_emit_sources_parallel` is gated to C emission mode, while the self-hosted
+native `c_parallel_jobs` returns an unsupported result. The legacy hosted-C
+runtime's eight-thread implementation uses per-thread Windows heaps and TLS;
+enabling its switch for native builds would silently reintroduce a C runtime
+dependency and would not establish thread-safe native type/allocator state.
+A native concurrency tranche must first own its Windows thread entry, private
+worker arenas, frozen type table, failure propagation, deterministic chunk
+merge, and whole-process RAM budget. Only then can it compare bounded 2/3/4
+worker builds against the serial compiler on both workloads; a serial fallback
+must remain correct and independently benchmarked.
