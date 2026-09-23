@@ -62,9 +62,8 @@ unsafe void write_record_field(
     usize field,
     usize value
 ) {
-    write_usize(
-        data,
-        record * record_stride() + field * size_of(usize),
+    memory.store_usize(
+        data + (record * cast(usize, 5) + field) * size_of(usize),
         value
     );
 }
@@ -74,9 +73,8 @@ unsafe usize read_record_field(
     usize record,
     usize field
 ) {
-    return read_usize(
-        data,
-        record * record_stride() + field * size_of(usize)
+    return memory.load_usize(
+        data + (record * cast(usize, 5) + field) * size_of(usize)
     );
 }
 
