@@ -270,6 +270,32 @@ def measured_build(
     return sample
 
 
+def annotate_failed_case(name: str, samples: dict[str, dict[str, object]]) -> None:
+    """Surface the machine-readable failure on public Actions summaries."""
+    details = {
+        label: {
+            "exit": sample.get("exit_code"),
+            "timeout": sample.get("timed_out"),
+            "memory_limit": sample.get("memory_limit_name"),
+            "memory_observed": sample.get("memory_observed_bytes"),
+            "job_peak": sample.get("peak_job_private_bytes"),
+            "output_exists": sample.get("output_exists"),
+            "timing_valid": sample.get("timing_accounting_valid"),
+            "timing_status": (sample.get("compiler_timings") or {}).get("status"),
+            "selected_chunks": (sample.get("compiler_timings") or {}).get(
+                "parallel_source_chunks"
+            ),
+            "output_sha256": sample.get("output_sha256"),
+        }
+        for label, sample in samples.items()
+    }
+    print(
+        f"::error title=SH-27 {name} proof::"
+        + json.dumps(details, separators=(",", ":")),
+        flush=True,
+    )
+
+
 def main() -> int:
     if os.name != "nt":
         raise SystemExit("native source chunk proof currently requires Windows")
@@ -341,6 +367,10 @@ def main() -> int:
             f"{name}: exact={exact} serial_job_peak={serial['peak_job_private_bytes']} "
             f"chunked_job_peak={chunked['peak_job_private_bytes']}", flush=True
         )
+        if not exact:
+            annotate_failed_case(
+                name, {"serial": serial, "chunked": chunked, "default": default}
+            )
     invalid_root = run_root / "invalid_control_flow"
     shutil.copytree(run_root / "sources" / "control_flow", invalid_root)
     invalid_source = invalid_root / "source_0002.p"
@@ -401,6 +431,12 @@ def main() -> int:
     }
     passed = passed and diagnostic_exact
     print(f"invalid_control_flow: diagnostic_exact={diagnostic_exact}", flush=True)
+    if not diagnostic_exact:
+        annotate_failed_case(
+            "invalid_control_flow",
+            {"serial": invalid_serial, "chunked": invalid_chunked,
+             "default": invalid_default},
+        )
 
     # Separate source chunks can reject simultaneously. The user-visible
     # diagnostic stream must still match source-order serial validation.
@@ -472,6 +508,13 @@ def main() -> int:
         f"two_invalid_control_flow: diagnostic_exact={two_invalid_exact}",
         flush=True,
     )
+    if not two_invalid_exact:
+        two_failure_samples = {
+            "serial": two_invalid_serial, "default": two_invalid_default,
+        }
+        for index, sample in enumerate(two_invalid_parallel):
+            two_failure_samples[f"chunked_{index}"] = sample
+        annotate_failed_case("two_invalid_control_flow", two_failure_samples)
     report = {
         "schema": "openc.sh27.native_source_chunks.v1",
         "status": "PASS" if passed else "FAIL",

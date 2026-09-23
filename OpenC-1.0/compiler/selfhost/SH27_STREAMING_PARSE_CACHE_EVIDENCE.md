@@ -52,7 +52,18 @@ peak exceeds 128 MiB. Below that ceiling the absolute savings requirement
 was obsolete. This revises a trade-off assertion, **not** the strict
 64/256 MiB compiler limits or 512 MiB whole-Job guards. Unit tests cover
 both the low-memory exception and failure for a high-memory workload that
-does not save 32 MiB. A clean retry is still required.
+does not save 32 MiB. The next clean
+[run 35903033443](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35903033443)
+passed bootstrap, conformance, and the strict benchmark but stopped earlier
+in the serial/parallel exact-output/RAM proof. The prior clean run reached
+the later trade-off step with the same compiler source, and local serial,
+two-, four-, and default-mode proofs all pass, so the failure cannot be
+classified from step status alone. The public job page does not expose its
+raw log or artifact contents through the available read-only API credential.
+The verifier now emits a compact failure annotation containing the selected
+mode, exit, memory observation, timing-validity flag, and output hash for
+each failed case; the next clean retry must identify and resolve the actual
+failure before promotion. This is not treated as a green proof.
 
 Eleven order-alternated, same-host pairs against the bounded-IR-only compiler
 showed median paired deltas (candidate minus baseline) of **-4 ms** on large
