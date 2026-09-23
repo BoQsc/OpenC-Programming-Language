@@ -59,6 +59,34 @@ platforms, or a sequence of tiny parser/cache/peephole changes while the
 large/control compile deficit is open. Steps 6-7 are required for full SH-27
 closure, not a substitute for the compile-throughput goal.
 
+## Broad candidate batch, not serial micro-optimizations
+
+The next throughput cycle starts three **independent architectural cuts**
+from the same `6794d56` baseline. They are competing hypotheses, not three
+changes to merge blindly:
+
+| Candidate | Wall-time hypothesis | Decisive rejection test |
+| --- | --- | --- |
+| Normalized typed operations | Acceptance and native lowering repeat source-operator, child, symbol, and type discovery; one bounded handoff replaces both paths. | Exact fixed point/diagnostics/runtime/RAM, then paired large/control/self-build wall gain; mere cache-hit reduction is insufficient. |
+| Call-heavy critical path | The first large-function source owns the call-heavy entry path and was critical in 11/11 local runs; restructure call resolution/lowering as a coherent path. | First-chunk and whole-project wall must both fall without moving cost to control or self-build. |
+| Bounded function scheduling | Whole-source worker ownership leaves a measured critical tail; function work may be distributable after source-local semantic state is frozen. | If ownership, deterministic merge, or 64/256/512 MiB guards cannot be preserved, reject the split rather than adding another worker. |
+
+Develop and correctness-check these in isolated worktrees. Heavy compiler
+builds and timing runs stay **serial** on this host to avoid falsifying the
+RAM result. A common `benchmark_sh27_candidate_matrix.py` accepts fixed-point
+compiler executables, freezes one corpus, rotates candidate order, alternates
+adjacent baseline/candidate samples, runs a baseline-vs-baseline null control
+for host jitter, and writes raw guarded results for both failing workloads.
+With `--require-gain`, a result must exceed that null median absolute paired
+delta as well as win a majority of pairs. The matrix is a triage tool, not
+the final parity gate:
+each surviving candidate also needs complete self-build, strict child/Job
+RAM, conformance, and the pinned clean five-compiler run. Integrate survivors
+one at a time and remeasure the combination; nonadditive wins or regressions
+are grounds to discard or redesign a cut. If none closes enough of the DMD
+gap, move immediately to the compact value-location/backend cut with the
+new critical-path profile, not another cache experiment.
+
 ## Current checkpoint (2026-09-24)
 
 | Step | State | Next decisive evidence |
@@ -140,19 +168,21 @@ local 93/42 ms scalar-flow gain did not close clean parity.
 ### 2. Cut over semantic evaluation as one coherent architecture
 
 - Use the existing `IrContext` lifetime in `c_compile_project_source` to
-  carry one source-local typed-expression record from acceptance into native
-  lowering. Encode absent/resolved/contextual state, child IDs, successful
-  symbol selection, type, and literal value under checked allocation bounds.
-  Do not allocate five old full arrays and a new full record in production.
+  carry a bounded, normalized typed-expression IR from acceptance into
+  native lowering. Each operation carries resolved child IDs, selected
+  symbol/operator, type and contextual/literal state. It must *replace*
+  syntax rediscovery and rule replay, not merely store their outputs in an
+  extra cache. Do not allocate the five old full arrays alongside a second
+  full per-syntax representation in production.
 - Build dependency-aware evaluation: binary/assignment operands precede
   parents, but calls can precede their arguments. Use indexed call arguments
   or an explicit bounded dependency stack; never assume syntax ID order is
   globally topological. Freeze only expectation-independent success. Retry
   failed lookup and preserve expected-type-sensitive literals/aggregates.
-- First isolate the failed literal-value prototype on small tests: verify
-  return ABI and contextual typing for integer widths, comparison, overflow,
-  and null/aggregate expectations. Its prior 655-error self-build attempt
-  is a known blocker, not an optimization result. Then fuse the high-volume
+- Reuse the repaired literal-value experiment only under exact return ABI
+  and contextual-typing tests for integer widths, comparison, overflow,
+  and null/aggregate expectations. Its later complete self-build regression
+  rejects it as a standalone change. Fuse the high-volume
   assignment and binary rule families with the expression evaluation, while
   buffering/ordering diagnostics to match the old passes exactly.
 - Preserve `check`, invalid inputs, error count/order/positions, source-order
@@ -160,7 +190,7 @@ local 93/42 ms scalar-flow gain did not close clean parity.
   the old implementation only as a test comparator during cutover. Delete
   unused caches and rescans when equivalence is proved.
 
-### 3. Make the lowerer consume the resolved record
+### 3. Make the lowerer consume the normalized typed operations
 
 - Change name, literal, unary, binary, assignment, and call lowering to use
   accepted child/symbol/type/value facts. Keep explicit fallback for genuinely

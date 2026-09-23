@@ -42,27 +42,36 @@ checked arithmetic, and exact diagnostics.
 
 ## Target shape
 
-One source-local, bounded typed-expression store lives from source indexing
-through acceptance and native lowering. It replaces, rather than supplements,
-the five broad per-syntax-node arrays now used for name selection, call
-selection, type, left operand, and right operand. A four-word tagged record
-per expression node is the initial RAM ceiling: type/result state, payload
-A, payload B, and flags. Payloads are kind-specific (symbol for a name or
-call, child IDs for unary/binary/assignment, parsed integer bits for a
-literal). A record is indexed through a compact expression-node map; avoid
-allocating a full four-word record for every declaration or statement. If
-the map or tags force more live bytes than the arrays they replace, redesign
-the layout before promoting it. Keep current cache arrays behind the
-test-only comparison path until cutover is proved, but never allocate both
-in normal production mode.
+The **revised** target is a source-local, bounded *normalized typed-expression
+IR*, not a wider cache for the existing syntax tree. Acceptance resolves a
+node's children, selected symbol, operator, context-dependent literal value,
+type, and rule outcome into an operation record. Native lowering consumes
+those operations directly and stops rediscovering syntax children or source
+operator spelling on its supported path. The four-word tagged storage trial
+was useful to test lifetime and RAM, but its self-build regression and the
+failed eager-rule/operator-fact experiments show that storage or replayed
+flags alone do not meet the throughput objective. The current cache arrays
+remain a test oracle only until a full cutover proves equivalence; normal
+production must not allocate both broad representations.
 
-The record has three distinct states: absent, resolved, and contextual.
+This is the architectural lesson from pinned DMD, not a proposal to copy
+its object layout: DMD's [`Expression.type`](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/expression.d#L2709-L2723)
+and [`IntegerExp.value`](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/expression.d#L3456-L3492)
+live on semantic expression nodes, which the backend's
+[`toElem(Expression)`](https://github.com/dlang/dmd/blob/v2.112.0/compiler/src/dmd/glue/e2ir.d#L3240-L3258)
+consumes. OpenC must prove that its own normalized handoff removes measured
+first-visit and lowering work. A four-word-per-syntax-node limit is no
+longer a design goal; the actual limits are the 256 MiB child private,
+64 MiB child working-set, and 512 MiB Job gates, with bounded per-source or
+per-function arena lifetime and no duplicated full syntax cache.
+
+Each typed operation has three distinct states: absent, resolved, and contextual.
 Only successful expectation-independent results may be reused unconditionally.
 An integer literal, null, none, aggregate, or any other expected-type-sensitive
 node retains a tagged contextual rule and can be evaluated under a new
 expected type. A failed name/overload/type lookup remains retryable because
 function selection and argument indexing can change later in validation.
-The record may retain a successful symbol or parsed literal without forcing
+An operation may retain a successful symbol or parsed literal without forcing
 its contextual type. Integer parsing must happen once for accepted literal
 spelling and feed acceptance and lowering; overflow and invalid-literal
 diagnostics must remain byte-for-byte identical.
