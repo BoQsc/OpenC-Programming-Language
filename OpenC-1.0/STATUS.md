@@ -91,6 +91,7 @@ SH-27 adaptive native workers:          CLEAN RUN 35831483331 PASS; OPT-IN, PARI
 SH-27 parallel flow validation:         CLEAN RUN 35837859544 PASS; OPT-IN, PARITY OPEN
 SH-27 pre-flow paired self-build:        LOCAL 11/11 WINS; -2.601 S PAIRED MEDIAN
 SH-27 pre-flow large functions:         LOCAL 6/11 WINS; NON-REGRESSION ONLY
+SH-27 aggregate ref-to-value fix:       LOCAL FIXED POINT/278/25 PASS; CLEAN GATE PENDING
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36

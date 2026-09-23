@@ -118,6 +118,30 @@ unsafe usize ir_lower_construct(
                 usize value = ir_lower_expected(
                     context, value_node, field_expected
                 );
+                // A reference used to initialize a value field contributes
+                // its pointee, not the reference address. Keep reference
+                // fields untouched; this materializes an explicit load for
+                // both native and C emitters.
+                usize actual_field_type = ir_node_type(
+                    context, value_node, semantic_type_error()
+                );
+                if field_expected < context.types.length &&
+                    actual_field_type < context.types.length &&
+                    read_record_field(
+                        context.type_data, field_expected, 0
+                    ) != 12 &&
+                    read_record_field(
+                        context.type_data, actual_field_type, 0
+                    ) == 12 &&
+                    ir_type_element(context, actual_field_type) ==
+                        field_expected {
+                    usize load_first = context.operands.length;
+                    ir_operand_empty(context, value);
+                    value = ir_emit_value(
+                        context, ir_op_load(), field_expected, value_node,
+                        0, 0, 0, load_first, 1
+                    );
+                }
                 write_record_field(field_values, field_count, 0, value);
                 write_record_field(
                     field_values, field_count, 1,

@@ -605,6 +605,15 @@ IR reach closure. Exact evidence and reproduction commands are in
       deficits. Full SH-27 remains open on broad C/D-class throughput,
       arbitrary-project RAM behavior, representative project coverage,
       incremental reuse, and the native nested-aggregate copy defect.
+      The aggregate defect has since been minimized: a ref-to-value field
+      initializer copied the reference address instead of its pointee.
+      Aggregate IR now emits the explicit load, and a pinned pre-fix versus
+      corrected executable proof passes under the RAM guard. Local fixed
+      point, 278 conformance cases, 25 x64 checks, adaptive byte/diagnostic/
+      RAM proof, and structure validation pass. Eleven paired local runs
+      against the pre-fix flow compiler remain within 5% on control flow,
+      large functions, and self-build; self-build is close to the boundary
+      at +307 ms paired median. Clean-runner regression gates are pending.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

@@ -240,8 +240,8 @@ unsafe bool flow_validate_project_parallel(
         parsed_source_cache = ir_pointer_alias(parsed_source_cache),
         validation_source_ms = ir_pointer_alias(validation_source_ms)
     };
-    // Nested PackedBuffer initializers are not copied correctly by the
-    // current native aggregate writer; assign their words explicitly.
+    // Older compiler seeds copied ref arguments into these value fields as
+    // addresses. Keep explicit words for transition-bootstrap compatibility.
     state.modules.length = modules.length;
     state.modules.capacity = modules.capacity;
     state.symbols.length = symbols.length;

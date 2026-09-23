@@ -206,10 +206,11 @@ The ordinary `build` and `check` paths remain serial. Diagnostics merge in
 source order, and the timing report distinguishes wall-clock
 `validation_flow_ms` from summed-worker flow groups. It records
 `parallel_flow_workers` and whether native flow threads actually launched.
-The native aggregate writer currently mishandles nested `PackedBuffer` copies
-in a structure initializer; the flow state explicitly assigns the four
-length/capacity words after initialization. This compiler defect still merits
-a general fix and regression test.
+The flow-state implementation explicitly assigns four nested `PackedBuffer`
+length/capacity words after initialization because a pre-existing ref-to-value
+aggregate lowering defect corrupted them. A separate IR correction and
+regression proof below address that defect; the explicit assignments remain
+compatible with older seed compilers during bootstrap.
 
 The capped-flow candidate reaches a byte-exact Stage 2/Stage 3 fixed point,
 passes all five adaptive byte/diagnostic/RAM workloads, 278/278 conformance,
@@ -241,6 +242,28 @@ here, so exact clean-host timing ratios are not asserted.
 The candidate's partial three-run DMD comparison passes correctness and RAM
 but still measures 2.657x DMD on large functions and 2.579x on control flow.
 This is not C/D-class throughput or a claim about arbitrary real projects.
+
+## Ref-to-value aggregate correction
+
+An aggregate literal assigning a `ref Pair` to a value-typed `Pair` field
+previously stored the reference address in the first word and zero in the
+second. The minimized `tests/sh27_nested_aggregate` executable fails under
+the pinned pre-fix compiler but exits zero under the corrected compiler.
+Aggregate IR lowering now emits an explicit pointee load when the field's
+declared type is the reference's element type, without changing reference-
+typed fields. `verify_sh27_nested_aggregate.py` compiles and executes both
+versions under the process-tree RAM guard and retains JSON evidence.
+
+The corrected compiler reaches a byte-exact Stage 2/Stage 3 fixed point,
+passes 278/278 conformance, 25/25 x64 substrate checks, the five-workload
+adaptive output/diagnostic/RAM proof, and canonical-tree structure validation.
+Eleven local order-alternated pairs against the pre-fix flow compiler pass
+a 5% paired-median non-regression guard on each workload: +5 ms control flow,
++22 ms large functions, and +307 ms self-build. The self-build result is close
+to that guard and varied substantially across samples, so clean-runner
+repetition is required before treating the performance effect as settled.
+The commit/manual workflow now rebuilds a pinned pre-fix compiler and runs
+these direct speed guards in addition to the existing pre-flow comparison.
 
 ## Promotion boundary and next work
 

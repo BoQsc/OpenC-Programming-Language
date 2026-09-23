@@ -14,6 +14,8 @@ on:
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_flow_parallel.py
       - OpenC-1.0/compiler/selfhost/prepare_sh27_flow_baseline.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_flow_fallback.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_nested_aggregate.py
+      - OpenC-1.0/tests/sh27_nested_aggregate/**
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
       - OpenC-1.0/benchmarks/sh27/**
@@ -200,6 +202,14 @@ jobs:
           --candidate-compiler artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
           --output artifacts\sh27-native-parallel\flow-fallback-proof.json
 
+      - name: Reject historical ref-to-value aggregate defect
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\verify_sh27_nested_aggregate.py
+          --baseline artifacts\sh27-native-parallel\flow-baseline\bootstrap\baseline\stage3\openc.exe
+          --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --output artifacts\sh27-native-parallel\nested-aggregate-proof.json
+
       - name: Compare adaptive control-flow compilation with pre-flow baseline
         shell: cmd
         run: >-
@@ -229,6 +239,44 @@ jobs:
           --source-chunks auto --workload selfhost
           --pairs ${{ inputs.pairs || '11' }} --require-gain
           --output artifacts\sh27-native-parallel\flow-selfhost-baseline-pairs.json
+
+      - name: Rebuild pinned pre-aggregate compiler under RAM guards
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\prepare_sh27_flow_baseline.py
+          --baseline-ref 5038e34
+          --seed .github\bootstrap\openc-stage0.exe
+          --output-dir artifacts\sh27-native-parallel\aggregate-baseline
+
+      - name: Guard control-flow speed after aggregate fix
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
+          --baseline artifacts\sh27-native-parallel\aggregate-baseline\bootstrap\baseline\stage3\openc.exe
+          --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto --workload control_flow
+          --pairs ${{ inputs.pairs || '11' }} --max-regression-percent 5
+          --output artifacts\sh27-native-parallel\aggregate-control-pairs.json
+
+      - name: Guard large-function speed after aggregate fix
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
+          --baseline artifacts\sh27-native-parallel\aggregate-baseline\bootstrap\baseline\stage3\openc.exe
+          --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto --workload large_functions
+          --pairs ${{ inputs.pairs || '11' }} --max-regression-percent 5
+          --output artifacts\sh27-native-parallel\aggregate-large-pairs.json
+
+      - name: Guard compiler self-build speed after aggregate fix
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_flow_parallel.py
+          --baseline artifacts\sh27-native-parallel\aggregate-baseline\bootstrap\baseline\stage3\openc.exe
+          --candidate artifacts\sh27-native-parallel\bootstrap-current\stage3\openc.exe
+          --source-chunks auto --workload selfhost
+          --pairs ${{ inputs.pairs || '11' }} --max-regression-percent 5
+          --output artifacts\sh27-native-parallel\aggregate-selfhost-pairs.json
 
       - name: Configure pinned MSVC comparator
         uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1.13.0
