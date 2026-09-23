@@ -71,18 +71,54 @@ After the isolated parallel-declaration cut, one local diagnostic profile
 shows 62 ms serial declarations but 140 ms acceptance on the large workload's
 critical worker, including 78 ms in assignment rules. The 11-pair local
 compiler comparison saved 108 ms on that workload. Comparing this gain with
-the previous clean runner's 172 ms deficit is only a planning estimate, but
-it makes a roughly 64 ms *additional* wall-time reduction a useful design
-budget, not a proven new DMD gap. Gate C must target the whole first-visit
-assignment/type path, with the clean comparator rerun setting the actual
-remaining budget.
+another runner's DMD median would not be a valid speed estimate. Gate C must
+target the whole first-visit assignment/type path; the clean same-run
+comparator below sets the present planning budget.
 
-The first clean parallel-declaration run subsequently passed 20/20 ratios;
-large functions measured OpenC/DMD 0.666/0.608 s (1.0954x). That run does
-not erase the prior 0.484/0.250 s failure: the DMD median changed by more
-than the local OpenC declaration gain. The typed cut remains the next
-architectural experiment until an independent same-source clean repeat and
-the post-parallel first-visit profile show a robustly smaller target.
+The first clean parallel-declaration run passed 20/20 ratios; large
+functions measured OpenC/DMD 0.666/0.608 s (1.0954x). Its independent
+same-source clean repeat failed two DMD ratios: large functions
+0.677/0.349 s (1.9398x) and control flow 0.392/0.234 s (1.6752x).
+That runner requires about **241/100 ms** of OpenC wall-time reduction for
+the public 1.25x limit and **258/111 ms** for the internal 1.20x margin.
+The 78 ms local assignment-rule critical-worker time alone cannot close
+this gap. Gate C must remove broader first-visit acceptance and lowering
+work, then a fresh profile must select further front-end or native-backend
+architecture. Do not sell a packed cache as the entire semantic cut.
+
+The first isolated dense four-word prototype on
+`codex/sh27-typed-expression-cutover` replaces the five native cache arrays
+without changing semantic traversal. It passed Stage 2/3 fixed point,
+278/278 conformance, exact serial/adaptive executables and invalid-input
+diagnostics, and a strict 20/20 self-build chain (251.9 MB peak child
+private, 54.5 MB working set). Same-host eleven-pair medians against the
+unchanged compiler were **-28 ms** large functions (7/11 wins), **-39 ms**
+control flow (7/11 wins), and **+136 ms** complete self-build (4/11 wins).
+All generated compiler binaries were byte-identical. This is an enabling
+storage experiment with a self-build regression, **not** a promoted Gate C
+speedup or evidence that the 241/100 ms deficits are closed. The full cut
+must fuse dependency-aware type/rule evaluation and lowering reuse before
+another promotion decision.
+
+That storage-only source passed one clean Windows pinned-comparator,
+strict-memory, fixed-point, conformance, and exact-worker
+[run 35920825397](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35920825397).
+The normal-default medians were OpenC/DMD **0.504/0.537 s** on large
+functions (0.9385x) and **0.313/0.430 s** on control flow (0.7279x), with
+20/20 comparator ratios passing. This is one green run on an experimental
+source, **not** an A/B proof that packing sped up compilation or a repeatable
+parity result. The earlier parallel-declaration repeat failed both DMD
+ratios; do not combine medians across these runs.
+
+An attempted literal-value extension of that record was rejected before
+commit. The seed-built Stage 2 compiler built, but using it for Stage 3
+failed with a checked failure; `openc check` on the compiler project reported
+655 semantic violations (predominantly binary comparison/conversion rules),
+versus PASS with the packed-record compiler before this extension. A
+null-cache direct-parser fallback did not repair it. The literal changes
+were removed; the passing packed-record source remained intact. The later
+boolean-plus-output prototype below repaired this bootstrap failure, but its
+full semantic and performance cutover is still unproved.
 
 The existing artifact path keeps one `IrContext` across
 `acceptance_validate_context` and `c_lower_and_emit_function`; this is the
@@ -90,6 +126,24 @@ handoff point. `check` constructs an acceptance-only context and must use
 the same resolver/diagnostic semantics but need not retain records for
 emission. Each native worker owns source-local records; sharing mutable
 records between workers would violate deterministic output and RAM bounds.
+
+A second literal-value attempt at local commit `0390cd5` changes the helper
+contract from returning `ResolutionInteger` to a boolean plus `ref i64`
+result. For literal syntax nodes it stores a three-state parse result and
+all 64 value bits in the existing record; acceptance and native lowering
+read the same decoded value. This repaired the earlier failed Stage 3
+bootstrap: the new candidate passed byte-exact Stage 2/3, 278/278
+conformance, the serial/adaptive exact-output and invalid-diagnostic proof,
+integer-boundary checks, and the strict 20/20 self-build chain (peak
+250,068,992 private bytes and 51,949,568 working-set bytes, below both
+declared child limits). But eleven same-host pairs against the storage-only
+source gave only **-7 ms** large and **-5 ms** control paired medians (8/11
+wins each), versus **+326 ms** complete self-build (3/11 wins, with a
+9.179-second candidate outlier). All binaries remained byte-identical.
+The >5% self-build paired regression rejects this as a standalone
+performance promotion. Retain it only as an isolated enabling step while
+testing the full semantic/rule/lowering cut; do not represent the small
+generated-workload wins as SH-27 parity closure.
 
 ## Implementation sequence (one architectural change, gated cuts)
 

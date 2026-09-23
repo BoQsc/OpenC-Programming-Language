@@ -222,8 +222,11 @@ time.
 
 The packed four-word typed-record prototype passed local correctness and
 RAM, but its 11-pair complete self-build median regressed by 136 ms and it
-does not fuse semantic evaluation. Its clean branch workflow is pending as
-of this plan; no result from it is presumed. It is an isolated enabling
-experiment, **not** the SH-27 solution. The next code change must implement
-the semantic/rule/lowering cut of Steps 2-3, or a profile-backed second
-architecture, and be judged by the above whole-compiler gates.
+does not fuse semantic evaluation. One clean branch workflow passed 20/20
+pinned ratios; no independent same-source repeat establishes parity. Its
+literal-value successor fixed an earlier self-bootstrap defect and passed
+local correctness and strict RAM, but regressed self-build by a 326 ms
+paired median against the packed source. These are isolated enabling
+experiments, **not** the SH-27 solution. The next code cut must integrate
+semantic/rule/lowering reuse (or a profile-backed second architecture) and
+be judged by the whole-compiler gates above.
