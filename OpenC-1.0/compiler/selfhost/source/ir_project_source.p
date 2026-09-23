@@ -170,6 +170,7 @@ unsafe bool ir_observe_emit_source(
         resolved_type_ref_cache = null,
         left_expression_cache = ir_pointer_alias(left_expression_cache),
         right_expression_cache = ir_pointer_alias(right_expression_cache),
+        typed_expression_cache = null,
         block_parent_cache = ir_pointer_alias(block_parent_cache),
         control_parent_cache = ir_pointer_alias(control_parent_cache),
         statement_nodes = ir_pointer_alias(statement_nodes),

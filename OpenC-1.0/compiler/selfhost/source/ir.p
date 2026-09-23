@@ -38,6 +38,7 @@ struct IrContext {
     ptr byte resolved_type_ref_cache;
     ptr byte left_expression_cache;
     ptr byte right_expression_cache;
+    ptr byte typed_expression_cache;
     ptr byte block_parent_cache;
     ptr byte control_parent_cache;
     ptr byte statement_nodes;
@@ -136,6 +137,29 @@ struct IrMemberBase {
     usize symbol;
     usize start;
     usize length;
+}
+
+unsafe usize ir_typed_expression_read(
+    ref IrContext context,
+    usize node,
+    usize field
+) {
+    return read_usize(
+        context.typed_expression_cache,
+        (node * 4 + field) * size_of(usize)
+    );
+}
+
+unsafe void ir_typed_expression_write(
+    ref IrContext context,
+    usize node,
+    usize field,
+    usize value
+) {
+    write_usize(
+        context.typed_expression_cache,
+        (node * 4 + field) * size_of(usize), value
+    );
 }
 
 usize ir_index_capacity(usize requested) {

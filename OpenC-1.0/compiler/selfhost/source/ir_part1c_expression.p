@@ -115,12 +115,18 @@ unsafe usize ir_left_expression(
     usize parent,
     usize operator_start
 ) {
-    if context.left_expression_cache != null &&
+    if (context.left_expression_cache != null ||
+        context.typed_expression_cache != null) &&
         parent < context.syntax.length {
-        usize cached = read_usize(
-            context.left_expression_cache,
-            parent * size_of(usize)
-        );
+        usize cached = 0;
+        if context.typed_expression_cache != null {
+            cached = ir_typed_expression_read(context, parent, 2);
+        } else {
+            cached = read_usize(
+                context.left_expression_cache,
+                parent * size_of(usize)
+            );
+        }
         if cached <= context.syntax.length { return cached; }
         if context.expression_start_heads != null {
             usize parent_start = read_record_field(
@@ -161,11 +167,14 @@ unsafe usize ir_left_expression(
                 context.syntax_data, parent, operator_start
             );
         }
-        write_usize(
-            context.left_expression_cache,
-            parent * size_of(usize),
-            cached
-        );
+        if context.typed_expression_cache != null {
+            ir_typed_expression_write(context, parent, 2, cached);
+        } else {
+            write_usize(
+                context.left_expression_cache,
+                parent * size_of(usize), cached
+            );
+        }
         return cached;
     }
     return resolution_left_expression(
@@ -178,12 +187,18 @@ unsafe usize ir_right_expression(
     usize parent,
     usize operator_end
 ) {
-    if context.right_expression_cache != null &&
+    if (context.right_expression_cache != null ||
+        context.typed_expression_cache != null) &&
         parent < context.syntax.length {
-        usize cached = read_usize(
-            context.right_expression_cache,
-            parent * size_of(usize)
-        );
+        usize cached = 0;
+        if context.typed_expression_cache != null {
+            cached = ir_typed_expression_read(context, parent, 3);
+        } else {
+            cached = read_usize(
+                context.right_expression_cache,
+                parent * size_of(usize)
+            );
+        }
         if cached <= context.syntax.length { return cached; }
         if context.expression_start_heads != null {
             usize parent_end = read_record_field(
@@ -236,11 +251,14 @@ unsafe usize ir_right_expression(
                 context.syntax_data, parent, operator_end
             );
         }
-        write_usize(
-            context.right_expression_cache,
-            parent * size_of(usize),
-            cached
-        );
+        if context.typed_expression_cache != null {
+            ir_typed_expression_write(context, parent, 3, cached);
+        } else {
+            write_usize(
+                context.right_expression_cache,
+                parent * size_of(usize), cached
+            );
+        }
         return cached;
     }
     return resolution_right_expression(
