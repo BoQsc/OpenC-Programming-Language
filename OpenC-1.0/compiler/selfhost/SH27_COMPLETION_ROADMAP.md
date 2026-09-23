@@ -81,16 +81,19 @@ change. Keep all failed prototypes and their measurements disclosed.
 | E. Production behavior (Steps 5-7) | Keep the proved adaptive chunk policy as the default; reconcile the 64 MiB working-set/256 MiB private-byte benchmark caps with the 512 MiB Job proof without hiding peaks; add real per-module/object incremental reuse; verify a versioned representative project suite. | Normal `openc` use, not an opt-in benchmark setting, is fast, deterministic, correct, and within all declared memory budgets on cold, warm, small, and large builds. |
 | F. Release gate (Steps 8-9) | Two independent clean Windows parity runs, all 20 pinned comparator checks, all correctness/RAM/release-integrity checks, raw artifacts, and an updated public status. | Close SH-27 only if every mandatory gate passes; otherwise publish the exact remaining deficit and continue at the new critical path. |
 
-As of this plan update: A is **in progress** (critical-worker, declaration,
+As of 2026-09-23: A is **in progress** (critical-worker, declaration,
 and first-visit expression-kind profiles plus a pinned DMD source comparison
-exist; first-visit time and allocation attribution remain incomplete), B is
-**clean-CI proved on its isolated branch**, C has an **implementation contract
-but no compiler cut or speed proof**, D has only an **experimental bounded-IR
-memory prototype**, E has a **clean-CI-proved adaptive default for the existing
-workflow** but no complete memory proof, true incremental reuse, or complete
-project suite, and F has **one of two required clean normal-default parity
-runs**, not a pass. The already published Windows 1.0 release does not change
-those states.
+exist; nonoverlapping first-visit time and allocation attribution remain
+incomplete), B is **clean-CI proved**, C has an **implementation contract but
+no compiler cut or speed proof**, and D is **not started on the current
+critical path**. The bounded-IR and streaming-cache changes are memory
+architecture, not Gate C/D throughput cuts. E has a **normal adaptive
+default and one full clean strict-memory proof**, but still lacks an
+independent repeat, true incremental object reuse, and the representative
+suite. F has **one full clean normal-default 20/20 parity run** of the current
+streaming compiler source; the independent repeat is running. Neither the
+already published Windows 1.0 release nor a single green run changes the
+SH-27 completion state.
 
 The parser cut in gate B has passed local and clean Windows proof. Locally, the fast
 precedence-climbing version preserved parser output/diagnostics on 503
@@ -409,39 +412,55 @@ object reuse. Separate full rebuilds from warm incremental builds.
 ## Immediate next decision
 
 Stop parser/cache/peephole micro-tuning. The default adaptive policy now has
-one clean 20/20 comparator success, but its self-build memory behavior and
-repeatability are not yet acceptable. Execute these in order:
+one full clean 20/20 comparator and strict-memory success for the streaming
+compiler source, but repeatability is not yet proved. Execute these in order:
 
-1. **Pin the actual production baseline.** Preserve `447353c`, fetch the raw
-   clean-run artifact, and repeat the normal-default five-compiler workflow
-   independently. If the second run fails a lane, use its same-run raw samples
-   to calculate the missing milliseconds. Measure four-worker self-build
-   private and working-set peaks in the old benchmark under the same Job
-   policy. The outcome is a stable time/RAM budget, not an assumption that
-   the first green run will repeat.
-2. **Close the live-memory defect without losing the worker win.** The
-   streaming parse-cache cut has passed 20/20 strict self-build repetitions
-   and the 512 MiB whole-Job guard locally and in one full clean workflow
-   with four workers. Require an independent clean repeat and reject it if
-   the intermittent worker-proof failure or a sustained self-build speed
-   cliff recurs. The two-worker fallback already failed the speed guard.
+1. **Freeze and repeat the current production baseline.** Preserve
+   `codex/sh27-streaming-parse-cache` at `e21e6ea`. Its first full clean
+   [run](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35903863226)
+   passed the strict 20-generation memory chain and normal-default parity.
+   The independent
+   [repeat](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35906561161)
+   is in progress. Require 20/20 ratio decisions, exact worker proof, and the
+   64 MiB working-set / 256 MiB child-private / 512 MiB Job guards in both.
+   If it fails, classify the *actual* failing step before changing compiler
+   code. Do not raise a memory cap to get a green result. This is a blocker
+   for promotion, but parallel design/profiling work on Gate C may proceed.
+2. **Finish critical-path attribution before editing the semantic core.**
+   On that frozen compiler, capture same-run pinned comparator time budgets
+   and nonoverlapping wall attribution for large functions, control flow,
+   and self-build. Split first semantic visits into symbol lookup, operand
+   discovery, contextual typing, assignment checks, and allocations. The
+   local default profile already shows 235 ms serial declarations and 187 ms
+   critical-worker acceptance on large functions; worker and top-level times
+   are nested, not additive. State the milliseconds Gate C can plausibly
+   remove and the exact A/B acceptance threshold before implementation.
 3. **Implement Gate C as one architectural cutover.** Build dependency-ordered
    typed-expression records *during* acceptance, validate assignments from
    those records, and lower from the same records. Follow
    `SH27_TYPED_EXPRESSION_CUTOVER.md`; it includes source-order, contextual
    typing, invalid-input, and rollback proof. Compare 11 order-alternated
    pairs on large/control/self-build, then re-profile. A counter-only or
-   sub-threshold change is rejected.
+   sub-threshold change is rejected. The selected-function cache experiment
+   was rejected after -5 ms large-function and +10 ms control-flow paired
+   medians; it is not part of the compiler.
 4. **Choose the next architecture from the new profile.** If declaration
    indexing is the critical path, do private parse/index plus deterministic
    merge (Step 3); if lowering/emission dominates, do the value-location or
    compact-IR backend (Step 2). Repeat until the 1.20x internal target is
    robust across the pinned corpus with no >5% protected-lane regression.
-5. **Finish production, not just microbenchmarks.** Implement and verify true
-   object-level incremental reuse, add the versioned representative project
-   suite, then pass two independent clean normal-default 20/20 parity runs,
-   exact fixed point, all conformance/native/diagnostic and RAM gates, and
-   release integrity. Only then mark SH-27 complete.
+5. **Finish the production model.** Recheck the adaptive default after each
+   architecture change; implement actual object-level incremental reuse with
+   dependency invalidation, atomic cache entries, and clean-build-equivalent
+   outputs. Add the separately versioned representative project suite and
+   guard cold/warm/edit/self-build time, executable behavior, and whole-Job
+   RAM. Synthetic 20/20 alone is not a substitute for these steps.
+6. **Certify and ship only after all gates hold together.** Require two
+   independent clean Windows normal-default 20/20 parity runs of the *final*
+   compiler source, exact fixed point, all conformance/native/diagnostic and
+   RAM gates, incremental/project checks, and immutable `v1.0.0` release
+   integrity. Publish raw evidence, current limitations, and a new version
+   through the authorized release path. Only then mark SH-27 complete.
 
 Each numbered decision is independently falsifiable. If the observed critical
 path or memory ownership contradicts its hypothesis, record the failed

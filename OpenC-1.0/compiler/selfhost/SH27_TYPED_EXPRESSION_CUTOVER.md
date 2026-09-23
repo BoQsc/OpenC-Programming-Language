@@ -145,3 +145,9 @@ ratio.
   its local eleven-pair adaptive experiment; no acceptance median gain).
 - Larger type memo table: not selected because the profiled uncached visits
   are all distinct; only a fused first-visit path can target that cost.
+- Selected-function context cache: rejected after byte-exact fixed-point
+  proof and eleven order-alternated local pairs. The median candidate-minus-
+  baseline delta was -5 ms on large functions and +10 ms on control flow;
+  neither is a material reduction of the SH-27 gap. The experimental compiler
+  edits were removed. This does not satisfy any part of the typed-record
+  cutover and must not be counted as an accepted speed improvement.
