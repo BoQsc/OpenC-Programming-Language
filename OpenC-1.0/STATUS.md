@@ -82,6 +82,7 @@ SH-27 path-join cache:                  FIXED; 3 MIB -> 768 KIB
 SH-27 transition bootstrap:             FIXED; STAGE 2 == STAGE 3
 SH-27 parser token dispatch:            FIXED; TWO CALL LAYERS REMOVED
 SH-27 native byte emitter:              CLEAN PAIRED 10 WINS/1 TIE; -12 MS MEDIAN
+SH-27 four-byte x64 field emission:     LOCAL FIXED POINT/278 PASS; -59 MS LARGE, -11/-27 MS CONTROL
 SH-27 benchmark disk headroom:          256 MIB FLOOR; FREE BYTES RECORDED
 SH-27 large Clang parity:               PASS LATEST CLEAN RUN; 0.862x
 SH-27 large-corpus scaling:             OPEN; OPENC 0.890 S / MSVC 0.498 S / DMD 0.313 S

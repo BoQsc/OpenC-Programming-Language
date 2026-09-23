@@ -836,3 +836,17 @@ median was -0.002 s (6 wins, 5 losses), while control flow was +0.001 s
 promotion or narrow the documented C/D throughput deficit. The candidate
 remains on `codex/sh27-expression-feature-index`; master retains the prior
 compiler. Full JSON evidence is in the local ignored SH-27 build-output tree.
+
+A separate four-byte x64 emitter trial at `82833ac` uses one checked
+capacity test before writing a four-byte immediate or displacement. The
+byte-exact self-host fixed point is `7b41fcdb...cddf9e99`; substrate and
+conformance pass 25/25 and 278/278. Eleven alternating, aggregate-RAM-guarded
+large-function pairs improve by 0.059 s at the paired median (8 wins,
+3 losses), with native emission moving from 233 to 217 ms. Two independent
+eleven-pair control-flow sets improve by 0.027 and 0.011 s (8 wins,
+3 losses each). Every paired program has the same baseline executable hash;
+peak process-tree commit remains far below 512 MiB. A companion eight-byte
+write shortcut was removed after its control-flow confirmation was flat.
+These are local same-host effects, not evidence that the larger MSVC/DMD
+parity deficits have closed. The clean five-comparator workflow remains the
+next public performance check.

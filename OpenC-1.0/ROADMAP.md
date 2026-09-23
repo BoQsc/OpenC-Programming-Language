@@ -507,6 +507,12 @@ IR reach closure. Exact evidence and reproduction commands are in
       point and 278/278 conformance but is rejected after two guarded
       eleven-pair workloads: -2 ms large, +1 ms control flow at the paired
       medians. The accepted compiler remains unchanged; SH-27 remains open.
+      A four-byte-only x64 encoder fast path then passes an exact compiler
+      fixed point, 25/25 substrate checks, 278/278 conformance, and identical
+      output hashes. Local guarded eleven-pair large and two control-flow
+      runs improve by 59, 27, and 11 ms at their paired medians. This is an
+      incremental local gain pending clean-runner confirmation; broad C/D
+      throughput parity and native parallelism are still open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

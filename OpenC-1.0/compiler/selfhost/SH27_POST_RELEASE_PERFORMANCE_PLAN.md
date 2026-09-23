@@ -680,3 +680,26 @@ runtime; deterministic diagnostics and object-stream merge; a serial fallback;
 and 2/4-worker comparisons on both generated workloads under the aggregate
 512 MiB guard. An alternative semantic change must remove a full validation
 traversal, not just its feature-presence prepass. Neither path is complete.
+
+The x64 encoder's four-byte field writer was then changed to perform one
+capacity check and four direct little-endian writes, retaining the old
+byte-by-byte path for exhausted buffers. A combined four/eight-byte trial
+improved the first large-function run (-23 ms paired median, 10/11 wins) but
+did not reproduce a control-flow gain: the confirmation was flat at 0 ms.
+The eight-byte fast path was therefore removed. The four-byte-only candidate
+`82833ac` reaches a byte-exact `7b41fcdb...cddf9e99` compiler fixed point,
+passes 25/25 x64 substrate and 278/278 native conformance checks, and keeps
+identical produced-program SHA-256 hashes and bounded memory. Its first
+control-flow eleven-pair run improves 27 ms (8 wins, 3 losses); confirmation
+improves 11 ms (8 wins, 3 losses). The large-function eleven-pair run improves
+59 ms (8 wins, 3 losses), with a measured native-emission median of 217 ms
+versus 233 ms baseline. This is an incremental accepted local improvement,
+not C/D-class throughput parity. Clean five-compiler runner confirmation is
+still required before treating those absolute times as a new public baseline.
+
+The paired-revision harness now writes each bootstrap stage measurement as
+soon as it finishes, including failed stages. A transient baseline stage-three
+failure during one confirmation attempt can therefore be diagnosed without
+discarding its exit, captured output, and memory evidence; the subsequent
+full retry passed. This changes optional evidence tooling only, not the
+standalone compiler dependency set.
