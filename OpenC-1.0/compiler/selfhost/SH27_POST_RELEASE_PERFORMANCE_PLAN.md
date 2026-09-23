@@ -577,3 +577,22 @@ that existing cache, rather than add another syntax-sized array or change
 validator order. It must preserve invalid-source diagnostics, not just hashes
 of valid executables, and show a material paired gain on both representative
 workloads before promotion.
+
+Two local prototypes tested that proposed fusion at the common numeric
+assignment/binary shape without adding a second type table. The first encoded
+a proven-valid binary rule in the existing type cache so the later binary pass
+could skip it. It reached the byte-exact `5b1aa376...1396ae` three-stage fixed
+point, passed 25/25 x64 substrate and 278/278 conformance checks, and matched
+the prior compiler's exit code and diagnostic text for twelve invalid numeric
+build projects. Eleven alternating local pairs kept identical executable bytes
+and RAM under 512 MiB, but control-flow median improved only 10 ms amid noise
+and large-function median worsened 1 ms. The second prototype inferred the
+simple `name = same_name + literal` case at the assignment site and cached its
+binary proof. It reached the byte-exact `f805105d...978d5` fixed point and
+preserved exact program output and the same RAM gates, but control-flow paired
+median worsened 19 ms (ten losses) and large-function median was flat. Both
+were reverted. These results rule out more narrow per-expression guard work as
+the immediate route to broad D/C throughput parity; the next prototype must
+remove an entire semantic traversal or exploit bounded per-source concurrency,
+while retaining diagnostic order, fixed-point determinism, and aggregate RAM
+limits. Neither route is claimed complete.
