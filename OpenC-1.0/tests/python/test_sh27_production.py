@@ -195,6 +195,11 @@ class Sh27ProductionTests(unittest.TestCase):
                 "validation_distinct_uncached": 300,
                 "validation_repeated_uncached": 100,
                 "validation_failures": 0,
+                "validation_uncached_by_kind": {
+                    "name": 200, "literal": 0, "unary": 0,
+                    "binary": 100, "assignment": 0, "call": 0,
+                    "other": 100,
+                },
                 "assignment_queries": 180,
                 "assignment_cache_hits": 70,
                 "assignment_uncached": 110,
@@ -212,6 +217,9 @@ class Sh27ProductionTests(unittest.TestCase):
         timing["type_query_profile"]["validation_uncached"] = 399
         self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
         timing["type_query_profile"]["validation_uncached"] = 400
+        timing["type_query_profile"]["validation_uncached_by_kind"]["name"] = 199
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing["type_query_profile"]["validation_uncached_by_kind"]["name"] = 200
         timing["native_parallel_profile"]["critical_chunk"]["assignment_ms"] = 170
         self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
         timing["native_parallel_profile"]["critical_chunk"]["assignment_ms"] = 90
@@ -268,7 +276,13 @@ class Sh27ProductionTests(unittest.TestCase):
             "validation_cache_hits": 0, "validation_uncached": 0,
             "validation_distinct_uncached": 0,
             "validation_repeated_uncached": 0,
-            "validation_failures": 0, "assignment_queries": 0,
+            "validation_failures": 0,
+            "validation_uncached_by_kind": {
+                "name": 0, "literal": 0, "unary": 0,
+                "binary": 0, "assignment": 0, "call": 0,
+                "other": 0,
+            },
+            "assignment_queries": 0,
             "assignment_cache_hits": 0, "assignment_uncached": 0,
             "assignment_distinct_uncached": 0,
             "assignment_repeated_uncached": 0,

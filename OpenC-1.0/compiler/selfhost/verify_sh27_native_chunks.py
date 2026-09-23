@@ -102,12 +102,21 @@ def timing_accounting_valid(
         query_profile.get("assignment_cache_hits"),
         query_profile.get("assignment_uncached"),
     )
+    kind_counts = query_profile.get("validation_uncached_by_kind")
+    expected_kinds = (
+        "name", "literal", "unary", "binary", "assignment", "call", "other",
+    )
+    if not isinstance(kind_counts, dict) or set(kind_counts) != set(expected_kinds):
+        return False
+    kind_values = tuple(kind_counts[name] for name in expected_kinds)
     if not all(isinstance(value, int) and value >= 0 for value in (
         worker_ms, merge_ms, chunk_ms, first, end, *parts,
         *query_counts, *assignment_counts,
         *validation_queries, *validation_assignments, *distinct_counts,
-        *declaration_parts,
+        *declaration_parts, *kind_values,
     )):
+        return False
+    if sum(kind_values) != validation_queries[2]:
         return False
     if declaration_profile.get("enabled") is not query_profile.get("enabled"):
         return False

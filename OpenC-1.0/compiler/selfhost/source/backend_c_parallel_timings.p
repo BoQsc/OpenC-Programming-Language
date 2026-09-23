@@ -113,6 +113,27 @@ unsafe void c_merge_worker_timings(
         worker.validation_type_repeated_uncached;
     target.validation_type_failures = target.validation_type_failures +
         worker.validation_type_failures;
+    target.validation_type_name_uncached =
+        target.validation_type_name_uncached +
+        worker.validation_type_name_uncached;
+    target.validation_type_literal_uncached =
+        target.validation_type_literal_uncached +
+        worker.validation_type_literal_uncached;
+    target.validation_type_unary_uncached =
+        target.validation_type_unary_uncached +
+        worker.validation_type_unary_uncached;
+    target.validation_type_binary_uncached =
+        target.validation_type_binary_uncached +
+        worker.validation_type_binary_uncached;
+    target.validation_type_assignment_uncached =
+        target.validation_type_assignment_uncached +
+        worker.validation_type_assignment_uncached;
+    target.validation_type_call_uncached =
+        target.validation_type_call_uncached +
+        worker.validation_type_call_uncached;
+    target.validation_type_other_uncached =
+        target.validation_type_other_uncached +
+        worker.validation_type_other_uncached;
     target.validation_assignment_type_queries =
         target.validation_assignment_type_queries +
         worker.validation_assignment_type_queries;

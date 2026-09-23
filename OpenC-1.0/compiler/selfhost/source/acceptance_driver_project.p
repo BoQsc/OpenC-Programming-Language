@@ -482,6 +482,13 @@ unsafe usize acceptance_validate_project(
                 profile_type_distinct_uncached = 0,
                 profile_type_repeated_uncached = 0,
                 profile_type_failures = 0,
+                profile_type_name_uncached = 0,
+                profile_type_literal_uncached = 0,
+                profile_type_unary_uncached = 0,
+                profile_type_binary_uncached = 0,
+                profile_type_assignment_uncached = 0,
+                profile_type_call_uncached = 0,
+                profile_type_other_uncached = 0,
                 suppress_acceptance_diagnostics = false
             };
             ir_initialize_node_indexes(context);
@@ -514,6 +521,27 @@ unsafe usize acceptance_validate_project(
             timings.validation_type_failures =
                 timings.validation_type_failures +
                 context.profile_type_failures;
+            timings.validation_type_name_uncached =
+                timings.validation_type_name_uncached +
+                context.profile_type_name_uncached;
+            timings.validation_type_literal_uncached =
+                timings.validation_type_literal_uncached +
+                context.profile_type_literal_uncached;
+            timings.validation_type_unary_uncached =
+                timings.validation_type_unary_uncached +
+                context.profile_type_unary_uncached;
+            timings.validation_type_binary_uncached =
+                timings.validation_type_binary_uncached +
+                context.profile_type_binary_uncached;
+            timings.validation_type_assignment_uncached =
+                timings.validation_type_assignment_uncached +
+                context.profile_type_assignment_uncached;
+            timings.validation_type_call_uncached =
+                timings.validation_type_call_uncached +
+                context.profile_type_call_uncached;
+            timings.validation_type_other_uncached =
+                timings.validation_type_other_uncached +
+                context.profile_type_other_uncached;
             write_usize(
                 validation_source_ms,
                 source_record * size_of(usize),

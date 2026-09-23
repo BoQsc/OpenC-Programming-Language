@@ -379,6 +379,27 @@ unsafe bool c_emit_source_record(
         timings.validation_type_failures =
             timings.validation_type_failures +
             context.profile_type_failures;
+        timings.validation_type_name_uncached =
+            timings.validation_type_name_uncached +
+            context.profile_type_name_uncached;
+        timings.validation_type_literal_uncached =
+            timings.validation_type_literal_uncached +
+            context.profile_type_literal_uncached;
+        timings.validation_type_unary_uncached =
+            timings.validation_type_unary_uncached +
+            context.profile_type_unary_uncached;
+        timings.validation_type_binary_uncached =
+            timings.validation_type_binary_uncached +
+            context.profile_type_binary_uncached;
+        timings.validation_type_assignment_uncached =
+            timings.validation_type_assignment_uncached +
+            context.profile_type_assignment_uncached;
+        timings.validation_type_call_uncached =
+            timings.validation_type_call_uncached +
+            context.profile_type_call_uncached;
+        timings.validation_type_other_uncached =
+            timings.validation_type_other_uncached +
+            context.profile_type_other_uncached;
         usize acceptance_elapsed =
             process.monotonic_milliseconds() - acceptance_started;
         timings.validation_acceptance_ms =

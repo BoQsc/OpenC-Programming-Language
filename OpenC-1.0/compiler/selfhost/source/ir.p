@@ -116,6 +116,13 @@ struct IrContext {
     usize profile_type_distinct_uncached;
     usize profile_type_repeated_uncached;
     usize profile_type_failures;
+    usize profile_type_name_uncached;
+    usize profile_type_literal_uncached;
+    usize profile_type_unary_uncached;
+    usize profile_type_binary_uncached;
+    usize profile_type_assignment_uncached;
+    usize profile_type_call_uncached;
+    usize profile_type_other_uncached;
     bool suppress_acceptance_diagnostics;
 }
 

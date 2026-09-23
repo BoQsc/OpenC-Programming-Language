@@ -35,15 +35,18 @@ policy determine the final gate; an opt-in four-worker success alone is not
 closure. Earlier code-size reductions and local paired wins are real, but
 they did not close these time budgets.
 
-A newer **normal-default, five-sample, parity-enforcing** clean Windows run
-on the parser cut (`558734b`) reported OpenC/DMD medians of 0.781/0.562 s
-for `large_functions` (**1.390x**) and 0.510/0.448 s for `control_flow`
-(1.138x). Nineteen of the 20 pinned ratios passed; large functions versus
-DMD failed. On that run the 1.25x large-function ceiling was 0.7025 s, so
-the next design must recover about **79 ms** from normal-mode wall time, and
-the internal 1.20x margin requires about **107 ms**. These are same-run
-planning numbers, not a guarantee across runners. The complete raw artifact
-is in [run 35884325763](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35884325763).
+Two independent **normal-default, five-sample, parity-enforcing** clean
+Windows runs on the parser cut (`558734b`/`844dd5f`, same compiler source)
+both passed **19/20** pinned ratios and failed only `large_functions` versus
+DMD. The [first run](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35884325763)
+measured OpenC/DMD 0.781/0.562 s (**1.390x**); the
+[second](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35885052890)
+measured 0.651/0.473 s (**1.376x**). Their same-run 1.25x ceilings require
+about **79 ms** and **60 ms**, respectively, from the normal-mode large-
+function wall time. The internal 1.20x margin requires about 107/83 ms.
+`control_flow` passed at 1.138x/1.061x. These are planning ranges, not
+permission to stop at a single borderline median; the representative
+project, incremental, and production-policy gates remain open.
 
 ## Execution contract: what happens next
 
@@ -56,16 +59,17 @@ change. Keep all failed prototypes and their measurements disclosed.
 | Gate | Required deliverable | Exit decision |
 | --- | --- | --- |
 | A. Baseline and DMD comparison (Step 0) | One pinned five-compiler clean-run report, 11-pair OpenC baseline samples on large functions/control flow/self-build, nonoverlapping critical-path and allocation profiles, and a written comparison of DMD's relevant parser, semantic, allocation, and code-generation paths with OpenC's equivalents. | Identify the largest avoidable cost and a design able to remove a material part of the measured gap. Source-level resemblance to DMD is not a success criterion. |
-| B. Resolve the current parser experiment (Step 3.1) | Complete the isolated precedence-climbing prototype's adaptive/serial, self-build, conformance, diagnostic, and memory proofs. Its current local 11-pair results are promising on large functions but do **not** constitute a promotion or parity result. | Promote only if all correctness guards pass, self-build has no >5% regression, and clean-runner wall-time improvement is material; otherwise reject it and move on. Cap further parser micro-tuning at this decision. |
+| B. Resolve the parser experiment (Step 3.1) | The precedence-climbing cut passed adaptive/serial, self-build, conformance, diagnostic, memory, and clean paired-revision proofs and was promoted to the SH-27 working proof branch. | Closed as a bounded parser improvement, **not** as C/D parity. No further parser micro-tuning without a new critical-path profile. |
 | C. Fused typed-expression and assignment pipeline (Step 1) | A design and implementation that resolves symbols/types/operands during the existing walk and reuses the result in acceptance and lowering, with first-visit work counted before/after. | Exact behavior, bounded RAM, and a material end-to-end reduction on the two failing lanes; otherwise redesign rather than add caches. |
 | D. Remaining front-end or backend architecture (Steps 2-4) | Refresh the profile, then implement parallel/private declaration indexing if serial parse/index dominates, or a value-location/compact-IR backend if lowering and native emission dominate. Address allocation only if measured. | The combined normal-mode wall budget closes on large functions and control flow without a self-build cliff. No sum-of-worker-time or output-size proxy can substitute for this measurement. |
 | E. Production behavior (Steps 5-7) | Make a proved adaptive chunk policy the default; add real per-module/object incremental reuse; verify a versioned representative project suite. | Normal `openc` use, not an opt-in benchmark setting, is fast, deterministic, correct, and within the Job memory budget on cold, warm, small, and large builds. |
 | F. Release gate (Steps 8-9) | Two independent clean Windows parity runs, all 20 pinned comparator checks, all correctness/RAM/release-integrity checks, raw artifacts, and an updated public status. | Close SH-27 only if every mandatory gate passes; otherwise publish the exact remaining deficit and continue at the new critical path. |
 
-As of this plan update: A is **in progress** (critical-worker and declaration
-profiles and a pinned DMD source comparison exist; allocation attribution
-and a stable normal-default parity baseline do not; one enforced five-sample
-run has identified the current failing lane), B is **clean-CI proved
+As of this plan update: A is **in progress** (critical-worker, declaration,
+and opt-in first-visit expression-kind profiles plus a pinned DMD source
+comparison exist; first-visit time and allocation attribution
+remain incomplete; two enforced five-sample runs identify the same failing
+lane), B is **clean-CI proved
 on its isolated branch**, C and D are **not started**, E has **partial opt-in
 parallelism but no default policy, true incremental reuse, or complete project
 suite**, and F is **not passed**. The already published Windows 1.0 release
@@ -361,14 +365,13 @@ object reuse. Separate full rebuilds from warm incremental builds.
 ## Immediate next decision
 
 Gate B's parser cut is promoted to the SH-27 working proof branch; stop parser
-micro-tuning. The enforced five-sample **normal-default** C/D parity run
-failed only `large_functions` versus DMD at 1.390x. Repeat on an independent
-clean runner to establish stability, but do not wait for that repeat before
-finishing Step 0's first-visit cost/allocation attribution and beginning
+micro-tuning. Two enforced five-sample **normal-default** C/D parity runs
+failed only `large_functions` versus DMD at 1.390x/1.376x. Finish Step 0's
+first-visit cost/allocation attribution and begin
 Step 1's fused typed-expression/assignment design. The distinct-node
 counter has already ruled out repeated uncached evaluation as the explanation
 for the large assignment count. Native emission is not the first bet. Do
 **not** spend another cycle on cache-threshold nudges, isolated instruction
 peepholes, or output-size-only changes unless a refreshed profile shows they
-can close a material fraction of the new ~79 ms default-mode large-function
-deficit, or of a larger deficit on an independent repeat.
+can close a material fraction of the measured ~60-79 ms default-mode
+large-function deficit and leave headroom for runner variation.

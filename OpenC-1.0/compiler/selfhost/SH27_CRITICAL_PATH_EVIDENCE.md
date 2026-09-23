@@ -260,10 +260,18 @@ but `large_functions` was 0.781 s OpenC versus 0.562 s DMD median, or
 **1.390x**. The same-run 1.25x ceiling is 0.7025 s, leaving about **79 ms**
 of OpenC default-mode wall time to remove. `control_flow` was 0.510/0.448 s,
 or 1.138x and passed. All comparator version, compile, execution, memory,
-and current-source fixed-point checks passed. This is one clean runner, not
-the required two-run parity result, and the real-project/incremental gates
+and current-source fixed-point checks passed. This first clean run alone
+could not satisfy the two-run parity gate, and the real-project/incremental gates
 remain open. The semantic first-visit and assignment costs remain the next
 larger redesign target.
+
+An independent [normal-default repeat 35885052890](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35885052890)
+at the same compiler-source cut also returned `FAIL_PARITY`, again only
+`large_functions` versus DMD: 0.651/0.473 s medians, **1.376x**. The 1.25x
+ceiling is 0.59125 s, leaving about **60 ms**. Control flow passed at
+0.416/0.392 s, or 1.061x. Both five-sample runs agree on the failing lane;
+their absolute timings differ, so cross-run median subtraction is still not
+a valid speedup estimate. The SH-27 parity gate remains failed.
 
 ## Pinned DMD source comparison: architectural hypotheses
 
@@ -310,6 +318,41 @@ costs across acceptance *and* lowering; reducing cache misses or moving
 records between buffers is not success. Re-measure wall time and memory on
 the same workload after each prototype, with DMD left as a comparator, not
 a toolchain dependency.
+
+## Diagnostic first-visit kind mix after parser promotion
+
+The isolated `codex/sh27-firstvisit-profile` cut adds a seven-bucket
+`validation_uncached_by_kind` histogram to the existing opt-in
+`--profile-type-queries` record. The verifier requires its buckets to sum
+to `validation_uncached`, including the disabled/zero case, and merges worker
+counts. The rebuilt Stage 2/Stage 3 compiler is byte-exact; the profiled
+adaptive proof, non-profiled adaptive proof, invalid-input diagnostics,
+512 MiB Job guard, and native conformance **278/278** pass. This is
+diagnostic evidence outside all timed comparator lanes.
+
+| Profiled adaptive workload | Uncached total | Name | Literal | Unary | Binary | Assignment node | Call | Other |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Large functions | 92,678 | 26,881 | 32,772 | 0 | 32,769 | 0 | 256 | 0 |
+| Control flow | 20,358 | 6,465 | 6,916 | 0 | 6,913 | 0 | 64 | 0 |
+| Compiler self-build | 100,394 | 48,115 | 24,182 | 836 | 14,454 | 0 | 10,958 | 1,849 |
+
+The `assignment node` bucket is zero because assignment *validation* asks
+for types of its constituent expressions; it does not imply assignment
+validation is cheap. In the large workload, the prior pass profile put
+90,368 of 92,678 uncached evaluations inside assignment validation. Roughly
+29% of all uncached evaluations are names, 35% literals, and 35% binary
+expressions. These are counts, **not time attribution**; they justify a
+typed record covering direct operands, resolved symbols, and contextual
+literal constraints, not a binary-only or assignment-node-only cache.
+The self-build's much larger name/call share remains a regression guard.
+
+Eleven non-profiling paired builds against the pre-instrumentation parser
+compiler passed exact executable/runtime output and RAM guards. The paired
+median deltas were +2 ms large functions (5/11 candidate wins), -3 ms
+control flow (6/11), and -105 ms self-build (7/11, noisy). These are not
+claimed speedups; none breaches the 5% guard. Raw local reports are in
+ignored `build-output/selfhost-sh27/sh27-firstvisit-profile-20260923/`.
+The instrumented cut is not yet promoted to the working proof branch.
 
 ## Correctness and interpretation limits
 

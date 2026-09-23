@@ -261,6 +261,34 @@ unsafe usize ir_node_type(
     if context.profile_type_queries_enabled {
         context.profile_type_uncached =
             context.profile_type_uncached + 1;
+        if node < context.syntax.length {
+            usize kind = read_record_field(context.syntax_data, node, 0);
+            if kind == 27 {
+                context.profile_type_name_uncached =
+                    context.profile_type_name_uncached + 1;
+            } else if kind >= 29 && kind <= 34 {
+                context.profile_type_literal_uncached =
+                    context.profile_type_literal_uncached + 1;
+            } else if kind == 35 {
+                context.profile_type_unary_uncached =
+                    context.profile_type_unary_uncached + 1;
+            } else if kind == 36 {
+                context.profile_type_binary_uncached =
+                    context.profile_type_binary_uncached + 1;
+            } else if kind == 37 {
+                context.profile_type_assignment_uncached =
+                    context.profile_type_assignment_uncached + 1;
+            } else if kind == 38 {
+                context.profile_type_call_uncached =
+                    context.profile_type_call_uncached + 1;
+            } else {
+                context.profile_type_other_uncached =
+                    context.profile_type_other_uncached + 1;
+            }
+        } else {
+            context.profile_type_other_uncached =
+                context.profile_type_other_uncached + 1;
+        }
         if context.profile_type_seen != null &&
             node < context.syntax.length {
             usize offset = node * size_of(usize);
