@@ -61,7 +61,7 @@ closure, not a substitute for the compile-throughput goal.
 
 ## Broad candidate batch, not serial micro-optimizations
 
-The next throughput cycle starts three **independent architectural cuts**
+The first throughput cycle started three **independent architectural cuts**
 from the same `6794d56` baseline. They are competing hypotheses, not three
 changes to merge blindly:
 
@@ -86,8 +86,8 @@ each surviving candidate also needs complete self-build, strict child/Job
 RAM, conformance, and the pinned clean five-compiler run. Integrate survivors
 one at a time and remeasure the combination; nonadditive wins or regressions
 are grounds to discard or redesign a cut. If none closes enough of the DMD
-gap, move immediately to the compact value-location/backend cut with the
-new critical-path profile, not another cache experiment.
+gap, rerank architectural cuts against the measured critical path rather than
+assuming a compact backend or another cache experiment will help.
 
 The first broad batch is resolved in `SH27_CANDIDATE_PORTFOLIO.md`.
 Indexed calls, packed/eager typed records, direct value/slot cuts, and
