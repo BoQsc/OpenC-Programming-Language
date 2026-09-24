@@ -4,6 +4,32 @@ import system.memory;
 import system.path;
 import system.text;
 
+struct IrScalarState {
+    bool enabled;
+    usize expected_assignments;
+    usize expected_binaries;
+    usize visited_assignments;
+    usize visited_binaries;
+    usize errors;
+    usize legacy_assignment_visits;
+    usize legacy_binary_visits;
+    usize covered_uncached_type_calls;
+}
+
+IrScalarState ir_scalar_state_empty() {
+    return IrScalarState{
+        enabled = false,
+        expected_assignments = 0,
+        expected_binaries = 0,
+        visited_assignments = 0,
+        visited_binaries = 0,
+        errors = 0,
+        legacy_assignment_visits = 0,
+        legacy_binary_visits = 0,
+        covered_uncached_type_calls = 0
+    };
+}
+
 struct IrContext {
     text project_source;
     text project_root;
@@ -123,6 +149,7 @@ struct IrContext {
     usize profile_type_assignment_uncached;
     usize profile_type_call_uncached;
     usize profile_type_other_uncached;
+    IrScalarState scalar_state;
     bool suppress_acceptance_diagnostics;
 }
 

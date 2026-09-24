@@ -257,6 +257,7 @@ unsafe bool ir_observe_emit_source(
         profile_type_assignment_uncached = 0,
         profile_type_call_uncached = 0,
         profile_type_other_uncached = 0,
+        scalar_state = ir_scalar_state_empty(),
         suppress_acceptance_diagnostics = false
     };
     ir_initialize_local_values(context);

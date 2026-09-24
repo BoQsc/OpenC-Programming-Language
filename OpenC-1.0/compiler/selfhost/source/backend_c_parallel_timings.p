@@ -149,6 +149,29 @@ unsafe void c_merge_worker_timings(
     target.validation_assignment_type_repeated_uncached =
         target.validation_assignment_type_repeated_uncached +
         worker.validation_assignment_type_repeated_uncached;
+    target.scalar_fast_sources = target.scalar_fast_sources +
+        worker.scalar_fast_sources;
+    target.scalar_expected_assignments =
+        target.scalar_expected_assignments +
+        worker.scalar_expected_assignments;
+    target.scalar_expected_binaries = target.scalar_expected_binaries +
+        worker.scalar_expected_binaries;
+    target.scalar_visited_assignments =
+        target.scalar_visited_assignments +
+        worker.scalar_visited_assignments;
+    target.scalar_visited_binaries = target.scalar_visited_binaries +
+        worker.scalar_visited_binaries;
+    target.scalar_legacy_assignment_visits =
+        target.scalar_legacy_assignment_visits +
+        worker.scalar_legacy_assignment_visits;
+    target.scalar_legacy_binary_visits =
+        target.scalar_legacy_binary_visits +
+        worker.scalar_legacy_binary_visits;
+    target.scalar_covered_uncached_type_calls =
+        target.scalar_covered_uncached_type_calls +
+        worker.scalar_covered_uncached_type_calls;
+    target.scalar_clean_replays = target.scalar_clean_replays +
+        worker.scalar_clean_replays;
     target.lex_parse_ms = target.lex_parse_ms + worker.lex_parse_ms;
     target.index_ms = target.index_ms + worker.index_ms;
     target.index_nodes_ms = target.index_nodes_ms + worker.index_nodes_ms;

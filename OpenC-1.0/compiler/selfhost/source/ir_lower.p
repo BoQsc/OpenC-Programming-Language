@@ -19,6 +19,12 @@ unsafe usize ir_lower_node(
             context, node, expected, mode, kind, start, length
         );
     }
+    if context.scalar_state.enabled && (kind == 36 || kind == 37) {
+        IrSemanticScalar scalar = ir_semantic_scalar_visit(
+            context, node, expected
+        );
+        return scalar.value_id;
+    }
     usize type_id = ir_node_type(context, node, expected);
     if kind <= 35 {
         return ir_lower_primary(

@@ -87,7 +87,7 @@ unsafe usize acceptance_validate_context(
         context.profile_type_repeated_uncached;
     usize assignments_started = process.monotonic_milliseconds();
     found = 0;
-    if expression_features.has_assignments {
+    if expression_features.has_assignments && !context.scalar_state.enabled {
         found = acceptance_validate_assignments(context);
     }
     timings.validation_acceptance_assignments_ms =
@@ -111,7 +111,7 @@ unsafe usize acceptance_validate_context(
     acceptance_report_source_count(context, "assignments", found);
     errors = errors + found;
     found = 0;
-    if expression_features.has_binary {
+    if expression_features.has_binary && !context.scalar_state.enabled {
         found = acceptance_validate_binary(context);
     }
     acceptance_report_source_count(context, "binary", found);

@@ -302,6 +302,15 @@ unsafe usize ir_node_type(
             }
         }
     }
+    if context.scalar_state.enabled && node < context.syntax.length {
+        usize scalar_kind = read_record_field(
+            context.syntax_data, node, 0
+        );
+        if scalar_kind == 36 || scalar_kind == 37 {
+            context.scalar_state.covered_uncached_type_calls =
+                context.scalar_state.covered_uncached_type_calls + 1;
+        }
+    }
     usize resolved = ir_node_type_uncached(context, node, expected);
     if context.profile_type_queries_enabled &&
         resolved == semantic_type_error() {

@@ -349,6 +349,11 @@ unsafe bool c_emit_source_record(
         process.monotonic_milliseconds() - phase_started;
     timings.index_ms = timings.index_ms +
         process.monotonic_milliseconds() - index_started;
+    context.scalar_state = ir_scalar_state_empty();
+    if validate_acceptance && timings.emission_mode == 2 &&
+        context.suppress_acceptance_diagnostics {
+        ir_semantic_scalar_eligible(context);
+    }
     if validate_acceptance {
         // Acceptance treats every declared local as semantically available;
         // lowering later replaces these sentinels with concrete SSA values.
@@ -463,8 +468,52 @@ unsafe bool c_emit_source_record(
                 context, output, timings, source_record, node,
                 owner, entry_module
             );
+            if context.scalar_state.errors != 0 { break; }
         }
         node = node + 1;
+    }
+    if context.scalar_state.enabled {
+        timings.scalar_expected_assignments =
+            timings.scalar_expected_assignments +
+            context.scalar_state.expected_assignments;
+        timings.scalar_expected_binaries = timings.scalar_expected_binaries +
+            context.scalar_state.expected_binaries;
+        timings.scalar_visited_assignments =
+            timings.scalar_visited_assignments +
+            context.scalar_state.visited_assignments;
+        timings.scalar_visited_binaries = timings.scalar_visited_binaries +
+            context.scalar_state.visited_binaries;
+        timings.scalar_legacy_assignment_visits =
+            timings.scalar_legacy_assignment_visits +
+            context.scalar_state.legacy_assignment_visits;
+        timings.scalar_legacy_binary_visits =
+            timings.scalar_legacy_binary_visits +
+            context.scalar_state.legacy_binary_visits;
+        timings.scalar_covered_uncached_type_calls =
+            timings.scalar_covered_uncached_type_calls +
+            context.scalar_state.covered_uncached_type_calls;
+        bool scalar_complete = context.scalar_state.errors == 0 &&
+            context.scalar_state.visited_assignments ==
+                context.scalar_state.expected_assignments &&
+            context.scalar_state.visited_binaries ==
+                context.scalar_state.expected_binaries &&
+            context.scalar_state.legacy_assignment_visits == 0 &&
+            context.scalar_state.legacy_binary_visits == 0 &&
+            context.scalar_state.covered_uncached_type_calls == 0;
+        if !scalar_complete {
+            // The caller discards every private worker chunk, then validates
+            // again from the untouched base context in source order.
+            timings.scalar_clean_replays = timings.scalar_clean_replays + 1;
+            timings.validation_acceptance_errors =
+                timings.validation_acceptance_errors + 1;
+            if parsed_source_reused {
+                context.syntax_data = null;
+                context.token_data = null;
+            }
+            c_release_source_context(context, diagnostic_data);
+            return true;
+        }
+        timings.scalar_fast_sources = timings.scalar_fast_sources + 1;
     }
     base.next_value = context.next_value;
     base.types = context.types;

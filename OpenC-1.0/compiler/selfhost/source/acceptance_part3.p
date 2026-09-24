@@ -15,6 +15,10 @@ unsafe usize acceptance_validate_assignments(ref IrContext context) {
             );
         }
         if read_record_field(context.syntax_data, node, 0) == 37 {
+            if context.scalar_state.enabled {
+                context.scalar_state.legacy_assignment_visits =
+                    context.scalar_state.legacy_assignment_visits + 1;
+            }
             usize operator_start = read_record_field(context.syntax_data, node, 3);
             usize left = ir_left_expression(
                 context, node, operator_start
@@ -96,6 +100,10 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
             );
         }
         if read_record_field(context.syntax_data, node, 0) == 36 {
+            if context.scalar_state.enabled {
+                context.scalar_state.legacy_binary_visits =
+                    context.scalar_state.legacy_binary_visits + 1;
+            }
             usize operator_start = read_record_field(context.syntax_data, node, 3);
             usize left = ir_left_expression(
                 context, node, operator_start

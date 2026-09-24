@@ -1,8 +1,8 @@
 # SH-27: replace assignment/binary acceptance with function semantic IR
 
-Status: **architecture contract only** on isolated branch
+Status: **Phase A executable correctness tranche** on isolated branch
 `codex/sh27-function-semantic-ir`, based on unchanged production compiler
-source `1b58d5e`. No implementation, timing result, or promotion is implied.
+source `1b58d5e`. No throughput result or promotion is implied.
 The correct but below-noise kind-29/36 cache-slot experiment is preserved
 separately as `codex/sh27-lowering-consumption-cut` at `b1d0b26`.
 
@@ -37,6 +37,17 @@ the bounds are directional, not a measured speedup for this revision.
 | `ir_part3_uncached.p`: `ir_node_type_uncached` kinds 27, 29–38 | Rediscovers name/children/operator, recursively infers child types, selects calls | Move covered first-visit semantics into the function visitor; retain legacy function only for uncovered kinds/fallback |
 | `ir_lower.p`, `ir_lower_primary.p`, `ir_lower_binary.p`, `ir_lower_call.p` | Recurses through the same expression structure to emit IR and repeats type/child/operator queries | A single function-body visitor returns type plus value/address and emits IR once validated |
 | `backend_c_project_source.p`: `c_emit_source_record` | Validates whole source before calling `c_lower_and_emit_function` | Fast path owns the semantic/IR visit and a source-level commit barrier; old path remains for `check`/ineligible sources |
+
+Additional previsit hazard: `acceptance_validate_locals` checks initializer
+types, `acceptance_validate_returns` checks return types, and conditions/call
+rules can also invoke `ir_node_type` before lowering. The first executable
+tranche therefore admits only assignment expression-statements with scalar
+`+` binary trees, direct `i32` names/literals, no local initializer, no
+covered return/condition expression, and no call. This is a structural
+correctness tranche, **not** a whole-corpus speed candidate. Subsequent
+tranches must move local initializer, return, condition and call type/rule
+work into the same visitor before widening eligibility; merely skipping the
+two named sweeps would leave their first visits elsewhere.
 
 The new visitor is not an eager source-sized typed-op arena. A visit of an
 eligible expression returns a small stack value `{type_id, value_id,
@@ -112,7 +123,28 @@ Release speculative worker state before legacy replay to stay under strict
 64/256/512 MiB guards. Do not launch parallel workers until this serial
 contract is proved.
 
+The current chunked native path already suppresses worker diagnostics and
+holds output/type copies privately, then destroys those workers before
+source-order legacy replay on errors (`backend_c_parallel_state.p`). The
+prototype may use this boundary only for 2/4-source-chunk builds; one-source
+serial emission remains entirely legacy until it has an equivalent clean
+fallback. If a speculative coverage mismatch replays as *valid*, run that
+source through legacy emission rather than treating the mismatch as a user
+error. No replay may reuse a mutating worker `IrContext`.
+
 ## Executable tranche and kill criteria
+
+**Phase A is correctness-only.** Prove source-all-or-nothing routing, clean
+diagnostic replay, exact PE/runtime, and actual deleted assignment/binary
+sweeps on narrow expression-statement fixtures. Do not time or advertise a
+fixture-only result as SH-27 speed progress.
+
+**Phase B is the throughput cut.** Move local initializer, return and
+condition first visits into the same visitor, then calls with callee-before-
+argument expectations. Require substantial eligibility on both generated
+large/control corpora and the compiler self-build before any performance
+claim. If those sources mostly remain legacy, Phase A does not advance the
+SH-27 throughput gate.
 
 1. Introduce a function-local `semantic_ir_visit` for scalar name/literal,
    binary and assignment, with call-local facts only where required. Keep
@@ -142,3 +174,35 @@ clean Windows runner. This design is falsified if the old sweeps still run,
 if the visitor itself performs a second recursive semantic walk, if invalid
 diagnostics require emitting partial output, if strict RAM worsens, or if the
 two-lane whole-wall result stays below the measured null floor.
+
+## Phase A proof and strict limitations
+
+The first executable cut is restricted to native two-/four-source worker
+builds whose source contains only direct `i32` assignment statement roots,
+`+` binary trees, simple names/literals, uninitialized locals, and simple
+returns. The bounded preflight rejects syntax above 2048 nodes, so the
+generated large/control workloads and compiler self-build do **not** exercise
+this route. It is a correctness wedge, not an SH-27 performance candidate.
+
+Guarded Stage 1→3 bootstrap at
+`build-output/sh27-function-semantic-ir-phase-a-bootstrap-01/bootstrap-current`
+passed a byte-exact Stage 2/3 fixed point, SHA-256
+`0ce0821b8a6ff5e5c3bc1be1038454ad229f5d4336ff05c6b2666f62e8264c07`.
+Stage 3 peaked at 256,790,528 private bytes and 60,399,616 working-set
+bytes under the 512 MiB bootstrap guard. The two-source valid fixture
+activated 2/2 sources, with 3/3 expected/visited assignments and 3/3
+expected/visited binaries; legacy sweep visits, covered uncached type calls,
+and clean replays were all zero. Candidate and frozen-production baseline
+emitted the same 6,144-byte PE, SHA-256
+`aab2b07a98b5a5a18b4287280dec34006317c8c5161a9b8cb332bf6078d5c43d`,
+both exiting 7 with empty stdout/stderr. The invalid unresolved-name fixture
+triggered one clean replay; no PE was written, and baseline/candidate
+diagnostics and exit status matched exactly. These artifacts are ignored
+local evidence, not published release results.
+
+Phase B must replace the O(statement × expression) ownership preflight with
+bounded linear ownership proof before raising the 2048-node cap. It must
+then support local initializers, returns, conditions/control flow, additional
+scalar widths/operators, and calls. Only substantial activation on the
+generated large/control sources and self-build warrants a guarded timing
+matrix. Phase A must remain isolated until that proof exists.

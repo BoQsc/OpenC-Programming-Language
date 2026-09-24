@@ -171,6 +171,9 @@ unsafe void c_lower_and_emit_function(
         timings, context, source_record, node, owner - 1,
         function_ir_ms
     );
+    // Speculative worker IR and bytes remain private until every deferred
+    // scalar rule has passed. Never let an invalid function reach native emit.
+    if context.scalar_state.errors != 0 { return; }
     phase_started = process.monotonic_milliseconds();
     if timings.emission_mode == 1 {
         native_audit_function(context, output, owner - 1, timings.functions);

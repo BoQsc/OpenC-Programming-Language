@@ -520,22 +520,31 @@ unsafe bool c_emit_native_sources_chunked(
         state.chunk_three.timings.validation_acceptance_errors != 0 ||
         state.chunk_four.timings.validation_acceptance_errors != 0;
     if passed && has_errors {
-        // Successful builds never pay this cost. On a rejected build, release
-        // all four worker arenas before replaying diagnostics in source order.
+        // Speculative worker bytes are never merged after a deferred-rule
+        // failure or incomplete coverage. Release all worker arenas first,
+        // then replay the complete source set on the clean serial context.
+        // Invalid input retains the legacy source-ordered diagnostics; a
+        // conservative coverage miss instead produces a valid legacy image.
         c_merge_worker_timings(timings, state.chunk_one.timings);
         c_merge_worker_timings(timings, state.chunk_two.timings);
         c_merge_worker_timings(timings, state.chunk_three.timings);
         c_merge_worker_timings(timings, state.chunk_four.timings);
         c_native_chunk_state_destroy(state);
-        DBuffer discarded = d_buffer_create(output_capacity + 65536);
+        DBuffer replay_output = d_buffer_create(output_capacity + 65536);
+        d_put(replay_output, d_buffer_text(output));
         BuildTimings replay_timings = build_timings_empty();
         replay_timings.emission_mode = 2;
         i32 replay_result = c_emit_source_range_validating(
-            base, discarded, 0, source_count, entry_module,
+            base, replay_output, 0, source_count, entry_module,
             replay_timings, null, parsed_source_cache
         );
-        d_buffer_destroy(discarded);
-        return replay_result == 0;
+        d_buffer_destroy(output);
+        output = replay_output;
+        c_merge_worker_timings(timings, replay_timings);
+        timings.validation_acceptance_errors =
+            replay_timings.validation_acceptance_errors;
+        timings.scalar_fast_sources = 0;
+        return replay_result == 0 && output.ok;
     }
     if passed {
         usize merge_started = process.monotonic_milliseconds();

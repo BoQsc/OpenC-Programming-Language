@@ -137,6 +137,7 @@ unsafe IrContext backend_base_context(
         profile_type_assignment_uncached = 0,
         profile_type_call_uncached = 0,
         profile_type_other_uncached = 0,
+        scalar_state = ir_scalar_state_empty(),
         suppress_acceptance_diagnostics = false
     };
 }
