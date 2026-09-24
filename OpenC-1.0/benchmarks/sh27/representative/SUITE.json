@@ -1,0 +1,64 @@
+{
+  "schema": "openc.sh27.representative_projects.v1",
+  "version": 1,
+  "description": "Checked-in Windows x64 OpenC applications, distinct from the generated SH-27 synthetic corpus.",
+  "workloads": [
+    {
+      "id": "small_cli",
+      "class": "small_cli",
+      "project": "programs/D_HOSTED_CLI/openc.project.json",
+      "input_files": [],
+      "run_arguments": ["alpha", "beta"],
+      "expected_stdout_utf8": "arguments: 2\n0: alpha\n1: beta\n",
+      "expected_stderr_utf8": "",
+      "edit": {
+        "path": "main.p",
+        "old": "io.print(\"arguments: \");",
+        "new": "io.print(\"inputs: \");",
+        "expected_stdout_utf8": "inputs: 2\n0: alpha\n1: beta\n"
+      }
+    },
+    {
+      "id": "medium_audit",
+      "class": "medium_multi_module_app",
+      "project": "benchmarks/sh27/representative/medium_audit/openc.project.json",
+      "input_files": ["sample.log"],
+      "run_arguments": [],
+      "expected_stdout_utf8": "lines=4\ndigits=6\nwarnings=2\nfingerprint=65519\n",
+      "expected_stderr_utf8": "",
+      "edit": {
+        "path": "source/score.p",
+        "old": "hash = (hash * 31 + cast(usize, value)) % 65521;",
+        "new": "hash = (hash * 33 + cast(usize, value)) % 65521;",
+        "expected_stdout_utf8": "lines=4\ndigits=6\nwarnings=2\nfingerprint=16524\n"
+      }
+    },
+    {
+      "id": "compiler_self_build",
+      "class": "compiler_self_build",
+      "project": "compiler/selfhost/openc.project.json",
+      "input_files": [],
+      "run_arguments": ["version"],
+      "expected_stdout_utf8": "OpenC 1.0.0\ncompiler: OpenC self-hosted native\n",
+      "expected_stderr_utf8": "",
+      "max_fixed_point_generations": 3,
+      "edit": {
+        "path": "source/cli.p",
+        "old": "return \"1.0.0\";",
+        "new": "return \"1.0.1-sh27\";",
+        "expected_stdout_utf8": "OpenC 1.0.1-sh27\ncompiler: OpenC self-hosted native\n"
+      }
+    }
+  ],
+  "categories": ["cold", "warm", "edit"],
+  "limits": {
+    "compiler_private_mib": 256,
+    "compiler_working_set_mib": 64,
+    "program_private_mib": 128,
+    "program_working_set_mib": 64,
+    "captured_output_mib": 2,
+    "compiler_timeout_seconds": 120,
+    "program_timeout_seconds": 30,
+    "minimum_free_disk_mib": 256
+  }
+}

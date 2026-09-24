@@ -1,6 +1,7 @@
 # SH-27 completion roadmap
 
-Status: **ACTIVE; not performance-complete**. The ordered, falsifiable
+Status: **ACTIVE; current-source hosted synthetic parity replicated, but
+SH-27 is not complete**. The ordered, falsifiable
 implementation checklist is `SH27_EXECUTION_PLAN.md`; this file retains the
 full measurement history and work-package rationale.
 `SH27_CANDIDATE_PORTFOLIO.md` is the concise current decision index for
@@ -14,6 +15,27 @@ cutover proof, including the current pass-order and call-node dependency traps.
 its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
+
+Current checkpoint (2026-09-24): the unchanged production compiler source
+`1b58d5e` passed two independent clean `--runs 20 --enforce-parity` normal-
+default runs, [35941734238](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35941734238)
+and [35942493151](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35942493151),
+with all 20 ratios below 1.25x. See
+`SH27_NORMAL_DEFAULT_PARITY_REPEAT_EVIDENCE.md` for the raw-artifact IDs and
+limits. Earlier failed clean runners below remain valid historical evidence
+of sensitivity; do not compare their absolute medians across hosts. The
+remaining critical work is content-validated incremental COFF reuse/native
+relink, representative projects, current-final-source full strict memory and
+correctness certification, and release integrity. Isolated typed/QPC cuts
+did not produce a qualifying speed signal and were not merged.
+`SH27_INCREMENTAL_OBJECT_REUSE_ARCHITECTURE.md` maps the current one-object,
+global-ID pipeline and the safe implementation/proof sequence; no cache is
+claimed implemented yet.
+The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
+`benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit
+app, and actual compiler self-build with exact cold/warm/edit/runtime/RAM
+checks. The medium app is benchmark-authored and small; retained user projects
+and repeated project comparisons are still required.
 
 ## Objective and boundary
 

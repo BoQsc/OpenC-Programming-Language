@@ -33,11 +33,33 @@ family showed a substantial DMD gap; these two passes establish replication
 on the pinned hosted setup, not a guarantee across arbitrary hardware,
 antivirus state, projects, or compiler releases.
 
+## Independent current-source memory and release checks
+
+The checked-out production source was rebuilt through a local guarded
+three-stage bootstrap. Stage 2 and Stage 3 were byte-identical at SHA-256
+`d0c18a385d1589db21da0c9ec5684e442bf828124d46c489aed29c4dddb6d9e7`.
+Using Stage 3, `benchmark_sh20_stability.py --chain-runs 20 --enforce`
+passed 5/5 small, 5/5 one-source, and 20/20 chained native rebuilds, with
+byte-exact closure, all 13 recorded checks true, peak child private
+255,287,296 bytes, peak child working set 60,051,456 bytes, and peak Job
+private 255,291,392 bytes. The child limits were 256 MiB private and 64 MiB
+working set; the process tree stayed below 512 MiB. Note that the separate
+three-stage bootstrap uses a 512 MiB guard; its Stage 2 working set was
+67,469,312 bytes, slightly above 64 MiB. Do not claim that *bootstrap Stage 2*
+passed the stricter chain guard. The ignored local report is
+`build-output/selfhost-sh27/sh27-current-source-cert-20260924/strict20.json`.
+
+`verify_sh27_post_release.py` separately streamed and SHA-256-checked all
+15 immutable public `v1.0.0` assets (48,681,989 bytes), its annotated tag
+commit, release record, and SHA256SUMS: `PASS`. The ignored local report is
+`build-output/sh27-public-release-verification-20260924.json`. This protects
+the *old* release; it does not authorize or publish a new one.
+
 This is not a full SH-27 completion certificate. The current native path still
 has one whole-project COFF output, not content-validated per-module object
-reuse or a multi-object native relink. Separately versioned representative
-projects, cold/warm/edit cases, strict 20-generation 64 MiB working-set and
-256 MiB private-byte self-build, full conformance/diagnostic/runtime/ABI
-matrix, release integrity, and final-source reruns after any compiler source
-change remain. The hosted parity report's own `remaining_corpus_expansion`
-names incremental object reuse and broader real-project coverage.
+reuse or a multi-object native relink. Representative projects still need
+broader retained-user-app coverage and repeated project-level comparisons;
+the full conformance/diagnostic/runtime/ABI matrix and final-source reruns
+after any compiler source change remain. The hosted parity report's own
+`remaining_corpus_expansion` names incremental object reuse and broader
+real-project coverage.
