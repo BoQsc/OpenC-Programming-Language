@@ -110,6 +110,14 @@ large/control correctness, and strict opt-in self-build at 260,612,096 bytes
 private / 60,579,840 bytes working set. The mutable type registry, spelling
 cache, seven local/IR buffers, and deterministic merge still block workers;
 only about 7.8 MiB of strict private-byte headroom remained in that proof.
+The subsequent [private type-registry probe](https://github.com/BoQsc/OpenC-Programming-Language/blob/220e325/OpenC-1.0/compiler/selfhost/SH27_PRIVATE_TYPE_REGISTRY.md)
+copies only live type records plus one spare into at most 512 KiB per active
+source chunk and fails closed on a late derived type. It passed byte-exact
+fixed point, strict opt-in self-build (261,132,288 private / 60,792,832
+working-set bytes), focused cases, and large/control equivalence. This cuts
+source-borrowed pointers from nine to eight. It is not a general type-ID
+remapper; spelling cache, seven local/IR buffers, and deterministic merge
+still forbid function workers, with about 7.3 MiB private headroom observed.
 
 ## Next decisive batch
 
@@ -142,9 +150,9 @@ advance concurrently, without treating a noisy local micro-gain as progress:
    A full-source hash or warm timer with no actual module hits fails this track.
 3. **Safe function ownership:** opt-in serial PreparedSource, type-registry
    probe, four bounded project-cache copies, five frozen source indexes, and
-   seven guarded function cache lanes are exact, but nine source-borrowed
-   scratch pointer fields plus IR/output/diagnostic state remain mutable and
-   shared. Give
+   seven guarded function cache lanes, and the bounded private type copy are
+   exact, but eight source-borrowed scratch pointer fields plus
+   IR/output/diagnostic state remain mutable and shared. Give
    each function worker bounded independent scratch before attempting
    deterministic scheduling.
    Require strict 64/256 MiB child and 512 MiB Job proof and a same-run

@@ -61,6 +61,11 @@ reduced source-borrowed pointers again to nine and passed strict opt-in
 self-build and exact large/control cases. All remain serial and isolated;
 mutable derived type IDs, spelling cache, IR buffers and deterministic merge
 still prohibit function workers.
+The later [private type-registry probe](https://github.com/BoQsc/OpenC-Programming-Language/blob/220e325/OpenC-1.0/compiler/selfhost/SH27_PRIVATE_TYPE_REGISTRY.md)
+reduced source-borrowed pointers to eight and passed strict opt-in self-build
+with a 512 KiB live-plus-spare copy per active chunk. It fails closed on late
+type creation rather than remapping IDs; spelling cache, local/IR buffers,
+and deterministic merges remain open.
 
 ## Objective and boundary
 
