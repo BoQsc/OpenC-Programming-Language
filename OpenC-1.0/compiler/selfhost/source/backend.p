@@ -8,6 +8,10 @@ import system.text;
 struct BuildTimings {
     usize emission_mode;
     bool prepared_function_scratch;
+    bool freeze_function_types;
+    usize function_type_prematerialization_ms;
+    usize prematerialized_function_types;
+    usize late_function_type_misses;
     usize project_load_ms;
     usize declarations_ms;
     usize declaration_parse_retained_ms;
@@ -167,6 +171,10 @@ BuildTimings build_timings_empty() {
     return BuildTimings{
         emission_mode = 0,
         prepared_function_scratch = false,
+        freeze_function_types = false,
+        function_type_prematerialization_ms = 0,
+        prematerialized_function_types = 0,
+        late_function_type_misses = 0,
         project_load_ms = 0,
         declarations_ms = 0,
         declaration_parse_retained_ms = 0,

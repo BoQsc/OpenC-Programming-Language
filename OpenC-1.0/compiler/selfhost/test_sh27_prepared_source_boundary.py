@@ -117,6 +117,7 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
         )
         self.assertIn("prepared_function_scratch = false", backend)
         self.assertIn('value == "--prepared-function-scratch"', cli)
+        self.assertIn('value == "--freeze-function-types"', cli)
         self.assertIn(
             "timings.prepared_function_scratch && timings.emission_mode == 2",
             source,
@@ -126,6 +127,53 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
                 f"state.chunk_{name}.timings.prepared_function_scratch =",
                 chunks,
             )
+            self.assertIn(
+                f"state.chunk_{name}.timings.freeze_function_types =",
+                chunks,
+            )
+
+    def test_type_freeze_checks_each_function_before_next_bind(self) -> None:
+        source = (SOURCE / "backend_c_project_source.p").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("usize types_before = function_context.types.length;", source)
+        self.assertIn("function_context.types.length != types_before", source)
+        self.assertIn("OPENC-FUNCTION-TYPE-FREEZE-MISS", source)
+        self.assertLess(
+            source.index("ir_prematerialize_ref_call_pointer_types(source_context)"),
+            source.index("IrPreparedSource prepared ="),
+        )
+        self.assertLess(
+            source.index("function_context.types.length != types_before"),
+            source.index("ir_capture_function_scratch(scratch, function_context)"),
+        )
+
+    def test_type_closure_scans_indexed_calls_only(self) -> None:
+        prepass = (SOURCE / "ir_function_type_freeze.p").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("while call_index < context.call_count", prepass)
+        self.assertIn("ir_select_call(context, call)", prepass)
+        self.assertIn("ir_ref_argument_needs_address_type", prepass)
+        self.assertNotIn("ir_lower_function(", prepass)
+        self.assertNotIn("memory.alloc", prepass)
+
+    def test_type_registry_record_writes_append_only(self) -> None:
+        writers = []
+        pattern = re.compile(
+            r"write_(?:record_field|usize)\s*\(\s*"
+            r"(?:context\.)?type_data\b"
+        )
+        for path in SOURCE.glob("*.p"):
+            if pattern.search(path.read_text(encoding="utf-8")):
+                writers.append(path.name)
+        self.assertEqual(writers, ["semantic.p"])
+        semantic = (SOURCE / "semantic.p").read_text(encoding="utf-8")
+        add_type = semantic.split("unsafe usize semantic_add_type(", 1)[1].split(
+            "}\n", 1
+        )[0]
+        self.assertIn("usize record = types.length;", add_type)
+        self.assertIn("types.length = types.length + 1;", add_type)
 
 
 if __name__ == "__main__":

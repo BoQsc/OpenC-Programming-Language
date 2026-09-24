@@ -63,6 +63,14 @@ unsafe void c_merge_worker_timings(
     ref BuildTimings target,
     ref BuildTimings worker
 ) {
+    target.late_function_type_misses =
+        target.late_function_type_misses + worker.late_function_type_misses;
+    target.prematerialized_function_types =
+        target.prematerialized_function_types +
+        worker.prematerialized_function_types;
+    target.function_type_prematerialization_ms =
+        target.function_type_prematerialization_ms +
+        worker.function_type_prematerialization_ms;
     target.validation_acceptance_ms =
         target.validation_acceptance_ms + worker.validation_acceptance_ms;
     target.validation_acceptance_mask_ms =

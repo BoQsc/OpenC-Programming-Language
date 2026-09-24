@@ -73,6 +73,7 @@ unsafe i32 cli_artifact_command() {
     bool valid = true;
     bool profile_type_queries = false;
     bool prepared_function_scratch = false;
+    bool freeze_function_types = false;
     bool source_chunks_explicit = false;
     while argument < process.argument_count() {
         text value = process.argument(argument);
@@ -88,6 +89,8 @@ unsafe i32 cli_artifact_command() {
             profile_type_queries = true;
         } else if value == "--prepared-function-scratch" {
             prepared_function_scratch = true;
+        } else if value == "--freeze-function-types" {
+            freeze_function_types = true;
         } else if cli_has_prefix(value, "--kind=") {
             kind_name = cli_remove_prefix(value, "--kind=");
         } else if cli_has_prefix(value, "--subsystem=") {
@@ -145,13 +148,15 @@ unsafe i32 cli_artifact_command() {
         valid = false;
     }
     if !valid {
-        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|dll|static-library|import-library) --output=FILE [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--prepared-function-scratch] [--source-chunks=(1|2|4|auto)]\n");
+        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|dll|static-library|import-library) --output=FILE [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--prepared-function-scratch] [--freeze-function-types] [--source-chunks=(1|2|4|auto)]\n");
         return 64;
     }
     BuildTimings timings = build_timings_empty();
     timings.emission_mode = 2;
     timings.profile_type_queries_enabled = profile_type_queries;
-    timings.prepared_function_scratch = prepared_function_scratch;
+    timings.prepared_function_scratch = prepared_function_scratch ||
+        freeze_function_types;
+    timings.freeze_function_types = freeze_function_types;
     i32 result = emit_bootstrap_d_mode_artifact(
         project, output_path, true, true, timings, options
     );

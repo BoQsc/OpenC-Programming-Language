@@ -32,6 +32,15 @@ unsafe bool write_build_timings(
     if timings.prepared_function_scratch {
         d_put(output, ",\n  \"prepared_function_scratch\": true");
     }
+    if timings.freeze_function_types {
+        d_put(output, ",\n  \"freeze_function_types\": true");
+        d_put(output, ",\n  \"prematerialized_function_types\": ");
+        d_put_usize(output, timings.prematerialized_function_types);
+        d_put(output, ",\n  \"function_type_prematerialization_ms\": ");
+        d_put_usize(output, timings.function_type_prematerialization_ms);
+        d_put(output, ",\n  \"late_function_type_misses\": ");
+        d_put_usize(output, timings.late_function_type_misses);
+    }
     d_put(output, ",\n  \"parallel_source_chunks\": ");
     d_put_usize(output, timings.parallel_source_chunks);
     d_put(output, ",\n  \"parallel_flow_workers\": ");

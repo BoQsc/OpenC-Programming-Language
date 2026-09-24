@@ -15,9 +15,20 @@ unsafe bool c_emit_prepared_source_functions(
     // The prepared view borrows only source/project facts after acceptance.
     // Exactly one worker owns scratch in this first vertical slice; no
     // acceptance work or buffers are replicated for function jobs yet.
+    if timings.freeze_function_types {
+        usize freeze_started = process.monotonic_milliseconds();
+        timings.prematerialized_function_types =
+            timings.prematerialized_function_types +
+            ir_prematerialize_ref_call_pointer_types(source_context);
+        timings.function_type_prematerialization_ms =
+            timings.function_type_prematerialization_ms +
+            process.monotonic_milliseconds() - freeze_started;
+    }
     IrPreparedSource prepared = IrPreparedSource{ view = source_context };
     IrFunctionScratch scratch = ir_function_scratch(source_context);
     ir_prepared_source(source_context, prepared);
+    usize frozen_type_count = source_context.types.length;
+    usize late_type_misses = 0;
     usize node = 0;
     while node < source_context.syntax.length {
         if read_record_field(source_context.syntax_data, node, 0) == 2 {
@@ -44,15 +55,51 @@ unsafe bool c_emit_prepared_source_functions(
             ir_bind_prepared_function(
                 prepared, scratch, function_context
             );
+            usize types_before = function_context.types.length;
             c_lower_and_emit_function(
                 function_context, output, timings, source_record, node,
                 owner, entry_module
             );
+            if timings.freeze_function_types &&
+                function_context.types.length != types_before {
+                if function_context.types.length > types_before {
+                    late_type_misses = late_type_misses +
+                        function_context.types.length - types_before;
+                    if late_type_misses <= 16 {
+                        usize type_id = types_before;
+                        while type_id < function_context.types.length {
+                            io.print("OPENC-FUNCTION-TYPE-LATE source=");
+                            io.print(source_record);
+                            io.print(" node="); io.print(node);
+                            io.print(" type="); io.print(type_id);
+                            io.print(" kind="); io.print(read_record_field(
+                                function_context.type_data, type_id, 0
+                            ));
+                            io.print(" element="); io.println(read_record_field(
+                                function_context.type_data, type_id, 1
+                            ));
+                            type_id = type_id + 1;
+                        }
+                    }
+                } else {
+                    io.println("OPENC-FUNCTION-TYPE-REGISTRY-SHRANK");
+                    return false;
+                }
+            }
             ir_capture_function_scratch(scratch, function_context);
         }
         node = node + 1;
     }
     ir_bind_prepared_function(prepared, scratch, source_context);
+    timings.late_function_type_misses =
+        timings.late_function_type_misses + late_type_misses;
+    if timings.freeze_function_types &&
+        (late_type_misses != 0 || source_context.types.length !=
+            frozen_type_count) {
+        io.print("OPENC-FUNCTION-TYPE-FREEZE-MISS count=");
+        io.println(late_type_misses);
+        return false;
+    }
     return true;
 }
 
