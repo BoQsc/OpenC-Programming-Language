@@ -128,6 +128,13 @@ pairs there, and pass both target lanes before a clean CI parity claim.
 `SH27_BRANCH_BATCH_CI.md` describes the commit/manual clean-runner workflow,
 frozen branch-ref and source-hash checks, strict fixed-point bootstrap, and
 serial matrix artifact contract; it screens candidates but cannot certify SH-27.
+The full typed-operation prebuild subsequently specialized every generated
+large/control source and preserved exact artifacts, yet remained flat on the
+guarded 11-pair wall gate. `SH27_TYPED_PIPELINE_REJECTION.md` records that
+the new eager expression traversal repeated old first-visit checks and moved
+assignment/call time into a new counter. The next semantic cut must validate
+inside the *already required* lowering traversal with bounded fallback for
+invalid source; another eager operation arena is not the answer.
 
 `SH27_WORKER_BALANCE_EVIDENCE.md` now records four-worker wall times from
 eleven guarded local runs per large/control workload. The first chunk was
