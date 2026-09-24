@@ -352,7 +352,30 @@ unsafe bool c_emit_source_record(
     context.scalar_state = ir_scalar_state_empty();
     if validate_acceptance && timings.emission_mode == 2 &&
         context.suppress_acceptance_diagnostics {
-        ir_semantic_scalar_eligible(context);
+        timings.scalar_preflight_sources =
+            timings.scalar_preflight_sources + 1;
+        if !ir_semantic_scalar_eligible(context) {
+            usize reason = context.scalar_state.preflight_reason;
+            if reason == 2 {
+                timings.scalar_rejected_expression =
+                    timings.scalar_rejected_expression + 1;
+            } else if reason == 3 {
+                timings.scalar_rejected_no_covered_work =
+                    timings.scalar_rejected_no_covered_work + 1;
+            } else if reason == 4 {
+                timings.scalar_rejected_ownership =
+                    timings.scalar_rejected_ownership + 1;
+            } else if reason == 5 {
+                timings.scalar_rejected_local =
+                    timings.scalar_rejected_local + 1;
+            } else if reason == 6 {
+                timings.scalar_rejected_control_return =
+                    timings.scalar_rejected_control_return + 1;
+            } else {
+                timings.scalar_rejected_other =
+                    timings.scalar_rejected_other + 1;
+            }
+        }
     }
     if validate_acceptance {
         // Acceptance treats every declared local as semantically available;

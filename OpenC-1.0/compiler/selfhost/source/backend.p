@@ -150,6 +150,13 @@ struct BuildTimings {
     usize validation_assignment_type_distinct_uncached;
     usize validation_assignment_type_repeated_uncached;
     usize scalar_fast_sources;
+    usize scalar_preflight_sources;
+    usize scalar_rejected_expression;
+    usize scalar_rejected_no_covered_work;
+    usize scalar_rejected_ownership;
+    usize scalar_rejected_local;
+    usize scalar_rejected_control_return;
+    usize scalar_rejected_other;
     usize scalar_expected_assignments;
     usize scalar_expected_binaries;
     usize scalar_visited_assignments;
@@ -317,6 +324,13 @@ BuildTimings build_timings_empty() {
         validation_assignment_type_distinct_uncached = 0,
         validation_assignment_type_repeated_uncached = 0,
         scalar_fast_sources = 0,
+        scalar_preflight_sources = 0,
+        scalar_rejected_expression = 0,
+        scalar_rejected_no_covered_work = 0,
+        scalar_rejected_ownership = 0,
+        scalar_rejected_local = 0,
+        scalar_rejected_control_return = 0,
+        scalar_rejected_other = 0,
         scalar_expected_assignments = 0,
         scalar_expected_binaries = 0,
         scalar_visited_assignments = 0,

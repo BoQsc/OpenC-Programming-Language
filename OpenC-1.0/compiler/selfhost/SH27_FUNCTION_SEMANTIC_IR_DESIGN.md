@@ -1,6 +1,6 @@
 # SH-27: replace assignment/binary acceptance with function semantic IR
 
-Status: **Phase A executable correctness tranche** on isolated branch
+Status: **Phase B1 large-function coverage tranche** on isolated branch
 `codex/sh27-function-semantic-ir`, based on unchanged production compiler
 source `1b58d5e`. No throughput result or promotion is implied.
 The correct but below-noise kind-29/36 cache-slot experiment is preserved
@@ -200,9 +200,30 @@ triggered one clean replay; no PE was written, and baseline/candidate
 diagnostics and exit status matched exactly. These artifacts are ignored
 local evidence, not published release results.
 
-Phase B must replace the O(statement × expression) ownership preflight with
-bounded linear ownership proof before raising the 2048-node cap. It must
-then support local initializers, returns, conditions/control flow, additional
-scalar widths/operators, and calls. Only substantial activation on the
-generated large/control sources and self-build warrants a guarded timing
-matrix. Phase A must remain isolated until that proof exists.
+Phase B1 replaced the O(statement × expression) containment loop with a
+linear census plus disjoint expression-root DFS, using only existing kind-38
+call-cache slots for kind-36/37 ownership marks. Duplicate ownership and
+depth above 64 reject the fast path. It removed the 2048-node source cap and
+covers `i64` `+`, `-`, and `*` (including exact multiply-by-one lowering).
+The valid generated eight-source large-functions workload activates 7/8
+sources. Source 0, which contains the call-heavy `main`, rejects at the
+unsupported-expression preflight. The seven active sources cover 21,504
+assignments and 28,672 binary nodes: expected counts equal lowering visits,
+while legacy sweep visits, covered uncached type calls, and clean replays are
+all zero. The candidate and frozen production compiler produced byte-identical
+1,344,512-byte PEs, SHA-256
+`81d22e50b31b4c958bce1e3da02c7c114d67ca815934b58b2902cb97cbb76c4e`,
+and both programs exited 0 with empty output. The guarded 512/512 MiB compile
+passed. Stage 2/3 compiler self-build fixed point passed with SHA-256
+`0c3cc3e5076f21fbe86b6b4eec36820ead5b7c299fba4d3707e24237f24b689a`.
+These are local ignored artifacts under
+`build-output/sh27-function-semantic-ir-phase-b1-bootstrap-02` and
+`build-output/sh27-function-semantic-ir-phase-b1-large-*-{timings,memory}.json`;
+they are not a published release result.
+
+This is still not a timing candidate: control-flow and compiler self-build
+coverage have not been demonstrated, source 0's call path remains legacy, and
+the strict 64/256 MiB self-build has not been run on this source. Phase B2
+must support local initializers, returns, conditions/control flow and calls
+without restoring earlier first visits, then measure actual eligibility and
+correctness on large, control, and self-build before any wall-time matrix.

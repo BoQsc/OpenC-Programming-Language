@@ -151,6 +151,22 @@ unsafe void c_merge_worker_timings(
         worker.validation_assignment_type_repeated_uncached;
     target.scalar_fast_sources = target.scalar_fast_sources +
         worker.scalar_fast_sources;
+    target.scalar_preflight_sources = target.scalar_preflight_sources +
+        worker.scalar_preflight_sources;
+    target.scalar_rejected_expression = target.scalar_rejected_expression +
+        worker.scalar_rejected_expression;
+    target.scalar_rejected_no_covered_work =
+        target.scalar_rejected_no_covered_work +
+        worker.scalar_rejected_no_covered_work;
+    target.scalar_rejected_ownership = target.scalar_rejected_ownership +
+        worker.scalar_rejected_ownership;
+    target.scalar_rejected_local = target.scalar_rejected_local +
+        worker.scalar_rejected_local;
+    target.scalar_rejected_control_return =
+        target.scalar_rejected_control_return +
+        worker.scalar_rejected_control_return;
+    target.scalar_rejected_other = target.scalar_rejected_other +
+        worker.scalar_rejected_other;
     target.scalar_expected_assignments =
         target.scalar_expected_assignments +
         worker.scalar_expected_assignments;
