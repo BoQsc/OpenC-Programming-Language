@@ -143,6 +143,14 @@ advance concurrently, without treating a noisy local micro-gain as progress:
    guarded fixed point. The excluded source 0 was the historical critical
    call-heavy worker; control/self-build coverage, strict final RAM, and
    whole-wall speed remain unproved. Widen the visitor before timing.
+   The [Phase B2 falsification](https://github.com/BoQsc/OpenC-Programming-Language/blob/89dd8d4/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_B2_EVIDENCE.md)
+   achieved exact 8/8 large and 4/4 control source coverage but was a
+   **two-lane NO-GO**: 11-pair/null large improved 16 ms (10/11 wins;
+   9 ms null), while control regressed 10 ms (2/11 wins; 11 ms null).
+   Pointer acceptance and IR lowering absorbed first-visit work; self-build
+   remained 0/223 fast sources. Its 512 MiB matrix guard is not the strict
+   64/256 MiB self-build gate. The next batch must remove migrated work and
+   categorize self-build exclusions, not promote the removed-sweep counter.
 2. **Real incremental native artifacts:** the isolated interface projection,
    stable COFF names, and post-lowering module COFF set are prerequisites.
    Make acceptance/lowering truly independent by module, handle shared data,

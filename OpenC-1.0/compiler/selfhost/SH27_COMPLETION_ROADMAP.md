@@ -28,6 +28,11 @@ remaining critical work is content-validated incremental COFF reuse/native
 relink, representative projects, current-final-source full strict memory and
 correctness certification, and release integrity. Isolated typed/QPC cuts
 did not produce a qualifying speed signal and were not merged.
+The [isolated function semantic/IR Phase B2](https://github.com/BoQsc/OpenC-Programming-Language/blob/89dd8d4/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_B2_EVIDENCE.md)
+removed the assignment/binary sweeps on all generated large/control sources,
+but a guarded 11-pair/null matrix rejected it: large improved 16 ms while
+control regressed 10 ms, and compiler self-build activated 0/223 sources.
+No throughput candidate is promoted from that cut.
 An [isolated native workflow input](https://github.com/BoQsc/OpenC-Programming-Language/blob/e233fee/OpenC-1.0/compiler/selfhost/SH27_WORKFLOW_CLEAN_PROFILE_INPUT.md)
 can now pass a current clean-profile report path without changing the
 historical SH-25 record; its own new compiler correctly failed the two
