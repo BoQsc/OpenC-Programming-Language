@@ -69,6 +69,29 @@ unsafe usize acceptance_validate_pointer_ownership(
 }
 
 unsafe usize acceptance_validate_pointer_order(ref IrContext context) {
+    // Every allocated symbol recognized below has an initializer whose
+    // callee is one of these two exact names. The already-built call index
+    // gives the fast scalar worker a source-wide negative proof without
+    // resolving every relational operand again. Keep the legacy scan when
+    // the index is unavailable or the source is outside the closed grammar.
+    if context.scalar_state.enabled && context.call_nodes != null {
+        bool possible_allocated_symbol = false;
+        usize call_index = 0;
+        while call_index < context.call_count {
+            usize call = read_usize(
+                context.call_nodes, call_index * size_of(usize)
+            );
+            if acceptance_call_named(context, call, "memory.alloc") ||
+                acceptance_call_named(
+                    context, call, "system.memory.alloc"
+                ) {
+                possible_allocated_symbol = true;
+                break;
+            }
+            call_index = call_index + 1;
+        }
+        if !possible_allocated_symbol { return 0; }
+    }
     usize errors = 0;
     usize node = 0;
     while node < context.syntax.length {
