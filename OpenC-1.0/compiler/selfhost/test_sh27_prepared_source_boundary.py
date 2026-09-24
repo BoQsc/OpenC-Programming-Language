@@ -29,8 +29,8 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
         )
         all_fields = fields(context)
         scratch_fields = fields(scratch)
-        self.assertEqual(len(all_fields), 120)
-        self.assertEqual(len(scratch_fields), 53)
+        self.assertEqual(len(all_fields), 122)
+        self.assertEqual(len(scratch_fields), 48)
         self.assertEqual(len(set(all_fields)), len(all_fields))
         self.assertEqual(len(set(scratch_fields)), len(scratch_fields))
         self.assertTrue(set(scratch_fields) < set(all_fields))
@@ -222,6 +222,57 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
             project.index("c_emit_native_sources_chunked("),
         )
         self.assertIn("if timings.validation_acceptance_errors != 0", project)
+
+    def test_seven_source_cache_lanes_have_prewrite_ownership_guards(self) -> None:
+        declarations = (SOURCE / "ir.p").read_text(encoding="utf-8")
+        prepared = (SOURCE / "ir_prepared_source.p").read_text(encoding="utf-8")
+        source = (SOURCE / "backend_c_project_source.p").read_text(
+            encoding="utf-8"
+        )
+        scratch = declarations.split("struct IrFunctionScratch {", 1)[1].split(
+            "}", 1
+        )[0]
+        for field in (
+            "name_cache", "call_cache", "type_cache", "profile_type_seen",
+            "resolved_type_ref_cache", "left_expression_cache",
+            "right_expression_cache",
+        ):
+            self.assertNotIn(f"ptr byte {field};", scratch)
+            self.assertIn(f"prepared.view.{field} = source.{field};", prepared)
+            self.assertIn(f"context.{field} = prepared.view.{field};", prepared)
+        self.assertIn("ir_function_cache_spans_disjoint(source_context)", source)
+        self.assertIn("function_context.cache_write_owner_encoded = node + 1;", source)
+        self.assertIn("OPENC-FUNCTION-CACHE-OWNERSHIP-MISS", source)
+        self.assertIn("node_length != 0", prepared)
+        self.assertIn("node_start - owner_start < owner_length", prepared)
+        self.assertIn("node_length <= owner_length - (node_start - owner_start)", prepared)
+        guarded = {
+            "ir_part1c_expression.p": 2,
+            "ir_part2.p": 1,
+            "ir_part2_resolution.p": 1,
+            "ir_part2_calls.p": 2,
+            "ir_part3.p": 3,
+        }
+        for filename, minimum in guarded.items():
+            with self.subTest(filename=filename):
+                text = (SOURCE / filename).read_text(encoding="utf-8")
+                self.assertGreaterEqual(
+                    text.count("ir_function_cache_write_allowed(context,"),
+                    minimum,
+                )
+        readers = {
+            "ir_part1c_expression.p": 2,
+            "ir_part2_resolution.p": 1,
+            "ir_part2_calls.p": 1,
+            "ir_part3.p": 3,
+        }
+        for filename, minimum in readers.items():
+            with self.subTest(reader=filename):
+                text = (SOURCE / filename).read_text(encoding="utf-8")
+                self.assertGreaterEqual(
+                    text.count("ir_function_cache_read_allowed(context,"),
+                    minimum,
+                )
 
     def test_type_freeze_checks_each_function_before_next_bind(self) -> None:
         source = (SOURCE / "backend_c_project_source.p").read_text(

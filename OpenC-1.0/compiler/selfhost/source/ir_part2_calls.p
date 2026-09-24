@@ -150,7 +150,8 @@ unsafe usize ir_indexed_call_selection(
 
 unsafe usize ir_select_call(ref IrContext context, usize call) {
     ir_select_node_function(context, call);
-    if context.call_cache != null && call < context.syntax.length {
+    if context.call_cache != null && call < context.syntax.length &&
+        ir_function_cache_read_allowed(context, call) {
         usize cached = read_usize(
             context.call_cache, call * size_of(usize)
         );
@@ -180,7 +181,8 @@ unsafe usize ir_select_call(ref IrContext context, usize call) {
         // `file`, `memory`, or `process`. A declared function has precedence;
         // Hosted built-in routing is only the fallback for an unresolved name.
         if builtin_spelling && declared >= context.symbols.length {
-            if context.call_cache != null && call < context.syntax.length {
+            if context.call_cache != null && call < context.syntax.length &&
+                ir_function_cache_write_allowed(context, call) {
                 write_usize(
                     context.call_cache,
                     call * size_of(usize), selected + 1
@@ -224,7 +226,8 @@ unsafe usize ir_select_call(ref IrContext context, usize call) {
     // only real symbol selections; otherwise a precheck miss becomes a false
     // permanent error during acceptance and lowering.
     if context.call_cache != null && call < context.syntax.length &&
-        selected < context.symbols.length {
+        selected < context.symbols.length &&
+        ir_function_cache_write_allowed(context, call) {
         write_usize(
             context.call_cache, call * size_of(usize), selected + 1
         );

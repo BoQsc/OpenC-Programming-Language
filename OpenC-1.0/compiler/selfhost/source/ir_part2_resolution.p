@@ -7,7 +7,8 @@ import system.text;
 unsafe usize ir_resolve_name(ref IrContext context, usize node) {
     ir_select_node_function(context, node);
     if node >= context.syntax.length { return context.symbols.length; }
-    if context.name_cache != null && node < context.syntax.length {
+    if context.name_cache != null && node < context.syntax.length &&
+        ir_function_cache_read_allowed(context, node) {
         usize cached = read_usize(
             context.name_cache, node * size_of(usize)
         );
@@ -28,7 +29,8 @@ unsafe usize ir_resolve_name(ref IrContext context, usize node) {
             usize cached = read_record_field(
                 context.spelling_cache, spelling_entry, 4
             ) - 1;
-            if context.name_cache != null {
+            if context.name_cache != null &&
+                ir_function_cache_write_allowed(context, node) {
                 write_usize(
                     context.name_cache, node * size_of(usize), cached + 1
                 );

@@ -1,3 +1,57 @@
+// A source-indexed cache may be shared by function jobs only when each writer
+// is confined to its immutable, nonoverlapping declaration span. The opt-in
+// path checks this before the write; a miss never mutates shared storage and
+// is rejected after the function returns. The default path has no owner.
+unsafe bool ir_function_cache_read_allowed(
+    ref IrContext context, usize node
+) {
+    if context.cache_write_owner_encoded == 0 { return true; }
+    usize owner = context.cache_write_owner_encoded - 1;
+    if node >= context.syntax.length || owner >= context.syntax.length {
+        return false;
+    }
+    if node == owner { return true; }
+    usize owner_start = read_record_field(context.syntax_data, owner, 1);
+    usize owner_length = read_record_field(context.syntax_data, owner, 2);
+    usize node_start = read_record_field(context.syntax_data, node, 1);
+    usize node_length = read_record_field(context.syntax_data, node, 2);
+    // Half-open ownership excludes a zero-length node at the boundary shared
+    // by adjacent declarations, even though semantic_node_contains accepts it.
+    return owner_length != 0 && node_length != 0 &&
+        owner_start <= node_start &&
+        node_start - owner_start < owner_length &&
+        node_length <= owner_length - (node_start - owner_start);
+}
+
+unsafe bool ir_function_cache_write_allowed(
+    ref IrContext context, usize node
+) {
+    if ir_function_cache_read_allowed(context, node) {
+        return true;
+    }
+    context.cache_write_violations = context.cache_write_violations + 1;
+    return false;
+}
+
+// Every function cache lane is keyed by syntax node. Reject overlapping or
+// unsorted declarations before a source-indexed lane is lent to functions.
+unsafe bool ir_function_cache_spans_disjoint(ref IrContext context) {
+    usize previous_end = 0;
+    usize node = 0;
+    while node < context.syntax.length {
+        if read_record_field(context.syntax_data, node, 0) == 2 {
+            usize start = read_record_field(context.syntax_data, node, 1);
+            usize length = read_record_field(context.syntax_data, node, 2);
+            if length == 0 || start < previous_end ||
+                start > context.source.length ||
+                length > context.source.length - start { return false; }
+            previous_end = start + length;
+        }
+        node = node + 1;
+    }
+    return true;
+}
+
 // Complete the lazily built call-argument links before publishing the indexed
 // source. Parent caches are already filled for every syntax node by indexing.
 unsafe bool ir_prepare_function_index_caches(ref IrContext context) {
@@ -84,17 +138,12 @@ unsafe void ir_prepared_source(
     view.function_result = 0;
     view.function_local_first = 0;
     view.function_local_end = 0;
+    view.cache_write_owner_encoded = 0;
+    view.cache_write_violations = 0;
     view.type_data = null;
     view.types = PackedBuffer{ length = 0, capacity = 0 };
-    view.name_cache = null;
     view.spelling_cache = null;
     view.spelling_cache_capacity = 0;
-    view.call_cache = null;
-    view.type_cache = null;
-    view.profile_type_seen = null;
-    view.resolved_type_ref_cache = null;
-    view.left_expression_cache = null;
-    view.right_expression_cache = null;
     view.symbol_export_cache = null;
     view.native_layout_size_cache = null;
     view.native_layout_alignment_cache = null;
@@ -155,17 +204,19 @@ unsafe void ir_prepared_source(
     prepared.view.function_result = view.function_result;
     prepared.view.function_local_first = view.function_local_first;
     prepared.view.function_local_end = view.function_local_end;
-    prepared.view.name_cache = view.name_cache;
+    prepared.view.cache_write_owner_encoded = view.cache_write_owner_encoded;
+    prepared.view.cache_write_violations = view.cache_write_violations;
+    prepared.view.name_cache = source.name_cache;
     prepared.view.spelling_cache = view.spelling_cache;
     prepared.view.spelling_cache_capacity = view.spelling_cache_capacity;
-    prepared.view.call_cache = view.call_cache;
+    prepared.view.call_cache = source.call_cache;
     prepared.view.call_argument_first = source.call_argument_first;
     prepared.view.call_argument_last = source.call_argument_last;
     prepared.view.argument_next = source.argument_next;
-    prepared.view.type_cache = view.type_cache;
-    prepared.view.resolved_type_ref_cache = view.resolved_type_ref_cache;
-    prepared.view.left_expression_cache = view.left_expression_cache;
-    prepared.view.right_expression_cache = view.right_expression_cache;
+    prepared.view.type_cache = source.type_cache;
+    prepared.view.resolved_type_ref_cache = source.resolved_type_ref_cache;
+    prepared.view.left_expression_cache = source.left_expression_cache;
+    prepared.view.right_expression_cache = source.right_expression_cache;
     prepared.view.block_parent_cache = source.block_parent_cache;
     prepared.view.control_parent_cache = source.control_parent_cache;
     prepared.view.statement_nodes = source.statement_nodes;
@@ -238,7 +289,7 @@ unsafe void ir_prepared_source(
     prepared.view.profile_syntax_candidates = view.profile_syntax_candidates;
     prepared.view.profile_symbol_candidates = view.profile_symbol_candidates;
     prepared.view.profile_type_queries_enabled = source.profile_type_queries_enabled;
-    prepared.view.profile_type_seen = view.profile_type_seen;
+    prepared.view.profile_type_seen = source.profile_type_seen;
     prepared.view.profile_type_queries = view.profile_type_queries;
     prepared.view.profile_type_cache_hits = view.profile_type_cache_hits;
     prepared.view.profile_type_uncached = view.profile_type_uncached;
@@ -262,17 +313,12 @@ unsafe IrFunctionScratch ir_function_scratch(ref IrContext source) {
         function_result = source.function_result,
         function_local_first = source.function_local_first,
         function_local_end = source.function_local_end,
+        cache_write_owner_encoded = source.cache_write_owner_encoded,
+        cache_write_violations = source.cache_write_violations,
         type_data = source.type_data,
         types = source.types,
-        name_cache = source.name_cache,
         spelling_cache = source.spelling_cache,
         spelling_cache_capacity = source.spelling_cache_capacity,
-        call_cache = source.call_cache,
-        type_cache = source.type_cache,
-        profile_type_seen = source.profile_type_seen,
-        resolved_type_ref_cache = source.resolved_type_ref_cache,
-        left_expression_cache = source.left_expression_cache,
-        right_expression_cache = source.right_expression_cache,
         symbol_export_cache = source.symbol_export_cache,
         native_layout_size_cache = source.native_layout_size_cache,
         native_layout_alignment_cache = source.native_layout_alignment_cache,
@@ -386,20 +432,22 @@ unsafe void ir_bind_prepared_function(
     context.function_result = scratch.function_result;
     context.function_local_first = scratch.function_local_first;
     context.function_local_end = scratch.function_local_end;
+    context.cache_write_owner_encoded = scratch.cache_write_owner_encoded;
+    context.cache_write_violations = scratch.cache_write_violations;
     context.type_data = scratch.type_data;
     context.types = scratch.types;
-    context.name_cache = scratch.name_cache;
+    context.name_cache = prepared.view.name_cache;
     context.spelling_cache = scratch.spelling_cache;
     context.spelling_cache_capacity = scratch.spelling_cache_capacity;
-    context.call_cache = scratch.call_cache;
+    context.call_cache = prepared.view.call_cache;
     context.call_argument_first = prepared.view.call_argument_first;
     context.call_argument_last = prepared.view.call_argument_last;
     context.argument_next = prepared.view.argument_next;
-    context.type_cache = scratch.type_cache;
-    context.profile_type_seen = scratch.profile_type_seen;
-    context.resolved_type_ref_cache = scratch.resolved_type_ref_cache;
-    context.left_expression_cache = scratch.left_expression_cache;
-    context.right_expression_cache = scratch.right_expression_cache;
+    context.type_cache = prepared.view.type_cache;
+    context.profile_type_seen = prepared.view.profile_type_seen;
+    context.resolved_type_ref_cache = prepared.view.resolved_type_ref_cache;
+    context.left_expression_cache = prepared.view.left_expression_cache;
+    context.right_expression_cache = prepared.view.right_expression_cache;
     context.block_parent_cache = prepared.view.block_parent_cache;
     context.control_parent_cache = prepared.view.control_parent_cache;
     context.symbol_export_cache = scratch.symbol_export_cache;
@@ -453,17 +501,12 @@ unsafe void ir_capture_function_scratch(
     scratch.function_result = context.function_result;
     scratch.function_local_first = context.function_local_first;
     scratch.function_local_end = context.function_local_end;
+    scratch.cache_write_owner_encoded = context.cache_write_owner_encoded;
+    scratch.cache_write_violations = context.cache_write_violations;
     scratch.type_data = context.type_data;
     scratch.types = context.types;
-    scratch.name_cache = context.name_cache;
     scratch.spelling_cache = context.spelling_cache;
     scratch.spelling_cache_capacity = context.spelling_cache_capacity;
-    scratch.call_cache = context.call_cache;
-    scratch.type_cache = context.type_cache;
-    scratch.profile_type_seen = context.profile_type_seen;
-    scratch.resolved_type_ref_cache = context.resolved_type_ref_cache;
-    scratch.left_expression_cache = context.left_expression_cache;
-    scratch.right_expression_cache = context.right_expression_cache;
     scratch.symbol_export_cache = context.symbol_export_cache;
     scratch.native_layout_size_cache = context.native_layout_size_cache;
     scratch.native_layout_alignment_cache = context.native_layout_alignment_cache;

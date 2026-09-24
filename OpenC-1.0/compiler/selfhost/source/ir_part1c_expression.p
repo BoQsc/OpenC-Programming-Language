@@ -116,7 +116,8 @@ unsafe usize ir_left_expression(
     usize operator_start
 ) {
     if context.left_expression_cache != null &&
-        parent < context.syntax.length {
+        parent < context.syntax.length &&
+        ir_function_cache_read_allowed(context, parent) {
         usize cached = read_usize(
             context.left_expression_cache,
             parent * size_of(usize)
@@ -161,11 +162,13 @@ unsafe usize ir_left_expression(
                 context.syntax_data, parent, operator_start
             );
         }
-        write_usize(
-            context.left_expression_cache,
-            parent * size_of(usize),
-            cached
-        );
+        if ir_function_cache_write_allowed(context, parent) {
+            write_usize(
+                context.left_expression_cache,
+                parent * size_of(usize),
+                cached
+            );
+        }
         return cached;
     }
     return resolution_left_expression(
@@ -179,7 +182,8 @@ unsafe usize ir_right_expression(
     usize operator_end
 ) {
     if context.right_expression_cache != null &&
-        parent < context.syntax.length {
+        parent < context.syntax.length &&
+        ir_function_cache_read_allowed(context, parent) {
         usize cached = read_usize(
             context.right_expression_cache,
             parent * size_of(usize)
@@ -236,11 +240,13 @@ unsafe usize ir_right_expression(
                 context.syntax_data, parent, operator_end
             );
         }
-        write_usize(
-            context.right_expression_cache,
-            parent * size_of(usize),
-            cached
-        );
+        if ir_function_cache_write_allowed(context, parent) {
+            write_usize(
+                context.right_expression_cache,
+                parent * size_of(usize),
+                cached
+            );
+        }
         return cached;
     }
     return resolution_right_expression(

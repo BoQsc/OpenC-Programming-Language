@@ -41,6 +41,8 @@ unsafe IrContext backend_base_context(
         function_result = 0,
         function_local_first = 0,
         function_local_end = 0,
+        cache_write_owner_encoded = 0,
+        cache_write_violations = 0,
         name_cache = null,
         spelling_cache = null,
         spelling_cache_capacity = 0,

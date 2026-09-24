@@ -27,6 +27,11 @@ struct IrContext {
     usize function_result;
     usize function_local_first;
     usize function_local_end;
+    // Nonzero only for opt-in function lowering. Cache writes must target a
+    // syntax node inside this fixed function, regardless of name lookup's
+    // temporary context.function_node changes.
+    usize cache_write_owner_encoded;
+    usize cache_write_violations;
     ptr byte name_cache;
     ptr byte spelling_cache;
     usize spelling_cache_capacity;
@@ -128,10 +133,11 @@ struct IrContext {
 }
 
 // A borrowed, source-lifetime view published only after indexing and
-// acceptance. Its writable first-visit caches and IR storage are absent;
-// parent and call-argument indexes are checked complete before publication.
-// The first user is a serial opt-in path; parallel publication is not yet
-// allowed because acceptance itself still owns source-wide mutable state.
+// acceptance. Its function-keyed first-visit caches are source-owned but
+// read/write access is restricted to disjoint function spans; IR storage and
+// nonpartitioned mutable caches remain in scratch. Parent and call-argument
+// indexes are checked complete before publication. This remains serial and
+// opt-in; other ownership and merge gates still prohibit function workers.
 struct IrPreparedSource {
     IrContext view;
 }
@@ -144,17 +150,12 @@ struct IrFunctionScratch {
     usize function_result;
     usize function_local_first;
     usize function_local_end;
+    usize cache_write_owner_encoded;
+    usize cache_write_violations;
     ptr byte type_data;
     PackedBuffer types;
-    ptr byte name_cache;
     ptr byte spelling_cache;
     usize spelling_cache_capacity;
-    ptr byte call_cache;
-    ptr byte type_cache;
-    ptr byte profile_type_seen;
-    ptr byte resolved_type_ref_cache;
-    ptr byte left_expression_cache;
-    ptr byte right_expression_cache;
     ptr byte symbol_export_cache;
     ptr byte native_layout_size_cache;
     ptr byte native_layout_alignment_cache;

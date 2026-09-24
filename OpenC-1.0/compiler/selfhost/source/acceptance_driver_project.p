@@ -347,6 +347,8 @@ unsafe usize acceptance_validate_project(
                 function_result = semantic_type_void(),
                 function_local_first = 0,
                 function_local_end = 0,
+                cache_write_owner_encoded = 0,
+                cache_write_violations = 0,
                 name_cache = ir_pointer_alias(name_cache),
                 spelling_cache = null,
                 spelling_cache_capacity = 0,

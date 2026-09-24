@@ -22,6 +22,11 @@ unsafe bool c_emit_prepared_source_functions_inner(
         io.println(source_record);
         return false;
     }
+    if !ir_function_cache_spans_disjoint(source_context) {
+        io.print("OPENC-FUNCTION-CACHE-SPANS-OVERLAP source=");
+        io.println(source_record);
+        return false;
+    }
     timings.function_index_preparation_ms =
         timings.function_index_preparation_ms +
         process.monotonic_milliseconds() - index_started;
@@ -59,11 +64,22 @@ unsafe bool c_emit_prepared_source_functions_inner(
             ir_bind_prepared_function(
                 prepared, scratch, function_context
             );
+            function_context.cache_write_owner_encoded = node + 1;
+            function_context.cache_write_violations = 0;
             usize types_before = function_context.types.length;
             c_lower_and_emit_function(
                 function_context, output, timings, source_record, node,
                 owner, entry_module
             );
+            if function_context.cache_write_violations != 0 {
+                io.print("OPENC-FUNCTION-CACHE-OWNERSHIP-MISS source=");
+                io.print(source_record);
+                io.print(" node="); io.print(node);
+                io.print(" writes=");
+                io.println(function_context.cache_write_violations);
+                return false;
+            }
+            function_context.cache_write_owner_encoded = 0;
             if timings.freeze_function_types &&
                 function_context.types.length != types_before {
                 if function_context.types.length > types_before {

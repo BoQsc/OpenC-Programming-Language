@@ -67,7 +67,8 @@ unsafe usize ir_type_ref_within(ref IrContext context, usize node) {
 
 unsafe usize ir_resolve_type_node(ref IrContext context, usize type_node) {
     if type_node >= context.syntax.length { return semantic_type_error(); }
-    if context.resolved_type_ref_cache != null {
+    if context.resolved_type_ref_cache != null &&
+        ir_function_cache_read_allowed(context, type_node) {
         usize cached = read_usize(
             context.resolved_type_ref_cache,
             type_node * size_of(usize)
@@ -83,7 +84,8 @@ unsafe usize ir_resolve_type_node(ref IrContext context, usize type_node) {
         read_record_field(context.syntax_data, type_node, 1),
         read_record_field(context.syntax_data, type_node, 2)
     );
-    if context.resolved_type_ref_cache != null {
+    if context.resolved_type_ref_cache != null &&
+        ir_function_cache_write_allowed(context, type_node) {
         write_usize(
             context.resolved_type_ref_cache,
             type_node * size_of(usize), resolved + 1
@@ -226,7 +228,8 @@ unsafe usize ir_node_type(
         context.profile_type_queries = context.profile_type_queries + 1;
     }
     bool has_cache = context.type_cache != null &&
-        node < context.syntax.length;
+        node < context.syntax.length &&
+        ir_function_cache_read_allowed(context, node);
     bool cacheable = expected == semantic_type_error() && has_cache;
     if has_cache {
         usize cached = read_usize(
@@ -290,10 +293,13 @@ unsafe usize ir_node_type(
                 context.profile_type_other_uncached + 1;
         }
         if context.profile_type_seen != null &&
-            node < context.syntax.length {
+            node < context.syntax.length &&
+            ir_function_cache_read_allowed(context, node) {
             usize offset = node * size_of(usize);
             if read_usize(context.profile_type_seen, offset) == 0 {
-                write_usize(context.profile_type_seen, offset, 1);
+                if ir_function_cache_write_allowed(context, node) {
+                    write_usize(context.profile_type_seen, offset, 1);
+                }
                 context.profile_type_distinct_uncached =
                     context.profile_type_distinct_uncached + 1;
             } else {
@@ -312,7 +318,8 @@ unsafe usize ir_node_type(
     // function/source context or finishes indexing call arguments. Caching
     // only resolved types prevents an early miss from poisoning the fused
     // acceptance/lowering pass while retaining the successful hot path.
-    if cacheable && resolved != semantic_type_error() {
+    if cacheable && resolved != semantic_type_error() &&
+        ir_function_cache_write_allowed(context, node) {
         write_usize(
             context.type_cache,
             node * size_of(usize),
