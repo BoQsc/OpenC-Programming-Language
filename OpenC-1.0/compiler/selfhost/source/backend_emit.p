@@ -440,6 +440,16 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     // Public `openc check` uses the production flow and acceptance pipeline
     // but does not need IR lowering, machine-code emission, or a PE image.
     if timings.emission_mode == 3 {
+        if text.byte_length(artifact_options.interface_report_path) != 0 &&
+            !interface_fingerprint_write(
+                project_source, project_root, module_data, modules,
+                source_data, artifact_options.interface_report_path,
+                total_source_length, symbols.length
+            ) {
+            timings.total_ms =
+                process.monotonic_milliseconds() - total_started;
+            return 1;
+        }
         timings.total_ms =
             process.monotonic_milliseconds() - total_started;
         return 0;

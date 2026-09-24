@@ -7,6 +7,7 @@ struct NativeArtifactOptions {
     text manifest_path;
     text resource_path;
     text dll_name;
+    text interface_report_path;
 }
 usize native_artifact_executable() { return 0; }
 usize native_artifact_coff_object() { return 1; }
@@ -21,7 +22,8 @@ NativeArtifactOptions native_artifact_default_options() {
         source_chunks = 0,
         manifest_path = "",
         resource_path = "",
-        dll_name = ""
+        dll_name = "",
+        interface_report_path = ""
     };
 }
 

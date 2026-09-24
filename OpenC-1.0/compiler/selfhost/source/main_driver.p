@@ -285,6 +285,25 @@ unsafe i32 main() {
             process.argument(1), "", true, true, check_timings
         );
     }
+    if arguments == 3 && process.argument(0) == "interface-fingerprint" {
+        text project_path = process.argument(1);
+        text report_path = process.argument(2);
+        if !cli_has_prefix(project_path, "--project=") ||
+            !cli_has_prefix(report_path, "--output=") {
+            io.error("usage: openc interface-fingerprint --project=PROJECT --output=REPORT.json\n");
+            return 64;
+        }
+        BuildTimings interface_timings = build_timings_empty();
+        interface_timings.emission_mode = 3;
+        NativeArtifactOptions interface_options = native_artifact_default_options();
+        interface_options.interface_report_path = cli_remove_prefix(
+            report_path, "--output="
+        );
+        return emit_bootstrap_d_mode_artifact(
+            cli_remove_prefix(project_path, "--project="), "",
+            true, true, interface_timings, interface_options
+        );
+    }
     if arguments == 4 &&
         process.argument(0) == "--windows-winmd-project" {
         return emit_windows_winmd_projection(

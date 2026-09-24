@@ -122,6 +122,7 @@ void cli_print_help() {
     io.println("  openc target");
     io.println("  openc explain RULE-ID");
     io.println("  openc hash FILE");
+    io.println("  openc interface-fingerprint --project=PROJECT --output=REPORT.json");
     io.println("  openc --windows-x64-substrate REPORT.json");
     io.println("  openc --native-audit PROJECT REPORT.json");
     io.println("  openc --windows-pe32-runtime SOURCE.p OUTPUT.exe (console|windows) REPORT.json");
