@@ -118,3 +118,28 @@ compiles now have a distinct 512 MiB ceiling rather than weakening OpenC's
 `build-output/sh27-representative/d-only-compile-03.json`,
 `d-only-runtime-03.json`, `d-only-edit-compile-01.json`, and
 `d-only-edit-runtime-01.json`. They do not establish C/D/OpenC timing parity.
+
+The dedicated GitHub Actions workflow
+`.github/workflows/openc-representative-medium.yml` runs on relevant `master`
+commits and supports manual dispatch. It also watches this isolated
+`codex/sh27-representative-work` branch for discovery testing. It reuses the
+repository's SHA-pinned checkout, MSVC setup (toolset 14.44), DMD 2.112.0
+setup, and artifact actions, then bootstraps the checked-out OpenC source to
+a guarded Stage 3 fixed point. Its discovery job records actual hosted
+`cl.exe`, `link.exe`, and `dmd.exe` hashes and versions as an artifact. It does
+**not** pass newly discovered hashes straight into a proof run. The separate
+proof job is skipped until reviewed literal digests are committed to
+`.github/representative-toolchain-pins.json` with status `PINNED`; a manual
+`mode=proof` request while pins are pending fails explicitly. The proof job
+rechecks the literals on its own runner before compiling anything.
+
+Before the workflow exists on the repository's default branch, push this
+isolated branch to exercise its branch-triggered discovery job. GitHub manual
+`workflow_dispatch` normally requires the workflow file on the default
+branch; after that file is merged, a branch-ref dispatch can be tested with
+`gh workflow run openc-representative-medium.yml --ref
+codex/sh27-representative-work -f mode=discovery`, and `mode=proof` only after
+the reviewed pins are committed. The workflow is separate from the synthetic
+20-ratio workflow and cannot claim that contract passed. See
+[GitHub's manual-run documentation](https://docs.github.com/actions/managing-workflow-runs/manually-running-a-workflow)
+for the default-branch and `--ref` behavior.

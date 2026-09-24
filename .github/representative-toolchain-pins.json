@@ -1,0 +1,11 @@
+{
+  "schema": "openc.sh27.representative_toolchain_pins.v1",
+  "status": "PENDING_DISCOVERY",
+  "runner": "windows-2025",
+  "msvc_toolset": "14.44",
+  "msvc_version_contains": "19.44",
+  "dmd_version_contains": "v2.112.0",
+  "cl_sha256": null,
+  "link_sha256": null,
+  "dmd_sha256": null
+}
