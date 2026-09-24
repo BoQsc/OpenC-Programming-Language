@@ -12,7 +12,7 @@ The normal Windows x64 OpenC compiler, built to its byte-exact self-hosting
 fixed point without D, TinyCC, Python, a C compiler, or a Microsoft CRT in its
 normal compile path, must:
 
-1. Compile and link the four versioned SH-27 corpus workloads at no more than
+1. Compile and link the five versioned SH-27 corpus workloads at no more than
    **1.25x** each pinned MSVC, Clang, DMD, and LDC median on the same clean
    runner (20/20 checks). Aim for **1.20x** internally so a borderline pass is
    not mistaken for sustained parity. Require this on **two independent clean
@@ -32,13 +32,18 @@ normal compile path, must:
    owner-authorized process for a new release. Linux/freestanding/ARM64 and
    unsolicited external review responses are **not** SH-27 prerequisites.
 
-The current same-run deficit is not small. On the independent
+The historical same-run deficit was not small. On the independent
 [parallel-declaration repeat](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35916904066),
 OpenC/DMD was 0.677/0.349 s on `large_functions` and 0.392/0.234 s on
 `control_flow`: approximately **241/100 ms** must leave the OpenC wall time
 to reach the public 1.25x ceilings on that runner, or **258/111 ms** for the
-1.20x engineering margin. The earlier clean 20/20 pass is not sustained
-parity. These numbers are a design budget, not an across-run speedup estimate.
+1.20x engineering margin. These are historical design budgets, not an
+across-run speedup estimate. The unchanged current compiler source has now
+passed two independent clean 20-sample normal-default runs on the pinned
+hosted setup. See `SH27_NORMAL_DEFAULT_PARITY_REPEAT_EVIDENCE.md`. That
+replicates the synthetic parity gate, but cannot certify the final source
+until the incremental, representative-project, strict-memory, correctness,
+and release work below is complete and any source changes are retested.
 
 ## Work order and stop/go decisions
 
@@ -54,10 +59,12 @@ parity. These numbers are a design budget, not an across-run speedup estimate.
 | 7. Validate real projects | Add versioned equivalent C/D/OpenC projects and compiler self-build scaling. | No hidden cold/warm/build/execution/RAM cliff; document any unavoidable semantic differences. |
 | 8. Certify final source | Run complete correctness, 20/20 pinned parity twice, and all production/release-integrity checks. | All gates pass on the *same* final source; publish artifacts and then close SH-27. |
 
-Steps 2-4 are the priority. Do not detour into incremental caching, new
-platforms, or a sequence of tiny parser/cache/peephole changes while the
-large/control compile deficit is open. Steps 6-7 are required for full SH-27
-closure, not a substitute for the compile-throughput goal.
+When a clean large/control deficit is open, Steps 2-4 take priority over
+incremental caching, new platforms, or tiny parser/cache/peephole changes.
+Two replicated current-source hosted parity passes now justify progressing
+Steps 6-7 in parallel with the remaining architecture/RAM audit. If a later
+source revision loses parity, the throughput track regains priority. Steps
+6-7 are required for full SH-27 closure, not substitutes for throughput.
 
 ## Broad candidate batch, not serial micro-optimizations
 
@@ -123,7 +130,7 @@ comparison; only OpenC's guarded two-lane wall measurements can validate it.
 | 5. Production policy/RAM | Partial | Retain normal adaptive mode and repeat exact-output, complete self-build, 64/256 MiB child, and 512 MiB Job guards after each accepted architecture. |
 | 6. Incremental objects | Not implemented | Demonstrate content-validated COFF reuse and correct implementation/API invalidation, not merely a one-file rebuild timer. |
 | 7. Representative projects | Not implemented | Version equivalent real-project inputs and guard cold/warm/edit/runtime/memory results separately from the synthetic corpus. |
-| 8. Final-source certification | Not started | Two independent clean 20/20 normal-default runs of one final compiler source, plus every correctness, memory, project, incremental, and release-integrity gate. |
+| 8. Final-source certification | Partial, current-source synthetic gate only | Two independent clean 20/20 normal-default runs passed on `1b58d5e`, but this is not yet the final source and the correctness, memory, project, incremental, and release-integrity gates remain. |
 
 The first broad batch rejected three partial source cuts and one scheduling
 proposal. The independent function queue is a no-go before immutable typed

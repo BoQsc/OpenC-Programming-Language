@@ -35,6 +35,7 @@ final five-compiler parity gate.
 | Compact child/name sidecar | Existing indexed/cached paths already serve lowering; no source speed run | Same structural no-go | Reject before implementation: duplicate indexes add memory, not a demonstrated critical-path cut. |
 | Per-source scratch arena/reuse | Optimistic heap proxy suggests roughly 6–12 ms critical-worker opportunity | Roughly 1–3 ms critical-worker opportunity | Reject before compiler build: control opportunity below clean 10 ms null; zeroed payload and RAM risk remain. |
 | Same-type scalar binary fast path | Local -29 ms / 7 of 11 / 70 ms; hosted -1 ms / 7 of 11 / 5 ms | Local -14 ms / 8 of 11 / 38 ms; hosted -1 ms / 7 of 11 / 2 ms | Reject: clean effect below null on both lanes; no first-visit type work removed. |
+| Lazy tagged typed-operation tranche | -30 ms / 7 of 11 / 65 ms | +9 ms / 4 of 11 / 40 ms | Reject speed claim: 142k/27k old resolver calls bypassed, but equivalent first-visit work and source-lifetime caches remain. |
 
 The table records *candidate minus baseline*, so negative is faster. The null
 floor is same-run baseline-vs-baseline median absolute paired jitter. A
@@ -50,8 +51,12 @@ whole compiler wall time. Detailed evidence is in
 `SH27_LOWERING_FUSION_EVIDENCE.md`, and
 `SH27_COMPACT_CHILD_NAME_SIDECAR_NO_GO.md`, and
 `SH27_SCRATCH_OWNERSHIP_NO_GO.md`, and
-`SH27_SCALAR_FAST_PATH_NO_GO.md`. The opt-in first-visit probe and
+`SH27_SCALAR_FAST_PATH_NO_GO.md`, and
+`SH27_LAZY_TYPED_TRANCHE_EVIDENCE.md`. The opt-in first-visit probe and
 its bounded hypotheses are in `SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md`.
+The later high-resolution worker probe is diagnostic-only because it
+perturbed measured wall and missed the strict 64 MiB self-build working-set
+proof; see `SH27_QPC_CRITICAL_WORKER_PROFILE_EVIDENCE.md`.
 
 ## Next decisive batch
 
