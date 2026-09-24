@@ -89,14 +89,37 @@ are grounds to discard or redesign a cut. If none closes enough of the DMD
 gap, move immediately to the compact value-location/backend cut with the
 new critical-path profile, not another cache experiment.
 
+The first broad batch is resolved in `SH27_CANDIDATE_PORTFOLIO.md`.
+Indexed calls, packed/eager typed records, direct value/slot cuts, and
+validator/lowering fusion were isolated, guarded, and compared; none survived
+the clean two-lane throughput gate. The fused cut passed 278/278 conformance
+and strict 20/20 self-build but saved only 2 ms on clean large functions and
+regressed control flow by 10 ms. A compact child/name sidecar was rejected at
+the design stage because existing node indexes/caches already serve the
+lowerer. This is evidence against these *particular mechanisms*, not typed
+semantic architecture as a whole. The next batch must change first-visit
+representation/ownership rather than repackage another validator sweep.
+
+The [DMD source map at `fb655c9`](https://github.com/dlang/dmd/blob/fb655c9ae95e7da8cc8ce8439b57f4e2c1ec2924/compiler/src/dmd/README.md)
+is a useful architectural comparator, not a license to copy code or a proven
+speed explanation: it distinguishes parser-produced AST, semantic expression
+work, an AST ready for code generation, and expression-to-IR conversion.
+OpenC currently keeps generic `syntax_data` records plus mutable side caches
+in `source/ir.p`; `ir_node_type` in `source/ir_part3.p` can lazily discover a
+type, and `source/ir_part3_uncached.p` repeatedly decodes source/operator
+spans on first visits. The falsifiable next design is to produce compact
+semantically resolved node facts *during required first visits* and let both
+diagnostics and native lowering consume them. DMD's structure motivates the
+comparison; only OpenC's guarded two-lane wall measurements can validate it.
+
 ## Current checkpoint (2026-09-24)
 
 | Step | State | Next decisive evidence |
 | --- | --- | --- |
 | 0. Freeze proof | Partial | Keep the scalar-flow source `738bea3`, raw local pairs, and failed-parity clean run `35928451776` as one traceable candidate; do not compare its absolute times to a different runner. |
-| 1. Account for wall time | Partial | Reprofile that exact source with nonoverlapping critical-path and first-visit/allocation attribution. The flow pass changed the profile, so the older cost split is no longer a design budget. |
-| 2-3. Fused semantics and lowering | Not implemented | Make one vertical cut from accepted typed expression to IR lowering. The packed-record and eager binary-flag experiments passed correctness but did not deliver a guarded end-to-end gain; do not extend them as micro-optimizations. |
-| 4. Remaining architecture | Not implemented | Choose a compact/value-location backend or a larger measured front-end cut only after the new critical-path budget. |
+| 1. Account for wall time | Partial | The clean `6794d56` first-visit probe attributes the critical worker: acceptance 157/141 ms, lowering 62/32 ms, native emission 32/0 ms at timer resolution, indexing 31/15 ms. The rejected scalar-flow branch would need its own profile if revived. Compare the pinned DMD source architecture, not merely its timings. |
+| 2-3. Fused semantics and lowering | Open, architectural redesign required | The isolated scalar-sweep fusion was correct (278/278, strict 20/20) but clean-speed flat/regressive. Build a typed *first-visit* representation that carries scope/type/operator facts into lowering; no eager extra pass or duplicate generic-record arena. |
+| 4. Remaining architecture | Not implemented | After a first-visit cut, reprofile and attack the largest remaining serial phase. Native value cuts have so far changed code size more than compiler throughput. |
 | 5. Production policy/RAM | Partial | Retain normal adaptive mode and repeat exact-output, complete self-build, 64/256 MiB child, and 512 MiB Job guards after each accepted architecture. |
 | 6. Incremental objects | Not implemented | Demonstrate content-validated COFF reuse and correct implementation/API invalidation, not merely a one-file rebuild timer. |
 | 7. Representative projects | Not implemented | Version equivalent real-project inputs and guard cold/warm/edit/runtime/memory results separately from the synthetic corpus. |

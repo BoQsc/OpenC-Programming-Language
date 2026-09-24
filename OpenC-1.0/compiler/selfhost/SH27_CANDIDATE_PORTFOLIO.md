@@ -31,6 +31,8 @@ final five-compiler parity gate.
 | Adjacent direct-value handoff | -121 ms / 7 of 11 / 80 ms | -29 ms / 8 of 11 / 38 ms | Reject as speed proof: large corpus removes only one pair; apparent win lacks causation. |
 | RAX through immediate arithmetic | +7 ms / 5 of 11 / 79 ms | +14 ms / 4 of 11 / 23 ms | Reject for compile throughput despite 31% less large native code. |
 | Eager typed-operation pipeline | +2 ms / 5 of 11 / 50 ms | -6 ms / 7 of 11 / 11 ms | Reject: extra traversal repeats semantic work. |
+| Scalar validation fused into lowering | Local -98 ms / 7 of 11 / 84 ms; hosted -2 ms / 6 of 11 / 10 ms | Local -15 ms / 6 of 11 / 43 ms; hosted +10 ms / 3 of 11 / 10 ms | Reject speed claim: real scans removed, 278/278 and strict 20/20 pass, clean gain fails. |
+| Compact child/name sidecar | Existing indexed/cached paths already serve lowering; no source speed run | Same structural no-go | Reject before implementation: duplicate indexes add memory, not a demonstrated critical-path cut. |
 
 The table records *candidate minus baseline*, so negative is faster. The null
 floor is same-run baseline-vs-baseline median absolute paired jitter. A
@@ -42,29 +44,26 @@ whole compiler wall time. Detailed evidence is in
 `SH27_TYPED_OPS_BATCH_CANDIDATE.md`,
 `SH27_BACKEND_VALUE_LOCATION_EVIDENCE.md`,
 `SH27_DIRECT_VALUE_PATH_EVIDENCE.md`, and
-`SH27_TYPED_PIPELINE_REJECTION.md`. The opt-in first-visit probe and its
-bounded hypotheses are in `SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md`.
+`SH27_TYPED_PIPELINE_REJECTION.md`,
+`SH27_LOWERING_FUSION_EVIDENCE.md`, and
+`SH27_COMPACT_CHILD_NAME_SIDECAR_NO_GO.md`. The opt-in first-visit probe and
+its bounded hypotheses are in `SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md`.
 
 ## Next decisive batch
 
-1. **Fused validation and lowering:** remove a separate valid-source scalar
-   rule traversal, not add an eager fact arena. Keep `check` and invalid
-   diagnostic replay exact. Require a counter for *old traversal omitted*,
-   byte-exact fixed point and artifacts, strict memory, then 11 paired runs.
-2. **Critical-path and allocation profiler:** attribute the first large and
-   control worker's wall to actual child/name/call scans, rules, scratch
-   allocation, lowering, and emission without summing nested clocks. Use the
-   result to choose the next two source cuts and set plausible millisecond
-   bounds before another implementation batch. The opt-in probe is complete:
-   large/control critical-worker acceptance is 157/141 ms in the unprofiled
-   11-pair trace, with 255k/45k child-candidate and 58k/13k name-candidate
-   visits. An independent parser-built compact sidecar is now being screened
-   only if it replaces those visits rather than adding another cache.
-3. **Function scheduling only after an ownership boundary:** if fused lowering
-   yields a read-only prepared-source/function boundary and budgeted scratch,
-   try acceptance/lowering work sharing across the existing four workers.
-   Otherwise keep the source worker policy and record a no-go. The current
-   eager typed arena does **not** provide that boundary.
+1. **Typed first-visit redesign:** acceptance is 157/141 ms of the
+   large/control critical-worker wall. Design a typed plan built on first
+   required visit and consumed by later checks/lowering, not another eager
+   whole-source pass. Prove fewer type/semantic first visits and no new
+   traversal or oversized arena before a clean two-lane speed claim.
+2. **Bounded independent tracks:** measure a source-scratch arena against the
+   31/16 ms residual ceiling; model worker rebalancing against the 94/16 ms
+   spread ceiling. These are non-additive upper bounds, not forecast gains.
+   The compact child/name sidecar is closed as a no-go.
+3. **Function scheduling only after an ownership boundary:** the current
+   mutable source context is not safe for independently scheduled functions.
+   Design a read-only `PreparedSource` and per-worker bounded `WorkerScratch`
+   before implementing function-level acceptance/lowering work sharing.
 4. **Clean final proof, not a local lucky run:** a surviving source needs
    complete conformance, exact invalid diagnostics, 20-generation 64/256 MiB
    child plus 512 MiB Job proof, representative self-build/project benchmarks,
