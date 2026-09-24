@@ -55,11 +55,52 @@ commit, release record, and SHA256SUMS: `PASS`. The ignored local report is
 `build-output/sh27-public-release-verification-20260924.json`. This protects
 the *old* release; it does not authorize or publish a new one.
 
+The current-source Stage 3 compiler also completed its full public native
+conformance command under an explicit 512 MiB process-tree private and
+128 MiB per-process working-set guard: `EXECUTED_NATIVE`, 278/278 passed,
+zero failed or infrastructure failures, 29,532,160-byte peak Job private.
+Its `--windows-x64-substrate` report returned `PASS`. The ignored local
+reports are beside `strict20.json` as `conformance.json` and
+`x64-substrate.json`.
+
+The same compiler's `workflow --mode=daily` completed 13/14 tasks under a
+512 MiB process-tree guard. Repository, runtime, PE/COFF 40/40, COM/WinRT
+33/33, LSP/editor, editor-package, and contract 38/38 tasks passed. The
+SH-25 finalization task failed 2/44 checks: its hardcoded historical
+`review/SH25_WINDOWS_EDITOR_EVIDENCE.json` names compiler SHA-256
+`eadbef1f065261385c2c36d524624347f7e5cd3c021a4a1db9ccfcaf7c191087`
+and VSIX SHA-256
+`081ff8dd6de0960b1981620b3151fbaf74bb12ce73f17afc78e32d38777c3828`,
+while this source/package are
+`d0c18a385d1589db21da0c9ec5684e442bf828124d46c489aed29c4dddb6d9e7`
+and `de25a069573da12939fcb1eedb13e91a80632af1aa974ce5815a9b5b270d4574`.
+The other 42 checks passed. This is a
+**current clean-profile identity evidence gap**, not a green full workflow:
+the package/editor clean-profile exercise must be rerun against the current
+compiler and VSIX, with its real report supplied to the finalization audit.
+Do not rewrite the historical SH-25 evidence file or bypass the identity
+checks. The ignored local reports are `workflow-daily.json` and
+`sh25-native-finalization-audit.json` beside `strict20.json`.
+
+With explicit user approval, `sh25_clean_vscode_profile.py` then exercised
+the current VSIX/Stage-3 compiler in a separate empty VS Code profile. It
+passed on VS Code 1.137.0: extension activation, packaged-compiler selection,
+LSP readiness, diagnostics, exact compiler/VSIX identities, and clean test
+process-tree termination. Peak VS Code test-tree working set was
+1,765,773,312 bytes below its 2 GiB guard; OpenC inside it peaked at
+5,734,400 bytes below 64 MiB. The current-source direct `finalization-audit`
+using that new report passed **44/44**. Ignored local reports are
+`clean-profile-current.json` and `sh25-native-finalization-current.json`.
+The historical review record was not modified. The daily workflow's hardcoded
+historical report still makes *its* aggregate 13/14; an explicit current
+`--clean-profile` workflow input is needed before the aggregate can pass on
+new compiler revisions.
+
 This is not a full SH-27 completion certificate. The current native path still
 has one whole-project COFF output, not content-validated per-module object
 reuse or a multi-object native relink. Representative projects still need
 broader retained-user-app coverage and repeated project-level comparisons;
-the full conformance/diagnostic/runtime/ABI matrix and final-source reruns
-after any compiler source change remain. The hosted parity report's own
+the remaining diagnostic/runtime/ABI matrix and final-source reruns after
+any compiler source change remain. The hosted parity report's own
 `remaining_corpus_expansion` names incremental object reuse and broader
 real-project coverage.

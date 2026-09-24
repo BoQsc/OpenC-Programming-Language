@@ -10,8 +10,8 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from benchmark_sh27_representative import (
-    DEFAULT_SUITE, apply_edit, load_suite, source_paths, stage_project,
-    summarize,
+    DEFAULT_SUITE, apply_edit, edit_comparator, load_suite, source_paths,
+    stage_comparator, stage_project, summarize,
 )
 
 
@@ -70,6 +70,41 @@ class RepresentativeSuiteTests(unittest.TestCase):
         self.assertEqual(result["cold"]["raw_compile_seconds"], [0.25])
         self.assertEqual(result["cold"]["peak_job_private_bytes"], 11)
         self.assertEqual(result["warm"]["attempted"], 0)
+
+    def test_comparator_fixtures_stage_and_edit_independently(self) -> None:
+        workload = self.workloads["medium_audit"]
+        with tempfile.TemporaryDirectory() as temporary:
+            for language in ("c", "d"):
+                source, original = stage_comparator(
+                    workload, language, Path(temporary) / language
+                )
+                self.assertTrue((source.parent / "sample.log").is_file())
+                edited = edit_comparator(workload, language, source)
+                self.assertNotEqual(original["sha256"], edited["sha256"])
+                self.assertIn("hash * 33", source.read_text())
+
+    def test_log_input_matches_literal_expected_outputs(self) -> None:
+        workload = self.workloads["medium_audit"]
+        source = Path(__file__).resolve().parents[2] / (
+            "benchmarks/sh27/representative/medium_audit/sample.log"
+        )
+        data = source.read_bytes()
+        lines = data.count(b"\n") + int(bool(data) and data[-1] != 10)
+        digits = sum(48 <= value <= 57 for value in data)
+        warnings = sum(data[index:index + 4] == b"WARN"
+                       for index in range(len(data)))
+        for multiplier, expected in (
+            (31, workload["expected_stdout_utf8"]),
+            (33, workload["edit"]["expected_stdout_utf8"]),
+        ):
+            fingerprint = 0
+            for value in data:
+                fingerprint = (fingerprint * multiplier + value) % 65521
+            self.assertEqual(
+                expected,
+                f"lines={lines}\ndigits={digits}\nwarnings={warnings}\n"
+                f"fingerprint={fingerprint}\n",
+            )
 
 
 if __name__ == "__main__":

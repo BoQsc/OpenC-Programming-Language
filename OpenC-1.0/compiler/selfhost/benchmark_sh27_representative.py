@@ -16,6 +16,7 @@ from pathlib import Path
 import platform
 import shutil
 import statistics
+import subprocess
 import sys
 
 from windows_process_measure import run_measured
@@ -115,6 +116,27 @@ def load_suite(path: Path) -> dict[str, object]:
                 raise ValueError(f"missing exact expected output: {identifier}")
         if not isinstance(workload.get("run_arguments"), list):
             raise ValueError(f"missing run arguments: {identifier}")
+        comparators = workload.get("comparators", {})
+        if not isinstance(comparators, dict) or set(comparators) not in (
+            set(), {"c", "d"}
+        ):
+            raise ValueError(f"expected both C and D comparator fixtures: {identifier}")
+        for language, spec in comparators.items():
+            comparator_source = inside(
+                project.parent, project.parent / str(spec["source"])
+            )
+            if not comparator_source.is_file() or comparator_source.suffix != (
+                ".c" if language == "c" else ".d"
+            ):
+                raise ValueError(f"missing comparator source: {comparator_source}")
+            old = spec.get("edit_old")
+            new = spec.get("edit_new")
+            if not isinstance(old, str) or not old or not isinstance(new, str) or old == new:
+                raise ValueError(f"invalid comparator edit: {identifier}/{language}")
+            if comparator_source.read_text(encoding="utf-8").count(old) != 1:
+                raise ValueError(
+                    f"comparator edit marker is not unique: {comparator_source}"
+                )
     limits = suite.get("limits")
     if not isinstance(limits, dict) or any(
         not isinstance(value, int) or value <= 0 for value in limits.values()
@@ -185,19 +207,198 @@ def disk_headroom(directory: Path, minimum_mib: int) -> int:
 
 
 def measured(
-    command: list[str], cwd: Path, limits: dict[str, int], *, compiler: bool
+    command: list[str], cwd: Path, limits: dict[str, int], *, compiler: bool,
+    environment: dict[str, str] | None = None,
 ) -> dict[str, object]:
     prefix = "compiler" if compiler else "program"
     return run_measured(
         command,
         cwd=cwd,
-        environment=dict(os.environ),
+        environment=environment or dict(os.environ),
         sample_interval=0.01,
         max_private_bytes=int(limits[f"{prefix}_private_mib"]) * MIB,
         max_working_set_bytes=int(limits[f"{prefix}_working_set_mib"]) * MIB,
         max_captured_output_bytes=int(limits["captured_output_mib"]) * MIB,
         timeout_seconds=int(limits[f"{prefix}_timeout_seconds"]),
     )
+
+
+def msvc_environment() -> tuple[dict[str, str], str | None]:
+    """Find a documented VS x64 environment for the explicit pinned cl.exe."""
+    inherited = dict(os.environ)
+    if shutil.which("cl.exe", path=inherited.get("PATH")):
+        return inherited, None
+    vswhere = Path(
+        inherited.get("ProgramFiles(x86)", r"C:\Program Files (x86)")
+    ) / "Microsoft Visual Studio/Installer/vswhere.exe"
+    if not vswhere.is_file():
+        raise ValueError("MSVC environment unavailable: run from a VS x64 shell")
+    found = subprocess.run(
+        [str(vswhere), "-latest", "-products", "*", "-requires",
+         "Microsoft.VisualStudio.Component.VC.Tools.x86.x64",
+         "-property", "installationPath"],
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+        timeout=15,
+    )
+    installation = found.stdout.strip()
+    if found.returncode != 0 or not installation:
+        raise ValueError("MSVC installation not found")
+    vcvars = Path(installation) / "VC/Auxiliary/Build/vcvars64.bat"
+    if not vcvars.is_file():
+        raise ValueError(f"missing MSVC environment: {vcvars}")
+    captured = subprocess.run(
+        ["cmd.exe", "/d", "/c", f'call "{vcvars}" >nul && set'],
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+        timeout=30,
+    )
+    if captured.returncode != 0:
+        raise ValueError(f"vcvars64 failed: {vcvars}")
+    environment = {}
+    for line in captured.stdout.splitlines():
+        if "=" in line and not line.startswith("="):
+            name, value = line.split("=", 1)
+            environment[name] = value
+    return environment, str(vcvars)
+
+
+def pin_comparators(
+    c_compiler: Path, c_sha256: str, d_compiler: Path, d_sha256: str,
+    linker_sha256: str,
+) -> dict[str, dict[str, object]]:
+    environment, vcvars = msvc_environment()
+    resolved_c = shutil.which("cl.exe", path=environment.get("PATH"))
+    if resolved_c is None or Path(resolved_c).resolve() != c_compiler.resolve():
+        raise ValueError("pinned cl.exe differs from the active x64 VS environment")
+    resolved_linker = shutil.which("link.exe", path=environment.get("PATH"))
+    if resolved_linker is None:
+        raise ValueError("missing MSVC linker in the active x64 VS environment")
+    linker = Path(resolved_linker).resolve()
+    if sha256(linker) != linker_sha256.lower():
+        raise ValueError(f"MSVC linker SHA-256 pin mismatch: {linker}")
+    definitions = {
+        "c": (c_compiler.resolve(), c_sha256.lower(), environment, [], vcvars),
+        "d": (d_compiler.resolve(), d_sha256.lower(), dict(os.environ),
+              ["--version"], None),
+    }
+    tools: dict[str, dict[str, object]] = {}
+    for language, (path, expected_hash, tool_env, arguments, setup) in definitions.items():
+        if not path.is_file():
+            raise ValueError(f"missing pinned {language} compiler: {path}")
+        if len(expected_hash) != 64 or any(ch not in "0123456789abcdef" for ch in expected_hash):
+            raise ValueError(f"invalid {language} SHA-256 pin")
+        observed_hash = sha256(path)
+        if observed_hash != expected_hash:
+            raise ValueError(
+                f"{language} compiler pin mismatch: expected {expected_hash}, "
+                f"found {observed_hash} at {path}"
+            )
+        version = subprocess.run(
+            [str(path), *arguments], env=tool_env,
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            timeout=15,
+        )
+        tools[language] = {
+            "path": str(path), "sha256": observed_hash,
+            "version_command": [str(path), *arguments],
+            "version_exit_code": version.returncode,
+            "version_output": (version.stdout + version.stderr)[:16384],
+            "environment_setup": setup,
+            "linker_path": str(linker) if language == "c" else None,
+            "linker_sha256": sha256(linker) if language == "c" else None,
+            "environment": tool_env,
+        }
+    return tools
+
+
+def stage_comparator(
+    workload: dict[str, object], language: str, directory: Path
+) -> tuple[Path, dict[str, object]]:
+    project = inside(ROOT, ROOT / str(workload["project"]))
+    spec = workload["comparators"][language]
+    source = inside(project.parent, project.parent / str(spec["source"]))
+    directory.mkdir(parents=True, exist_ok=False)
+    target = directory / source.name
+    shutil.copyfile(source, target)
+    for name in workload["input_files"]:
+        source_input = inside(project.parent, project.parent / str(name))
+        shutil.copyfile(source_input, directory / source_input.name)
+    return target, tree_record(directory)
+
+
+def edit_comparator(
+    workload: dict[str, object], language: str, source: Path
+) -> dict[str, object]:
+    spec = workload["comparators"][language]
+    original = source.read_text(encoding="utf-8")
+    old = str(spec["edit_old"])
+    if original.count(old) != 1:
+        raise ValueError(f"staged comparator edit marker is not unique: {source}")
+    source.write_text(original.replace(old, str(spec["edit_new"]), 1),
+                      encoding="utf-8")
+    return tree_record(source.parent)
+
+
+def run_comparator_case(
+    language: str, tool: dict[str, object], source: Path, case_dir: Path,
+    workload: dict[str, object], category: str, tree: dict[str, object],
+    limits: dict[str, int],
+) -> dict[str, object]:
+    case_dir.mkdir(parents=True, exist_ok=False)
+    executable = case_dir / "program.exe"
+    if language == "c":
+        command = [
+            str(tool["path"]), "/nologo", "/O2", "/std:c17", "/Brepro",
+            f"/Fo{case_dir / 'program.obj'}", f"/Fe{executable}", str(source),
+        ]
+    else:
+        command = [
+            str(tool["path"]), "-O", "-release", "-boundscheck=off",
+            str(source), f"-of={executable}", f"-od={case_dir}",
+        ]
+    expected_stdout = (
+        workload["edit"]["expected_stdout_utf8"]
+        if category == "edit" else workload["expected_stdout_utf8"]
+    )
+    disk_free = disk_headroom(case_dir, limits["minimum_free_disk_mib"])
+    comparator_limits = {
+        **limits,
+        "compiler_private_mib": limits["comparator_private_mib"],
+        "compiler_working_set_mib": limits["comparator_working_set_mib"],
+    }
+    built = measured(command, case_dir, comparator_limits, compiler=True,
+                     environment=tool["environment"])
+    build_pass = bool(
+        built["exit_code"] == 0 and not built["memory_limit_exceeded"]
+        and not built["timed_out"] and not built["stdout_truncated"]
+        and not built["stderr_truncated"] and executable.is_file()
+    )
+    result: dict[str, object] = {
+        "category": category, "language": language, "status": "FAIL",
+        "source_tree": tree, "compiler_sha256": tool["sha256"],
+        "build_command": command, "disk_free_bytes_before": disk_free,
+        "build": built, "executable": str(executable),
+        "executable_sha256": sha256(executable) if executable.is_file() else None,
+        "expected_exit_code": 0,
+        "expected_stdout_utf8": expected_stdout,
+        "expected_stderr_utf8": workload["expected_stderr_utf8"],
+        "program": None,
+    }
+    if build_pass:
+        program = measured(
+            [str(executable), *workload["run_arguments"]], source.parent,
+            limits, compiler=False, environment=tool["environment"],
+        )
+        result["program"] = program
+        result["status"] = "PASS" if (
+            program["exit_code"] == 0
+            and not program["memory_limit_exceeded"]
+            and not program["timed_out"]
+            and not program["stdout_truncated"]
+            and not program["stderr_truncated"]
+            and program["stdout"] == expected_stdout
+            and program["stderr"] == workload["expected_stderr_utf8"]
+        ) else "FAIL"
+    return result
 
 
 def run_build(
@@ -256,11 +457,14 @@ def run_build(
 
 def run_one(
     compiler: Path, workload: dict[str, object], run_dir: Path,
-    limits: dict[str, int], generations: int
+    limits: dict[str, int], generations: int,
+    comparators: dict[str, dict[str, object]] | None = None,
 ) -> dict[str, object]:
     project, tree = stage_project(workload, run_dir / "project")
     result: dict[str, object] = {"status": "INCOMPLETE", "cases": {},
-                                 "self_build_chain": []}
+                                 "self_build_chain": [],
+                                 "comparator_cases": {},
+                                 "runtime_output_equivalence": None}
     for category in ("cold", "warm"):
         case = run_build(compiler, project, run_dir / category,
                          workload, category, tree, limits)
@@ -268,6 +472,24 @@ def run_one(
         if case["status"] != "PASS":
             result["status"] = "FAIL"
             return result
+    staged_comparators: dict[str, tuple[Path, dict[str, object]]] = {}
+    if comparators and workload.get("comparators"):
+        for language in ("c", "d"):
+            source, comparator_tree = stage_comparator(
+                workload, language, run_dir / "comparator-projects" / language
+            )
+            staged_comparators[language] = (source, comparator_tree)
+            result["comparator_cases"][language] = {}
+            for category in ("cold", "warm"):
+                case = run_comparator_case(
+                    language, comparators[language], source,
+                    run_dir / "comparators" / language / category,
+                    workload, category, comparator_tree, limits,
+                )
+                result["comparator_cases"][language][category] = case
+                if case["status"] != "PASS":
+                    result["status"] = "FAIL"
+                    return result
     if workload["class"] == "compiler_self_build" and generations > 1:
         previous = Path(result["cases"]["cold"]["executable"])
         chain_hashes: list[str] = []
@@ -289,7 +511,33 @@ def run_one(
     edited = run_build(compiler, project, run_dir / "edit",
                        workload, "edit", edited_tree, limits)
     result["cases"]["edit"] = edited
-    result["status"] = edited["status"]
+    if edited["status"] != "PASS":
+        result["status"] = "FAIL"
+        return result
+    for language, (source, _) in staged_comparators.items():
+        comparator_tree = edit_comparator(workload, language, source)
+        case = run_comparator_case(
+            language, comparators[language], source,
+            run_dir / "comparators" / language / "edit",
+            workload, "edit", comparator_tree, limits,
+        )
+        result["comparator_cases"][language]["edit"] = case
+        if case["status"] != "PASS":
+            result["status"] = "FAIL"
+            return result
+    if staged_comparators:
+        result["runtime_output_equivalence"] = all(
+            result["cases"][category]["program"]["stdout"] ==
+            result["comparator_cases"][language][category]["program"]["stdout"]
+            and result["cases"][category]["program"]["stderr"] ==
+            result["comparator_cases"][language][category]["program"]["stderr"]
+            and result["cases"][category]["program"]["exit_code"] ==
+            result["comparator_cases"][language][category]["program"]["exit_code"]
+            for category in ("cold", "warm", "edit") for language in ("c", "d")
+        )
+    result["status"] = (
+        "PASS" if result["runtime_output_equivalence"] is not False else "FAIL"
+    )
     return result
 
 
@@ -331,6 +579,12 @@ def main() -> int:
     parser.add_argument("--workload", action="append")
     parser.add_argument("--runs", type=int, default=1)
     parser.add_argument("--self-build-generations", type=int, default=1)
+    parser.add_argument("--with-comparators", action="store_true")
+    parser.add_argument("--c-compiler", type=Path)
+    parser.add_argument("--c-sha256")
+    parser.add_argument("--d-compiler", type=Path)
+    parser.add_argument("--d-sha256")
+    parser.add_argument("--c-linker-sha256")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if not 1 <= args.runs <= 20 or not 1 <= args.self_build_generations <= 3:
@@ -358,9 +612,35 @@ def main() -> int:
         parser.error("guarded representative runs currently require Windows")
     if args.compiler is None or args.output is None:
         parser.error("--compiler and --output are required for a run")
+    if not args.with_comparators and any((
+        args.c_compiler, args.c_sha256, args.d_compiler, args.d_sha256,
+        args.c_linker_sha256,
+    )):
+        parser.error("comparator paths and pins require --with-comparators")
+    if args.with_comparators and not all((
+        args.c_compiler, args.c_sha256, args.d_compiler, args.d_sha256,
+        args.c_linker_sha256,
+    )):
+        parser.error(
+            "--with-comparators requires explicit cl.exe, dmd.exe and "
+            "SHA-256 pins for both compilers and link.exe"
+        )
+    if args.with_comparators and not any(
+        workload.get("comparators") for workload in workloads
+    ):
+        parser.error("selected workloads have no C/D comparator fixtures")
     compiler = args.compiler.resolve()
     if not compiler.is_file():
         parser.error(f"missing compiler: {compiler}")
+    try:
+        comparator_tools = (
+            pin_comparators(
+                args.c_compiler, args.c_sha256, args.d_compiler, args.d_sha256,
+                args.c_linker_sha256,
+            ) if args.with_comparators else {}
+        )
+    except (OSError, ValueError, subprocess.TimeoutExpired) as error:
+        parser.error(f"comparator pin/setup failed: {error}")
     output = args.output.resolve()
     if output.exists():
         parser.error(f"refusing to overwrite report: {output}")
@@ -377,6 +657,15 @@ def main() -> int:
                  "machine": platform.machine(), "logical_cpus": os.cpu_count()},
         "suite": {"path": str(suite_path), "sha256": sha256(suite_path)},
         "compiler": {"path": str(compiler), "sha256": sha256(compiler)},
+        "comparators": {
+            language: {key: value for key, value in tool.items()
+                       if key != "environment"}
+            for language, tool in comparator_tools.items()
+        },
+        "comparator_contract": (
+            "Exact C/D/OpenC runtime output equivalence only; compiler timing "
+            "samples are descriptive, not part of the synthetic 20-ratio gate."
+        ),
         "cache_policy": (
             "Cold means fresh staged project/output; warm repeats unchanged "
             "inputs after a cold build; edit changes one staged source. "
@@ -397,10 +686,19 @@ def main() -> int:
                 sample = run_one(
                     compiler, workload,
                     run_root / workload["id"] / f"run-{index + 1:02d}",
-                    limits, args.self_build_generations,
+                    limits, args.self_build_generations, comparator_tools,
                 )
                 samples.append(sample)
                 report["workloads"][workload["id"]]["summary"] = summarize(samples)
+                if workload.get("comparators") and comparator_tools:
+                    report["workloads"][workload["id"]]["comparator_summary"] = {
+                        language: summarize([
+                            {"cases": recorded["comparator_cases"][language]}
+                            for recorded in samples
+                            if language in recorded["comparator_cases"]
+                        ])
+                        for language in ("c", "d")
+                    }
                 print(f"{workload['id']} {index + 1}/{args.runs}: {sample['status']}",
                       flush=True)
                 if sample["status"] != "PASS":

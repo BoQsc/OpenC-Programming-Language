@@ -26,6 +26,18 @@
       "run_arguments": [],
       "expected_stdout_utf8": "lines=4\ndigits=6\nwarnings=2\nfingerprint=65519\n",
       "expected_stderr_utf8": "",
+      "comparators": {
+        "c": {
+          "source": "comparators/c/main.c",
+          "edit_old": "hash * 31",
+          "edit_new": "hash * 33"
+        },
+        "d": {
+          "source": "comparators/d/main.d",
+          "edit_old": "hash * 31",
+          "edit_new": "hash * 33"
+        }
+      },
       "edit": {
         "path": "source/score.p",
         "old": "hash = (hash * 31 + cast(usize, value)) % 65521;",
@@ -54,6 +66,8 @@
   "limits": {
     "compiler_private_mib": 256,
     "compiler_working_set_mib": 64,
+    "comparator_private_mib": 512,
+    "comparator_working_set_mib": 512,
     "program_private_mib": 128,
     "program_working_set_mib": 64,
     "captured_output_mib": 2,

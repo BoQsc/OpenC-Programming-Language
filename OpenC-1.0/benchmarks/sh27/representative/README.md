@@ -40,6 +40,32 @@ The Windows OS file cache is **not** flushed; "cold" is not a machine-cold
 benchmark. OpenC does not currently expose an incremental compilation cache,
 so "warm" and "edit" are not incremental-build speed claims.
 
+The medium file-audit workload also has checked-in C17/MSVC and D/DMD
+counterparts. To run those lanes, explicitly pin the three native tool
+executables and add `--with-comparators`:
+
+```text
+python compiler/selfhost/benchmark_sh27_representative.py \
+  --compiler <fixed-point-openc.exe> --workload medium_audit \
+  --with-comparators \
+  --c-compiler <cl.exe> --c-sha256 <64-hex-digest> \
+  --c-linker-sha256 <64-hex-link.exe-digest> \
+  --d-compiler <dmd.exe> --d-sha256 <64-hex-digest> \
+  --runs 3 --output build-output/sh27-representative/medium-c-d.json
+```
+
+The runner refuses missing or mismatched pins, records compiler versions, and
+discovers the active x64 Visual Studio environment when necessary. It runs
+each C and D cold/warm/edit compile under a separate 512 MiB private/working
+set guard, executes the resulting program under the 128/64 MiB program guard,
+and requires stdout, stderr, and exit code to match both the literal manifest
+and OpenC **exactly**, including LF line endings. These descriptive compiler
+timings are not added to the generated synthetic corpus's 20-sample ratio
+contract. The MSVC and DMD standard libraries and DMD's selected linker are
+not independently hashed by this first version; the report records the
+compiler and MSVC linker identities, but complete toolchain reproducibility
+requires a pinned runner image.
+
 The runner executes one compiler or program at a time through the existing
 Windows Job/process memory guard. Defaults in the manifest are 256 MiB
 compiler private/Job and 64 MiB working set, 128/64 MiB for generated
@@ -69,9 +95,26 @@ Raw reports are ignored local artifacts at
 `build-output/sh27-representative/selfbuild-proof-01.json`; they are not
 published release evidence. The medium application is a real file-processing
 program but is still benchmark-authored and small (four modules, a 51-byte
-input). The suite has no independent third-party OpenC project yet, no C/D
-comparator for the same application behavior, and only one proof repetition
-so far. It must not be presented as broad real-world throughput parity or as
+input). The suite has no independent third-party OpenC project yet, and the
+new C/D comparator lanes require a separate fully pinned hosted run before
+they can be cited as exact cross-language proof. There is only one OpenC-only
+proof repetition so far. It must not be presented as broad real-world
+throughput parity or as
 SH-27 completion. Next expansion should add a retained user project and a
 larger multi-module application, then run repeated independent-host or
 independent-window paired measurements under these same correctness gates.
+
+On the current local host, MSVC `cl.exe`/`link.exe` is not installed, so the
+full comparator gate has **not** run. A D-only guarded check with pinned
+DMD64 v2.112.0 executable SHA-256
+`5EC3152D183B5A7F4C3ABB67D01A7055A247D7D3C79E6041EC33B9F95C913BF5`
+did compile and execute the original and edited fixture. Captured stdout was
+byte-exact LF text for both manifest variants, with exit code zero. The
+initial `writeln` implementation produced CRLF and was correctly rejected;
+the checked-in D fixture now uses binary `rawWrite`. A first 64 MiB DMD
+working-set guard also correctly rejected the D compile, so comparator
+compiles now have a distinct 512 MiB ceiling rather than weakening OpenC's
+256/64 MiB guard. These partial D records are ignored local files named
+`build-output/sh27-representative/d-only-compile-03.json`,
+`d-only-runtime-03.json`, `d-only-edit-compile-01.json`, and
+`d-only-edit-runtime-01.json`. They do not establish C/D/OpenC timing parity.

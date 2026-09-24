@@ -57,25 +57,40 @@ its bounded hypotheses are in `SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md`.
 The later high-resolution worker probe is diagnostic-only because it
 perturbed measured wall and missed the strict 64 MiB self-build working-set
 proof; see `SH27_QPC_CRITICAL_WORKER_PROFILE_EVIDENCE.md`.
+An isolated opt-in `PreparedSource`/`WorkerScratch` boundary passed guarded
+fixed point and focused exact artifacts, but it is serial and has no speed
+claim; see `SH27_PREPARED_SOURCE_BOUNDARY.md`. The next function-worker audit
+found 25 still-aliased source-owned pointers, late type-registry appends, and
+unmerged diagnostic/value-ID state, so no unsafe scheduler was launched; see
+`SH27_FUNCTION_WORK_OWNERSHIP_GATE.md`. The concrete next cut is immutable
+type closure and bounded per-worker cache ownership, not a worker-count flag.
 
 ## Next decisive batch
 
-1. **Typed first-visit redesign:** acceptance is 157/141 ms of the
-   large/control critical-worker wall. Design a typed plan built on first
-   required visit and consumed by later checks/lowering, not another eager
-   whole-source pass. Prove fewer type/semantic first visits and no new
-   traversal or oversized arena before a clean two-lane speed claim.
-2. **Bounded independent tracks:** the source-scratch arena and compact
-   child/name sidecar are closed as no-go candidates. Model worker
-   rebalancing against the 94/16 ms spread ceiling only after immutable
-   prepared-source ownership; the bounds are non-additive, not forecasts.
-3. **Function scheduling only after an ownership boundary:** the current
-   mutable source context is not safe for independently scheduled functions.
-   Design a read-only `PreparedSource` and per-worker bounded `WorkerScratch`
-   before implementing function-level acceptance/lowering work sharing.
-4. **Clean final proof, not a local lucky run:** a surviving source needs
-   complete conformance, exact invalid diagnostics, 20-generation 64/256 MiB
-   child plus 512 MiB Job proof, representative self-build/project benchmarks,
-   then two independent normal-default clean 20/20 C/D comparator runs of the
-   *same final source*. Incremental builds and release gates still remain
-   afterward under `SH27_EXECUTION_PLAN.md`.
+The unchanged production compiler now has **two** independent clean hosted
+20/20 normal-default parity passes, a local strict 20-generation chain, and
+278/278 conformance. That permits three independent engineering tracks to
+advance concurrently, without treating a noisy local micro-gain as progress:
+
+1. **Real incremental native artifacts:** promote only a conservative
+   canonical interface projection that catches same-length renames and ABI
+   edits; then establish stable symbol/type IDs, split acceptance from native
+   emission, add atomic content-validated per-module reuse, and finally a
+   deterministic multi-COFF linker. A full-source hash or warm timer with no
+   actual module hits fails this track.
+2. **Safe function ownership:** the opt-in serial PreparedSource boundary is
+   exact, but 25 pointer fields and derived type IDs are still mutable and
+   shared. Freeze the lowering type closure and give each function worker
+   bounded independent scratch before attempting deterministic scheduling.
+   Require strict 64/256 MiB child and 512 MiB Job proof and a same-run
+   end-to-end speed signal; an opt-in flag alone is no throughput result.
+3. **Representative projects:** keep the 20-ratio generated corpus unchanged;
+   use the new guarded CLI/file-audit/compiler suite for cold/warm/edit and
+   exact execution. The D fixture passes locally; the pinned MSVC C lane and
+   repeated project-level comparisons need a hosted runner. Add a retained
+   user project before claiming real-world representativeness.
+
+After any compiler source promotion, rerun complete diagnostics/runtime/ABI,
+the strict 20-chain, and **two new independent** normal-default hosted 20/20
+runs on that final source. The current clean-profile editor check and direct
+44/44 finalization pass are current-source evidence, not a new release.

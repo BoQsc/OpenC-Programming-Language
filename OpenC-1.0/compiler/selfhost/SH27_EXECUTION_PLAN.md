@@ -65,6 +65,9 @@ Two replicated current-source hosted parity passes now justify progressing
 Steps 6-7 in parallel with the remaining architecture/RAM audit. If a later
 source revision loses parity, the throughput track regains priority. Steps
 6-7 are required for full SH-27 closure, not substitutes for throughput.
+The isolated PreparedSource boundary has exact-output proof, but function
+workers are still unsafe because first-visit caches and derived types are
+source-global mutable state; see `SH27_FUNCTION_WORK_OWNERSHIP_GATE.md`.
 
 ## Broad candidate batch, not serial micro-optimizations
 
@@ -130,7 +133,7 @@ comparison; only OpenC's guarded two-lane wall measurements can validate it.
 | 5. Production policy/RAM | Current source passed strict 20/20; final source pending | Normal adaptive mode passed exact-output current-source 20-generation 64/256 MiB child and 512 MiB Job guards. Repeat after any accepted compiler source change. |
 | 6. Incremental objects | Architecture boundary mapped; not implemented | `SH27_INCREMENTAL_OBJECT_REUSE_ARCHITECTURE.md` identifies global IDs, fused validation, missing multi-COFF linker, and atomic cache as concrete prerequisites. Demonstrate content-validated COFF reuse and correct implementation/API invalidation, not merely a one-file rebuild timer. |
 | 7. Representative projects | Versioned scaffold and one guarded proof; broad project gate open | `benchmarks/sh27/representative/SUITE.json` covers a CLI, four-module file-audit app, and the 222-source compiler with exact cold/warm/edit/runtime/RAM checks. Add a retained user project, repeated samples, and equivalent C/D cases before claiming representative parity. |
-| 8. Final-source certification | Partial, current-source synthetic gate only | Two independent clean 20/20 normal-default runs passed on `1b58d5e`, but this is not yet the final source and the correctness, memory, project, incremental, and release-integrity gates remain. |
+| 8. Final-source certification | Partial, current-source parity/memory/conformance/editor only | Two independent clean 20/20 normal-default runs, strict 20/20 self-build, native 278/278 conformance, old-release asset integrity, fresh VS Code clean-profile, and direct finalization 44/44 passed on `1b58d5e`. The daily aggregate remains 13/14 because it hardcodes the historical profile path; incremental, representative breadth, other final checks, and final-source reruns remain. |
 
 The first broad batch rejected three partial source cuts and one scheduling
 proposal. The independent function queue is a no-go before immutable typed
