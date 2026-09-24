@@ -101,6 +101,11 @@ unsafe bool c_emit_prepared_source_functions_inner(
                             type_id = type_id + 1;
                         }
                     }
+                    timings.late_function_type_misses =
+                        timings.late_function_type_misses + late_type_misses;
+                    io.print("OPENC-FUNCTION-TYPE-FREEZE-MISS count=");
+                    io.println(late_type_misses);
+                    return false;
                 } else {
                     io.println("OPENC-FUNCTION-TYPE-REGISTRY-SHRANK");
                     return false;
@@ -146,11 +151,52 @@ unsafe bool c_emit_prepared_source_functions(
             process.monotonic_milliseconds() - freeze_started;
     }
     IrFunctionScratch scratch = ir_function_scratch(source_context);
+    ptr byte source_type_data = source_context.type_data;
+    PackedBuffer source_types = source_context.types;
+    ptr byte owned_type_data = null;
+    if timings.freeze_function_types {
+        // Copy live records plus exactly one spare record. A first missed
+        // closure stays worker-local and fails after its function; a second
+        // append is rejected before write by semantic_add_type. Four such
+        // bounded scratch copies reserve at most 2 MiB across source chunks.
+        usize max_type_bytes = 524288;
+        usize max_slots = max_type_bytes / record_stride();
+        if source_types.length == 0 || source_types.length >= max_slots ||
+            source_type_data == null {
+            io.println("OPENC-FUNCTION-TYPE-COPY-BUDGET");
+            return false;
+        }
+        usize slots = source_types.length + 1;
+        owned_type_data = memory.alloc(slots * record_stride());
+        if owned_type_data == null || owned_type_data == source_type_data {
+            io.println("OPENC-FUNCTION-TYPE-COPY-ALIAS");
+            return false;
+        }
+        usize type_word = 0;
+        while type_word < source_types.length * 5 {
+            usize offset = type_word * size_of(usize);
+            write_usize(
+                owned_type_data, offset,
+                read_usize(source_type_data, offset)
+            );
+            type_word = type_word + 1;
+        }
+        scratch.type_data = ir_pointer_alias(owned_type_data);
+        scratch.types = PackedBuffer{
+            length = source_types.length, capacity = slots
+        };
+    }
+    scope memory.free(owned_type_data);
     if !timings.owned_function_project_caches {
-        return c_emit_prepared_source_functions_inner(
+        bool prepared_passed = c_emit_prepared_source_functions_inner(
             source_context, output, timings, source_record, entry_module,
             scratch
         );
+        if timings.freeze_function_types {
+            source_context.type_data = source_type_data;
+            source_context.types = source_types;
+        }
+        return prepared_passed;
     }
     // One serial function scratch owns one project-cache snapshot. A future
     // worker may receive its own snapshot only after a global RAM reservation.
@@ -251,6 +297,10 @@ unsafe bool c_emit_prepared_source_functions(
     source_context.native_layout_alignment_cache = source_layout_alignment;
     source_context.native_layout_state_cache = source_layout_state;
     source_context.native_layout_cache_entries = source_layout_entries;
+    if timings.freeze_function_types {
+        source_context.type_data = source_type_data;
+        source_context.types = source_types;
+    }
     return passed;
 }
 

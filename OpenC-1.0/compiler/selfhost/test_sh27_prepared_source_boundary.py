@@ -274,6 +274,30 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
                     minimum,
                 )
 
+    def test_type_registry_copy_is_bounded_and_append_fails_before_write(self) -> None:
+        source = (SOURCE / "backend_c_project_source.p").read_text(
+            encoding="utf-8"
+        )
+        semantic = (SOURCE / "semantic.p").read_text(encoding="utf-8")
+        add_type = semantic.split("unsafe usize semantic_add_type(", 1)[1].split(
+            "unsafe void semantic_initialize_types(", 1
+        )[0]
+        self.assertLess(
+            add_type.index("if types.length >= types.capacity"),
+            add_type.index("write_record_field(type_data, record, 0"),
+        )
+        self.assertIn("usize max_type_bytes = 524288;", source)
+        self.assertIn("usize slots = source_types.length + 1;", source)
+        self.assertIn("owned_type_data = memory.alloc(slots * record_stride());", source)
+        self.assertIn("scratch.type_data = ir_pointer_alias(owned_type_data);", source)
+        self.assertIn("scope memory.free(owned_type_data);", source)
+        self.assertEqual(
+            source.count("source_context.type_data = source_type_data;"), 2
+        )
+        self.assertEqual(source.count("source_context.types = source_types;"), 2)
+        self.assertIn("OPENC-FUNCTION-TYPE-COPY-BUDGET", source)
+        self.assertIn("OPENC-FUNCTION-TYPE-COPY-ALIAS", source)
+
     def test_type_freeze_checks_each_function_before_next_bind(self) -> None:
         source = (SOURCE / "backend_c_project_source.p").read_text(
             encoding="utf-8"
@@ -315,7 +339,7 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
         self.assertEqual(writers, ["semantic.p"])
         semantic = (SOURCE / "semantic.p").read_text(encoding="utf-8")
         add_type = semantic.split("unsafe usize semantic_add_type(", 1)[1].split(
-            "}\n", 1
+            "unsafe void semantic_initialize_types(", 1
         )[0]
         self.assertIn("usize record = types.length;", add_type)
         self.assertIn("types.length = types.length + 1;", add_type)

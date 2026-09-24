@@ -27,6 +27,10 @@ unsafe usize semantic_add_type(
     usize field_three,
     usize flags
 ) {
+    // The opt-in function scratch supplies a compact one-spare-record type
+    // registry. Reject a second late append before touching its allocation.
+    // This also makes ordinary capacity exhaustion fail safely.
+    if types.length >= types.capacity { return semantic_type_error(); }
     usize record = types.length;
     write_record_field(type_data, record, 0, kind);
     write_record_field(type_data, record, 1, field_one);
