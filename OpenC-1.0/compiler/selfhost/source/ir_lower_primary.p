@@ -14,8 +14,8 @@ unsafe usize ir_lower_primary(
     usize type_id
 ) {
     if kind == 29 {
-        ResolutionInteger literal = resolution_parse_integer(
-            context.source, start, length
+        ResolutionInteger literal = ir_typed_integer_value(
+            context, node, true
         );
         if literal.valid {
             return ir_emit_value(

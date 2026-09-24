@@ -7,6 +7,10 @@ import system.text;
 unsafe usize ir_resolve_name(ref IrContext context, usize node) {
     ir_select_node_function(context, node);
     if node >= context.syntax.length { return context.symbols.length; }
+    // Integer literals use this otherwise vacant slot for their typed value.
+    if read_record_field(context.syntax_data, node, 0) == 29 {
+        return context.symbols.length;
+    }
     if context.name_cache != null && node < context.syntax.length {
         usize cached = read_usize(
             context.name_cache, node * size_of(usize)

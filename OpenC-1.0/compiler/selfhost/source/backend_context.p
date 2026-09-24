@@ -137,6 +137,10 @@ unsafe IrContext backend_base_context(
         profile_type_assignment_uncached = 0,
         profile_type_call_uncached = 0,
         profile_type_other_uncached = 0,
+        profile_typed_integer_reuse = 0,
+        profile_typed_integer_fallback = 0,
+        profile_typed_binary_reuse = 0,
+        profile_typed_binary_fallback = 0,
         suppress_acceptance_diagnostics = false
     };
 }

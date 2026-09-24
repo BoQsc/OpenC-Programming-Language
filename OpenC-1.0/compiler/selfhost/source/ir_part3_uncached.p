@@ -23,10 +23,8 @@ unsafe usize ir_node_type_uncached(
                 return expected;
             }
         }
-        ResolutionInteger literal = resolution_parse_integer(
-            context.source,
-            read_record_field(context.syntax_data, node, 1),
-            read_record_field(context.syntax_data, node, 2)
+        ResolutionInteger literal = ir_typed_integer_value(
+            context, node, false
         );
         if literal.valid && literal.value > cast(i64, 2147483647) {
             return semantic_builtin_type("i64", 0, 3);
@@ -98,14 +96,8 @@ unsafe usize ir_node_type_uncached(
         return child_type;
     }
     if kind == 36 {
-        if flow_node_operator(context.source, context.syntax_data, node, "==") ||
-            flow_node_operator(context.source, context.syntax_data, node, "!=") ||
-            flow_node_operator(context.source, context.syntax_data, node, "<") ||
-            flow_node_operator(context.source, context.syntax_data, node, "<=") ||
-            flow_node_operator(context.source, context.syntax_data, node, ">") ||
-            flow_node_operator(context.source, context.syntax_data, node, ">=") ||
-            flow_node_operator(context.source, context.syntax_data, node, "&&") ||
-            flow_node_operator(context.source, context.syntax_data, node, "||") {
+        usize op = ir_typed_binary_operator(context, node, false);
+        if op >= 1 && op <= 8 {
             return semantic_type_bool();
         }
         usize left = ir_left_expression(
@@ -127,7 +119,7 @@ unsafe usize ir_node_type_uncached(
             right_type < context.types.length &&
             read_record_field(context.type_data, left_type, 0) == 13 &&
             read_record_field(context.type_data, right_type, 0) == 13 &&
-            flow_node_operator(context.source, context.syntax_data, node, "-") {
+            op == 10 {
             return semantic_builtin_type("isize", 0, 5);
         }
         ResolutionInteger left_integer = acceptance_integer_value(

@@ -468,6 +468,14 @@ unsafe bool c_emit_source_record(
     }
     base.next_value = context.next_value;
     base.types = context.types;
+    timings.typed_integer_reuse = timings.typed_integer_reuse +
+        context.profile_typed_integer_reuse;
+    timings.typed_integer_fallback = timings.typed_integer_fallback +
+        context.profile_typed_integer_fallback;
+    timings.typed_binary_reuse = timings.typed_binary_reuse +
+        context.profile_typed_binary_reuse;
+    timings.typed_binary_fallback = timings.typed_binary_fallback +
+        context.profile_typed_binary_fallback;
     if parsed_source_reused {
         context.syntax_data = null;
         context.token_data = null;

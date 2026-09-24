@@ -134,6 +134,14 @@ unsafe void c_merge_worker_timings(
     target.validation_type_other_uncached =
         target.validation_type_other_uncached +
         worker.validation_type_other_uncached;
+    target.typed_integer_reuse = target.typed_integer_reuse +
+        worker.typed_integer_reuse;
+    target.typed_integer_fallback = target.typed_integer_fallback +
+        worker.typed_integer_fallback;
+    target.typed_binary_reuse = target.typed_binary_reuse +
+        worker.typed_binary_reuse;
+    target.typed_binary_fallback = target.typed_binary_fallback +
+        worker.typed_binary_fallback;
     target.validation_assignment_type_queries =
         target.validation_assignment_type_queries +
         worker.validation_assignment_type_queries;

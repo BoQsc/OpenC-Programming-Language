@@ -144,6 +144,10 @@ struct BuildTimings {
     usize validation_type_assignment_uncached;
     usize validation_type_call_uncached;
     usize validation_type_other_uncached;
+    usize typed_integer_reuse;
+    usize typed_integer_fallback;
+    usize typed_binary_reuse;
+    usize typed_binary_fallback;
     usize validation_assignment_type_queries;
     usize validation_assignment_type_cache_hits;
     usize validation_assignment_type_uncached;
@@ -302,6 +306,10 @@ BuildTimings build_timings_empty() {
         validation_type_assignment_uncached = 0,
         validation_type_call_uncached = 0,
         validation_type_other_uncached = 0,
+        typed_integer_reuse = 0,
+        typed_integer_fallback = 0,
+        typed_binary_reuse = 0,
+        typed_binary_fallback = 0,
         validation_assignment_type_queries = 0,
         validation_assignment_type_cache_hits = 0,
         validation_assignment_type_uncached = 0,

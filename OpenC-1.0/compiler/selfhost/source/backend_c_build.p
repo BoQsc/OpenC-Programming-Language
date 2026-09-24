@@ -239,6 +239,15 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.validation_assignment_type_distinct_uncached);
     d_put(output, ",\n    \"assignment_repeated_uncached\": ");
     d_put_usize(output, timings.validation_assignment_type_repeated_uncached);
+    d_put(output, "\n  },\n  \"typed_handoff\": {\n");
+    d_put(output, "    \"integer_reuse\": ");
+    d_put_usize(output, timings.typed_integer_reuse);
+    d_put(output, ",\n    \"integer_fallback\": ");
+    d_put_usize(output, timings.typed_integer_fallback);
+    d_put(output, ",\n    \"binary_reuse\": ");
+    d_put_usize(output, timings.typed_binary_reuse);
+    d_put(output, ",\n    \"binary_fallback\": ");
+    d_put_usize(output, timings.typed_binary_fallback);
     d_put(output, "\n  },\n  \"total_ms\": ");
     d_put_usize(output, timings.total_ms);
     d_put(output, ",\n  \"compiler_owned\": {\n");

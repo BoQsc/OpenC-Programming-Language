@@ -110,25 +110,10 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
             usize right_type = ir_node_type(
                 context, right, semantic_type_error()
             );
-            bool logical = flow_node_operator(
-                context.source, context.syntax_data, node, "&&"
-            ) || flow_node_operator(
-                context.source, context.syntax_data, node, "||"
-            );
-            bool equality = flow_node_operator(
-                context.source, context.syntax_data, node, "=="
-            ) || flow_node_operator(
-                context.source, context.syntax_data, node, "!="
-            );
-            bool comparison = equality || flow_node_operator(
-                context.source, context.syntax_data, node, "<"
-            ) || flow_node_operator(
-                context.source, context.syntax_data, node, "<="
-            ) || flow_node_operator(
-                context.source, context.syntax_data, node, ">"
-            ) || flow_node_operator(
-                context.source, context.syntax_data, node, ">="
-            );
+            usize op = ir_typed_binary_operator(context, node, false);
+            bool logical = op == 7 || op == 8;
+            bool equality = op == 1 || op == 2;
+            bool comparison = op >= 1 && op <= 6;
             if logical {
                 if left_type != semantic_type_bool() ||
                     right_type != semantic_type_bool() {
@@ -185,24 +170,14 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
                     errors = errors + 1;
                 }
             }
-            bool bitwise = flow_node_operator(
-                context.source, context.syntax_data, node, "&"
-            ) || flow_node_operator(
-                context.source, context.syntax_data, node, "|"
-            ) || flow_node_operator(
-                context.source, context.syntax_data, node, "^"
-            );
+            bool bitwise = op >= 14 && op <= 16;
             if bitwise && acceptance_kind(context, left_type) == 2 {
                 acceptance_report_node(
                     context, "binary", "signed_bitwise", node
                 );
                 errors = errors + 1;
             }
-            bool shift = flow_node_operator(
-                context.source, context.syntax_data, node, "<<"
-            ) || flow_node_operator(
-                context.source, context.syntax_data, node, ">>"
-            );
+            bool shift = op == 17 || op == 18;
             if shift {
                 ResolutionInteger amount = acceptance_integer_value(
                     context, right
@@ -217,9 +192,7 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
                     errors = errors + 1;
                 }
             }
-            if flow_node_operator(
-                context.source, context.syntax_data, node, "/"
-            ) {
+            if op == 12 {
                 ResolutionInteger left_value = acceptance_integer_value(
                     context, left
                 );

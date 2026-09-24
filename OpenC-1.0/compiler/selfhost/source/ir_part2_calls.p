@@ -150,6 +150,12 @@ unsafe usize ir_indexed_call_selection(
 
 unsafe usize ir_select_call(ref IrContext context, usize call) {
     ir_select_node_function(context, call);
+    // Kind 29/36 entries carry typed lowering facts, never call targets.
+    if call < context.syntax.length &&
+        (read_record_field(context.syntax_data, call, 0) == 29 ||
+         read_record_field(context.syntax_data, call, 0) == 36) {
+        return context.symbols.length;
+    }
     if context.call_cache != null && call < context.syntax.length {
         usize cached = read_usize(
             context.call_cache, call * size_of(usize)

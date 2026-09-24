@@ -123,6 +123,10 @@ struct IrContext {
     usize profile_type_assignment_uncached;
     usize profile_type_call_uncached;
     usize profile_type_other_uncached;
+    usize profile_typed_integer_reuse;
+    usize profile_typed_integer_fallback;
+    usize profile_typed_binary_reuse;
+    usize profile_typed_binary_fallback;
     bool suppress_acceptance_diagnostics;
 }
 

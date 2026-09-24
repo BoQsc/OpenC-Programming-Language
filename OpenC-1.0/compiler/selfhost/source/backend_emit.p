@@ -709,6 +709,10 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 profile_type_assignment_uncached = 0,
                 profile_type_call_uncached = 0,
                 profile_type_other_uncached = 0,
+                profile_typed_integer_reuse = 0,
+                profile_typed_integer_fallback = 0,
+                profile_typed_binary_reuse = 0,
+                profile_typed_binary_fallback = 0,
                 suppress_acceptance_diagnostics = false
             };
             ir_initialize_local_values(context);

@@ -217,6 +217,119 @@ unsafe usize ir_enum_value(ref IrContext context, usize symbol) {
     return value;
 }
 
+// A literal's call/name slots are otherwise unused (calls are kind 38 and
+// names are kind 27/51). Retain the value produced by the first semantic
+// visit so lowering does not parse the same source bytes a second time.
+unsafe ResolutionInteger ir_typed_integer_value(
+    ref IrContext context,
+    usize node,
+    bool lowering
+) {
+    if node >= context.syntax.length || read_record_field(
+        context.syntax_data, node, 0
+    ) != 29 {
+        return ResolutionInteger{ value = 0, valid = false };
+    }
+    if context.call_cache != null && context.name_cache != null {
+        usize state = read_usize(
+            context.call_cache, node * size_of(usize)
+        );
+        if state == 1 || state == 2 {
+            if lowering {
+                context.profile_typed_integer_reuse =
+                    context.profile_typed_integer_reuse + 1;
+            }
+            return ResolutionInteger{
+                value = cast(i64, read_usize(
+                    context.name_cache, node * size_of(usize)
+                )),
+                valid = state == 1
+            };
+        }
+    }
+    if lowering {
+        context.profile_typed_integer_fallback =
+            context.profile_typed_integer_fallback + 1;
+    }
+    ResolutionInteger parsed = resolution_parse_integer(
+        context.source,
+        read_record_field(context.syntax_data, node, 1),
+        read_record_field(context.syntax_data, node, 2)
+    );
+    if context.call_cache != null && context.name_cache != null {
+        usize state = 2;
+        if parsed.valid { state = 1; }
+        write_usize(
+            context.name_cache, node * size_of(usize),
+            cast(usize, parsed.value)
+        );
+        write_usize(
+            context.call_cache, node * size_of(usize), state
+        );
+    }
+    return parsed;
+}
+
+// Kind-36 binary nodes cannot be call targets, so their existing call-cache
+// slot carries the operator identified on the required semantic walk.
+unsafe usize ir_typed_binary_operator(
+    ref IrContext context,
+    usize node,
+    bool lowering
+) {
+    if node >= context.syntax.length || read_record_field(
+        context.syntax_data, node, 0
+    ) != 36 { return 0; }
+    if context.call_cache != null {
+        usize cached = read_usize(
+            context.call_cache, node * size_of(usize)
+        );
+        if cached != 0 {
+            if lowering {
+                context.profile_typed_binary_reuse =
+                    context.profile_typed_binary_reuse + 1;
+            }
+            return cached - 1;
+        }
+    }
+    if lowering {
+        context.profile_typed_binary_fallback =
+            context.profile_typed_binary_fallback + 1;
+    }
+    usize op = 0;
+    usize start = read_record_field(context.syntax_data, node, 3);
+    usize length = read_record_field(context.syntax_data, node, 4);
+    u8 first = byte_at_or_zero(context.source, start);
+    u8 second = byte_at_or_zero(context.source, start + 1);
+    if length == 1 {
+        if first == 60 { op = 3; }
+        else if first == 62 { op = 5; }
+        else if first == 43 { op = 9; }
+        else if first == 45 { op = 10; }
+        else if first == 42 { op = 11; }
+        else if first == 47 { op = 12; }
+        else if first == 37 { op = 13; }
+        else if first == 38 { op = 14; }
+        else if first == 124 { op = 15; }
+        else if first == 94 { op = 16; }
+    } else if length == 2 {
+        if first == 61 && second == 61 { op = 1; }
+        else if first == 33 && second == 61 { op = 2; }
+        else if first == 60 && second == 61 { op = 4; }
+        else if first == 62 && second == 61 { op = 6; }
+        else if first == 38 && second == 38 { op = 7; }
+        else if first == 124 && second == 124 { op = 8; }
+        else if first == 60 && second == 60 { op = 17; }
+        else if first == 62 && second == 62 { op = 18; }
+    }
+    if context.call_cache != null {
+        write_usize(
+            context.call_cache, node * size_of(usize), op + 1
+        );
+    }
+    return op;
+}
+
 unsafe usize ir_node_type(
     ref IrContext context,
     usize node,
