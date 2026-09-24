@@ -410,6 +410,9 @@ unsafe i32 main() {
     if arguments >= 4 && process.argument(0) == "artifact" {
         return cli_artifact_command();
     }
+    if arguments >= 5 && process.argument(0) == "module-coff-link" {
+        return cli_module_coff_link_command();
+    }
     if arguments >= 4 && process.argument(0) == "pe-coff-audit" {
         return cli_pe_coff_audit_command();
     }

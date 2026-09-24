@@ -124,6 +124,41 @@ unsafe bool coff_link_bundle_reserve(
     return true;
 }
 
+// Read back and authenticate the published COFF bytes before native link.
+// This is deliberately file-backed even on the first build so the linker
+// never relies on an unpublished writer buffer as its input.
+unsafe bool coff_link_append_published_object(
+    ref DBuffer bundle,
+    text object_path,
+    text expected_hash,
+    usize expected_length
+) {
+    ptr byte saved_data;
+    usize saved_length;
+    status loaded = file.read_bytes_raw(
+        object_path, out saved_data, out saved_length
+    );
+    if !loaded.ok { return false; }
+    bool ok = saved_data != null &&
+        (expected_length == 0 || saved_length == expected_length) &&
+        saved_length <= 8388604;
+    DBuffer saved_hash = d_buffer_create(65);
+    if ok {
+        winmd_sha256_hex(saved_data, saved_length, saved_hash);
+        ok = saved_hash.ok &&
+            d_buffer_text(saved_hash) == expected_hash;
+    }
+    if ok { ok = coff_link_bundle_reserve(bundle, saved_length + 4); }
+    if ok {
+        pe32_put_u32(bundle, saved_length);
+        d_put_raw(bundle, saved_data, saved_length);
+        ok = bundle.ok;
+    }
+    memory.free(saved_data);
+    d_buffer_destroy(saved_hash);
+    return ok;
+}
+
 unsafe bool coff_write_one_module(
     ref IrContext context,
     ref DBuffer objects,
@@ -193,16 +228,12 @@ unsafe bool coff_write_one_module(
             }
         }
         if ok && text.byte_length(linked_output_path) != 0 {
-            if object.length > 8388604 ||
-                !coff_link_bundle_reserve(bundle, object.length + 4) {
-                ok = false;
-            } else {
-                pe32_put_u32(bundle, object.length);
-                d_put_raw(bundle, object.data, object.length);
-                ok = bundle.ok;
-            }
+            ok = coff_link_append_published_object(
+                bundle, d_buffer_text(object_path),
+                d_buffer_text(object_hash), object.length
+            );
             if !ok {
-                io.error("error[OPENC-COFF-LINK-BUNDLE]: bundle limit failed\n");
+                io.error("error[OPENC-COFF-LINK-READBACK]: saved object rejected\n");
             }
         }
         if ok {

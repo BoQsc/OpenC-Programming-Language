@@ -1,6 +1,7 @@
 import system.file;
 import system.io;
 import system.memory;
+import system.process;
 import system.text;
 
 // Restricted reader for the exact five-section objects emitted by
@@ -964,14 +965,12 @@ unsafe status coff_link_emit_pe(
     return written;
 }
 
-unsafe status coff_link_module_bundle(
-    ref IrContext context,
-    ref DBuffer objects,
+unsafe status coff_link_bundle_with_entry(
     ref DBuffer bundle,
+    ref DBuffer entry_name,
     text output_path
 ) {
     status result = status{ code = 1 };
-    DBuffer entry_name = d_buffer_create(80);
     DBuffer code = d_buffer_create(1024);
     DBuffer constants = d_buffer_create(1024);
     DBuffer pdata = d_buffer_create(1024);
@@ -994,12 +993,6 @@ unsafe status coff_link_module_bundle(
     bool ok = counts.ok;
     if !ok {
         io.error("error[OPENC-COFF-LINK-PARSE]: object bundle rejected\n");
-    }
-    if ok {
-        ok = coff_link_entry_name(context, objects, entry_name);
-        if !ok {
-            io.error("error[OPENC-COFF-LINK-ENTRY]: entry rejected\n");
-        }
     }
     usize entry_offset = 0;
     if ok {
@@ -1043,6 +1036,93 @@ unsafe status coff_link_module_bundle(
     d_buffer_destroy(pdata);
     d_buffer_destroy(constants);
     d_buffer_destroy(code);
+    return result;
+}
+
+unsafe status coff_link_module_bundle(
+    ref IrContext context,
+    ref DBuffer objects,
+    ref DBuffer bundle,
+    text output_path
+) {
+    DBuffer entry_name = d_buffer_create(80);
+    status result = status{ code = 1 };
+    if coff_link_entry_name(context, objects, entry_name) {
+        result = coff_link_bundle_with_entry(
+            bundle, entry_name, output_path
+        );
+    } else {
+        io.error("error[OPENC-COFF-LINK-ENTRY]: entry rejected\n");
+    }
     d_buffer_destroy(entry_name);
     return result;
+}
+
+// Explicit saved-object relink proof. Hashes are mandatory and object order
+// is caller-supplied; the cache manager will own both in a later cut.
+unsafe i32 cli_module_coff_link_command() {
+    usize arguments = process.argument_count();
+    if arguments < 5 || (arguments - 3) % 2 != 0 ||
+        !cli_has_prefix(process.argument(1), "--entry=") ||
+        !cli_has_prefix(process.argument(2), "--output=") {
+        io.error("usage: openc module-coff-link --entry=$openc$HASH --output=FILE --object=FILE --sha256=HASH [--object=FILE --sha256=HASH ...]\n");
+        return 64;
+    }
+    text entry = cli_remove_prefix(process.argument(1), "--entry=");
+    text output_path = cli_remove_prefix(
+        process.argument(2), "--output="
+    );
+    DBuffer entry_name = d_buffer_create(80);
+    DBuffer bundle = d_buffer_create(1024);
+    d_put(entry_name, entry);
+    bool ok = entry_name.ok && bundle.ok &&
+        coff_link_stable_name(entry_name.data, entry_name.length) &&
+        text.byte_length(output_path) != 0 &&
+        text.byte_length(output_path) <= 4096 &&
+        arguments <= 131;
+    usize argument = 3;
+    while argument + 1 < arguments && ok {
+        text object_option = process.argument(argument);
+        text hash_option = process.argument(argument + 1);
+        if !cli_has_prefix(object_option, "--object=") ||
+            !cli_has_prefix(hash_option, "--sha256=") {
+            ok = false;
+        } else {
+            text object_path = cli_remove_prefix(
+                object_option, "--object="
+            );
+            text expected_hash = cli_remove_prefix(
+                hash_option, "--sha256="
+            );
+            ok = text.byte_length(object_path) != 0 &&
+                text.byte_length(object_path) <= 4096 &&
+                object_path != output_path &&
+                text.byte_length(expected_hash) == 64;
+            usize digit = 0;
+            while digit < 64 && ok {
+                u8 value = byte_at_or_zero(expected_hash, digit);
+                ok = (value >= 48 && value <= 57) ||
+                    (value >= 97 && value <= 102);
+                digit = digit + 1;
+            }
+            if ok {
+                ok = coff_link_append_published_object(
+                    bundle, object_path, expected_hash, 0
+                );
+            }
+        }
+        argument = argument + 2;
+    }
+    status linked = status{ code = 1 };
+    if ok {
+        linked = coff_link_bundle_with_entry(
+            bundle, entry_name, output_path
+        );
+    } else {
+        io.error("error[OPENC-COFF-LINK-SAVED]: saved object input rejected\n");
+    }
+    d_buffer_destroy(bundle);
+    d_buffer_destroy(entry_name);
+    if linked.ok { return 0; }
+    return 1;
 }

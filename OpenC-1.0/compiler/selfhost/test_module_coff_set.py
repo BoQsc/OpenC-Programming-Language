@@ -134,6 +134,66 @@ def main() -> None:
         native_exe = root / "base" / "native-linked.exe"
         native_bytes = native_exe.read_bytes()
         assert subprocess.run([str(native_exe)], timeout=10).returncode == 7
+        entry = next(
+            name for name, (section, storage) in beta_names.items()
+            if name.startswith("$openc$") and section == 1 and storage == 2
+        )
+        saved_exe = root / "base" / "saved-linked.exe"
+        saved_pairs = [
+            option
+            for item in manifest["modules"]
+            for option in (f"--object={item['object']}", f"--sha256={item['sha256']}")
+        ]
+        project_path = root / "base" / "openc.project.json"
+        hidden_project = root / "base" / "openc.project.hidden"
+        project_path.rename(hidden_project)
+        try:
+            saved = subprocess.run(
+                [str(compiler), "module-coff-link", f"--entry={entry}",
+                 f"--output={saved_exe}", *saved_pairs],
+                capture_output=True, text=True, timeout=30,
+            )
+        finally:
+            hidden_project.rename(project_path)
+        assert saved.returncode == 0, saved.stdout + saved.stderr
+        assert saved_exe.read_bytes() == native_bytes
+        assert subprocess.run([str(saved_exe)], timeout=10).returncode == 7
+
+        bad_hash_exe = root / "base" / "bad-hash.exe"
+        bad_hash_pairs = saved_pairs.copy()
+        bad_hash_pairs[1] = "--sha256=" + "0" * 64
+        bad_hash = subprocess.run(
+            [str(compiler), "module-coff-link", f"--entry={entry}",
+             f"--output={bad_hash_exe}", *bad_hash_pairs],
+            capture_output=True, text=True, timeout=30,
+        )
+        assert bad_hash.returncode != 0 and not bad_hash_exe.exists()
+        assert "OPENC-COFF-LINK-SAVED" in bad_hash.stderr
+
+        tampered = root / "base" / "tampered.obj"
+        tampered_bytes = bytearray(Path(manifest["modules"][0]["object"]).read_bytes())
+        tampered_bytes[20] ^= 1
+        tampered.write_bytes(tampered_bytes)
+        tampered_exe = root / "base" / "tampered.exe"
+        tampered_pairs = saved_pairs.copy()
+        tampered_pairs[0] = f"--object={tampered}"
+        rejected = subprocess.run(
+            [str(compiler), "module-coff-link", f"--entry={entry}",
+             f"--output={tampered_exe}", *tampered_pairs],
+            capture_output=True, text=True, timeout=30,
+        )
+        assert rejected.returncode != 0 and not tampered_exe.exists()
+        assert "OPENC-COFF-LINK-SAVED" in rejected.stderr
+        malformed_exe = root / "base" / "malformed.exe"
+        malformed_pairs = tampered_pairs.copy()
+        malformed_pairs[1] = "--sha256=" + hashlib.sha256(tampered_bytes).hexdigest()
+        malformed = subprocess.run(
+            [str(compiler), "module-coff-link", f"--entry={entry}",
+             f"--output={malformed_exe}", *malformed_pairs],
+            capture_output=True, text=True, timeout=30,
+        )
+        assert malformed.returncode != 0 and not malformed_exe.exists()
+        assert "OPENC-COFF-LINK-PARSE" in malformed.stderr
         pe_report = root / "base" / "native-linked-pe-audit.json"
         audited = subprocess.run(
             [str(compiler), "pe-audit", f"--input={native_exe}",
@@ -251,7 +311,7 @@ def main() -> None:
         assert subprocess.run(
             [str(root / "body" / "native-linked.exe")], timeout=10
         ).returncode == 8
-        print("module COFF set: boundary/link/failure-recovery checks passed")
+        print("module COFF set: boundary/native/saved-link/failure-recovery checks passed")
 
 
 if __name__ == "__main__":
