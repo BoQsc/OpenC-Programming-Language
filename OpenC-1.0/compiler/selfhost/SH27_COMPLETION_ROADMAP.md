@@ -71,6 +71,11 @@ reduced source-borrowed pointers to eight and passed strict opt-in self-build
 with a 512 KiB live-plus-spare copy per active chunk. It fails closed on late
 type creation rather than remapping IDs; spelling cache, local/IR buffers,
 and deterministic merges remain open.
+The [final bounded local/stack cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/fa78d25/OpenC-1.0/compiler/selfhost/SH27_PRIVATE_FUNCTION_VALUES.md)
+passed strict opt-in proof and left four dynamic IR-buffer aliases. Their
+source-sized copy exceeds observed private-memory headroom, so independent
+function scheduling is an explicit no-go until one integrated capped-buffer,
+global-reservation, and deterministic-merge redesign is proven.
 
 ## Objective and boundary
 

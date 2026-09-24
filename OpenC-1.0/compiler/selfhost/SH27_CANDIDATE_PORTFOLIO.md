@@ -118,6 +118,14 @@ working-set bytes), focused cases, and large/control equivalence. This cuts
 source-borrowed pointers from nine to eight. It is not a general type-ID
 remapper; spelling cache, seven local/IR buffers, and deterministic merge
 still forbid function workers, with about 7.3 MiB private headroom observed.
+The [final bounded local/stack ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/fa78d25/OpenC-1.0/compiler/selfhost/SH27_PRIVATE_FUNCTION_VALUES.md)
+passed byte-exact fixed point, strict opt-in self-build, focused fixtures,
+and large/control equivalence after cross-alias guards. Only four dynamic
+IR-buffer aliases remain, but cloning them at source-sized capacity would
+exceed the observed 6,508,544-byte strict private headroom even for one
+40,000-node source. The integrated scheduler decision is **no-go now**:
+function-local capped growth, a global four-worker reservation, and ordered
+code/diagnostic merges must be proved together before any worker launch.
 
 ## Next decisive batch
 
@@ -158,9 +166,9 @@ advance concurrently, without treating a noisy local micro-gain as progress:
    A full-source hash or warm timer with no actual module hits fails this track.
 3. **Safe function ownership:** opt-in serial PreparedSource, type-registry
    probe, four bounded project-cache copies, five frozen source indexes, and
-   seven guarded function cache lanes, and the bounded private type copy are
-   exact, but eight source-borrowed scratch pointer fields plus
-   IR/output/diagnostic state remain mutable and shared. Give
+   seven guarded function cache lanes, and bounded private type/local/stack
+   copies are exact, but four dynamic IR buffers plus output/diagnostic
+   state remain mutable and shared. Give
    each function worker bounded independent scratch before attempting
    deterministic scheduling.
    Require strict 64/256 MiB child and 512 MiB Job proof and a same-run
