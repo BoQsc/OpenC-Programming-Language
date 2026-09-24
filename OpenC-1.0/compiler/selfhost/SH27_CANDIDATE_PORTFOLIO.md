@@ -74,10 +74,15 @@ The [opt-in per-module COFF-set slice](https://github.com/BoQsc/OpenC-Programmin
 now emits stable cross-module externs and one object per function-bearing
 module after whole-project acceptance/lowering. A two-object executable,
 body-edit isolation, deterministic bytes, incomplete-manifest failure
-recovery, and guarded Stage 2/3 fixed point passed. It still has no
-independent module compilation, native multi-object relink, atomic validated
-cache, or measured reuse; shared `.data` relocations fail closed. Stage 2
-exceeded the strict 64 MiB working-set gate, so this remains isolated.
+recovery, and guarded Stage 2/3 fixed point passed. The follow-on
+[OpenC-native restricted multi-object link](https://github.com/BoQsc/OpenC-Programming-Language/blob/1561b71/SH27_NATIVE_MODULE_COFF_LINK_EVIDENCE.md)
+also passed exact Stage 2/3 and a separate strict 64/256 MiB Stage 3→4
+self-build; two modules linked and ran without `lld-link` on the OpenC path.
+It remains isolated and opt-in: shared `.data` relocations fail closed, and
+independent module compilation, saved-object relink, atomic validated cache,
+and measured reuse are still absent. The earlier Stage 2 bootstrap exceeded
+64 MiB working set; do not equate its 512 MiB bootstrap guard with the strict
+Stage 3→4 gate.
 An isolated opt-in `PreparedSource`/`WorkerScratch` boundary passed guarded
 fixed point and focused exact artifacts, but it is serial and has no speed
 claim; see `SH27_PREPARED_SOURCE_BOUNDARY.md`. The next function-worker audit
@@ -159,10 +164,16 @@ advance concurrently, without treating a noisy local micro-gain as progress:
    remained 0/223 fast sources. Its 512 MiB matrix guard is not the strict
    64/256 MiB self-build gate. The next batch must remove migrated work and
    categorize self-build exclusions, not promote the removed-sweep counter.
+   The [Phase B3 operator-census/builtin-type cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/4c96ee0/OpenC-1.0/compiler/selfhost/SH27_SEMANTIC_IR_B3_REJECTION.md)
+   was also rejected: large improved 22 ms but only won 7/11 pairs against a
+   disturbed 57 ms null; control gained 1 ms with 4/11 wins against a 16 ms
+   null. Acceptance time moved into IR lowering and the critical control
+   worker stayed at 156 ms. Neither B2 nor B3 is a speed promotion.
 2. **Real incremental native artifacts:** the isolated interface projection,
    stable COFF names, and post-lowering module COFF set are prerequisites.
    Make acceptance/lowering truly independent by module, handle shared data,
-   implement native multi-COFF relink and atomic content-validated reuse.
+   extend the restricted OpenC-native multi-COFF link to saved objects and
+   implement atomic content-validated reuse.
    A full-source hash or warm timer with no actual module hits fails this track.
 3. **Safe function ownership:** opt-in serial PreparedSource, type-registry
    probe, four bounded project-cache copies, five frozen source indexes, and

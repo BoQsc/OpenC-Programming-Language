@@ -91,6 +91,15 @@ process-tree termination. Peak VS Code test-tree working set was
 5,734,400 bytes below 64 MiB. The current-source direct `finalization-audit`
 using that new report passed **44/44**. Ignored local reports are
 `clean-profile-current.json` and `sh25-native-finalization-current.json`.
+With renewed user approval, the same production Stage-3 compiler and VSIX
+were independently exercised again in a newly empty profile on VS Code
+1.137.0. This repeat passed extension activation, packaged compiler
+selection, LSP/diagnostics, exact SHA-256 identity, zero unexpected server
+exits, clean test-process termination, and the 2 GiB/64 MiB working-set
+limits (test tree 1,764,036,608 bytes; OpenC 5,750,784 bytes). Its matching
+direct finalization audit again passed **44/44**. Ignored local reports are
+`clean-profile-approval-20260924.json` and
+`sh25-native-finalization-approval-20260924.json` beside `strict20.json`.
 The historical review record was not modified. The daily workflow's hardcoded
 historical report still makes *its* aggregate 13/14; an explicit current
 `--clean-profile` workflow input is needed before the aggregate can pass on

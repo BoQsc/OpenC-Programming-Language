@@ -24,8 +24,8 @@ with all 20 ratios below 1.25x. See
 `SH27_NORMAL_DEFAULT_PARITY_REPEAT_EVIDENCE.md` for the raw-artifact IDs and
 limits. Earlier failed clean runners below remain valid historical evidence
 of sensitivity; do not compare their absolute medians across hosts. The
-remaining critical work is content-validated incremental COFF reuse/native
-relink, representative projects, current-final-source full strict memory and
+remaining critical work is content-validated incremental COFF reuse from
+saved objects, representative projects, current-final-source full strict memory and
 correctness certification, and release integrity. Isolated typed/QPC cuts
 did not produce a qualifying speed signal and were not merged.
 The [isolated function semantic/IR Phase B2](https://github.com/BoQsc/OpenC-Programming-Language/blob/89dd8d4/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_B2_EVIDENCE.md)
@@ -33,6 +33,9 @@ removed the assignment/binary sweeps on all generated large/control sources,
 but a guarded 11-pair/null matrix rejected it: large improved 16 ms while
 control regressed 10 ms, and compiler self-build activated 0/223 sources.
 No throughput candidate is promoted from that cut.
+The [Phase B3 operator-census/builtin-type attempt](https://github.com/BoQsc/OpenC-Programming-Language/blob/4c96ee0/OpenC-1.0/compiler/selfhost/SH27_SEMANTIC_IR_B3_REJECTION.md)
+was also a NO-GO: its critical control worker stayed 156 ms and the
+whole-wall large/control results did not clear same-run null/wins gates.
 An [isolated native workflow input](https://github.com/BoQsc/OpenC-Programming-Language/blob/e233fee/OpenC-1.0/compiler/selfhost/SH27_WORKFLOW_CLEAN_PROFILE_INPUT.md)
 can now pass a current clean-profile report path without changing the
 historical SH-25 record; its own new compiler correctly failed the two
@@ -50,13 +53,17 @@ three cold/warm/edit repetitions with exact execution on the unchanged
 production compiler source. The separate isolated [interface projection](https://github.com/BoQsc/OpenC-Programming-Language/blob/c0b2343/SH27_INTERFACE_FINGERPRINT_EVIDENCE.md),
 [stable COFF symbol identity](https://github.com/BoQsc/OpenC-Programming-Language/blob/f68c65f/SH27_STABLE_COFF_IDENTITY_EVIDENCE.md),
 the [opt-in per-module COFF-set slice](https://github.com/BoQsc/OpenC-Programming-Language/blob/bd0a497/SH27_MODULE_COFF_SET_EVIDENCE.md),
+the [restricted OpenC-native multi-COFF link](https://github.com/BoQsc/OpenC-Programming-Language/blob/1561b71/SH27_NATIVE_MODULE_COFF_LINK_EVIDENCE.md),
 and [function type-freeze probe](https://github.com/BoQsc/OpenC-Programming-Language/blob/c97e28e/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_TYPE_FREEZE_PROBE.md)
 passed focused fixed-point gates but do not yet create object reuse, safe
 function workers, or a measured compiler speedup. They are not merged into
 the production compiler. The COFF-set slice partitions already-lowered
 whole-project output, rejects shared-data relocations, and exceeded the
 strict Stage-2 64 MiB working-set gate; it is not independent module
-compilation. A subsequent [bounded project-cache ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/db54808/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_PROJECT_CACHE_OWNERSHIP.md)
+compilation. The restricted native link runs only freshly emitted objects,
+not saved-object cache hits; it separately passed strict Stage 3→4 self-build
+under 64 MiB working set and 256 MiB private bytes. A subsequent
+[bounded project-cache ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/db54808/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_PROJECT_CACHE_OWNERSHIP.md)
 also passed strict opt-in self-build memory and exactness, reducing
 source-borrowed scratch pointers from 25 to 21. The later [five-array index
 freeze](https://github.com/BoQsc/OpenC-Programming-Language/blob/af44c6b/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_INDEX_FREEZE.md)
