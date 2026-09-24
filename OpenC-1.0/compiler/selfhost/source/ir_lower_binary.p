@@ -4,6 +4,33 @@ import system.memory;
 import system.path;
 import system.text;
 
+// The only added per-source state is one bit per syntax node.  A rule is
+// evaluated after the lowerer has already resolved its child expressions;
+// invalid sources replay the original category-ordered acceptance path.
+unsafe void ir_deferred_validate_scalar(ref IrContext context, usize node) {
+    if !context.defer_scalar_rules ||
+        context.deferred_rule_seen == null ||
+        node >= context.syntax.length { return; }
+    usize word = node / 64;
+    usize mask = cast(usize, 1) << (node % 64);
+    usize previous = read_usize(
+        context.deferred_rule_seen, word * size_of(usize)
+    );
+    if (previous & mask) != 0 { return; }
+    write_usize(
+        context.deferred_rule_seen, word * size_of(usize), previous | mask
+    );
+    context.deferred_rule_checked = context.deferred_rule_checked + 1;
+    usize kind = read_record_field(context.syntax_data, node, 0);
+    if kind == 36 {
+        context.deferred_rule_errors = context.deferred_rule_errors +
+            acceptance_validate_binary_node(context, node);
+    } else if kind == 37 {
+        context.deferred_rule_errors = context.deferred_rule_errors +
+            acceptance_validate_assignment_node(context, node);
+    }
+}
+
 unsafe usize ir_lower_binary(
     ref IrContext context,
     usize node,
@@ -78,7 +105,10 @@ unsafe usize ir_lower_binary(
                 read_record_field(context.syntax_data, right_node, 1),
                 read_record_field(context.syntax_data, right_node, 2)
             );
-            if identity.valid && identity.value == 1 { return left; }
+            if identity.valid && identity.value == 1 {
+                ir_deferred_validate_scalar(context, node);
+                return left;
+            }
         }
         bool short_circuit = flow_node_operator(
             context.source, context.syntax_data, node, "&&"
@@ -102,6 +132,7 @@ unsafe usize ir_lower_binary(
                 context, ir_op_short_end(), node,
                 1, operator_start, operator_length, short_first, 2
             );
+            ir_deferred_validate_scalar(context, node);
             return result;
         }
         usize right_expected = operand_expected;
@@ -114,6 +145,7 @@ unsafe usize ir_lower_binary(
         usize right = ir_lower_node(
             context, right_node, right_expected, 0
         );
+        ir_deferred_validate_scalar(context, node);
         bool pointer_fault = ir_pointer_binary_fault(
             context, node, left_node, right_node
         );
@@ -185,6 +217,7 @@ unsafe usize ir_lower_binary(
             context.type_data, expected_type, 0
         ) == 12 { expected_type = ir_type_element(context, expected_type); }
         usize value = ir_lower_node(context, right_node, expected_type, 0);
+        ir_deferred_validate_scalar(context, node);
         usize first = context.operands.length;
         usize immediate = 0;
         if read_record_field(context.syntax_data, left_node, 0) == 39 ||

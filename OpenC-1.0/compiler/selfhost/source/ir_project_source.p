@@ -257,7 +257,13 @@ unsafe bool ir_observe_emit_source(
         profile_type_assignment_uncached = 0,
         profile_type_call_uncached = 0,
         profile_type_other_uncached = 0,
-        suppress_acceptance_diagnostics = false
+        suppress_acceptance_diagnostics = false,
+        defer_scalar_rules = false,
+        deferred_rule_seen = null,
+        deferred_rule_expected = 0,
+        deferred_legacy_scan_nodes = 0,
+        deferred_rule_checked = 0,
+        deferred_rule_errors = 0
     };
     ir_initialize_local_values(context);
     ir_initialize_node_indexes(context);

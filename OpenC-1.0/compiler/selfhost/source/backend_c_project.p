@@ -42,6 +42,7 @@ unsafe void c_release_source_context(
     memory.free(context.resolved_type_ref_cache);
     memory.free(context.type_cache);
     memory.free(context.profile_type_seen);
+    memory.free(context.deferred_rule_seen);
     memory.free(context.argument_next);
     memory.free(context.call_argument_last);
     memory.free(context.call_argument_first);
@@ -167,6 +168,8 @@ unsafe void c_lower_and_emit_function(
     ir_lower_function(context, node, owner - 1);
     usize function_ir_ms =
         process.monotonic_milliseconds() - phase_started;
+    // Invalid fused rules cannot be emitted; ordered acceptance replay follows.
+    if context.deferred_rule_errors != 0 { return; }
     c_record_lowered_function(
         timings, context, source_record, node, owner - 1,
         function_ir_ms

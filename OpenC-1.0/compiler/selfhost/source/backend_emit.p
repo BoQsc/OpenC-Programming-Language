@@ -709,7 +709,13 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 profile_type_assignment_uncached = 0,
                 profile_type_call_uncached = 0,
                 profile_type_other_uncached = 0,
-                suppress_acceptance_diagnostics = false
+                suppress_acceptance_diagnostics = false,
+                defer_scalar_rules = false,
+                deferred_rule_seen = null,
+                deferred_rule_expected = 0,
+                deferred_legacy_scan_nodes = 0,
+                deferred_rule_checked = 0,
+                deferred_rule_errors = 0
             };
             ir_initialize_local_values(context);
             usize node = 0;

@@ -7,6 +7,7 @@ import system.text;
 struct AcceptanceExpressionFeatures {
     bool has_assignments;
     bool has_binary;
+    usize deferred_rule_count;
     bool has_index_ranges;
     bool has_casts;
     bool has_aggregates;
@@ -18,6 +19,7 @@ unsafe AcceptanceExpressionFeatures acceptance_expression_features(
     AcceptanceExpressionFeatures features = AcceptanceExpressionFeatures{
         has_assignments = false,
         has_binary = false,
+        deferred_rule_count = 0,
         has_index_ranges = false,
         has_casts = false,
         has_aggregates = false
@@ -38,8 +40,10 @@ unsafe AcceptanceExpressionFeatures acceptance_expression_features(
         usize kind = read_record_field(context.syntax_data, node, 0);
         if kind == 37 {
             features.has_assignments = true;
+            features.deferred_rule_count = features.deferred_rule_count + 1;
         } else if kind == 36 {
             features.has_binary = true;
+            features.deferred_rule_count = features.deferred_rule_count + 1;
         } else if kind == 40 || kind == 41 {
             features.has_index_ranges = true;
         } else if kind == 42 || kind == 43 || kind == 46 {
@@ -78,6 +82,22 @@ unsafe usize acceptance_validate_context(
     group_started = process.monotonic_milliseconds();
     AcceptanceExpressionFeatures expression_features =
         acceptance_expression_features(context);
+    if context.defer_scalar_rules {
+        context.deferred_rule_expected = expression_features.deferred_rule_count;
+        usize scan_length = context.syntax.length;
+        if context.expression_nodes != null {
+            scan_length = context.expression_count;
+        }
+        context.deferred_legacy_scan_nodes = 0;
+        if expression_features.has_assignments {
+            context.deferred_legacy_scan_nodes =
+                context.deferred_legacy_scan_nodes + scan_length;
+        }
+        if expression_features.has_binary {
+            context.deferred_legacy_scan_nodes =
+                context.deferred_legacy_scan_nodes + scan_length;
+        }
+    }
     usize assignment_queries_before = context.profile_type_queries;
     usize assignment_hits_before = context.profile_type_cache_hits;
     usize assignment_uncached_before = context.profile_type_uncached;
@@ -87,7 +107,7 @@ unsafe usize acceptance_validate_context(
         context.profile_type_repeated_uncached;
     usize assignments_started = process.monotonic_milliseconds();
     found = 0;
-    if expression_features.has_assignments {
+    if expression_features.has_assignments && !context.defer_scalar_rules {
         found = acceptance_validate_assignments(context);
     }
     timings.validation_acceptance_assignments_ms =
@@ -111,7 +131,7 @@ unsafe usize acceptance_validate_context(
     acceptance_report_source_count(context, "assignments", found);
     errors = errors + found;
     found = 0;
-    if expression_features.has_binary {
+    if expression_features.has_binary && !context.defer_scalar_rules {
         found = acceptance_validate_binary(context);
     }
     acceptance_report_source_count(context, "binary", found);

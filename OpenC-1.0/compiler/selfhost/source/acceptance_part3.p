@@ -2,11 +2,14 @@ import system.file;
 import system.memory;
 import system.text;
 
-unsafe usize acceptance_validate_assignments(ref IrContext context) {
+unsafe usize acceptance_validate_assignments_range(
+    ref IrContext context, usize target_node, bool one_node
+) {
     usize errors = 0;
     usize node_index = 0;
     usize node_count = context.syntax.length;
     if context.expression_nodes != null { node_count = context.expression_count; }
+    if one_node { node_count = 1; }
     while node_index < node_count {
         usize node = node_index;
         if context.expression_nodes != null {
@@ -14,6 +17,7 @@ unsafe usize acceptance_validate_assignments(ref IrContext context) {
                 context.expression_nodes, node_index * size_of(usize)
             );
         }
+        if one_node { node = target_node; }
         if read_record_field(context.syntax_data, node, 0) == 37 {
             usize operator_start = read_record_field(context.syntax_data, node, 3);
             usize left = ir_left_expression(
@@ -83,11 +87,24 @@ unsafe usize acceptance_validate_assignments(ref IrContext context) {
     return errors;
 }
 
-unsafe usize acceptance_validate_binary(ref IrContext context) {
+unsafe usize acceptance_validate_assignments(ref IrContext context) {
+    return acceptance_validate_assignments_range(context, 0, false);
+}
+
+unsafe usize acceptance_validate_assignment_node(
+    ref IrContext context, usize node
+) {
+    return acceptance_validate_assignments_range(context, node, true);
+}
+
+unsafe usize acceptance_validate_binary_range(
+    ref IrContext context, usize target_node, bool one_node
+) {
     usize errors = 0;
     usize node_index = 0;
     usize node_count = context.syntax.length;
     if context.expression_nodes != null { node_count = context.expression_count; }
+    if one_node { node_count = 1; }
     while node_index < node_count {
         usize node = node_index;
         if context.expression_nodes != null {
@@ -95,6 +112,7 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
                 context.expression_nodes, node_index * size_of(usize)
             );
         }
+        if one_node { node = target_node; }
         if read_record_field(context.syntax_data, node, 0) == 36 {
             usize operator_start = read_record_field(context.syntax_data, node, 3);
             usize left = ir_left_expression(
@@ -239,4 +257,14 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
         node_index = node_index + 1;
     }
     return errors;
+}
+
+unsafe usize acceptance_validate_binary(ref IrContext context) {
+    return acceptance_validate_binary_range(context, 0, false);
+}
+
+unsafe usize acceptance_validate_binary_node(
+    ref IrContext context, usize node
+) {
+    return acceptance_validate_binary_range(context, node, true);
 }

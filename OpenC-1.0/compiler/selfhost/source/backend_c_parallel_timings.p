@@ -98,6 +98,23 @@ unsafe void c_merge_worker_timings(
     target.validation_acceptance_errors =
         target.validation_acceptance_errors +
         worker.validation_acceptance_errors;
+    target.deferred_scalar_sources = target.deferred_scalar_sources +
+        worker.deferred_scalar_sources;
+    target.deferred_scalar_accepted_sources =
+        target.deferred_scalar_accepted_sources +
+        worker.deferred_scalar_accepted_sources;
+    target.deferred_scalar_fallback_sources =
+        target.deferred_scalar_fallback_sources +
+        worker.deferred_scalar_fallback_sources;
+    target.deferred_scalar_rule_expected =
+        target.deferred_scalar_rule_expected +
+        worker.deferred_scalar_rule_expected;
+    target.deferred_scalar_rule_checked =
+        target.deferred_scalar_rule_checked +
+        worker.deferred_scalar_rule_checked;
+    target.deferred_legacy_scan_nodes_skipped =
+        target.deferred_legacy_scan_nodes_skipped +
+        worker.deferred_legacy_scan_nodes_skipped;
     target.validation_type_queries = target.validation_type_queries +
         worker.validation_type_queries;
     target.validation_type_cache_hits =

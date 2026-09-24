@@ -349,7 +349,12 @@ unsafe bool c_emit_source_record(
         process.monotonic_milliseconds() - phase_started;
     timings.index_ms = timings.index_ms +
         process.monotonic_milliseconds() - index_started;
+    bool original_suppress = context.suppress_acceptance_diagnostics;
     if validate_acceptance {
+        context.defer_scalar_rules = timings.emission_mode == 2;
+        if context.defer_scalar_rules {
+            context.suppress_acceptance_diagnostics = true;
+        }
         // Acceptance treats every declared local as semantically available;
         // lowering later replaces these sentinels with concrete SSA values.
         usize acceptance_symbol = 0;
@@ -362,6 +367,42 @@ unsafe bool c_emit_source_record(
         }
         usize acceptance_started = process.monotonic_milliseconds();
         usize found = acceptance_validate_context(context, timings);
+        if found != 0 && context.defer_scalar_rules {
+            // Replay the exact legacy diagnostic order on invalid input.
+            context.defer_scalar_rules = false;
+            context.suppress_acceptance_diagnostics = original_suppress;
+            found = acceptance_validate_context(context, timings);
+            timings.deferred_scalar_fallback_sources =
+                timings.deferred_scalar_fallback_sources + 1;
+        }
+        if found == 0 && context.defer_scalar_rules &&
+            context.deferred_rule_expected != 0 {
+            usize word_count = (context.syntax.length + 63) / 64;
+            context.deferred_rule_seen = memory.alloc(
+                word_count * size_of(usize)
+            );
+            if context.deferred_rule_seen == null {
+                context.defer_scalar_rules = false;
+                context.suppress_acceptance_diagnostics = original_suppress;
+                found = acceptance_validate_context(context, timings);
+                timings.deferred_scalar_fallback_sources =
+                    timings.deferred_scalar_fallback_sources + 1;
+            } else {
+                usize word = 0;
+                while word < word_count {
+                    write_usize(
+                        context.deferred_rule_seen,
+                        word * size_of(usize), 0
+                    );
+                    word = word + 1;
+                }
+                timings.deferred_scalar_sources =
+                    timings.deferred_scalar_sources + 1;
+                timings.deferred_scalar_rule_expected =
+                    timings.deferred_scalar_rule_expected +
+                    context.deferred_rule_expected;
+            }
+        }
         timings.validation_type_queries = timings.validation_type_queries +
             context.profile_type_queries;
         timings.validation_type_cache_hits =
@@ -463,8 +504,50 @@ unsafe bool c_emit_source_record(
                 context, output, timings, source_record, node,
                 owner, entry_module
             );
+            if context.deferred_rule_errors != 0 { break; }
         }
         node = node + 1;
+    }
+    if context.defer_scalar_rules &&
+        context.deferred_rule_expected != 0 {
+        timings.deferred_scalar_rule_checked =
+            timings.deferred_scalar_rule_checked +
+            context.deferred_rule_checked;
+        if context.deferred_rule_errors != 0 ||
+            context.deferred_rule_checked != context.deferred_rule_expected {
+            timings.deferred_scalar_fallback_sources =
+                timings.deferred_scalar_fallback_sources + 1;
+            context.defer_scalar_rules = false;
+            context.suppress_acceptance_diagnostics = original_suppress;
+            // Restore the acceptance all-live sentinel before diagnostic
+            // replay; lowering may have written concrete local SSA values.
+            usize acceptance_symbol = 0;
+            while acceptance_symbol < context.symbols.length {
+                write_usize(
+                    context.local_values,
+                    acceptance_symbol * size_of(usize), 1
+                );
+                acceptance_symbol = acceptance_symbol + 1;
+            }
+            usize replayed = acceptance_validate_context(context, timings);
+            if replayed == 0 && context.deferred_rule_errors != 0 {
+                io.error("OPENC-C-BACKEND-INTERNAL deferred rule mismatch\n");
+                if parsed_source_reused {
+                    context.syntax_data = null;
+                    context.token_data = null;
+                }
+                c_release_source_context(context, diagnostic_data);
+                return false;
+            }
+            timings.validation_acceptance_errors =
+                timings.validation_acceptance_errors + replayed;
+        } else {
+            timings.deferred_scalar_accepted_sources =
+                timings.deferred_scalar_accepted_sources + 1;
+            timings.deferred_legacy_scan_nodes_skipped =
+                timings.deferred_legacy_scan_nodes_skipped +
+                context.deferred_legacy_scan_nodes;
+        }
     }
     base.next_value = context.next_value;
     base.types = context.types;

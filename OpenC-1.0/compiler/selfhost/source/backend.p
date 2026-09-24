@@ -130,6 +130,12 @@ struct BuildTimings {
     usize validation_acceptance_resources_ms;
     usize validation_acceptance_pointers_ms;
     usize validation_acceptance_errors;
+    usize deferred_scalar_sources;
+    usize deferred_scalar_accepted_sources;
+    usize deferred_scalar_fallback_sources;
+    usize deferred_scalar_rule_expected;
+    usize deferred_scalar_rule_checked;
+    usize deferred_legacy_scan_nodes_skipped;
     bool profile_type_queries_enabled;
     usize validation_type_queries;
     usize validation_type_cache_hits;
@@ -288,6 +294,12 @@ BuildTimings build_timings_empty() {
         validation_acceptance_resources_ms = 0,
         validation_acceptance_pointers_ms = 0,
         validation_acceptance_errors = 0,
+        deferred_scalar_sources = 0,
+        deferred_scalar_accepted_sources = 0,
+        deferred_scalar_fallback_sources = 0,
+        deferred_scalar_rule_expected = 0,
+        deferred_scalar_rule_checked = 0,
+        deferred_legacy_scan_nodes_skipped = 0,
         profile_type_queries_enabled = false,
         validation_type_queries = 0,
         validation_type_cache_hits = 0,

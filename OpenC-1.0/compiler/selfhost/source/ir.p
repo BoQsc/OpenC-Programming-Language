@@ -124,6 +124,12 @@ struct IrContext {
     usize profile_type_call_uncached;
     usize profile_type_other_uncached;
     bool suppress_acceptance_diagnostics;
+    bool defer_scalar_rules;
+    ptr byte deferred_rule_seen;
+    usize deferred_rule_expected;
+    usize deferred_legacy_scan_nodes;
+    usize deferred_rule_checked;
+    usize deferred_rule_errors;
 }
 
 struct IrBounds {
