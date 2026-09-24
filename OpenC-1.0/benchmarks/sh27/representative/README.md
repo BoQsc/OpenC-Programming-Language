@@ -134,12 +134,19 @@ a guarded Stage 3 fixed point. Its discovery job records actual hosted
 proof job is skipped until reviewed literal digests are committed to
 `.github/representative-toolchain-pins.json` with status `PINNED`; a manual
 `mode=proof` request while pins are pending fails explicitly. The proof job
-rechecks the literals on its own runner before compiling anything.
+rechecks the literals on its own runner before compiling anything. The pin
+file now names the two observed, separately reviewed `windows-2025` image
+versions and their respective `cl.exe`/`link.exe` hash pairs. A third image
+or a crossed/mutated pair still fails closed; discovery never self-approves
+new binaries.
 
-The workflow was exercised on `codex/sh27-critical-worker-budget`: the first
-runner's reviewed MSVC hashes drifted, so the proof failed closed; after the
-new discovered hashes were independently committed, [run 35946485926](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35946485926)
-passed the full guarded pinned proof. GitHub manual
+The workflow was exercised on `codex/sh27-critical-worker-budget`: a runner
+image mismatch made one run fail closed; after the new discovered hashes were
+independently reviewed, [run 35946485926](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35946485926)
+passed the full guarded pinned proof. A docs-only rerun then landed on the
+other previously reviewed image and also failed closed, motivating the
+explicit two-image allowlist rather than repeatedly replacing one pin.
+GitHub manual
 `workflow_dispatch` normally requires the workflow file on the default
 branch; after that file is merged, a branch-ref dispatch can be tested with
 `gh workflow run openc-representative-medium.yml --ref

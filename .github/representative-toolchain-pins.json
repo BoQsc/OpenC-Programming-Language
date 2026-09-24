@@ -1,13 +1,25 @@
 {
-  "schema": "openc.sh27.representative_toolchain_pins.v1",
+  "schema": "openc.sh27.representative_toolchain_pins.v2",
   "status": "PINNED",
   "runner": "windows-2025",
   "msvc_toolset": "14.44",
   "msvc_version_contains": "19.44",
   "dmd_version_contains": "v2.112.0",
-  "cl_sha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
-  "link_sha256": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
   "dmd_sha256": "5ec3152d183b5a7f4c3abb67d01a7055a247d7d3c79e6041ec33b9f95c913bf5",
-  "discovery_run": 35946208242,
-  "discovery_artifact": 10786339546
+  "msvc_variants": [
+    {
+      "runner_image_version": "20260907.229.1",
+      "cl_sha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+      "link_sha256": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+      "discovery_run": 35946208242,
+      "discovery_artifact": 10786339546
+    },
+    {
+      "runner_image_version": "20260922.246.2",
+      "cl_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "link_sha256": "a364af801a8539e4324d9489313dbf001d959128451fc99a27b24676bbac058f",
+      "discovery_run": 35947020345,
+      "discovery_artifact": 10786578412
+    }
+  ]
 }
