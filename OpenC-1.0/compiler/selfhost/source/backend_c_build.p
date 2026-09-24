@@ -31,6 +31,10 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.source_bytes);
     if timings.prepared_function_scratch {
         d_put(output, ",\n  \"prepared_function_scratch\": true");
+        d_put(output, ",\n  \"function_index_preparation_ms\": ");
+        d_put_usize(output, timings.function_index_preparation_ms);
+        d_put(output, ",\n  \"prepared_function_calls\": ");
+        d_put_usize(output, timings.prepared_function_calls);
     }
     if timings.freeze_function_types {
         d_put(output, ",\n  \"freeze_function_types\": true");

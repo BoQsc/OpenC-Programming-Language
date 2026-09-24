@@ -79,6 +79,11 @@ unsafe void c_merge_worker_timings(
         target.owned_function_project_cache_max_source_bytes =
             worker.owned_function_project_cache_max_source_bytes;
     }
+    target.function_index_preparation_ms =
+        target.function_index_preparation_ms +
+        worker.function_index_preparation_ms;
+    target.prepared_function_calls = target.prepared_function_calls +
+        worker.prepared_function_calls;
     target.validation_acceptance_ms =
         target.validation_acceptance_ms + worker.validation_acceptance_ms;
     target.validation_acceptance_mask_ms =

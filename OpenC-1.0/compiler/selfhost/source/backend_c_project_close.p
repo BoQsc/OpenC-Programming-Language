@@ -228,6 +228,12 @@ unsafe i32 c_emit_project(
         timings.validation_acceptance_ms =
             timings.validation_acceptance_ms +
             process.monotonic_milliseconds() - global_started;
+        // On a globally invalid project, retain the ordinary source pass so
+        // source-order acceptance diagnostics remain authoritative. No
+        // PreparedSource freeze/pointer handoff may run after this error.
+        if timings.validation_acceptance_errors != 0 {
+            timings.prepared_function_scratch = false;
+        }
     }
     if timings.emission_mode == 0 {
         c_emit_function_prototypes(base, output, entry_module);

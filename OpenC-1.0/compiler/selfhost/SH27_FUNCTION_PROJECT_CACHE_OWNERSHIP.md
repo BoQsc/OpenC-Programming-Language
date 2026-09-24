@@ -5,6 +5,10 @@ scheduler or speed improvement. `artifact --owned-function-project-caches`
 implies the existing PreparedSource and late-type guards. The default path
 does not allocate or copy these caches.
 
+This document records the four-cache cut at `db54808`. The subsequent
+five-array index freeze and its current residual alias count are documented
+in `SH27_FUNCTION_INDEX_FREEZE.md`.
+
 ## Ownership boundary
 
 After whole-source acceptance, the serial `IrFunctionScratch` receives

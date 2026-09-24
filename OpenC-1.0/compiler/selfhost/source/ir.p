@@ -128,7 +128,8 @@ struct IrContext {
 }
 
 // A borrowed, source-lifetime view published only after indexing and
-// acceptance. Its mutable caches and IR storage are deliberately absent.
+// acceptance. Its writable first-visit caches and IR storage are absent;
+// parent and call-argument indexes are checked complete before publication.
 // The first user is a serial opt-in path; parallel publication is not yet
 // allowed because acceptance itself still owns source-wide mutable state.
 struct IrPreparedSource {
@@ -149,16 +150,11 @@ struct IrFunctionScratch {
     ptr byte spelling_cache;
     usize spelling_cache_capacity;
     ptr byte call_cache;
-    ptr byte call_argument_first;
-    ptr byte call_argument_last;
-    ptr byte argument_next;
     ptr byte type_cache;
     ptr byte profile_type_seen;
     ptr byte resolved_type_ref_cache;
     ptr byte left_expression_cache;
     ptr byte right_expression_cache;
-    ptr byte block_parent_cache;
-    ptr byte control_parent_cache;
     ptr byte symbol_export_cache;
     ptr byte native_layout_size_cache;
     ptr byte native_layout_alignment_cache;

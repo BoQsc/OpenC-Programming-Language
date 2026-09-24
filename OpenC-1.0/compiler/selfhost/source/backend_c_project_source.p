@@ -16,6 +16,19 @@ unsafe bool c_emit_prepared_source_functions_inner(
     // The prepared view borrows only source/project facts after acceptance.
     // Exactly one worker owns scratch in this first vertical slice; no
     // acceptance work or buffers are replicated for function jobs yet.
+    usize index_started = process.monotonic_milliseconds();
+    if !ir_prepare_function_index_caches(source_context) {
+        io.print("OPENC-FUNCTION-INDEX-CACHE-NOT-READY source=");
+        io.println(source_record);
+        return false;
+    }
+    timings.function_index_preparation_ms =
+        timings.function_index_preparation_ms +
+        process.monotonic_milliseconds() - index_started;
+    timings.prepared_function_calls = timings.prepared_function_calls +
+        source_context.call_count;
+    usize index_fingerprint =
+        ir_function_index_cache_fingerprint(source_context);
     IrPreparedSource prepared = IrPreparedSource{ view = source_context };
     ir_prepared_source(source_context, prepared);
     usize frozen_type_count = source_context.types.length;
@@ -82,6 +95,12 @@ unsafe bool c_emit_prepared_source_functions_inner(
         node = node + 1;
     }
     ir_bind_prepared_function(prepared, scratch, source_context);
+    if ir_function_index_cache_fingerprint(source_context) !=
+        index_fingerprint {
+        io.print("OPENC-FUNCTION-INDEX-CACHE-MUTATED source=");
+        io.println(source_record);
+        return false;
+    }
     timings.late_function_type_misses =
         timings.late_function_type_misses + late_type_misses;
     if timings.freeze_function_types &&

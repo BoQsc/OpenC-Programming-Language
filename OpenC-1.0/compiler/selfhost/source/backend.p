@@ -15,6 +15,8 @@ struct BuildTimings {
     usize late_function_type_misses;
     usize owned_function_project_cache_bytes;
     usize owned_function_project_cache_max_source_bytes;
+    usize function_index_preparation_ms;
+    usize prepared_function_calls;
     usize project_load_ms;
     usize declarations_ms;
     usize declaration_parse_retained_ms;
@@ -181,6 +183,8 @@ BuildTimings build_timings_empty() {
         late_function_type_misses = 0,
         owned_function_project_cache_bytes = 0,
         owned_function_project_cache_max_source_bytes = 0,
+        function_index_preparation_ms = 0,
+        prepared_function_calls = 0,
         project_load_ms = 0,
         declarations_ms = 0,
         declaration_parse_retained_ms = 0,

@@ -30,7 +30,7 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
         all_fields = fields(context)
         scratch_fields = fields(scratch)
         self.assertEqual(len(all_fields), 120)
-        self.assertEqual(len(scratch_fields), 58)
+        self.assertEqual(len(scratch_fields), 53)
         self.assertEqual(len(set(all_fields)), len(all_fields))
         self.assertEqual(len(set(scratch_fields)), len(scratch_fields))
         self.assertTrue(set(scratch_fields) < set(all_fields))
@@ -172,6 +172,56 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
             function.index("type_id >= context.native_layout_cache_entries"),
             function.index("read_usize(context.native_layout_state_cache"),
         )
+
+    def test_five_index_arrays_are_ready_and_fingerprinted(self) -> None:
+        source = (SOURCE / "backend_c_project_source.p").read_text(
+            encoding="utf-8"
+        )
+        prepared = (SOURCE / "ir_prepared_source.p").read_text(
+            encoding="utf-8"
+        )
+        declarations = (SOURCE / "ir.p").read_text(encoding="utf-8")
+        scratch = declarations.split("struct IrFunctionScratch {", 1)[1].split(
+            "}", 1
+        )[0]
+        fields = (
+            "block_parent_cache", "control_parent_cache",
+            "call_argument_first", "call_argument_last", "argument_next",
+        )
+        for field in fields:
+            self.assertNotIn(f"ptr byte {field};", scratch)
+            self.assertIn(f"prepared.view.{field} = source.{field};", prepared)
+            self.assertIn(f"context.{field} = prepared.view.{field};", prepared)
+        self.assertIn("ir_index_call_arguments(context, call);", prepared)
+        self.assertIn("context.block_parent_cache, node * size_of(usize)", prepared)
+        self.assertIn("context.control_parent_cache, node * size_of(usize)", prepared)
+        self.assertIn("OPENC-FUNCTION-INDEX-CACHE-NOT-READY", source)
+        self.assertIn("OPENC-FUNCTION-INDEX-CACHE-MUTATED", source)
+        self.assertLess(
+            source.index("ir_prepare_function_index_caches(source_context)"),
+            source.index("IrPreparedSource prepared ="),
+        )
+        parent = (SOURCE / "ir_part1c.p").read_text(encoding="utf-8")
+        for field in ("block_parent_cache", "control_parent_cache"):
+            section = parent.split(f"context.{field}, node * size_of(usize)", 1)[1]
+            self.assertLess(
+                section.index("if cached <= context.syntax.length { return cached; }"),
+                section.index(f"context.{field},\n"),
+            )
+        calls = (SOURCE / "ir_part2_resolution.p").read_text(encoding="utf-8")
+        self.assertIn("if argument_count == 0 || context.call_argument_first == null", calls)
+        self.assertIn("context.call_argument_first, call * size_of(usize)\n        ) != 0", calls)
+        index = (SOURCE / "ir_index_initialize.p").read_text(encoding="utf-8")
+        self.assertIn("if kind == 38 && context.call_nodes != null", index)
+        self.assertIn("if encoded != 0 { return false; }", prepared)
+        project = (SOURCE / "backend_c_project_close.p").read_text(
+            encoding="utf-8"
+        )
+        self.assertLess(
+            project.index("timings.prepared_function_scratch = false;"),
+            project.index("c_emit_native_sources_chunked("),
+        )
+        self.assertIn("if timings.validation_acceptance_errors != 0", project)
 
     def test_type_freeze_checks_each_function_before_next_bind(self) -> None:
         source = (SOURCE / "backend_c_project_source.p").read_text(
