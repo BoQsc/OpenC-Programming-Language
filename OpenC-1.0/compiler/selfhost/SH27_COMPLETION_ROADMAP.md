@@ -35,7 +35,15 @@ The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
 `benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit
 app, and actual compiler self-build with exact cold/warm/edit/runtime/RAM
 checks. The medium app is benchmark-authored and small; retained user projects
-and repeated project comparisons are still required.
+and repeated project comparisons are still required. A [pinned hosted
+C/D/OpenC medium-app proof](SH27_REPRESENTATIVE_HOSTED_PROOF.md) now passes
+three cold/warm/edit repetitions with exact execution on the unchanged
+production compiler source. The separate isolated [interface projection](https://github.com/BoQsc/OpenC-Programming-Language/blob/c0b2343/SH27_INTERFACE_FINGERPRINT_EVIDENCE.md),
+[stable COFF symbol identity](https://github.com/BoQsc/OpenC-Programming-Language/blob/f68c65f/SH27_STABLE_COFF_IDENTITY_EVIDENCE.md),
+and [function type-freeze probe](https://github.com/BoQsc/OpenC-Programming-Language/blob/c97e28e/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_TYPE_FREEZE_PROBE.md)
+passed focused fixed-point gates but do not yet create object reuse, safe
+function workers, or a measured compiler speedup. They are not merged into
+the production compiler.
 
 ## Objective and boundary
 
