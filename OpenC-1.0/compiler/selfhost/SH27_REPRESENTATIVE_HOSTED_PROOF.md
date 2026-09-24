@@ -20,6 +20,8 @@ reviewed Windows-runner-image/MSVC hash pairs. Its checkout still used the
 same compiler source. An intervening docs-only run failed closed when the
 runner landed on the other previously observed image; neither discovery nor
 proof silently accepted an unknown binary.
+The repeat's cold/warm/edit medians were OpenC 0.087/0.088/0.087 s, MSVC
+0.423/0.414/0.411 s, and DMD 0.808/0.796/0.804 s, with exact output again.
 
 All three independent staged repetitions passed exact stdout/stderr/exit
 equivalence for cold, warm, and one-source edit, including runtime output
