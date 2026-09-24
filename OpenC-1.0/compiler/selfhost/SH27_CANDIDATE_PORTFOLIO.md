@@ -42,7 +42,8 @@ whole compiler wall time. Detailed evidence is in
 `SH27_TYPED_OPS_BATCH_CANDIDATE.md`,
 `SH27_BACKEND_VALUE_LOCATION_EVIDENCE.md`,
 `SH27_DIRECT_VALUE_PATH_EVIDENCE.md`, and
-`SH27_TYPED_PIPELINE_REJECTION.md`.
+`SH27_TYPED_PIPELINE_REJECTION.md`. The opt-in first-visit probe and its
+bounded hypotheses are in `SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md`.
 
 ## Next decisive batch
 
@@ -54,7 +55,11 @@ whole compiler wall time. Detailed evidence is in
    control worker's wall to actual child/name/call scans, rules, scratch
    allocation, lowering, and emission without summing nested clocks. Use the
    result to choose the next two source cuts and set plausible millisecond
-   bounds before another implementation batch.
+   bounds before another implementation batch. The opt-in probe is complete:
+   large/control critical-worker acceptance is 157/141 ms in the unprofiled
+   11-pair trace, with 255k/45k child-candidate and 58k/13k name-candidate
+   visits. An independent parser-built compact sidecar is now being screened
+   only if it replaces those visits rather than adding another cache.
 3. **Function scheduling only after an ownership boundary:** if fused lowering
    yields a read-only prepared-source/function boundary and budgeted scratch,
    try acceptance/lowering work sharing across the existing four workers.

@@ -135,6 +135,12 @@ the new eager expression traversal repeated old first-visit checks and moved
 assignment/call time into a new counter. The next semantic cut must validate
 inside the *already required* lowering traversal with bounded fallback for
 invalid source; another eager operation arena is not the answer.
+`SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md` now pins an opt-in,
+correctness-preserving candidate-visit/allocation probe and the unprofiled
+critical-worker budget. It observes 255,235/44,867 child-candidate visits and
+58,391/13,009 name-candidate visits on large/control. An independent compact
+index candidate must replace those visits across acceptance and lowering
+without another full syntax arena; counters alone are not a speed result.
 
 `SH27_WORKER_BALANCE_EVIDENCE.md` now records four-worker wall times from
 eleven guarded local runs per large/control workload. The first chunk was
