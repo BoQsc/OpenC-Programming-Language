@@ -119,6 +119,12 @@ the complete typed semantic-to-lowering path and the function-level compact
 value path, respectively; a second narrow cache/slot cut is not an acceptable
 substitute. The clean CI batch runner is a third, independent track because
 this desktop's baseline-vs-baseline jitter often exceeds the remaining gap.
+The first direct-value checkpoint (`SH27_DIRECT_VALUE_PATH_EVIDENCE.md`)
+passed a local large-function timing threshold but removed only one stack
+store/reload pair on that corpus; therefore its observed 121 ms wall delta
+has no credible causal attribution. A successor must reach the immediate-
+arithmetic chain that dominates the corpus, expose the number of eliminated
+pairs there, and pass both target lanes before a clean CI parity claim.
 
 `SH27_WORKER_BALANCE_EVIDENCE.md` now records four-worker wall times from
 eleven guarded local runs per large/control workload. The first chunk was
