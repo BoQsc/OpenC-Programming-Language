@@ -438,6 +438,8 @@ unsafe i32 cli_workflow_command() {
     text root = process.executable_directory();
     text output_path = "";
     text mode = "full";
+    text clean_profile_path = "";
+    bool has_clean_profile = false;
     usize argument = 1;
     while argument < process.argument_count() {
         text value = process.argument(argument);
@@ -447,15 +449,19 @@ unsafe i32 cli_workflow_command() {
             output_path = cli_remove_prefix(value, "--output=");
         } else if cli_has_prefix(value, "--mode=") {
             mode = cli_remove_prefix(value, "--mode=");
+        } else if cli_has_prefix(value, "--clean-profile=") {
+            clean_profile_path = cli_remove_prefix(value, "--clean-profile=");
+            has_clean_profile = true;
         } else {
-            io.error("usage: openc workflow --root=ROOT --output=REPORT.json [--mode=daily|full]\n");
+            io.error("usage: openc workflow --root=ROOT --output=REPORT.json [--mode=daily|full] [--clean-profile=EVIDENCE.json]\n");
             return 64;
         }
         argument = argument + 1;
     }
     if text.byte_length(output_path) == 0 ||
-        (mode != "daily" && mode != "full") {
-        io.error("usage: openc workflow --root=ROOT --output=REPORT.json [--mode=daily|full]\n");
+        (mode != "daily" && mode != "full") ||
+        (has_clean_profile && text.byte_length(clean_profile_path) == 0) {
+        io.error("usage: openc workflow --root=ROOT --output=REPORT.json [--mode=daily|full] [--clean-profile=EVIDENCE.json]\n");
         return 64;
     }
     if !cli_release_ensure_directory(path.directory(output_path)) {
@@ -534,6 +540,9 @@ unsafe i32 cli_workflow_command() {
     text clean_profile_evidence = path.join(
         root, "review/SH25_WINDOWS_EDITOR_EVIDENCE.json"
     );
+    if has_clean_profile {
+        clean_profile_evidence = clean_profile_path;
+    }
 
     DBuffer report = d_buffer_create(8388608);
     d_put(report, "{\n  \"schema\": \"openc.native_workflow.v1\",\n");
@@ -544,6 +553,8 @@ unsafe i32 cli_workflow_command() {
     cli_json_text(report, root);
     d_put(report, ",\n  \"compiler\": ");
     cli_json_text(report, compiler);
+    d_put(report, ",\n  \"clean_profile_evidence\": ");
+    cli_json_text(report, clean_profile_evidence);
     d_put(report, ",\n  \"implementation_language\": \"OpenC\",\n");
     d_put(report, "  \"tasks\": [\n");
     CliWorkflowCounters counters = CliWorkflowCounters{
