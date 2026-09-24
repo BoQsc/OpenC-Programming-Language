@@ -25,8 +25,14 @@ def fake_tool(name: str, arguments: list[str]) -> dict[str, object]:
 
 class RepresentativePinTests(unittest.TestCase):
     def test_discovery_never_counts_as_pin(self) -> None:
-        with patch.object(pins_module, "tool_record", fake_tool):
-            record = pins_module.discover(pins_module.PINS)
+        document = pins_module.load_pins(pins_module.PINS)
+        document.update({"status": "PENDING_DISCOVERY", "cl_sha256": None,
+                         "link_sha256": None, "dmd_sha256": None})
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "pins.json"
+            path.write_text(json.dumps(document), encoding="utf-8")
+            with patch.object(pins_module, "tool_record", fake_tool):
+                record = pins_module.discover(path)
         self.assertEqual(record["status"], "PENDING")
         self.assertFalse(record["pins_ready"])
         self.assertFalse(record["checks"]["pin_status_reviewed"])

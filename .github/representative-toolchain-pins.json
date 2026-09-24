@@ -1,11 +1,13 @@
 {
   "schema": "openc.sh27.representative_toolchain_pins.v1",
-  "status": "PENDING_DISCOVERY",
+  "status": "PINNED",
   "runner": "windows-2025",
   "msvc_toolset": "14.44",
   "msvc_version_contains": "19.44",
   "dmd_version_contains": "v2.112.0",
-  "cl_sha256": null,
-  "link_sha256": null,
-  "dmd_sha256": null
+  "cl_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+  "link_sha256": "a364af801a8539e4324d9489313dbf001d959128451fc99a27b24676bbac058f",
+  "dmd_sha256": "5ec3152d183b5a7f4c3abb67d01a7055a247d7d3c79e6041ec33b9f95c913bf5",
+  "discovery_run": 35945965846,
+  "discovery_artifact": 10787175615
 }
