@@ -28,6 +28,10 @@ remaining critical work is content-validated incremental COFF reuse/native
 relink, representative projects, current-final-source full strict memory and
 correctness certification, and release integrity. Isolated typed/QPC cuts
 did not produce a qualifying speed signal and were not merged.
+An [isolated native workflow input](https://github.com/BoQsc/OpenC-Programming-Language/blob/e233fee/OpenC-1.0/compiler/selfhost/SH27_WORKFLOW_CLEAN_PROFILE_INPUT.md)
+can now pass a current clean-profile report path without changing the
+historical SH-25 record; its own new compiler correctly failed the two
+identity checks against the earlier report, so final-source 14/14 is open.
 `SH27_INCREMENTAL_OBJECT_REUSE_ARCHITECTURE.md` maps the current one-object,
 global-ID pipeline and the safe implementation/proof sequence; no cache is
 claimed implemented yet.
