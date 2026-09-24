@@ -125,6 +125,9 @@ store/reload pair on that corpus; therefore its observed 121 ms wall delta
 has no credible causal attribution. A successor must reach the immediate-
 arithmetic chain that dominates the corpus, expose the number of eliminated
 pairs there, and pass both target lanes before a clean CI parity claim.
+`SH27_BRANCH_BATCH_CI.md` describes the commit/manual clean-runner workflow,
+frozen branch-ref and source-hash checks, strict fixed-point bootstrap, and
+serial matrix artifact contract; it screens candidates but cannot certify SH-27.
 
 `SH27_WORKER_BALANCE_EVIDENCE.md` now records four-worker wall times from
 eleven guarded local runs per large/control workload. The first chunk was

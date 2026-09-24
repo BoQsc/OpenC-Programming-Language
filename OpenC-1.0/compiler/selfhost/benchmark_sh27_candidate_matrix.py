@@ -118,6 +118,16 @@ def compare_pairs(
     }
 
 
+def matrix_status(workloads: dict[str, dict[str, object]]) -> str:
+    return "PASS" if workloads and all(
+        lane["noise_control"]["status"] == "PASS"
+        and lane["comparisons"]
+        and all(comparison["status"] == "PASS"
+                for comparison in lane["comparisons"].values())
+        for lane in workloads.values()
+    ) else "FAIL"
+
+
 def main() -> int:
     if os.name != "nt":
         raise SystemExit("candidate matrix requires Windows")
@@ -291,13 +301,7 @@ def main() -> int:
                     f"above noise={comparison['checks']['paired_gain_above_null_noise']}",
                     flush=True,
                 )
-        result["status"] = (
-            "PASS" if all(
-                comparison["status"] == "PASS"
-                for lane in result["workloads"].values()
-                for comparison in lane["comparisons"].values()
-            ) else "FAIL"
-        )
+        result["status"] = matrix_status(result["workloads"])
     finally:
         output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(f"SH-27 candidate matrix: {result['status']}; report={output}")

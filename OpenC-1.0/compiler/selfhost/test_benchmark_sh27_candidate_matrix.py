@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-from benchmark_sh27_candidate_matrix import candidate_spec, compare_pairs
+from benchmark_sh27_candidate_matrix import candidate_spec, compare_pairs, matrix_status
 from analyze_sh27_candidate_matrix import numeric_phase
 
 
@@ -26,6 +26,17 @@ def sample(
 
 
 class CandidateMatrixTests(unittest.TestCase):
+    def test_top_level_requires_passing_null_control(self) -> None:
+        lanes = {
+            "large_functions": {
+                "noise_control": {"status": "FAIL"},
+                "comparisons": {"candidate1": {"status": "PASS"}},
+            }
+        }
+        self.assertEqual(matrix_status(lanes), "FAIL")
+        lanes["large_functions"]["noise_control"]["status"] = "PASS"
+        self.assertEqual(matrix_status(lanes), "PASS")
+
     def test_paired_gain_and_exact_binary(self) -> None:
         pairs = [
             {"baseline": sample(1.0, "same"), "candidate": sample(0.8, "same")},

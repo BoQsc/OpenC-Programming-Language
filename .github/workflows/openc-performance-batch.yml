@@ -1,0 +1,100 @@
+name: OpenC SH-27 branch batch comparison
+
+on:
+  push:
+    branches:
+      - codex/sh27-*
+    paths:
+      - .github/bootstrap/openc-stage0.exe
+      - .github/workflows/openc-performance-batch.yml
+      - OpenC-1.0/benchmarks/sh27/**
+      - OpenC-1.0/compiler/selfhost/openc.project.json
+      - OpenC-1.0/compiler/selfhost/source/**
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_batch_ci.py
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_candidate_matrix.py
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_paired_revision.py
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
+      - OpenC-1.0/compiler/selfhost/windows_process_measure.py
+  workflow_dispatch:
+    inputs:
+      baseline_sha:
+        description: Frozen full 40-hex baseline commit; must precede every candidate
+        required: true
+        default: 6794d56f65f361fad21d7964337c06ba3f168906
+        type: string
+      candidate_ref_1:
+        description: First same-repository codex/sh27-* branch name
+        required: true
+        type: string
+      candidate_ref_2:
+        description: Optional second codex/sh27-* branch name
+        required: false
+        type: string
+      candidate_ref_3:
+        description: Optional third codex/sh27-* branch name
+        required: false
+        type: string
+      pairs:
+        description: Order-alternated pairs per candidate and workload (3..31)
+        required: true
+        default: '11'
+        type: string
+      require_gain:
+        description: Fail if any candidate lacks an above-null majority paired gain
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+# A batch uses one clean hosted Windows runner and executes every compiler
+# process serially. Queue separate branch batches too, avoiding host overlap.
+concurrency:
+  group: openc-sh27-branch-batch
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    name: Frozen baseline vs up to three SH-27 branches
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - name: Check out exact workflow revision and all branch history
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Test batch request validation and matrix correctness gate
+        shell: cmd
+        run: >-
+          python -m unittest discover
+          -s OpenC-1.0\compiler\selfhost
+          -p test_benchmark_sh27_*.py -v
+
+      - name: Bootstrap frozen revisions and run serial guarded matrix
+        shell: cmd
+        env:
+          SH27_BASELINE_SHA: ${{ inputs.baseline_sha || '6794d56f65f361fad21d7964337c06ba3f168906' }}
+          SH27_CANDIDATE_REF_1: ${{ inputs.candidate_ref_1 || '' }}
+          SH27_CANDIDATE_REF_2: ${{ inputs.candidate_ref_2 || '' }}
+          SH27_CANDIDATE_REF_3: ${{ inputs.candidate_ref_3 || '' }}
+          SH27_PAIRS: ${{ inputs.pairs || '11' }}
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_batch_ci.py
+          --seed .github\bootstrap\openc-stage0.exe
+          --allow-binary-difference
+          ${{ inputs.require_gain && '--require-gain' || '' }}
+          --output artifacts\sh27-branch-batch.json
+
+      - name: Retain source hashes, fixed-point proof, matrix, and raw runs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-SH27-branch-batch-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: |
+            artifacts/sh27-branch-batch.json
+            artifacts/sh27-branch-batch-runs-*/**
