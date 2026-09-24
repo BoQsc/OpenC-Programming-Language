@@ -110,6 +110,27 @@ unsafe usize acceptance_validate_binary(ref IrContext context) {
             usize right_type = ir_node_type(
                 context, right, semantic_type_error()
             );
+            // The common scalar arithmetic case has no comparison,
+            // bitwise, shift, division, or conversion rule to check. The
+            // equal operand type already proves lossless compatibility.
+            // Keep the full path for every contextual/literal/pointer case.
+            if left_type == right_type && left_type < context.types.length {
+                usize scalar_kind = read_record_field(
+                    context.type_data, left_type, 0
+                );
+                if (scalar_kind == 2 || scalar_kind == 3 ||
+                    scalar_kind == 4) &&
+                    (flow_node_operator(
+                        context.source, context.syntax_data, node, "+"
+                    ) || flow_node_operator(
+                        context.source, context.syntax_data, node, "-"
+                    ) || flow_node_operator(
+                        context.source, context.syntax_data, node, "*"
+                    )) {
+                    node_index = node_index + 1;
+                    continue;
+                }
+            }
             bool logical = flow_node_operator(
                 context.source, context.syntax_data, node, "&&"
             ) || flow_node_operator(
