@@ -14,6 +14,12 @@ contains every build/measurement record and the final
 `1b58d5e` production-source parity certificate; documentation and CI pins
 changed, not compiler source. Stage 2 and 3 had the same SHA-256
 `d0c18a385d1589db21da0c9ec5684e442bf828124d46c489aed29c4dddb6d9e7`.
+The later [run 35947480567](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35947480567)
+also passed after the CI gate was revised to accept only two separately
+reviewed Windows-runner-image/MSVC hash pairs. Its checkout still used the
+same compiler source. An intervening docs-only run failed closed when the
+runner landed on the other previously observed image; neither discovery nor
+proof silently accepted an unknown binary.
 
 All three independent staged repetitions passed exact stdout/stderr/exit
 equivalence for cold, warm, and one-source edit, including runtime output
