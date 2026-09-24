@@ -80,6 +80,12 @@ guarded fixed point and generated large/control exactness. It remains an
 opt-in, post-function fail-closed assertion, not an immutable registry or
 parallel scheduler; other source-wide caches and result merging still block
 workers.
+The follow-on [bounded four-cache ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/db54808/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_PROJECT_CACHE_OWNERSHIP.md)
+passed guarded fixed point, exact self-build, generated/invalid checks, and
+strict 256/64 MiB self-build memory. It reduced the source-borrowed scratch
+pointer count from 25 to 21, with a maximum 120,520-byte live cache copy per
+source. It is still serial and has no speed claim; type/first-visit caches,
+IR, SSA, output, and diagnostics remain shared.
 
 ## Next decisive batch
 
@@ -96,10 +102,11 @@ advance concurrently, without treating a noisy local micro-gain as progress:
    emission, add atomic content-validated per-module reuse, and finally a
    deterministic multi-COFF linker. A full-source hash or warm timer with no
    actual module hits fails this track.
-2. **Safe function ownership:** the opt-in serial PreparedSource boundary is
-   exact, but 25 pointer fields and derived type IDs are still mutable and
-   shared. Freeze the lowering type closure and give each function worker
-   bounded independent scratch before attempting deterministic scheduling.
+2. **Safe function ownership:** opt-in serial PreparedSource, type-registry guard,
+   and four bounded project-cache copies are exact, but 21 scratch pointer
+   fields plus IR/output/diagnostic state remain mutable and shared. Give
+   each function worker bounded independent scratch before attempting
+   deterministic scheduling.
    Require strict 64/256 MiB child and 512 MiB Job proof and a same-run
    end-to-end speed signal; an opt-in flag alone is no throughput result.
 3. **Representative projects:** keep the 20-ratio generated corpus unchanged;
