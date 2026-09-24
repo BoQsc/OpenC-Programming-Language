@@ -71,6 +71,14 @@ unsafe void c_merge_worker_timings(
     target.function_type_prematerialization_ms =
         target.function_type_prematerialization_ms +
         worker.function_type_prematerialization_ms;
+    target.owned_function_project_cache_bytes =
+        target.owned_function_project_cache_bytes +
+        worker.owned_function_project_cache_bytes;
+    if worker.owned_function_project_cache_max_source_bytes >
+        target.owned_function_project_cache_max_source_bytes {
+        target.owned_function_project_cache_max_source_bytes =
+            worker.owned_function_project_cache_max_source_bytes;
+    }
     target.validation_acceptance_ms =
         target.validation_acceptance_ms + worker.validation_acceptance_ms;
     target.validation_acceptance_mask_ms =

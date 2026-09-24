@@ -29,8 +29,8 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
         )
         all_fields = fields(context)
         scratch_fields = fields(scratch)
-        self.assertEqual(len(all_fields), 119)
-        self.assertEqual(len(scratch_fields), 57)
+        self.assertEqual(len(all_fields), 120)
+        self.assertEqual(len(scratch_fields), 58)
         self.assertEqual(len(set(all_fields)), len(all_fields))
         self.assertEqual(len(set(scratch_fields)), len(scratch_fields))
         self.assertTrue(set(scratch_fields) < set(all_fields))
@@ -118,6 +118,7 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
         self.assertIn("prepared_function_scratch = false", backend)
         self.assertIn('value == "--prepared-function-scratch"', cli)
         self.assertIn('value == "--freeze-function-types"', cli)
+        self.assertIn('value == "--owned-function-project-caches"', cli)
         self.assertIn(
             "timings.prepared_function_scratch && timings.emission_mode == 2",
             source,
@@ -131,6 +132,46 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
                 f"state.chunk_{name}.timings.freeze_function_types =",
                 chunks,
             )
+            self.assertIn(
+                f"state.chunk_{name}.timings.owned_function_project_caches =",
+                chunks,
+            )
+
+    def test_project_cache_snapshot_has_bounded_distinct_worker_storage(self) -> None:
+        source = (SOURCE / "backend_c_project_source.p").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("usize max_words = 131072;", source)
+        self.assertIn("if words > max_words", source)
+        self.assertIn("usize type_slots = source_context.types.length;", source)
+        self.assertIn("scratch.native_layout_cache_entries = type_slots;", source)
+        self.assertIn(
+            "source_context.native_layout_cache_entries = source_layout_entries;",
+            source,
+        )
+        for name in (
+            "symbol_export_cache", "native_layout_size_cache",
+            "native_layout_alignment_cache", "native_layout_state_cache",
+        ):
+            self.assertIn(f"scratch.{name} = owned_", source)
+            self.assertIn(f"source_context.{name} = source_", source)
+        for name in (
+            "owned_export", "owned_layout_size", "owned_layout_alignment",
+            "owned_layout_state",
+        ):
+            self.assertIn(f"scope memory.free({name});", source)
+        self.assertIn("OPENC-FUNCTION-PROJECT-CACHE-ALIAS", source)
+        self.assertIn("owned_function_project_cache_bytes", source)
+        layout = (SOURCE / "backend_native_scalar.p").read_text(
+            encoding="utf-8"
+        )
+        function = layout.split("unsafe NativeLayout native_layout(", 1)[1].split(
+            "unsafe usize native_field_offset(", 1
+        )[0]
+        self.assertLess(
+            function.index("type_id >= context.native_layout_cache_entries"),
+            function.index("read_usize(context.native_layout_state_cache"),
+        )
 
     def test_type_freeze_checks_each_function_before_next_bind(self) -> None:
         source = (SOURCE / "backend_c_project_source.p").read_text(
@@ -139,9 +180,12 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
         self.assertIn("usize types_before = function_context.types.length;", source)
         self.assertIn("function_context.types.length != types_before", source)
         self.assertIn("OPENC-FUNCTION-TYPE-FREEZE-MISS", source)
+        wrapper = source.split(
+            "unsafe bool c_emit_prepared_source_functions(", 1
+        )[1].split("unsafe bool c_emit_source_record(", 1)[0]
         self.assertLess(
-            source.index("ir_prematerialize_ref_call_pointer_types(source_context)"),
-            source.index("IrPreparedSource prepared ="),
+            wrapper.index("ir_prematerialize_ref_call_pointer_types(source_context)"),
+            wrapper.index("c_emit_prepared_source_functions_inner("),
         )
         self.assertLess(
             source.index("function_context.types.length != types_before"),

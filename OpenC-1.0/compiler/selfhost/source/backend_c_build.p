@@ -41,6 +41,15 @@ unsafe bool write_build_timings(
         d_put(output, ",\n  \"late_function_type_misses\": ");
         d_put_usize(output, timings.late_function_type_misses);
     }
+    if timings.owned_function_project_caches {
+        d_put(output, ",\n  \"owned_function_project_caches\": true");
+        d_put(output, ",\n  \"owned_function_project_cache_bytes\": ");
+        d_put_usize(output, timings.owned_function_project_cache_bytes);
+        d_put(output, ",\n  \"owned_function_project_cache_max_source_bytes\": ");
+        d_put_usize(
+            output, timings.owned_function_project_cache_max_source_bytes
+        );
+    }
     d_put(output, ",\n  \"parallel_source_chunks\": ");
     d_put_usize(output, timings.parallel_source_chunks);
     d_put(output, ",\n  \"parallel_flow_workers\": ");

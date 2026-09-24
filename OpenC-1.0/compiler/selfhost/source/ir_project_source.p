@@ -223,6 +223,7 @@ unsafe bool ir_observe_emit_source(
         native_layout_size_cache = null,
         native_layout_alignment_cache = null,
         native_layout_state_cache = null,
+        native_layout_cache_entries = 0,
         local_values = ir_pointer_alias(local_values),
         block_data = ir_pointer_alias(block_data),
         blocks = blocks,

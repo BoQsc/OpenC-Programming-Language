@@ -5,27 +5,18 @@ import system.path;
 import system.process;
 import system.text;
 
-unsafe bool c_emit_prepared_source_functions(
+unsafe bool c_emit_prepared_source_functions_inner(
     ref IrContext source_context,
     ref DBuffer output,
     ref BuildTimings timings,
     usize source_record,
-    usize entry_module
+    usize entry_module,
+    ref IrFunctionScratch scratch
 ) {
     // The prepared view borrows only source/project facts after acceptance.
     // Exactly one worker owns scratch in this first vertical slice; no
     // acceptance work or buffers are replicated for function jobs yet.
-    if timings.freeze_function_types {
-        usize freeze_started = process.monotonic_milliseconds();
-        timings.prematerialized_function_types =
-            timings.prematerialized_function_types +
-            ir_prematerialize_ref_call_pointer_types(source_context);
-        timings.function_type_prematerialization_ms =
-            timings.function_type_prematerialization_ms +
-            process.monotonic_milliseconds() - freeze_started;
-    }
     IrPreparedSource prepared = IrPreparedSource{ view = source_context };
-    IrFunctionScratch scratch = ir_function_scratch(source_context);
     ir_prepared_source(source_context, prepared);
     usize frozen_type_count = source_context.types.length;
     usize late_type_misses = 0;
@@ -101,6 +92,131 @@ unsafe bool c_emit_prepared_source_functions(
         return false;
     }
     return true;
+}
+
+unsafe bool c_emit_prepared_source_functions(
+    ref IrContext source_context,
+    ref DBuffer output,
+    ref BuildTimings timings,
+    usize source_record,
+    usize entry_module
+) {
+    if timings.freeze_function_types {
+        usize freeze_started = process.monotonic_milliseconds();
+        timings.prematerialized_function_types =
+            timings.prematerialized_function_types +
+            ir_prematerialize_ref_call_pointer_types(source_context);
+        timings.function_type_prematerialization_ms =
+            timings.function_type_prematerialization_ms +
+            process.monotonic_milliseconds() - freeze_started;
+    }
+    IrFunctionScratch scratch = ir_function_scratch(source_context);
+    if !timings.owned_function_project_caches {
+        return c_emit_prepared_source_functions_inner(
+            source_context, output, timings, source_record, entry_module,
+            scratch
+        );
+    }
+    // One serial function scratch owns one project-cache snapshot. A future
+    // worker may receive its own snapshot only after a global RAM reservation.
+    // No full syntax/source arena is copied here.
+    usize max_words = 131072;
+    if source_context.symbols.length >= max_words ||
+        source_context.types.length >= max_words {
+        io.println("OPENC-FUNCTION-PROJECT-CACHE-BUDGET");
+        return false;
+    }
+    usize symbol_slots = source_context.symbols.length + 1;
+    usize type_slots = source_context.types.length;
+    usize words = symbol_slots + 3 * type_slots;
+    if words > max_words || type_slots == 0 ||
+        type_slots > source_context.native_layout_cache_entries ||
+        source_context.symbol_export_cache == null ||
+        source_context.native_layout_size_cache == null ||
+        source_context.native_layout_alignment_cache == null ||
+        source_context.native_layout_state_cache == null {
+        io.println("OPENC-FUNCTION-PROJECT-CACHE-BUDGET");
+        return false;
+    }
+    ptr byte source_export = source_context.symbol_export_cache;
+    ptr byte source_layout_size = source_context.native_layout_size_cache;
+    ptr byte source_layout_alignment =
+        source_context.native_layout_alignment_cache;
+    ptr byte source_layout_state = source_context.native_layout_state_cache;
+    usize source_layout_entries = source_context.native_layout_cache_entries;
+    ptr byte owned_export = memory.alloc(symbol_slots * size_of(usize));
+    if owned_export == null { return false; }
+    scope memory.free(owned_export);
+    ptr byte owned_layout_size = memory.alloc(type_slots * size_of(usize));
+    if owned_layout_size == null { return false; }
+    scope memory.free(owned_layout_size);
+    ptr byte owned_layout_alignment = memory.alloc(
+        type_slots * size_of(usize)
+    );
+    if owned_layout_alignment == null { return false; }
+    scope memory.free(owned_layout_alignment);
+    ptr byte owned_layout_state = memory.alloc(type_slots * size_of(usize));
+    if owned_layout_state == null { return false; }
+    scope memory.free(owned_layout_state);
+    if owned_export == source_export ||
+        owned_layout_size == source_layout_size ||
+        owned_layout_alignment == source_layout_alignment ||
+        owned_layout_state == source_layout_state {
+        io.println("OPENC-FUNCTION-PROJECT-CACHE-ALIAS");
+        return false;
+    }
+    usize symbol = 0;
+    while symbol < symbol_slots {
+        write_usize(
+            owned_export, symbol * size_of(usize),
+            read_usize(source_export, symbol * size_of(usize))
+        );
+        symbol = symbol + 1;
+    }
+    usize type_id = 0;
+    while type_id < type_slots {
+        usize offset = type_id * size_of(usize);
+        usize state = read_usize(source_layout_state, offset);
+        if state == 1 {
+            io.println("OPENC-FUNCTION-PROJECT-CACHE-IN-PROGRESS");
+            return false;
+        }
+        write_usize(owned_layout_state, offset, state);
+        usize size = 0;
+        usize alignment = 0;
+        if state != 0 {
+            size = read_usize(source_layout_size, offset);
+            alignment = read_usize(source_layout_alignment, offset);
+        }
+        write_usize(owned_layout_size, offset, size);
+        write_usize(owned_layout_alignment, offset, alignment);
+        type_id = type_id + 1;
+    }
+    scratch.symbol_export_cache = owned_export;
+    scratch.native_layout_size_cache = owned_layout_size;
+    scratch.native_layout_alignment_cache = owned_layout_alignment;
+    scratch.native_layout_state_cache = owned_layout_state;
+    scratch.native_layout_cache_entries = type_slots;
+    timings.owned_function_project_cache_bytes =
+        timings.owned_function_project_cache_bytes +
+        words * size_of(usize);
+    if words * size_of(usize) >
+        timings.owned_function_project_cache_max_source_bytes {
+        timings.owned_function_project_cache_max_source_bytes =
+            words * size_of(usize);
+    }
+    bool passed = c_emit_prepared_source_functions_inner(
+        source_context, output, timings, source_record, entry_module,
+        scratch
+    );
+    // The source record still owns the originals; never leave it pointing at
+    // the function worker's scope-limited allocation.
+    source_context.symbol_export_cache = source_export;
+    source_context.native_layout_size_cache = source_layout_size;
+    source_context.native_layout_alignment_cache = source_layout_alignment;
+    source_context.native_layout_state_cache = source_layout_state;
+    source_context.native_layout_cache_entries = source_layout_entries;
+    return passed;
 }
 
 unsafe bool c_emit_source_record(

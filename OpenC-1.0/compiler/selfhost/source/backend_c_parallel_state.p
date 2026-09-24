@@ -33,6 +33,7 @@ unsafe IrContext c_parallel_base(ref IrContext base) {
     worker.native_layout_size_cache = base.native_layout_size_cache;
     worker.native_layout_alignment_cache = base.native_layout_alignment_cache;
     worker.native_layout_state_cache = base.native_layout_state_cache;
+    worker.native_layout_cache_entries = base.native_layout_cache_entries;
     worker.suppress_acceptance_diagnostics =
         base.suppress_acceptance_diagnostics;
     worker.profile_type_queries_enabled =
@@ -496,6 +497,14 @@ unsafe bool c_emit_native_sources_chunked(
         timings.freeze_function_types;
     state.chunk_four.timings.freeze_function_types =
         timings.freeze_function_types;
+    state.chunk_one.timings.owned_function_project_caches =
+        timings.owned_function_project_caches;
+    state.chunk_two.timings.owned_function_project_caches =
+        timings.owned_function_project_caches;
+    state.chunk_three.timings.owned_function_project_caches =
+        timings.owned_function_project_caches;
+    state.chunk_four.timings.owned_function_project_caches =
+        timings.owned_function_project_caches;
     usize workers_started = process.monotonic_milliseconds();
     i32 launch_result = 3;
     if worker_count == 2 {

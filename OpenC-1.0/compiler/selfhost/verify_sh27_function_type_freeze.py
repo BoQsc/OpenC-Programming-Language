@@ -52,6 +52,11 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--compiler", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument(
+        "--opt-in-flag",
+        choices=("--freeze-function-types", "--owned-function-project-caches"),
+        default="--freeze-function-types",
+    )
     args = parser.parse_args()
     compiler = args.compiler.resolve(strict=True)
     output_dir = args.output_dir.resolve()
@@ -66,6 +71,7 @@ def main() -> int:
         "schema": "openc.sh27.function_type_freeze.v1",
         "status": "FAIL",
         "compiler": {"path": str(compiler), "sha256": sha256(compiler)},
+        "opt_in_flag": args.opt_in_flag,
         "corpus": {"path": str(CORPUS), "sha256": sha256(CORPUS)},
         "limits": {"private_bytes": 512 * MIB, "working_set_bytes": 512 * MIB},
         "workloads": [],
@@ -92,7 +98,7 @@ def main() -> int:
                 f"--timings={timings}", "--source-chunks=4",
             ]
             if mode == "freeze":
-                command.append("--freeze-function-types")
+                command.append(args.opt_in_flag)
             measurement = checked_run(command, cwd=ROOT, seconds=120)
             good = complete(measurement, 0) and output.is_file() and timings.is_file()
             compiler_record: dict[str, object] = {
@@ -140,7 +146,7 @@ def main() -> int:
             "--source-chunks=1",
         ]
         if mode == "freeze":
-            command.append("--freeze-function-types")
+            command.append(args.opt_in_flag)
         invalid_runs[mode] = checked_run(command, cwd=ROOT, seconds=30)
     report["invalid"] = invalid_runs
     report["invalid_exact"] = (

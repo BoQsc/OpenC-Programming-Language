@@ -9,9 +9,12 @@ struct BuildTimings {
     usize emission_mode;
     bool prepared_function_scratch;
     bool freeze_function_types;
+    bool owned_function_project_caches;
     usize function_type_prematerialization_ms;
     usize prematerialized_function_types;
     usize late_function_type_misses;
+    usize owned_function_project_cache_bytes;
+    usize owned_function_project_cache_max_source_bytes;
     usize project_load_ms;
     usize declarations_ms;
     usize declaration_parse_retained_ms;
@@ -172,9 +175,12 @@ BuildTimings build_timings_empty() {
         emission_mode = 0,
         prepared_function_scratch = false,
         freeze_function_types = false,
+        owned_function_project_caches = false,
         function_type_prematerialization_ms = 0,
         prematerialized_function_types = 0,
         late_function_type_misses = 0,
+        owned_function_project_cache_bytes = 0,
+        owned_function_project_cache_max_source_bytes = 0,
         project_load_ms = 0,
         declarations_ms = 0,
         declaration_parse_retained_ms = 0,

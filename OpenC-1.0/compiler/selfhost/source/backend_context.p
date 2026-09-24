@@ -103,6 +103,7 @@ unsafe IrContext backend_base_context(
         native_layout_size_cache = null,
         native_layout_alignment_cache = null,
         native_layout_state_cache = null,
+        native_layout_cache_entries = 0,
         local_values = null,
         block_data = null,
         blocks = PackedBuffer{ length = 0, capacity = 0 },

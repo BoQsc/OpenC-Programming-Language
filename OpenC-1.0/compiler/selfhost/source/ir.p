@@ -89,6 +89,7 @@ struct IrContext {
     ptr byte native_layout_size_cache;
     ptr byte native_layout_alignment_cache;
     ptr byte native_layout_state_cache;
+    usize native_layout_cache_entries;
     ptr byte local_values;
     ptr byte block_data;
     PackedBuffer blocks;
@@ -162,6 +163,7 @@ struct IrFunctionScratch {
     ptr byte native_layout_size_cache;
     ptr byte native_layout_alignment_cache;
     ptr byte native_layout_state_cache;
+    usize native_layout_cache_entries;
     ptr byte local_values;
     ptr byte block_data;
     PackedBuffer blocks;

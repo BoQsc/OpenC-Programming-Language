@@ -109,6 +109,7 @@ unsafe i32 c_emit_project(
             native_layout_alignments);
         base.native_layout_state_cache = ir_pointer_alias(
             native_layout_states);
+        base.native_layout_cache_entries = base.types.capacity + 1;
         usize native_layout_index = 0;
         while native_layout_index <= base.types.capacity {
             write_usize(native_layout_states,

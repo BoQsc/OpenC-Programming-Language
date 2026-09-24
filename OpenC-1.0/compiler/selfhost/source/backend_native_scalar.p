@@ -113,6 +113,7 @@ unsafe NativeLayout native_layout(
         size = 0, alignment = 1, valid = false
     };
     if type_id >= context.types.length ||
+        type_id >= context.native_layout_cache_entries ||
         context.native_layout_state_cache == null {
         return native_layout_uncached(context, type_id, depth);
     }

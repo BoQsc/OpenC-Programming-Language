@@ -31,6 +31,7 @@ unsafe void ir_prepared_source(
     view.native_layout_size_cache = null;
     view.native_layout_alignment_cache = null;
     view.native_layout_state_cache = null;
+    view.native_layout_cache_entries = 0;
     view.local_values = null;
     view.block_data = null;
     view.blocks = PackedBuffer{ length = 0, capacity = 0 };
@@ -148,6 +149,7 @@ unsafe void ir_prepared_source(
     prepared.view.native_layout_size_cache = view.native_layout_size_cache;
     prepared.view.native_layout_alignment_cache = view.native_layout_alignment_cache;
     prepared.view.native_layout_state_cache = view.native_layout_state_cache;
+    prepared.view.native_layout_cache_entries = view.native_layout_cache_entries;
     prepared.view.local_values = view.local_values;
     prepared.view.block_data = view.block_data;
     prepared.view.blocks = view.blocks;
@@ -212,6 +214,7 @@ unsafe IrFunctionScratch ir_function_scratch(ref IrContext source) {
         native_layout_size_cache = source.native_layout_size_cache,
         native_layout_alignment_cache = source.native_layout_alignment_cache,
         native_layout_state_cache = source.native_layout_state_cache,
+        native_layout_cache_entries = source.native_layout_cache_entries,
         local_values = source.local_values,
         block_data = source.block_data,
         blocks = source.blocks,
@@ -340,6 +343,7 @@ unsafe void ir_bind_prepared_function(
     context.native_layout_size_cache = scratch.native_layout_size_cache;
     context.native_layout_alignment_cache = scratch.native_layout_alignment_cache;
     context.native_layout_state_cache = scratch.native_layout_state_cache;
+    context.native_layout_cache_entries = scratch.native_layout_cache_entries;
     context.local_values = scratch.local_values;
     context.block_data = scratch.block_data;
     context.blocks = scratch.blocks;
@@ -406,6 +410,7 @@ unsafe void ir_capture_function_scratch(
     scratch.native_layout_size_cache = context.native_layout_size_cache;
     scratch.native_layout_alignment_cache = context.native_layout_alignment_cache;
     scratch.native_layout_state_cache = context.native_layout_state_cache;
+    scratch.native_layout_cache_entries = context.native_layout_cache_entries;
     scratch.local_values = context.local_values;
     scratch.block_data = context.block_data;
     scratch.blocks = context.blocks;

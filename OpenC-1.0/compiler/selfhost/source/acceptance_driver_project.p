@@ -455,6 +455,7 @@ unsafe usize acceptance_validate_project(
                 native_layout_size_cache = null,
                 native_layout_alignment_cache = null,
                 native_layout_state_cache = null,
+                native_layout_cache_entries = 0,
                 local_values = ir_pointer_alias(scratch),
                 block_data = ir_pointer_alias(scratch),
                 blocks = empty,
