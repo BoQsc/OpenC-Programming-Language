@@ -40,12 +40,19 @@ C/D/OpenC medium-app proof](SH27_REPRESENTATIVE_HOSTED_PROOF.md) now passes
 three cold/warm/edit repetitions with exact execution on the unchanged
 production compiler source. The separate isolated [interface projection](https://github.com/BoQsc/OpenC-Programming-Language/blob/c0b2343/SH27_INTERFACE_FINGERPRINT_EVIDENCE.md),
 [stable COFF symbol identity](https://github.com/BoQsc/OpenC-Programming-Language/blob/f68c65f/SH27_STABLE_COFF_IDENTITY_EVIDENCE.md),
+the [opt-in per-module COFF-set slice](https://github.com/BoQsc/OpenC-Programming-Language/blob/bd0a497/SH27_MODULE_COFF_SET_EVIDENCE.md),
 and [function type-freeze probe](https://github.com/BoQsc/OpenC-Programming-Language/blob/c97e28e/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_TYPE_FREEZE_PROBE.md)
 passed focused fixed-point gates but do not yet create object reuse, safe
 function workers, or a measured compiler speedup. They are not merged into
-the production compiler. A subsequent [bounded project-cache ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/db54808/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_PROJECT_CACHE_OWNERSHIP.md)
+the production compiler. The COFF-set slice partitions already-lowered
+whole-project output, rejects shared-data relocations, and exceeded the
+strict Stage-2 64 MiB working-set gate; it is not independent module
+compilation. A subsequent [bounded project-cache ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/db54808/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_PROJECT_CACHE_OWNERSHIP.md)
 also passed strict opt-in self-build memory and exactness, reducing
-source-borrowed scratch pointers from 25 to 21; it remains serial.
+source-borrowed scratch pointers from 25 to 21. The later [five-array index
+freeze](https://github.com/BoQsc/OpenC-Programming-Language/blob/af44c6b/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_INDEX_FREEZE.md)
+reduced that count to 16 with exact guarded self-build and invalid-input
+proof. Both remain serial and isolated; neither authorizes function workers.
 
 ## Objective and boundary
 

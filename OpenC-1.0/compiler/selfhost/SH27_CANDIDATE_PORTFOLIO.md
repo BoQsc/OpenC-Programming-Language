@@ -70,6 +70,14 @@ passed guarded fixed point and ten identity/default-parity checks. Its opt-in
 COFF names are independent of unrelated insertion and body edits, but the
 writer still emits one whole-project object with numeric internal relocation
 targets. It is not module reuse or a clean-build speedup.
+The [opt-in per-module COFF-set slice](https://github.com/BoQsc/OpenC-Programming-Language/blob/bd0a497/SH27_MODULE_COFF_SET_EVIDENCE.md)
+now emits stable cross-module externs and one object per function-bearing
+module after whole-project acceptance/lowering. A two-object executable,
+body-edit isolation, deterministic bytes, incomplete-manifest failure
+recovery, and guarded Stage 2/3 fixed point passed. It still has no
+independent module compilation, native multi-object relink, atomic validated
+cache, or measured reuse; shared `.data` relocations fail closed. Stage 2
+exceeded the strict 64 MiB working-set gate, so this remains isolated.
 An isolated opt-in `PreparedSource`/`WorkerScratch` boundary passed guarded
 fixed point and focused exact artifacts, but it is serial and has no speed
 claim; see `SH27_PREPARED_SOURCE_BOUNDARY.md`. The next function-worker audit
@@ -89,6 +97,12 @@ strict 256/64 MiB self-build memory. It reduced the source-borrowed scratch
 pointer count from 25 to 21, with a maximum 120,520-byte live cache copy per
 source. It is still serial and has no speed claim; type/first-visit caches,
 IR, SSA, output, and diagnostics remain shared.
+The next [five-array index freeze](https://github.com/BoQsc/OpenC-Programming-Language/blob/af44c6b/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_INDEX_FREEZE.md)
+passed guarded fixed point, strict opt-in self-build, exact large/control,
+and focused calls/duplicate/cycle/invalid diagnostics. It reduced remaining
+source-borrowed scratch pointers from 21 to 16. Its readiness and writer-path
+audit are the safety argument; the post-lowering checksum is diagnostic, not
+collision-free proof. Function workers are still prohibited.
 
 ## Next decisive batch
 
@@ -105,14 +119,18 @@ advance concurrently, without treating a noisy local micro-gain as progress:
    handoff that lowering consumes, while preserving exact invalid-diagnostic
    order. Measure removed passes and end-to-end guarded wall time against a
    baseline-vs-baseline null; no new full-size cache or eager extra pass.
-2. **Real incremental native artifacts:** the isolated interface projection
-   and stable COFF names are prerequisites. Split acceptance from native
-   emission, emit independent per-module COFF objects with stable relocations,
+   The [isolated implementation contract](https://github.com/BoQsc/OpenC-Programming-Language/blob/fc04d72/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_DESIGN.md)
+   specifies the all-or-nothing source barrier, expected-type/call ordering,
+   legacy diagnostic replay, and kill criteria before code is judged.
+2. **Real incremental native artifacts:** the isolated interface projection,
+   stable COFF names, and post-lowering module COFF set are prerequisites.
+   Make acceptance/lowering truly independent by module, handle shared data,
    implement native multi-COFF relink and atomic content-validated reuse.
    A full-source hash or warm timer with no actual module hits fails this track.
 3. **Safe function ownership:** opt-in serial PreparedSource, type-registry guard,
-   and four bounded project-cache copies are exact, but 21 scratch pointer
-   fields plus IR/output/diagnostic state remain mutable and shared. Give
+   four bounded project-cache copies, and five frozen source indexes are
+   exact, but 16 scratch pointer fields plus IR/output/diagnostic state remain
+   mutable and shared. Give
    each function worker bounded independent scratch before attempting
    deterministic scheduling.
    Require strict 64/256 MiB child and 512 MiB Job proof and a same-run
