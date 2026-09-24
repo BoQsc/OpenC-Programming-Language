@@ -1,6 +1,7 @@
 # SH-27 function semantic IR, Phase B2 isolated evidence
 
-Status: **correctness and synthetic-corpus activation only** on
+Status: **NO-GO for two-lane throughput; correctness and synthetic-corpus
+activation only** on
 `codex/sh27-function-semantic-ir`, based on production compiler source
 `1b58d5e`. No throughput claim or promotion is made.
 
@@ -63,10 +64,30 @@ performs name resolution for relational expressions; this is a concrete
 next first-visit/migration investigation, with counters needed before any
 claim that work disappeared.
 
-Next gates: categorize the 218 self-build expression rejections, run an
-adjacent 11-pair large/control candidate-vs-baseline matrix with a
-baseline-vs-baseline null as **triage only**, then decide whether the
-function-scoped design is worth extending. Do not promote without a
+An adjacent guarded 11-pair candidate-vs-frozen-production matrix with a
+baseline-vs-baseline null completed on the exact Phase B2 Stage 3 compiler.
+Its ignored local raw report is
+`build-output/sh27-function-semantic-ir-phase-b2-matrix-20260924.json`.
+Every compile, generated PE, runtime output, and matrix memory check passed;
+the baseline and candidate PEs were byte-identical. The large-functions lane
+improved by a paired median 16 ms, with 10/11 candidate wins against a 9 ms
+null floor. The protected control-flow lane **regressed** by a paired median
+10 ms, with only 2/11 candidate wins against an 11 ms null floor. Its
+critical worker median rose from 140 to 156 ms. The large lane's critical
+worker fell from 235 to 219 ms. These are whole-wall observations, not a
+sum of nested phase buckets. On control flow, the summed-worker pointer
+acceptance median moved from 0 to 64 ms while covered expression acceptance
+was omitted. This is a work-migration hypothesis, not proof that all 64 ms
+are avoidable. The matrix guarded Job private and working set at **512 MiB**
+each, not the strict 64/256 MiB self-build limits; the large candidate's
+peak working set was 77,713,408 bytes. The two-lane throughput contract
+therefore **fails**, and Phase B2 must not be promoted.
+
+Next work: categorize the 218 self-build expression rejections and investigate
+control-flow first visits in pointer-order acceptance, visitor/preflight,
+and conditions as a bounded hypothesis batch. Any later candidate must
+retain the protected large improvement and remove, rather than move, costly
+first visits. Do not promote without a
 strict 20-generation 64/256 MiB self-build, full conformance/diagnostic
 coverage, substantial real-project/self-build activation, and whole-wall
 gain above noise on every protected lane. All paths above are local ignored
