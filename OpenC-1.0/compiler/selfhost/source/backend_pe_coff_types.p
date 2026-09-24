@@ -15,6 +15,7 @@ usize native_artifact_coff_object() { return 1; }
 usize native_artifact_dll() { return 2; }
 usize native_artifact_static_library() { return 3; }
 usize native_artifact_import_library() { return 4; }
+usize native_artifact_module_coff_set() { return 5; }
 
 NativeArtifactOptions native_artifact_default_options() {
     return NativeArtifactOptions{
