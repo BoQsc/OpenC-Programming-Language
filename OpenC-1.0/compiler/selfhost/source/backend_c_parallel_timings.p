@@ -172,11 +172,17 @@ unsafe void c_merge_worker_timings(
         worker.scalar_expected_assignments;
     target.scalar_expected_binaries = target.scalar_expected_binaries +
         worker.scalar_expected_binaries;
+    target.scalar_expected_conditions =
+        target.scalar_expected_conditions +
+        worker.scalar_expected_conditions;
     target.scalar_visited_assignments =
         target.scalar_visited_assignments +
         worker.scalar_visited_assignments;
     target.scalar_visited_binaries = target.scalar_visited_binaries +
         worker.scalar_visited_binaries;
+    target.scalar_visited_conditions =
+        target.scalar_visited_conditions +
+        worker.scalar_visited_conditions;
     target.scalar_legacy_assignment_visits =
         target.scalar_legacy_assignment_visits +
         worker.scalar_legacy_assignment_visits;

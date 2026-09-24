@@ -9,8 +9,10 @@ struct IrScalarState {
     usize preflight_reason;
     usize expected_assignments;
     usize expected_binaries;
+    usize expected_conditions;
     usize visited_assignments;
     usize visited_binaries;
+    usize visited_conditions;
     usize errors;
     usize legacy_assignment_visits;
     usize legacy_binary_visits;
@@ -23,8 +25,10 @@ IrScalarState ir_scalar_state_empty() {
         preflight_reason = 0,
         expected_assignments = 0,
         expected_binaries = 0,
+        expected_conditions = 0,
         visited_assignments = 0,
         visited_binaries = 0,
+        visited_conditions = 0,
         errors = 0,
         legacy_assignment_visits = 0,
         legacy_binary_visits = 0,

@@ -259,10 +259,14 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.scalar_expected_assignments);
     d_put(output, ",\n    \"scalar_expected_binaries\": ");
     d_put_usize(output, timings.scalar_expected_binaries);
+    d_put(output, ",\n    \"scalar_expected_conditions\": ");
+    d_put_usize(output, timings.scalar_expected_conditions);
     d_put(output, ",\n    \"scalar_visited_assignments\": ");
     d_put_usize(output, timings.scalar_visited_assignments);
     d_put(output, ",\n    \"scalar_visited_binaries\": ");
     d_put_usize(output, timings.scalar_visited_binaries);
+    d_put(output, ",\n    \"scalar_visited_conditions\": ");
+    d_put_usize(output, timings.scalar_visited_conditions);
     d_put(output, ",\n    \"scalar_legacy_assignment_visits\": ");
     d_put_usize(output, timings.scalar_legacy_assignment_visits);
     d_put(output, ",\n    \"scalar_legacy_binary_visits\": ");

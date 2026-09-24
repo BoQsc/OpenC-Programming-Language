@@ -1,6 +1,6 @@
 # SH-27: replace assignment/binary acceptance with function semantic IR
 
-Status: **Phase B1 large-function coverage tranche** on isolated branch
+Status: **Phase B2 generated-corpus coverage tranche** on isolated branch
 `codex/sh27-function-semantic-ir`, based on unchanged production compiler
 source `1b58d5e`. No throughput result or promotion is implied.
 The correct but below-noise kind-29/36 cache-slot experiment is preserved
@@ -221,9 +221,9 @@ These are local ignored artifacts under
 `build-output/sh27-function-semantic-ir-phase-b1-large-*-{timings,memory}.json`;
 they are not a published release result.
 
-This is still not a timing candidate: control-flow and compiler self-build
-coverage have not been demonstrated, source 0's call path remains legacy, and
-the strict 64/256 MiB self-build has not been run on this source. Phase B2
-must support local initializers, returns, conditions/control flow and calls
-without restoring earlier first visits, then measure actual eligibility and
-correctness on large, control, and self-build before any wall-time matrix.
+Phase B2 subsequently covers all generated large/control sources, including
+the critical source-0 call and condition paths, but compiler self-build
+eligibility remains zero. Its exactness and limitations are recorded in
+`SH27_FUNCTION_SEMANTIC_IR_B2_EVIDENCE.md`. The strict 64/256 MiB self-build
+and paired/null wall-time gate remain pending; B2 must not be promoted as
+SH-27 throughput closure.

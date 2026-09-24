@@ -28,6 +28,44 @@ unsafe bool ir_semantic_scalar_reject(
     return false;
 }
 
+unsafe bool ir_semantic_scalar_compare_operator(
+    ref IrContext context,
+    usize node
+) {
+    return flow_node_operator(context.source, context.syntax_data, node, "==") ||
+        flow_node_operator(context.source, context.syntax_data, node, "!=") ||
+        flow_node_operator(context.source, context.syntax_data, node, "<") ||
+        flow_node_operator(context.source, context.syntax_data, node, "<=") ||
+        flow_node_operator(context.source, context.syntax_data, node, ">") ||
+        flow_node_operator(context.source, context.syntax_data, node, ">=");
+}
+
+unsafe usize ir_semantic_scalar_left_type(
+    ref IrContext context,
+    usize node,
+    usize depth
+) {
+    if node >= context.syntax.length || depth > 64 {
+        return semantic_type_error();
+    }
+    usize kind = read_record_field(context.syntax_data, node, 0);
+    if kind == 27 {
+        usize symbol = ir_resolve_name(context, node);
+        if symbol < context.symbols.length {
+            return read_record_field(context.symbol_data, symbol, 4);
+        }
+        return semantic_type_error();
+    }
+    if kind == 36 {
+        usize operator_start = read_record_field(context.syntax_data, node, 3);
+        return ir_semantic_scalar_left_type(
+            context, ir_left_expression(context, node, operator_start),
+            depth + 1
+        );
+    }
+    return semantic_type_error();
+}
+
 // Mark covered expression ownership in the already allocated call cache.
 // Only kinds 36/37 are marked; call selection owns kind-38 cache slots.
 // Each covered node must be reached from exactly one statement root, and
@@ -40,14 +78,14 @@ unsafe bool ir_semantic_scalar_census(
 ) {
     if node >= context.syntax.length || depth > 64 { return false; }
     usize kind = read_record_field(context.syntax_data, node, 0);
-    if kind == 27 || kind == 29 { return true; }
+    if kind == 27 || kind == 29 || kind == 38 { return true; }
     if kind != 36 && kind != 37 { return false; }
     usize mark = node * size_of(usize);
     if read_usize(context.call_cache, mark) != 0 { return false; }
     write_usize(context.call_cache, mark, 1);
     usize operator_start = read_record_field(context.syntax_data, node, 3);
     usize operator_length = read_record_field(context.syntax_data, node, 4);
-    if operator_length != 1 { return false; }
+    if operator_length == 0 || operator_length > 2 { return false; }
     usize left = ir_left_expression(context, node, operator_start);
     usize right = ir_right_expression(
         context, node, operator_start + operator_length
@@ -70,7 +108,9 @@ unsafe bool ir_semantic_scalar_census(
     }
     if !flow_node_operator(context.source, context.syntax_data, node, "+") &&
         !flow_node_operator(context.source, context.syntax_data, node, "-") &&
-        !flow_node_operator(context.source, context.syntax_data, node, "*") {
+        !flow_node_operator(context.source, context.syntax_data, node, "*") &&
+        !flow_node_operator(context.source, context.syntax_data, node, "%") &&
+        !ir_semantic_scalar_compare_operator(context, node) {
         return false;
     }
     counts.binaries = counts.binaries + 1;
@@ -101,7 +141,7 @@ unsafe bool ir_semantic_scalar_eligible(ref IrContext context) {
             binaries = binaries + 1;
         } else if kind == 37 {
             assignments = assignments + 1;
-        } else if kind != 27 && kind != 29 {
+        } else if kind != 27 && kind != 29 && kind != 38 {
             return ir_semantic_scalar_reject(context, 2);
         }
         index = index + 1;
@@ -119,8 +159,9 @@ unsafe bool ir_semantic_scalar_eligible(ref IrContext context) {
         );
         usize kind = read_record_field(context.syntax_data, statement, 0);
         if kind == 12 {
-            if ir_local_initializer_root(context, statement) <
-                context.syntax.length {
+            usize initializer = ir_local_initializer_root(context, statement);
+            if initializer < context.syntax.length &&
+                read_record_field(context.syntax_data, initializer, 0) != 29 {
                 return ir_semantic_scalar_reject(context, 5);
             }
         } else if kind == 13 {
@@ -141,6 +182,19 @@ unsafe bool ir_semantic_scalar_eligible(ref IrContext context) {
                     return ir_semantic_scalar_reject(context, 6);
                 }
             }
+        } else if kind == 14 || kind == 15 {
+            usize condition = ir_largest_expression_before(
+                context, statement,
+                ir_first_block_start(context, statement)
+            );
+            if condition >= context.syntax.length ||
+                read_record_field(context.syntax_data, condition, 0) != 36 ||
+                !ir_semantic_scalar_compare_operator(context, condition) ||
+                !ir_semantic_scalar_census(
+                    context, condition, 0, rooted
+                ) { return ir_semantic_scalar_reject(context, 6); }
+            context.scalar_state.expected_conditions =
+                context.scalar_state.expected_conditions + 1;
         } else if kind != 11 {
             return ir_semantic_scalar_reject(context, 6);
         }
@@ -216,16 +270,43 @@ unsafe IrSemanticScalar ir_semantic_scalar_visit(
             type_id = name_type, value_id = value, valid = true
         };
     }
+    if kind == 38 {
+        // Calls are an opaque intermediate leaf only when the ownership
+        // census proves no covered binary/assignment is nested in an
+        // argument. Existing call selection retains its dependency order.
+        usize call_type = ir_node_type(context, node, expected);
+        if call_type != i32_type && call_type != i64_type {
+            return ir_semantic_scalar_invalid(context);
+        }
+        usize value = ir_lower_node(context, node, expected, 0);
+        return IrSemanticScalar{
+            type_id = call_type, value_id = value, valid = true
+        };
+    }
     if kind == 36 {
         context.scalar_state.visited_binaries =
             context.scalar_state.visited_binaries + 1;
         usize operator_start = read_record_field(context.syntax_data, node, 3);
+        usize operator_length = read_record_field(context.syntax_data, node, 4);
         usize left_node = ir_left_expression(context, node, operator_start);
         usize right_node = ir_right_expression(
-            context, node, operator_start + 1
+            context, node, operator_start + operator_length
         );
+        bool comparison = ir_semantic_scalar_compare_operator(context, node);
+        usize operand_type = expected;
+        if comparison {
+            if expected != semantic_type_bool() {
+                return ir_semantic_scalar_invalid(context);
+            }
+            operand_type = ir_semantic_scalar_left_type(
+                context, left_node, 0
+            );
+        }
+        if operand_type != i32_type && operand_type != i64_type {
+            return ir_semantic_scalar_invalid(context);
+        }
         IrSemanticScalar left = ir_semantic_scalar_visit(
-            context, left_node, expected
+            context, left_node, operand_type
         );
         // Mirror the existing checked-multiply identity lowering: validate
         // the literal but do not create a constant or multiply SSA value.
@@ -239,31 +320,38 @@ unsafe IrSemanticScalar ir_semantic_scalar_visit(
                 read_record_field(context.syntax_data, right_node, 2)
             );
             if identity.valid && identity.value == 1 &&
-                (expected == i32_type || expected == i64_type) {
+                (operand_type == i32_type || operand_type == i64_type) {
                 return left;
             }
         }
         IrSemanticScalar right = ir_semantic_scalar_visit(
-            context, right_node, expected
+            context, right_node, operand_type
         );
         if !left.valid || !right.valid ||
-            (expected != i32_type && expected != i64_type) ||
-            (!flow_node_operator(
+            (!comparison && !flow_node_operator(
                 context.source, context.syntax_data, node, "+"
             ) && !flow_node_operator(
                 context.source, context.syntax_data, node, "-"
             ) && !flow_node_operator(
                 context.source, context.syntax_data, node, "*"
+            ) && !flow_node_operator(
+                context.source, context.syntax_data, node, "%"
             )) {
             return ir_semantic_scalar_invalid(context);
         }
         usize first = context.operands.length;
         ir_operand_empty(context, left.value_id);
         ir_operand_empty(context, right.value_id);
+        usize opcode = ir_op_binary();
+        if comparison { opcode = ir_op_compare(); }
         usize value = ir_emit_value(
-            context, ir_op_binary(), expected, node,
-            1, operator_start, 1, first, 2
+            context, opcode, expected, node,
+            1, operator_start, operator_length, first, 2
         );
+        if comparison {
+            context.scalar_state.visited_conditions =
+                context.scalar_state.visited_conditions + 1;
+        }
         return IrSemanticScalar{
             type_id = expected, value_id = value, valid = true
         };

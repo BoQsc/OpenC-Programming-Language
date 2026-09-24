@@ -501,11 +501,17 @@ unsafe bool c_emit_source_record(
             context.scalar_state.expected_assignments;
         timings.scalar_expected_binaries = timings.scalar_expected_binaries +
             context.scalar_state.expected_binaries;
+        timings.scalar_expected_conditions =
+            timings.scalar_expected_conditions +
+            context.scalar_state.expected_conditions;
         timings.scalar_visited_assignments =
             timings.scalar_visited_assignments +
             context.scalar_state.visited_assignments;
         timings.scalar_visited_binaries = timings.scalar_visited_binaries +
             context.scalar_state.visited_binaries;
+        timings.scalar_visited_conditions =
+            timings.scalar_visited_conditions +
+            context.scalar_state.visited_conditions;
         timings.scalar_legacy_assignment_visits =
             timings.scalar_legacy_assignment_visits +
             context.scalar_state.legacy_assignment_visits;
@@ -520,6 +526,8 @@ unsafe bool c_emit_source_record(
                 context.scalar_state.expected_assignments &&
             context.scalar_state.visited_binaries ==
                 context.scalar_state.expected_binaries &&
+            context.scalar_state.visited_conditions ==
+                context.scalar_state.expected_conditions &&
             context.scalar_state.legacy_assignment_visits == 0 &&
             context.scalar_state.legacy_binary_visits == 0 &&
             context.scalar_state.covered_uncached_type_calls == 0;

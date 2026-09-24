@@ -116,7 +116,10 @@ unsafe usize acceptance_validate_context(
     }
     acceptance_report_source_count(context, "binary", found);
     errors = errors + found;
-    found = acceptance_validate_conditions(context);
+    found = 0;
+    if !context.scalar_state.enabled {
+        found = acceptance_validate_conditions(context);
+    }
     acceptance_report_source_count(context, "conditions", found);
     errors = errors + found;
     found = 0;

@@ -1,0 +1,8 @@
+{
+  "name": "sh27-function-semantic-ir-b2-invalid",
+  "version": "0.1.0",
+  "edition": "OpenC 1.0",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "modules": { "sh27.scalar": ["source/main.p", "source/helper.p"] }
+}

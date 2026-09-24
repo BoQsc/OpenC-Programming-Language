@@ -159,8 +159,10 @@ struct BuildTimings {
     usize scalar_rejected_other;
     usize scalar_expected_assignments;
     usize scalar_expected_binaries;
+    usize scalar_expected_conditions;
     usize scalar_visited_assignments;
     usize scalar_visited_binaries;
+    usize scalar_visited_conditions;
     usize scalar_legacy_assignment_visits;
     usize scalar_legacy_binary_visits;
     usize scalar_covered_uncached_type_calls;
@@ -333,8 +335,10 @@ BuildTimings build_timings_empty() {
         scalar_rejected_other = 0,
         scalar_expected_assignments = 0,
         scalar_expected_binaries = 0,
+        scalar_expected_conditions = 0,
         scalar_visited_assignments = 0,
         scalar_visited_binaries = 0,
+        scalar_visited_conditions = 0,
         scalar_legacy_assignment_visits = 0,
         scalar_legacy_binary_visits = 0,
         scalar_covered_uncached_type_calls = 0,
