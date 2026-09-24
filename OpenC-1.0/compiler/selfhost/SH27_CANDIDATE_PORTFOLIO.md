@@ -33,6 +33,8 @@ final five-compiler parity gate.
 | Eager typed-operation pipeline | +2 ms / 5 of 11 / 50 ms | -6 ms / 7 of 11 / 11 ms | Reject: extra traversal repeats semantic work. |
 | Scalar validation fused into lowering | Local -98 ms / 7 of 11 / 84 ms; hosted -2 ms / 6 of 11 / 10 ms | Local -15 ms / 6 of 11 / 43 ms; hosted +10 ms / 3 of 11 / 10 ms | Reject speed claim: real scans removed, 278/278 and strict 20/20 pass, clean gain fails. |
 | Compact child/name sidecar | Existing indexed/cached paths already serve lowering; no source speed run | Same structural no-go | Reject before implementation: duplicate indexes add memory, not a demonstrated critical-path cut. |
+| Per-source scratch arena/reuse | Optimistic heap proxy suggests roughly 6–12 ms critical-worker opportunity | Roughly 1–3 ms critical-worker opportunity | Reject before compiler build: control opportunity below clean 10 ms null; zeroed payload and RAM risk remain. |
+| Same-type scalar binary fast path | Local -29 ms / 7 of 11 / 70 ms; hosted -1 ms / 7 of 11 / 5 ms | Local -14 ms / 8 of 11 / 38 ms; hosted -1 ms / 7 of 11 / 2 ms | Reject: clean effect below null on both lanes; no first-visit type work removed. |
 
 The table records *candidate minus baseline*, so negative is faster. The null
 floor is same-run baseline-vs-baseline median absolute paired jitter. A
@@ -46,7 +48,9 @@ whole compiler wall time. Detailed evidence is in
 `SH27_DIRECT_VALUE_PATH_EVIDENCE.md`, and
 `SH27_TYPED_PIPELINE_REJECTION.md`,
 `SH27_LOWERING_FUSION_EVIDENCE.md`, and
-`SH27_COMPACT_CHILD_NAME_SIDECAR_NO_GO.md`. The opt-in first-visit probe and
+`SH27_COMPACT_CHILD_NAME_SIDECAR_NO_GO.md`, and
+`SH27_SCRATCH_OWNERSHIP_NO_GO.md`, and
+`SH27_SCALAR_FAST_PATH_NO_GO.md`. The opt-in first-visit probe and
 its bounded hypotheses are in `SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md`.
 
 ## Next decisive batch
@@ -56,10 +60,10 @@ its bounded hypotheses are in `SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md`.
    required visit and consumed by later checks/lowering, not another eager
    whole-source pass. Prove fewer type/semantic first visits and no new
    traversal or oversized arena before a clean two-lane speed claim.
-2. **Bounded independent tracks:** measure a source-scratch arena against the
-   31/16 ms residual ceiling; model worker rebalancing against the 94/16 ms
-   spread ceiling. These are non-additive upper bounds, not forecast gains.
-   The compact child/name sidecar is closed as a no-go.
+2. **Bounded independent tracks:** the source-scratch arena and compact
+   child/name sidecar are closed as no-go candidates. Model worker
+   rebalancing against the 94/16 ms spread ceiling only after immutable
+   prepared-source ownership; the bounds are non-additive, not forecasts.
 3. **Function scheduling only after an ownership boundary:** the current
    mutable source context is not safe for independently scheduled functions.
    Design a read-only `PreparedSource` and per-worker bounded `WorkerScratch`
