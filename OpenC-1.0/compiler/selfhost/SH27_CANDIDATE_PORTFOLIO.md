@@ -57,6 +57,11 @@ its bounded hypotheses are in `SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md`.
 The later high-resolution worker probe is diagnostic-only because it
 perturbed measured wall and missed the strict 64 MiB self-build working-set
 proof; see `SH27_QPC_CRITICAL_WORKER_PROFILE_EVIDENCE.md`.
+The isolated [interface-fingerprint candidate](https://github.com/BoQsc/OpenC-Programming-Language/blob/c0b2343/SH27_INTERFACE_FINGERPRINT_EVIDENCE.md)
+passed 11 falsification checks and guarded Stage 2/3 byte identity. It is an
+opt-in public-interface projection only: no cache hit, independent COFF
+object, or incremental throughput claim is made. It remains off the
+production compiler branch until the artifact/relink architecture is ready.
 An isolated opt-in `PreparedSource`/`WorkerScratch` boundary passed guarded
 fixed point and focused exact artifacts, but it is serial and has no speed
 claim; see `SH27_PREPARED_SOURCE_BOUNDARY.md`. The next function-worker audit
@@ -64,12 +69,20 @@ found 25 still-aliased source-owned pointers, late type-registry appends, and
 unmerged diagnostic/value-ID state, so no unsafe scheduler was launched; see
 `SH27_FUNCTION_WORK_OWNERSHIP_GATE.md`. The concrete next cut is immutable
 type closure and bounded per-worker cache ownership, not a worker-count flag.
+An isolated [function type-freeze probe](https://github.com/BoQsc/OpenC-Programming-Language/blob/c97e28e/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_TYPE_FREEZE_PROBE.md)
+removed the two observed late pointer types in the nested fixture and passed
+guarded fixed point and generated large/control exactness. It remains an
+opt-in, post-function fail-closed assertion, not an immutable registry or
+parallel scheduler; other source-wide caches and result merging still block
+workers.
 
 ## Next decisive batch
 
 The unchanged production compiler now has **two** independent clean hosted
 20/20 normal-default parity passes, a local strict 20-generation chain, and
-278/278 conformance. That permits three independent engineering tracks to
+278/278 conformance. A [pinned hosted three-language medium-app proof](SH27_REPRESENTATIVE_HOSTED_PROOF.md)
+also passed 3/3 cold, warm, and edit repetitions with exact executed output.
+That permits three independent engineering tracks to
 advance concurrently, without treating a noisy local micro-gain as progress:
 
 1. **Real incremental native artifacts:** promote only a conservative

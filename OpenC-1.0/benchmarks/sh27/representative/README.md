@@ -96,16 +96,17 @@ Raw reports are ignored local artifacts at
 published release evidence. The medium application is a real file-processing
 program but is still benchmark-authored and small (four modules, a 51-byte
 input). The suite has no independent third-party OpenC project yet, and the
-new C/D comparator lanes require a separate fully pinned hosted run before
-they can be cited as exact cross-language proof. There is only one OpenC-only
-proof repetition so far. It must not be presented as broad real-world
+new C/D comparator lanes have since passed a separately pinned hosted run
+documented in [the hosted proof](../../../compiler/selfhost/SH27_REPRESENTATIVE_HOSTED_PROOF.md).
+The OpenC-only suite proof had one repetition; the hosted medium comparator
+proof had three. Neither should be presented as broad real-world
 throughput parity or as
 SH-27 completion. Next expansion should add a retained user project and a
 larger multi-module application, then run repeated independent-host or
 independent-window paired measurements under these same correctness gates.
 
-On the current local host, MSVC `cl.exe`/`link.exe` is not installed, so the
-full comparator gate has **not** run. A D-only guarded check with pinned
+On the current local host, MSVC `cl.exe`/`link.exe` is not installed. A
+local D-only guarded check with pinned
 DMD64 v2.112.0 executable SHA-256
 `5EC3152D183B5A7F4C3ABB67D01A7055A247D7D3C79E6041EC33B9F95C913BF5`
 did compile and execute the original and edited fixture. Captured stdout was
@@ -117,7 +118,9 @@ compiles now have a distinct 512 MiB ceiling rather than weakening OpenC's
 256/64 MiB guard. These partial D records are ignored local files named
 `build-output/sh27-representative/d-only-compile-03.json`,
 `d-only-runtime-03.json`, `d-only-edit-compile-01.json`, and
-`d-only-edit-runtime-01.json`. They do not establish C/D/OpenC timing parity.
+`d-only-edit-runtime-01.json`. They do not establish C/D/OpenC timing parity;
+the separate hosted proof above establishes exact three-language equivalence
+for this one checked-in fixture.
 
 The dedicated GitHub Actions workflow
 `.github/workflows/openc-representative-medium.yml` runs on relevant `master`
@@ -133,12 +136,14 @@ proof job is skipped until reviewed literal digests are committed to
 `mode=proof` request while pins are pending fails explicitly. The proof job
 rechecks the literals on its own runner before compiling anything.
 
-Before the workflow exists on the repository's default branch, push this
-isolated branch to exercise its branch-triggered discovery job. GitHub manual
+The workflow was exercised on `codex/sh27-critical-worker-budget`: the first
+runner's reviewed MSVC hashes drifted, so the proof failed closed; after the
+new discovered hashes were independently committed, [run 35946485926](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35946485926)
+passed the full guarded pinned proof. GitHub manual
 `workflow_dispatch` normally requires the workflow file on the default
 branch; after that file is merged, a branch-ref dispatch can be tested with
 `gh workflow run openc-representative-medium.yml --ref
-codex/sh27-representative-work -f mode=discovery`, and `mode=proof` only after
+codex/sh27-critical-worker-budget -f mode=discovery`, and `mode=proof` only after
 the reviewed pins are committed. The workflow is separate from the synthetic
 20-ratio workflow and cannot claim that contract passed. See
 [GitHub's manual-run documentation](https://docs.github.com/actions/managing-workflow-runs/manually-running-a-workflow)
