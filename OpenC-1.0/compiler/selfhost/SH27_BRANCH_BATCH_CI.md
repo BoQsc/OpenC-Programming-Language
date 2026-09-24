@@ -6,7 +6,9 @@ It can be started by a commit touching compiler/performance inputs on a
 repository's default branch. A push compares that branch with the frozen
 baseline SHA. Manual dispatch accepts one to three `codex/sh27-*` branch names,
 a full 40-hex baseline SHA, 3–31 pairs (default 11), and an optional
-`require_gain` failure gate. The default baseline is
+`require_gain` failure gate (on by default). Push-triggered runs always
+enforce that gain gate; a green push is not merely a correctness-only screen.
+The default baseline is
 `6794d56f65f361fad21d7964337c06ba3f168906`; change it explicitly when
 the approved baseline advances.
 
@@ -36,8 +38,9 @@ processes concurrently. Each candidate compilation has a 120-second cap,
 and deterministic output checks. Codegen candidates may emit different
 baseline machine bytes, but differences in runtime behavior still fail.
 `require_gain` additionally demands a majority of paired wins and a median
-gain greater than the null-control noise floor; leave it off when screening
-several experiments and compare their individual results afterward.
+gain greater than the null-control noise floor. Manual dispatch may turn it
+off for a correctness-only batch, but the resulting green job is **not** a
+throughput or parity result; inspect individual comparison records.
 
 The uploaded artifact contains the top-level request and resolved commit
 SHAs, per-revision source-file SHA-256 manifest and compiler EXE hash, every

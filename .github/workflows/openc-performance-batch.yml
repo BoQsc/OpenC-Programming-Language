@@ -42,7 +42,7 @@ on:
       require_gain:
         description: Fail if any candidate lacks an above-null majority paired gain
         required: true
-        default: false
+        default: true
         type: boolean
 
 permissions:
@@ -85,7 +85,7 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_batch_ci.py
           --seed .github\bootstrap\openc-stage0.exe
           --allow-binary-difference
-          ${{ inputs.require_gain && '--require-gain' || '' }}
+          ${{ (github.event_name == 'push' || inputs.require_gain) && '--require-gain' || '' }}
           --output artifacts\sh27-branch-batch.json
 
       - name: Retain source hashes, fixed-point proof, matrix, and raw runs
