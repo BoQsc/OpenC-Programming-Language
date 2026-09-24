@@ -78,9 +78,14 @@ recovery, and guarded Stage 2/3 fixed point passed. The follow-on
 [OpenC-native restricted multi-object link](https://github.com/BoQsc/OpenC-Programming-Language/blob/1561b71/SH27_NATIVE_MODULE_COFF_LINK_EVIDENCE.md)
 also passed exact Stage 2/3 and a separate strict 64/256 MiB Stage 3→4
 self-build; two modules linked and ran without `lld-link` on the OpenC path.
-It remains isolated and opt-in: shared `.data` relocations fail closed, and
-independent module compilation, saved-object relink, atomic validated cache,
-and measured reuse are still absent. The earlier Stage 2 bootstrap exceeded
+The next [project-free saved-object relink proof](https://github.com/BoQsc/OpenC-Programming-Language/blob/3205432/SH27_SAVED_OBJECT_RELINK_EVIDENCE.md)
+reopens published COFF files, verifies SHA-256, and reproduces the two-module
+PE byte-for-byte without the source project manifest. Wrong hashes and
+malformed authenticated COFF are rejected. It remains isolated and opt-in:
+shared `.data` relocations fail closed, and independent module compilation,
+automatic cache hits, atomic validated cache, and measured warm-build reuse
+are still absent. The reader caps size after file allocation, not before;
+that must change before production. The earlier Stage 2 bootstrap exceeded
 64 MiB working set; do not equate its 512 MiB bootstrap guard with the strict
 Stage 3→4 gate.
 An isolated opt-in `PreparedSource`/`WorkerScratch` boundary passed guarded
@@ -172,8 +177,9 @@ advance concurrently, without treating a noisy local micro-gain as progress:
 2. **Real incremental native artifacts:** the isolated interface projection,
    stable COFF names, and post-lowering module COFF set are prerequisites.
    Make acceptance/lowering truly independent by module, handle shared data,
-   extend the restricted OpenC-native multi-COFF link to saved objects and
-   implement atomic content-validated reuse.
+   use the now-proved project-free saved-object relink as the backend for
+   independently accepted/lowered modules, then implement a pre-read-bounded,
+   atomic, content-validated cache and correct invalidation.
    A full-source hash or warm timer with no actual module hits fails this track.
 3. **Safe function ownership:** opt-in serial PreparedSource, type-registry
    probe, four bounded project-cache copies, five frozen source indexes, and

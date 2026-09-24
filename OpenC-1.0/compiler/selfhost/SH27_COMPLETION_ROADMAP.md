@@ -60,9 +60,13 @@ function workers, or a measured compiler speedup. They are not merged into
 the production compiler. The COFF-set slice partitions already-lowered
 whole-project output, rejects shared-data relocations, and exceeded the
 strict Stage-2 64 MiB working-set gate; it is not independent module
-compilation. The restricted native link runs only freshly emitted objects,
-not saved-object cache hits; it separately passed strict Stage 3→4 self-build
-under 64 MiB working set and 256 MiB private bytes. A subsequent
+compilation. The restricted native link first ran freshly emitted objects
+and separately passed strict Stage 3→4 self-build under 64 MiB working set
+and 256 MiB private bytes. The [project-free saved-object relink](https://github.com/BoQsc/OpenC-Programming-Language/blob/3205432/SH27_SAVED_OBJECT_RELINK_EVIDENCE.md)
+then authenticated on-disk COFF bytes and reproduced the two-module PE with
+the source project manifest hidden. This remains a manual relink, not a
+cache hit or independently compiled module; the reader needs a pre-read
+allocation cap before production. A subsequent
 [bounded project-cache ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/db54808/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_PROJECT_CACHE_OWNERSHIP.md)
 also passed strict opt-in self-build memory and exactness, reducing
 source-borrowed scratch pointers from 25 to 21. The later [five-array index
