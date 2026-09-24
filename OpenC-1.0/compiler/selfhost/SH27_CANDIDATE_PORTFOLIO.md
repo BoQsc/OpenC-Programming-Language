@@ -62,6 +62,11 @@ passed 11 falsification checks and guarded Stage 2/3 byte identity. It is an
 opt-in public-interface projection only: no cache hit, independent COFF
 object, or incremental throughput claim is made. It remains off the
 production compiler branch until the artifact/relink architecture is ready.
+The follow-on [stable COFF identity candidate](https://github.com/BoQsc/OpenC-Programming-Language/blob/f68c65f/SH27_STABLE_COFF_IDENTITY_EVIDENCE.md)
+passed guarded fixed point and ten identity/default-parity checks. Its opt-in
+COFF names are independent of unrelated insertion and body edits, but the
+writer still emits one whole-project object with numeric internal relocation
+targets. It is not module reuse or a clean-build speedup.
 An isolated opt-in `PreparedSource`/`WorkerScratch` boundary passed guarded
 fixed point and focused exact artifacts, but it is serial and has no speed
 claim; see `SH27_PREPARED_SOURCE_BOUNDARY.md`. The next function-worker audit
