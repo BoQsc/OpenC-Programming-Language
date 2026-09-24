@@ -89,6 +89,10 @@ unsafe i32 cli_artifact_command() {
             profile_type_queries = true;
         } else if value == "--stable-coff-symbols" {
             options.stable_coff_symbols = true;
+        } else if cli_has_prefix(value, "--linked-exe=") {
+            options.linked_output_path = cli_remove_prefix(
+                value, "--linked-exe="
+            );
         } else if cli_has_prefix(value, "--kind=") {
             kind_name = cli_remove_prefix(value, "--kind=");
         } else if cli_has_prefix(value, "--subsystem=") {
@@ -148,8 +152,10 @@ unsafe i32 cli_artifact_command() {
     }
     if options.stable_coff_symbols &&
         options.kind != native_artifact_coff_object() { valid = false; }
+    if text.byte_length(options.linked_output_path) != 0 &&
+        options.kind != native_artifact_module_coff_set() { valid = false; }
     if !valid {
-        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|module-coff-set|dll|static-library|import-library) --output=FILE-OR-PREFIX [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--stable-coff-symbols] [--source-chunks=(1|2|4|auto)]\n");
+        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|module-coff-set|dll|static-library|import-library) --output=FILE-OR-PREFIX [--linked-exe=FILE (module-coff-set only)] [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--stable-coff-symbols] [--source-chunks=(1|2|4|auto)]\n");
         return 64;
     }
     BuildTimings timings = build_timings_empty();

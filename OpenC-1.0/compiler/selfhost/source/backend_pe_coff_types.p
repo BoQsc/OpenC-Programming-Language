@@ -9,6 +9,7 @@ struct NativeArtifactOptions {
     text dll_name;
     text interface_report_path;
     bool stable_coff_symbols;
+    text linked_output_path;
 }
 usize native_artifact_executable() { return 0; }
 usize native_artifact_coff_object() { return 1; }
@@ -26,7 +27,8 @@ NativeArtifactOptions native_artifact_default_options() {
         resource_path = "",
         dll_name = "",
         interface_report_path = "",
-        stable_coff_symbols = false
+        stable_coff_symbols = false,
+        linked_output_path = ""
     };
 }
 

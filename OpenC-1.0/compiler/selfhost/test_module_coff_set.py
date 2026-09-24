@@ -47,6 +47,7 @@ def build(
     *,
     alpha: str = ALPHA,
     reverse_manifest: bool = False,
+    native_link: bool = False,
 ) -> tuple[dict[str, bytes], dict]:
     root.mkdir()
     (root / "alpha.p").write_text(alpha, encoding="utf-8")
@@ -62,9 +63,14 @@ def build(
     project_path = root / "openc.project.json"
     project_path.write_text(json.dumps(project), encoding="utf-8")
     prefix = root / "bundle"
+    command = [
+        str(compiler), "artifact", f"--project={project_path}",
+        "--kind=module-coff-set", f"--output={prefix}",
+    ]
+    if native_link:
+        command.append(f"--linked-exe={root / 'native-linked.exe'}")
     run = subprocess.run(
-        [str(compiler), "artifact", f"--project={project_path}",
-         "--kind=module-coff-set", f"--output={prefix}"],
+        command,
         capture_output=True, text=True, timeout=30,
     )
     assert run.returncode == 0, f"module COFF: {run.stdout}\n{run.stderr}"
@@ -112,7 +118,7 @@ def main() -> None:
     compiler = Path(sys.argv[1]).resolve()
     with tempfile.TemporaryDirectory(prefix="openc-module-coff-") as temp:
         root = Path(temp)
-        baseline, manifest = build(compiler, root / "base")
+        baseline, manifest = build(compiler, root / "base", native_link=True)
         alpha_names = coff_symbols(baseline["alpha"])
         beta_names = coff_symbols(baseline["beta"])
         alpha_definition = {
@@ -125,12 +131,28 @@ def main() -> None:
         }
         assert alpha_definition == beta_undefined and len(alpha_definition) == 1
         link_and_run(root / "base", manifest, baseline, 7)
+        native_exe = root / "base" / "native-linked.exe"
+        native_bytes = native_exe.read_bytes()
+        assert subprocess.run([str(native_exe)], timeout=10).returncode == 7
+        pe_report = root / "base" / "native-linked-pe-audit.json"
+        audited = subprocess.run(
+            [str(compiler), "pe-audit", f"--input={native_exe}",
+             f"--output={pe_report}"],
+            capture_output=True, text=True, timeout=30,
+        )
+        assert audited.returncode == 0, audited.stdout + audited.stderr
+        audit = json.loads(pe_report.read_text(encoding="utf-8"))
+        assert audit["status"] == "PASS", audit
+        assert audit["checks"]["kernel32_only"] is True
+        assert audit["checks"]["forbidden_crt_absent"] is True
+        assert audit["checks"]["unwind_sorted_nonoverlapping"] is True
 
         prefix = root / "base" / "bundle"
         existing = subprocess.run(
             [str(compiler), "artifact",
              f"--project={root / 'base' / 'openc.project.json'}",
-             "--kind=module-coff-set", f"--output={prefix}"],
+             "--kind=module-coff-set", f"--output={prefix}",
+             f"--linked-exe={native_exe}"],
             capture_output=True, text=True, timeout=30,
         )
         assert existing.returncode == 0, existing.stdout + existing.stderr
@@ -141,6 +163,33 @@ def main() -> None:
             item["module"]: Path(item["object"]).read_bytes()
             for item in manifest["modules"]
         } == baseline
+        assert native_exe.read_bytes() == native_bytes
+
+        # A late native PE write failure must invalidate the output set too.
+        native_exe.unlink()
+        native_exe.mkdir()
+        blocked_link = subprocess.run(
+            [str(compiler), "artifact",
+             f"--project={root / 'base' / 'openc.project.json'}",
+             "--kind=module-coff-set", f"--output={prefix}",
+             f"--linked-exe={native_exe}"],
+            capture_output=True, text=True, timeout=30,
+        )
+        assert blocked_link.returncode != 0
+        assert "OPENC-COFF-LINK-PE" in blocked_link.stderr
+        assert json.loads(
+            (root / "base" / "bundle.modules.json").read_text(encoding="utf-8")
+        ) == {"schema": "openc.module_coff_set.v1", "status": "INCOMPLETE"}
+        native_exe.rmdir()
+        restored_link = subprocess.run(
+            [str(compiler), "artifact",
+             f"--project={root / 'base' / 'openc.project.json'}",
+             "--kind=module-coff-set", f"--output={prefix}",
+             f"--linked-exe={native_exe}"],
+            capture_output=True, text=True, timeout=30,
+        )
+        assert restored_link.returncode == 0, restored_link.stdout + restored_link.stderr
+        assert native_exe.read_bytes() == native_bytes
 
         # A late object write failure must not leave a believable COMPLETE set.
         failure, failure_manifest = build(compiler, root / "failure")
@@ -177,8 +226,12 @@ def main() -> None:
             for item in recovered["modules"]
         } == failure
 
-        reordered, _ = build(compiler, root / "reordered", reverse_manifest=True)
+        reordered, _ = build(
+            compiler, root / "reordered", reverse_manifest=True,
+            native_link=True,
+        )
         assert reordered == baseline, "manifest key order changed module objects"
+        assert (root / "reordered" / "native-linked.exe").read_bytes() == native_bytes
 
         inserted, _ = build(
             compiler, root / "inserted",
@@ -190,10 +243,14 @@ def main() -> None:
         body, body_manifest = build(
             compiler, root / "body",
             alpha=ALPHA.replace("left + right", "left + right + 1"),
+            native_link=True,
         )
         assert body["beta"] == baseline["beta"], "callee body changed importer"
         assert body["alpha"] != baseline["alpha"]
         link_and_run(root / "body", body_manifest, body, 8)
+        assert subprocess.run(
+            [str(root / "body" / "native-linked.exe")], timeout=10
+        ).returncode == 8
         print("module COFF set: boundary/link/failure-recovery checks passed")
 
 

@@ -95,6 +95,35 @@ unsafe bool coff_module_subset(
     return cursor == objects.length && subset.ok;
 }
 
+// Keep the opt-in in-memory link bundle bounded without reserving 8 MiB for
+// every small project. The old bundle remains intact if allocation fails.
+unsafe bool coff_link_bundle_reserve(
+    ref DBuffer bundle,
+    usize addition
+) {
+    usize limit = 8388608;
+    if !bundle.ok || addition > limit ||
+        bundle.length > limit - addition { return false; }
+    usize needed = bundle.length + addition;
+    if needed <= bundle.capacity { return true; }
+    usize capacity = bundle.capacity;
+    if capacity == 0 { capacity = 1024; }
+    while capacity < needed {
+        if capacity > limit / 2 { capacity = limit; }
+        else { capacity = capacity * 2; }
+    }
+    DBuffer grown = d_buffer_create(capacity);
+    if grown.data == null { return false; }
+    d_put_raw(grown, bundle.data, bundle.length);
+    if !grown.ok {
+        d_buffer_destroy(grown);
+        return false;
+    }
+    d_buffer_destroy(bundle);
+    bundle = grown;
+    return true;
+}
+
 unsafe bool coff_write_one_module(
     ref IrContext context,
     ref DBuffer objects,
@@ -102,7 +131,9 @@ unsafe bool coff_write_one_module(
     text prefix,
     ref DBuffer manifest,
     bool first_entry,
-    ref bool wrote_entry
+    ref bool wrote_entry,
+    ref DBuffer bundle,
+    text linked_output_path
 ) {
     wrote_entry = false;
     text module_name = interface_module_name(
@@ -112,6 +143,8 @@ unsafe bool coff_write_one_module(
     bool path_ok = coff_module_object_path(
         context, module_index, prefix, object_path
     );
+    if d_buffer_text(object_path) == linked_output_path &&
+        text.byte_length(linked_output_path) != 0 { path_ok = false; }
     DBuffer preview = DBuffer{
         data = null, length = 0, capacity = 0, ok = true
     };
@@ -122,6 +155,9 @@ unsafe bool coff_write_one_module(
             context, objects, module_index, preview, records,
             selected_bytes, false
         );
+    if !ok && text.byte_length(linked_output_path) != 0 {
+        io.error("error[OPENC-COFF-LINK-SUBSET]: module selection failed\n");
+    }
     DBuffer subset = d_buffer_create(selected_bytes + 1);
     if ok && records != 0 {
         usize copied_records = 0;
@@ -131,6 +167,9 @@ unsafe bool coff_write_one_module(
             copied_records, copied_bytes, true
         ) && copied_records == records &&
             copied_bytes == selected_bytes;
+        if !ok && text.byte_length(linked_output_path) != 0 {
+            io.error("error[OPENC-COFF-LINK-COPY]: module copy failed\n");
+        }
     }
     if ok && records != 0 {
         usize exports = 0;
@@ -139,6 +178,9 @@ unsafe bool coff_write_one_module(
             context, subset, exports, relocations, true, true
         );
         ok = object.ok;
+        if !ok && text.byte_length(linked_output_path) != 0 {
+            io.error("error[OPENC-COFF-LINK-COFF]: object writer failed\n");
+        }
         DBuffer object_hash = d_buffer_create(65);
         if ok {
             winmd_sha256_hex(object.data, object.length, object_hash);
@@ -146,6 +188,22 @@ unsafe bool coff_write_one_module(
                 d_buffer_text(object_path), object.data, object.length
             );
             ok = written.ok && object_hash.ok;
+            if !ok && text.byte_length(linked_output_path) != 0 {
+                io.error("error[OPENC-COFF-LINK-FILE]: object write failed\n");
+            }
+        }
+        if ok && text.byte_length(linked_output_path) != 0 {
+            if object.length > 8388604 ||
+                !coff_link_bundle_reserve(bundle, object.length + 4) {
+                ok = false;
+            } else {
+                pe32_put_u32(bundle, object.length);
+                d_put_raw(bundle, object.data, object.length);
+                ok = bundle.ok;
+            }
+            if !ok {
+                io.error("error[OPENC-COFF-LINK-BUNDLE]: bundle limit failed\n");
+            }
         }
         if ok {
             if !first_entry { d_put(manifest, ",\n"); }
@@ -166,6 +224,9 @@ unsafe bool coff_write_one_module(
     }
     d_buffer_destroy(subset);
     d_buffer_destroy(object_path);
+    if !ok && text.byte_length(linked_output_path) != 0 {
+        io.error("error[OPENC-COFF-LINK-OBJECT]: module object emission failed\n");
+    }
     return ok;
 }
 
@@ -174,7 +235,8 @@ unsafe status coff_module_emit_manifest(
     ref DBuffer objects,
     text prefix,
     ptr byte order,
-    text manifest_path
+    text manifest_path,
+    text linked_output_path
 ) {
     status failed = status{ code = 1 };
     DBuffer manifest = d_buffer_create(
@@ -184,6 +246,12 @@ unsafe status coff_module_emit_manifest(
     d_put(manifest, "  \"status\": \"COMPLETE\",\n");
     d_put(manifest, "  \"target\": \"windows-x86_64-llp64\",\n");
     d_put(manifest, "  \"modules\": [\n");
+    DBuffer bundle = DBuffer{
+        data = null, length = 0, capacity = 0, ok = true
+    };
+    if text.byte_length(linked_output_path) != 0 {
+        bundle = d_buffer_create(1024);
+    }
     usize ordinal = 0;
     usize emitted = 0;
     bool ok = true;
@@ -194,18 +262,26 @@ unsafe status coff_module_emit_manifest(
         bool wrote_entry = false;
         ok = coff_write_one_module(
             context, objects, module_index, prefix,
-            manifest, emitted == 0, wrote_entry
+            manifest, emitted == 0, wrote_entry,
+            bundle, linked_output_path
         );
         if wrote_entry { emitted = emitted + 1; }
         ordinal = ordinal + 1;
     }
     d_put(manifest, "\n  ]\n}\n");
+    if ok && text.byte_length(linked_output_path) != 0 {
+        status linked = coff_link_module_bundle(
+            context, objects, bundle, linked_output_path
+        );
+        ok = linked.ok;
+    }
     if ok && manifest.ok {
         failed = file.write_text(
             manifest_path, d_buffer_text(manifest)
         );
     }
     d_buffer_destroy(manifest);
+    if bundle.data != null { d_buffer_destroy(bundle); }
     if !ok { io.error("error[OPENC-MODULE-COFF]: emission failed\n"); }
     return failed;
 }
@@ -213,12 +289,16 @@ unsafe status coff_module_emit_manifest(
 unsafe status native_write_module_coff_set(
     ref IrContext context,
     ref DBuffer objects,
-    text prefix
+    text prefix,
+    text linked_output_path
 ) {
     status failed = status{ code = 1 };
     if context.modules.length == 0 || context.modules.length > 64 ||
         text.byte_length(prefix) > 4096 ||
-        objects.length > 67108864 {
+        objects.length > 67108864 ||
+        (text.byte_length(linked_output_path) != 0 &&
+            (objects.length > 4194304 ||
+                text.byte_length(linked_output_path) > 4096)) {
         io.error("error[OPENC-MODULE-COFF-BUDGET]: module set exceeds limits\n");
         return failed;
     }
@@ -238,6 +318,12 @@ unsafe status native_write_module_coff_set(
     DBuffer manifest_path = d_buffer_create(text.byte_length(prefix) + 20);
     d_put(manifest_path, prefix);
     d_put(manifest_path, ".modules.json");
+    if d_buffer_text(manifest_path) == linked_output_path &&
+        text.byte_length(linked_output_path) != 0 {
+        io.error("error[OPENC-COFF-LINK-PATH]: linked output collides with manifest\n");
+        d_buffer_destroy(manifest_path);
+        return failed;
+    }
     status invalidated = status{ code = 1 };
     if manifest_path.ok {
         invalidated = file.write_text(
@@ -248,7 +334,7 @@ unsafe status native_write_module_coff_set(
     if invalidated.ok {
         failed = coff_module_emit_manifest(
             context, objects, prefix, order,
-            d_buffer_text(manifest_path)
+            d_buffer_text(manifest_path), linked_output_path
         );
     } else {
         io.error("error[OPENC-MODULE-COFF-MANIFEST]: could not invalidate output set\n");

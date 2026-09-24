@@ -367,7 +367,8 @@ unsafe i32 c_emit_project(
             );
         } else if artifact_options.kind == native_artifact_module_coff_set() {
             written = native_write_module_coff_set(
-                base, output, output_source
+                base, output, output_source,
+                artifact_options.linked_output_path
             );
         } else if artifact_options.kind == native_artifact_static_library() {
             written = native_write_static_library(base, output, output_source);
