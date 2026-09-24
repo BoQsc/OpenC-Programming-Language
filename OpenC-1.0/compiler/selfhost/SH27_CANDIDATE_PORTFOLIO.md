@@ -36,6 +36,7 @@ final five-compiler parity gate.
 | Per-source scratch arena/reuse | Optimistic heap proxy suggests roughly 6–12 ms critical-worker opportunity | Roughly 1–3 ms critical-worker opportunity | Reject before compiler build: control opportunity below clean 10 ms null; zeroed payload and RAM risk remain. |
 | Same-type scalar binary fast path | Local -29 ms / 7 of 11 / 70 ms; hosted -1 ms / 7 of 11 / 5 ms | Local -14 ms / 8 of 11 / 38 ms; hosted -1 ms / 7 of 11 / 2 ms | Reject: clean effect below null on both lanes; no first-visit type work removed. |
 | Lazy tagged typed-operation tranche | -30 ms / 7 of 11 / 65 ms | +9 ms / 4 of 11 / 40 ms | Reject speed claim: 142k/27k old resolver calls bypassed, but equivalent first-visit work and source-lifetime caches remain. |
+| Typed literal/operator handoff | -7 ms / 6 of 11 / 60 ms | -3 ms / 6 of 11 / 71 ms | Reject: 18,613 literal and 15,061 operator reuses in self-build, exact outputs, but whole-wall gain below null on both lanes. |
 
 The table records *candidate minus baseline*, so negative is faster. The null
 floor is same-run baseline-vs-baseline median absolute paired jitter. A
@@ -54,6 +55,8 @@ whole compiler wall time. Detailed evidence is in
 `SH27_SCALAR_FAST_PATH_NO_GO.md`, and
 `SH27_LAZY_TYPED_TRANCHE_EVIDENCE.md`. The opt-in first-visit probe and
 its bounded hypotheses are in `SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md`.
+The later [typed-handoff rejection](https://github.com/BoQsc/OpenC-Programming-Language/blob/b1d0b26/OpenC-1.0/compiler/selfhost/SH27_TYPED_HANDOFF_REJECTION.md)
+shows why cheap fact reuse does not replace the full semantic/IR traversal.
 The later high-resolution worker probe is diagnostic-only because it
 perturbed measured wall and missed the strict 64 MiB self-build working-set
 proof; see `SH27_QPC_CRITICAL_WORKER_PROFILE_EVIDENCE.md`.
@@ -93,27 +96,33 @@ The unchanged production compiler now has **two** independent clean hosted
 20/20 normal-default parity passes, a local strict 20-generation chain, and
 278/278 conformance. A [pinned hosted three-language medium-app proof](SH27_REPRESENTATIVE_HOSTED_PROOF.md)
 also passed 3/3 cold, warm, and edit repetitions with exact executed output.
-That permits three independent engineering tracks to
+That permits four independent engineering tracks to
 advance concurrently, without treating a noisy local micro-gain as progress:
 
-1. **Real incremental native artifacts:** promote only a conservative
-   canonical interface projection that catches same-length renames and ABI
-   edits; then establish stable symbol/type IDs, split acceptance from native
-   emission, add atomic content-validated per-module reuse, and finally a
-   deterministic multi-COFF linker. A full-source hash or warm timer with no
-   actual module hits fails this track.
-2. **Safe function ownership:** opt-in serial PreparedSource, type-registry guard,
+1. **Whole semantic/IR cut:** the literal/operator handoff proved reuse but
+   not elapsed-time savings. Replace a substantial first-visit
+   assignment/binary acceptance traversal with a typed function-local IR
+   handoff that lowering consumes, while preserving exact invalid-diagnostic
+   order. Measure removed passes and end-to-end guarded wall time against a
+   baseline-vs-baseline null; no new full-size cache or eager extra pass.
+2. **Real incremental native artifacts:** the isolated interface projection
+   and stable COFF names are prerequisites. Split acceptance from native
+   emission, emit independent per-module COFF objects with stable relocations,
+   implement native multi-COFF relink and atomic content-validated reuse.
+   A full-source hash or warm timer with no actual module hits fails this track.
+3. **Safe function ownership:** opt-in serial PreparedSource, type-registry guard,
    and four bounded project-cache copies are exact, but 21 scratch pointer
    fields plus IR/output/diagnostic state remain mutable and shared. Give
    each function worker bounded independent scratch before attempting
    deterministic scheduling.
    Require strict 64/256 MiB child and 512 MiB Job proof and a same-run
    end-to-end speed signal; an opt-in flag alone is no throughput result.
-3. **Representative projects:** keep the 20-ratio generated corpus unchanged;
+4. **Representative projects:** keep the 20-ratio generated corpus unchanged;
    use the new guarded CLI/file-audit/compiler suite for cold/warm/edit and
-   exact execution. The D fixture passes locally; the pinned MSVC C lane and
-   repeated project-level comparisons need a hosted runner. Add a retained
-   user project before claiming real-world representativeness.
+   exact execution. Pinned hosted C/D/OpenC medium-app equivalence now passes
+   twice, but the fixture is small and benchmark-authored. Add a retained
+   user project and larger multi-module cases before claiming real-world
+   representativeness.
 
 After any compiler source promotion, rerun complete diagnostics/runtime/ABI,
 the strict 20-chain, and **two new independent** normal-default hosted 20/20
