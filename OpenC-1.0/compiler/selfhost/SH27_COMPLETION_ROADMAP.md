@@ -3,6 +3,8 @@
 Status: **ACTIVE; not performance-complete**. The ordered, falsifiable
 implementation checklist is `SH27_EXECUTION_PLAN.md`; this file retains the
 full measurement history and work-package rationale.
+`SH27_CANDIDATE_PORTFOLIO.md` is the concise current decision index for
+parallel candidates, rejected cuts, and the next architectural batch.
 `SH27_POST_RELEASE_PERFORMANCE_PLAN.md`, `SH27_NATIVE_CHUNK_PROOF.md`, and
 `../../release/SH27_PRODUCTION_CORPUS_EVIDENCE.md` retain the historical evidence.
 Do not mistake a green evidence-only workflow for throughput parity.

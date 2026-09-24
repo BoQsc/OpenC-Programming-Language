@@ -32,8 +32,11 @@ closure checklist in
 [`compiler/selfhost/SH27_EXECUTION_PLAN.md`](compiler/selfhost/SH27_EXECUTION_PLAN.md),
 with measurement history and redesign rationale in
 [`compiler/selfhost/SH27_COMPLETION_ROADMAP.md`](compiler/selfhost/SH27_COMPLETION_ROADMAP.md).
-The current clean-runner comparator workflow is evidence-only and does not
-mean the 1.25x C/D target has passed.
+The broad candidate results and immediate next cuts are indexed in
+[`compiler/selfhost/SH27_CANDIDATE_PORTFOLIO.md`](compiler/selfhost/SH27_CANDIDATE_PORTFOLIO.md).
+The new branch-batch workflow enforces a gain on commit-triggered runs, but
+that screen is not the final 1.25x C/D target; the full clean comparator and
+release gates remain mandatory.
 
 ## Completed self-hosting path
 
