@@ -16,6 +16,14 @@ unsafe bool c_emit_prepared_source_functions_inner(
     // The prepared view borrows only source/project facts after acceptance.
     // Exactly one worker owns scratch in this first vertical slice; no
     // acceptance work or buffers are replicated for function jobs yet.
+    // The native source builder disables spelling hashing because local
+    // shadowing makes it unsound. Refuse a future non-null spelling table
+    // before publishing it as an immutable prepared-source fact.
+    if source_context.spelling_cache != null ||
+        source_context.spelling_cache_capacity != 0 {
+        io.println("OPENC-FUNCTION-SPELLING-CACHE-NOT-FROZEN");
+        return false;
+    }
     usize index_started = process.monotonic_milliseconds();
     if !ir_prepare_function_index_caches(source_context) {
         io.print("OPENC-FUNCTION-INDEX-CACHE-NOT-READY source=");
@@ -151,6 +159,100 @@ unsafe bool c_emit_prepared_source_functions(
             process.monotonic_milliseconds() - freeze_started;
     }
     IrFunctionScratch scratch = ir_function_scratch(source_context);
+    // Function lowering writes symbol-indexed SSA values. A bounded scratch
+    // snapshot keeps those writes off the source-owned array without copying
+    // the full symbol/declaration arena.
+    usize max_local_slots = 65536;
+    if source_context.symbols.length >= max_local_slots ||
+        source_context.local_values == null ||
+        source_context.break_data == null ||
+        source_context.continue_data == null {
+        io.println("OPENC-FUNCTION-LOCAL-COPY-BUDGET");
+        return false;
+    }
+    usize local_slots = source_context.symbols.length + 1;
+    usize max_worker_bytes = 1048576;
+    if source_context.syntax.length >=
+        max_worker_bytes / (2 * size_of(usize)) {
+        io.println("OPENC-FUNCTION-SCRATCH-COPY-BUDGET");
+        return false;
+    }
+    usize stack_slots = source_context.syntax.length + 1;
+    usize type_copy_bytes = 0;
+    if timings.freeze_function_types {
+        if source_context.types.length >= 524288 / record_stride() {
+            io.println("OPENC-FUNCTION-TYPE-COPY-BUDGET");
+            return false;
+        }
+        type_copy_bytes =
+            (source_context.types.length + 1) * record_stride();
+    }
+    usize scratch_copy_bytes = local_slots * size_of(usize) +
+        2 * stack_slots * size_of(usize) + type_copy_bytes;
+    if scratch_copy_bytes > max_worker_bytes {
+        io.println("OPENC-FUNCTION-SCRATCH-COPY-BUDGET");
+        return false;
+    }
+    ptr byte source_local_values = source_context.local_values;
+    ptr byte source_break_data = source_context.break_data;
+    ptr byte source_continue_data = source_context.continue_data;
+    ptr byte owned_local_values = memory.alloc(
+        local_slots * size_of(usize)
+    );
+    if owned_local_values == null ||
+        owned_local_values == source_local_values ||
+        owned_local_values == source_break_data ||
+        owned_local_values == source_continue_data {
+        io.println("OPENC-FUNCTION-LOCAL-COPY-ALIAS");
+        return false;
+    }
+    scope memory.free(owned_local_values);
+    usize value_index = 0;
+    while value_index < local_slots {
+        usize offset = value_index * size_of(usize);
+        write_usize(
+            owned_local_values, offset,
+            read_usize(source_local_values, offset)
+        );
+        value_index = value_index + 1;
+    }
+    scratch.local_values = ir_pointer_alias(owned_local_values);
+    ptr byte owned_break_data = memory.alloc(
+        stack_slots * size_of(usize)
+    );
+    if owned_break_data == null ||
+        owned_break_data == source_local_values ||
+        owned_break_data == source_break_data ||
+        owned_break_data == source_continue_data ||
+        owned_break_data == owned_local_values {
+        io.println("OPENC-FUNCTION-STACK-COPY-ALIAS");
+        return false;
+    }
+    scope memory.free(owned_break_data);
+    ptr byte owned_continue_data = memory.alloc(
+        stack_slots * size_of(usize)
+    );
+    if owned_continue_data == null ||
+        owned_continue_data == source_local_values ||
+        owned_continue_data == source_break_data ||
+        owned_continue_data == source_continue_data ||
+        owned_continue_data == owned_local_values ||
+        owned_continue_data == owned_break_data {
+        io.println("OPENC-FUNCTION-STACK-COPY-ALIAS");
+        return false;
+    }
+    scope memory.free(owned_continue_data);
+    // Both depths reset to zero at the start of ir_lower_function; stack
+    // entries are written before use. Do not read uninitialized source slots.
+    usize stack_index = 0;
+    while stack_index < stack_slots {
+        usize offset = stack_index * size_of(usize);
+        write_usize(owned_break_data, offset, 0);
+        write_usize(owned_continue_data, offset, 0);
+        stack_index = stack_index + 1;
+    }
+    scratch.break_data = ir_pointer_alias(owned_break_data);
+    scratch.continue_data = ir_pointer_alias(owned_continue_data);
     ptr byte source_type_data = source_context.type_data;
     PackedBuffer source_types = source_context.types;
     ptr byte owned_type_data = null;
@@ -168,7 +270,14 @@ unsafe bool c_emit_prepared_source_functions(
         }
         usize slots = source_types.length + 1;
         owned_type_data = memory.alloc(slots * record_stride());
-        if owned_type_data == null || owned_type_data == source_type_data {
+        if owned_type_data == null ||
+            owned_type_data == source_type_data ||
+            owned_type_data == source_local_values ||
+            owned_type_data == source_break_data ||
+            owned_type_data == source_continue_data ||
+            owned_type_data == owned_local_values ||
+            owned_type_data == owned_break_data ||
+            owned_type_data == owned_continue_data {
             io.println("OPENC-FUNCTION-TYPE-COPY-ALIAS");
             return false;
         }
@@ -196,6 +305,9 @@ unsafe bool c_emit_prepared_source_functions(
             source_context.type_data = source_type_data;
             source_context.types = source_types;
         }
+        source_context.local_values = source_local_values;
+        source_context.break_data = source_break_data;
+        source_context.continue_data = source_continue_data;
         return prepared_passed;
     }
     // One serial function scratch owns one project-cache snapshot. A future
@@ -301,6 +413,9 @@ unsafe bool c_emit_prepared_source_functions(
         source_context.type_data = source_type_data;
         source_context.types = source_types;
     }
+    source_context.local_values = source_local_values;
+    source_context.break_data = source_break_data;
+    source_context.continue_data = source_continue_data;
     return passed;
 }
 

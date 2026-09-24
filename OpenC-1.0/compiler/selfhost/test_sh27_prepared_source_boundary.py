@@ -30,7 +30,7 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
         all_fields = fields(context)
         scratch_fields = fields(scratch)
         self.assertEqual(len(all_fields), 122)
-        self.assertEqual(len(scratch_fields), 48)
+        self.assertEqual(len(scratch_fields), 46)
         self.assertEqual(len(set(all_fields)), len(all_fields))
         self.assertEqual(len(set(scratch_fields)), len(scratch_fields))
         self.assertTrue(set(scratch_fields) < set(all_fields))
@@ -297,6 +297,41 @@ class PreparedSourceBoundaryTests(unittest.TestCase):
         self.assertEqual(source.count("source_context.types = source_types;"), 2)
         self.assertIn("OPENC-FUNCTION-TYPE-COPY-BUDGET", source)
         self.assertIn("OPENC-FUNCTION-TYPE-COPY-ALIAS", source)
+
+    def test_spelling_is_null_and_local_and_stack_values_are_worker_owned(self) -> None:
+        declarations = (SOURCE / "ir.p").read_text(encoding="utf-8")
+        prepared = (SOURCE / "ir_prepared_source.p").read_text(
+            encoding="utf-8"
+        )
+        source = (SOURCE / "backend_c_project_source.p").read_text(
+            encoding="utf-8"
+        )
+        scratch = declarations.split("struct IrFunctionScratch {", 1)[1].split(
+            "}", 1
+        )[0]
+        self.assertNotIn("ptr byte spelling_cache;", scratch)
+        self.assertNotIn("usize spelling_cache_capacity;", scratch)
+        for field in ("spelling_cache", "spelling_cache_capacity"):
+            self.assertIn(f"prepared.view.{field} = source.{field};", prepared)
+            self.assertIn(f"context.{field} = prepared.view.{field};", prepared)
+        self.assertIn("OPENC-FUNCTION-SPELLING-CACHE-NOT-FROZEN", source)
+        self.assertIn("usize max_local_slots = 65536;", source)
+        self.assertIn("usize max_worker_bytes = 1048576;", source)
+        self.assertIn("scratch_copy_bytes > max_worker_bytes", source)
+        self.assertIn("scratch.local_values = ir_pointer_alias(owned_local_values);", source)
+        self.assertIn("scope memory.free(owned_local_values);", source)
+        self.assertEqual(
+            source.count("source_context.local_values = source_local_values;"), 2
+        )
+        self.assertIn("OPENC-FUNCTION-LOCAL-COPY-BUDGET", source)
+        self.assertIn("OPENC-FUNCTION-LOCAL-COPY-ALIAS", source)
+        for field in ("break_data", "continue_data"):
+            self.assertIn(f"scratch.{field} = ir_pointer_alias(owned_{field});", source)
+            self.assertIn(f"scope memory.free(owned_{field});", source)
+            self.assertEqual(
+                source.count(f"source_context.{field} = source_{field};"), 2
+            )
+        self.assertIn("OPENC-FUNCTION-STACK-COPY-ALIAS", source)
 
     def test_type_freeze_checks_each_function_before_next_bind(self) -> None:
         source = (SOURCE / "backend_c_project_source.p").read_text(

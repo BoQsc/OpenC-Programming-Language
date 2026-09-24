@@ -142,8 +142,6 @@ unsafe void ir_prepared_source(
     view.cache_write_violations = 0;
     view.type_data = null;
     view.types = PackedBuffer{ length = 0, capacity = 0 };
-    view.spelling_cache = null;
-    view.spelling_cache_capacity = 0;
     view.symbol_export_cache = null;
     view.native_layout_size_cache = null;
     view.native_layout_alignment_cache = null;
@@ -207,8 +205,8 @@ unsafe void ir_prepared_source(
     prepared.view.cache_write_owner_encoded = view.cache_write_owner_encoded;
     prepared.view.cache_write_violations = view.cache_write_violations;
     prepared.view.name_cache = source.name_cache;
-    prepared.view.spelling_cache = view.spelling_cache;
-    prepared.view.spelling_cache_capacity = view.spelling_cache_capacity;
+    prepared.view.spelling_cache = source.spelling_cache;
+    prepared.view.spelling_cache_capacity = source.spelling_cache_capacity;
     prepared.view.call_cache = source.call_cache;
     prepared.view.call_argument_first = source.call_argument_first;
     prepared.view.call_argument_last = source.call_argument_last;
@@ -317,8 +315,6 @@ unsafe IrFunctionScratch ir_function_scratch(ref IrContext source) {
         cache_write_violations = source.cache_write_violations,
         type_data = source.type_data,
         types = source.types,
-        spelling_cache = source.spelling_cache,
-        spelling_cache_capacity = source.spelling_cache_capacity,
         symbol_export_cache = source.symbol_export_cache,
         native_layout_size_cache = source.native_layout_size_cache,
         native_layout_alignment_cache = source.native_layout_alignment_cache,
@@ -437,8 +433,8 @@ unsafe void ir_bind_prepared_function(
     context.type_data = scratch.type_data;
     context.types = scratch.types;
     context.name_cache = prepared.view.name_cache;
-    context.spelling_cache = scratch.spelling_cache;
-    context.spelling_cache_capacity = scratch.spelling_cache_capacity;
+    context.spelling_cache = prepared.view.spelling_cache;
+    context.spelling_cache_capacity = prepared.view.spelling_cache_capacity;
     context.call_cache = prepared.view.call_cache;
     context.call_argument_first = prepared.view.call_argument_first;
     context.call_argument_last = prepared.view.call_argument_last;
@@ -505,8 +501,6 @@ unsafe void ir_capture_function_scratch(
     scratch.cache_write_violations = context.cache_write_violations;
     scratch.type_data = context.type_data;
     scratch.types = context.types;
-    scratch.spelling_cache = context.spelling_cache;
-    scratch.spelling_cache_capacity = context.spelling_cache_capacity;
     scratch.symbol_export_cache = context.symbol_export_cache;
     scratch.native_layout_size_cache = context.native_layout_size_cache;
     scratch.native_layout_alignment_cache = context.native_layout_alignment_cache;

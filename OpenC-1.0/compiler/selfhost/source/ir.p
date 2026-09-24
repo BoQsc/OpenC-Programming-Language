@@ -154,8 +154,6 @@ struct IrFunctionScratch {
     usize cache_write_violations;
     ptr byte type_data;
     PackedBuffer types;
-    ptr byte spelling_cache;
-    usize spelling_cache_capacity;
     ptr byte symbol_export_cache;
     ptr byte native_layout_size_cache;
     ptr byte native_layout_alignment_cache;
