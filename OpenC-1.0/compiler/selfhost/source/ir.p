@@ -7,6 +7,8 @@ import system.text;
 struct IrScalarState {
     bool enabled;
     usize preflight_reason;
+    usize i32_type;
+    usize i64_type;
     usize expected_assignments;
     usize expected_binaries;
     usize expected_conditions;
@@ -23,6 +25,8 @@ IrScalarState ir_scalar_state_empty() {
     return IrScalarState{
         enabled = false,
         preflight_reason = 0,
+        i32_type = 0,
+        i64_type = 0,
         expected_assignments = 0,
         expected_binaries = 0,
         expected_conditions = 0,

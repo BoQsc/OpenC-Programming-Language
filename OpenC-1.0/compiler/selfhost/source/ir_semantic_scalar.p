@@ -28,16 +28,54 @@ unsafe bool ir_semantic_scalar_reject(
     return false;
 }
 
+// The required ownership census decodes each covered operator once. Its
+// existing kind-disjoint call-cache slot carries this code into lowering:
+// 1 assignment, 2..5 arithmetic, 6..11 comparison. No extra arena/pass.
+unsafe usize ir_semantic_scalar_operator(
+    ref IrContext context,
+    usize node
+) {
+    if flow_node_operator(context.source, context.syntax_data, node, "=") {
+        return 1;
+    }
+    if flow_node_operator(context.source, context.syntax_data, node, "+") {
+        return 2;
+    }
+    if flow_node_operator(context.source, context.syntax_data, node, "-") {
+        return 3;
+    }
+    if flow_node_operator(context.source, context.syntax_data, node, "*") {
+        return 4;
+    }
+    if flow_node_operator(context.source, context.syntax_data, node, "%") {
+        return 5;
+    }
+    if flow_node_operator(context.source, context.syntax_data, node, "==") {
+        return 6;
+    }
+    if flow_node_operator(context.source, context.syntax_data, node, "!=") {
+        return 7;
+    }
+    if flow_node_operator(context.source, context.syntax_data, node, "<") {
+        return 8;
+    }
+    if flow_node_operator(context.source, context.syntax_data, node, "<=") {
+        return 9;
+    }
+    if flow_node_operator(context.source, context.syntax_data, node, ">") {
+        return 10;
+    }
+    if flow_node_operator(context.source, context.syntax_data, node, ">=") {
+        return 11;
+    }
+    return 0;
+}
+
 unsafe bool ir_semantic_scalar_compare_operator(
     ref IrContext context,
     usize node
 ) {
-    return flow_node_operator(context.source, context.syntax_data, node, "==") ||
-        flow_node_operator(context.source, context.syntax_data, node, "!=") ||
-        flow_node_operator(context.source, context.syntax_data, node, "<") ||
-        flow_node_operator(context.source, context.syntax_data, node, "<=") ||
-        flow_node_operator(context.source, context.syntax_data, node, ">") ||
-        flow_node_operator(context.source, context.syntax_data, node, ">=");
+    return ir_semantic_scalar_operator(context, node) >= 6;
 }
 
 unsafe usize ir_semantic_scalar_left_type(
@@ -82,10 +120,15 @@ unsafe bool ir_semantic_scalar_census(
     if kind != 36 && kind != 37 { return false; }
     usize mark = node * size_of(usize);
     if read_usize(context.call_cache, mark) != 0 { return false; }
-    write_usize(context.call_cache, mark, 1);
     usize operator_start = read_record_field(context.syntax_data, node, 3);
     usize operator_length = read_record_field(context.syntax_data, node, 4);
     if operator_length == 0 || operator_length > 2 { return false; }
+    usize operator_kind = ir_semantic_scalar_operator(context, node);
+    if (kind == 37 && operator_kind != 1) ||
+        (kind == 36 && (operator_kind < 2 || operator_kind > 11)) {
+        return false;
+    }
+    write_usize(context.call_cache, mark, operator_kind);
     usize left = ir_left_expression(context, node, operator_start);
     usize right = ir_right_expression(
         context, node, operator_start + operator_length
@@ -94,8 +137,7 @@ unsafe bool ir_semantic_scalar_census(
         return false;
     }
     if kind == 37 {
-        if !flow_node_operator(context.source, context.syntax_data, node, "=") ||
-            read_record_field(context.syntax_data, left, 0) != 27 ||
+        if read_record_field(context.syntax_data, left, 0) != 27 ||
             flow_span_has_byte(
                 context.source,
                 read_record_field(context.syntax_data, left, 1),
@@ -105,13 +147,6 @@ unsafe bool ir_semantic_scalar_census(
         return ir_semantic_scalar_census(
             context, right, depth + 1, counts
         );
-    }
-    if !flow_node_operator(context.source, context.syntax_data, node, "+") &&
-        !flow_node_operator(context.source, context.syntax_data, node, "-") &&
-        !flow_node_operator(context.source, context.syntax_data, node, "*") &&
-        !flow_node_operator(context.source, context.syntax_data, node, "%") &&
-        !ir_semantic_scalar_compare_operator(context, node) {
-        return false;
     }
     counts.binaries = counts.binaries + 1;
     return ir_semantic_scalar_census(
@@ -204,6 +239,14 @@ unsafe bool ir_semantic_scalar_eligible(ref IrContext context) {
         rooted.binaries != binaries {
         return ir_semantic_scalar_reject(context, 4);
     }
+    // Resolve canonical builtin IDs once per source, never once per
+    // recursively visited expression. No numeric type-layout assumption.
+    context.scalar_state.i32_type = semantic_builtin_type("i32", 0, 3);
+    context.scalar_state.i64_type = semantic_builtin_type("i64", 0, 3);
+    if context.scalar_state.i32_type == semantic_type_error() ||
+        context.scalar_state.i64_type == semantic_type_error() {
+        return ir_semantic_scalar_reject(context, 4);
+    }
     context.scalar_state.enabled = true;
     context.scalar_state.expected_assignments = assignments;
     context.scalar_state.expected_binaries = binaries;
@@ -221,8 +264,8 @@ unsafe IrSemanticScalar ir_semantic_scalar_visit(
         return ir_semantic_scalar_invalid(context);
     }
     usize kind = read_record_field(context.syntax_data, node, 0);
-    usize i32_type = semantic_builtin_type("i32", 0, 3);
-    usize i64_type = semantic_builtin_type("i64", 0, 3);
+    usize i32_type = context.scalar_state.i32_type;
+    usize i64_type = context.scalar_state.i64_type;
     if kind == 29 {
         ResolutionInteger literal = resolution_parse_integer(
             context.source,
@@ -292,7 +335,13 @@ unsafe IrSemanticScalar ir_semantic_scalar_visit(
         usize right_node = ir_right_expression(
             context, node, operator_start + operator_length
         );
-        bool comparison = ir_semantic_scalar_compare_operator(context, node);
+        usize operator_kind = read_usize(
+            context.call_cache, node * size_of(usize)
+        );
+        if operator_kind < 2 || operator_kind > 11 {
+            return ir_semantic_scalar_invalid(context);
+        }
+        bool comparison = operator_kind >= 6;
         usize operand_type = expected;
         if comparison {
             if expected != semantic_type_bool() {
@@ -310,9 +359,8 @@ unsafe IrSemanticScalar ir_semantic_scalar_visit(
         );
         // Mirror the existing checked-multiply identity lowering: validate
         // the literal but do not create a constant or multiply SSA value.
-        if left.valid && flow_node_operator(
-            context.source, context.syntax_data, node, "*"
-        ) && right_node < context.syntax.length &&
+        if left.valid && operator_kind == 4 &&
+            right_node < context.syntax.length &&
             read_record_field(context.syntax_data, right_node, 0) == 29 {
             ResolutionInteger identity = resolution_parse_integer(
                 context.source,
@@ -327,16 +375,7 @@ unsafe IrSemanticScalar ir_semantic_scalar_visit(
         IrSemanticScalar right = ir_semantic_scalar_visit(
             context, right_node, operand_type
         );
-        if !left.valid || !right.valid ||
-            (!comparison && !flow_node_operator(
-                context.source, context.syntax_data, node, "+"
-            ) && !flow_node_operator(
-                context.source, context.syntax_data, node, "-"
-            ) && !flow_node_operator(
-                context.source, context.syntax_data, node, "*"
-            ) && !flow_node_operator(
-                context.source, context.syntax_data, node, "%"
-            )) {
+        if !left.valid || !right.valid {
             return ir_semantic_scalar_invalid(context);
         }
         usize first = context.operands.length;
@@ -360,9 +399,9 @@ unsafe IrSemanticScalar ir_semantic_scalar_visit(
         context.scalar_state.visited_assignments =
             context.scalar_state.visited_assignments + 1;
         usize operator_start = read_record_field(context.syntax_data, node, 3);
-        if !flow_node_operator(
-            context.source, context.syntax_data, node, "="
-        ) || read_record_field(context.syntax_data, node, 4) != 1 {
+        if read_usize(
+            context.call_cache, node * size_of(usize)
+        ) != 1 || read_record_field(context.syntax_data, node, 4) != 1 {
             return ir_semantic_scalar_invalid(context);
         }
         usize left_node = ir_left_expression(context, node, operator_start);
