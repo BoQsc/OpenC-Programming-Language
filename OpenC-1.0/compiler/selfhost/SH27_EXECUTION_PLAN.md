@@ -146,8 +146,9 @@ needs first-visit and allocation attribution; the next semantic/lowering cut
 must target **whole critical-path wall**, not only a summed rule counter.
 
 The next implementation decision is **not** another isolated cache or rule
-flag. First put a measured upper bound on the remaining semantic, lowering,
-and backend wall time of `738bea3`. If the semantic/lowering ceiling cannot
+flag. Keep measured upper bounds on the remaining semantic, lowering, and
+backend wall time of `738bea3` while independent architectural candidates
+are built from the same baseline. If the semantic/lowering ceiling cannot
 cover the same-run DMD deficit, design Step 4 concurrently rather than
 waiting for a succession of small wins. A prototype advances only after
 11 same-host paired large/control/self-build measurements, byte-exact
@@ -179,7 +180,7 @@ local 93/42 ms scalar-flow gain did not close clean parity.
   loop rotates tool order; retain all per-sample observations. A failure after
   a green run is a failure to reproduce, not a reason to discard the run.
 
-### 1. Produce a critical-path budget before more compiler edits
+### 1. Produce a critical-path budget alongside isolated architecture work
 
 - Profile the normal default, explicit serial, and explicit worker modes on
   the three guarded workloads. Separate top-level declarations/indexing,
