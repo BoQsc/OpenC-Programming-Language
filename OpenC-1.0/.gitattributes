@@ -10,6 +10,7 @@
 
 # Preserve the audited upstream distribution byte-for-byte.
 third_party/tinycc-win64/** -text
+third_party/tinycc-win64/** linguist-vendored
 
 # OpenC .p files are not Gnuplot.
 *.p linguist-language=Text
