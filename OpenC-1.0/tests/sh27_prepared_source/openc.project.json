@@ -1,0 +1,13 @@
+{
+  "name": "sh27-prepared-source-proof",
+  "version": "1.0.0",
+  "edition": "OpenC 1.0",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "modules": {
+    "proof.main": ["main.p"],
+    "proof.one": ["one.p"],
+    "proof.two": ["two.p"],
+    "proof.three": ["three.p"]
+  }
+}

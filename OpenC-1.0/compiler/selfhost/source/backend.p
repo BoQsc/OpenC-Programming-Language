@@ -7,6 +7,7 @@ import system.text;
 
 struct BuildTimings {
     usize emission_mode;
+    bool prepared_function_scratch;
     usize project_load_ms;
     usize declarations_ms;
     usize declaration_parse_retained_ms;
@@ -165,6 +166,7 @@ struct BuildTimings {
 BuildTimings build_timings_empty() {
     return BuildTimings{
         emission_mode = 0,
+        prepared_function_scratch = false,
         project_load_ms = 0,
         declarations_ms = 0,
         declaration_parse_retained_ms = 0,

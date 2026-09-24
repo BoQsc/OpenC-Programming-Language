@@ -126,6 +126,76 @@ struct IrContext {
     bool suppress_acceptance_diagnostics;
 }
 
+// A borrowed, source-lifetime view published only after indexing and
+// acceptance. Its mutable caches and IR storage are deliberately absent.
+// The first user is a serial opt-in path; parallel publication is not yet
+// allowed because acceptance itself still owns source-wide mutable state.
+struct IrPreparedSource {
+    IrContext view;
+}
+
+// One worker owns these mutable arrays and reuses them across functions.
+// No token, syntax, adjacency, or declaration arena is copied into scratch.
+struct IrFunctionScratch {
+    usize function_node;
+    usize function_symbol;
+    usize function_result;
+    usize function_local_first;
+    usize function_local_end;
+    ptr byte type_data;
+    PackedBuffer types;
+    ptr byte name_cache;
+    ptr byte spelling_cache;
+    usize spelling_cache_capacity;
+    ptr byte call_cache;
+    ptr byte call_argument_first;
+    ptr byte call_argument_last;
+    ptr byte argument_next;
+    ptr byte type_cache;
+    ptr byte profile_type_seen;
+    ptr byte resolved_type_ref_cache;
+    ptr byte left_expression_cache;
+    ptr byte right_expression_cache;
+    ptr byte block_parent_cache;
+    ptr byte control_parent_cache;
+    ptr byte symbol_export_cache;
+    ptr byte native_layout_size_cache;
+    ptr byte native_layout_alignment_cache;
+    ptr byte native_layout_state_cache;
+    ptr byte local_values;
+    ptr byte block_data;
+    PackedBuffer blocks;
+    ptr byte instruction_data;
+    ptr byte instruction_detail;
+    PackedBuffer instructions;
+    ptr byte operand_data;
+    PackedBuffer operands;
+    ptr byte break_data;
+    usize break_depth;
+    ptr byte continue_data;
+    usize continue_depth;
+    usize current_block;
+    usize next_value;
+    usize profile_statement_candidates;
+    usize profile_parent_candidates;
+    usize profile_expression_positions;
+    usize profile_syntax_candidates;
+    usize profile_symbol_candidates;
+    usize profile_type_queries;
+    usize profile_type_cache_hits;
+    usize profile_type_uncached;
+    usize profile_type_distinct_uncached;
+    usize profile_type_repeated_uncached;
+    usize profile_type_failures;
+    usize profile_type_name_uncached;
+    usize profile_type_literal_uncached;
+    usize profile_type_unary_uncached;
+    usize profile_type_binary_uncached;
+    usize profile_type_assignment_uncached;
+    usize profile_type_call_uncached;
+    usize profile_type_other_uncached;
+}
+
 struct IrBounds {
     bool valid;
     usize start;

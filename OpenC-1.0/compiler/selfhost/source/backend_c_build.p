@@ -29,6 +29,9 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.source_files);
     d_put(output, ",\n  \"source_bytes\": ");
     d_put_usize(output, timings.source_bytes);
+    if timings.prepared_function_scratch {
+        d_put(output, ",\n  \"prepared_function_scratch\": true");
+    }
     d_put(output, ",\n  \"parallel_source_chunks\": ");
     d_put_usize(output, timings.parallel_source_chunks);
     d_put(output, ",\n  \"parallel_flow_workers\": ");

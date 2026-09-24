@@ -480,6 +480,14 @@ unsafe bool c_emit_native_sources_chunked(
         entry_module, validation_source_ms, parsed_source_cache,
         worker_count
     );
+    state.chunk_one.timings.prepared_function_scratch =
+        timings.prepared_function_scratch;
+    state.chunk_two.timings.prepared_function_scratch =
+        timings.prepared_function_scratch;
+    state.chunk_three.timings.prepared_function_scratch =
+        timings.prepared_function_scratch;
+    state.chunk_four.timings.prepared_function_scratch =
+        timings.prepared_function_scratch;
     usize workers_started = process.monotonic_milliseconds();
     i32 launch_result = 3;
     if worker_count == 2 {

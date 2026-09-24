@@ -5,6 +5,57 @@ import system.path;
 import system.process;
 import system.text;
 
+unsafe bool c_emit_prepared_source_functions(
+    ref IrContext source_context,
+    ref DBuffer output,
+    ref BuildTimings timings,
+    usize source_record,
+    usize entry_module
+) {
+    // The prepared view borrows only source/project facts after acceptance.
+    // Exactly one worker owns scratch in this first vertical slice; no
+    // acceptance work or buffers are replicated for function jobs yet.
+    IrPreparedSource prepared = IrPreparedSource{ view = source_context };
+    IrFunctionScratch scratch = ir_function_scratch(source_context);
+    ir_prepared_source(source_context, prepared);
+    usize node = 0;
+    while node < source_context.syntax.length {
+        if read_record_field(source_context.syntax_data, node, 0) == 2 {
+            usize body = ir_largest_direct_block(source_context, node);
+            usize owner = ir_owner_symbol(
+                source_context, node, resolution_symbol_function(), 0
+            );
+            if body >= source_context.syntax.length || byte_at_or_zero(
+                    source_context.source,
+                    read_record_field(source_context.syntax_data, body, 1)
+                ) != 123 {
+                node = node + 1;
+                continue;
+            }
+            if owner == 0 {
+                io.print("OPENC-C-BACKEND-INTERNAL source=");
+                io.print(source_record);
+                io.print(" node="); io.print(node);
+                io.print(" body="); io.print(body);
+                io.print(" owner="); io.println(owner);
+                return false;
+            }
+            IrContext function_context = source_context;
+            ir_bind_prepared_function(
+                prepared, scratch, function_context
+            );
+            c_lower_and_emit_function(
+                function_context, output, timings, source_record, node,
+                owner, entry_module
+            );
+            ir_capture_function_scratch(scratch, function_context);
+        }
+        node = node + 1;
+    }
+    ir_bind_prepared_function(prepared, scratch, source_context);
+    return true;
+}
+
 unsafe bool c_emit_source_record(
     ref IrContext base,
     ref DBuffer output,
@@ -427,44 +478,55 @@ unsafe bool c_emit_source_record(
             return true;
         }
     }
-    usize node = 0;
-    while node < syntax.length {
-        if read_record_field(syntax_data, node, 0) == 2 {
-            usize body = ir_largest_direct_block(context, node);
-            usize owner = ir_owner_symbol(
-                context, node,
-                resolution_symbol_function(), 0
-            );
-            // A semicolon-only declaration has no IR body. It is valid input,
-            // but its implementation must be supplied by another source or an
-            // external/native provider. Do not accidentally associate it with
-            // a later declaration's block and report an internal compiler bug.
-            if body >= syntax.length || byte_at_or_zero(
-                    source,
-                    read_record_field(syntax_data, body, 1)
-                ) != 123 {
-                node = node + 1;
-                continue;
+    if timings.prepared_function_scratch && timings.emission_mode == 2 {
+        if !c_emit_prepared_source_functions(
+                context, output, timings, source_record, entry_module
+            ) {
+            if parsed_source_reused {
+                context.syntax_data = null;
+                context.token_data = null;
             }
-            if owner == 0 {
-                io.print("OPENC-C-BACKEND-INTERNAL source=");
-                io.print(source_record);
-                io.print(" node="); io.print(node);
-                io.print(" body="); io.print(body);
-                io.print(" owner="); io.println(owner);
-                if parsed_source_reused {
-                    context.syntax_data = null;
-                    context.token_data = null;
-                }
-                c_release_source_context(context, diagnostic_data);
-                return false;
-            }
-            c_lower_and_emit_function(
-                context, output, timings, source_record, node,
-                owner, entry_module
-            );
+            c_release_source_context(context, diagnostic_data);
+            return false;
         }
-        node = node + 1;
+    } else {
+        usize node = 0;
+        while node < syntax.length {
+            if read_record_field(syntax_data, node, 0) == 2 {
+                usize body = ir_largest_direct_block(context, node);
+                usize owner = ir_owner_symbol(
+                    context, node,
+                    resolution_symbol_function(), 0
+                );
+                // A semicolon-only declaration has no IR body. It is valid
+                // input, but its implementation must be supplied elsewhere.
+                if body >= syntax.length || byte_at_or_zero(
+                        source,
+                        read_record_field(syntax_data, body, 1)
+                    ) != 123 {
+                    node = node + 1;
+                    continue;
+                }
+                if owner == 0 {
+                    io.print("OPENC-C-BACKEND-INTERNAL source=");
+                    io.print(source_record);
+                    io.print(" node="); io.print(node);
+                    io.print(" body="); io.print(body);
+                    io.print(" owner="); io.println(owner);
+                    if parsed_source_reused {
+                        context.syntax_data = null;
+                        context.token_data = null;
+                    }
+                    c_release_source_context(context, diagnostic_data);
+                    return false;
+                }
+                c_lower_and_emit_function(
+                    context, output, timings, source_record, node,
+                    owner, entry_module
+                );
+            }
+            node = node + 1;
+        }
     }
     base.next_value = context.next_value;
     base.types = context.types;
