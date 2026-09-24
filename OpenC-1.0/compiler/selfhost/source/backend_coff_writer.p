@@ -1,4 +1,5 @@
 import system.file;
+import system.io;
 import system.memory;
 import system.text;
 
@@ -77,8 +78,29 @@ unsafe DBuffer native_build_coff_object(
     ref IrContext context,
     ref DBuffer objects,
     ref usize exported_count,
-    ref usize relocation_count
+    ref usize relocation_count,
+    bool stable_symbols
 ) {
+    DBuffer stable_hashes = DBuffer{
+        data = null, length = 0, capacity = 0, ok = true
+    };
+    ptr byte stable_offsets = null;
+    bool stable_ok = true;
+    if stable_symbols && context.symbols.length > 262144 {
+        io.error("error[OPENC-COFF-STABLE-BUDGET]: too many symbols\n");
+        stable_ok = false;
+    }
+    if stable_symbols && stable_ok {
+        stable_hashes = d_buffer_create(
+            context.symbols.length * 64 + 64
+        );
+        stable_offsets = memory.alloc(
+            (context.symbols.length + 1) * size_of(usize)
+        );
+        stable_ok = coff_stable_prepare(
+            context, stable_hashes, stable_offsets
+        );
+    }
     ptr byte addresses = memory.alloc(
         (context.symbols.length + 1) * size_of(usize)
     );
@@ -295,6 +317,23 @@ unsafe DBuffer native_build_coff_object(
             pe_export_symbol_name(context, symbol, name);
             storage_class = 2;
             local_exported_count = local_exported_count + 1;
+        } else if stable_symbols {
+            if stable_ok {
+                usize at_plus_one = read_usize(
+                    stable_offsets, symbol * size_of(usize)
+                );
+                if at_plus_one == 0 || at_plus_one - 1 + 64 >
+                    stable_hashes.length {
+                    stable_ok = false;
+                } else {
+                    d_put(name, "$openc$");
+                    d_put_raw(
+                        name, stable_hashes.data + at_plus_one - 1, 64
+                    );
+                    // This is a COFF external definition, not a PE export.
+                    storage_class = 2;
+                }
+            }
         } else {
             coff_internal_name(name, symbol);
         }
@@ -320,7 +359,8 @@ unsafe DBuffer native_build_coff_object(
     exported_count = local_exported_count;
     pe32_patch_u32(strings, 0, strings.length);
     native_copy_range(output, strings, 0, strings.length);
-    if !objects.ok || !text_data.ok || !rdata.ok || !data.ok ||
+    if !stable_ok || !stable_hashes.ok || !objects.ok ||
+        !text_data.ok || !rdata.ok || !data.ok ||
         !pdata.ok || !xdata.ok || !text_reloc.ok || !pdata_reloc.ok ||
         !strings.ok {
         output.ok = false;
@@ -337,18 +377,21 @@ unsafe DBuffer native_build_coff_object(
     memory.free(unwind_offsets);
     memory.free(constant_offsets);
     memory.free(addresses);
+    if stable_offsets != null { memory.free(stable_offsets); }
+    if stable_hashes.data != null { d_buffer_destroy(stable_hashes); }
     return output;
 }
 
 unsafe status native_write_coff_object(
     ref IrContext context,
     ref DBuffer objects,
-    text path
+    text path,
+    bool stable_symbols
 ) {
     usize exports = 0;
     usize relocations = 0;
     DBuffer object = native_build_coff_object(
-        context, objects, exports, relocations
+        context, objects, exports, relocations, stable_symbols
     );
     status written = status{ code = 1 };
     if object.ok && exports != 0 && relocations != 0 {
@@ -422,7 +465,7 @@ unsafe status native_write_static_library(
     usize object_exports = 0;
     usize object_relocations = 0;
     DBuffer object = native_build_coff_object(
-        context, objects, object_exports, object_relocations
+        context, objects, object_exports, object_relocations, false
     );
     usize name_count = 0;
     DBuffer names = coff_export_names(context, name_count);
