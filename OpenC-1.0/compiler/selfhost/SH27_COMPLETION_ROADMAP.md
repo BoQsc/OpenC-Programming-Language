@@ -52,7 +52,11 @@ also passed strict opt-in self-build memory and exactness, reducing
 source-borrowed scratch pointers from 25 to 21. The later [five-array index
 freeze](https://github.com/BoQsc/OpenC-Programming-Language/blob/af44c6b/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_INDEX_FREEZE.md)
 reduced that count to 16 with exact guarded self-build and invalid-input
-proof. Both remain serial and isolated; neither authorizes function workers.
+proof. The [seven-cache ownership lanes](https://github.com/BoQsc/OpenC-Programming-Language/blob/641ea1d/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_CACHE_LANES.md)
+reduced source-borrowed pointers again to nine and passed strict opt-in
+self-build and exact large/control cases. All remain serial and isolated;
+mutable derived type IDs, spelling cache, IR buffers and deterministic merge
+still prohibit function workers.
 
 ## Objective and boundary
 

@@ -103,6 +103,13 @@ and focused calls/duplicate/cycle/invalid diagnostics. It reduced remaining
 source-borrowed scratch pointers from 21 to 16. Its readiness and writer-path
 audit are the safety argument; the post-lowering checksum is diagnostic, not
 collision-free proof. Function workers are still prohibited.
+The [seven-cache ownership lanes](https://github.com/BoQsc/OpenC-Programming-Language/blob/641ea1d/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_CACHE_LANES.md)
+then cut source-borrowed pointers from 16 to 9 with fixed disjoint function
+spans, pre-write guards, isolated reads, byte-exact fixed point, focused and
+large/control correctness, and strict opt-in self-build at 260,612,096 bytes
+private / 60,579,840 bytes working set. The mutable type registry, spelling
+cache, seven local/IR buffers, and deterministic merge still block workers;
+only about 7.8 MiB of strict private-byte headroom remained in that proof.
 
 ## Next decisive batch
 
@@ -122,15 +129,22 @@ advance concurrently, without treating a noisy local micro-gain as progress:
    The [isolated implementation contract](https://github.com/BoQsc/OpenC-Programming-Language/blob/fc04d72/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_DESIGN.md)
    specifies the all-or-nothing source barrier, expected-type/call ordering,
    legacy diagnostic replay, and kill criteria before code is judged.
+   The [Phase B1 proof](https://github.com/BoQsc/OpenC-Programming-Language/blob/8489962/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_DESIGN.md)
+   removes both legacy sweeps for 7/8 generated large-function sources
+   (21,504 assignments and 28,672 binaries), with exact PE/runtime and
+   guarded fixed point. The excluded source 0 was the historical critical
+   call-heavy worker; control/self-build coverage, strict final RAM, and
+   whole-wall speed remain unproved. Widen the visitor before timing.
 2. **Real incremental native artifacts:** the isolated interface projection,
    stable COFF names, and post-lowering module COFF set are prerequisites.
    Make acceptance/lowering truly independent by module, handle shared data,
    implement native multi-COFF relink and atomic content-validated reuse.
    A full-source hash or warm timer with no actual module hits fails this track.
-3. **Safe function ownership:** opt-in serial PreparedSource, type-registry guard,
-   four bounded project-cache copies, and five frozen source indexes are
-   exact, but 16 scratch pointer fields plus IR/output/diagnostic state remain
-   mutable and shared. Give
+3. **Safe function ownership:** opt-in serial PreparedSource, type-registry
+   probe, four bounded project-cache copies, five frozen source indexes, and
+   seven guarded function cache lanes are exact, but nine source-borrowed
+   scratch pointer fields plus IR/output/diagnostic state remain mutable and
+   shared. Give
    each function worker bounded independent scratch before attempting
    deterministic scheduling.
    Require strict 64/256 MiB child and 512 MiB Job proof and a same-run
