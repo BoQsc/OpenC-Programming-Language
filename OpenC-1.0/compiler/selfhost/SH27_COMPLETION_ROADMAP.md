@@ -43,7 +43,15 @@ identity checks against the earlier report, so final-source 14/14 is open.
 `SH27_INCREMENTAL_OBJECT_REUSE_ARCHITECTURE.md` maps the current one-object,
 global-ID pipeline and the safe implementation/proof sequence. Its newer
 current delta records an isolated opt-in automatic cache; none is promoted
-into the normal production build yet.
+into the normal production build yet. The later
+[isolated representative-cache proof](../../../SH27_REPRESENTATIVE_CACHE_EVIDENCE.md)
+passed a hosted four-module file app, strict self-build, and a three-run
+project suite, but the 228-source compiler project cannot use this object
+path: it trips both the conservative cache projection and 4 MiB linked-set
+budget, and its single module offers no one-source rebuild granularity.
+Safe partitioning, streaming link memory, and strict RAM headroom are named
+engineering gates before default promotion; a larger buffer alone is not a
+substitute.
 The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
 `benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit
 app, and actual compiler self-build with exact cold/warm/edit/runtime/RAM

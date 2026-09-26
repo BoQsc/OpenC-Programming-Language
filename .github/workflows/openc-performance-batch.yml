@@ -14,6 +14,7 @@ on:
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_candidate_matrix.py
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_paired_revision.py
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
+      - OpenC-1.0/compiler/selfhost/test_benchmark_sh27_representative.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
   workflow_dispatch:
     inputs:

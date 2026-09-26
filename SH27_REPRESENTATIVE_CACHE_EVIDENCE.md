@@ -1,7 +1,7 @@
 # SH-27 representative file application on the module-object cache
 
-Status: **isolated opt-in cut; local fixed-point, correctness, and guarded
-project proof passed; hosted and normal-default promotion pending**.
+Status: **isolated opt-in cut; local and hosted fixed-point, correctness, and
+guarded project proof passed; normal-default promotion pending**.
 
 The earlier module-object writer rejected all relocations into the compiler's
 shared writable runtime `.data`, so the checked-in four-module `medium_audit`
@@ -56,10 +56,35 @@ same source passed all three repetitions from a shorter path. This is a
 Windows path-length limitation of the current staging layout; it has not
 been hidden as an OpenC compiler-performance failure or counted as a pass.
 
-The branch workflow now runs the same cache adversarial test and three-run
-representative suite in addition to strict self-build and the 24-file cache
-benchmark. Until that hosted run passes, the `.data` cut has only local proof.
+## Hosted Windows proof
+
+[Run 36267865076](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36267865076)
+completed successfully on `windows-2025`, commit `d7c5213`, artifact
+`10914359745`. Its Stage 2/3 compiler SHA-256 equals the local fixed point
+above. The module boundary, bounded reader, selected lowering, expanded
+cache adversarial app test, five-run 24-file cache benchmark, three-run full
+representative suite, and strict 20-generation self-build steps all passed.
+Hosted strict peak child private/working set were 267,472,896/65,130,496
+bytes. The representative compiler-self-build cold/warm/edit medians were
+1.792/1.817/1.916 s; its cold peak child private was 268,234,752 bytes,
+only 200,704 bytes below 256 MiB. Hosted 24-file full/no-op/body-edit/ordinary
+medians were 0.435/0.074/0.179/0.117 s; the paired ordinary-minus-no-op gain
+was 0.043 s. These timings are not cross-run comparator ratios.
+
+The separate branch-batch workflow failed in its Python unit-test gate before
+running a speed matrix: the checked-in representative test still expected
+222 compiler sources after this branch's source tree reached 228. The test
+expectation is corrected in the follow-up commit. This failed workflow is
+not evidence of a compiler speed regression or gain.
+
 The cache remains restricted to opt-in `artifact --kind=module-coff-set`; it
-is not a normal `openc build` speedup. Larger retained projects, default
+is not a normal `openc build` speedup. A direct guarded compiler-self-cache
+probe on the 228-source/one-module project returned
+`OPENC-MODULE-CACHE-FALLBACK` and `OPENC-MODULE-COFF-BUDGET`, with 8,367,338
+reported native output bytes above the current 4 MiB linked-set limit.
+Raising the cap alone would still leave one source edit invalidating the
+whole single module. This is a named scaling/design gate, not a passing
+self-build cache demonstration. Larger retained projects, safe source-level
+partitioning or smaller real modules, streaming link storage, default
 integration, final-source clean C/D parity, editor/release integrity, and
 RAM-margin improvement remain SH-27 work.

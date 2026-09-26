@@ -26,7 +26,7 @@ class RepresentativeSuiteTests(unittest.TestCase):
                              item["project"])[1])
             for item in self.suite["workloads"]
         ]
-        self.assertEqual(counts, [1, 4, 222])
+        self.assertEqual(counts, [1, 4, 228])
 
     def test_source_edit_changes_only_staged_tree(self) -> None:
         workload = self.workloads["medium_audit"]
