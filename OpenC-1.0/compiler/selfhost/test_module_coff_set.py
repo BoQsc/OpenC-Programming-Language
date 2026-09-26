@@ -88,12 +88,18 @@ def build(
 
 def link_and_run(root: Path, manifest: dict, objects: dict[str, bytes], expected: int) -> None:
     linker = shutil.which("lld-link")
+    if not linker:
+        installed_linker = Path("C:/Program Files/LLVM/bin/lld-link.exe")
+        if installed_linker.is_file():
+            linker = str(installed_linker)
     assert linker, "lld-link test oracle unavailable"
-    import_library = Path(
-        os.environ.get(
-            "OPENC_TEST_KERNEL32_LIB",
-            "C:/D/dmd2/windows/lib64/mingw/kernel32.lib",
-        )
+    override = os.environ.get("OPENC_TEST_KERNEL32_LIB")
+    sdk_libraries = sorted(
+        Path("C:/Program Files (x86)/Windows Kits/10/Lib").glob("*/um/x64/kernel32.lib")
+    )
+    import_library = (
+        Path(override) if override else sdk_libraries[-1] if sdk_libraries
+        else Path("C:/D/dmd2/windows/lib64/mingw/kernel32.lib")
     )
     assert import_library.is_file(), "kernel32 import-library test oracle unavailable"
     beta = coff_symbols(objects["beta"])

@@ -1,0 +1,70 @@
+name: OpenC isolated module COFF proof
+
+on:
+  push:
+    branches: [codex/sh27-incremental-object-slice]
+    paths:
+      - OpenC-1.0/compiler/selfhost/source/**
+      - OpenC-1.0/compiler/selfhost/openc.project.json
+      - OpenC-1.0/compiler/selfhost/test_module_coff_set.py
+      - OpenC-1.0/compiler/selfhost/test_coff_bounded_reader.py
+      - OpenC-1.0/compiler/selfhost/bootstrap_sh27_native_parallel.py
+      - OpenC-1.0/compiler/selfhost/windows_process_measure.py
+      - .github/workflows/openc-module-coff-proof.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openc-module-coff-proof-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  proof:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - name: Check out isolated source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Guarded native Stage 2/3 byte-exact fixed point
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\bootstrap_sh27_native_parallel.py
+          --output-dir artifacts\module-coff
+
+      - name: Falsify pre-allocation COFF size bounds
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\test_coff_bounded_reader.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --report artifacts\module-coff\bounded-reader.json
+
+      - name: Guard module boundaries, native saved relink, and failure recovery
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\run_with_memory_guard.py
+          --max-private-mib 512 --max-working-set-mib 128
+          --record artifacts\module-coff\module-tests.json
+          -- python OpenC-1.0\compiler\selfhost\test_module_coff_set.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+
+      - name: Enforce strict 20-generation native self-build and small lanes
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh20_stability.py
+          --compiler artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --chain-runs 20 --sample-interval 0.01 --enforce
+          --output artifacts\module-coff\strict20.json
+
+      - name: Retain isolated-source fixed point and guarded raw evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-SH27-module-COFF-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: artifacts/module-coff/**
