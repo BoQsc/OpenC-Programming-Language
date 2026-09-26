@@ -1,6 +1,7 @@
 # SH-27 content-validated whole-project no-op snapshot
 
-Status: **isolated opt-in cut; local proof passed; hosted/default-production and SH-27 closure open**.
+Status: **isolated opt-in cut; local and hosted module-COFF proof passed;
+default-production and SH-27 closure open**.
 
 The restricted Windows x64 serial `module-coff-set --cache-prefix` path now
 publishes a compact project validation record only after successful whole-
@@ -55,6 +56,27 @@ Stage 2 and Stage 3 are byte-identical. The raw ignored local reports are in
   infrastructure failures, under a 512 MiB Job/128 MiB working-set guard.
   Bounded saved-COFF reader (3 cases), module COFF set, and selected-module
   mixed-object/failure-diagnostic tests pass locally.
+
+The independent [hosted Windows workflow run
+36265721024](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36265721024)
+passed every module-COFF step on commit `a9785da` (artifact
+`10913876523`, compiler SHA-256 identical to the local value above). Hosted
+strict self-build passed 13/13 checks and 20/20 byte-exact generations with
+peak child private **266,682,368 bytes** and working set **64,884,736
+bytes**. The hosted five-pair 24-file medians were full COFF **0.788 s**,
+validated no-op **0.106 s**, edited body **0.282 s**, and ordinary native
+**0.189 s**; the observed paired no-op advantage over ordinary native was
+**0.083 s**. Raw `strict20.json` and `cache24.json` were downloaded from
+the hosted artifact to the ignored local `hosted-36265721024/` directory.
+This is a repeatable opt-in workload observation, not a default-build or
+representative-project parity claim.
+
+The separate [branch batch run
+36265721035](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36265721035)
+failed its required cold-compile gain/noise gate: large-functions paired
+median **-0.002 s** with 7/11 wins below 0.009 s null noise, control-flow
+**+0.002 s** with 5/11 wins below 0.005 s null noise. This cut is not a
+claim of faster cold/default compilation.
 
 An initial version hit a checked failure on warm cleanup: a scoped destructor
 captured a growable bundle's original allocation after reserve replaced it.
