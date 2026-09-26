@@ -99,9 +99,10 @@ unsafe bool module_cache_publish(text destination, ptr byte data, usize length) 
 }
 
 // Hash all source bytes outside ordinary function bodies, including imports,
-// attributes, constants, layouts and spelling. Any declaration/interface edit
-// conservatively invalidates EVERY module. Body-only edits invalidate the
-// owning module via its separate full-content hash. Conditional declarations
+// attributes, constants, layouts and spelling. Declaration/interface edits
+// invalidate the owning module and every qualified-reference/import dependent;
+// body-only edits invalidate their owner via its separate full-content hash.
+// Conditional declarations
 // fail closed rather than pretending this is a complete semantic projection.
 unsafe bool module_cache_source_projection(
     text source, ref ResolutionParsedSource parsed, ref DBuffer output
@@ -147,6 +148,36 @@ unsafe bool module_cache_source_projection(
     if awaiting_body { return false; }
     d_put_slice(output, source, cursor, source_length - cursor);
     return output.ok;
+}
+
+// Resolution accepts an exported `module.symbol` (or short-module qualifier)
+// even without an import declaration. Scan the exact source bytes, including
+// function bodies, for every qualifier that the resolver can recognize.
+// Comments and strings can create extra edges, which only cost cache hits.
+unsafe bool module_cache_qualified_reference(text source, text name) {
+    usize source_length = text.byte_length(source);
+    usize name_length = text.byte_length(name);
+    if name_length == 0 || name_length >= source_length { return false; }
+    usize cursor = 0;
+    while cursor + name_length < source_length {
+        if starts_with_ascii(source, cursor, name) &&
+            byte_at_or_zero(source, cursor + name_length) == 46 { return true; }
+        cursor = cursor + 1;
+    }
+    return false;
+}
+
+unsafe bool module_cache_module_reference(
+    text source, text project_source, ptr byte module_data, usize provider
+) {
+    usize start = read_record_field(module_data, provider, 0);
+    usize length = read_record_field(module_data, provider, 1);
+    text name = project_slice(project_source, start, length);
+    usize short_start = project_short_start(name);
+    text short_name = project_slice(name, short_start, length - short_start);
+    return module_cache_qualified_reference(source, name) ||
+        module_cache_qualified_reference(source, short_name) ||
+        acceptance_source_imports(source, project_source, start, length);
 }
 
 unsafe bool module_cache_read_hit(
@@ -496,10 +527,19 @@ unsafe bool module_cache_prepare(
     cache.entry = d_buffer_create(80);
     cache.offsets = memory.alloc((context.modules.length + 1) * size_of(usize));
     DBuffer contents = d_buffer_create(context.modules.length * 64 + 1);
+    DBuffer module_interfaces = d_buffer_create(context.modules.length * 64 + 1);
     DBuffer interfaces = d_buffer_create(
-        text.byte_length(context.project_source) + timings.source_files * 80 + 1024
+        text.byte_length(context.project_source) + 1024
     );
-    d_put(interfaces, "openc-module-cache-v1:windows-x86_64-llp64:stable-coff:serial\n");
+    ptr byte dependencies = memory.alloc(
+        context.modules.length * context.modules.length * size_of(usize)
+    );
+    usize edge = 0;
+    while edge < context.modules.length * context.modules.length {
+        write_usize(dependencies, edge * size_of(usize), 0);
+        edge = edge + 1;
+    }
+    d_put(interfaces, "openc-module-cache-v2:windows-x86_64-llp64:stable-coff:serial\n");
     d_put(interfaces, context.project_source);
     ptr byte compiler_data;
     usize compiler_length;
@@ -507,6 +547,7 @@ unsafe bool module_cache_prepare(
         process.executable_path(), 33554432, out compiler_data, out compiler_length
     );
     if !compiler_loaded.ok {
+        memory.free(dependencies); d_buffer_destroy(module_interfaces);
         d_buffer_destroy(contents); d_buffer_destroy(interfaces);
         return false;
     }
@@ -520,13 +561,21 @@ unsafe bool module_cache_prepare(
     usize module_index = 0;
     while module_index < context.modules.length && ok {
         write_usize(cache.offsets, module_index * size_of(usize), 0);
+        write_usize(dependencies,
+            (module_index * context.modules.length + module_index) * size_of(usize), 1);
         DBuffer module_content = d_buffer_create(timings.source_bytes + 8192);
+        DBuffer module_interface = d_buffer_create(
+            timings.source_files * 80 + 2048
+        );
         text module_name = interface_module_name(
             context.project_source, context.module_data, module_index
         );
         d_put_usize(module_content, text.byte_length(module_name));
         d_put(module_content, ":"); d_put(module_content, module_name);
         d_put(module_content, "\n");
+        d_put_usize(module_interface, text.byte_length(module_name));
+        d_put(module_interface, ":"); d_put(module_interface, module_name);
+        d_put(module_interface, "\n");
         usize first = read_record_field(context.module_data, module_index, 2);
         usize count = read_record_field(context.module_data, module_index, 3);
         usize source_index = 0;
@@ -537,8 +586,10 @@ unsafe bool module_cache_prepare(
                 context.source_data, first + source_index, out source
             );
             if !loaded.ok {
-                d_buffer_destroy(module_content); d_buffer_destroy(contents);
-                d_buffer_destroy(interfaces); return false;
+                d_buffer_destroy(module_interface); d_buffer_destroy(module_content);
+                memory.free(dependencies); d_buffer_destroy(module_interfaces);
+                d_buffer_destroy(contents); d_buffer_destroy(interfaces);
+                return false;
             }
             ok = text.byte_length(source) <= 131072;
             DBuffer projected = d_buffer_create(text.byte_length(source) + 8192);
@@ -549,33 +600,85 @@ unsafe bool module_cache_prepare(
             DBuffer source_hash = d_buffer_create(65);
             if ok {
                 module_cache_digest(projected.data, projected.length, source_hash);
-                d_put(interfaces, d_buffer_text(source_hash)); d_put(interfaces, "\n");
+                d_put(module_interface, d_buffer_text(source_hash));
+                d_put(module_interface, "\n");
                 d_put_usize(module_content, text.byte_length(source));
                 d_put(module_content, ":"); d_put(module_content, source);
-                ok = source_hash.ok && interfaces.ok && module_content.ok;
+                ok = source_hash.ok && module_interface.ok && module_content.ok;
+                usize provider = 0;
+                while provider < context.modules.length && ok {
+                    if provider != module_index && module_cache_module_reference(
+                        source, context.project_source, context.module_data, provider
+                    ) {
+                        write_usize(dependencies,
+                            (module_index * context.modules.length + provider) *
+                                size_of(usize), 1);
+                    }
+                    provider = provider + 1;
+                }
             }
             d_buffer_destroy(source_hash); d_buffer_destroy(projected);
             source_index = source_index + 1;
         }
-        if ok { module_cache_digest(module_content.data, module_content.length, contents); }
+        if ok {
+            module_cache_digest(module_content.data, module_content.length, contents);
+            module_cache_digest(module_interface.data, module_interface.length,
+                module_interfaces);
+            ok = contents.ok && module_interfaces.ok;
+        }
+        d_buffer_destroy(module_interface);
         d_buffer_destroy(module_content);
         module_index = module_index + 1;
     }
-    DBuffer interface_hash = d_buffer_create(65);
-    if ok { winmd_sha256_hex(interfaces.data, interfaces.length, interface_hash); }
+    DBuffer base_hash = d_buffer_create(65);
+    if ok { module_cache_digest(interfaces.data, interfaces.length, base_hash); }
+    ok = ok && base_hash.ok && base_hash.length == 64;
+    // Boolean transitive closure. A provider interface change must invalidate
+    // every module whose code or exported API can depend on it, not unrelated
+    // modules. All edges are conservative textual supersets of resolver paths.
+    usize via = 0;
+    while via < context.modules.length && ok {
+        usize dependent = 0;
+        while dependent < context.modules.length {
+            if read_usize(dependencies,
+                (dependent * context.modules.length + via) * size_of(usize)) != 0 {
+                usize provider = 0;
+                while provider < context.modules.length {
+                    if read_usize(dependencies,
+                        (via * context.modules.length + provider) * size_of(usize)) != 0 {
+                        write_usize(dependencies,
+                            (dependent * context.modules.length + provider) *
+                                size_of(usize), 1);
+                    }
+                    provider = provider + 1;
+                }
+            }
+            dependent = dependent + 1;
+        }
+        via = via + 1;
+    }
     module_index = 0;
     while module_index < context.modules.length && ok {
-        DBuffer key = d_buffer_create(256);
-        d_put(key, d_buffer_text(interface_hash));
+        DBuffer key = d_buffer_create(128 + context.modules.length * 64);
+        d_put(key, d_buffer_text(base_hash));
         d_put_raw(key, contents.data + module_index * 64, 64);
-        winmd_sha256_hex(key.data, key.length, cache.keys);
+        usize provider = 0;
+        while provider < context.modules.length {
+            if read_usize(dependencies,
+                (module_index * context.modules.length + provider) * size_of(usize)) != 0 {
+                d_put_raw(key, module_interfaces.data + provider * 64, 64);
+            }
+            provider = provider + 1;
+        }
+        if key.ok { module_cache_digest(key.data, key.length, cache.keys); }
         d_put(cache.hashes, "0000000000000000000000000000000000000000000000000000000000000000");
         d_buffer_destroy(key);
         ok = cache.keys.ok && cache.hashes.ok;
         module_index = module_index + 1;
     }
-    d_buffer_destroy(interface_hash); d_buffer_destroy(interfaces);
-    d_buffer_destroy(contents);
+    d_buffer_destroy(base_hash); d_buffer_destroy(interfaces);
+    d_buffer_destroy(module_interfaces); d_buffer_destroy(contents);
+    memory.free(dependencies);
     // Only the entry's stable identity is needed by a saved-object link. Do
     // not hash/reparse every function in every module on a no-op build.
     usize entry = context.symbols.length;
