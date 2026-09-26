@@ -49,6 +49,30 @@ bounded native path. This remains off the production compiler branch.
 Ignored records are in `OpenC-1.0/build-output/sh27-bounded-coff-read-20260926/`
 and `OpenC-1.0/build-output/sh27-bounded-coff-read-bootstrap-20260926/`.
 
+## Independent clean hosted proof
+
+Commit `c6128db9fe5fdc05c2a5d514c59367562dab0454` added the push/manual
+`.github/workflows/openc-module-coff-proof.yml` and portable Windows SDK /
+LLVM test-oracle discovery. [Run 36259781271](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36259781271)
+passed on Windows Server 2025. Downloaded raw artifact `10911793009`
+(`OpenC-SH27-module-COFF-36259781271`) confirms the same compiler SHA-256,
+3/3 reader boundary cases, guarded module/link/failure-recovery proof, and
+all 13 strict stability checks. The chain completed 20/20 native rebuilds
+with exact output closure; 5/5 small and 5/5 one-source runs also passed.
+Strict-lane maxima were 264,019,968 private bytes, 63,635,456 working-set
+bytes, and 264,347,648 Job-private bytes, below 256/64 MiB child and 512 MiB
+tree budgets. The hosted oversized-input case used 5,419,008 Job-private
+bytes; the whole module-test tree peaked at 45,973,504 bytes.
+
+The separate automatic [paired throughput batch 36259534004](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36259534004)
+on source commit `8946b9b` failed its speed-gain requirement. Job logs report
+large/control median paired deltas both 0 ms, 5/11 and 4/11 wins, against
+13/10 ms same-run null floors. That is **no compiler-speed claim**, not a
+reason to weaken the reader guard or treat this correctness slice as a
+performance promotion. Full C/D parity on the eventual promoted final source
+is still required. Downloaded reports are under the ignored local
+`sh27-bounded-coff-read-20260926/hosted-36259781271/` directory.
+
 ## Still required for SH-27
 
 Independently accepted/lowered modules, shared-data/runtime-helper ownership,
