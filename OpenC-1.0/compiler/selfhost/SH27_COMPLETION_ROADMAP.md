@@ -57,9 +57,13 @@ substitute. The first large-COFF hosted run passed the focused cache proof
 but failed a repeated representative self-build at the 256 MiB Job limit.
 The subsequent [validation-error arena lifetime repair](../../../SH27_VALIDATION_ARENA_LIFETIME_EVIDENCE.md)
 passed local fixed-point, strict 20-generation, correctness, and full
-representative checks with about 24 MiB of private-memory headroom; clean
-hosted confirmation is pending. This is a RAM fix, not a cold-compilation
-speed gain.
+representative checks with over 22 MiB of private-memory headroom. Its
+[clean hosted proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36270863013)
+subsequently passed large-object caching, all three representative projects,
+and strict 20/20 chained self-builds under 256/64 MiB child caps. The
+separate [cold-speed batch](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36270863002)
+found no qualifying gain beyond its null floor. This is a RAM/correctness
+fix, not a cold-compilation speed gain or final-source parity certificate.
 The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
 `benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit
 app, and actual compiler self-build with exact cold/warm/edit/runtime/RAM
