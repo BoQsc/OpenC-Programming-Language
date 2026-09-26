@@ -108,6 +108,41 @@ unsafe bool coff_module_subset(
     return cursor == objects.length && subset.ok;
 }
 
+// Keep language-module visibility intact while proving a finer native-object
+// boundary. Symbol records carry their defining source record independently
+// of the module number, so contiguous source groups preserve function order.
+unsafe bool coff_source_partition_subset(
+    ref IrContext context, ref DBuffer objects,
+    usize source_first, usize source_end,
+    ref DBuffer subset, ref usize records, ref usize selected_bytes,
+    bool copy_bytes
+) {
+    usize cursor = 0;
+    usize selected = 0;
+    usize bytes = 0;
+    while cursor < objects.length {
+        if objects.length - cursor < 24 { return false; }
+        usize symbol = native_read_u32(objects, cursor);
+        usize code = native_read_u32(objects, cursor + 8);
+        usize unwind = native_read_u32(objects, cursor + 12);
+        usize relocations = native_read_u32(objects, cursor + 16);
+        usize constants = native_read_u32(objects, cursor + 20);
+        if symbol >= context.symbols.length || relocations > 65535 { return false; }
+        usize record_size = 24 + code + unwind + relocations * 8 + constants;
+        if record_size > objects.length - cursor { return false; }
+        usize source_record = read_record_field(context.symbol_data, symbol, 1);
+        if source_record >= source_first && source_record < source_end {
+            if copy_bytes { native_copy_range(subset, objects, cursor, record_size); }
+            selected = selected + 1;
+            bytes = bytes + record_size;
+        }
+        cursor = cursor + record_size;
+    }
+    records = selected;
+    selected_bytes = bytes;
+    return cursor == objects.length && subset.ok;
+}
+
 // Keep the opt-in in-memory link bundle bounded without reserving 8 MiB for
 // every small project. The old bundle remains intact if allocation fails.
 unsafe bool coff_link_bundle_reserve(
@@ -407,6 +442,113 @@ unsafe status native_write_module_coff_set(
     } else {
         io.error("error[OPENC-MODULE-COFF-MANIFEST]: could not invalidate output set\n");
     }
+    d_buffer_destroy(manifest_path);
+    return failed;
+}
+
+unsafe status native_write_source_partition_coff_set(
+    ref IrContext context, ref DBuffer objects, text prefix,
+    text linked_output_path, usize partitions
+) {
+    status failed = status{ code = 1 };
+    usize source_count = c_project_source_count(context);
+    if partitions < 2 || partitions > 32 || source_count < partitions ||
+        context.modules.length == 0 || context.modules.length > 64 ||
+        objects.length > 12582912 || text.byte_length(prefix) > 4096 ||
+        text.byte_length(linked_output_path) == 0 ||
+        text.byte_length(linked_output_path) > 4096 {
+        io.error("error[OPENC-SOURCE-PARTITION-BUDGET]: source partition set exceeds limits\n");
+        return failed;
+    }
+    DBuffer manifest_path = d_buffer_create(text.byte_length(prefix) + 20);
+    d_put(manifest_path, prefix); d_put(manifest_path, ".modules.json");
+    if !manifest_path.ok || d_buffer_text(manifest_path) == linked_output_path {
+        d_buffer_destroy(manifest_path);
+        io.error("error[OPENC-COFF-LINK-PATH]: linked output collides with manifest\n");
+        return failed;
+    }
+    status invalidated = file.write_text(d_buffer_text(manifest_path),
+        "{\"schema\":\"openc.source_partition_coff_set.v1\",\"status\":\"INCOMPLETE\"}\n");
+    if !invalidated.ok { d_buffer_destroy(manifest_path); return failed; }
+    DBuffer bundle = d_buffer_create(1024);
+    DBuffer manifest = d_buffer_create(
+        partitions * (text.byte_length(prefix) + 1024) + 4096
+    );
+    d_put(manifest, "{\"schema\":\"openc.source_partition_coff_set.v1\",\"status\":\"COMPLETE\",\"target\":\"windows-x86_64-llp64\",\"partitions\":[\n");
+    usize partition = 0;
+    usize emitted = 0;
+    bool ok = bundle.ok && manifest.ok;
+    while partition < partitions && ok {
+        usize first = source_count * partition / partitions;
+        usize end = source_count * (partition + 1) / partitions;
+        DBuffer preview = DBuffer{ data = null, length = 0, capacity = 0, ok = true };
+        usize records = 0;
+        usize selected_bytes = 0;
+        ok = coff_source_partition_subset(context, objects, first, end,
+            preview, records, selected_bytes, false);
+        if ok && records != 0 {
+            DBuffer subset = d_buffer_create(selected_bytes + 1);
+            usize copied_records = 0;
+            usize copied_bytes = 0;
+            ok = subset.ok && coff_source_partition_subset(
+                context, objects, first, end, subset, copied_records,
+                copied_bytes, true
+            ) && copied_records == records && copied_bytes == selected_bytes;
+            if ok {
+                usize exports = 0;
+                usize relocations = 0;
+                DBuffer object = native_build_coff_object(
+                    context, subset, exports, relocations, true, true
+                );
+                ok = object.ok;
+                if ok {
+                    DBuffer object_path = d_buffer_create(text.byte_length(prefix) + 40);
+                    d_put(object_path, prefix); d_put(object_path, ".part.");
+                    d_put_usize(object_path, partition); d_put(object_path, ".obj");
+                    DBuffer digest = d_buffer_create(65);
+                    if object_path.ok && d_buffer_text(object_path) != linked_output_path {
+                        winmd_sha256_hex(object.data, object.length, digest);
+                        status written = file.write_bytes(
+                            d_buffer_text(object_path), object.data, object.length
+                        );
+                        ok = written.ok && digest.ok &&
+                            coff_link_append_published_object(
+                                bundle, d_buffer_text(object_path),
+                                d_buffer_text(digest), object.length
+                            );
+                    } else { ok = false; }
+                    if ok {
+                        if emitted != 0 { d_put(manifest, ",\n"); }
+                        d_put(manifest, "{\"source_first\":"); d_put_usize(manifest, first);
+                        d_put(manifest, ",\"source_end\":"); d_put_usize(manifest, end);
+                        d_put(manifest, ",\"object\":");
+                        cli_json_text(manifest, d_buffer_text(object_path));
+                        d_put(manifest, ",\"sha256\":");
+                        cli_json_text(manifest, d_buffer_text(digest));
+                        d_put(manifest, ",\"functions\":");
+                        d_put_usize(manifest, records); d_put(manifest, "}");
+                        emitted = emitted + 1;
+                        ok = manifest.ok;
+                    }
+                    d_buffer_destroy(digest); d_buffer_destroy(object_path);
+                }
+                d_buffer_destroy(object);
+            }
+            d_buffer_destroy(subset);
+        }
+        partition = partition + 1;
+    }
+    d_put(manifest, "\n]}\n");
+    if ok && emitted != 0 && manifest.ok {
+        failed = coff_link_module_bundle(
+            context, objects, bundle, linked_output_path
+        );
+        if failed.ok {
+            failed = file.write_text(d_buffer_text(manifest_path),
+                d_buffer_text(manifest));
+        }
+    } else { io.error("error[OPENC-SOURCE-PARTITION-COFF]: emission failed\n"); }
+    d_buffer_destroy(manifest); d_buffer_destroy(bundle);
     d_buffer_destroy(manifest_path);
     return failed;
 }

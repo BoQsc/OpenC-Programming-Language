@@ -64,6 +64,13 @@ and strict 20/20 chained self-builds under 256/64 MiB child caps. The
 separate [cold-speed batch](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36270863002)
 found no qualifying gain beyond its null floor. This is a RAM/correctness
 fix, not a cold-compilation speed gain or final-source parity certificate.
+The later [source-partition cache cut](../../../SH27_SOURCE_PARTITION_CACHE_EVIDENCE.md)
+keeps the compiler's single language module but emits up to 32 deterministic
+native COFF groups. A guarded local body-code edit in the 228-source compiler
+reused 31 groups and rebuilt one, with exact fresh output and a linked
+self-host fixed point. It remains opt-in; its 4–5 s cached edit path has not
+beaten the ordinary direct compiler build, so normal-default promotion and
+final SH-27 speed certification remain open. Clean hosted proof is pending.
 The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
 `benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit
 app, and actual compiler self-build with exact cold/warm/edit/runtime/RAM

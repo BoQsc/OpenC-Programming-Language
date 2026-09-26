@@ -302,26 +302,33 @@ unsafe CNativeChunkState c_native_chunk_state_create(
     usize entry_module,
     ptr byte validation_source_ms,
     ptr byte parsed_source_cache,
-    usize worker_count
+    usize worker_count,
+    ptr byte cache_offsets,
+    usize source_partitions
 ) {
     if worker_count == 2 {
         usize half = source_count / 2;
         return CNativeChunkState{
             chunk_one = c_native_source_chunk(
                 base, 0, half,
-                c_native_chunk_output_capacity(base, 0, half, chunk_capacity)
+                c_native_chunk_output_capacity(base, 0, half, chunk_capacity,
+                    cache_offsets, source_partitions, source_count)
             ),
             chunk_two = c_native_source_chunk(
                 base, half, source_count,
                 c_native_chunk_output_capacity(base, half, source_count,
-                    chunk_capacity)
+                    chunk_capacity, cache_offsets, source_partitions,
+                    source_count)
             ),
             chunk_three = c_native_empty_chunk(base, source_count),
             chunk_four = c_native_empty_chunk(base, source_count),
             entry_module = entry_module,
             frozen_type_count = base.types.length,
             validation_source_ms = ir_pointer_alias(validation_source_ms),
-            parsed_source_cache = ir_pointer_alias(parsed_source_cache)
+            parsed_source_cache = ir_pointer_alias(parsed_source_cache),
+            cache_offsets = ir_pointer_alias(cache_offsets),
+            source_partitions = source_partitions,
+            source_count = source_count
         };
     }
     usize cut_one = source_count / 4;
@@ -330,25 +337,31 @@ unsafe CNativeChunkState c_native_chunk_state_create(
     return CNativeChunkState{
         chunk_one = c_native_source_chunk(
             base, 0, cut_one,
-            c_native_chunk_output_capacity(base, 0, cut_one, chunk_capacity)
+            c_native_chunk_output_capacity(base, 0, cut_one, chunk_capacity,
+                cache_offsets, source_partitions, source_count)
         ),
         chunk_two = c_native_source_chunk(
             base, cut_one, cut_two,
-            c_native_chunk_output_capacity(base, cut_one, cut_two, chunk_capacity)
+            c_native_chunk_output_capacity(base, cut_one, cut_two, chunk_capacity,
+                cache_offsets, source_partitions, source_count)
         ),
         chunk_three = c_native_source_chunk(
             base, cut_two, cut_three,
-            c_native_chunk_output_capacity(base, cut_two, cut_three, chunk_capacity)
+            c_native_chunk_output_capacity(base, cut_two, cut_three, chunk_capacity,
+                cache_offsets, source_partitions, source_count)
         ),
         chunk_four = c_native_source_chunk(
             base, cut_three, source_count,
             c_native_chunk_output_capacity(base, cut_three, source_count,
-                chunk_capacity)
+                chunk_capacity, cache_offsets, source_partitions, source_count)
         ),
         entry_module = entry_module,
         frozen_type_count = base.types.length,
         validation_source_ms = ir_pointer_alias(validation_source_ms),
-        parsed_source_cache = ir_pointer_alias(parsed_source_cache)
+        parsed_source_cache = ir_pointer_alias(parsed_source_cache),
+        cache_offsets = ir_pointer_alias(cache_offsets),
+        source_partitions = source_partitions,
+        source_count = source_count
     };
 }
 
@@ -356,7 +369,10 @@ unsafe usize c_native_chunk_output_capacity(
     ref IrContext base,
     usize first,
     usize end,
-    usize ceiling
+    usize ceiling,
+    ptr byte cache_offsets,
+    usize source_partitions,
+    usize source_count
 ) {
     // The old proof gave every chunk the entire-project 8x output budget.
     // That committed four mostly empty buffers. Keep a 12x per-range budget
@@ -366,6 +382,15 @@ unsafe usize c_native_chunk_output_capacity(
     usize source_bytes = 0;
     usize source_record = first;
     while source_record < end {
+        if cache_offsets != null && source_partitions != 0 {
+            usize partition = source_partition_index(
+                source_record, source_count, source_partitions
+            );
+            if read_usize(cache_offsets, partition * size_of(usize)) != 0 {
+                source_record = source_record + 1;
+                continue;
+            }
+        }
         text source;
         status loaded = project_read_source_record(
             base.project_source, base.project_root, base.source_data,
@@ -388,7 +413,8 @@ unsafe i32 c_native_chunk_run(
     i32 result = c_emit_source_range_validating(
         chunk.base, chunk.output, chunk.first, chunk.end,
         state.entry_module, chunk.timings,
-        state.validation_source_ms, state.parsed_source_cache
+        state.validation_source_ms, state.parsed_source_cache,
+        state.cache_offsets, state.source_partitions, state.source_count
     );
     if chunk.base.types.length != state.frozen_type_count { result = 2; }
     if !chunk.output.ok { result = 3; }
@@ -464,7 +490,9 @@ unsafe bool c_emit_native_sources_chunked(
     ref BuildTimings timings,
     ptr byte validation_source_ms,
     ptr byte parsed_source_cache,
-    usize worker_count
+    usize worker_count,
+    ptr byte cache_offsets,
+    usize source_partitions
 ) {
     usize source_count = c_project_source_count(base);
     if worker_count != 2 && worker_count != 4 { return false; }
@@ -478,7 +506,7 @@ unsafe bool c_emit_native_sources_chunked(
     CNativeChunkState state = c_native_chunk_state_create(
         base, source_count, output_capacity + 65536,
         entry_module, validation_source_ms, parsed_source_cache,
-        worker_count
+        worker_count, cache_offsets, source_partitions
     );
     usize workers_started = process.monotonic_milliseconds();
     i32 launch_result = 3;
@@ -532,7 +560,8 @@ unsafe bool c_emit_native_sources_chunked(
         replay_timings.emission_mode = 2;
         i32 replay_result = c_emit_source_range_validating(
             base, discarded, 0, source_count, entry_module,
-            replay_timings, null, parsed_source_cache
+            replay_timings, null, parsed_source_cache,
+            cache_offsets, source_partitions, source_count
         );
         d_buffer_destroy(discarded);
         return replay_result == 0;

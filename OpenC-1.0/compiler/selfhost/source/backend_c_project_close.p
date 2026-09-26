@@ -88,10 +88,20 @@ unsafe i32 c_emit_project(
     ModuleCacheState module_cache = module_cache_empty();
     scope module_cache_destroy(module_cache);
     if text.byte_length(artifact_options.cache_prefix) != 0 {
-        bool prepared = module_cache_prepare(
-            base, parsed_source_cache, artifact_options.cache_prefix, entry_module,
-            module_cache, timings
-        );
+        bool prepared = false;
+        if artifact_options.source_partitions != 0 {
+            prepared = source_partition_cache_prepare(
+                base, parsed_source_cache, artifact_options.cache_prefix,
+                entry_module, artifact_options.source_partitions,
+                artifact_options.source_chunks,
+                module_cache, timings
+            );
+        } else {
+            prepared = module_cache_prepare(
+                base, parsed_source_cache, artifact_options.cache_prefix, entry_module,
+                module_cache, timings
+            );
+        }
         if !prepared {
             io.error("note[OPENC-MODULE-CACHE-FALLBACK]: unsupported key projection; full module build\n");
         }
@@ -266,11 +276,27 @@ unsafe i32 c_emit_project(
         (artifact_options.source_chunks == 2 ||
             artifact_options.source_chunks == 4) &&
         c_project_source_count(base) >= artifact_options.source_chunks {
-        timings.parallel_source_chunks = artifact_options.source_chunks;
+        ptr byte cache_offsets = null;
+        usize source_partitions = 0;
+        usize native_worker_count = artifact_options.source_chunks;
+        if module_cache.enabled && artifact_options.source_partitions != 0 {
+            cache_offsets = module_cache.offsets;
+            source_partitions = artifact_options.source_partitions;
+            if !source_partition_cache_evict_saved(
+                module_cache, source_partitions
+            ) { native_worker_count = 2; }
+            if timings.object_cache_misses * 4 > source_partitions {
+                // Full rebuilds have the old whole-project native payload;
+                // two worker arenas leave RAM margin. Sparse edits retain
+                // four-way acceptance with missed-source output budgets.
+                native_worker_count = 2;
+            }
+        }
+        timings.parallel_source_chunks = native_worker_count;
         emitted_parallel = c_emit_native_sources_chunked(
             base, output, output_capacity, entry_module, timings,
             validation_source_ms, parsed_source_cache,
-            artifact_options.source_chunks
+            native_worker_count, cache_offsets, source_partitions
         );
         if !emitted_parallel {
             io.error("error[OPENC-NATIVE-CHUNK-PROOF]: isolated source emission failed\n");
@@ -306,9 +332,20 @@ unsafe i32 c_emit_project(
             usize source_index = 0;
             while source_index < source_count {
                 bool lower_source = !module_selection || module_index == selected_module;
-                if module_cache.enabled && read_usize(
-                    module_cache.offsets, module_index * size_of(usize)
-                ) != 0 { lower_source = false; }
+                if module_cache.enabled {
+                    usize cache_index = module_index;
+                    if artifact_options.source_partitions != 0 {
+                        cache_index = source_partition_index(
+                            source_first + source_index,
+                            c_project_source_count(base),
+                            artifact_options.source_partitions
+                        );
+                    }
+                    if read_usize(module_cache.offsets,
+                        cache_index * size_of(usize)) != 0 {
+                        lower_source = false;
+                    }
+                }
                 bool emitted = c_emit_source_record_mode(
                     base, output, module_index,
                     source_first + source_index, entry_module, timings,
@@ -399,7 +436,23 @@ unsafe i32 c_emit_project(
                 artifact_options.stable_coff_symbols
             );
         } else if artifact_options.kind == native_artifact_module_coff_set() {
-            if module_cache.enabled {
+            if artifact_options.source_partitions != 0 {
+                if module_cache.enabled {
+                    written = source_partition_cache_write_set(
+                        base, output, output_source,
+                        artifact_options.linked_output_path,
+                        artifact_options.cache_prefix,
+                        artifact_options.source_partitions,
+                        module_cache, timings
+                    );
+                } else {
+                    written = native_write_source_partition_coff_set(
+                        base, output, output_source,
+                        artifact_options.linked_output_path,
+                        artifact_options.source_partitions
+                    );
+                }
+            } else if module_cache.enabled {
                 written = module_cache_write_set(
                     base, output, output_source, artifact_options.cache_prefix,
                     artifact_options.linked_output_path,

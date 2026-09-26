@@ -9,6 +9,8 @@ on:
       - OpenC-1.0/compiler/selfhost/test_module_coff_set.py
       - OpenC-1.0/compiler/selfhost/test_coff_bounded_reader.py
       - OpenC-1.0/compiler/selfhost/test_large_coff_selfhost.py
+      - OpenC-1.0/compiler/selfhost/test_source_partition_coff.py
+      - OpenC-1.0/compiler/selfhost/test_source_partition_cache.py
       - OpenC-1.0/compiler/selfhost/test_module_selected_lowering.py
       - OpenC-1.0/compiler/selfhost/test_module_object_cache.py
       - OpenC-1.0/benchmarks/sh27/representative/SUITE.json
@@ -30,7 +32,7 @@ concurrency:
 jobs:
   proof:
     runs-on: windows-2025
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Check out isolated source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -59,6 +61,26 @@ jobs:
           -- python OpenC-1.0\compiler\selfhost\test_large_coff_selfhost.py
           artifacts\module-coff\bootstrap-current\stage3\openc.exe
           --report artifacts\module-coff\large-coff.json
+
+      - name: Prove self-host compiler source-group COFF link and fixed point
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\run_with_memory_guard.py
+          --max-private-mib 512 --max-working-set-mib 128
+          --record artifacts\module-coff\source-partition-coff-guard.json
+          -- python OpenC-1.0\compiler\selfhost\test_source_partition_coff.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --report artifacts\module-coff\source-partition-coff.json
+
+      - name: Prove content-keyed one-group edit reuse and exact fresh link
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\run_with_memory_guard.py
+          --max-private-mib 512 --max-working-set-mib 128
+          --record artifacts\module-coff\source-partition-cache-guard.json
+          -- python OpenC-1.0\compiler\selfhost\test_source_partition_cache.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --flow4 --report artifacts\module-coff\source-partition-cache.json
 
       - name: Guard module boundaries, native saved relink, and failure recovery
         shell: cmd

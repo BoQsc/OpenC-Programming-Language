@@ -4,6 +4,7 @@ struct NativeArtifactOptions {
     usize kind;
     usize subsystem;
     usize source_chunks;
+    usize source_partitions;
     text manifest_path;
     text resource_path;
     text dll_name;
@@ -26,6 +27,7 @@ NativeArtifactOptions native_artifact_default_options() {
         kind = 0,
         subsystem = 3,
         source_chunks = 0,
+        source_partitions = 0,
         manifest_path = "",
         resource_path = "",
         dll_name = "",

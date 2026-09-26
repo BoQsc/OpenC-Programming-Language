@@ -94,6 +94,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     if c_backend && validate_semantics && timings.emission_mode == 2 &&
         artifact_options.kind == native_artifact_module_coff_set() &&
         artifact_options.source_chunks == 1 &&
+        artifact_options.source_partitions == 0 &&
         !timings.profile_type_queries_enabled &&
         text.byte_length(artifact_options.cache_prefix) != 0 {
         project_cache_key = d_buffer_create(65);

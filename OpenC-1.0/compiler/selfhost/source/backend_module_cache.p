@@ -724,6 +724,218 @@ unsafe bool module_cache_prepare(
     return ok;
 }
 
+usize source_partition_index(
+    usize source_record, usize source_count, usize partitions
+) {
+    if source_count == 0 || partitions == 0 { return 0; }
+    return ((source_record + 1) * partitions - 1) / source_count;
+}
+
+// Source partitions are native object units, not language modules. Every
+// partition key includes the declaration projection of the entire project;
+// a public or private declaration change invalidates all units. A body edit
+// changes only its own unit's full-content digest. This conservative scheme
+// avoids pretending that unqualified cross-file names are separate modules.
+unsafe bool source_partition_cache_prepare(
+    ref IrContext context, ptr byte parsed_source_cache,
+    text prefix, usize entry_module, usize partitions,
+    usize source_chunks,
+    ref ModuleCacheState cache, ref BuildTimings timings
+) {
+    usize source_count = c_project_source_count(context);
+    if partitions < 2 || partitions > 32 || source_count < partitions ||
+        context.modules.length == 0 || context.modules.length > 64 ||
+        timings.source_bytes > 4194304 || context.symbols.length > 16384 {
+        return false;
+    }
+    cache.keys = d_buffer_create(partitions * 64 + 1);
+    cache.hashes = d_buffer_create(partitions * 64 + 1);
+    cache.saved = d_buffer_create(1024);
+    cache.entry = d_buffer_create(80);
+    cache.offsets = memory.alloc((partitions + 1) * size_of(usize));
+    ptr byte starts = memory.alloc((partitions + 1) * size_of(usize));
+    if cache.offsets == null || starts == null || !cache.keys.ok ||
+        !cache.hashes.ok || !cache.saved.ok || !cache.entry.ok {
+        memory.free(starts);
+        return false;
+    }
+    scope memory.free(starts);
+    DBuffer interface = d_buffer_create(
+        text.byte_length(context.project_source) +
+        text.byte_length(context.project_root) + source_count * 80 + 4096
+    );
+    scope d_buffer_destroy(interface);
+    DBuffer contents = d_buffer_create(
+        timings.source_bytes + source_count * 24 + 1
+    );
+    scope d_buffer_destroy(contents);
+    d_put(interface, "openc-source-partition-cache-v1:windows-x86_64-llp64\n");
+    d_put_usize(interface, partitions); d_put(interface, ":");
+    d_put_usize(interface, source_chunks); d_put(interface, ":");
+    d_put(interface, context.project_root);
+    d_put(interface, context.project_source);
+    ptr byte compiler_data;
+    usize compiler_length;
+    status loaded_compiler = cli_coff_read_bounded_object(
+        process.executable_path(), 33554432,
+        out compiler_data, out compiler_length
+    );
+    if !loaded_compiler.ok { return false; }
+    DBuffer compiler_hash = d_buffer_create(65);
+    module_cache_compiler_hash(compiler_data, compiler_length, compiler_hash);
+    memory.free(compiler_data);
+    d_put(interface, d_buffer_text(compiler_hash));
+    bool ok = interface.ok && contents.ok && compiler_hash.ok;
+    d_buffer_destroy(compiler_hash);
+    usize source_record = 0;
+    usize next_partition = 0;
+    usize module_index = 0;
+    while module_index < context.modules.length && ok {
+        text module_name = interface_module_name(
+            context.project_source, context.module_data, module_index
+        );
+        d_put_usize(interface, text.byte_length(module_name));
+        d_put(interface, ":"); d_put(interface, module_name);
+        usize first = read_record_field(context.module_data, module_index, 2);
+        usize count = read_record_field(context.module_data, module_index, 3);
+        usize source_index = 0;
+        while source_index < count && ok {
+            if first + source_index != source_record { ok = false; break; }
+            while next_partition < partitions &&
+                source_record == source_count * next_partition / partitions {
+                write_usize(starts, next_partition * size_of(usize), contents.length);
+                next_partition = next_partition + 1;
+            }
+            text source;
+            status loaded = project_read_source_record(
+                context.project_source, context.project_root,
+                context.source_data, source_record, out source
+            );
+            if !loaded.ok || text.byte_length(source) > 131072 {
+                ok = false; break;
+            }
+            ResolutionParsedSource parsed = resolution_cached_parsed_source(
+                parsed_source_cache, source_record
+            );
+            DBuffer projected = d_buffer_create(text.byte_length(source) + 8192);
+            DBuffer declaration_hash = d_buffer_create(65);
+            ok = module_cache_source_projection(source, parsed, projected);
+            if ok {
+                module_cache_digest(projected.data, projected.length,
+                    declaration_hash);
+                d_put(interface, d_buffer_text(declaration_hash));
+                d_put_usize(contents, text.byte_length(source));
+                d_put(contents, ":"); d_put(contents, source);
+                ok = projected.ok && declaration_hash.ok &&
+                    interface.ok && contents.ok;
+            }
+            d_buffer_destroy(declaration_hash); d_buffer_destroy(projected);
+            source_record = source_record + 1;
+            source_index = source_index + 1;
+        }
+        module_index = module_index + 1;
+    }
+    write_usize(starts, partitions * size_of(usize), contents.length);
+    ok = ok && source_record == source_count && next_partition == partitions;
+    DBuffer base_hash = d_buffer_create(65);
+    if ok { module_cache_digest(interface.data, interface.length, base_hash); }
+    ok = ok && base_hash.ok && base_hash.length == 64;
+    usize partition = 0;
+    while partition < partitions && ok {
+        usize start = read_usize(starts, partition * size_of(usize));
+        usize end = read_usize(starts, (partition + 1) * size_of(usize));
+        if start >= end || end > contents.length { ok = false; break; }
+        DBuffer content_hash = d_buffer_create(65);
+        module_cache_digest(contents.data + start, end - start, content_hash);
+        DBuffer key = d_buffer_create(150);
+        d_put(key, d_buffer_text(base_hash));
+        d_put(key, ":"); d_put_usize(key, partition);
+        d_put(key, ":"); d_put(key, d_buffer_text(content_hash));
+        if key.ok && content_hash.ok {
+            module_cache_digest(key.data, key.length, cache.keys);
+            d_put(cache.hashes,
+                "0000000000000000000000000000000000000000000000000000000000000000");
+            ok = cache.keys.ok && cache.hashes.ok;
+        } else { ok = false; }
+        d_buffer_destroy(key); d_buffer_destroy(content_hash);
+        partition = partition + 1;
+    }
+    d_buffer_destroy(base_hash);
+    usize entry = context.symbols.length;
+    usize symbol = 0;
+    while symbol < context.symbols.length && ok {
+        if read_record_field(context.symbol_data, symbol, 0) ==
+            resolution_symbol_function() &&
+            c_function_is_entry(context, symbol, entry_module) {
+            if entry != context.symbols.length { ok = false; }
+            entry = symbol;
+        }
+        symbol = symbol + 1;
+    }
+    if entry == context.symbols.length { ok = false; }
+    if ok {
+        usize entry_source_record = read_record_field(context.symbol_data, entry, 1);
+        text source;
+        status loaded = project_read_source_record(
+            context.project_source, context.project_root,
+            context.source_data, entry_source_record, out source
+        );
+        ResolutionParsedSource parsed = resolution_cached_parsed_source(
+            parsed_source_cache, entry_source_record
+        );
+        DBuffer hash = d_buffer_create(65);
+        ptr byte offsets = memory.alloc((context.symbols.length + 1) * size_of(usize));
+        if loaded.ok && parsed.reusable && offsets != null {
+            ok = coff_stable_add_symbol(context, source, parsed.syntax_data,
+                parsed.syntax, entry, hash, offsets);
+            d_put(cache.entry, "$openc$"); d_put(cache.entry, d_buffer_text(hash));
+            ok = ok && cache.entry.ok && cache.entry.length == 71;
+        } else { ok = false; }
+        memory.free(offsets); d_buffer_destroy(hash);
+    }
+    cache.enabled = ok;
+    if ok {
+        timings.object_cache_enabled = true;
+        partition = 0;
+        while partition < partitions {
+            write_usize(cache.offsets, partition * size_of(usize), 0);
+            if module_cache_read_hit(prefix, partition, cache) {
+                timings.object_cache_hits = timings.object_cache_hits + 1;
+            } else {
+                timings.object_cache_misses = timings.object_cache_misses + 1;
+            }
+            partition = partition + 1;
+        }
+    }
+    return ok;
+}
+
+usize source_partition_evicted_offset() {
+    return coff_link_bundle_limit() + 1;
+}
+
+// The object bytes were authenticated while deciding hits. Keep the hit
+// decision, but release their 9 MiB heap bundle before four native acceptance
+// workers create scratch. Each hit is authenticated again after workers join.
+unsafe bool source_partition_cache_evict_saved(
+    ref ModuleCacheState cache, usize partitions
+) {
+    DBuffer empty = d_buffer_create(1024);
+    if !empty.ok { d_buffer_destroy(empty); return false; }
+    d_buffer_destroy(cache.saved);
+    cache.saved = empty;
+    usize partition = 0;
+    while partition < partitions {
+        usize saved = read_usize(cache.offsets, partition * size_of(usize));
+        if saved != 0 {
+            write_usize(cache.offsets, partition * size_of(usize),
+                source_partition_evicted_offset());
+        }
+        partition = partition + 1;
+    }
+    return true;
+}
+
 unsafe bool module_cache_store(
     text prefix, usize module_index, ref ModuleCacheState cache,
     ref DBuffer object, ref DBuffer digest
@@ -843,4 +1055,140 @@ unsafe status module_cache_write_set(
     }
     d_buffer_destroy(manifest); d_buffer_destroy(bundle);
     return result;
+}
+
+unsafe status source_partition_cache_write_set(
+    ref IrContext context, ref DBuffer objects, text prefix,
+    text linked_output, text cache_prefix, usize partitions,
+    ref ModuleCacheState cache, ref BuildTimings timings
+) {
+    status failed = status{ code = 1 };
+    usize source_count = c_project_source_count(context);
+    if !cache.enabled || partitions < 2 || partitions > 32 ||
+        source_count < partitions || objects.length > 12582912 ||
+        cache.keys.length != partitions * 64 ||
+        cache.hashes.length != partitions * 64 {
+        return failed;
+    }
+    DBuffer manifest_path = d_buffer_create(text.byte_length(prefix) + 20);
+    d_put(manifest_path, prefix); d_put(manifest_path, ".modules.json");
+    if !manifest_path.ok || d_buffer_text(manifest_path) == linked_output {
+        d_buffer_destroy(manifest_path);
+        return failed;
+    }
+    status invalidated = file.write_text(d_buffer_text(manifest_path),
+        "{\"schema\":\"openc.source_partition_coff_set.v1\",\"status\":\"INCOMPLETE\"}\n");
+    if !invalidated.ok { d_buffer_destroy(manifest_path); return failed; }
+    DBuffer bundle = d_buffer_create(1024);
+    DBuffer manifest = d_buffer_create(
+        partitions * (text.byte_length(prefix) + 1024) + 4096
+    );
+    d_put(manifest, "{\"schema\":\"openc.source_partition_coff_set.v1\",\"status\":\"COMPLETE\",\"target\":\"windows-x86_64-llp64\",\"partitions\":[\n");
+    bool ok = bundle.ok && manifest.ok;
+    usize partition = 0;
+    usize emitted = 0;
+    while partition < partitions && ok {
+        usize first = source_count * partition / partitions;
+        usize end = source_count * (partition + 1) / partitions;
+        usize saved = read_usize(cache.offsets, partition * size_of(usize));
+        bool hit = saved != 0;
+        DBuffer object = DBuffer{ data = null, length = 0, capacity = 0, ok = true };
+        bool owned = false;
+        usize records = 0;
+        if hit {
+            if saved == source_partition_evicted_offset() {
+                ok = module_cache_read_hit(cache_prefix, partition, cache);
+                if ok {
+                    saved = read_usize(cache.offsets,
+                        partition * size_of(usize));
+                }
+            }
+            if !ok { break; }
+            usize bytes = native_read_u32(cache.saved, saved - 1);
+            object = DBuffer{
+                data = cache.saved.data + saved + 3,
+                length = bytes, capacity = bytes, ok = true
+            };
+        } else {
+            DBuffer preview = DBuffer{ data = null, length = 0, capacity = 0, ok = true };
+            usize selected_bytes = 0;
+            ok = coff_source_partition_subset(context, objects, first, end,
+                preview, records, selected_bytes, false);
+            if ok && records != 0 {
+                DBuffer subset = d_buffer_create(selected_bytes + 1);
+                usize copied_records = 0;
+                usize copied_bytes = 0;
+                ok = subset.ok && coff_source_partition_subset(
+                    context, objects, first, end, subset, copied_records,
+                    copied_bytes, true
+                ) && copied_records == records && copied_bytes == selected_bytes;
+                if ok {
+                    usize exports = 0;
+                    usize relocations = 0;
+                    object = native_build_coff_object(
+                        context, subset, exports, relocations, true, true
+                    );
+                    owned = true;
+                    ok = object.ok;
+                }
+                d_buffer_destroy(subset);
+            }
+        }
+        if ok && object.length != 0 {
+            DBuffer digest = d_buffer_create(65);
+            module_cache_digest(object.data, object.length, digest);
+            DBuffer object_path = d_buffer_create(text.byte_length(prefix) + 40);
+            d_put(object_path, prefix); d_put(object_path, ".part.");
+            d_put_usize(object_path, partition); d_put(object_path, ".obj");
+            ok = object_path.ok && digest.ok &&
+                d_buffer_text(object_path) != linked_output;
+            if ok {
+                status written = file.write_bytes(
+                    d_buffer_text(object_path), object.data, object.length
+                );
+                ok = written.ok && coff_link_bundle_reserve(bundle,
+                    object.length + 4);
+            }
+            if ok {
+                pe32_put_u32(bundle, object.length);
+                d_put_raw(bundle, object.data, object.length);
+                ok = bundle.ok;
+                if !hit && !module_cache_store(
+                    cache_prefix, partition, cache, object, digest
+                ) {
+                    timings.object_cache_publish_failures =
+                        timings.object_cache_publish_failures + 1;
+                }
+            }
+            if ok {
+                if emitted != 0 { d_put(manifest, ",\n"); }
+                d_put(manifest, "{\"source_first\":"); d_put_usize(manifest, first);
+                d_put(manifest, ",\"source_end\":"); d_put_usize(manifest, end);
+                d_put(manifest, ",\"object\":");
+                cli_json_text(manifest, d_buffer_text(object_path));
+                d_put(manifest, ",\"sha256\":");
+                cli_json_text(manifest, d_buffer_text(digest));
+                d_put(manifest, ",\"cache_hit\":");
+                native_put_bool(manifest, hit);
+                d_put(manifest, ",\"functions\":");
+                d_put_usize(manifest, records); d_put(manifest, "}");
+                emitted = emitted + 1;
+                ok = manifest.ok;
+            }
+            d_buffer_destroy(object_path); d_buffer_destroy(digest);
+        }
+        if owned { d_buffer_destroy(object); }
+        partition = partition + 1;
+    }
+    d_put(manifest, "\n]}\n");
+    if ok && emitted != 0 && manifest.ok {
+        failed = coff_link_bundle_with_entry(bundle, cache.entry, linked_output);
+        if failed.ok {
+            failed = file.write_text(d_buffer_text(manifest_path),
+                d_buffer_text(manifest));
+        }
+    } else { io.error("error[OPENC-SOURCE-PARTITION-CACHE]: emission failed\n"); }
+    d_buffer_destroy(manifest); d_buffer_destroy(bundle);
+    d_buffer_destroy(manifest_path);
+    return failed;
 }
