@@ -124,6 +124,17 @@ unsafe bool coff_link_bundle_reserve(
     return true;
 }
 
+// Compiler-private native runtime hook. Older bootstrap compilers emit this
+// fail-closed body; the next native generation owns the bounded reader.
+unsafe status cli_coff_read_bounded_object(
+    text object_path,
+    usize max_bytes,
+    out ptr byte data,
+    out usize length
+) {
+    return status{ code = 1 };
+}
+
 // Read back and authenticate the published COFF bytes before native link.
 // This is deliberately file-backed even on the first build so the linker
 // never relies on an unpublished writer buffer as its input.
@@ -135,8 +146,10 @@ unsafe bool coff_link_append_published_object(
 ) {
     ptr byte saved_data;
     usize saved_length;
-    status loaded = file.read_bytes_raw(
-        object_path, out saved_data, out saved_length
+    if bundle.length > 8388604 { return false; }
+    usize remaining = 8388604 - bundle.length;
+    status loaded = cli_coff_read_bounded_object(
+        object_path, remaining, out saved_data, out saved_length
     );
     if !loaded.ok { return false; }
     bool ok = saved_data != null &&
