@@ -84,8 +84,11 @@ PE byte-for-byte without the source project manifest. Wrong hashes and
 malformed authenticated COFF are rejected. It remains isolated and opt-in:
 shared `.data` relocations fail closed, and independent module compilation,
 automatic cache hits, atomic validated cache, and measured warm-build reuse
-are still absent. The reader caps size after file allocation, not before;
-that must change before production. The earlier Stage 2 bootstrap exceeded
+are still absent. The [pre-allocation reader guard](https://github.com/BoQsc/OpenC-Programming-Language/blob/8946b9b/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md)
+now resolves the file-buffer RAM gap: a 128 MiB input rejects normally under
+a 64 MiB process budget with about 5.4 MiB Job-private peak. Exact-boundary
+and valid saved-link tests, guarded fixed point, and strict Stage 3→4 also
+passed. The earlier Stage 2 bootstrap exceeded
 64 MiB working set; do not equate its 512 MiB bootstrap guard with the strict
 Stage 3→4 gate.
 An isolated opt-in `PreparedSource`/`WorkerScratch` boundary passed guarded
@@ -178,8 +181,9 @@ advance concurrently, without treating a noisy local micro-gain as progress:
    stable COFF names, and post-lowering module COFF set are prerequisites.
    Make acceptance/lowering truly independent by module, handle shared data,
    use the now-proved project-free saved-object relink as the backend for
-   independently accepted/lowered modules, then implement a pre-read-bounded,
-   atomic, content-validated cache and correct invalidation.
+   independently accepted/lowered modules, then implement an atomic,
+   content-validated cache and correct invalidation. The saved reader's
+   pre-allocation cap is now proved; no automatic object hit is claimed.
    A full-source hash or warm timer with no actual module hits fails this track.
 3. **Safe function ownership:** opt-in serial PreparedSource, type-registry
    probe, four bounded project-cache copies, five frozen source indexes, and

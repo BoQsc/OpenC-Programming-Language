@@ -65,8 +65,11 @@ and separately passed strict Stage 3→4 self-build under 64 MiB working set
 and 256 MiB private bytes. The [project-free saved-object relink](https://github.com/BoQsc/OpenC-Programming-Language/blob/3205432/SH27_SAVED_OBJECT_RELINK_EVIDENCE.md)
 then authenticated on-disk COFF bytes and reproduced the two-module PE with
 the source project manifest hidden. This remains a manual relink, not a
-cache hit or independently compiled module; the reader needs a pre-read
-allocation cap before production. A subsequent
+cache hit or independently compiled module. The [pre-allocation COFF reader
+guard](https://github.com/BoQsc/OpenC-Programming-Language/blob/8946b9b/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md)
+subsequently rejected a 128 MiB input normally under a 64 MiB process budget,
+preserved exact valid-link behavior, and passed strict Stage 3→4 self-build.
+Independent module work and an atomic validated cache remain open. A subsequent
 [bounded project-cache ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/db54808/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_PROJECT_CACHE_OWNERSHIP.md)
 also passed strict opt-in self-build memory and exactness, reducing
 source-borrowed scratch pointers from 25 to 21. The later [five-array index
