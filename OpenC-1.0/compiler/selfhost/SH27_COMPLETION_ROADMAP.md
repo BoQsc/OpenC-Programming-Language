@@ -53,7 +53,13 @@ an authenticated cached no-op and seeded self-host fixed point. Its single
 module still offers no one-source rebuild granularity. Safe partitioning,
 streaming link memory, hosted proof, and strict RAM headroom are named
 engineering gates before default promotion; larger buffers alone are not a
-substitute.
+substitute. The first large-COFF hosted run passed the focused cache proof
+but failed a repeated representative self-build at the 256 MiB Job limit.
+The subsequent [validation-error arena lifetime repair](../../../SH27_VALIDATION_ARENA_LIFETIME_EVIDENCE.md)
+passed local fixed-point, strict 20-generation, correctness, and full
+representative checks with about 24 MiB of private-memory headroom; clean
+hosted confirmation is pending. This is a RAM fix, not a cold-compilation
+speed gain.
 The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
 `benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit
 app, and actual compiler self-build with exact cold/warm/edit/runtime/RAM

@@ -1,6 +1,7 @@
 # SH-27 large compiler COFF and relocation-overflow proof
 
-Status: **isolated local PASS; hosted Windows proof pending; normal/default
+Status: **isolated local PASS; first hosted Windows run found a representative
+self-build RAM failure; repaired source awaiting hosted repeat; normal/default
 incremental builds and cold C/D speed parity remain open**.
 
 The 228-source compiler is currently declared as one OpenC module. Its
@@ -70,3 +71,11 @@ object boundary (real modules or source partitions with dependency/interface
 keys), bounded/streaming native link storage, and a RAM margin large enough
 to survive clean hosted runs without relaxing the 256/64 MiB guards. Final
 default-policy C/D parity, retained projects, and release/editor gates remain.
+
+The [first hosted run](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36269809764)
+passed the focused large compiler COFF/cache test and earlier steps, but its
+three-run representative suite failed on the second edited compiler build
+at the 256 MiB Job limit. It did not reach the strict 20-generation gate.
+The subsequent [validation-arena lifetime cut](SH27_VALIDATION_ARENA_LIFETIME_EVIDENCE.md)
+reduces the local representative compiler peak by about 24 MiB without
+relaxing any guard. Its clean hosted result is still pending.

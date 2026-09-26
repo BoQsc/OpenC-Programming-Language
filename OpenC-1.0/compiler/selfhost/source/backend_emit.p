@@ -142,8 +142,9 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     scope memory.free(symbol_data);
     ptr byte detail_data = memory.alloc(symbols.capacity * record_stride());
     scope memory.free(detail_data);
-    ptr byte error_data = memory.alloc(errors.capacity * record_stride());
-    scope memory.free(error_data);
+    // Flow diagnostics are needed only through validation. Do not keep this
+    // source-sized arena live during native emission and its worker copies.
+    ptr byte error_data = null;
     semantic_initialize_types(type_data, types);
 
     // Native lowering reuses the exact parsed records produced by resolution.
@@ -333,6 +334,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     );
     scope memory.free(validation_source_ms);
     if validate_semantics {
+        error_data = memory.alloc(errors.capacity * record_stride());
+        if error_data == null { return 1; }
         usize validation_source = 0;
         while validation_source <= sources.length {
             write_usize(
@@ -376,6 +379,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                     process.monotonic_milliseconds() - phase_started;
                 timings.total_ms =
                     process.monotonic_milliseconds() - total_started;
+                memory.free(error_data);
                 return 1;
             }
         } else {
@@ -420,6 +424,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                         process.monotonic_milliseconds() - phase_started;
                     timings.total_ms =
                         process.monotonic_milliseconds() - total_started;
+                    memory.free(error_data);
                     return 1;
                 }
                 index = index + 1;
@@ -467,8 +472,11 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         }
         timings.total_ms =
             process.monotonic_milliseconds() - total_started;
+        if error_data != null { memory.free(error_data); }
         return 1;
     }
+
+    if error_data != null { memory.free(error_data); }
 
     // Public `openc check` uses the production flow and acceptance pipeline
     // but does not need IR lowering, machine-code emission, or a PE image.
