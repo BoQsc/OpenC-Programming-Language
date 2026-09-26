@@ -120,6 +120,36 @@ The commit-triggered/manual workflow now runs cache falsification and 24-file
 measurement before its complete strict20 chain; hosted proof of this cache
 source is pending at this checkpoint.
 
+## Hosted current-source proof
+
+The clean [push-triggered run
+36263328048](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36263328048)
+passed bootstrap fixed point, bounded input, module/selected-module/cache
+falsification, the 24-file benchmark, and all 13 strict stability checks with
+20/20 byte-exact chained native rebuilds. Compiler SHA-256 matches the local
+fixed point above. Chain maxima are 64,532,480 working-set and 267,694,080
+private/Job-private bytes; private headroom is only 741,376 bytes, not evidence
+of a generous RAM margin. Hosted Stage 2 still exceeds strict caps at
+70,955,008 working-set and 271,388,672 private bytes.
+
+Raw artifact `10912623492` (`OpenC-SH27-module-COFF-36263328048`) includes
+`strict20.json` SHA-256
+`7f07c29698ce20118439e619fa63619e165d9b6fb0ba74792f0fe82b2cc7a36d`
+and `cache24.json` SHA-256
+`8cabd80136642a5e8485b73f0cbf4b4deaa0068d68d0e24848f80cef1950cd72`.
+The cache recovery/concurrent-writer suite passed at 112,975,872 Job-private
+peak. The 24-file child peak was 17,944,576 working-set and 29,298,688 private.
+
+Hosted full-COFF/no-op/body-edit/normal medians were
+0.778/0.178/0.260/0.188 s. Paired no-op/edit gains versus full COFF were
+600/527 ms; no-op versus ordinary native was only 10 ms. Together with the
+local 11 ms regression, that does not establish a robust normal-build win.
+The separate [cold throughput batch
+36263327847](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36263327847)
+failed its gain/noise gate (4/11 wins on each lane). No normal-default speed
+promotion or new-source C/D parity is claimed. Manual dispatch is configured;
+only the push trigger was exercised here.
+
 ## Next required work
 
 Implement an authenticated input-matching whole-project validation snapshot
