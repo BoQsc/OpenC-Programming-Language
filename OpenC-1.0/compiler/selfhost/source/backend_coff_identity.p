@@ -5,6 +5,26 @@ import system.text;
 
 // Experimental COFF-only spelling. The native stream still uses global IDs;
 // this prepares a stable external identity, not an object-cache boundary.
+unsafe usize coff_stable_function_body(ptr byte syntax_data, ref PackedBuffer syntax, usize function) {
+    usize start = read_record_field(syntax_data, function, 1);
+    usize length = read_record_field(syntax_data, function, 2);
+    usize node = function + 1;
+    while node < syntax.length {
+        usize node_start = read_record_field(syntax_data, node, 1);
+        if node_start >= start + length { break; }
+        if read_record_field(syntax_data, node, 0) == 11 {
+            usize node_length = read_record_field(syntax_data, node, 2);
+            if node_start >= start && node_start + node_length == start + length {
+                return node;
+            }
+            break;
+        }
+        node = node + 1;
+    }
+    // Preserve the old projection if an unfamiliar parser ordering appears.
+    return flow_largest_direct_block(syntax_data, syntax, function);
+}
+
 unsafe bool coff_stable_add_symbol(
     ref IrContext context,
     text source,
@@ -29,7 +49,7 @@ unsafe bool coff_stable_add_symbol(
     if start > source_length || length > source_length - start {
         return false;
     }
-    usize body = flow_largest_direct_block(syntax_data, syntax, node);
+    usize body = coff_stable_function_body(syntax_data, syntax, node);
     if body < syntax.length {
         usize body_start = read_record_field(syntax_data, body, 1);
         if body_start >= start && body_start < start + length &&

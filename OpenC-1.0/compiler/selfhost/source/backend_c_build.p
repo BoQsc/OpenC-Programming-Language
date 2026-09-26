@@ -36,6 +36,15 @@ unsafe bool write_build_timings(
         d_put_usize(output, timings.module_sources_validation_only);
         d_put(output, "}");
     }
+    if timings.object_cache_enabled {
+        d_put(output, ",\n  \"object_cache\": {\"hits\": ");
+        d_put_usize(output, timings.object_cache_hits);
+        d_put(output, ", \"misses\": ");
+        d_put_usize(output, timings.object_cache_misses);
+        d_put(output, ", \"publish_failures\": ");
+        d_put_usize(output, timings.object_cache_publish_failures);
+        d_put(output, ", \"validation_skipped\": false}");
+    }
     d_put(output, ",\n  \"parallel_source_chunks\": ");
     d_put_usize(output, timings.parallel_source_chunks);
     d_put(output, ",\n  \"parallel_flow_workers\": ");

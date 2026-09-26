@@ -6,7 +6,8 @@ import system.process;
 import system.text;
 
 unsafe void native_file_write(ref IrContext context, ref NativeFunction function,
-    usize instruction, usize result, bool raw_bytes, bool append) {
+    usize instruction, usize result, bool raw_bytes, bool append,
+    bool exclusive) {
     native_utf8_path(function, d_operand_value(context, instruction, 0));
     usize input = d_operand_value(context, instruction, 1);
     native_load(function, input, 0); x64_mov_memory_r64(function.code, 4, 520, 0);
@@ -22,6 +23,7 @@ unsafe void native_file_write(ref IrContext context, ref NativeFunction function
     x64_mov_r64_imm64(function.code, 9, cast(u64, 0));
     usize disposition = 2;
     if append { disposition = 4; }
+    if exclusive { disposition = 1; }
     x64_mov_r64_imm64(function.code, 0, cast(u64, disposition)); x64_mov_memory_r64(function.code, 4, 32, 0);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 128)); x64_mov_memory_r64(function.code, 4, 40, 0);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0)); x64_mov_memory_r64(function.code, 4, 48, 0);

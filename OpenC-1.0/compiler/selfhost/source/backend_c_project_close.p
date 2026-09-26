@@ -85,6 +85,17 @@ unsafe i32 c_emit_project(
     ref NativeArtifactOptions artifact_options
 ) {
     usize selected_module = base.modules.length;
+    ModuleCacheState module_cache = module_cache_empty();
+    scope module_cache_destroy(module_cache);
+    if text.byte_length(artifact_options.cache_prefix) != 0 {
+        bool prepared = module_cache_prepare(
+            base, parsed_source_cache, artifact_options.cache_prefix, entry_module,
+            module_cache, timings
+        );
+        if !prepared {
+            io.error("note[OPENC-MODULE-CACHE-FALLBACK]: unsupported key projection; full module build\n");
+        }
+    }
     bool module_selection = text.byte_length(artifact_options.module_name) != 0;
     if module_selection {
         usize candidate = 0;
@@ -295,6 +306,9 @@ unsafe i32 c_emit_project(
             usize source_index = 0;
             while source_index < source_count {
                 bool lower_source = !module_selection || module_index == selected_module;
+                if module_cache.enabled && read_usize(
+                    module_cache.offsets, module_index * size_of(usize)
+                ) != 0 { lower_source = false; }
                 bool emitted = c_emit_source_record_mode(
                     base, output, module_index,
                     source_first + source_index, entry_module, timings,
@@ -385,10 +399,18 @@ unsafe i32 c_emit_project(
                 artifact_options.stable_coff_symbols
             );
         } else if artifact_options.kind == native_artifact_module_coff_set() {
-            written = native_write_module_coff_set(
-                base, output, output_source,
-                artifact_options.linked_output_path
-            );
+            if module_cache.enabled {
+                written = module_cache_write_set(
+                    base, output, output_source, artifact_options.cache_prefix,
+                    artifact_options.linked_output_path,
+                    module_cache, timings
+                );
+            } else {
+                written = native_write_module_coff_set(
+                    base, output, output_source,
+                    artifact_options.linked_output_path
+                );
+            }
         } else if artifact_options.kind == native_artifact_static_library() {
             written = native_write_static_library(base, output, output_source);
         } else if artifact_options.kind == native_artifact_import_library() {

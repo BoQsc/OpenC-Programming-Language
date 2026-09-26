@@ -144,6 +144,15 @@ unsafe bool coff_link_append_published_object(
     text expected_hash,
     usize expected_length
 ) {
+    return coff_link_append_published_object_mode(
+        bundle, object_path, expected_hash, expected_length, false
+    );
+}
+
+unsafe bool coff_link_append_published_object_mode(
+    ref DBuffer bundle, text object_path, text expected_hash,
+    usize expected_length, bool accelerate_hash
+) {
     ptr byte saved_data;
     usize saved_length;
     if bundle.length > 8388604 { return false; }
@@ -157,7 +166,8 @@ unsafe bool coff_link_append_published_object(
         saved_length <= 8388604;
     DBuffer saved_hash = d_buffer_create(65);
     if ok {
-        winmd_sha256_hex(saved_data, saved_length, saved_hash);
+        if accelerate_hash { module_cache_digest(saved_data, saved_length, saved_hash); }
+        else { winmd_sha256_hex(saved_data, saved_length, saved_hash); }
         ok = saved_hash.ok &&
             d_buffer_text(saved_hash) == expected_hash;
     }

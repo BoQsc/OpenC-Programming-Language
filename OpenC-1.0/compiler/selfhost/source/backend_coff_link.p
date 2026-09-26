@@ -321,6 +321,7 @@ unsafe bool coff_link_insert_definition(
     while probes < 8192 {
         usize found = read_usize(slots, slot * size_of(usize));
         if found == 0 {
+            if !coff_link_bundle_reserve(definitions, 24) { return false; }
             pe32_put_u64(definitions, cast(u64, name_offset));
             pe32_put_u64(definitions, cast(u64, name_length));
             pe32_put_u64(definitions, cast(u64, target));
@@ -402,6 +403,14 @@ unsafe CoffLinkCounts coff_link_bundle_collect(
         if !parsed.ok { return counts; }
         usize functions = parsed.unwind_index.size / 12;
         if functions > 4096 - counts.functions { return counts; }
+        // The initial 1 KiB scratch buffers are not a project-size ceiling.
+        // Grow under the existing aggregate caps before padding or copying.
+        if !coff_link_bundle_reserve(code, parsed.code.size + 15) ||
+            !coff_link_bundle_reserve(constants, parsed.constants.size) ||
+            !coff_link_bundle_reserve(pdata, parsed.unwind_index.size) ||
+            !coff_link_bundle_reserve(xdata, parsed.unwind_data.size + 3) {
+            return counts;
+        }
         pe32_pad_to(code, x64_align_up(code.length, 16));
         pe32_pad_to(xdata, x64_align_up(xdata.length, 4));
         usize at = counts.objects * 4 * size_of(usize);

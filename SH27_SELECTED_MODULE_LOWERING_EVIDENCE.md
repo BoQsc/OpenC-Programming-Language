@@ -57,6 +57,25 @@ suite and still enforces the complete strict 20-generation chain.
 
 ## Remaining SH-27 requirements
 
+### Hosted proof of this selected-module source
+
+Commit `2d693f4` passed the clean hosted [COFF proof run
+36260957581](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36260957581).
+Raw artifact `10912427125` contains the selected-module guarded report and
+`strict20.json`: all 13 strict stability checks and 20/20 exact chained native
+rebuilds passed on compiler SHA-256
+`07db199b26bf69d32fbd91c902ce434c1d603f735e8f7ffdd22b8d26cdd0a077`.
+Chain maxima were 63,594,496 working-set, 264,396,800 private, and 264,413,184
+Job-private bytes. Selected-module tests peaked at 19,701,760 working-set and
+32,243,712 Job-private bytes. The independent paired [speed batch
+36260957484](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36260957484)
+failed the gain gate: large/control median gains were 0 ms, both 5/11 wins,
+against 6 ms null noise. No cold-throughput improvement is claimed.
+
+The subsequent automatic cache implementation is separately documented in
+`SH27_AUTO_MODULE_CACHE_EVIDENCE.md`; the following limitations describe the
+selected-module command itself, not a claim that the newer cache is absent.
+
 No automatic object hit, dependency-complete cache key, atomic publish,
 concurrent-writer protection, cache corruption fallback, or measured warm/
 edit speed exists yet. Whole-project parsing/resolution/validation remains;

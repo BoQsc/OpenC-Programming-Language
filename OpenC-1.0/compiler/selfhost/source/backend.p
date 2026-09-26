@@ -54,6 +54,10 @@ struct BuildTimings {
     bool module_selection_enabled;
     usize module_sources_lowered;
     usize module_sources_validation_only;
+    bool object_cache_enabled;
+    usize object_cache_hits;
+    usize object_cache_misses;
+    usize object_cache_publish_failures;
     usize source_bytes;
     usize lex_parse_ms;
     usize index_ms;
@@ -215,6 +219,10 @@ BuildTimings build_timings_empty() {
         module_selection_enabled = false,
         module_sources_lowered = 0,
         module_sources_validation_only = 0,
+        object_cache_enabled = false,
+        object_cache_hits = 0,
+        object_cache_misses = 0,
+        object_cache_publish_failures = 0,
         source_bytes = 0,
         lex_parse_ms = 0,
         index_ms = 0,
