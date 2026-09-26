@@ -83,6 +83,8 @@ def main():
             pair = {lane: build(lane, index) for lane in order}
             assert pair["full"]["sha256"] == pair["no_op"]["sha256"] == cold["sha256"]
             assert pair["no_op"]["timings"]["object_cache"]["hits"] == 4
+            assert pair["no_op"]["timings"]["object_cache"]["validation_skipped"]
+            assert pair["no_op"]["timings"]["work"]["syntax_nodes"] == 0
             assert pair["no_op"]["timings"]["work"]["functions"] == 0
             for lane in order:
                 samples[lane].append(pair[lane])
@@ -100,6 +102,7 @@ def main():
             assert edit["runtime_exit"] == clean["runtime_exit"] == 17 + index
             assert edit["timings"]["object_cache"]["hits"] == 3
             assert edit["timings"]["object_cache"]["misses"] == 1
+            assert not edit["timings"]["object_cache"]["validation_skipped"]
             assert edit["timings"]["work"]["functions"] == 288
             edit["paired_clean_seconds"] = clean["elapsed_seconds"]
             samples["body_edit"].append(edit)

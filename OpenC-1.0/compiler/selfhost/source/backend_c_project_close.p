@@ -403,6 +403,7 @@ unsafe i32 c_emit_project(
                 written = module_cache_write_set(
                     base, output, output_source, artifact_options.cache_prefix,
                     artifact_options.linked_output_path,
+                    artifact_options.cache_project_key,
                     module_cache, timings
                 );
             } else {

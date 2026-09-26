@@ -12,6 +12,7 @@ struct NativeArtifactOptions {
     text linked_output_path;
     text module_name;
     text cache_prefix;
+    text cache_project_key;
 }
 usize native_artifact_executable() { return 0; }
 usize native_artifact_coff_object() { return 1; }
@@ -32,7 +33,8 @@ NativeArtifactOptions native_artifact_default_options() {
         stable_coff_symbols = false,
         linked_output_path = "",
         module_name = "",
-        cache_prefix = ""
+        cache_prefix = "",
+        cache_project_key = ""
     };
 }
 

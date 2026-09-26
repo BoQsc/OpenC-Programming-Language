@@ -31,7 +31,6 @@ def cached(compiler: Path, root: Path, name: str, cache: Path | None = None):
 def stats(root: Path, name: str):
     timings = json.loads((root / (name + ".timings.json")).read_text())
     assert timings["status"] == "PASS", timings
-    assert not timings["object_cache"]["validation_skipped"], timings
     return timings
 
 
@@ -79,21 +78,60 @@ def main():
             record = root / "cache" / ("objects.k." + key + ".record")
             assert record.is_file(), (module, key)
             assert record.read_bytes()[:64].decode() == key
+        project_bytes = (root / "openc.project.json").read_bytes()
+        project_root_bytes = str(root).encode()
+        project_input = (b"openc-project-validation-v1:windows-x86_64-llp64:stable-coff:serial\n"
+                         + str(len(project_root_bytes)).encode() + b":" + project_root_bytes
+                         + str(len(project_bytes)).encode() + b":" + project_bytes
+                         + hashlib.sha256(compiler.read_bytes()).hexdigest().encode())
+        for module, source in initial_sources.items():
+            name_bytes, source_bytes = module.encode(), source.encode()
+            project_input += (str(len(name_bytes)).encode() + b":" + name_bytes
+                              + str(len(source_bytes)).encode() + b":" + source_bytes)
+        project_key = hashlib.sha256(project_input).hexdigest()
+        project_record = root / "cache" / ("objects.p." + project_key + ".record")
+        assert project_record.is_file(), project_key
+        record_bytes = project_record.read_bytes()
+        assert record_bytes[:9] == b"OCVC0001\n" and record_bytes[9:73].decode() == project_key
+        assert record_bytes[-64:].decode() == hashlib.sha256(record_bytes[:-64]).hexdigest()
         exact(compiler, root, "cold", 7)
 
         warm = cached(compiler, root, "warm")
         assert warm.returncode == 0, warm.stdout + warm.stderr
         w = stats(root, "warm")
         assert w["object_cache"]["hits"] == 3 and w["object_cache"]["misses"] == 0, w
+        assert w["object_cache"]["validation_skipped"], w
         assert w["work"]["functions"] == 0, w
-        assert w["module_selection"] == {"sources_lowered": 0, "sources_validation_only": 3}, w
+        assert w["work"]["syntax_nodes"] == 0, w
+        assert w["module_selection"] == {"sources_lowered": 0, "sources_validation_only": 0}, w
         exact(compiler, root, "warm", 7)
+
+        # A broken or oversized whole-project validation certificate is never
+        # authority to skip semantics; ordinary validated object hits remain.
+        project_records = list((root / "cache").glob("objects.p.*.record"))
+        assert len(project_records) == 1, project_records
+        snapshot = project_records[0]
+        original = snapshot.read_bytes()
+        snapshot.write_bytes(original[:-1] + b"0" if original[-1:] != b"0" else original[:-1] + b"1")
+        damaged_snapshot = cached(compiler, root, "damaged-snapshot")
+        assert damaged_snapshot.returncode == 0, damaged_snapshot.stdout + damaged_snapshot.stderr
+        ds = stats(root, "damaged-snapshot")
+        assert ds["object_cache"]["hits"] == 3 and not ds["object_cache"]["validation_skipped"], ds
+        exact(compiler, root, "damaged-snapshot", 7)
+        with snapshot.open("wb") as stream:
+            stream.truncate(128 * 1024 * 1024)
+        oversized_snapshot = cached(compiler, root, "oversized-snapshot")
+        assert oversized_snapshot.returncode == 0, oversized_snapshot.stdout + oversized_snapshot.stderr
+        os = stats(root, "oversized-snapshot")
+        assert os["object_cache"]["hits"] == 3 and not os["object_cache"]["validation_skipped"], os
+        exact(compiler, root, "oversized-snapshot", 7)
 
         (root / "alpha.p").write_text(ALPHA.replace("left + right", "left + right + 1"))
         edit = cached(compiler, root, "body-edit")
         assert edit.returncode == 0, edit.stdout + edit.stderr
         e = stats(root, "body-edit")
         assert e["object_cache"]["hits"] == 2 and e["object_cache"]["misses"] == 1, e
+        assert not e["object_cache"]["validation_skipped"], e
         assert e["work"]["functions"] == 1, e
         exact(compiler, root, "body-edit", 8)
 
@@ -104,6 +142,7 @@ def main():
         assert api.returncode == 0, api.stdout + api.stderr
         a = stats(root, "api-edit")
         assert a["object_cache"]["hits"] == 0 and a["object_cache"]["misses"] == 3, a
+        assert not a["object_cache"]["validation_skipped"], a
         exact(compiler, root, "api-edit", 7)
 
         # Corrupt the currently published beta object, not an obsolete entry.
@@ -123,6 +162,8 @@ def main():
         for record in active:
             with record.open("wb") as stream:
                 stream.truncate(128 * 1024 * 1024)
+        for project_record in (root / "cache").glob("objects.p.*.record"):
+            project_record.unlink()
         oversized = cached(compiler, root, "oversized-record")
         assert oversized.returncode == 0, oversized.stdout + oversized.stderr
         assert stats(root, "oversized-record")["object_cache"]["misses"] == 1
@@ -130,6 +171,8 @@ def main():
         for record in active:
             data = record.read_bytes()
             record.write_bytes(b"f" * 64 + data[64:])
+        for project_record in (root / "cache").glob("objects.p.*.record"):
+            project_record.unlink()
         wrong_key = cached(compiler, root, "wrong-key")
         assert wrong_key.returncode == 0, wrong_key.stdout + wrong_key.stderr
         assert stats(root, "wrong-key")["object_cache"]["misses"] == 1

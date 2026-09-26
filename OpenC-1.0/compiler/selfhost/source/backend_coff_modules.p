@@ -12,6 +12,14 @@ unsafe bool coff_module_object_path(
     text module_name = interface_module_name(
         context.project_source, context.module_data, module_index
     );
+    return coff_module_object_path_for_name(module_name, prefix, output);
+}
+
+unsafe bool coff_module_object_path_for_name(
+    text module_name,
+    text prefix,
+    ref DBuffer output
+) {
     DBuffer name_bytes = d_buffer_create(text.byte_length(module_name) + 1);
     d_put(name_bytes, module_name);
     DBuffer name_hash = d_buffer_create(65);

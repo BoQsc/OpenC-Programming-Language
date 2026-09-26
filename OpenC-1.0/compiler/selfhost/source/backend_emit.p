@@ -87,12 +87,45 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         }
     }
 
+    DBuffer project_cache_key = DBuffer{
+        data = null, length = 0, capacity = 0, ok = true
+    };
+    scope d_buffer_destroy(project_cache_key);
+    if c_backend && validate_semantics && timings.emission_mode == 2 &&
+        artifact_options.kind == native_artifact_module_coff_set() &&
+        artifact_options.source_chunks == 1 &&
+        !timings.profile_type_queries_enabled &&
+        text.byte_length(artifact_options.cache_prefix) != 0 {
+        project_cache_key = d_buffer_create(65);
+        bool keyed = module_cache_project_key(
+            project_source, project_root, module_data, modules,
+            source_data, total_source_length, project_cache_key
+        );
+        if keyed {
+            artifact_options.cache_project_key = d_buffer_text(project_cache_key);
+            usize cache_started = process.monotonic_milliseconds();
+            i32 cached = module_cache_project_try(
+                project_source, module_data, modules, output_directory,
+                artifact_options.linked_output_path, artifact_options.cache_prefix,
+                artifact_options.cache_project_key, timings
+            );
+            if cached != 0 {
+                timings.lowering_emit_ms =
+                    process.monotonic_milliseconds() - cache_started;
+                timings.total_ms =
+                    process.monotonic_milliseconds() - total_started;
+                if cached == 1 { return 0; }
+                return 1;
+            }
+        }
+    }
+
     usize semantic_type_capacity =
         total_source_length / 8 + project_length + 65536;
     usize semantic_symbol_capacity =
         total_source_length / 4 + project_length + 65536;
     usize semantic_error_capacity =
-        total_source_length / 4 + project_length + 65536;
+        total_source_length / 4 + project_length + 8192;
     usize output_capacity = total_source_length * 8 + project_length + 65536;
     PackedBuffer types = PackedBuffer{
         length = 0, capacity = semantic_type_capacity
