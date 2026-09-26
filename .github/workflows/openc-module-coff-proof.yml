@@ -10,7 +10,10 @@ on:
       - OpenC-1.0/compiler/selfhost/test_coff_bounded_reader.py
       - OpenC-1.0/compiler/selfhost/test_module_selected_lowering.py
       - OpenC-1.0/compiler/selfhost/test_module_object_cache.py
+      - OpenC-1.0/benchmarks/sh27/representative/SUITE.json
+      - OpenC-1.0/benchmarks/sh27/representative/medium_audit/**
       - OpenC-1.0/compiler/selfhost/benchmark_module_object_cache.py
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_representative.py
       - OpenC-1.0/compiler/selfhost/bootstrap_sh27_native_parallel.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
       - .github/workflows/openc-module-coff-proof.yml
@@ -82,6 +85,14 @@ jobs:
           -- python OpenC-1.0\compiler\selfhost\benchmark_module_object_cache.py
           artifacts\module-coff\bootstrap-current\stage3\openc.exe
           --report artifacts\module-coff\cache24.json
+
+      - name: Verify representative CLI, file app, and edited compiler self-build
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_representative.py
+          --compiler artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --runs 3 --self-build-generations 3
+          --output artifacts\module-coff\representative.json
 
       - name: Enforce strict 20-generation native self-build and small lanes
         shell: cmd

@@ -11,6 +11,7 @@ import json
 from pathlib import Path
 import shutil
 import re
+import struct
 import subprocess
 import sys
 import tempfile
@@ -19,9 +20,10 @@ from test_module_coff_set import ALPHA, BETA
 from test_module_selected_lowering import artifact, load_set
 
 
-def cached(compiler: Path, root: Path, name: str, cache: Path | None = None):
+def cached(compiler: Path, root: Path, name: str, cache: Path | None = None,
+           project: Path | None = None):
     prefix = root / name
-    command = [str(compiler), "artifact", f"--project={root / 'openc.project.json'}",
+    command = [str(compiler), "artifact", f"--project={project or (root / 'openc.project.json')}",
                "--kind=module-coff-set", f"--output={prefix}",
                f"--linked-exe={prefix}.exe", f"--timings={prefix}.timings.json",
                f"--cache-prefix={cache or (root / 'cache' / 'objects')}"]
@@ -255,7 +257,89 @@ def main():
         first_set = load_set(transitive, "first")
         changed_set = load_set(transitive, "transitive-api")
         assert first_set["gamma"]["sha256"] == changed_set["gamma"]["sha256"]
-        print("automatic module cache: validated no-op, selective transitive API/body invalidation, corruption/size/key/identity recovery, concurrent publication, unavailable storage and full diagnostics passed")
+
+        # A retained four-module file/audit application exercises real OpenC
+        # file IO, text processing, stdout and the shared 96-byte runtime data
+        # area. Work on a copy so the checked-in project remains untouched.
+        suite_root = Path(__file__).resolve().parents[2]
+        suite = json.loads((suite_root / "benchmarks/sh27/representative/SUITE.json").read_text())
+        medium = next(item for item in suite["workloads"] if item["id"] == "medium_audit")
+        source_project = suite_root / medium["project"]
+        medium_dir = root / "medium-project"
+        shutil.copytree(source_project.parent, medium_dir)
+        medium_project = medium_dir / "openc.project.json"
+        medium_cache = root / "cache" / "medium"
+        medium_cold = cached(compiler, root, "medium-cold", medium_cache, medium_project)
+        assert medium_cold.returncode == 0, medium_cold.stdout + medium_cold.stderr
+        assert stats(root, "medium-cold")["object_cache"]["misses"] == 4
+        medium_warm = cached(compiler, root, "medium-warm", medium_cache, medium_project)
+        assert medium_warm.returncode == 0, medium_warm.stdout + medium_warm.stderr
+        medium_stats = stats(root, "medium-warm")
+        assert medium_stats["object_cache"]["hits"] == 4
+        assert medium_stats["object_cache"]["validation_skipped"]
+        assert medium_stats["work"]["syntax_nodes"] == 0
+        medium_clean = artifact(compiler, medium_dir, "medium-clean")
+        assert medium_clean.returncode == 0, medium_clean.stdout + medium_clean.stderr
+        assert (root / "medium-cold.exe").read_bytes() == (root / "medium-warm.exe").read_bytes()
+        assert (root / "medium-warm.exe").read_bytes() == (medium_dir / "medium-clean.exe").read_bytes()
+        assert {k: v["sha256"] for k, v in load_set(root, "medium-warm").items()} == {
+            k: v["sha256"] for k, v in load_set(medium_dir, "medium-clean").items()}
+        medium_run = subprocess.run([str(root / "medium-warm.exe")], cwd=medium_dir,
+                                    capture_output=True, text=True, timeout=10)
+        assert (medium_run.returncode, medium_run.stdout, medium_run.stderr) == (
+            0, medium["expected_stdout_utf8"], medium["expected_stderr_utf8"])
+        # The direct linker must reject an authenticated but malformed COFF
+        # relocation that addresses beyond the shared 96-byte runtime area.
+        entries = load_set(root, "medium-cold")
+        main_object = bytearray(Path(entries["audit.main"]["object"]).read_bytes())
+        raw = struct.unpack_from("<I", main_object, 40)[0]
+        reloc = struct.unpack_from("<I", main_object, 44)[0]
+        count = struct.unpack_from("<H", main_object, 52)[0]
+        damaged = False
+        for index in range(count):
+            offset, symbol, _ = struct.unpack_from("<IIH", main_object, reloc + index * 10)
+            if symbol == 2:
+                struct.pack_into("<I", main_object, raw + offset, 96)
+                damaged = True
+                break
+        assert damaged, "representative main must exercise shared runtime data"
+        bad_object = root / "medium-bad-data.obj"
+        bad_object.write_bytes(main_object)
+        project_snapshots = list((root / "cache").glob("medium.p.*.record"))
+        assert len(project_snapshots) == 1
+        entry = project_snapshots[0].read_bytes()[73:144].decode()
+        bad_output = root / "medium-bad-data.exe"
+        command = [str(compiler), "module-coff-link", "--entry=" + entry,
+                   "--output=" + str(bad_output)]
+        for module, item in entries.items():
+            object_path = bad_object if module == "audit.main" else Path(item["object"])
+            digest = hashlib.sha256(object_path.read_bytes()).hexdigest()
+            command.extend(["--object=" + str(object_path), "--sha256=" + digest])
+        bad_link = subprocess.run(command, capture_output=True, text=True, timeout=30)
+        assert bad_link.returncode != 0 and "OPENC-COFF-LINK-RELOC" in bad_link.stderr
+        assert not bad_output.exists()
+        edit = medium["edit"]
+        score = medium_dir / edit["path"]
+        # Preserve the checked-in LF layout: a Windows text rewrite would
+        # turn the whole source into CRLF and correctly change its interface
+        # projection, obscuring the body-only invalidation assertion.
+        score.write_bytes(score.read_bytes().replace(
+            edit["old"].encode(), edit["new"].encode(), 1))
+        medium_edit = cached(compiler, root, "medium-edit", medium_cache, medium_project)
+        assert medium_edit.returncode == 0, medium_edit.stdout + medium_edit.stderr
+        edit_stats = stats(root, "medium-edit")["object_cache"]
+        assert edit_stats["hits"] == 3 and edit_stats["misses"] == 1, edit_stats
+        assert not edit_stats["validation_skipped"]
+        edit_clean = artifact(compiler, medium_dir, "medium-edit-clean")
+        assert edit_clean.returncode == 0, edit_clean.stdout + edit_clean.stderr
+        assert (root / "medium-edit.exe").read_bytes() == (medium_dir / "medium-edit-clean.exe").read_bytes()
+        assert {k: v["sha256"] for k, v in load_set(root, "medium-edit").items()} == {
+            k: v["sha256"] for k, v in load_set(medium_dir, "medium-edit-clean").items()}
+        medium_edit_run = subprocess.run([str(root / "medium-edit.exe")], cwd=medium_dir,
+                                         capture_output=True, text=True, timeout=10)
+        assert (medium_edit_run.returncode, medium_edit_run.stdout, medium_edit_run.stderr) == (
+            0, edit["expected_stdout_utf8"], medium["expected_stderr_utf8"])
+        print("automatic module cache: validated no-op, selective transitive API/body invalidation, real four-module file app, corruption/size/key/identity recovery, concurrent publication, unavailable storage and full diagnostics passed")
 
 
 if __name__ == "__main__":
