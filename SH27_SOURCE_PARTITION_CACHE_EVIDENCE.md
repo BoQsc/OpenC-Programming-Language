@@ -1,7 +1,7 @@
 # SH-27 source-partition COFF and compiler edit reuse
 
-Status: **isolated local correctness/fixed-point/RAM PASS; clean hosted repeat
-pending; no normal-default speed promotion; SH-27 active**.
+Status: **isolated local and clean hosted correctness/fixed-point/RAM PASS;
+no normal-default speed promotion; SH-27 active**.
 
 The self-host compiler remains one OpenC *language module*, preserving its
 unqualified cross-file name visibility. The isolated `module-coff-set` path
@@ -58,6 +58,49 @@ Ignored raw reports are `OpenC-1.0/build-output/sp27-coff-final.json`,
   The existing large-COFF overflow/cached compiler fixed-point,
   multi-module automatic cache, and selected-lowering/diagnostic suites
   passed on this source revision.
+
+## Clean Windows repeat
+
+[Run 36274910227](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36274910227)
+completed successfully on the identical compiler SHA above. Raw artifact
+`OpenC-SH27-module-COFF-36274910227` (ID `10917585524`) contains both
+new source-partition reports, their outer 512/128 MiB guard reports, the
+representative suite, and strict 20-generation raw samples.
+
+- The hosted 2/8/32-object compiler had 1,671 functions in every variant,
+  and the 32-object linked compiler reproduced the canonical byte-exact
+  Stage 2/3 SHA. The hosted cache proof passed 0/32 cold hits, 32/32 warm
+  hits, 31/32 hits after both a corrupt record and a same-size/same-mtime
+  real code edit, and 0/32 hits after the declaration projection changed.
+  The edited cached executable and all 32 object hashes matched a fresh
+  uncached link; invalid-source diagnostics also matched exactly.
+- Single hosted observations were 16.890 s cold, 3.332 s warm, 4.388 s
+  for the one-group body edit, and 23.429 s for the corresponding fresh
+  32-object build. These compare variants *within the opt-in COFF mode*;
+  they are not repeated normal-default C/D parity. The hosted body-edit
+  child peaks were 224,792,576 private / 64,147,456 working-set bytes,
+  below the 256/64 MiB limits.
+- The representative CLI, four-module app, and compiler self-build all
+  passed three cold/warm/edit repetitions. Its compiler self-build medians
+  were 3.654/3.605/3.629 s on this runner. These are a different command
+  and project staging policy than the opt-in cache proof, so the absolute
+  medians must not be treated as a paired speed comparison. Its highest
+  sampled compiler private peak was 247,435,264 bytes.
+- Strict stability passed 13/13 checks and 20/20 exact chained compiler
+  generations on this SHA; maximum sampled child private/working-set peaks
+  were 246,718,464 / 65,867,776 bytes. That leaves only 1,241,088 bytes
+  of sampled working-set margin under 64 MiB, so future source growth needs
+  renewed memory scrutiny rather than an automatic promotion.
+
+The separate [clean branch batch 36274910242](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36274910242)
+used this same compiler SHA and found **no qualifying cold-build speed
+gain**. All compiles, exact program outputs, deterministic binaries, and
+memory guards passed. Against its frozen baseline, the large-functions
+paired candidate-minus-baseline median was -0.002 s versus a 0.009 s null
+floor; control flow was -0.001 s versus a 0.002 s null floor. Raw artifact
+`OpenC-SH27-branch-batch-36274910242` (ID `10917261154`) retains the
+11-pair measurements. These results do not establish C/D parity for the
+  final source.
 
 ## Honest next gate
 

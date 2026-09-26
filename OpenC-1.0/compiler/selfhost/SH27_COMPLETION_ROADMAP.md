@@ -70,7 +70,11 @@ native COFF groups. A guarded local body-code edit in the 228-source compiler
 reused 31 groups and rebuilt one, with exact fresh output and a linked
 self-host fixed point. It remains opt-in; its 4–5 s cached edit path has not
 beaten the ordinary direct compiler build, so normal-default promotion and
-final SH-27 speed certification remain open. Clean hosted proof is pending.
+final SH-27 speed certification remain open. The
+[clean hosted proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36274910227)
+passed the source-group cache, three representative workloads, and strict
+20/20 self-build on the same compiler SHA. The separate clean cold-speed
+batch found no gain above noise.
 The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
 `benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit
 app, and actual compiler self-build with exact cold/warm/edit/runtime/RAM
