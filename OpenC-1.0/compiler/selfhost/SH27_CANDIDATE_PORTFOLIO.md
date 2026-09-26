@@ -84,11 +84,16 @@ PE byte-for-byte without the source project manifest. Wrong hashes and
 malformed authenticated COFF are rejected. It remains isolated and opt-in:
 shared `.data` relocations fail closed, and independent module compilation,
 automatic cache hits, atomic validated cache, and measured warm-build reuse
-are still absent. The [pre-allocation reader guard](https://github.com/BoQsc/OpenC-Programming-Language/blob/8946b9b/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md)
+are still absent. The [pre-allocation reader guard](https://github.com/BoQsc/OpenC-Programming-Language/blob/ca37261/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md)
 now resolves the file-buffer RAM gap: a 128 MiB input rejects normally under
 a 64 MiB process budget with about 5.4 MiB Job-private peak. Exact-boundary
 and valid saved-link tests, guarded fixed point, and strict Stage 3→4 also
-passed. The earlier Stage 2 bootstrap exceeded
+passed. [Clean hosted run 36259781271](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36259781271)
+also passed 20/20 strict chained self-builds with exact closure and all 13
+stability checks on the same isolated compiler hash. Its push/manual proof
+workflow is committed. A separate paired throughput batch showed 0 ms median
+gain on both large/control lanes, so this remains a RAM/correctness slice,
+not a speed promotion. The earlier Stage 2 bootstrap exceeded
 64 MiB working set; do not equate its 512 MiB bootstrap guard with the strict
 Stage 3→4 gate.
 An isolated opt-in `PreparedSource`/`WorkerScratch` boundary passed guarded

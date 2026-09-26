@@ -135,6 +135,14 @@ comparison; only OpenC's guarded two-lane wall measurements can validate it.
 | 7. Representative projects | Small hosted C/D/OpenC proof passed; broad project gate open | `benchmarks/sh27/representative/SUITE.json` covers a CLI, four-module file-audit app, and the 222-source compiler. The [pinned hosted medium-app proof](SH27_REPRESENTATIVE_HOSTED_PROOF.md) passed 3/3 cold/warm/edit repetitions with exact three-language output. Add a retained user project, a larger multi-module case, and repeated cross-language measurements before claiming representative parity. |
 | 8. Final-source certification | Partial, current-source parity/memory/conformance/editor only | Two independent clean 20/20 normal-default runs, strict 20/20 self-build, native 278/278 conformance, old-release asset integrity, fresh VS Code clean-profile, and direct finalization 44/44 passed on `1b58d5e`. Its daily aggregate was 13/14 because it hardcoded the historical profile path. The [isolated workflow input](https://github.com/BoQsc/OpenC-Programming-Language/blob/e233fee/OpenC-1.0/compiler/selfhost/SH27_WORKFLOW_CLEAN_PROFILE_INPUT.md) now routes an explicit report but correctly still fails two identity checks on its new compiler/VSIX; the final source needs a fresh matching profile and 14/14 rerun. Incremental, representative breadth, and other final checks remain. |
 
+The isolated bounded saved-object reader now also has an independent
+[clean hosted proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36259781271)
+on compiler SHA-256 `b97e857caacdd9c41826ff7355bcf4c1a91baca42959936a5ef0a8a9249f3ef4`:
+all 13 strict stability checks and 20/20 exact chained self-builds passed.
+Its separate paired batch found 0 ms median large/control gain; it is a
+RAM/correctness prerequisite, not a speed promotion. Source and raw artifact
+identities are in the [updated reader evidence](https://github.com/BoQsc/OpenC-Programming-Language/blob/ca37261/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md).
+
 The first broad batch rejected three partial source cuts and one scheduling
 proposal. The independent function queue is a no-go before immutable typed
 facts and bounded worker scratch; its zero-overhead local model is documented

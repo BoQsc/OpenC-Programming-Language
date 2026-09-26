@@ -66,9 +66,13 @@ and 256 MiB private bytes. The [project-free saved-object relink](https://github
 then authenticated on-disk COFF bytes and reproduced the two-module PE with
 the source project manifest hidden. This remains a manual relink, not a
 cache hit or independently compiled module. The [pre-allocation COFF reader
-guard](https://github.com/BoQsc/OpenC-Programming-Language/blob/8946b9b/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md)
+guard](https://github.com/BoQsc/OpenC-Programming-Language/blob/ca37261/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md)
 subsequently rejected a 128 MiB input normally under a 64 MiB process budget,
 preserved exact valid-link behavior, and passed strict Stage 3→4 self-build.
+Its [clean hosted push/manual proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36259781271)
+then passed all 13 strict stability checks and 20/20 byte-exact chained
+rebuilds. A separate paired batch found no speed gain; no compiler-throughput
+promotion is claimed.
 Independent module work and an atomic validated cache remain open. A subsequent
 [bounded project-cache ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/db54808/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_PROJECT_CACHE_OWNERSHIP.md)
 also passed strict opt-in self-build memory and exactness, reducing
