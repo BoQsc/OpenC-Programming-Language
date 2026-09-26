@@ -1,6 +1,10 @@
 # SH-27 throughput candidate portfolio
 
-Status: **no compiler-speed candidate promoted; SH-27 remains open**.
+Status: **no normal-default compiler-speed candidate promoted; SH-27 remains
+open**. The later opt-in
+[shared COFF identity cut](../../../SH27_SHARED_COFF_IDENTITY_EVIDENCE.md)
+has an 11/11 paired cold-partition speed signal with byte-identical output,
+but it does not change the direct PE default or certify C/D parity.
 This file is the short decision index for broad experiments. Detailed raw
 samples are in ignored `build-output/selfhost-sh27/` locally or the linked
 GitHub Actions artifact. A local result is a triage result, not the clean

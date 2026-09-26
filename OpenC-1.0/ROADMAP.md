@@ -655,8 +655,11 @@ IR reach closure. Exact evidence and reproduction commands are in
       exact object/PE output with 11 wins and cold 32-object medians of
       31.382/16.794 s. See
       [`SH27_SHARED_COFF_IDENTITY_EVIDENCE.md`](../SH27_SHARED_COFF_IDENTITY_EVIDENCE.md).
-      Clean hosted proof of that newest source and final normal-default C/D
-      parity are still open; no opt-in result closes SH-27.
+      Clean hosted fixed-point/cache/representative/strict proof of that
+      source passed, but its strict working-set margin was only 425,984
+      bytes and the separate default-path speed batch found no gain above
+      noise. A clean hosted paired COFF-speed repeat and final normal-
+      default C/D parity are still open; no opt-in result closes SH-27.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

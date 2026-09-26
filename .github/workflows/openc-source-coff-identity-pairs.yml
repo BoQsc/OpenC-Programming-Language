@@ -1,0 +1,57 @@
+name: OpenC SH-27 source COFF identity pairs
+
+on:
+  push:
+    branches: [codex/sh27-incremental-object-slice]
+    paths:
+      - OpenC-1.0/compiler/selfhost/source/backend_coff_identity.p
+      - OpenC-1.0/compiler/selfhost/source/backend_coff_modules.p
+      - OpenC-1.0/compiler/selfhost/source/backend_coff_writer.p
+      - OpenC-1.0/compiler/selfhost/source/backend_module_cache.p
+      - OpenC-1.0/compiler/selfhost/benchmark_source_partition_identity.py
+      - OpenC-1.0/compiler/selfhost/benchmark_source_partition_identity_ci.py
+      - .github/workflows/openc-source-coff-identity-pairs.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openc-source-coff-identity-pairs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  paired-proof:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    steps:
+      - name: Check out exact candidate and pinned baseline history
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check Python harness syntax
+        shell: cmd
+        run: >-
+          python -m py_compile
+          OpenC-1.0\compiler\selfhost\benchmark_source_partition_identity.py
+          OpenC-1.0\compiler\selfhost\benchmark_source_partition_identity_ci.py
+
+      - name: Bootstrap both exact revisions and run 11 guarded alternating pairs
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_source_partition_identity_ci.py
+          --baseline-ref 40ac1af8087ea4ed6f9aad0a42f8abb58fc127a5
+          --seed .github\bootstrap\openc-stage0.exe
+          --pairs 11
+          --output artifacts\coff-identity\result.json
+
+      - name: Retain bootstrap, fixed-point, output, RAM, and raw pair evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-SH27-COFF-identity-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: artifacts/coff-identity/**

@@ -1,7 +1,8 @@
 # SH-27 shared COFF identity preparation
 
 Status: **local fixed-point, exact-output, 11-pair speed, conformance and
-strict RAM PASS; clean hosted repeat pending; SH-27 active**.
+strict RAM PASS; clean hosted correctness/RAM PASS; hosted paired-speed
+repeat pending; SH-27 active**.
 
 The opt-in source-partition writers previously called
 `coff_stable_prepare` for every native object. That re-read and parsed the
@@ -40,6 +41,31 @@ per-module cache and large-COFF overflow/relink proofs also passed.
 The 20-generation strict chain passed 13/13 checks, with maximum sampled
 child private/working set of 247,422,976/65,126,400 bytes. Native
 conformance passed 278/278 fixtures.
+
+The exact source commit `900c17c` also passed its clean hosted
+[module/partition proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36280102510)
+with artifact `OpenC-SH27-module-COFF-36280102510` (ID `10918442421`).
+The same compiler SHA passed 2/8/32 object counts (1,673 functions),
+snapshot cold/warm/body-edit/fresh/interface-edit at
+5.917/0.253/4.079/14.943/5.895 s, corruption recovery, exact invalid
+diagnostics, 3/3 representative workloads, and strict 13/13 with 20/20
+chained generations. The maximum sampled strict child private/working set
+was 247,599,104/66,682,880 bytes. The working-set margin below 64 MiB
+was only **425,984 bytes**, so repeatability/headroom needs attention.
+The separate clean
+[default-path speed batch](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36280103329)
+correctly failed to find a gain: large/control paired medians were
++0.003/-0.002 s against 0.009/0.005 s null-noise floors. That batch
+does not measure the opt-in COFF architecture.
+
+The dedicated commit/manual
+[Windows paired workflow](.github/workflows/openc-source-coff-identity-pairs.yml)
+bootstraps the pinned `40ac1af` prior compiler and the candidate, then
+repeats the exact-output 11-pair COFF benchmark under the same 256/64 MiB
+child caps. Its wrapper passed a local 3-pair smoke test with 3/3 wins,
+byte-identical output, and 30.951/16.758 s median baseline/candidate.
+Until the workflow runs, the 1.869x full paired result is local evidence,
+not a clean hosted speed claim.
 
 This removes a repeated full-project parse from the **opt-in COFF path**.
 It does not speed the ordinary direct PE default, make an edited build
