@@ -29,6 +29,13 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.source_files);
     d_put(output, ",\n  \"source_bytes\": ");
     d_put_usize(output, timings.source_bytes);
+    if timings.module_selection_enabled {
+        d_put(output, ",\n  \"module_selection\": {\"sources_lowered\": ");
+        d_put_usize(output, timings.module_sources_lowered);
+        d_put(output, ", \"sources_validation_only\": ");
+        d_put_usize(output, timings.module_sources_validation_only);
+        d_put(output, "}");
+    }
     d_put(output, ",\n  \"parallel_source_chunks\": ");
     d_put_usize(output, timings.parallel_source_chunks);
     d_put(output, ",\n  \"parallel_flow_workers\": ");

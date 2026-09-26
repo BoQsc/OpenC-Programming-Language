@@ -5,7 +5,7 @@ import system.path;
 import system.process;
 import system.text;
 
-unsafe bool c_emit_source_record(
+unsafe bool c_emit_source_record_mode(
     ref IrContext base,
     ref DBuffer output,
     usize module_index,
@@ -14,7 +14,8 @@ unsafe bool c_emit_source_record(
     ref BuildTimings timings,
     bool validate_acceptance,
     ptr byte validation_source_ms,
-    ptr byte parsed_source_cache
+    ptr byte parsed_source_cache,
+    bool lower_source
 ) {
     usize phase_started = process.monotonic_milliseconds();
     text source;
@@ -427,6 +428,26 @@ unsafe bool c_emit_source_record(
             return true;
         }
     }
+    if timings.module_selection_enabled {
+        if lower_source {
+            timings.module_sources_lowered =
+                timings.module_sources_lowered + 1;
+        } else {
+            timings.module_sources_validation_only =
+                timings.module_sources_validation_only + 1;
+        }
+    }
+    if !lower_source {
+        // Preserve acceptance-created type closure, but do not allocate SSA
+        // value IDs, lower functions, or emit native records for this source.
+        base.types = context.types;
+        if parsed_source_reused {
+            context.syntax_data = null;
+            context.token_data = null;
+        }
+        c_release_source_context(context, diagnostic_data);
+        return true;
+    }
     usize node = 0;
     while node < syntax.length {
         if read_record_field(syntax_data, node, 0) == 2 {
@@ -474,4 +495,21 @@ unsafe bool c_emit_source_record(
     }
     c_release_source_context(context, diagnostic_data);
     return true;
+}
+
+unsafe bool c_emit_source_record(
+    ref IrContext base,
+    ref DBuffer output,
+    usize module_index,
+    usize source_record,
+    usize entry_module,
+    ref BuildTimings timings,
+    bool validate_acceptance,
+    ptr byte validation_source_ms,
+    ptr byte parsed_source_cache
+) {
+    return c_emit_source_record_mode(
+        base, output, module_index, source_record, entry_module, timings,
+        validate_acceptance, validation_source_ms, parsed_source_cache, true
+    );
 }

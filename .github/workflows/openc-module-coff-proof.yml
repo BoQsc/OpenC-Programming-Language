@@ -8,6 +8,7 @@ on:
       - OpenC-1.0/compiler/selfhost/openc.project.json
       - OpenC-1.0/compiler/selfhost/test_module_coff_set.py
       - OpenC-1.0/compiler/selfhost/test_coff_bounded_reader.py
+      - OpenC-1.0/compiler/selfhost/test_module_selected_lowering.py
       - OpenC-1.0/compiler/selfhost/bootstrap_sh27_native_parallel.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
       - .github/workflows/openc-module-coff-proof.yml
@@ -50,6 +51,15 @@ jobs:
           --max-private-mib 512 --max-working-set-mib 128
           --record artifacts\module-coff\module-tests.json
           -- python OpenC-1.0\compiler\selfhost\test_module_coff_set.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+
+      - name: Prove selected-module lowering, mixed-object edit relink, and diagnostics
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\run_with_memory_guard.py
+          --max-private-mib 512 --max-working-set-mib 128
+          --record artifacts\module-coff\selected-module-tests.json
+          -- python OpenC-1.0\compiler\selfhost\test_module_selected_lowering.py
           artifacts\module-coff\bootstrap-current\stage3\openc.exe
 
       - name: Enforce strict 20-generation native self-build and small lanes

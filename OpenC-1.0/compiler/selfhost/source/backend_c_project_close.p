@@ -84,6 +84,24 @@ unsafe i32 c_emit_project(
     ptr byte parsed_source_cache,
     ref NativeArtifactOptions artifact_options
 ) {
+    usize selected_module = base.modules.length;
+    bool module_selection = text.byte_length(artifact_options.module_name) != 0;
+    if module_selection {
+        usize candidate = 0;
+        while candidate < base.modules.length {
+            text name = interface_module_name(
+                base.project_source, base.module_data, candidate
+            );
+            if name == artifact_options.module_name {
+                selected_module = candidate;
+            }
+            candidate = candidate + 1;
+        }
+        if selected_module == base.modules.length {
+            io.error("error[OPENC-MODULE-SELECT]: unknown module\n");
+            return 1;
+        }
+    }
     // The fused validating path remains sequential and lets lowering create
     // only the derived types it actually needs.  Eagerly closing every type
     // before acceptance doubles the lookup set and defeats cache reuse.
@@ -276,11 +294,12 @@ unsafe i32 c_emit_project(
             );
             usize source_index = 0;
             while source_index < source_count {
-                bool emitted = c_emit_source_record(
+                bool lower_source = !module_selection || module_index == selected_module;
+                bool emitted = c_emit_source_record_mode(
                     base, output, module_index,
                     source_first + source_index, entry_module, timings,
                     validate_acceptance, validation_source_ms,
-                    parsed_source_cache
+                    parsed_source_cache, lower_source
                 );
                 resolution_release_cached_parsed_source(
                     parsed_source_cache, source_first + source_index

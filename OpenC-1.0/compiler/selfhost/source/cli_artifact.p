@@ -75,6 +75,7 @@ unsafe i32 cli_artifact_command() {
     bool valid = true;
     bool profile_type_queries = false;
     bool source_chunks_explicit = false;
+    bool module_explicit = false;
     while argument < process.argument_count() {
         text value = process.argument(argument);
         if cli_has_prefix(value, "--project=") {
@@ -93,6 +94,9 @@ unsafe i32 cli_artifact_command() {
             options.linked_output_path = cli_remove_prefix(
                 value, "--linked-exe="
             );
+        } else if cli_has_prefix(value, "--module=") {
+            module_explicit = true;
+            options.module_name = cli_remove_prefix(value, "--module=");
         } else if cli_has_prefix(value, "--kind=") {
             kind_name = cli_remove_prefix(value, "--kind=");
         } else if cli_has_prefix(value, "--subsystem=") {
@@ -154,12 +158,20 @@ unsafe i32 cli_artifact_command() {
         options.kind != native_artifact_coff_object() { valid = false; }
     if text.byte_length(options.linked_output_path) != 0 &&
         options.kind != native_artifact_module_coff_set() { valid = false; }
+    if module_explicit &&
+        (text.byte_length(options.module_name) == 0 ||
+            text.byte_length(options.module_name) > 1024 ||
+            options.kind != native_artifact_module_coff_set() ||
+            text.byte_length(options.linked_output_path) != 0) {
+        valid = false;
+    }
     if !valid {
-        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|module-coff-set|dll|static-library|import-library) --output=FILE-OR-PREFIX [--linked-exe=FILE (module-coff-set only)] [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--stable-coff-symbols] [--source-chunks=(1|2|4|auto)]\n");
+        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|module-coff-set|dll|static-library|import-library) --output=FILE-OR-PREFIX [--module=MODULE (module-coff-set only, no linked-exe)] [--linked-exe=FILE (module-coff-set only)] [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--stable-coff-symbols] [--source-chunks=(1|2|4|auto)]\n");
         return 64;
     }
     BuildTimings timings = build_timings_empty();
     timings.emission_mode = 2;
+    timings.module_selection_enabled = module_explicit;
     timings.profile_type_queries_enabled = profile_type_queries;
     i32 result = emit_bootstrap_d_mode_artifact(
         project, output_path, true, true, timings, options
