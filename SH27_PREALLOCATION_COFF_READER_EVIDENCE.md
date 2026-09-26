@@ -53,7 +53,8 @@ and `OpenC-1.0/build-output/sh27-bounded-coff-read-bootstrap-20260926/`.
 
 Commit `c6128db9fe5fdc05c2a5d514c59367562dab0454` added the push/manual
 `.github/workflows/openc-module-coff-proof.yml` and portable Windows SDK /
-LLVM test-oracle discovery. [Run 36259781271](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36259781271)
+LLVM test-oracle discovery. Only the commit trigger was exercised here;
+manual dispatch is configured but has not been verified. [Run 36259781271](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36259781271)
 passed on Windows Server 2025. Downloaded raw artifact `10911793009`
 (`OpenC-SH27-module-COFF-36259781271`) confirms the same compiler SHA-256,
 3/3 reader boundary cases, guarded module/link/failure-recovery proof, and
