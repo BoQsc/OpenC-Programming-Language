@@ -41,8 +41,9 @@ can now pass a current clean-profile report path without changing the
 historical SH-25 record; its own new compiler correctly failed the two
 identity checks against the earlier report, so final-source 14/14 is open.
 `SH27_INCREMENTAL_OBJECT_REUSE_ARCHITECTURE.md` maps the current one-object,
-global-ID pipeline and the safe implementation/proof sequence; no cache is
-claimed implemented yet.
+global-ID pipeline and the safe implementation/proof sequence. Its newer
+current delta records an isolated opt-in automatic cache; none is promoted
+into the normal production build yet.
 The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
 `benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit
 app, and actual compiler self-build with exact cold/warm/edit/runtime/RAM
@@ -73,7 +74,27 @@ Its [clean hosted push/manual proof](https://github.com/BoQsc/OpenC-Programming-
 then passed all 13 strict stability checks and 20/20 byte-exact chained
 rebuilds. A separate paired batch found no speed gain; no compiler-throughput
 promotion is claimed.
-Independent module work and an atomic validated cache remain open. A subsequent
+The [selected-module IR/native emission boundary](https://github.com/BoQsc/OpenC-Programming-Language/blob/2d693f4/SH27_SELECTED_MODULE_LOWERING_EVIDENCE.md)
+then passed local exact COFF/PE, three-module changed-provider reuse,
+multi-source module, full rejection diagnostics, fixed-point, and strict
+Stage 3→4 gates. It still parses and validates the whole project and has no
+automatic cache by itself; its [hosted strict chain](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36260957581)
+passed all 13 checks and 20/20 exact rebuilds. Its subsequent [automatic
+cache source](https://github.com/BoQsc/OpenC-Programming-Language/blob/2ca15c1/SH27_AUTO_MODULE_CACHE_EVIDENCE.md)
+now proves authenticated hits, atomic local publication, body/declaration
+invalidation, corrupt/oversized input recovery, and concurrent writers.
+The 24-file/1153-function proof repairs a discovered linker scratch ceiling
+and reproduces clean objects/PE/runtime under strict RAM. No-op/edit local
+medians are 0.335/0.456 s versus 1.223 s full COFF, but normal native compilation
+is 0.325 s: no default speed promotion. Whole-project validation, conservative
+all-module interface invalidation, opt-in restrictions, and the Stage-2 strict
+RAM overrun remain. [Hosted cache-source proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36263328048)
+passed all cache/24-file checks and strict 20/20 exact rebuilds. Hosted no-op
+versus normal medians 0.178/0.188 s produce only a 10 ms paired gain, opposite
+the local 11 ms regression; the independent cold speed batch failed its
+gain/noise gate. No default speed promotion or new C/D parity is proved. Semantic
+snapshot skipping, selective dependency keys, general data/runtime support,
+real-project/default speed and final certification are still required. The subsequent
 [bounded project-cache ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/db54808/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_PROJECT_CACHE_OWNERSHIP.md)
 also passed strict opt-in self-build memory and exactness, reducing
 source-borrowed scratch pointers from 25 to 21. The later [five-array index

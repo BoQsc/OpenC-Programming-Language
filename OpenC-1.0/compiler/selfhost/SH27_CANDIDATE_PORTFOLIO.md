@@ -84,7 +84,7 @@ PE byte-for-byte without the source project manifest. Wrong hashes and
 malformed authenticated COFF are rejected. It remains isolated and opt-in:
 shared `.data` relocations fail closed, and independent module compilation,
 automatic cache hits, atomic validated cache, and measured warm-build reuse
-are still absent. The [pre-allocation reader guard](https://github.com/BoQsc/OpenC-Programming-Language/blob/ca37261/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md)
+were absent at that checkpoint. The [pre-allocation reader guard](https://github.com/BoQsc/OpenC-Programming-Language/blob/ca37261/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md)
 now resolves the file-buffer RAM gap: a 128 MiB input rejects normally under
 a 64 MiB process budget with about 5.4 MiB Job-private peak. Exact-boundary
 and valid saved-link tests, guarded fixed point, and strict Stage 3→4 also
@@ -96,6 +96,31 @@ gain on both large/control lanes, so this remains a RAM/correctness slice,
 not a speed promotion. The earlier Stage 2 bootstrap exceeded
 64 MiB working set; do not equate its 512 MiB bootstrap guard with the strict
 Stage 3→4 gate.
+The [selected-module lowering boundary](https://github.com/BoQsc/OpenC-Programming-Language/blob/2d693f4/SH27_SELECTED_MODULE_LOWERING_EVIDENCE.md)
+now lowers only a named module while retaining whole-project diagnostics.
+Three selected objects match full-build COFF bytes; a changed provider plus
+two saved unchanged objects matches a fresh PE and runtime result. A
+multi-source module and unselected-module errors are covered. Its new source
+passed exact fixed point and local strict Stage 3→4; hosted strict-chain
+recertification passed [run 36260957581](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36260957581).
+No automatic hit, cache publication, independent
+validation skip, or speed claim is made.
+The [automatic native object cache](https://github.com/BoQsc/OpenC-Programming-Language/blob/2ca15c1/SH27_AUTO_MODULE_CACHE_EVIDENCE.md)
+subsequently adds actual hits/misses, missed-module compilation, authenticated
+snapshots, atomic publication, safe body/declaration invalidation, and tested
+corruption/concurrency/storage fallback. A 24-file/1153-function case found
+and repaired a 1 KiB linker scratch ceiling and repeated symbol/projection
+scans. It passes exact COFF/PE/runtime and strict RAM. Local no-op/edit medians
+are 0.335/0.456 s versus 1.223 s full COFF, but ordinary native compilation is
+0.325 s: no normal-default win or promotion. Stage 3→4 remains byte-exact and
+strict; Stage 2 exceeds strict bootstrap caps. Cache-source [hosted proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36263328048)
+passed cache/24-file tests and all 13 strict checks with 20/20 exact rebuilds.
+Hosted no-op/normal medians 0.178/0.188 s yield only a 10 ms paired gain,
+opposite the local 11 ms regression. A separate cold speed batch failed its
+gain/noise gate. No default speed promotion is warranted.
+Validated no-op front-end skipping, selective transitive dependency keys,
+general data/runtime support, real-project/default speed and certification
+remain required.
 An isolated opt-in `PreparedSource`/`WorkerScratch` boundary passed guarded
 fixed point and focused exact artifacts, but it is serial and has no speed
 claim; see `SH27_PREPARED_SOURCE_BOUNDARY.md`. The next function-worker audit

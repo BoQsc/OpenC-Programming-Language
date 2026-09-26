@@ -4,7 +4,45 @@ Date: 2026-09-24. Isolated branch `codex/sh27-incremental-object-slice`,
 based on production compiler source `1b58d5e1bde84307426c5f5ff33171765b4ecf1f`.
 No production source or cache format was changed, and no timing claim is made.
 
-## What exists today
+## Current implementation delta (2026-09-26)
+
+The historical boundary below has advanced in isolated, unpromoted commits:
+stable per-module COFF names, a restricted native multi-object linker,
+authenticated project-free saved-object relink, and a pre-allocation bounded
+COFF reader now have exact-output and strict-memory proofs. The [selected
+module lowering boundary](https://github.com/BoQsc/OpenC-Programming-Language/blob/2d693f4/SH27_SELECTED_MODULE_LOWERING_EVIDENCE.md)
+adds `artifact --kind=module-coff-set --module=MODULE`: only that module's
+sources enter IR/native emission, while all project sources still undergo
+parsing, resolution, flow, and acceptance. Three separately emitted module
+objects match full-build objects; after a provider body edit, its new object
+plus two unchanged saved objects produces the exact fresh-build PE. Counters
+prove lowered versus validation-only sources. Selection also handles a
+multi-source module and retains full rejection diagnostics.
+
+The selected-module source passed hosted strict20 in
+[run 36260957581](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36260957581).
+Its successor [automatic module cache](https://github.com/BoQsc/OpenC-Programming-Language/blob/2ca15c1/SH27_AUTO_MODULE_CACHE_EVIDENCE.md)
+now implements authenticated hits, missed-module lowering, atomic local
+publication, body/interface invalidation, and corruption/concurrency fallback.
+Local tests prove zero lowered functions for a no-op and changed-provider
+recompilation only. A 24-file/1153-function scale case exposed and repaired
+the native linker's 1 KiB scratch ceiling. It matches clean COFF/PE bytes and
+behavior on no-op/edit builds under strict RAM. Local no-op/edit medians are
+0.335/0.456 s versus 1.223 s full COFF; ordinary native compilation is 0.325 s,
+so **no default-build speed win is claimed**. Source validation is retained;
+interface changes conservatively invalidate all modules. [Hosted cache-source
+proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36263328048)
+passed all cache/24-file checks and strict 20/20 exact rebuilds. Its 10 ms
+no-op gain over ordinary native compilation disagrees with the local 11 ms
+regression; a separate cold speed batch failed the gain/noise gate.
+Independent front-end skipping, selective complete
+dependency keys, shared-data/helper ownership, real-project/default-policy
+speed and release certification remain. The internal numeric-ID stream
+cache sequence below is historical; do not implement it instead of using the
+now-proved stable-COFF miss/relink path. Preserve full validation until a
+content-validated semantic record justifies skipping it.
+
+## Historical starting boundary (2026-09-24)
 
 The native build resolves declarations and types for the whole project in
 `backend_emit.p`, then calls `c_emit_project` once with a single global
