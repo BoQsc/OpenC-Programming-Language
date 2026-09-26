@@ -3,6 +3,11 @@ import system.io;
 import system.memory;
 import system.text;
 
+// A self-host compiler module currently produces an 8.75 MiB COFF object.
+// Keep the authenticated saved-object bundle bounded while admitting that
+// measured object; later source-level partitioning must avoid giant units.
+usize coff_link_bundle_limit() { return 16777216; }
+
 unsafe bool coff_module_object_path(
     ref IrContext context,
     usize module_index,
@@ -109,7 +114,7 @@ unsafe bool coff_link_bundle_reserve(
     ref DBuffer bundle,
     usize addition
 ) {
-    usize limit = 8388608;
+    usize limit = coff_link_bundle_limit();
     if !bundle.ok || addition > limit ||
         bundle.length > limit - addition { return false; }
     usize needed = bundle.length + addition;
@@ -163,15 +168,16 @@ unsafe bool coff_link_append_published_object_mode(
 ) {
     ptr byte saved_data;
     usize saved_length;
-    if bundle.length > 8388604 { return false; }
-    usize remaining = 8388604 - bundle.length;
+    usize saved_limit = coff_link_bundle_limit() - 4;
+    if bundle.length > saved_limit { return false; }
+    usize remaining = saved_limit - bundle.length;
     status loaded = cli_coff_read_bounded_object(
         object_path, remaining, out saved_data, out saved_length
     );
     if !loaded.ok { return false; }
     bool ok = saved_data != null &&
         (expected_length == 0 || saved_length == expected_length) &&
-        saved_length <= 8388604;
+        saved_length <= saved_limit;
     DBuffer saved_hash = d_buffer_create(65);
     if ok {
         if accelerate_hash { module_cache_digest(saved_data, saved_length, saved_hash); }
@@ -359,7 +365,7 @@ unsafe status native_write_module_coff_set(
         text.byte_length(prefix) > 4096 ||
         objects.length > 67108864 ||
         (text.byte_length(linked_output_path) != 0 &&
-            (objects.length > 4194304 ||
+            (objects.length > 12582912 ||
                 text.byte_length(linked_output_path) > 4096)) {
         io.error("error[OPENC-MODULE-COFF-BUDGET]: module set exceeds limits\n");
         return failed;

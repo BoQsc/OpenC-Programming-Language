@@ -509,7 +509,7 @@ unsafe bool module_cache_prepare(
     text prefix, usize entry_module, ref ModuleCacheState cache, ref BuildTimings timings
 ) {
     if context.modules.length == 0 || context.modules.length > 64 ||
-        timings.source_bytes > 4194304 || context.symbols.length > 4096 {
+        timings.source_bytes > 4194304 || context.symbols.length > 16384 {
         return false;
     }
     usize name_index = 0;

@@ -212,9 +212,16 @@ advance concurrently, without treating a noisy local micro-gain as progress:
    Make acceptance/lowering truly independent by module, handle shared data,
    use the now-proved project-free saved-object relink as the backend for
    independently accepted/lowered modules, then implement an atomic,
-   content-validated cache and correct invalidation. The saved reader's
-   pre-allocation cap is now proved; no automatic object hit is claimed.
-   A full-source hash or warm timer with no actual module hits fails this track.
+   content-validated cache and correct invalidation. This isolated branch
+   now has authenticated per-module object hits and transitive API-key
+   invalidation, a hosted four-module file-app proof, and a local cached
+   no-op for the compiler's own 96,297-relocation COFF object; see
+   [`SH27_LARGE_COFF_OVERFLOW_EVIDENCE.md`](../../../SH27_LARGE_COFF_OVERFLOW_EVIDENCE.md).
+   It is still opt-in. The compiler remains one 228-source module, so a
+   one-source edit rebuilds the whole object, and its normal build remains
+   uncached. A full-source hash or warm timer with no selective hits fails
+   this track; source partitions or smaller real modules, independent
+   acceptance/lowering, and bounded streaming link storage are next.
 3. **Safe function ownership:** opt-in serial PreparedSource, type-registry
    probe, four bounded project-cache copies, five frozen source indexes, and
    seven guarded function cache lanes, and bounded private type/local/stack

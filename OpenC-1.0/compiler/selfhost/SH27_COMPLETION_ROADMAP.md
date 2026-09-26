@@ -46,11 +46,13 @@ current delta records an isolated opt-in automatic cache; none is promoted
 into the normal production build yet. The later
 [isolated representative-cache proof](../../../SH27_REPRESENTATIVE_CACHE_EVIDENCE.md)
 passed a hosted four-module file app, strict self-build, and a three-run
-project suite, but the 228-source compiler project cannot use this object
-path: it trips both the conservative cache projection and 4 MiB linked-set
-budget, and its single module offers no one-source rebuild granularity.
-Safe partitioning, streaming link memory, and strict RAM headroom are named
-engineering gates before default promotion; a larger buffer alone is not a
+project suite. The subsequent
+[large COFF/overflow cut](../../../SH27_LARGE_COFF_OVERFLOW_EVIDENCE.md)
+locally linked the 228-source compiler's 96,297-relocation object and proved
+an authenticated cached no-op and seeded self-host fixed point. Its single
+module still offers no one-source rebuild granularity. Safe partitioning,
+streaming link memory, hosted proof, and strict RAM headroom are named
+engineering gates before default promotion; larger buffers alone are not a
 substitute.
 The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
 `benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit

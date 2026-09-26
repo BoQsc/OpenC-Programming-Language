@@ -8,6 +8,7 @@ on:
       - OpenC-1.0/compiler/selfhost/openc.project.json
       - OpenC-1.0/compiler/selfhost/test_module_coff_set.py
       - OpenC-1.0/compiler/selfhost/test_coff_bounded_reader.py
+      - OpenC-1.0/compiler/selfhost/test_large_coff_selfhost.py
       - OpenC-1.0/compiler/selfhost/test_module_selected_lowering.py
       - OpenC-1.0/compiler/selfhost/test_module_object_cache.py
       - OpenC-1.0/benchmarks/sh27/representative/SUITE.json
@@ -48,6 +49,16 @@ jobs:
           python OpenC-1.0\compiler\selfhost\test_coff_bounded_reader.py
           artifacts\module-coff\bootstrap-current\stage3\openc.exe
           --report artifacts\module-coff\bounded-reader.json
+
+      - name: Prove overflow COFF relocations and cached compiler self-host fixed point
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\run_with_memory_guard.py
+          --max-private-mib 512 --max-working-set-mib 128
+          --record artifacts\module-coff\large-coff-guard.json
+          -- python OpenC-1.0\compiler\selfhost\test_large_coff_selfhost.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --report artifacts\module-coff\large-coff.json
 
       - name: Guard module boundaries, native saved relink, and failure recovery
         shell: cmd

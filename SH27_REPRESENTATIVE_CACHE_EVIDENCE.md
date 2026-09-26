@@ -83,8 +83,11 @@ probe on the 228-source/one-module project returned
 `OPENC-MODULE-CACHE-FALLBACK` and `OPENC-MODULE-COFF-BUDGET`, with 8,367,338
 reported native output bytes above the current 4 MiB linked-set limit.
 Raising the cap alone would still leave one source edit invalidating the
-whole single module. This is a named scaling/design gate, not a passing
-self-build cache demonstration. Larger retained projects, safe source-level
+whole single module. The subsequent
+[large COFF/overflow cut](SH27_LARGE_COFF_OVERFLOW_EVIDENCE.md) proved a
+cached compiler no-op and exposed/implemented the required COFF relocation
+overflow format; it did not create one-source granularity. Larger retained
+projects, safe source-level
 partitioning or smaller real modules, streaming link storage, default
 integration, final-source clean C/D parity, editor/release integrity, and
 RAM-margin improvement remain SH-27 work.

@@ -13,7 +13,7 @@ import tempfile
 from windows_process_measure import run_measured
 
 MIB = 1024 * 1024
-OBJECT_LIMIT = 8 * MIB - 4
+OBJECT_LIMIT = 16 * MIB - 4
 
 
 def sha256(path: Path) -> str:

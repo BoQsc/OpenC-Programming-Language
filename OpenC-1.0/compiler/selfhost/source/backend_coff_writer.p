@@ -180,8 +180,22 @@ unsafe DBuffer native_build_coff_object(
     DBuffer data = d_buffer_create(96);
     DBuffer pdata = d_buffer_create(function_count * 12 + 4);
     DBuffer xdata = d_buffer_create(unwind_size + 4);
-    DBuffer text_reloc = d_buffer_create(text_relocations * 10 + 4);
+    bool text_relocation_overflow = text_relocations > 65535;
+    usize text_relocation_records = text_relocations;
+    usize text_relocation_header_count = text_relocations;
+    usize text_characteristics = 1615855648;
+    if text_relocation_overflow {
+        text_relocation_records = text_relocation_records + 1;
+        text_relocation_header_count = 65535;
+        text_characteristics = 1632632864;
+    }
+    DBuffer text_reloc = d_buffer_create(text_relocation_records * 10 + 4);
     DBuffer pdata_reloc = d_buffer_create(function_count * 30 + 4);
+    // COFF's overflow record is a synthetic first relocation whose address
+    // contains the physical table count, including this record itself.
+    if text_relocation_overflow {
+        coff_put_relocation(text_reloc, text_relocation_records, 0, 0);
+    }
     d_put_byte(text_data, 204);
     d_put_byte(text_data, 195);
     pe32_pad_to(text_data, 16);
@@ -317,7 +331,7 @@ unsafe DBuffer native_build_coff_object(
     pe32_put_u16(output, 0);
     coff_put_section_header(
         output, ".text", text_data.length, text_raw,
-        text_reloc_at, text_relocations, 1615855648
+        text_reloc_at, text_relocation_header_count, text_characteristics
     );
     coff_put_section_header(
         output, ".rdata", rdata.length, rdata_raw, 0, 0, 1076887616

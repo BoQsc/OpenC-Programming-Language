@@ -11,6 +11,7 @@ struct CoffLinkSection {
     usize size;
     usize reloc;
     usize count;
+    usize reloc_prefix;
     bool ok;
 }
 
@@ -81,7 +82,8 @@ unsafe CoffLinkSection coff_link_section(
     usize header = 20 + index * 40;
     bool valid = true;
     CoffLinkSection section = CoffLinkSection{
-        raw = 0, size = 0, reloc = 0, count = 0, ok = false
+        raw = 0, size = 0, reloc = 0, count = 0,
+        reloc_prefix = 0, ok = false
     };
     if !coff_link_name8(object, header, expected_name) { valid = false; }
     section.size = pe_coff_read_u32(
@@ -96,13 +98,37 @@ unsafe CoffLinkSection coff_link_section(
     section.count = pe_coff_read_u16(
         object.data, object.length, header + 32, valid
     );
-    usize overflow = pe_coff_read_u16(
+    usize line_numbers = pe_coff_read_u16(
         object.data, object.length, header + 34, valid
+    );
+    usize characteristics = pe_coff_read_u32(
+        object.data, object.length, header + 36, valid
     );
     if !valid || section.raw != expected_raw ||
         section.raw > object.length ||
-        section.size > object.length - section.raw || overflow != 0 {
+        section.size > object.length - section.raw || line_numbers != 0 {
         valid = false;
+    }
+    bool relocation_overflow = (characteristics & 16777216) != 0;
+    if valid && relocation_overflow {
+        if index != 0 || section.count != 65535 ||
+            section.reloc > object.length ||
+            object.length - section.reloc < 10 { return section; }
+        usize physical_count = pe_coff_read_u32(
+            object.data, object.length, section.reloc, valid
+        );
+        usize marker_symbol = pe_coff_read_u32(
+            object.data, object.length, section.reloc + 4, valid
+        );
+        usize marker_type = pe_coff_read_u16(
+            object.data, object.length, section.reloc + 8, valid
+        );
+        if !valid || physical_count <= 65536 ||
+            physical_count > (object.length - section.reloc) / 10 ||
+            marker_symbol != 0 || marker_type != 0 { return section; }
+        section.count = physical_count - 1;
+        section.reloc = section.reloc + 10;
+        section.reloc_prefix = 10;
     }
     section.ok = valid;
     return section;
@@ -110,7 +136,8 @@ unsafe CoffLinkSection coff_link_section(
 
 unsafe CoffLinkObject coff_link_parse(ref DBuffer object) {
     CoffLinkSection empty = CoffLinkSection{
-        raw = 0, size = 0, reloc = 0, count = 0, ok = false
+        raw = 0, size = 0, reloc = 0, count = 0,
+        reloc_prefix = 0, ok = false
     };
     CoffLinkObject result = CoffLinkObject{
         code = empty, constants = empty, data = empty,
@@ -119,7 +146,7 @@ unsafe CoffLinkObject coff_link_parse(ref DBuffer object) {
         strings_size = 0, ok = false
     };
     bool valid = object.ok && object.length >= 224 &&
-        object.length <= 8388608;
+        object.length <= coff_link_bundle_limit() - 4;
     if !valid { return result; }
     usize machine = pe_coff_read_u16(
         object.data, object.length, 0, valid
@@ -171,11 +198,11 @@ unsafe CoffLinkObject coff_link_parse(ref DBuffer object) {
             pe32_import_count() { return result; }
     usize text_relocations = result.unwind_data.raw +
         result.unwind_data.size;
-    usize pdata_relocations = text_relocations +
+    usize pdata_relocations = text_relocations + result.code.reloc_prefix +
         result.code.count * 10;
     usize symbols_at = pdata_relocations +
         result.unwind_index.count * 10;
-    if result.code.reloc != text_relocations ||
+    if result.code.reloc != text_relocations + result.code.reloc_prefix ||
         result.unwind_index.reloc != pdata_relocations ||
         result.symbols != symbols_at || symbols_at > object.length ||
         result.symbol_count > (object.length - symbols_at) / 18 {
@@ -387,7 +414,7 @@ unsafe CoffLinkCounts coff_link_bundle_collect(
         objects = 0, functions = 0, ok = false
     };
     if !bundle.ok || bundle.length == 0 ||
-        bundle.length > 8388608 { return counts; }
+        bundle.length > coff_link_bundle_limit() { return counts; }
     usize cursor = 0;
     while cursor < bundle.length {
         if counts.objects >= 64 || bundle.length - cursor < 4 {
@@ -811,7 +838,7 @@ unsafe bool coff_link_entry_name(
     ref DBuffer objects,
     ref DBuffer name
 ) {
-    if context.symbols.length > 4096 { return false; }
+    if context.symbols.length > 16384 { return false; }
     usize entry = context.symbols.length;
     usize cursor = 0;
     while cursor < objects.length {
