@@ -301,6 +301,29 @@ unsafe bool module_cache_project_key(
     return ok;
 }
 
+unsafe bool source_partition_project_key(
+    text project_source, text project_root, ptr byte module_data,
+    ref PackedBuffer modules, ptr byte source_data, usize source_bytes,
+    usize partitions, usize source_chunks, ref DBuffer output
+) {
+    DBuffer base = d_buffer_create(65);
+    bool ok = module_cache_project_key(
+        project_source, project_root, module_data, modules,
+        source_data, source_bytes, base
+    );
+    DBuffer input = d_buffer_create(160);
+    if ok {
+        d_put(input, "openc-source-partition-project-v1:");
+        d_put_usize(input, partitions); d_put(input, ":");
+        d_put_usize(input, source_chunks); d_put(input, ":");
+        d_put(input, d_buffer_text(base));
+        if input.ok { module_cache_digest(input.data, input.length, output); }
+        ok = input.ok && output.ok && output.length == 64;
+    }
+    d_buffer_destroy(input); d_buffer_destroy(base);
+    return ok;
+}
+
 unsafe void module_cache_project_record_path(
     text prefix, text key, ref DBuffer output
 ) {
@@ -358,8 +381,23 @@ unsafe i32 module_cache_project_dispose(ref DBuffer bundle, i32 result) {
 unsafe i32 module_cache_project_try(
     text project_source, ptr byte module_data, ref PackedBuffer modules,
     text output_prefix, text linked_output, text cache_prefix,
-    text key, ref BuildTimings timings
+    text key, usize source_partitions, ref BuildTimings timings
 ) {
+    usize unit_count = modules.length;
+    usize source_count = 0;
+    if source_partitions != 0 {
+        unit_count = source_partitions;
+        usize source_module = 0;
+        while source_module < modules.length {
+            usize end = read_record_field(module_data, source_module, 2) +
+                read_record_field(module_data, source_module, 3);
+            if end > source_count { source_count = end; }
+            source_module = source_module + 1;
+        }
+        if source_partitions > 32 || source_count < source_partitions {
+            return 0;
+        }
+    }
     DBuffer path = d_buffer_create(text.byte_length(cache_prefix) + 110);
     scope d_buffer_destroy(path);
     module_cache_project_record_path(cache_prefix, key, path);
@@ -371,18 +409,18 @@ unsafe i32 module_cache_project_try(
     );
     if !loaded.ok { return 0; }
     scope memory.free(data);
-    usize expected = 212 + modules.length * 64;
+    usize expected = 212 + unit_count * 64;
     DBuffer record_view = DBuffer{
         data = data, length = length, capacity = length, ok = true
     };
-    if length != expected || modules.length > 64 ||
+    if length != expected || unit_count > 64 ||
         !span_equals_ascii(d_buffer_text(record_view), 0, 9, "OCVC0001\n") { return 0; }
     usize digit = 0;
     while digit < 64 {
         if *(data + 9 + digit) != byte_at_or_zero(key, digit) { return 0; }
         digit = digit + 1;
     }
-    if native_read_u32(record_view, 144) != modules.length { return 0; }
+    if native_read_u32(record_view, 144) != unit_count { return 0; }
     DBuffer entry_prefix = DBuffer{
         data = data + 73, length = 7, capacity = 7, ok = true
     };
@@ -398,11 +436,11 @@ unsafe i32 module_cache_project_try(
         digit = digit + 1;
     }
     DBuffer bundle = d_buffer_create(1024);
-    ptr byte offsets = memory.alloc((modules.length + 1) * size_of(usize));
+    ptr byte offsets = memory.alloc((unit_count + 1) * size_of(usize));
     scope memory.free(offsets);
     usize hits = 0;
     usize module_index = 0;
-    while module_index < modules.length {
+    while module_index < unit_count {
         write_usize(offsets, module_index * size_of(usize), 0);
         ptr byte hash_data = data + 148 + module_index * 64;
         if !module_cache_lower_hex(hash_data, 64) {
@@ -442,23 +480,46 @@ unsafe i32 module_cache_project_try(
         return module_cache_project_dispose(bundle, -1);
     }
     DBuffer manifest = d_buffer_create(
-        modules.length * (text.byte_length(output_prefix) + 1024) + 4096
+        unit_count * (text.byte_length(output_prefix) + 1024) + 4096
     );
     scope d_buffer_destroy(manifest);
     // Once authenticated inputs are accepted, invalidate a prior COMPLETE
     // output before replacing any object or PE at this output prefix.
-    status invalidated = file.write_text(d_buffer_text(manifest_path),
-        "{\"schema\":\"openc.module_coff_set.v1\",\"status\":\"INCOMPLETE\"}\n");
+    status invalidated = status{ code = 1 };
+    if source_partitions != 0 {
+        invalidated = file.write_text(d_buffer_text(manifest_path),
+            "{\"schema\":\"openc.source_partition_coff_set.v1\",\"status\":\"INCOMPLETE\"}\n");
+    } else {
+        invalidated = file.write_text(d_buffer_text(manifest_path),
+            "{\"schema\":\"openc.module_coff_set.v1\",\"status\":\"INCOMPLETE\"}\n");
+    }
     if !invalidated.ok { return module_cache_project_dispose(bundle, -1); }
-    d_put(manifest, "{\"schema\":\"openc.module_coff_set.v1\",\"status\":\"COMPLETE\",\"target\":\"windows-x86_64-llp64\",\"modules\":[\n");
+    if source_partitions != 0 {
+        d_put(manifest, "{\"schema\":\"openc.source_partition_coff_set.v1\",\"status\":\"COMPLETE\",\"target\":\"windows-x86_64-llp64\",\"partitions\":[\n");
+    } else {
+        d_put(manifest, "{\"schema\":\"openc.module_coff_set.v1\",\"status\":\"COMPLETE\",\"target\":\"windows-x86_64-llp64\",\"modules\":[\n");
+    }
     module_index = 0;
     usize emitted = 0;
-    while module_index < modules.length {
+    while module_index < unit_count {
         usize saved = read_usize(offsets, module_index * size_of(usize));
         if saved != 0 {
-            text name = interface_module_name(project_source, module_data, module_index);
             DBuffer output_path = d_buffer_create(text.byte_length(output_prefix) + 100);
-            bool ok = coff_module_object_path_for_name(name, output_prefix, output_path);
+            bool ok = true;
+            if source_partitions != 0 {
+                d_put(output_path, output_prefix);
+                d_put(output_path, ".part.");
+                d_put_usize(output_path, module_index);
+                d_put(output_path, ".obj");
+                ok = output_path.ok;
+            } else {
+                text name = interface_module_name(
+                    project_source, module_data, module_index
+                );
+                ok = coff_module_object_path_for_name(
+                    name, output_prefix, output_path
+                );
+            }
             if !ok || d_buffer_text(output_path) == linked_output {
                 d_buffer_destroy(output_path);
                 return module_cache_project_dispose(bundle, -1);
@@ -472,7 +533,20 @@ unsafe i32 module_cache_project_try(
                 return module_cache_project_dispose(bundle, -1);
             }
             if emitted != 0 { d_put(manifest, ",\n"); }
-            d_put(manifest, "{\"module\":"); cli_json_text(manifest, name);
+            if source_partitions != 0 {
+                d_put(manifest, "{\"source_first\":");
+                d_put_usize(manifest,
+                    source_count * module_index / source_partitions);
+                d_put(manifest, ",\"source_end\":");
+                d_put_usize(manifest,
+                    source_count * (module_index + 1) / source_partitions);
+            } else {
+                text name = interface_module_name(
+                    project_source, module_data, module_index
+                );
+                d_put(manifest, "{\"module\":");
+                cli_json_text(manifest, name);
+            }
             d_put(manifest, ",\"object\":"); cli_json_text(manifest, d_buffer_text(output_path));
             d_put(manifest, ",\"sha256\":");
             DBuffer hash = DBuffer{
@@ -1060,6 +1134,7 @@ unsafe status module_cache_write_set(
 unsafe status source_partition_cache_write_set(
     ref IrContext context, ref DBuffer objects, text prefix,
     text linked_output, text cache_prefix, usize partitions,
+    text project_key,
     ref ModuleCacheState cache, ref BuildTimings timings
 ) {
     status failed = status{ code = 1 };
@@ -1186,6 +1261,14 @@ unsafe status source_partition_cache_write_set(
         if failed.ok {
             failed = file.write_text(d_buffer_text(manifest_path),
                 d_buffer_text(manifest));
+        }
+        if failed.ok && timings.object_cache_publish_failures == 0 &&
+            text.byte_length(project_key) == 64 &&
+            !module_cache_project_publish(
+                cache_prefix, project_key, cache, partitions
+            ) {
+            timings.object_cache_publish_failures =
+                timings.object_cache_publish_failures + 1;
         }
     } else { io.error("error[OPENC-SOURCE-PARTITION-CACHE]: emission failed\n"); }
     d_buffer_destroy(manifest); d_buffer_destroy(bundle);

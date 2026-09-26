@@ -75,6 +75,12 @@ final SH-27 speed certification remain open. The
 passed the source-group cache, three representative workloads, and strict
 20/20 self-build on the same compiler SHA. The separate clean cold-speed
 batch found no gain above noise.
+The subsequent [exact-input source-partition snapshot](../../../SH27_SOURCE_PARTITION_SNAPSHOT_EVIDENCE.md)
+locally relinks 32 verified compiler objects in about 0.54 s with semantic
+validation skipped, while byte-changing edits still take the full diagnostic
+path and rebuild only affected groups. That improves opt-in no-op latency,
+not cold or edited-build throughput parity. Its clean hosted repeat is
+pending; normal-default integration and all final-source gates remain.
 The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
 `benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit
 app, and actual compiler self-build with exact cold/warm/edit/runtime/RAM

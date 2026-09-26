@@ -443,6 +443,7 @@ unsafe i32 c_emit_project(
                         artifact_options.linked_output_path,
                         artifact_options.cache_prefix,
                         artifact_options.source_partitions,
+                        artifact_options.cache_project_key,
                         module_cache, timings
                     );
                 } else {

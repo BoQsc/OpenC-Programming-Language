@@ -102,11 +102,12 @@ def main() -> int:
         warm, _, warm_exe, warm_manifest = build("warm", True)
         assert warm["object_cache"]["hits"] == 32
         assert warm["object_cache"]["misses"] == 0
+        assert warm["object_cache"]["validation_skipped"]
         assert sha256(warm_exe) == sha256(cold_exe)
         assert all(p["cache_hit"] for p in warm_manifest["partitions"])
-        records = sorted(cache_dir.glob("part.k.*.record"))
-        assert len(records) == 32
-        records[0].write_bytes(b"truncated\n")
+        objects = sorted(cache_dir.glob("part.o.*.obj"))
+        assert len(objects) == 32
+        objects[0].write_bytes(b"truncated\n")
         corrupt, _, corrupt_exe, _ = build("corrupt-record", True)
         assert corrupt["object_cache"]["hits"] == 31
         assert corrupt["object_cache"]["misses"] == 1
