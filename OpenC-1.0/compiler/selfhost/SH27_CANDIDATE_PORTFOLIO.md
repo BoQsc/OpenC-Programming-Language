@@ -35,6 +35,8 @@ final five-compiler parity gate.
 | Compact child/name sidecar | Existing indexed/cached paths already serve lowering; no source speed run | Same structural no-go | Reject before implementation: duplicate indexes add memory, not a demonstrated critical-path cut. |
 | Per-source scratch arena/reuse | Optimistic heap proxy suggests roughly 6–12 ms critical-worker opportunity | Roughly 1–3 ms critical-worker opportunity | Reject before compiler build: control opportunity below clean 10 ms null; zeroed payload and RAM risk remain. |
 | Same-type scalar binary fast path | Local -29 ms / 7 of 11 / 70 ms; hosted -1 ms / 7 of 11 / 5 ms | Local -14 ms / 8 of 11 / 38 ms; hosted -1 ms / 7 of 11 / 2 ms | Reject: clean effect below null on both lanes; no first-visit type work removed. |
+| Lazy tagged typed-operation tranche | -30 ms / 7 of 11 / 65 ms | +9 ms / 4 of 11 / 40 ms | Reject speed claim: 142k/27k old resolver calls bypassed, but equivalent first-visit work and source-lifetime caches remain. |
+| Typed literal/operator handoff | -7 ms / 6 of 11 / 60 ms | -3 ms / 6 of 11 / 71 ms | Reject: 18,613 literal and 15,061 operator reuses in self-build, exact outputs, but whole-wall gain below null on both lanes. |
 
 The table records *candidate minus baseline*, so negative is faster. The null
 floor is same-run baseline-vs-baseline median absolute paired jitter. A
@@ -50,27 +52,186 @@ whole compiler wall time. Detailed evidence is in
 `SH27_LOWERING_FUSION_EVIDENCE.md`, and
 `SH27_COMPACT_CHILD_NAME_SIDECAR_NO_GO.md`, and
 `SH27_SCRATCH_OWNERSHIP_NO_GO.md`, and
-`SH27_SCALAR_FAST_PATH_NO_GO.md`. The opt-in first-visit probe and
+`SH27_SCALAR_FAST_PATH_NO_GO.md`, and
+`SH27_LAZY_TYPED_TRANCHE_EVIDENCE.md`. The opt-in first-visit probe and
 its bounded hypotheses are in `SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md`.
+The later [typed-handoff rejection](https://github.com/BoQsc/OpenC-Programming-Language/blob/b1d0b26/OpenC-1.0/compiler/selfhost/SH27_TYPED_HANDOFF_REJECTION.md)
+shows why cheap fact reuse does not replace the full semantic/IR traversal.
+The later high-resolution worker probe is diagnostic-only because it
+perturbed measured wall and missed the strict 64 MiB self-build working-set
+proof; see `SH27_QPC_CRITICAL_WORKER_PROFILE_EVIDENCE.md`.
+The isolated [interface-fingerprint candidate](https://github.com/BoQsc/OpenC-Programming-Language/blob/c0b2343/SH27_INTERFACE_FINGERPRINT_EVIDENCE.md)
+passed 11 falsification checks and guarded Stage 2/3 byte identity. It is an
+opt-in public-interface projection only: no cache hit, independent COFF
+object, or incremental throughput claim is made. It remains off the
+production compiler branch until the artifact/relink architecture is ready.
+The follow-on [stable COFF identity candidate](https://github.com/BoQsc/OpenC-Programming-Language/blob/f68c65f/SH27_STABLE_COFF_IDENTITY_EVIDENCE.md)
+passed guarded fixed point and ten identity/default-parity checks. Its opt-in
+COFF names are independent of unrelated insertion and body edits, but the
+writer still emits one whole-project object with numeric internal relocation
+targets. It is not module reuse or a clean-build speedup.
+The [opt-in per-module COFF-set slice](https://github.com/BoQsc/OpenC-Programming-Language/blob/bd0a497/SH27_MODULE_COFF_SET_EVIDENCE.md)
+now emits stable cross-module externs and one object per function-bearing
+module after whole-project acceptance/lowering. A two-object executable,
+body-edit isolation, deterministic bytes, incomplete-manifest failure
+recovery, and guarded Stage 2/3 fixed point passed. The follow-on
+[OpenC-native restricted multi-object link](https://github.com/BoQsc/OpenC-Programming-Language/blob/1561b71/SH27_NATIVE_MODULE_COFF_LINK_EVIDENCE.md)
+also passed exact Stage 2/3 and a separate strict 64/256 MiB Stage 3→4
+self-build; two modules linked and ran without `lld-link` on the OpenC path.
+The next [project-free saved-object relink proof](https://github.com/BoQsc/OpenC-Programming-Language/blob/3205432/SH27_SAVED_OBJECT_RELINK_EVIDENCE.md)
+reopens published COFF files, verifies SHA-256, and reproduces the two-module
+PE byte-for-byte without the source project manifest. Wrong hashes and
+malformed authenticated COFF are rejected. It remains isolated and opt-in:
+shared `.data` relocations fail closed, and independent module compilation,
+automatic cache hits, atomic validated cache, and measured warm-build reuse
+were absent at that checkpoint. The [pre-allocation reader guard](https://github.com/BoQsc/OpenC-Programming-Language/blob/ca37261/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md)
+now resolves the file-buffer RAM gap: a 128 MiB input rejects normally under
+a 64 MiB process budget with about 5.4 MiB Job-private peak. Exact-boundary
+and valid saved-link tests, guarded fixed point, and strict Stage 3→4 also
+passed. [Clean hosted run 36259781271](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36259781271)
+also passed 20/20 strict chained self-builds with exact closure and all 13
+stability checks on the same isolated compiler hash. Its push/manual proof
+workflow is committed. A separate paired throughput batch showed 0 ms median
+gain on both large/control lanes, so this remains a RAM/correctness slice,
+not a speed promotion. The earlier Stage 2 bootstrap exceeded
+64 MiB working set; do not equate its 512 MiB bootstrap guard with the strict
+Stage 3→4 gate.
+The [selected-module lowering boundary](https://github.com/BoQsc/OpenC-Programming-Language/blob/2d693f4/SH27_SELECTED_MODULE_LOWERING_EVIDENCE.md)
+now lowers only a named module while retaining whole-project diagnostics.
+Three selected objects match full-build COFF bytes; a changed provider plus
+two saved unchanged objects matches a fresh PE and runtime result. A
+multi-source module and unselected-module errors are covered. Its new source
+passed exact fixed point and local strict Stage 3→4; hosted strict-chain
+recertification passed [run 36260957581](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36260957581).
+No automatic hit, cache publication, independent
+validation skip, or speed claim is made.
+The [automatic native object cache](https://github.com/BoQsc/OpenC-Programming-Language/blob/2ca15c1/SH27_AUTO_MODULE_CACHE_EVIDENCE.md)
+subsequently adds actual hits/misses, missed-module compilation, authenticated
+snapshots, atomic publication, safe body/declaration invalidation, and tested
+corruption/concurrency/storage fallback. A 24-file/1153-function case found
+and repaired a 1 KiB linker scratch ceiling and repeated symbol/projection
+scans. It passes exact COFF/PE/runtime and strict RAM. Local no-op/edit medians
+are 0.335/0.456 s versus 1.223 s full COFF, but ordinary native compilation is
+0.325 s: no normal-default win or promotion. Stage 3→4 remains byte-exact and
+strict; Stage 2 exceeds strict bootstrap caps. Cache-source [hosted proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36263328048)
+passed cache/24-file tests and all 13 strict checks with 20/20 exact rebuilds.
+Hosted no-op/normal medians 0.178/0.188 s yield only a 10 ms paired gain,
+opposite the local 11 ms regression. A separate cold speed batch failed its
+gain/noise gate. No default speed promotion is warranted.
+Validated no-op front-end skipping, selective transitive dependency keys,
+general data/runtime support, real-project/default speed and certification
+remain required.
+An isolated opt-in `PreparedSource`/`WorkerScratch` boundary passed guarded
+fixed point and focused exact artifacts, but it is serial and has no speed
+claim; see `SH27_PREPARED_SOURCE_BOUNDARY.md`. The next function-worker audit
+found 25 still-aliased source-owned pointers, late type-registry appends, and
+unmerged diagnostic/value-ID state, so no unsafe scheduler was launched; see
+`SH27_FUNCTION_WORK_OWNERSHIP_GATE.md`. The concrete next cut is immutable
+type closure and bounded per-worker cache ownership, not a worker-count flag.
+An isolated [function type-freeze probe](https://github.com/BoQsc/OpenC-Programming-Language/blob/c97e28e/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_TYPE_FREEZE_PROBE.md)
+removed the two observed late pointer types in the nested fixture and passed
+guarded fixed point and generated large/control exactness. It remains an
+opt-in, post-function fail-closed assertion, not an immutable registry or
+parallel scheduler; other source-wide caches and result merging still block
+workers.
+The follow-on [bounded four-cache ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/db54808/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_PROJECT_CACHE_OWNERSHIP.md)
+passed guarded fixed point, exact self-build, generated/invalid checks, and
+strict 256/64 MiB self-build memory. It reduced the source-borrowed scratch
+pointer count from 25 to 21, with a maximum 120,520-byte live cache copy per
+source. It is still serial and has no speed claim; type/first-visit caches,
+IR, SSA, output, and diagnostics remain shared.
+The next [five-array index freeze](https://github.com/BoQsc/OpenC-Programming-Language/blob/af44c6b/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_INDEX_FREEZE.md)
+passed guarded fixed point, strict opt-in self-build, exact large/control,
+and focused calls/duplicate/cycle/invalid diagnostics. It reduced remaining
+source-borrowed scratch pointers from 21 to 16. Its readiness and writer-path
+audit are the safety argument; the post-lowering checksum is diagnostic, not
+collision-free proof. Function workers are still prohibited.
+The [seven-cache ownership lanes](https://github.com/BoQsc/OpenC-Programming-Language/blob/641ea1d/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_CACHE_LANES.md)
+then cut source-borrowed pointers from 16 to 9 with fixed disjoint function
+spans, pre-write guards, isolated reads, byte-exact fixed point, focused and
+large/control correctness, and strict opt-in self-build at 260,612,096 bytes
+private / 60,579,840 bytes working set. The mutable type registry, spelling
+cache, seven local/IR buffers, and deterministic merge still block workers;
+only about 7.8 MiB of strict private-byte headroom remained in that proof.
+The subsequent [private type-registry probe](https://github.com/BoQsc/OpenC-Programming-Language/blob/220e325/OpenC-1.0/compiler/selfhost/SH27_PRIVATE_TYPE_REGISTRY.md)
+copies only live type records plus one spare into at most 512 KiB per active
+source chunk and fails closed on a late derived type. It passed byte-exact
+fixed point, strict opt-in self-build (261,132,288 private / 60,792,832
+working-set bytes), focused cases, and large/control equivalence. This cuts
+source-borrowed pointers from nine to eight. It is not a general type-ID
+remapper; spelling cache, seven local/IR buffers, and deterministic merge
+still forbid function workers, with about 7.3 MiB private headroom observed.
+The [final bounded local/stack ownership cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/fa78d25/OpenC-1.0/compiler/selfhost/SH27_PRIVATE_FUNCTION_VALUES.md)
+passed byte-exact fixed point, strict opt-in self-build, focused fixtures,
+and large/control equivalence after cross-alias guards. Only four dynamic
+IR-buffer aliases remain, but cloning them at source-sized capacity would
+exceed the observed 6,508,544-byte strict private headroom even for one
+40,000-node source. The integrated scheduler decision is **no-go now**:
+function-local capped growth, a global four-worker reservation, and ordered
+code/diagnostic merges must be proved together before any worker launch.
 
 ## Next decisive batch
 
-1. **Typed first-visit redesign:** acceptance is 157/141 ms of the
-   large/control critical-worker wall. Design a typed plan built on first
-   required visit and consumed by later checks/lowering, not another eager
-   whole-source pass. Prove fewer type/semantic first visits and no new
-   traversal or oversized arena before a clean two-lane speed claim.
-2. **Bounded independent tracks:** the source-scratch arena and compact
-   child/name sidecar are closed as no-go candidates. Model worker
-   rebalancing against the 94/16 ms spread ceiling only after immutable
-   prepared-source ownership; the bounds are non-additive, not forecasts.
-3. **Function scheduling only after an ownership boundary:** the current
-   mutable source context is not safe for independently scheduled functions.
-   Design a read-only `PreparedSource` and per-worker bounded `WorkerScratch`
-   before implementing function-level acceptance/lowering work sharing.
-4. **Clean final proof, not a local lucky run:** a surviving source needs
-   complete conformance, exact invalid diagnostics, 20-generation 64/256 MiB
-   child plus 512 MiB Job proof, representative self-build/project benchmarks,
-   then two independent normal-default clean 20/20 C/D comparator runs of the
-   *same final source*. Incremental builds and release gates still remain
-   afterward under `SH27_EXECUTION_PLAN.md`.
+The unchanged production compiler now has **two** independent clean hosted
+20/20 normal-default parity passes, a local strict 20-generation chain, and
+278/278 conformance. A [pinned hosted three-language medium-app proof](SH27_REPRESENTATIVE_HOSTED_PROOF.md)
+also passed 3/3 cold, warm, and edit repetitions with exact executed output.
+That permits four independent engineering tracks to
+advance concurrently, without treating a noisy local micro-gain as progress:
+
+1. **Whole semantic/IR cut:** the literal/operator handoff proved reuse but
+   not elapsed-time savings. Replace a substantial first-visit
+   assignment/binary acceptance traversal with a typed function-local IR
+   handoff that lowering consumes, while preserving exact invalid-diagnostic
+   order. Measure removed passes and end-to-end guarded wall time against a
+   baseline-vs-baseline null; no new full-size cache or eager extra pass.
+   The [isolated implementation contract](https://github.com/BoQsc/OpenC-Programming-Language/blob/fc04d72/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_DESIGN.md)
+   specifies the all-or-nothing source barrier, expected-type/call ordering,
+   legacy diagnostic replay, and kill criteria before code is judged.
+   The [Phase B1 proof](https://github.com/BoQsc/OpenC-Programming-Language/blob/8489962/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_DESIGN.md)
+   removes both legacy sweeps for 7/8 generated large-function sources
+   (21,504 assignments and 28,672 binaries), with exact PE/runtime and
+   guarded fixed point. The excluded source 0 was the historical critical
+   call-heavy worker; control/self-build coverage, strict final RAM, and
+   whole-wall speed remain unproved. Widen the visitor before timing.
+   The [Phase B2 falsification](https://github.com/BoQsc/OpenC-Programming-Language/blob/89dd8d4/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_B2_EVIDENCE.md)
+   achieved exact 8/8 large and 4/4 control source coverage but was a
+   **two-lane NO-GO**: 11-pair/null large improved 16 ms (10/11 wins;
+   9 ms null), while control regressed 10 ms (2/11 wins; 11 ms null).
+   Pointer acceptance and IR lowering absorbed first-visit work; self-build
+   remained 0/223 fast sources. Its 512 MiB matrix guard is not the strict
+   64/256 MiB self-build gate. The next batch must remove migrated work and
+   categorize self-build exclusions, not promote the removed-sweep counter.
+   The [Phase B3 operator-census/builtin-type cut](https://github.com/BoQsc/OpenC-Programming-Language/blob/4c96ee0/OpenC-1.0/compiler/selfhost/SH27_SEMANTIC_IR_B3_REJECTION.md)
+   was also rejected: large improved 22 ms but only won 7/11 pairs against a
+   disturbed 57 ms null; control gained 1 ms with 4/11 wins against a 16 ms
+   null. Acceptance time moved into IR lowering and the critical control
+   worker stayed at 156 ms. Neither B2 nor B3 is a speed promotion.
+2. **Real incremental native artifacts:** the isolated interface projection,
+   stable COFF names, and post-lowering module COFF set are prerequisites.
+   Make acceptance/lowering truly independent by module, handle shared data,
+   use the now-proved project-free saved-object relink as the backend for
+   independently accepted/lowered modules, then implement an atomic,
+   content-validated cache and correct invalidation. The saved reader's
+   pre-allocation cap is now proved; no automatic object hit is claimed.
+   A full-source hash or warm timer with no actual module hits fails this track.
+3. **Safe function ownership:** opt-in serial PreparedSource, type-registry
+   probe, four bounded project-cache copies, five frozen source indexes, and
+   seven guarded function cache lanes, and bounded private type/local/stack
+   copies are exact, but four dynamic IR buffers plus output/diagnostic
+   state remain mutable and shared. Give
+   each function worker bounded independent scratch before attempting
+   deterministic scheduling.
+   Require strict 64/256 MiB child and 512 MiB Job proof and a same-run
+   end-to-end speed signal; an opt-in flag alone is no throughput result.
+4. **Representative projects:** keep the 20-ratio generated corpus unchanged;
+   use the new guarded CLI/file-audit/compiler suite for cold/warm/edit and
+   exact execution. Pinned hosted C/D/OpenC medium-app equivalence now passes
+   twice, but the fixture is small and benchmark-authored. Add a retained
+   user project and larger multi-module cases before claiming real-world
+   representativeness.
+
+After any compiler source promotion, rerun complete diagnostics/runtime/ABI,
+the strict 20-chain, and **two new independent** normal-default hosted 20/20
+runs on that final source. The current clean-profile editor check and direct
+44/44 finalization pass are current-source evidence, not a new release.

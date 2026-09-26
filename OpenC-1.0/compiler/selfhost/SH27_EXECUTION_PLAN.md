@@ -12,7 +12,7 @@ The normal Windows x64 OpenC compiler, built to its byte-exact self-hosting
 fixed point without D, TinyCC, Python, a C compiler, or a Microsoft CRT in its
 normal compile path, must:
 
-1. Compile and link the four versioned SH-27 corpus workloads at no more than
+1. Compile and link the five versioned SH-27 corpus workloads at no more than
    **1.25x** each pinned MSVC, Clang, DMD, and LDC median on the same clean
    runner (20/20 checks). Aim for **1.20x** internally so a borderline pass is
    not mistaken for sustained parity. Require this on **two independent clean
@@ -32,13 +32,18 @@ normal compile path, must:
    owner-authorized process for a new release. Linux/freestanding/ARM64 and
    unsolicited external review responses are **not** SH-27 prerequisites.
 
-The current same-run deficit is not small. On the independent
+The historical same-run deficit was not small. On the independent
 [parallel-declaration repeat](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35916904066),
 OpenC/DMD was 0.677/0.349 s on `large_functions` and 0.392/0.234 s on
 `control_flow`: approximately **241/100 ms** must leave the OpenC wall time
 to reach the public 1.25x ceilings on that runner, or **258/111 ms** for the
-1.20x engineering margin. The earlier clean 20/20 pass is not sustained
-parity. These numbers are a design budget, not an across-run speedup estimate.
+1.20x engineering margin. These are historical design budgets, not an
+across-run speedup estimate. The unchanged current compiler source has now
+passed two independent clean 20-sample normal-default runs on the pinned
+hosted setup. See `SH27_NORMAL_DEFAULT_PARITY_REPEAT_EVIDENCE.md`. That
+replicates the synthetic parity gate, but cannot certify the final source
+until the incremental, representative-project, strict-memory, correctness,
+and release work below is complete and any source changes are retested.
 
 ## Work order and stop/go decisions
 
@@ -54,10 +59,15 @@ parity. These numbers are a design budget, not an across-run speedup estimate.
 | 7. Validate real projects | Add versioned equivalent C/D/OpenC projects and compiler self-build scaling. | No hidden cold/warm/build/execution/RAM cliff; document any unavoidable semantic differences. |
 | 8. Certify final source | Run complete correctness, 20/20 pinned parity twice, and all production/release-integrity checks. | All gates pass on the *same* final source; publish artifacts and then close SH-27. |
 
-Steps 2-4 are the priority. Do not detour into incremental caching, new
-platforms, or a sequence of tiny parser/cache/peephole changes while the
-large/control compile deficit is open. Steps 6-7 are required for full SH-27
-closure, not a substitute for the compile-throughput goal.
+When a clean large/control deficit is open, Steps 2-4 take priority over
+incremental caching, new platforms, or tiny parser/cache/peephole changes.
+Two replicated current-source hosted parity passes now justify progressing
+Steps 6-7 in parallel with the remaining architecture/RAM audit. If a later
+source revision loses parity, the throughput track regains priority. Steps
+6-7 are required for full SH-27 closure, not substitutes for throughput.
+The isolated PreparedSource boundary has exact-output proof, but function
+workers are still unsafe because first-visit caches and derived types are
+source-global mutable state; see `SH27_FUNCTION_WORK_OWNERSHIP_GATE.md`.
 
 ## Broad candidate batch, not serial micro-optimizations
 
@@ -112,18 +122,26 @@ semantically resolved node facts *during required first visits* and let both
 diagnostics and native lowering consume them. DMD's structure motivates the
 comparison; only OpenC's guarded two-lane wall measurements can validate it.
 
-## Current checkpoint (2026-09-24)
+## Current checkpoint (2026-09-26)
 
 | Step | State | Next decisive evidence |
 | --- | --- | --- |
 | 0. Freeze proof | Partial | Keep the scalar-flow source `738bea3`, raw local pairs, and failed-parity clean run `35928451776` as one traceable candidate; do not compare its absolute times to a different runner. |
 | 1. Account for wall time | Partial | The clean `6794d56` first-visit probe attributes the critical worker: acceptance 157/141 ms, lowering 62/32 ms, native emission 32/0 ms at timer resolution, indexing 31/15 ms. The rejected scalar-flow branch would need its own profile if revived. Compare the pinned DMD source architecture, not merely its timings. |
-| 2-3. Fused semantics and lowering | Open, architectural redesign required | The isolated scalar-sweep fusion was correct (278/278, strict 20/20) but clean-speed flat/regressive. Build a typed *first-visit* representation that carries scope/type/operator facts into lowering; no eager extra pass or duplicate generic-record arena. |
+| 2-3. Fused semantics and lowering | Isolated Phase B2/B3 NO-GO; redesign open | The scalar-sweep fusion was correct but speed-flat/regressive. [Phase B2](https://github.com/BoQsc/OpenC-Programming-Language/blob/89dd8d4/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_B2_EVIDENCE.md) covered 8/8 large and 4/4 control generated sources, but large gained 16 ms while control lost 10 ms; self-build stayed 0/223 eligible. [Phase B3](https://github.com/BoQsc/OpenC-Programming-Language/blob/4c96ee0/OpenC-1.0/compiler/selfhost/SH27_SEMANTIC_IR_B3_REJECTION.md) moved acceptance time into IR lowering and left the critical control worker unchanged at 156 ms; neither lane cleared its same-run null and wins gate. Redesign first visits and self-build eligibility before promotion; no eager extra pass or duplicate generic-record arena. |
 | 4. Remaining architecture | Not implemented | After a first-visit cut, reprofile and attack the largest remaining serial phase. Native value cuts have so far changed code size more than compiler throughput. |
-| 5. Production policy/RAM | Partial | Retain normal adaptive mode and repeat exact-output, complete self-build, 64/256 MiB child, and 512 MiB Job guards after each accepted architecture. |
-| 6. Incremental objects | Not implemented | Demonstrate content-validated COFF reuse and correct implementation/API invalidation, not merely a one-file rebuild timer. |
-| 7. Representative projects | Not implemented | Version equivalent real-project inputs and guard cold/warm/edit/runtime/memory results separately from the synthetic corpus. |
-| 8. Final-source certification | Not started | Two independent clean 20/20 normal-default runs of one final compiler source, plus every correctness, memory, project, incremental, and release-integrity gate. |
+| 5. Production policy/RAM | Current source passed strict 20/20; final source pending | Normal adaptive mode passed exact-output current-source 20-generation 64/256 MiB child and 512 MiB Job guards. Repeat after any accepted compiler source change. |
+| 6. Incremental objects | Isolated automatic native cache locally and hosted proved; normal-default speed/general scope open | [Automatic cache evidence](https://github.com/BoQsc/OpenC-Programming-Language/blob/2ca15c1/SH27_AUTO_MODULE_CACHE_EVIDENCE.md) proves real hits/missed-module lowering, body/declaration invalidation, atomic publication, authenticated snapshots, and corrupt/oversized/concurrent/storage recovery. Whole-project parsing/resolution/flow/acceptance still runs; interface changes safely invalidate all modules. A 24-file/1153-function exact COFF/PE/runtime proof fixes a linker scratch ceiling and stays within strict RAM. [Hosted run 36263328048](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36263328048) passed all cache/24-file checks and 13 strict checks with 20/20 exact rebuilds. Local no-op/normal medians 0.335/0.325 s and hosted 0.178/0.188 s do not prove a robust normal-build win; the cold speed batch failed its gain/noise gate. Add validated no-op front-end skipping, selective complete transitive keys, general shared-data/runtime support and real-project/default speed before promotion. Stage 2 bootstrap still exceeds strict 64/256 MiB. |
+| 7. Representative projects | Small hosted C/D/OpenC proof passed; broad project gate open | `benchmarks/sh27/representative/SUITE.json` covers a CLI, four-module file-audit app, and the 222-source compiler. The [pinned hosted medium-app proof](SH27_REPRESENTATIVE_HOSTED_PROOF.md) passed 3/3 cold/warm/edit repetitions with exact three-language output. Add a retained user project, a larger multi-module case, and repeated cross-language measurements before claiming representative parity. |
+| 8. Final-source certification | Partial, current-source parity/memory/conformance/editor only | Two independent clean 20/20 normal-default runs, strict 20/20 self-build, native 278/278 conformance, old-release asset integrity, fresh VS Code clean-profile, and direct finalization 44/44 passed on `1b58d5e`. Its daily aggregate was 13/14 because it hardcoded the historical profile path. The [isolated workflow input](https://github.com/BoQsc/OpenC-Programming-Language/blob/e233fee/OpenC-1.0/compiler/selfhost/SH27_WORKFLOW_CLEAN_PROFILE_INPUT.md) now routes an explicit report but correctly still fails two identity checks on its new compiler/VSIX; the final source needs a fresh matching profile and 14/14 rerun. Incremental, representative breadth, and other final checks remain. |
+
+The isolated bounded saved-object reader now also has an independent
+[clean hosted proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36259781271)
+on compiler SHA-256 `b97e857caacdd9c41826ff7355bcf4c1a91baca42959936a5ef0a8a9249f3ef4`:
+all 13 strict stability checks and 20/20 exact chained self-builds passed.
+Its separate paired batch found 0 ms median large/control gain; it is a
+RAM/correctness prerequisite, not a speed promotion. Source and raw artifact
+identities are in the [updated reader evidence](https://github.com/BoQsc/OpenC-Programming-Language/blob/ca37261/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md).
 
 The first broad batch rejected three partial source cuts and one scheduling
 proposal. The independent function queue is a no-go before immutable typed

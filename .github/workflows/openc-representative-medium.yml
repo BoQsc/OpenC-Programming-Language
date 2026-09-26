@@ -1,0 +1,175 @@
+name: OpenC representative medium-app C/D proof
+
+on:
+  push:
+    branches:
+      - master
+      - codex/sh27-representative-work
+      - codex/sh27-critical-worker-budget
+    paths:
+      - .github/bootstrap/openc-stage0.exe
+      - .github/representative-toolchain-pins.json
+      - .github/workflows/openc-representative-medium.yml
+      - OpenC-1.0/benchmarks/sh27/representative/**
+      - OpenC-1.0/compiler/selfhost/openc.project.json
+      - OpenC-1.0/compiler/selfhost/source/**
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_representative.py
+      - OpenC-1.0/compiler/selfhost/representative_ci_pins.py
+      - OpenC-1.0/compiler/selfhost/test_benchmark_sh27_representative.py
+      - OpenC-1.0/compiler/selfhost/test_representative_ci_pins.py
+      - OpenC-1.0/compiler/selfhost/bootstrap_sh27_native_parallel.py
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
+      - OpenC-1.0/compiler/selfhost/windows_process_measure.py
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Discover tool hashes, or require the separately pinned proof
+        required: true
+        default: discovery
+        type: choice
+        options:
+          - discovery
+          - proof
+      runs:
+        description: Guarded cold/warm/edit repetitions for pinned proof (1..20)
+        required: true
+        default: '3'
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openc-representative-medium-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    name: Record hosted toolchain identities (not a proof)
+    runs-on: windows-2025
+    timeout-minutes: 10
+    outputs:
+      pins_ready: ${{ steps.pins.outputs.pins_ready }}
+    steps:
+      - name: Check out exact representative-suite revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Configure pinned MSVC comparator
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1.13.0
+        with:
+          arch: x64
+          toolset: 14.44
+
+      - name: Install pinned DMD comparator
+        uses: dlang-community/setup-dlang@0a7469b93f791d83f30932c6fd105796c6966e20 # v2.0.0
+        with:
+          compiler: dmd-2.112.0
+
+      - name: Static suite and pin-state tests
+        shell: cmd
+        run: >-
+          python -m unittest discover
+          -s OpenC-1.0\compiler\selfhost
+          -p test_*representative*.py -v
+
+      - name: Validate checked-in project suite
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_representative.py
+          --validate-only
+
+      - name: Discover cl, link, and dmd SHA-256 without self-pinning
+        id: pins
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\representative_ci_pins.py
+          discover
+          --pins .github\representative-toolchain-pins.json
+          --output artifacts\representative-toolchain-discovery.json
+          --github-output "%GITHUB_OUTPUT%"
+
+      - name: Retain discovery and reviewed-pin status
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-representative-discovery-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: artifacts/representative-toolchain-discovery.json
+
+  proof:
+    name: Pinned current-source C/D/OpenC exact medium-app proof
+    needs: discover
+    if: >-
+      needs.discover.outputs.pins_ready == 'true' &&
+      (github.event_name == 'push' || inputs.mode == 'proof')
+    runs-on: windows-2025
+    timeout-minutes: 30
+    steps:
+      - name: Check out exact representative-suite revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Configure pinned MSVC comparator
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1.13.0
+        with:
+          arch: x64
+          toolset: 14.44
+
+      - name: Install pinned DMD comparator
+        uses: dlang-community/setup-dlang@0a7469b93f791d83f30932c6fd105796c6966e20 # v2.0.0
+        with:
+          compiler: dmd-2.112.0
+
+      - name: Verify literal reviewed hashes on this runner
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\representative_ci_pins.py
+          verify --pins .github\representative-toolchain-pins.json
+
+      - name: Guardedly bootstrap checked-out OpenC source to fixed point
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\bootstrap_sh27_native_parallel.py
+          --output-dir artifacts\representative-bootstrap
+
+      - name: Run pinned guarded C/D/OpenC medium-app equivalence
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\representative_ci_pins.py
+          run-proof
+          --pins .github\representative-toolchain-pins.json
+          --compiler artifacts\representative-bootstrap\bootstrap-current\stage3\openc.exe
+          --runs ${{ inputs.runs || '3' }}
+          --output artifacts\representative-medium.json
+
+      - name: Retain fixed-point and all raw representative samples
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-representative-medium-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: |
+            artifacts/representative-bootstrap/**
+            artifacts/representative-medium.json
+            artifacts/representative-medium-runs-*/**
+
+  pending_manual_proof:
+    name: Manual proof requires separately reviewed toolchain pins
+    needs: discover
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      inputs.mode == 'proof' &&
+      needs.discover.outputs.pins_ready != 'true'
+    runs-on: windows-2025
+    steps:
+      - name: Explain why proof cannot start
+        shell: cmd
+        run: >-
+          echo Checked-in MSVC/DMD SHA-256 pins are still pending or mismatched.
+          Review the discovery artifact and commit literal pins before proof.
+          && exit /b 1
