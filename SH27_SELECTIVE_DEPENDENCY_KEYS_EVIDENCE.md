@@ -1,7 +1,7 @@
 # SH-27 selective transitive module-object keys
 
-Status: **isolated opt-in compiler cut; local fixed-point, cache, and strict
-memory proof passed; hosted and normal-default promotion pending**.
+Status: **isolated opt-in compiler cut; local and hosted fixed-point, cache,
+and strict memory proof passed; normal-default promotion pending**.
 
 The prior `openc-module-cache-v1` key hashed one project-wide interface
 projection. An API change in one module therefore missed every object,
@@ -55,7 +55,20 @@ Ignored raw reports are in
   generated workload, not normal-default or representative-project parity.
 
 The previous [project snapshot proof](SH27_PROJECT_SNAPSHOT_EVIDENCE.md) was
-independently hosted on an earlier source revision. It does not certify this
-new key code; this revision needs its own hosted proof. General shared-data
-objects, wider real-project coverage, normal-build integration, final-source
-two-run C/D parity, and release/editor integrity remain open for SH-27.
+independently hosted on an earlier source revision. The new selective-key
+[hosted Windows run 36266517644](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36266517644)
+also passed every module-COFF step on commit `9f2f765` (artifact
+`10914276991`, compiler SHA-256 identical to the local value above). Its
+strict self-build passed 13/13 checks and 20/20 exact generations, with
+peak child private **266,960,896 bytes** and working set **64,442,368
+bytes**. Hosted five-pair 24-file medians were full COFF **0.645 s**,
+validated no-op **0.117 s**, edited body **0.273 s**, and ordinary native
+**0.191 s**; the observed paired no-op advantage was **0.074 s**. Raw
+hosted reports are in the ignored `hosted-36266517644/` directory.
+
+The checked-in real four-module file-audit app was then tested against this
+source and exposed a separate shared-runtime `.data` relocation gap. That
+later writer/linker work has its own proof requirement; the green selective-
+key workflow does not certify it. Wider real-project coverage, normal-build
+integration, final-source two-run C/D parity, and release/editor integrity
+remain open for SH-27.

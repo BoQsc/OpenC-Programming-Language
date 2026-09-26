@@ -618,6 +618,14 @@ unsafe CoffLinkValue coff_link_target(
         target.ok = true;
         return target;
     }
+    if symbol_index == 2 {
+        // Every restricted object carries the same checked all-zero 96-byte
+        // runtime template; all of its data relocations address the one
+        // writable PE section, never an object-private copy.
+        target.value = layout.data_rva;
+        target.ok = true;
+        return target;
+    }
     if symbol_index == 4 {
         target.value = layout.xdata_rva + xdata_base;
         target.ok = true;
@@ -708,6 +716,7 @@ unsafe bool coff_link_text_relocations(
                 code.data, code.length, text_base + offset, valid
             );
             if !valid || addend > 2147483647 { return false; }
+            if symbol == 2 && addend >= 96 { return false; }
             usize source_rva = layout.text_rva + text_base + offset;
             i64 delta = cast(i64, target.value) + cast(i64, addend) -
                 cast(i64, source_rva + 4);

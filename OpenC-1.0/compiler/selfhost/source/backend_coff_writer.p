@@ -226,9 +226,13 @@ unsafe DBuffer native_build_coff_object(
             } else if target == cast(usize, 4294967294) {
                 target_symbol = 6;
             } else if target >= cast(usize, 3221225472) {
-                if module_set { objects.ok = false; }
                 target_symbol = 2;
                 addend = target - cast(usize, 3221225472);
+                // The restricted module link shares the one canonical
+                // 96-byte zero-initialized OpenC runtime data area. Reject
+                // pointers outside it rather than inventing module-local
+                // writable globals.
+                if module_set && addend >= 96 { objects.ok = false; }
             } else if target >= cast(usize, 2147483648) {
                 target_symbol = 1;
                 addend = read_usize(
