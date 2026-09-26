@@ -646,6 +646,18 @@ IR reach closure. Exact evidence and reproduction commands are in
       are 57.25/8.25 ms. SH-27 is not complete, and neither a local gain nor
       the earlier green run on a different compiler source changes that.
 
+      Later opt-in source-partition caching now has clean hosted fixed-point,
+      strict-memory, and exact no-op/edit proof. Its unchanged compiler build
+      skips semantic validation, but cold and edited COFF builds remain slower
+      than the direct PE default. A further shared-identity architectural cut
+      eliminates redundant full-project symbol preparation from every COFF
+      partition: 11 guarded local pairs on identical 228-source input passed
+      exact object/PE output with 11 wins and cold 32-object medians of
+      31.382/16.794 s. See
+      [`SH27_SHARED_COFF_IDENTITY_EVIDENCE.md`](../SH27_SHARED_COFF_IDENTITY_EVIDENCE.md).
+      Clean hosted proof of that newest source and final normal-default C/D
+      parity are still open; no opt-in result closes SH-27.
+
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records
 remain optional future work and begin only when those targets become active

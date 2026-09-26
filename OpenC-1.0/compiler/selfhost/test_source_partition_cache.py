@@ -38,14 +38,17 @@ def main() -> int:
     parser.add_argument("compiler", type=Path)
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--flow4", action="store_true")
+    parser.add_argument("--partitions", type=int, default=32)
     args = parser.parse_args()
+    assert 2 <= args.partitions <= 32
     compiler = args.compiler.resolve(strict=True)
     compiler_dir = Path(__file__).resolve().parent
     original = compiler_dir / "openc.project.json"
     report: dict = {
         "schema": "openc.sh27.source_partition_cache.v1",
         "status": "FAIL", "compiler_sha256": sha256(compiler),
-        "parallel_flow": args.flow4, "builds": {},
+        "parallel_flow": args.flow4, "partitions": args.partitions,
+        "builds": {},
     }
     with tempfile.TemporaryDirectory(prefix="openc-partition-cache-") as temporary:
         root = Path(temporary)
@@ -72,7 +75,8 @@ def main() -> int:
             command = [
                 str(compiler), "artifact", f"--project={project}",
                 "--kind=module-coff-set", f"--output={prefix}",
-                f"--linked-exe={exe}", "--source-partitions=32",
+                f"--linked-exe={exe}",
+                f"--source-partitions={args.partitions}",
                 f"--source-chunks={4 if cached and args.flow4 else 1}",
                 f"--timings={timings}",
             ]
@@ -82,7 +86,7 @@ def main() -> int:
             data = json.loads(timings.read_text())
             manifest = json.loads((root / f"{name}.modules.json").read_text())
             assert manifest["status"] == "COMPLETE"
-            assert len(manifest["partitions"]) == 32
+            assert len(manifest["partitions"]) == args.partitions
             report["builds"][name] = {
                 "exe_sha256": sha256(exe),
                 "cache": data.get("object_cache", {}),
@@ -97,19 +101,19 @@ def main() -> int:
 
         cold, _, cold_exe, cold_manifest = build("cold", True)
         assert cold["object_cache"]["hits"] == 0
-        assert cold["object_cache"]["misses"] == 32
+        assert cold["object_cache"]["misses"] == args.partitions
         assert cold["object_cache"]["publish_failures"] == 0
         warm, _, warm_exe, warm_manifest = build("warm", True)
-        assert warm["object_cache"]["hits"] == 32
+        assert warm["object_cache"]["hits"] == args.partitions
         assert warm["object_cache"]["misses"] == 0
         assert warm["object_cache"]["validation_skipped"]
         assert sha256(warm_exe) == sha256(cold_exe)
         assert all(p["cache_hit"] for p in warm_manifest["partitions"])
         objects = sorted(cache_dir.glob("part.o.*.obj"))
-        assert len(objects) == 32
+        assert len(objects) == args.partitions
         objects[0].write_bytes(b"truncated\n")
         corrupt, _, corrupt_exe, _ = build("corrupt-record", True)
-        assert corrupt["object_cache"]["hits"] == 31
+        assert corrupt["object_cache"]["hits"] == args.partitions - 1
         assert corrupt["object_cache"]["misses"] == 1
         assert sha256(corrupt_exe) == sha256(cold_exe)
 
@@ -129,7 +133,7 @@ def main() -> int:
         assert main_source.stat().st_size == original_stat.st_size
         assert main_source.stat().st_mtime_ns == original_stat.st_mtime_ns
         edit, _, edit_exe, edit_manifest = build("body-edit", True)
-        assert edit["object_cache"]["hits"] == 31
+        assert edit["object_cache"]["hits"] == args.partitions - 1
         assert edit["object_cache"]["misses"] == 1
         assert sum(not p["cache_hit"] for p in edit_manifest["partitions"]) == 1
         assert not edit_manifest["partitions"][0]["cache_hit"]
@@ -146,7 +150,7 @@ def main() -> int:
             "interface-edit", True
         )
         assert interface["object_cache"]["hits"] == 0
-        assert interface["object_cache"]["misses"] == 32
+        assert interface["object_cache"]["misses"] == args.partitions
         assert not any(p["cache_hit"] for p in interface_manifest["partitions"])
         guarded([str(interface_exe), "--version"], root)
 
@@ -164,7 +168,7 @@ def main() -> int:
                 str(compiler), "artifact", f"--project={project}",
                 "--kind=module-coff-set", f"--output={root / name}",
                 f"--linked-exe={root / (name + '.exe')}",
-                "--source-partitions=32",
+                f"--source-partitions={args.partitions}",
                 f"--source-chunks={4 if cached and args.flow4 else 1}",
             ]
             if cached:

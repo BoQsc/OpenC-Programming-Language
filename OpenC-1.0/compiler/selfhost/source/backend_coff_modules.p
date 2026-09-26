@@ -475,9 +475,22 @@ unsafe status native_write_source_partition_coff_set(
         partitions * (text.byte_length(prefix) + 1024) + 4096
     );
     d_put(manifest, "{\"schema\":\"openc.source_partition_coff_set.v1\",\"status\":\"COMPLETE\",\"target\":\"windows-x86_64-llp64\",\"partitions\":[\n");
+    DBuffer stable_hashes = DBuffer{
+        data = null, length = 0, capacity = 0, ok = true
+    };
+    ptr byte stable_offsets = null;
     usize partition = 0;
     usize emitted = 0;
-    bool ok = bundle.ok && manifest.ok;
+    bool ok = bundle.ok && manifest.ok &&
+        context.symbols.length <= 262144;
+    if ok {
+        stable_hashes = d_buffer_create(context.symbols.length * 64 + 64);
+        stable_offsets = memory.alloc(
+            (context.symbols.length + 1) * size_of(usize)
+        );
+        ok = stable_hashes.ok && stable_offsets != null &&
+            coff_stable_prepare(context, stable_hashes, stable_offsets);
+    }
     while partition < partitions && ok {
         usize first = source_count * partition / partitions;
         usize end = source_count * (partition + 1) / partitions;
@@ -497,8 +510,9 @@ unsafe status native_write_source_partition_coff_set(
             if ok {
                 usize exports = 0;
                 usize relocations = 0;
-                DBuffer object = native_build_coff_object(
-                    context, subset, exports, relocations, true, true
+                DBuffer object = native_build_coff_object_prepared(
+                    context, subset, exports, relocations, true, true,
+                    stable_hashes, stable_offsets
                 );
                 ok = object.ok;
                 if ok {
@@ -548,6 +562,8 @@ unsafe status native_write_source_partition_coff_set(
                 d_buffer_text(manifest));
         }
     } else { io.error("error[OPENC-SOURCE-PARTITION-COFF]: emission failed\n"); }
+    if stable_offsets != null { memory.free(stable_offsets); }
+    if stable_hashes.data != null { d_buffer_destroy(stable_hashes); }
     d_buffer_destroy(manifest); d_buffer_destroy(bundle);
     d_buffer_destroy(manifest_path);
     return failed;

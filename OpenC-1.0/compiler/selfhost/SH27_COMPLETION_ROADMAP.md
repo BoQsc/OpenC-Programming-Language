@@ -1,7 +1,8 @@
 # SH-27 completion roadmap
 
-Status: **ACTIVE; current-source hosted synthetic parity replicated, but
-SH-27 is not complete**. The ordered, falsifiable
+Status: **ACTIVE; prior-source hosted synthetic parity replicated, but the
+latest source still lacks final C/D parity certification and SH-27 is not
+complete**. The ordered, falsifiable
 implementation checklist is `SH27_EXECUTION_PLAN.md`; this file retains the
 full measurement history and work-package rationale.
 `SH27_CANDIDATE_PORTFOLIO.md` is the concise current decision index for
@@ -15,6 +16,16 @@ cutover proof, including the current pass-order and call-node dependency traps.
 its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
+
+Current next decision (2026-09-27): take the shared-identity source through
+the clean Windows module proof and 20-generation memory chain. In parallel,
+measure changed-source acceptance, COFF construction, and link separately
+on the same retained compiler project; design one dependency-safe selective
+semantic cut rather than another partition-count tweak. Keep the source-
+partition cache opt-in until paired normal-default cold/edit/project trials
+beat the direct PE path. After the architectural cuts stabilize, require
+two independent final-source pinned 20/20 C/D parity runs plus editor,
+release-integrity, and RAM gates before closing SH-27.
 
 Current checkpoint (2026-09-24): the unchanged production compiler source
 `1b58d5e` passed two independent clean `--runs 20 --enforce-parity` normal-
@@ -76,11 +87,21 @@ passed the source-group cache, three representative workloads, and strict
 20/20 self-build on the same compiler SHA. The separate clean cold-speed
 batch found no gain above noise.
 The subsequent [exact-input source-partition snapshot](../../../SH27_SOURCE_PARTITION_SNAPSHOT_EVIDENCE.md)
-locally relinks 32 verified compiler objects in about 0.54 s with semantic
-validation skipped, while byte-changing edits still take the full diagnostic
-path and rebuild only affected groups. That improves opt-in no-op latency,
-not cold or edited-build throughput parity. Its clean hosted repeat is
-pending; normal-default integration and all final-source gates remain.
+relinks 32 verified compiler objects in 0.221 s on the clean hosted runner
+with semantic validation skipped, while byte-changing edits still take the
+full diagnostic path and rebuild only affected groups. The clean hosted
+module proof, strict 20/20 chain, and representative suite passed; the
+independent branch batch still found no cold speed gain above noise. This
+improves opt-in no-op latency, not cold or edited-build throughput parity.
+Normal-default integration and all final-source parity gates remain.
+The subsequent [shared COFF identity cut](../../../SH27_SHARED_COFF_IDENTITY_EVIDENCE.md)
+removes one full-project stable-symbol preparation per native partition.
+On identical 228-source input, 11 order-alternated guarded local pairs
+produced identical COFF objects/PE and 11 wins: cold 32-object medians
+31.382 to 16.794 s (1.869x). Strict 20/20, 278 conformance fixtures,
+large-COFF, and all partition cache proofs passed locally. This is a real
+opt-in COFF architectural gain, not a normal-default C/D parity result;
+clean hosted repeat and selective edited-source semantic work remain.
 The versioned `benchmarks/sh27/representative/SUITE.json` and guarded
 `benchmark_sh27_representative.py` now exercise a CLI, four-module file-audit
 app, and actual compiler self-build with exact cold/warm/edit/runtime/RAM
@@ -608,7 +629,7 @@ object reuse. Separate full rebuilds from warm incremental builds.
   new version through the ordinary owner-authorized release process; never
   mutate `v1.0.0` or its artifacts.
 
-## Immediate next decision
+## Historical next-decision record
 
 Stop parser/cache/peephole micro-tuning. The default adaptive policy now has
 one full clean 20/20 comparator and strict-memory success for the streaming

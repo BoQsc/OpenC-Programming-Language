@@ -74,13 +74,15 @@ unsafe void coff_internal_name(ref DBuffer output, usize symbol) {
     d_put_usize(output, symbol);
 }
 
-unsafe DBuffer native_build_coff_object(
+unsafe DBuffer native_build_coff_object_prepared(
     ref IrContext context,
     ref DBuffer objects,
     ref usize exported_count,
     ref usize relocation_count,
     bool stable_symbols,
-    bool module_set
+    bool module_set,
+    ref DBuffer prepared_hashes,
+    ptr byte prepared_offsets
 ) {
     DBuffer stable_hashes = DBuffer{
         data = null, length = 0, capacity = 0, ok = true
@@ -89,20 +91,36 @@ unsafe DBuffer native_build_coff_object(
     ptr byte external_indices = null;
     ptr byte external_targets = null;
     bool stable_ok = true;
+    bool borrowed_identity = false;
     if stable_symbols && context.symbols.length > 262144 {
         io.error("error[OPENC-COFF-STABLE-BUDGET]: too many symbols\n");
         stable_ok = false;
     }
     if stable_symbols && stable_ok {
-        stable_hashes = d_buffer_create(
-            context.symbols.length * 64 + 64
-        );
-        stable_offsets = memory.alloc(
-            (context.symbols.length + 1) * size_of(usize)
-        );
-        stable_ok = coff_stable_prepare(
-            context, stable_hashes, stable_offsets
-        );
+        if prepared_offsets != null {
+            stable_hashes = DBuffer{
+                data = prepared_hashes.data,
+                length = prepared_hashes.length,
+                capacity = prepared_hashes.length,
+                ok = prepared_hashes.ok
+            };
+            stable_offsets = prepared_offsets;
+            borrowed_identity = true;
+            stable_ok = stable_hashes.ok &&
+                stable_hashes.data != null &&
+                stable_hashes.length != 0;
+        } else {
+            stable_hashes = d_buffer_create(
+                context.symbols.length * 64 + 64
+            );
+            stable_offsets = memory.alloc(
+                (context.symbols.length + 1) * size_of(usize)
+            );
+            stable_ok = stable_hashes.ok && stable_offsets != null &&
+                coff_stable_prepare(
+                    context, stable_hashes, stable_offsets
+                );
+        }
     }
     if module_set {
         external_indices = memory.alloc(
@@ -480,11 +498,29 @@ unsafe DBuffer native_build_coff_object(
     memory.free(unwind_offsets);
     memory.free(constant_offsets);
     memory.free(addresses);
-    if stable_offsets != null { memory.free(stable_offsets); }
-    if stable_hashes.data != null { d_buffer_destroy(stable_hashes); }
+    if !borrowed_identity && stable_offsets != null {
+        memory.free(stable_offsets);
+    }
+    if !borrowed_identity && stable_hashes.data != null {
+        d_buffer_destroy(stable_hashes);
+    }
     if external_indices != null { memory.free(external_indices); }
     if external_targets != null { memory.free(external_targets); }
     return output;
+}
+
+unsafe DBuffer native_build_coff_object(
+    ref IrContext context, ref DBuffer objects,
+    ref usize exported_count, ref usize relocation_count,
+    bool stable_symbols, bool module_set
+) {
+    DBuffer empty = DBuffer{
+        data = null, length = 0, capacity = 0, ok = true
+    };
+    return native_build_coff_object_prepared(
+        context, objects, exported_count, relocation_count,
+        stable_symbols, module_set, empty, null
+    );
 }
 
 unsafe status native_write_coff_object(
