@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 import unittest
+from pathlib import Path
 
-from benchmark_sh27_candidate_matrix import candidate_spec, compare_pairs, matrix_status
+from benchmark_sh27_candidate_matrix import (
+    candidate_spec, compare_pairs, matrix_status, sample_paths_within_budget,
+    sample_root_path,
+)
 from analyze_sh27_candidate_matrix import numeric_phase
 
 
@@ -26,6 +30,20 @@ def sample(
 
 
 class CandidateMatrixTests(unittest.TestCase):
+    def test_native_sample_path_budget_covers_null_sidecar(self) -> None:
+        root = Path("C:/short/m-abcdefgh")
+        sample_root = sample_root_path(
+            root, "large_functions", 10, "__null__", "__null__"
+        )
+        self.assertEqual(sample_root.name, "__null__")
+        self.assertTrue(sample_paths_within_budget(
+            root, ["large_functions"], ["latest"], 11
+        ))
+        self.assertFalse(sample_paths_within_budget(
+            Path("C:/" + "deep/" * 48), ["large_functions"],
+            ["latest"], 11
+        ))
+
     def test_top_level_requires_passing_null_control(self) -> None:
         lanes = {
             "large_functions": {

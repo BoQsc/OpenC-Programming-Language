@@ -51,6 +51,12 @@ screen**, not SH-27 release certification: the final selected source still
 needs the complete conformance/RAM and two independent clean C/D comparator
 runs required by `SH27_EXECUTION_PLAN.md`.
 
+The matrix driver uses a compact unique run directory independent of the
+report filename and fails before measurement if its longest native
+`program.exe.build.json` sample path exceeds 248 characters. This avoids a
+Windows path-length failure that previously let PE emission succeed while
+sidecar publication failed in the baseline-vs-baseline null control.
+
 Fast local orchestration tests (no bootstrap or benchmark):
 
 ```text

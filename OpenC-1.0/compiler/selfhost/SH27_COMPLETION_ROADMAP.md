@@ -21,11 +21,19 @@ Current next decision (2026-09-27): the frozen native type-table cut widened
 strict self-build RAM headroom, and the selective semantic cut below removed
 most repeated validation from cached body edits. Keep the source-partition
 cache opt-in while measuring its cold-build cost, normal direct-PE comparison,
-and representative real-project behavior. The next architecture must make
-content-validated incremental reuse a sound normal production policy without
-a cold-build or RAM cliff. After that policy stabilizes, require two
-independent final-source pinned 20/20 C/D parity runs plus editor,
-release-integrity, and RAM gates before closing SH-27.
+and representative real-project behavior. A new
+[`20-sample local DMD comparison`](SH27_LOCAL_CROSS_HOST_DMD_EVIDENCE.md)
+found that **both** the earlier hosted-green compiler and latest compiler
+miss the 1.25x DMD ceiling on this four-logical-CPU Windows 10 host. The
+latest source is faster in absolute local medians but still measures 1.54x
+large, 1.49x control, and 1.58x many-file DMD. Treat those as active
+throughput budgets; hosted wins on one runner class do not establish broad
+C/D-class speed. Prioritize the critical first-visit acceptance/lowering
+path and many-file fixed/declaration cost before another cache micro-cut.
+In parallel, the incremental architecture must make content-validated reuse
+a sound normal production policy without a cold-build or RAM cliff. After
+both tracks stabilize, require two independent final-source pinned 20/20 C/D
+parity runs plus editor, release-integrity, and RAM gates before closing SH-27.
 
 The first [selective semantic cache cut](../../../SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md)
 now authenticates source-partition hits before flow and acceptance. Its

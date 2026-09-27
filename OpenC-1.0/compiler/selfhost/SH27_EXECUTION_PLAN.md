@@ -25,6 +25,14 @@ cache still trails direct PE by about 0.97 s on the same host. See
 [`SH27_COFF_IDENTITY_REUSE_EVIDENCE.md`](../../../SH27_COFF_IDENTITY_REUSE_EVIDENCE.md).
 Its exact-source clean hosted module/COFF and independent identity-pair
 workflows passed. They do not certify normal-default C/D parity.
+The 20-sample local DMD-only cross-host diagnostic in
+[`SH27_LOCAL_CROSS_HOST_DMD_EVIDENCE.md`](SH27_LOCAL_CROSS_HOST_DMD_EVIDENCE.md)
+fails the 1.25x ceiling for large functions, control flow, many files, and
+small single file on both the earlier hosted-green and latest executables.
+The latest source's large/control/many-file local deficits are about
+97/49/50 ms. This is not a new-source regression or a full five-compiler
+release gate, but it makes a broad C/D-class claim premature and puts
+first-visit/critical-worker throughput back ahead of cache policy work.
 
 ## Definition of done
 
@@ -38,6 +46,8 @@ normal compile path, must:
    not mistaken for sustained parity. Require this on **two independent clean
    normal-default runs** of the *same final compiler source*, at least five
    samples per tool per workload. Compare within runs, never across runners.
+   Also investigate any repeatable failure on a separately pinned host;
+   two wins on one runner class are not evidence of cross-host parity.
 2. Preserve all current language, diagnostic, executable, x64 substrate,
    self-host, deterministic-byte, and memory proofs. In particular, the
    20-generation self-build must obey 64 MiB child working set and 256 MiB
@@ -82,9 +92,10 @@ and release work below is complete and any source changes are retested.
 When a clean large/control deficit is open, Steps 2-4 take priority over
 incremental caching, new platforms, or tiny parser/cache/peephole changes.
 Two replicated current-source hosted parity passes now justify progressing
-Steps 6-7 in parallel with the remaining architecture/RAM audit. If a later
-source revision loses parity, the throughput track regains priority. Steps
-6-7 are required for full SH-27 closure, not substitutes for throughput.
+Steps 6-7 in parallel with the remaining architecture/RAM audit. The pinned
+four-core local DMD failure reopens the broader throughput question even for
+that hosted-green source, so Steps 2-4 have priority again. Steps 6-7 are
+required for full SH-27 closure, not substitutes for throughput.
 The isolated PreparedSource boundary has exact-output proof, but function
 workers are still unsafe because first-visit caches and derived types are
 source-global mutable state; see `SH27_FUNCTION_WORK_OWNERSHIP_GATE.md`.

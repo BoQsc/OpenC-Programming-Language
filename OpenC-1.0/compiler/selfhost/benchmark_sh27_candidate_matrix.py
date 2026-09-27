@@ -15,6 +15,7 @@ import os
 from pathlib import Path
 import platform
 import statistics
+import tempfile
 
 from benchmark_sh27_production import (
     ROOT, MIB, generate_language, require_disk_headroom, run_sample, sha256,
@@ -25,6 +26,36 @@ from benchmark_sh27_production import (
 SCHEMA = "openc.sh27.candidate_matrix.v1"
 DEFAULT_WORKLOADS = ("large_functions", "control_flow")
 NULL_NAME = "__null__"
+MAX_NATIVE_SAMPLE_REPORT_PATH = 248
+
+
+def sample_root_path(
+    run_root: Path, workload_id: str, pair_index: int,
+    candidate_name: str, side: str,
+) -> Path:
+    return (
+        run_root / "samples" / workload_id
+        / f"pair-{pair_index + 1:02d}" / candidate_name / side
+    )
+
+
+def sample_paths_within_budget(
+    run_root: Path, workload_ids: list[str], candidate_names: list[str],
+    pairs: int,
+) -> bool:
+    # The native compiler writes program.exe.build.json after the PE. On
+    # Windows hosts without long-path opt-in, an overlong sidecar can make a
+    # successful code generation return failure and poison the null control.
+    for workload_id in workload_ids:
+        for name in [*candidate_names, NULL_NAME]:
+            for side in ("baseline", name):
+                sample_root = sample_root_path(
+                    run_root, workload_id, pairs - 1, name, side
+                )
+                report = sample_root / "program.exe.build.json"
+                if len(str(report)) > MAX_NATIVE_SAMPLE_REPORT_PATH:
+                    return False
+    return True
 
 
 def candidate_spec(raw: str) -> tuple[str, Path]:
@@ -161,12 +192,6 @@ def main() -> int:
         parser.error(f"refusing to replace existing report: {output}")
     require_disk_headroom(output.parent)
     output.parent.mkdir(parents=True, exist_ok=True)
-    run_root = output.parent / (
-        output.stem + "-runs-"
-        + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
-    )
-    run_root.mkdir(parents=True, exist_ok=False)
-
     corpus_path = ROOT / "benchmarks/sh27/CORPUS.json"
     corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
     validate_corpus(corpus)
@@ -177,6 +202,15 @@ def main() -> int:
     missing = set(workload_ids) - set(by_id)
     if missing:
         parser.error(f"unknown workload IDs: {', '.join(sorted(missing))}")
+    run_root = Path(tempfile.mkdtemp(prefix="m-", dir=output.parent))
+    if not sample_paths_within_budget(
+        run_root, workload_ids, list(compilers), args.pairs
+    ):
+        run_root.rmdir()
+        raise SystemExit(
+            "SH27_PATH_BUDGET: choose a shorter --output directory; "
+            "native compiler sample sidecars must stay within 248 characters"
+        )
 
     result: dict[str, object] = {
         "schema": SCHEMA,
@@ -241,9 +275,8 @@ def main() -> int:
                             baseline if side == "baseline" or name == NULL_NAME
                             else compilers[name]
                         )
-                        sample_root = (
-                            run_root / "samples" / workload_id
-                            / f"pair-{pair_index + 1:02d}" / name / side
+                        sample_root = sample_root_path(
+                            run_root, workload_id, pair_index, name, side
                         )
                         sample = run_sample(
                             tool="openc", executable=executable,
