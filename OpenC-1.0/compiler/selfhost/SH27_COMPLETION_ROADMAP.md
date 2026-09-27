@@ -25,6 +25,11 @@ the 1.25x line. Large functions still measure 1.462x DMD locally, requiring
 about 77 ms more for the gate on this host. The first strict clean-host
 five-compiler 20-sample run of this exact source passed at `3ff79fc`
 (large OpenC/DMD 0.7166x, versus 1.462x on the local Windows 10 host).
+An [adjacent storage-placement control](SH27_LOCAL_STORAGE_PLACEMENT_EVIDENCE.md)
+reproduced the local large-function C: deficit at 1.470x; moving the corpus
+to slower D: storage made both compilers slower but DMD more so, reducing
+the ratio to 1.145x. Do not use that placement-sensitive pass as a compiler
+speedup or a substitute for the C: deficit gate.
 Target the remaining large-function semantic/backend critical path now;
 after the source stabilizes, obtain two independent final-source runs and
 rerun the full safety and release gates. Keep the incremental cache opt-in
