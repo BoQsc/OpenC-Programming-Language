@@ -648,9 +648,10 @@ IR reach closure. Exact evidence and reproduction commands are in
 
       Later opt-in source-partition caching now has clean hosted fixed-point,
       strict-memory, and exact no-op/edit proof. Its unchanged compiler build
-      skips semantic validation, but cold and edited COFF builds remain slower
-      than the direct PE default. A further shared-identity architectural cut
-      eliminates redundant full-project symbol preparation from every COFF
+      skips semantic validation, but at that checkpoint cold and edited COFF
+      builds remained slower than the direct PE default. A further
+      shared-identity cut eliminates redundant full-project symbol
+      preparation from every COFF
       partition: 11 guarded local pairs on identical 228-source input passed
       exact object/PE output with 11 wins and cold 32-object medians of
       31.382/16.794 s. See
@@ -662,6 +663,16 @@ IR reach closure. Exact evidence and reproduction commands are in
       objects/PE, 11 wins, and 23.731/12.245 s median baseline/candidate
       cold builds. Final normal-default C/D parity and stronger RAM headroom
       are still open; no opt-in result closes SH-27.
+
+      A subsequent selective semantic cache cut authenticates partition hits
+      before flow and acceptance, then validates only changed source groups.
+      Eleven guarded, order-alternated real compiler body edits improved the
+      opt-in median from 4.952 to 2.872 s, 11/11 exact-output wins. Strict
+      20/20 self-build, 278 conformance fixtures, 2/8/32 COFF, exact worker
+      diagnostics, and three representative workloads passed locally. See
+      [`SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md`](../SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md).
+      Cold/default economics, hosted proof, final-source pinned C/D parity,
+      editor and release-integrity gates remain open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

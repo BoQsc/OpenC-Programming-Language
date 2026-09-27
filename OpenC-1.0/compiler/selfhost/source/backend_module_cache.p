@@ -5,9 +5,11 @@ import system.process;
 import system.text;
 
 // Opt-in cache for the restricted native module-COFF boundary. Per-module
-// records are storage hints. Only a checksum-verified whole-project snapshot
-// published after successful acceptance and native link can skip acceptance
-// for byte-identical inputs on a later build.
+// records are storage hints. An exact, checksum-verified whole-project
+// snapshot can skip all semantic work on a byte-identical build. The newer
+// source-partition path authenticates each saved object and selectively skips
+// validation only for unchanged source groups with a matching project
+// declaration projection and global flow flags.
 struct ModuleCacheState {
     bool enabled;
     DBuffer keys;
@@ -843,11 +845,25 @@ unsafe bool source_partition_cache_prepare(
         timings.source_bytes + source_count * 24 + 1
     );
     scope d_buffer_destroy(contents);
-    d_put(interface, "openc-source-partition-cache-v1:windows-x86_64-llp64\n");
+    d_put(interface, "openc-source-partition-cache-v2:windows-x86_64-llp64\n");
     d_put_usize(interface, partitions); d_put(interface, ":");
     d_put_usize(interface, source_chunks); d_put(interface, ":");
     d_put(interface, context.project_root);
     d_put(interface, context.project_source);
+    // Flow's project-wide conservative gates can depend on body-local
+    // symbols. Include their resolved values before trusting a saved source
+    // partition as evidence that unchanged sources need no revalidation.
+    d_put(interface, "\nflow-flags:");
+    if flow_project_has_pointer_symbol(
+            context.type_data, context.symbol_data, context.symbols
+        ) { d_put(interface, "1:"); }
+    else { d_put(interface, "0:"); }
+    if flow_project_has_unsafe_function(
+            context.project_source, context.project_root,
+            context.source_data, context.symbol_data,
+            context.detail_data, context.symbols
+        ) { d_put(interface, "1\n"); }
+    else { d_put(interface, "0\n"); }
     ptr byte compiler_data;
     usize compiler_length;
     status loaded_compiler = cli_coff_read_bounded_object(
@@ -986,6 +1002,18 @@ unsafe bool source_partition_cache_prepare(
 
 usize source_partition_evicted_offset() {
     return coff_link_bundle_limit() + 1;
+}
+
+unsafe bool source_partition_cache_source_hit(
+    ptr byte offsets, usize partitions,
+    usize source_count, usize source_record
+) {
+    if offsets == null || partitions == 0 ||
+        source_record >= source_count { return false; }
+    usize partition = source_partition_index(
+        source_record, source_count, partitions
+    );
+    return read_usize(offsets, partition * size_of(usize)) != 0;
 }
 
 // The object bytes were authenticated while deciding hits. Keep the hit

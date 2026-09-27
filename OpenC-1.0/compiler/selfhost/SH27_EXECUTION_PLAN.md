@@ -6,6 +6,15 @@ decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
 contract. An isolated prototype, a green evidence-only workflow, or one lucky
 comparator run does not complete a step below.
 
+Current 2026-09-27 checkpoint: the opt-in source-partition cache now skips
+authenticated unchanged-source flow and acceptance work. Its guarded
+11-pair compiler body-edit proof won 11/11 at 4.952/2.872 s medians, with
+exact objects/PE and local strict RAM, 20/20 self-build, and 278 conformance
+passes. See [`SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md`](../../../SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md).
+Step 6 is still open: this does not yet solve cold-build economics or promote
+the cache to the normal compiler path, and later steps require final-source
+hosted parity and release certification.
+
 ## Definition of done
 
 The normal Windows x64 OpenC compiler, built to its byte-exact self-hosting

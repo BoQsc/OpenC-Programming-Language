@@ -63,6 +63,9 @@ unsafe void c_merge_worker_timings(
     ref BuildTimings target,
     ref BuildTimings worker
 ) {
+    target.object_cache_acceptance_sources_skipped =
+        target.object_cache_acceptance_sources_skipped +
+        worker.object_cache_acceptance_sources_skipped;
     target.validation_acceptance_ms =
         target.validation_acceptance_ms + worker.validation_acceptance_ms;
     target.validation_acceptance_mask_ms =

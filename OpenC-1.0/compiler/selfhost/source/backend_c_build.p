@@ -45,6 +45,10 @@ unsafe bool write_build_timings(
         d_put_usize(output, timings.object_cache_publish_failures);
         d_put(output, ", \"validation_skipped\": ");
         native_put_bool(output, timings.object_cache_validation_skipped);
+        d_put(output, ", \"flow_sources_skipped\": ");
+        d_put_usize(output, timings.object_cache_flow_sources_skipped);
+        d_put(output, ", \"acceptance_sources_skipped\": ");
+        d_put_usize(output, timings.object_cache_acceptance_sources_skipped);
         d_put(output, "}");
     }
     d_put(output, ",\n  \"parallel_source_chunks\": ");

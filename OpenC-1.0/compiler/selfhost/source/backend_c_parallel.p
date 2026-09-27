@@ -31,6 +31,7 @@ struct CNativeChunkState {
     ptr byte cache_offsets;
     usize source_partitions;
     usize source_count;
+    bool semantic_cache_ready;
 }
 
 struct CParallelState {
@@ -187,10 +188,22 @@ unsafe i32 c_emit_source_range_validating(
     ptr byte parsed_source_cache,
     ptr byte cache_offsets,
     usize source_partitions,
-    usize source_count
+    usize source_count,
+    bool semantic_cache_ready
 ) {
     usize source_record = source_first;
     while source_record < source_end {
+        if semantic_cache_ready && source_partition_cache_source_hit(
+            cache_offsets, source_partitions, source_count, source_record
+        ) {
+            timings.object_cache_acceptance_sources_skipped =
+                timings.object_cache_acceptance_sources_skipped + 1;
+            resolution_release_cached_parsed_source(
+                parsed_source_cache, source_record
+            );
+            source_record = source_record + 1;
+            continue;
+        }
         usize module_index = c_source_module(base, source_record);
         if module_index >= base.modules.length { return 1; }
         bool lower_source = true;

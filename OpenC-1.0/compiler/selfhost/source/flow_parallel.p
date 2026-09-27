@@ -31,6 +31,9 @@ struct FlowParallelState {
     bool project_has_unsafe_function;
     ptr byte parsed_source_cache;
     ptr byte validation_source_ms;
+    ptr byte semantic_cache_offsets;
+    usize source_partitions;
+    usize source_count;
 }
 
 unsafe FlowParallelChunk flow_parallel_chunk(
@@ -65,6 +68,17 @@ unsafe i32 flow_parallel_chunk_run(
 ) {
     usize source_record = chunk.first;
     while source_record < chunk.end {
+        if source_partition_cache_source_hit(
+            state.semantic_cache_offsets, state.source_partitions,
+            state.source_count, source_record
+        ) {
+            chunk.timings.object_cache_flow_sources_skipped =
+                chunk.timings.object_cache_flow_sources_skipped + 1;
+            write_usize(state.validation_source_ms,
+                source_record * size_of(usize), 0);
+            source_record = source_record + 1;
+            continue;
+        }
         usize module_index = semantic_source_module(
             state.module_data, state.modules, source_record
         );
@@ -118,6 +132,9 @@ unsafe i32 flow_parallel_jobs_two(ptr FlowParallelState state) { return 3; }
 unsafe void flow_parallel_merge_timings(
     ref BuildTimings target, ref BuildTimings worker
 ) {
+    target.object_cache_flow_sources_skipped =
+        target.object_cache_flow_sources_skipped +
+        worker.object_cache_flow_sources_skipped;
     target.validation_flow_parse_ms = target.validation_flow_parse_ms +
         worker.validation_flow_parse_ms;
     target.validation_flow_initialization_ms =
@@ -199,7 +216,8 @@ unsafe bool flow_validate_project_parallel(
     ptr byte parsed_source_cache,
     ptr byte validation_source_ms,
     ptr byte error_data, ref PackedBuffer errors,
-    ref BuildTimings timings, usize worker_count
+    ref BuildTimings timings, usize worker_count,
+    ptr byte semantic_cache_offsets, usize source_partitions
 ) {
     usize source_count = sources.length;
     usize error_capacity = errors.capacity;
@@ -238,7 +256,10 @@ unsafe bool flow_validate_project_parallel(
         project_has_pointer_symbol = project_has_pointer_symbol,
         project_has_unsafe_function = project_has_unsafe_function,
         parsed_source_cache = ir_pointer_alias(parsed_source_cache),
-        validation_source_ms = ir_pointer_alias(validation_source_ms)
+        validation_source_ms = ir_pointer_alias(validation_source_ms),
+        semantic_cache_offsets = ir_pointer_alias(semantic_cache_offsets),
+        source_partitions = source_partitions,
+        source_count = source_count
     };
     // Older compiler seeds copied ref arguments into these value fields as
     // addresses. Keep explicit words for transition-bootstrap compatibility.

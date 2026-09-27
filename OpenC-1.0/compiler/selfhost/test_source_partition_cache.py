@@ -33,6 +33,70 @@ def guarded(command: list[str], cwd: Path) -> dict:
     return result
 
 
+def prove_body_flow_flag_invalidation(compiler: Path, compiler_dir: Path) -> dict:
+    """A body-local pointer must invalidate otherwise unchanged partitions."""
+    with tempfile.TemporaryDirectory(prefix="openc-flow-key-") as temporary:
+        root = Path(temporary)
+        source_dir = root / "source"
+        source_dir.mkdir()
+        (source_dir / "a.p").write_text(
+            "unsafe i32 main() { return helper(); }\n", encoding="utf-8")
+        helper = source_dir / "b.p"
+        helper.write_text(
+            "unsafe i32 helper() { return 7; }\n", encoding="utf-8")
+        (source_dir / "c.p").write_text(
+            "i32 other_one() { return 1; }\n", encoding="utf-8")
+        (source_dir / "d.p").write_text(
+            "i32 other_two() { return 2; }\n", encoding="utf-8")
+        project = root / "openc.project.json"
+        project.write_text(json.dumps({
+            "name": "sh27-flow-key-proof", "version": "1.0.0",
+            "edition": "OpenC 1.0", "profile": "standard",
+            "target": "windows-x86_64",
+            "modules": {"probe": [
+                "source/a.p", "source/b.p", "source/c.p", "source/d.p"]},
+            "standard_library_directory": str(
+                (compiler_dir / "../../standard_library").resolve(strict=True)),
+            "runtime_directory": str(
+                (compiler_dir / "../../runtime").resolve(strict=True)),
+            "output_directory": str(root / "build"),
+        }, indent=2) + "\n", encoding="utf-8")
+        cache_prefix = root / "cache" / "partition"
+        cache_prefix.parent.mkdir()
+
+        def build(name: str) -> dict:
+            exe = root / f"{name}.exe"
+            timing = root / f"{name}.json"
+            guarded([
+                str(compiler), "artifact", f"--project={project}",
+                "--kind=module-coff-set", f"--output={root / name}",
+                f"--linked-exe={exe}", "--source-partitions=4",
+                "--source-chunks=4", f"--cache-prefix={cache_prefix}",
+                f"--timings={timing}",
+            ], root)
+            assert exe.is_file()
+            return json.loads(timing.read_text())["object_cache"]
+
+        cold = build("cold")
+        assert cold["hits"] == 0 and cold["misses"] == 4
+        helper.write_text(
+            "unsafe i32 helper() { return 8; }\n", encoding="utf-8")
+        ordinary_edit = build("ordinary-body-edit")
+        assert ordinary_edit["hits"] == 3 and ordinary_edit["misses"] == 1
+        assert ordinary_edit["flow_sources_skipped"] == 3
+        assert ordinary_edit["acceptance_sources_skipped"] == 3
+        helper.write_text(
+            "unsafe i32 helper() { ptr byte local = null; "
+            "if local == null { return 7; } return 9; }\n",
+            encoding="utf-8")
+        edited = build("pointer-body-edit")
+        assert edited["hits"] == 0 and edited["misses"] == 4, edited
+        assert edited["flow_sources_skipped"] == 0
+        assert edited["acceptance_sources_skipped"] == 0
+        return {"cold": cold, "ordinary_body_edit": ordinary_edit,
+                "pointer_body_edit": edited}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("compiler", type=Path)
@@ -103,6 +167,8 @@ def main() -> int:
         assert cold["object_cache"]["hits"] == 0
         assert cold["object_cache"]["misses"] == args.partitions
         assert cold["object_cache"]["publish_failures"] == 0
+        assert cold["object_cache"]["flow_sources_skipped"] == 0
+        assert cold["object_cache"]["acceptance_sources_skipped"] == 0
         warm, _, warm_exe, warm_manifest = build("warm", True)
         assert warm["object_cache"]["hits"] == args.partitions
         assert warm["object_cache"]["misses"] == 0
@@ -135,6 +201,9 @@ def main() -> int:
         edit, _, edit_exe, edit_manifest = build("body-edit", True)
         assert edit["object_cache"]["hits"] == args.partitions - 1
         assert edit["object_cache"]["misses"] == 1
+        assert edit["object_cache"]["flow_sources_skipped"] > 0
+        assert edit["object_cache"]["flow_sources_skipped"] == edit[
+            "object_cache"]["acceptance_sources_skipped"]
         assert sum(not p["cache_hit"] for p in edit_manifest["partitions"]) == 1
         assert not edit_manifest["partitions"][0]["cache_hit"]
         assert sha256(edit_exe) != sha256(cold_exe)
@@ -144,13 +213,58 @@ def main() -> int:
             p["sha256"] for p in fresh_manifest["partitions"]
         ]
 
+        # A malformed body keeps the project declaration projection stable.
+        # The unchanged partitions may be authenticated hits, but the edited
+        # source must still be validated with byte-identical diagnostics.
+        valid_body = main_source.read_bytes()
+        main_source.write_bytes(valid_body.replace(
+            b"usize record_stride() {" + newline,
+            b"usize record_stride() {" + newline +
+                b"    source_partition_unknown = 1;" + newline,
+            1,
+        ))
+        body_failures = []
+        for cached in (True, False):
+            name = "bad-body-cached" if cached else "bad-body-fresh"
+            timing = root / f"{name}.json"
+            command = [
+                str(compiler), "artifact", f"--project={project}",
+                "--kind=module-coff-set", f"--output={root / name}",
+                f"--linked-exe={root / (name + '.exe')}",
+                f"--source-partitions={args.partitions}",
+                f"--source-chunks={4 if cached and args.flow4 else 1}",
+                f"--timings={timing}",
+            ]
+            if cached:
+                command.append(f"--cache-prefix={cache_prefix}")
+            result = run_measured(
+                command, cwd=root, sample_interval=0.01,
+                max_private_bytes=256 * MIB,
+                max_working_set_bytes=64 * MIB,
+                max_captured_output_bytes=MIB, timeout_seconds=120,
+            )
+            assert result["exit_code"] != 0 and not result["memory_limit_exceeded"] \
+                and not result["timed_out"], result
+            assert not (root / (name + ".exe")).exists()
+            details = json.loads(timing.read_text())
+            if cached:
+                assert details["object_cache"]["hits"] == args.partitions - 1
+                assert details["object_cache"]["misses"] == 1
+            body_failures.append((result["stdout"], result["stderr"]))
+        assert body_failures[0] == body_failures[1]
+        assert body_failures[0][0] or body_failures[0][1]
+        report["invalid_body_diagnostics_equal_with_cached_hits"] = True
+        main_source.write_bytes(valid_body)
+
         main_source.write_bytes(main_source.read_bytes() + newline +
-            b"// Source-partition declaration projection edit proof." + newline)
+            b"i32 source_partition_interface_probe() { return 27; }" + newline)
         interface, _, interface_exe, interface_manifest = build(
             "interface-edit", True
         )
         assert interface["object_cache"]["hits"] == 0
         assert interface["object_cache"]["misses"] == args.partitions
+        assert interface["object_cache"]["flow_sources_skipped"] == 0
+        assert interface["object_cache"]["acceptance_sources_skipped"] == 0
         assert not any(p["cache_hit"] for p in interface_manifest["partitions"])
         guarded([str(interface_exe), "--version"], root)
 
@@ -187,6 +301,8 @@ def main() -> int:
         assert failed_results[0][0] or failed_results[0][1]
         report["invalid_source_diagnostics_equal"] = True
 
+    report["flow_flag_invalidation"] = prove_body_flow_flag_invalidation(
+        compiler, compiler_dir)
     report["status"] = "PASS"
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2) + "\n")

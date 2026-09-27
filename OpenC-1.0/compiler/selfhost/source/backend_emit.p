@@ -339,6 +339,41 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     }
     timings.resolution_ms =
         process.monotonic_milliseconds() - phase_started;
+    ModuleCacheState semantic_cache = module_cache_empty();
+    scope module_cache_destroy(semantic_cache);
+    bool semantic_cache_ready = false;
+    if validate_semantics && c_backend && timings.emission_mode == 2 &&
+        artifact_options.kind == native_artifact_module_coff_set() &&
+        artifact_options.source_partitions != 0 &&
+        (artifact_options.source_chunks == 2 ||
+         artifact_options.source_chunks == 4) &&
+        sources.length >= artifact_options.source_chunks &&
+        text.byte_length(artifact_options.cache_prefix) != 0 {
+        IrContext prepared_base = backend_base_context(
+            project_source, project_root, module_data, modules,
+            source_data, type_data, types, symbol_data, detail_data,
+            symbols, 1
+        );
+        usize prepared_entry = ir_entry_module(
+            project_source, project_root, source_data,
+            symbol_data, detail_data, symbols, modules.length
+        );
+        semantic_cache_ready = source_partition_cache_prepare(
+            prepared_base, parsed_source_cache,
+            artifact_options.cache_prefix, prepared_entry,
+            artifact_options.source_partitions,
+            artifact_options.source_chunks, semantic_cache, timings
+        );
+        if semantic_cache_ready {
+            semantic_cache_ready = source_partition_cache_evict_saved(
+                semantic_cache, artifact_options.source_partitions
+            );
+        }
+        if !semantic_cache_ready {
+            module_cache_destroy(semantic_cache);
+            semantic_cache = module_cache_empty();
+        }
+    }
     phase_started = process.monotonic_milliseconds();
     usize acceptance_errors = 0;
     bool fuse_native_acceptance = false;
@@ -373,6 +408,10 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
             (artifact_options.source_chunks == 2 ||
              artifact_options.source_chunks == 4) &&
             sources.length >= 2 && total_source_length >= 196608;
+        ptr byte semantic_cache_offsets = null;
+        if semantic_cache_ready {
+            semantic_cache_offsets = semantic_cache.offsets;
+        }
         if parallel_flow {
             usize flow_worker_count = 2;
             if artifact_options.source_chunks == 4 &&
@@ -386,7 +425,9 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 symbols, project_has_pointer_symbol,
                 project_has_unsafe_function, parsed_source_cache,
                 validation_source_ms, error_data, errors, timings,
-                flow_worker_count
+                flow_worker_count,
+                semantic_cache_offsets,
+                artifact_options.source_partitions
             ) {
                 timings.validation_ms =
                     process.monotonic_milliseconds() - phase_started;
@@ -403,6 +444,19 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
             usize index = 0;
             while index < count {
                 usize source_record = first + index;
+                if semantic_cache_ready &&
+                    source_partition_cache_source_hit(
+                        semantic_cache.offsets,
+                        artifact_options.source_partitions,
+                        sources.length, source_record
+                    ) {
+                    write_usize(validation_source_ms,
+                        source_record * size_of(usize), 0);
+                    timings.object_cache_flow_sources_skipped =
+                        timings.object_cache_flow_sources_skipped + 1;
+                    index = index + 1;
+                    continue;
+                }
                 usize source_started = process.monotonic_milliseconds();
                 flow_validate_source(
                     project_source, project_root, module_data, modules,
@@ -525,7 +579,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         i32 c_result = c_emit_project(
             base, output_directory, output_capacity, entry, timings,
             fuse_native_acceptance, validation_source_ms,
-            parsed_source_cache, artifact_options
+            parsed_source_cache, artifact_options,
+            semantic_cache, semantic_cache_ready
         );
         usize lowering_elapsed =
             process.monotonic_milliseconds() - phase_started;

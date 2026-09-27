@@ -297,7 +297,8 @@ unsafe CNativeChunkState c_native_chunk_state_create(
     ptr byte parsed_source_cache,
     usize worker_count,
     ptr byte cache_offsets,
-    usize source_partitions
+    usize source_partitions,
+    bool semantic_cache_ready
 ) {
     if worker_count == 2 {
         usize half = source_count / 2;
@@ -321,7 +322,8 @@ unsafe CNativeChunkState c_native_chunk_state_create(
             parsed_source_cache = ir_pointer_alias(parsed_source_cache),
             cache_offsets = ir_pointer_alias(cache_offsets),
             source_partitions = source_partitions,
-            source_count = source_count
+            source_count = source_count,
+            semantic_cache_ready = semantic_cache_ready
         };
     }
     usize cut_one = source_count / 4;
@@ -354,7 +356,8 @@ unsafe CNativeChunkState c_native_chunk_state_create(
         parsed_source_cache = ir_pointer_alias(parsed_source_cache),
         cache_offsets = ir_pointer_alias(cache_offsets),
         source_partitions = source_partitions,
-        source_count = source_count
+        source_count = source_count,
+        semantic_cache_ready = semantic_cache_ready
     };
 }
 
@@ -407,7 +410,8 @@ unsafe i32 c_native_chunk_run(
         chunk.base, chunk.output, chunk.first, chunk.end,
         state.entry_module, chunk.timings,
         state.validation_source_ms, state.parsed_source_cache,
-        state.cache_offsets, state.source_partitions, state.source_count
+        state.cache_offsets, state.source_partitions, state.source_count,
+        state.semantic_cache_ready
     );
     if chunk.base.types.length != state.frozen_type_count ||
         chunk.base.types.capacity != state.frozen_type_count { result = 2; }
@@ -486,7 +490,8 @@ unsafe bool c_emit_native_sources_chunked(
     ptr byte parsed_source_cache,
     usize worker_count,
     ptr byte cache_offsets,
-    usize source_partitions
+    usize source_partitions,
+    bool semantic_cache_ready
 ) {
     usize source_count = c_project_source_count(base);
     if worker_count != 2 && worker_count != 4 { return false; }
@@ -500,7 +505,8 @@ unsafe bool c_emit_native_sources_chunked(
     CNativeChunkState state = c_native_chunk_state_create(
         base, source_count, output_capacity + 65536,
         entry_module, validation_source_ms, parsed_source_cache,
-        worker_count, cache_offsets, source_partitions
+        worker_count, cache_offsets, source_partitions,
+        semantic_cache_ready
     );
     usize workers_started = process.monotonic_milliseconds();
     i32 launch_result = 3;
@@ -555,7 +561,8 @@ unsafe bool c_emit_native_sources_chunked(
         i32 replay_result = c_emit_source_range_validating(
             base, discarded, 0, source_count, entry_module,
             replay_timings, null, parsed_source_cache,
-            cache_offsets, source_partitions, source_count
+            cache_offsets, source_partitions, source_count,
+            semantic_cache_ready
         );
         d_buffer_destroy(discarded);
         return replay_result == 0;

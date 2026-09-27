@@ -82,12 +82,13 @@ unsafe i32 c_emit_project(
     bool validate_acceptance,
     ptr byte validation_source_ms,
     ptr byte parsed_source_cache,
-    ref NativeArtifactOptions artifact_options
+    ref NativeArtifactOptions artifact_options,
+    ref ModuleCacheState module_cache,
+    bool semantic_cache_ready
 ) {
     usize selected_module = base.modules.length;
-    ModuleCacheState module_cache = module_cache_empty();
-    scope module_cache_destroy(module_cache);
-    if text.byte_length(artifact_options.cache_prefix) != 0 {
+    if !semantic_cache_ready &&
+        text.byte_length(artifact_options.cache_prefix) != 0 {
         bool prepared = false;
         if artifact_options.source_partitions != 0 {
             prepared = source_partition_cache_prepare(
@@ -296,7 +297,8 @@ unsafe i32 c_emit_project(
         emitted_parallel = c_emit_native_sources_chunked(
             base, output, output_capacity, entry_module, timings,
             validation_source_ms, parsed_source_cache,
-            native_worker_count, cache_offsets, source_partitions
+            native_worker_count, cache_offsets, source_partitions,
+            semantic_cache_ready
         );
         if !emitted_parallel {
             io.error("error[OPENC-NATIVE-CHUNK-PROOF]: isolated source emission failed\n");

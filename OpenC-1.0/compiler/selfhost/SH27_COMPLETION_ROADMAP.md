@@ -17,18 +17,26 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-09-27): the frozen native type-table cut has
-locally widened the strict self-build working-set margin from the prior
-hosted near-miss to more than 13 MiB on this host, without a paired speed
-regression; the clean hosted module/COFF proof passed but its detailed RAM
-measurements are retained in the workflow artifact. Measure
-changed-source acceptance, COFF construction, and link separately
-on the same retained compiler project; design one dependency-safe selective
-semantic cut rather than another partition-count tweak. Keep the source-
-partition cache opt-in until paired normal-default cold/edit/project trials
-beat the direct PE path. After the architectural cuts stabilize, require
-two independent final-source pinned 20/20 C/D parity runs plus editor,
+Current next decision (2026-09-27): the frozen native type-table cut widened
+strict self-build RAM headroom, and the selective semantic cut below removed
+most repeated validation from cached body edits. Keep the source-partition
+cache opt-in while measuring its cold-build cost, normal direct-PE comparison,
+and representative real-project behavior. The next architecture must make
+content-validated incremental reuse a sound normal production policy without
+a cold-build or RAM cliff. After that policy stabilizes, require two
+independent final-source pinned 20/20 C/D parity runs plus editor,
 release-integrity, and RAM gates before closing SH-27.
+
+The first [selective semantic cache cut](../../../SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md)
+now authenticates source-partition hits before flow and acceptance. Its
+11-pair guarded body-edit comparison won 11/11, reducing the opt-in edited
+compiler-project median from 4.952 to 2.872 s, while strict 20/20, 278
+conformance, exact COFF/chunk, and default self-build non-regression checks
+passed locally. A pointer-symbol negative test forces all partitions to
+revalidate when a body-local change alters the global flow gate. This is
+substantive edited-build progress, but normal-default cold-build economics,
+hosted certification, final-source C/D parity, representative breadth, and
+release gates remain open.
 
 The [frozen native type ownership evidence](../../../SH27_FROZEN_NATIVE_TYPES_EVIDENCE.md)
 records the local fixed point, strict 20/20, exact 2/4-chunk and 2/8/32-COFF
