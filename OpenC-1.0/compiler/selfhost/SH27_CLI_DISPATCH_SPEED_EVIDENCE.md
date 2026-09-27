@@ -91,8 +91,8 @@ record reports the sole job successful and retains artifact
 `OpenC-SH27-branch-batch-36319504305`, ID `10932161683`, 22,364,707 bytes,
 digest `sha256:030670788e88f36e1477b15a848643002509635bb5ae4a91b945ae1571537850`.
 The artifact's internal timing JSON is not anonymously downloadable, so no
-hosted millisecond deltas are asserted here. This batch is not the separate
-five-compiler production parity workflow.
+hosted millisecond deltas are asserted for this *batch*. This batch is not
+the separate five-compiler production parity workflow.
 
 ## First strict five-compiler production run
 
@@ -107,7 +107,21 @@ corpus step, and artifact upload all completed successfully. The uploaded
 artifact is `OpenC-SH27-production-performance-36320323403`, ID
 `10932247936`, 93,851,415 bytes, digest
 `sha256:f623b148ff53e5b51d2d5e3d10fabe307b27b7a7cc565713373ae50a39faf5be`.
-This is one clean-host 20-sample parity pass of the compiler source; it is
-not a second independent run, nor a local four-logical-CPU pass. The run's
-raw timing JSON is retained in the artifact but is not anonymously
-downloadable, so this note does not invent exact hosted lane ratios.
+The public run annotations publish each same-run 20-sample median and ratio:
+
+| Workload | OpenC median | OpenC/MSVC | OpenC/Clang | OpenC/DMD | OpenC/LDC |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Small single file | 0.0350 s | 0.0962x | 0.0980x | 0.0931x | 0.0856x |
+| Many files | 0.1070 s | 0.1685x | 0.0928x | 0.2662x | 0.1823x |
+| Large functions | 0.3995 s | 0.4899x | 0.3154x | 0.7166x | 0.2632x |
+| Control flow | 0.2250 s | 0.2591x | 0.2566x | 0.4972x | 0.2107x |
+| Startup/file/allocation | 0.0350 s | 0.0819x | 0.0713x | 0.0826x | 0.0775x |
+
+All 20 same-run ratios passed the 1.25x ceiling, with exact compiler and
+executable checks in the workflow. This is **one** clean-host parity pass of
+the compiler source, not a second independent final-source run or a local
+four-logical-CPU pass. The 0.7166x hosted large-function DMD ratio and the
+1.462x local DMD ratio are both valid for their own hosts; they cannot be
+averaged or used to claim host-general parity. The raw run tree is retained
+in the artifact, while the visible annotations are sufficient for the exact
+median/ratio statements above.

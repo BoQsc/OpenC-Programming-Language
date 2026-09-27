@@ -23,7 +23,8 @@ Current next decision (2026-09-27): the local
 278/278 native conformance, and brings four of five local DMD lanes within
 the 1.25x line. Large functions still measure 1.462x DMD locally, requiring
 about 77 ms more for the gate on this host. The first strict clean-host
-five-compiler 20-sample run of this exact source passed at `3ff79fc`.
+five-compiler 20-sample run of this exact source passed at `3ff79fc`
+(large OpenC/DMD 0.7166x, versus 1.462x on the local Windows 10 host).
 Target the remaining large-function semantic/backend critical path now;
 after the source stabilizes, obtain two independent final-source runs and
 rerun the full safety and release gates. Keep the incremental cache opt-in
