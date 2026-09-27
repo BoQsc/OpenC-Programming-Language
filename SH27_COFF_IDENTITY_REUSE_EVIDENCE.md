@@ -1,7 +1,8 @@
 # SH-27 retained-syntax COFF identity cut
 
 Status: **local fixed point, exact-output paired gain, cache and strict-memory
-proof PASS; final-source hosted proof and normal-default policy pending**
+proof PASS; same-source clean hosted module/COFF and paired-identity proofs
+PASS; normal-default policy pending**
 (2026-09-27). This is an opt-in source-partition cache improvement, not SH-27
 completion.
 
@@ -55,6 +56,16 @@ The same candidate passed:
 - strict 20/20 chained self-build, peaking at **227,033,088 private bytes**
   and **54,116,352 working-set bytes** (under 256/64 MiB caps);
 - 22 SH-27 benchmark-harness unit tests.
+
+The exact source commit `0477c397094a82e08ca1b3c06f8de0f79815fa9e`
+also passed the [clean hosted module/COFF proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36312654764),
+including representative CLI/file-app/edited self-build and strict 20/20,
+and the independent [11-pair COFF identity proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36312654746).
+The push-triggered [normal-default branch batch](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36312654758)
+failed its enforced speed step; this opt-in cut does not establish a normal-
+default gain or pinned C/D parity. The hosted run status is public, but its
+raw artifact ZIP requires authenticated access and was not used for local
+numeric claims above.
 
 Ignored raw reports are under
 `OpenC-1.0/build-output/sp27-coff-profile/` and

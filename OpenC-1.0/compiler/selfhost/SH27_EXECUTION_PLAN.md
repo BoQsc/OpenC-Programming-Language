@@ -23,6 +23,8 @@ matrix won 7/11 with byte-exact output and a -0.432 s median paired delta;
 local strict 20/20, cache/edit, COFF, and 278 conformance gates passed. Cold
 cache still trails direct PE by about 0.97 s on the same host. See
 [`SH27_COFF_IDENTITY_REUSE_EVIDENCE.md`](../../../SH27_COFF_IDENTITY_REUSE_EVIDENCE.md).
+Its exact-source clean hosted module/COFF and independent identity-pair
+workflows passed. They do not certify normal-default C/D parity.
 
 ## Definition of done
 
