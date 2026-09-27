@@ -671,8 +671,10 @@ IR reach closure. Exact evidence and reproduction commands are in
       20/20 self-build, 278 conformance fixtures, 2/8/32 COFF, exact worker
       diagnostics, and three representative workloads passed locally. See
       [`SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md`](../SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md).
-      Cold/default economics, hosted proof, final-source pinned C/D parity,
-      editor and release-integrity gates remain open.
+      Clean hosted module/COFF and identity proofs, a fresh clean-profile
+      editor/44-check audit, and public 15-asset integrity subsequently
+      passed. Cold/default economics, retained-project breadth, and two
+      final-source pinned C/D parity runs remain open.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

@@ -1,7 +1,7 @@
 # SH-27 selective source-partition semantic validation
 
-Status: **local fixed-point, correctness, strict RAM, and paired edited-build
-speed PASS; hosted and normal-default certification pending** (2026-09-27).
+Status: **hosted fixed-point/correctness/RAM PASS; local paired edited-build
+speed PASS; normal-default certification pending** (2026-09-27).
 This is an opt-in 32-object compiler-project cache improvement, not SH-27
 completion or a new C/D parity claim.
 
@@ -70,12 +70,35 @@ in ignored `OpenC-1.0/build-output/ss-final/`: `strict20.json`,
 `default-pairs11.json`; the representative report is ignored
 `OpenC-1.0/build-output/r4.json`.
 
+The [clean hosted module/COFF proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36303136157)
+passed on the same compiler source after its module-cache assertion was
+updated for the two additive timing fields. The earlier failed
+[run 36302721124](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36302721124)
+passed bootstrap, large COFF, partition reuse, and selected-module checks,
+then rejected only the old four-field timing-object shape; the exact failed
+test passed locally after that assertion changed. The independent
+[source-COFF identity pairs](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36302721125)
+and [branch batch](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36302721144)
+also passed. The branch batch is a branch-vs-frozen-baseline speed screen,
+not a pinned C/D final-source parity run.
+
+The current compiler produced two byte-identical 9-entry VSIX packages,
+SHA-256 `5afd63381ac78e18469e305ecfa94b9ce877a189ecf306131ab022a2d0305579`,
+with the exact compiler embedded. With owner approval, a separate empty
+VS Code 1.137.0 profile passed activation, packaged-compiler selection,
+LSP readiness, diagnostics, and process-tree termination under the 2 GiB
+editor/64 MiB OpenC working-set guards. Its matching native finalization
+audit passed 44/44, and the immutable public release passed 15/15 streamed
+asset-integrity checks. Ignored local reports are
+`OpenC-1.0/build-output/ss-verified/clean-profile-report.json`,
+`finalization-audit.json`, and `public-integrity.json`.
+
 ## Remaining boundary
 
 The cold 32-object cache build is still much more expensive than ordinary
 direct-PE compilation, and the source-partition cache remains restricted to
 the opt-in module-COFF-set mode. The current one-source edit proof does not
 establish a robust default cold/warm/edit policy on representative real user
-projects. Complete hosted module/COFF, representative-project, two independent
-final-source 20/20 pinned C/D runs, clean editor, and release-integrity gates
-remain required. No source-partition result substitutes for them.
+projects. A default incremental policy, broader retained-project evidence,
+and two independent final-source 20/20 pinned C/D runs remain required. No
+source-partition result substitutes for them.

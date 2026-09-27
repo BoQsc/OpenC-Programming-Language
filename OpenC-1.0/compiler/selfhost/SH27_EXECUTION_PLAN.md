@@ -11,6 +11,9 @@ authenticated unchanged-source flow and acceptance work. Its guarded
 11-pair compiler body-edit proof won 11/11 at 4.952/2.872 s medians, with
 exact objects/PE and local strict RAM, 20/20 self-build, and 278 conformance
 passes. See [`SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md`](../../../SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md).
+The clean hosted module/COFF proof, fresh clean-profile VS Code check,
+matching native finalization 44/44, and immutable public 15/15 asset check
+also passed on this compiler binary.
 Step 6 is still open: this does not yet solve cold-build economics or promote
 the cache to the normal compiler path, and later steps require final-source
 hosted parity and release certification.

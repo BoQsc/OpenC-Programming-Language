@@ -35,8 +35,11 @@ conformance, exact COFF/chunk, and default self-build non-regression checks
 passed locally. A pointer-symbol negative test forces all partitions to
 revalidate when a body-local change alters the global flow gate. This is
 substantive edited-build progress, but normal-default cold-build economics,
-hosted certification, final-source C/D parity, representative breadth, and
-release gates remain open.
+final-source C/D parity, and retained-project breadth remain open. Its
+[clean hosted module/COFF proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36303136157),
+[source-identity pairs](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36302721125),
+fresh clean-profile VS Code test, 44/44 native finalization audit, and 15/15
+public-asset integrity check passed on the same compiler binary.
 
 The [frozen native type ownership evidence](../../../SH27_FROZEN_NATIVE_TYPES_EVIDENCE.md)
 records the local fixed point, strict 20/20, exact 2/4-chunk and 2/8/32-COFF
