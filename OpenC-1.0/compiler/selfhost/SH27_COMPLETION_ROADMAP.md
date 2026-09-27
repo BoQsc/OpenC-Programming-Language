@@ -20,7 +20,8 @@ it is not a substitute for the semantic cutover.
 Current next decision (2026-09-27): the frozen native type-table cut has
 locally widened the strict self-build working-set margin from the prior
 hosted near-miss to more than 13 MiB on this host, without a paired speed
-regression; clean hosted confirmation is still required. Measure
+regression; the clean hosted module/COFF proof passed but its detailed RAM
+measurements are retained in the workflow artifact. Measure
 changed-source acceptance, COFF construction, and link separately
 on the same retained compiler project; design one dependency-safe selective
 semantic cut rather than another partition-count tweak. Keep the source-

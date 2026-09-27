@@ -1,7 +1,8 @@
 # SH-27 frozen native type ownership and RAM headroom
 
 Status: **local fixed-point, exact-output, correctness, strict RAM and paired
-nonregression PASS; clean hosted confirmation and final-source parity open**.
+nonregression PASS; clean hosted module/COFF proof PASS; final-source parity
+open**.
 
 The normal parallel native build closed all derived types before launching
 workers but still allocated and copied the entire project-sized type arena
@@ -48,7 +49,13 @@ The candidate also passed:
   loading any source; the identical suite passed from a shorter output path.
 
 The strict, chunk, conformance, COFF and representative reports remain in
-ignored local `build-output` paths. The branch's hosted module/partition
-proof must repeat the result on a clean runner. This is a RAM ownership cut;
-SH-27 still requires final-source normal-default C/D parity, selective
-edited-source semantic work, representative breadth and release gates.
+ignored local `build-output` paths. Commit `bb05071` passed the clean hosted
+[module/partition proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36297408700);
+artifact `OpenC-SH27-module-COFF-36297408700` (ID `10924811381`) retains its
+raw results. The separate
+[branch speed batch](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36297408871)
+failed its bootstrap/matrix step; its restricted job log was not available
+through the unauthenticated API, so no hosted speed claim is made from it.
+This is a RAM ownership cut; SH-27 still requires final-source
+normal-default C/D parity, selective edited-source semantic work,
+representative breadth and release gates.
