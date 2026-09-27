@@ -521,14 +521,14 @@ unsafe status native_write_source_partition_coff_set(
                     d_put_usize(object_path, partition); d_put(object_path, ".obj");
                     DBuffer digest = d_buffer_create(65);
                     if object_path.ok && d_buffer_text(object_path) != linked_output_path {
-                        winmd_sha256_hex(object.data, object.length, digest);
+                        module_cache_digest(object.data, object.length, digest);
                         status written = file.write_bytes(
                             d_buffer_text(object_path), object.data, object.length
                         );
                         ok = written.ok && digest.ok &&
-                            coff_link_append_published_object(
+                            coff_link_append_published_object_mode(
                                 bundle, d_buffer_text(object_path),
-                                d_buffer_text(digest), object.length
+                                d_buffer_text(digest), object.length, true
                             );
                     } else { ok = false; }
                     if ok {

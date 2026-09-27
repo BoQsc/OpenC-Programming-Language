@@ -41,6 +41,16 @@ final-source C/D parity, and retained-project breadth remain open. Its
 fresh clean-profile VS Code test, 44/44 native finalization audit, and 15/15
 public-asset integrity check passed on the same compiler binary.
 
+The follow-on [cold object policy batch](../../../SH27_COLD_OBJECT_POLICY_EVIDENCE.md)
+retains four source workers for cold cached partitions, producing 10/11
+guarded paired wins and a -1.502 s median paired delta. It also enables
+uncached four-worker COFF for direct comparison and reuses the verified
+accelerated SHA path, removing a large slow-hash cost from uncached output.
+The combined source has a local fixed point and focused 2/8/32 COFF proof;
+its final-source hosted RAM/representative proof is pending. Direct PE still
+has about a one-second post-worker cold advantage, so Step 6 default promotion
+remains open.
+
 The [frozen native type ownership evidence](../../../SH27_FROZEN_NATIVE_TYPES_EVIDENCE.md)
 records the local fixed point, strict 20/20, exact 2/4-chunk and 2/8/32-COFF
 proofs, 278 conformance fixtures, 11 paired self-builds and 19.5/10.8 MiB

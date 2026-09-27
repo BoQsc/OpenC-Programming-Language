@@ -286,12 +286,9 @@ unsafe i32 c_emit_project(
             if !source_partition_cache_evict_saved(
                 module_cache, source_partitions
             ) { native_worker_count = 2; }
-            if timings.object_cache_misses * 4 > source_partitions {
-                // Full rebuilds have the old whole-project native payload;
-                // two worker arenas leave RAM margin. Sparse edits retain
-                // four-way acceptance with missed-source output budgets.
-                native_worker_count = 2;
-            }
+            // Shared frozen types and per-range output budgets let a cold
+            // partition rebuild retain the requested four workers. A failed
+            // saved-object eviction still falls back to two above.
         }
         timings.parallel_source_chunks = native_worker_count;
         emitted_parallel = c_emit_native_sources_chunked(

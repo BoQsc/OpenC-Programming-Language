@@ -676,6 +676,14 @@ IR reach closure. Exact evidence and reproduction commands are in
       passed. Cold/default economics, retained-project breadth, and two
       final-source pinned C/D parity runs remain open.
 
+      The next [cold object policy batch](../SH27_COLD_OBJECT_POLICY_EVIDENCE.md)
+      locally replaces the stale two-worker full-miss fallback with four
+      bounded native workers (10/11 guarded paired cold wins; -1.502 s
+      paired median), and routes uncached COFF through the existing verified
+      accelerated digest path. The combined source has a local fixed point
+      and focused COFF proof; hosted RAM/representative certification and
+      the remaining post-worker cold gap still block default promotion.
+
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records
 remain optional future work and begin only when those targets become active

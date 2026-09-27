@@ -164,7 +164,6 @@ unsafe i32 cli_artifact_command() {
         options.kind != native_artifact_executable() &&
         !(options.kind == native_artifact_module_coff_set() &&
             options.source_partitions != 0 &&
-            text.byte_length(options.cache_prefix) != 0 &&
             options.source_chunks == 4) { valid = false; }
     if profile_type_queries && text.byte_length(timing_path) == 0 {
         valid = false;
