@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - codex/sh27-incremental-object-slice
     paths:
       - OpenC-1.0/benchmarks/sh27/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
@@ -36,7 +37,7 @@ jobs:
   compare:
     name: OpenC vs MSVC, Clang, DMD, and LDC
     runs-on: windows-2025
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Check out exact benchmark revision
@@ -68,7 +69,7 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_production.py
           --openc .github\bootstrap\openc-stage0.exe
           --bootstrap-current
-          --runs ${{ inputs.runs || '3' }}
+          --runs ${{ (github.event_name == 'push' && github.ref == 'refs/heads/codex/sh27-incremental-object-slice') && '20' || inputs.runs || '3' }}
           --self-build-runs 3
           --parallel-projects 4
           --require-all
@@ -77,7 +78,7 @@ jobs:
           --expected-dmd-version DMD64
           --expected-ldc-version 1.43.0
           --antivirus-state github-hosted-windows-2025-default-not-modified
-          ${{ inputs.enforce_parity && '--enforce-parity' || '' }}
+          ${{ ((github.event_name == 'push' && github.ref == 'refs/heads/codex/sh27-incremental-object-slice') || inputs.enforce_parity) && '--enforce-parity' || '' }}
           --output artifacts\sh27-production-comparators.json
 
       - name: Retain raw performance evidence
