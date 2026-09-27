@@ -1,8 +1,8 @@
 # SH-27 shared COFF identity preparation
 
-Status: **local fixed-point, exact-output, 11-pair speed, conformance and
-strict RAM PASS; clean hosted correctness/RAM PASS; hosted paired-speed
-repeat pending; SH-27 active**.
+Status: **local and clean hosted fixed-point, exact-output, 11-pair COFF
+speed, correctness and strict RAM PASS; normal-default C/D parity and
+RAM headroom remain open; SH-27 active**.
 
 The opt-in source-partition writers previously called
 `coff_stable_prepare` for every native object. That re-read and parsed the
@@ -64,8 +64,17 @@ bootstraps the pinned `40ac1af` prior compiler and the candidate, then
 repeats the exact-output 11-pair COFF benchmark under the same 256/64 MiB
 child caps. Its wrapper passed a local 3-pair smoke test with 3/3 wins,
 byte-identical output, and 30.951/16.758 s median baseline/candidate.
-Until the workflow runs, the 1.869x full paired result is local evidence,
-not a clean hosted speed claim.
+The clean hosted
+[11-pair run](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36280949909)
+also passed; artifact `OpenC-SH27-COFF-identity-36280949909` (ID
+`10918594958`) retains both bootstraps and raw pairs. It used the exact
+compiler SHA pair and 228-source input SHA above. All 11 pairs were wins,
+with byte-identical COFF objects and PE in every pair. Baseline/candidate
+median wall times were **23.731/12.245 s (1.938x)**; paired median saving
+was 11.501 s. Median lowering/emission fell from 19,181 to 7,557 ms.
+Maximum sampled baseline private/working-set was
+178,855,936/58,028,032 bytes; candidate was
+174,923,776/56,455,168 bytes, inside the enforced 256/64 MiB limits.
 
 This removes a repeated full-project parse from the **opt-in COFF path**.
 It does not speed the ordinary direct PE default, make an edited build

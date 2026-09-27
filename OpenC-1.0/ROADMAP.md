@@ -658,8 +658,10 @@ IR reach closure. Exact evidence and reproduction commands are in
       Clean hosted fixed-point/cache/representative/strict proof of that
       source passed, but its strict working-set margin was only 425,984
       bytes and the separate default-path speed batch found no gain above
-      noise. A clean hosted paired COFF-speed repeat and final normal-
-      default C/D parity are still open; no opt-in result closes SH-27.
+      noise. The clean hosted 11-pair COFF-speed repeat passed with exact
+      objects/PE, 11 wins, and 23.731/12.245 s median baseline/candidate
+      cold builds. Final normal-default C/D parity and stronger RAM headroom
+      are still open; no opt-in result closes SH-27.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records
