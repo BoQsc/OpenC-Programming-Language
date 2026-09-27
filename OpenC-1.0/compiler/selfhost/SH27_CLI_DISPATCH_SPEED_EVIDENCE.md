@@ -93,3 +93,21 @@ digest `sha256:030670788e88f36e1477b15a848643002509635bb5ae4a91b945ae1571537850`
 The artifact's internal timing JSON is not anonymously downloadable, so no
 hosted millisecond deltas are asserted here. This batch is not the separate
 five-compiler production parity workflow.
+
+## First strict five-compiler production run
+
+The branch production workflow was configured to run automatically on this
+development branch with 20 samples per lane, `--require-all`, and
+`--enforce-parity`; manual-dispatch options and the existing master push
+policy were preserved. Its
+[run 36320323403](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36320323403)
+at commit `3ff79fcaa0573d63d412847254f58c59e08e7465` completed **success**.
+The pinned MSVC, Clang, LDC, and DMD setup steps, harness unit tests, strict
+corpus step, and artifact upload all completed successfully. The uploaded
+artifact is `OpenC-SH27-production-performance-36320323403`, ID
+`10932247936`, 93,851,415 bytes, digest
+`sha256:f623b148ff53e5b51d2d5e3d10fabe307b27b7a7cc565713373ae50a39faf5be`.
+This is one clean-host 20-sample parity pass of the compiler source; it is
+not a second independent run, nor a local four-logical-CPU pass. The run's
+raw timing JSON is retained in the artifact but is not anonymously
+downloadable, so this note does not invent exact hosted lane ratios.
