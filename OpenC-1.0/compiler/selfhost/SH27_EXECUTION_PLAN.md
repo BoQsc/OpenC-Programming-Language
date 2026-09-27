@@ -17,6 +17,12 @@ also passed on this compiler binary.
 Step 6 is still open: this does not yet solve cold-build economics or promote
 the cache to the normal compiler path, and later steps require final-source
 hosted parity and release certification.
+The next cold-COFF cut now reuses retained resolution syntax for stable symbol
+identity, removing a redundant full-project reparse. Its 11-pair guarded
+matrix won 7/11 with byte-exact output and a -0.432 s median paired delta;
+local strict 20/20, cache/edit, COFF, and 278 conformance gates passed. Cold
+cache still trails direct PE by about 0.97 s on the same host. See
+[`SH27_COFF_IDENTITY_REUSE_EVIDENCE.md`](../../../SH27_COFF_IDENTITY_REUSE_EVIDENCE.md).
 
 ## Definition of done
 

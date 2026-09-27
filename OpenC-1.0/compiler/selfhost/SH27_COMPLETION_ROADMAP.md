@@ -47,9 +47,15 @@ guarded paired wins and a -1.502 s median paired delta. It also enables
 uncached four-worker COFF for direct comparison and reuses the verified
 accelerated SHA path, removing a large slow-hash cost from uncached output.
 The combined source has a local fixed point and focused 2/8/32 COFF proof;
-its final-source hosted RAM/representative proof is pending. Direct PE still
-has about a one-second post-worker cold advantage, so Step 6 default promotion
-remains open.
+its clean hosted module/COFF and identity proofs passed. The newer
+[retained-syntax COFF identity cut](../../../SH27_COFF_IDENTITY_REUSE_EVIDENCE.md)
+removed a redundant source reparse: 11 guarded pairs won 7/11 with a
+-0.432 s median paired delta and exact output, while stable-identity median
+fell from 782 to 203 ms. Local cache, 2/8/32 COFF, 278 conformance, and
+strict 20/20 self-build passed. Direct PE still leads cold 32-object output
+by about 0.97 s on the same candidate host; hosted final-source proof,
+normal-default policy, retained real-project breadth, and final C/D parity
+remain open.
 
 The [frozen native type ownership evidence](../../../SH27_FROZEN_NATIVE_TYPES_EVIDENCE.md)
 records the local fixed point, strict 20/20, exact 2/4-chunk and 2/8/32-COFF

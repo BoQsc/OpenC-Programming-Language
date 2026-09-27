@@ -92,13 +92,34 @@ unsafe bool coff_stable_add_symbol(
     return ok;
 }
 
+unsafe bool coff_stable_source_parsed(
+    ref IrContext context, text source, ptr byte syntax_data,
+    ref PackedBuffer syntax, usize first_symbol_plus_one,
+    ptr byte next_symbol, ref DBuffer hashes, ptr byte offsets
+) {
+    usize node = 0;
+    while node < syntax.length {
+        if read_record_field(syntax_data, node, 0) == 8 {
+            io.error("error[OPENC-COFF-STABLE-UNSUPPORTED]: when_decl\n");
+            return false;
+        }
+        node = node + 1;
+    }
+    usize linked = first_symbol_plus_one;
+    while linked != 0 {
+        usize symbol = linked - 1;
+        if !coff_stable_add_symbol(
+            context, source, syntax_data, syntax, symbol, hashes, offsets
+        ) { return false; }
+        linked = read_usize(next_symbol, symbol * size_of(usize));
+    }
+    return true;
+}
+
 unsafe bool coff_stable_source(
-    ref IrContext context,
-    usize source_record,
-    usize first_symbol_plus_one,
-    ptr byte next_symbol,
-    ref DBuffer hashes,
-    ptr byte offsets
+    ref IrContext context, ptr byte parsed_source_cache,
+    usize source_record, usize first_symbol_plus_one,
+    ptr byte next_symbol, ref DBuffer hashes, ptr byte offsets
 ) {
     text source;
     status loaded = project_read_source_record(
@@ -110,6 +131,15 @@ unsafe bool coff_stable_source(
     if source_length > 131072 {
         io.error("error[OPENC-COFF-STABLE-BUDGET]: source exceeds 128 KiB\n");
         return false;
+    }
+    ResolutionParsedSource parsed = resolution_cached_parsed_source(
+        parsed_source_cache, source_record
+    );
+    if parsed.reusable && parsed.syntax_data != null {
+        return coff_stable_source_parsed(
+            context, source, parsed.syntax_data, parsed.syntax,
+            first_symbol_plus_one, next_symbol, hashes, offsets
+        );
     }
     PackedBuffer tokens = PackedBuffer{
         length = 0, capacity = source_length + 2
@@ -134,27 +164,15 @@ unsafe bool coff_stable_source(
         diagnostic_data, diagnostics
     );
     if diagnostics.length != 0 { return false; }
-    usize node = 0;
-    while node < syntax.length {
-        if read_record_field(syntax_data, node, 0) == 8 {
-            io.error("error[OPENC-COFF-STABLE-UNSUPPORTED]: when_decl\n");
-            return false;
-        }
-        node = node + 1;
-    }
-    usize linked = first_symbol_plus_one;
-    while linked != 0 {
-        usize symbol = linked - 1;
-        if !coff_stable_add_symbol(
-            context, source, syntax_data, syntax, symbol, hashes, offsets
-        ) { return false; }
-        linked = read_usize(next_symbol, symbol * size_of(usize));
-    }
-    return true;
+    return coff_stable_source_parsed(
+        context, source, syntax_data, syntax, first_symbol_plus_one,
+        next_symbol, hashes, offsets
+    );
 }
 
-unsafe bool coff_stable_prepare(
+unsafe bool coff_stable_prepare_cached(
     ref IrContext context,
+    ptr byte parsed_source_cache,
     ref DBuffer hashes,
     ptr byte offsets
 ) {
@@ -213,9 +231,16 @@ unsafe bool coff_stable_prepare(
             heads, source_record * size_of(usize)
         );
         if first != 0 && !coff_stable_source(
-            context, source_record, first, next_symbol, hashes, offsets
+            context, parsed_source_cache, source_record, first,
+            next_symbol, hashes, offsets
         ) { return false; }
         source_record = source_record + 1;
     }
     return hashes.ok;
+}
+
+unsafe bool coff_stable_prepare(
+    ref IrContext context, ref DBuffer hashes, ptr byte offsets
+) {
+    return coff_stable_prepare_cached(context, null, hashes, offsets);
 }

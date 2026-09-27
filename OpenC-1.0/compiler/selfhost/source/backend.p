@@ -61,6 +61,15 @@ struct BuildTimings {
     bool object_cache_validation_skipped;
     usize object_cache_flow_sources_skipped;
     usize object_cache_acceptance_sources_skipped;
+    usize coff_partition_total_ms;
+    usize coff_partition_identity_ms;
+    usize coff_partition_selection_ms;
+    usize coff_partition_object_ms;
+    usize coff_partition_digest_ms;
+    usize coff_partition_file_ms;
+    usize coff_partition_bundle_ms;
+    usize coff_partition_cache_ms;
+    usize coff_partition_link_ms;
     usize source_bytes;
     usize lex_parse_ms;
     usize index_ms;
@@ -229,6 +238,15 @@ BuildTimings build_timings_empty() {
         object_cache_validation_skipped = false,
         object_cache_flow_sources_skipped = 0,
         object_cache_acceptance_sources_skipped = 0,
+        coff_partition_total_ms = 0,
+        coff_partition_identity_ms = 0,
+        coff_partition_selection_ms = 0,
+        coff_partition_object_ms = 0,
+        coff_partition_digest_ms = 0,
+        coff_partition_file_ms = 0,
+        coff_partition_bundle_ms = 0,
+        coff_partition_cache_ms = 0,
+        coff_partition_link_ms = 0,
         source_bytes = 0,
         lex_parse_ms = 0,
         index_ms = 0,

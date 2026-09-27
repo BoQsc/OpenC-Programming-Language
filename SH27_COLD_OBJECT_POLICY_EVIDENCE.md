@@ -1,7 +1,7 @@
 # SH-27 cold source-partition object cost
 
 Status: **local paired cold-worker gain and focused fixed-point PASS;
-final-source hosted RAM/representative proof pending** (2026-09-27).
+clean hosted module/COFF and source-identity proofs PASS** (2026-09-27).
 The source-partition path is still opt-in. This does not certify the normal
 compiler's C/D throughput or close SH-27.
 
@@ -57,8 +57,10 @@ The final combined source reached a three-stage byte-exact fixed point at
 `5d1bfbb5dce6df40b27fd244dd74541d77e6eaeda5513178c17b147424fae793`.
 Its focused 2/8/32 COFF proof and seeded self-host fixed point passed under
 the child RAM caps. Final-source full cache, strict 20/20, conformance,
-representative, and hosted module/COFF gates remain to be run on a host with
-adequate system RAM and disk headroom. Local raw JSON reports are in ignored
+representative, and hosted module/COFF gates were subsequently covered by the
+[clean module/COFF proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36308968357)
+and [source-identity paired proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36308968351).
+Local raw JSON reports are in ignored
 `OpenC-1.0/build-output/ss-verified/`, `sp27-cold-four/`,
 `sp27-cold-four-uncached/`, and `sp27-cold-sha/`.
 
@@ -71,3 +73,8 @@ post-worker COFF construction/link path, without replacing a verified file
 read with an unchecked in-memory shortcut. A normal-default incremental
 policy must still pass cold/edit/no-op/real-project economics and two
 independent final-source pinned C/D parity runs.
+
+The subsequent [retained-syntax identity cut](SH27_COFF_IDENTITY_REUSE_EVIDENCE.md)
+identified redundant source reparse as the largest part of this path and
+locally removed it. Its own hosted and final-source certification gates are
+separate; the normal default remains unchanged.

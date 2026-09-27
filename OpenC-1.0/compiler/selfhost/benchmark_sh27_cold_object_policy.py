@@ -72,6 +72,7 @@ def build(
         "phases_ms": data["phases_ms"],
         "native_parallel_profile": data["native_parallel_profile"],
         "object_cache": data.get("object_cache", {}),
+        "coff_partition_profile_ms": data.get("coff_partition_profile_ms", {}),
         "exe_sha256": sha256(executable),
         "peak_private_bytes": result["peak_private_bytes"],
         "peak_working_set_bytes": result["peak_working_set_bytes"],
@@ -145,6 +146,11 @@ def main() -> int:
             "median_worker_wall_ms": statistics.median(
                 s["native_parallel_profile"]["workers_wall_ms"]
                 for s in group),
+            "median_coff_partition_profile_ms": {
+                phase: statistics.median(
+                    s["coff_partition_profile_ms"][phase] for s in group)
+                for phase in group[0]["coff_partition_profile_ms"]
+            },
             "peak_private_bytes": max(s["peak_private_bytes"] for s in group),
             "peak_working_set_bytes": max(
                 s["peak_working_set_bytes"] for s in group),

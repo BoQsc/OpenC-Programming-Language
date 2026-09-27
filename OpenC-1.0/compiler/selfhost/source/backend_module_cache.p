@@ -17,6 +17,9 @@ struct ModuleCacheState {
     DBuffer saved;
     DBuffer entry;
     ptr byte offsets;
+    DBuffer stable_hashes;
+    ptr byte stable_offsets;
+    bool stable_ready;
 }
 
 unsafe status cli_cache_write_exclusive(text path, ptr byte data, usize length) {
@@ -54,7 +57,8 @@ ModuleCacheState module_cache_empty() {
     DBuffer empty = DBuffer{ data = null, length = 0, capacity = 0, ok = true };
     return ModuleCacheState{
         enabled = false, keys = empty, hashes = empty, saved = empty, entry = empty,
-        offsets = null
+        offsets = null, stable_hashes = empty, stable_offsets = null,
+        stable_ready = false
     };
 }
 unsafe void module_cache_destroy(ref ModuleCacheState cache) {
@@ -62,7 +66,9 @@ unsafe void module_cache_destroy(ref ModuleCacheState cache) {
     if cache.hashes.data != null { d_buffer_destroy(cache.hashes); }
     if cache.saved.data != null { d_buffer_destroy(cache.saved); }
     if cache.entry.data != null { d_buffer_destroy(cache.entry); }
+    if cache.stable_hashes.data != null { d_buffer_destroy(cache.stable_hashes); }
     memory.free(cache.offsets);
+    memory.free(cache.stable_offsets);
 }
 
 unsafe void module_cache_path(
@@ -1173,6 +1179,7 @@ unsafe status source_partition_cache_write_set(
         cache.hashes.length != partitions * 64 {
         return failed;
     }
+    usize profile_started = process.monotonic_milliseconds();
     DBuffer manifest_path = d_buffer_create(text.byte_length(prefix) + 20);
     d_put(manifest_path, prefix); d_put(manifest_path, ".modules.json");
     if !manifest_path.ok || d_buffer_text(manifest_path) == linked_output {
@@ -1191,15 +1198,24 @@ unsafe status source_partition_cache_write_set(
         data = null, length = 0, capacity = 0, ok = true
     };
     ptr byte stable_offsets = null;
+    bool borrowed_identity = cache.stable_ready;
     bool ok = bundle.ok && manifest.ok &&
         context.symbols.length <= 262144;
-    if ok {
+    if ok && borrowed_identity {
+        stable_hashes = cache.stable_hashes;
+        stable_offsets = cache.stable_offsets;
+        ok = stable_hashes.ok && stable_hashes.data != null &&
+            stable_offsets != null && stable_hashes.length != 0;
+    } else if ok {
+        usize identity_started = process.monotonic_milliseconds();
         stable_hashes = d_buffer_create(context.symbols.length * 64 + 64);
         stable_offsets = memory.alloc(
             (context.symbols.length + 1) * size_of(usize)
         );
         ok = stable_hashes.ok && stable_offsets != null &&
             coff_stable_prepare(context, stable_hashes, stable_offsets);
+        timings.coff_partition_identity_ms =
+            process.monotonic_milliseconds() - identity_started;
     }
     usize partition = 0;
     usize emitted = 0;
@@ -1226,6 +1242,7 @@ unsafe status source_partition_cache_write_set(
                 length = bytes, capacity = bytes, ok = true
             };
         } else {
+            usize selection_started = process.monotonic_milliseconds();
             DBuffer preview = DBuffer{ data = null, length = 0, capacity = 0, ok = true };
             usize selected_bytes = 0;
             ok = coff_source_partition_subset(context, objects, first, end,
@@ -1241,40 +1258,78 @@ unsafe status source_partition_cache_write_set(
                 if ok {
                     usize exports = 0;
                     usize relocations = 0;
+                    timings.coff_partition_selection_ms =
+                        timings.coff_partition_selection_ms +
+                        process.monotonic_milliseconds() - selection_started;
+                    usize object_started = process.monotonic_milliseconds();
                     object = native_build_coff_object_prepared(
                         context, subset, exports, relocations, true, true,
                         stable_hashes, stable_offsets
                     );
                     owned = true;
                     ok = object.ok;
+                    timings.coff_partition_object_ms =
+                        timings.coff_partition_object_ms +
+                        process.monotonic_milliseconds() - object_started;
+                } else {
+                    timings.coff_partition_selection_ms =
+                        timings.coff_partition_selection_ms +
+                        process.monotonic_milliseconds() - selection_started;
                 }
                 d_buffer_destroy(subset);
+            } else {
+                timings.coff_partition_selection_ms =
+                    timings.coff_partition_selection_ms +
+                    process.monotonic_milliseconds() - selection_started;
             }
         }
         if ok && object.length != 0 {
             DBuffer digest = d_buffer_create(65);
+            usize digest_started = process.monotonic_milliseconds();
             module_cache_digest(object.data, object.length, digest);
+            timings.coff_partition_digest_ms =
+                timings.coff_partition_digest_ms +
+                process.monotonic_milliseconds() - digest_started;
             DBuffer object_path = d_buffer_create(text.byte_length(prefix) + 40);
             d_put(object_path, prefix); d_put(object_path, ".part.");
             d_put_usize(object_path, partition); d_put(object_path, ".obj");
             ok = object_path.ok && digest.ok &&
                 d_buffer_text(object_path) != linked_output;
             if ok {
+                usize file_started = process.monotonic_milliseconds();
                 status written = file.write_bytes(
                     d_buffer_text(object_path), object.data, object.length
                 );
-                ok = written.ok && coff_link_bundle_reserve(bundle,
-                    object.length + 4);
+                timings.coff_partition_file_ms =
+                    timings.coff_partition_file_ms +
+                    process.monotonic_milliseconds() - file_started;
+                ok = written.ok;
+                if ok {
+                    usize bundle_started = process.monotonic_milliseconds();
+                    ok = coff_link_bundle_reserve(bundle, object.length + 4);
+                    if ok {
+                        pe32_put_u32(bundle, object.length);
+                        d_put_raw(bundle, object.data, object.length);
+                        ok = bundle.ok;
+                    }
+                    timings.coff_partition_bundle_ms =
+                        timings.coff_partition_bundle_ms +
+                        process.monotonic_milliseconds() - bundle_started;
+                }
             }
             if ok {
-                pe32_put_u32(bundle, object.length);
-                d_put_raw(bundle, object.data, object.length);
-                ok = bundle.ok;
-                if !hit && !module_cache_store(
-                    cache_prefix, partition, cache, object, digest
-                ) {
-                    timings.object_cache_publish_failures =
-                        timings.object_cache_publish_failures + 1;
+                if !hit {
+                    usize cache_started = process.monotonic_milliseconds();
+                    bool stored = module_cache_store(
+                        cache_prefix, partition, cache, object, digest
+                    );
+                    timings.coff_partition_cache_ms =
+                        timings.coff_partition_cache_ms +
+                        process.monotonic_milliseconds() - cache_started;
+                    if !stored {
+                        timings.object_cache_publish_failures =
+                            timings.object_cache_publish_failures + 1;
+                    }
                 }
             }
             if ok {
@@ -1299,7 +1354,10 @@ unsafe status source_partition_cache_write_set(
     }
     d_put(manifest, "\n]}\n");
     if ok && emitted != 0 && manifest.ok {
+        usize link_started = process.monotonic_milliseconds();
         failed = coff_link_bundle_with_entry(bundle, cache.entry, linked_output);
+        timings.coff_partition_link_ms =
+            process.monotonic_milliseconds() - link_started;
         if failed.ok {
             failed = file.write_text(d_buffer_text(manifest_path),
                 d_buffer_text(manifest));
@@ -1313,9 +1371,13 @@ unsafe status source_partition_cache_write_set(
                 timings.object_cache_publish_failures + 1;
         }
     } else { io.error("error[OPENC-SOURCE-PARTITION-CACHE]: emission failed\n"); }
-    if stable_offsets != null { memory.free(stable_offsets); }
-    if stable_hashes.data != null { d_buffer_destroy(stable_hashes); }
+    if !borrowed_identity {
+        if stable_offsets != null { memory.free(stable_offsets); }
+        if stable_hashes.data != null { d_buffer_destroy(stable_hashes); }
+    }
     d_buffer_destroy(manifest); d_buffer_destroy(bundle);
     d_buffer_destroy(manifest_path);
+    timings.coff_partition_total_ms =
+        process.monotonic_milliseconds() - profile_started;
     return failed;
 }

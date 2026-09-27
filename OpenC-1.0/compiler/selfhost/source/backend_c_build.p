@@ -51,6 +51,27 @@ unsafe bool write_build_timings(
         d_put_usize(output, timings.object_cache_acceptance_sources_skipped);
         d_put(output, "}");
     }
+    if timings.coff_partition_total_ms != 0 {
+        d_put(output, ",\n  \"coff_partition_profile_ms\": {\"total\": ");
+        d_put_usize(output, timings.coff_partition_total_ms);
+        d_put(output, ", \"identity\": ");
+        d_put_usize(output, timings.coff_partition_identity_ms);
+        d_put(output, ", \"selection\": ");
+        d_put_usize(output, timings.coff_partition_selection_ms);
+        d_put(output, ", \"object\": ");
+        d_put_usize(output, timings.coff_partition_object_ms);
+        d_put(output, ", \"digest\": ");
+        d_put_usize(output, timings.coff_partition_digest_ms);
+        d_put(output, ", \"file\": ");
+        d_put_usize(output, timings.coff_partition_file_ms);
+        d_put(output, ", \"bundle\": ");
+        d_put_usize(output, timings.coff_partition_bundle_ms);
+        d_put(output, ", \"cache\": ");
+        d_put_usize(output, timings.coff_partition_cache_ms);
+        d_put(output, ", \"link\": ");
+        d_put_usize(output, timings.coff_partition_link_ms);
+        d_put(output, "}");
+    }
     d_put(output, ",\n  \"parallel_source_chunks\": ");
     d_put_usize(output, timings.parallel_source_chunks);
     d_put(output, ",\n  \"parallel_flow_workers\": ");

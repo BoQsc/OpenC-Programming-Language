@@ -281,6 +281,32 @@ unsafe i32 c_emit_project(
         usize source_partitions = 0;
         usize native_worker_count = artifact_options.source_chunks;
         if module_cache.enabled && artifact_options.source_partitions != 0 {
+            usize identity_started = process.monotonic_milliseconds();
+            module_cache.stable_hashes = d_buffer_create(
+                base.symbols.length * 64 + 64
+            );
+            module_cache.stable_offsets = memory.alloc(
+                (base.symbols.length + 1) * size_of(usize)
+            );
+            if module_cache.stable_hashes.data != null &&
+                module_cache.stable_offsets != null {
+                module_cache.stable_ready = coff_stable_prepare_cached(
+                    base, parsed_source_cache, module_cache.stable_hashes,
+                    module_cache.stable_offsets
+                );
+            }
+            timings.coff_partition_identity_ms =
+                process.monotonic_milliseconds() - identity_started;
+            if !module_cache.stable_ready {
+                if module_cache.stable_hashes.data != null {
+                    d_buffer_destroy(module_cache.stable_hashes);
+                }
+                memory.free(module_cache.stable_offsets);
+                module_cache.stable_hashes = DBuffer{
+                    data = null, length = 0, capacity = 0, ok = true
+                };
+                module_cache.stable_offsets = null;
+            }
             cache_offsets = module_cache.offsets;
             source_partitions = artifact_options.source_partitions;
             if !source_partition_cache_evict_saved(
