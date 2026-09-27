@@ -17,8 +17,10 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-09-27): widen the strict self-build working-
-set margin, which was only 425,984 bytes in the first hosted pass. Measure
+Current next decision (2026-09-27): the frozen native type-table cut has
+locally widened the strict self-build working-set margin from the prior
+hosted near-miss to more than 13 MiB on this host, without a paired speed
+regression; clean hosted confirmation is still required. Measure
 changed-source acceptance, COFF construction, and link separately
 on the same retained compiler project; design one dependency-safe selective
 semantic cut rather than another partition-count tweak. Keep the source-
@@ -26,6 +28,13 @@ partition cache opt-in until paired normal-default cold/edit/project trials
 beat the direct PE path. After the architectural cuts stabilize, require
 two independent final-source pinned 20/20 C/D parity runs plus editor,
 release-integrity, and RAM gates before closing SH-27.
+
+The [frozen native type ownership evidence](../../../SH27_FROZEN_NATIVE_TYPES_EVIDENCE.md)
+records the local fixed point, strict 20/20, exact 2/4-chunk and 2/8/32-COFF
+proofs, 278 conformance fixtures, 11 paired self-builds and 19.5/10.8 MiB
+sampled private/working-set peak reductions. Two earlier RAM hypotheses
+were measured and rejected before this ownership cut. It does not make the
+opt-in cache the normal default or certify final-source parity.
 
 Current checkpoint (2026-09-24): the unchanged production compiler source
 `1b58d5e` passed two independent clean `--runs 20 --enforce-parity` normal-

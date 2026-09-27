@@ -27,6 +27,13 @@ unsafe usize semantic_add_type(
     usize field_three,
     usize flags
 ) {
+    if types.length >= types.capacity {
+        // A frozen parallel lowering view has no writable type slots. Mark
+        // any attempted append so the worker fails instead of mutating the
+        // shared project table; also fail closed on ordinary arena overflow.
+        types.capacity = 0;
+        return semantic_type_error();
+    }
     usize record = types.length;
     write_record_field(type_data, record, 0, kind);
     write_record_field(type_data, record, 1, field_one);

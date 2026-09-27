@@ -236,17 +236,10 @@ unsafe CParallelChunk c_native_source_chunk(
     chunk.base.suppress_acceptance_diagnostics = true;
     chunk.timings.emission_mode = 2;
     chunk.result = -1;
-    usize type_bytes = base.types.capacity * record_stride();
-    chunk.owned_type_data = memory.alloc(type_bytes);
-    usize type_word = 0;
-    while type_word < base.types.length * 5 {
-        write_usize(
-            chunk.owned_type_data, type_word * size_of(usize),
-            read_usize(base.type_data, type_word * size_of(usize))
-        );
-        type_word = type_word + 1;
-    }
-    chunk.base.type_data = ir_pointer_alias(chunk.owned_type_data);
+    // Type closure runs before parallel lowering. Workers may read the
+    // canonical table but cannot append to it; semantic_add_type marks an
+    // attempted append for the result check below before any shared write.
+    chunk.base.types.capacity = base.types.length;
 
     usize export_bytes = (base.symbols.length + 1) * size_of(usize);
     chunk.owned_export_cache = memory.alloc(export_bytes);
@@ -261,12 +254,12 @@ unsafe CParallelChunk c_native_source_chunk(
         chunk.owned_export_cache
     );
 
-    usize layout_bytes = (base.types.capacity + 1) * size_of(usize);
+    usize layout_bytes = (base.types.length + 1) * size_of(usize);
     chunk.owned_layout_sizes = memory.alloc(layout_bytes);
     chunk.owned_layout_alignments = memory.alloc(layout_bytes);
     chunk.owned_layout_states = memory.alloc(layout_bytes);
     usize type_id = 0;
-    while type_id <= base.types.capacity {
+    while type_id <= base.types.length {
         write_usize(
             chunk.owned_layout_states, type_id * size_of(usize), 0
         );
@@ -416,7 +409,8 @@ unsafe i32 c_native_chunk_run(
         state.validation_source_ms, state.parsed_source_cache,
         state.cache_offsets, state.source_partitions, state.source_count
     );
-    if chunk.base.types.length != state.frozen_type_count { result = 2; }
+    if chunk.base.types.length != state.frozen_type_count ||
+        chunk.base.types.capacity != state.frozen_type_count { result = 2; }
     if !chunk.output.ok { result = 3; }
     chunk.elapsed_ms = process.monotonic_milliseconds() - started;
     chunk.result = result;
