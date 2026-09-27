@@ -79,3 +79,17 @@ strict gates on the final source. SH-27 also still requires sound normal
 incremental policy, retained real-project breadth, two independent final
 clean-host certifications, editor/release audits, and normal release
 integrity. This local speedup alone is not SH-27 completion.
+
+## Clean-host branch comparison
+
+After commit `c6d36aa01e4ddc2931efbc2827f4d03376e3ee11` was pushed,
+[Windows branch-batch run 36319504305](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36319504305)
+completed successfully. That workflow runs request-validation unit tests,
+bootstraps the frozen baseline and candidate, then requires the guarded,
+11-pair matrix and above-null majority gains on push. The public Actions
+record reports the sole job successful and retains artifact
+`OpenC-SH27-branch-batch-36319504305`, ID `10932161683`, 22,364,707 bytes,
+digest `sha256:030670788e88f36e1477b15a848643002509635bb5ae4a91b945ae1571537850`.
+The artifact's internal timing JSON is not anonymously downloadable, so no
+hosted millisecond deltas are asserted here. This batch is not the separate
+five-compiler production parity workflow.
