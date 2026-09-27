@@ -61,7 +61,12 @@ def main():
         cold = cached(compiler, root, "cold")
         assert cold.returncode == 0, cold.stdout + cold.stderr
         c = stats(root, "cold")
-        assert c["object_cache"] == {"hits": 0, "misses": 3, "publish_failures": 0, "validation_skipped": False}, c
+        assert c["object_cache"] == {
+            "hits": 0, "misses": 3, "publish_failures": 0,
+            "validation_skipped": False,
+            "flow_sources_skipped": 0,
+            "acceptance_sources_skipped": 0,
+        }, c
         assert c["work"]["functions"] == 3, c
         # Independent SHA-256 oracle proves the accelerated compiler identity
         # and complete input-key construction, not merely self-consistency.
