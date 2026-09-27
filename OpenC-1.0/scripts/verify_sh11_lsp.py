@@ -161,8 +161,8 @@ def run_primary_session(compiler: Path, fixture: dict) -> tuple[list[Case], dict
                 initialized.get("id") == 1
                 and capabilities.get("positionEncoding") == "utf-8"
                 and capabilities.get("documentFormattingProvider") is True
-                and capabilities.get("textDocumentSync", {}).get("change") == 1,
-                "initialize returns UTF-8, full-sync, and formatting capabilities",
+                and capabilities.get("textDocumentSync", {}).get("change") == 2,
+                "initialize returns UTF-8, incremental-sync, and formatting capabilities",
             )
         )
         cases.append(

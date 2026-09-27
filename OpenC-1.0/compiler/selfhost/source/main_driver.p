@@ -233,7 +233,9 @@ unsafe i32 cli_observe_source_command(usize arguments) {
 
 unsafe i32 main() {
     usize arguments = process.argument_count();
-    if arguments == 4 && process.argument(0) == "--native-build-trusted" {
+    text primary_argument = "";
+    if arguments != 0 { primary_argument = process.argument(0); }
+    if arguments == 4 && primary_argument == "--native-build-trusted" {
         BuildTimings native_timings = build_timings_empty();
         native_timings.emission_mode = 2;
         i32 result = emit_bootstrap_d_mode(
@@ -244,7 +246,7 @@ unsafe i32 main() {
         ) { return 1; }
         return result;
     }
-    if arguments == 4 && process.argument(0) == "--native-build" {
+    if arguments == 4 && primary_argument == "--native-build" {
         BuildTimings native_timings = build_timings_empty();
         native_timings.emission_mode = 2;
         i32 result = emit_bootstrap_d_mode(
@@ -255,7 +257,7 @@ unsafe i32 main() {
         ) { return 1; }
         return result;
     }
-    if arguments == 3 && process.argument(0) == "--native-build-trusted" {
+    if arguments == 3 && primary_argument == "--native-build-trusted" {
         // Internal SH-19 iteration lane for already-validated canonical source.
         // It never replaces the validating --native-build public candidate.
         BuildTimings native_timings = build_timings_empty();
@@ -264,28 +266,28 @@ unsafe i32 main() {
             process.argument(1), process.argument(2), false, true, native_timings
         );
     }
-    if arguments == 3 && process.argument(0) == "--native-build" {
+    if arguments == 3 && primary_argument == "--native-build" {
         BuildTimings native_timings = build_timings_empty();
         native_timings.emission_mode = 2;
         return emit_bootstrap_d_mode(
             process.argument(1), process.argument(2), true, true, native_timings
         );
     }
-    if arguments == 3 && process.argument(0) == "--native-audit" {
+    if arguments == 3 && primary_argument == "--native-audit" {
         BuildTimings audit_timings = build_timings_empty();
         audit_timings.emission_mode = 1;
         return emit_bootstrap_d_mode(
             process.argument(1), process.argument(2), false, true, audit_timings
         );
     }
-    if arguments == 2 && process.argument(0) == "--native-check" {
+    if arguments == 2 && primary_argument == "--native-check" {
         BuildTimings check_timings = build_timings_empty();
         check_timings.emission_mode = 3;
         return emit_bootstrap_d_mode(
             process.argument(1), "", true, true, check_timings
         );
     }
-    if arguments == 3 && process.argument(0) == "interface-fingerprint" {
+    if arguments == 3 && primary_argument == "interface-fingerprint" {
         text project_path = process.argument(1);
         text report_path = process.argument(2);
         if !cli_has_prefix(project_path, "--project=") ||
@@ -305,13 +307,13 @@ unsafe i32 main() {
         );
     }
     if arguments == 4 &&
-        process.argument(0) == "--windows-winmd-project" {
+        primary_argument == "--windows-winmd-project" {
         return emit_windows_winmd_projection(
             process.argument(1), process.argument(2), process.argument(3)
         );
     }
     if arguments == 5 &&
-        process.argument(0) == "--windows-pe32-runtime" {
+        primary_argument == "--windows-pe32-runtime" {
         return emit_windows_pe32_runtime(
             process.argument(1), process.argument(2),
             process.argument(3), process.argument(4)
@@ -322,45 +324,45 @@ unsafe i32 main() {
         return 0;
     }
     if arguments == 1 {
-        if process.argument(0) == "--process-guard-output-probe" {
+        if primary_argument == "--process-guard-output-probe" {
             return cli_process_guard_output_probe();
         }
-        if process.argument(0) == "--process-guard-memory-probe" {
+        if primary_argument == "--process-guard-memory-probe" {
             return cli_process_guard_memory_probe();
         }
-        if process.argument(0) == "--process-guard-working-set-probe" {
+        if primary_argument == "--process-guard-working-set-probe" {
             return cli_process_guard_working_set_probe();
         }
-        if process.argument(0) == "--process-guard-timeout-probe" {
+        if primary_argument == "--process-guard-timeout-probe" {
             return cli_process_guard_timeout_probe();
         }
-        if process.argument(0) == "help" ||
-            process.argument(0) == "--help" ||
-            process.argument(0) == "-h" {
+        if primary_argument == "help" ||
+            primary_argument == "--help" ||
+            primary_argument == "-h" {
             cli_print_help();
             return 0;
         }
-        if process.argument(0) == "version" ||
-            process.argument(0) == "--version" {
+        if primary_argument == "version" ||
+            primary_argument == "--version" {
             cli_print_version();
             return 0;
         }
-        if process.argument(0) == "target" {
+        if primary_argument == "target" {
             cli_print_target();
             return 0;
         }
     }
-    if arguments == 2 && process.argument(0) == "explain" {
+    if arguments == 2 && primary_argument == "explain" {
         return cli_explain(process.argument(1));
     }
-    if arguments == 2 && process.argument(0) == "hash" {
+    if arguments == 2 && primary_argument == "hash" {
         return cli_workflow_hash_command(process.argument(1));
     }
     if arguments == 2 &&
-        process.argument(0) == "--lsp-audit-batch" {
+        primary_argument == "--lsp-audit-batch" {
         return cli_lsp_audit_batch_command(process.argument(1));
     }
-    if arguments == 2 && process.argument(0) == "process-guard" {
+    if arguments == 2 && primary_argument == "process-guard" {
         text output_path = process.argument(1);
         if !cli_has_prefix(output_path, "--output=") {
             io.error("usage: openc process-guard --output=REPORT.json\n");
@@ -371,67 +373,67 @@ unsafe i32 main() {
         );
     }
     if arguments == 2 &&
-        process.argument(0) == "--windows-x64-substrate" {
+        primary_argument == "--windows-x64-substrate" {
         return emit_windows_x64_substrate_report(process.argument(1));
     }
-    if arguments >= 2 && process.argument(0) == "fmt" {
+    if arguments >= 2 && primary_argument == "fmt" {
         return cli_format_command();
     }
-    if arguments >= 2 && process.argument(0) == "info" {
+    if arguments >= 2 && primary_argument == "info" {
         return cli_info_command();
     }
-    if arguments >= 2 && process.argument(0) == "test" {
+    if arguments >= 2 && primary_argument == "test" {
         return cli_test_command();
     }
-    if arguments >= 2 && process.argument(0) == "audit" {
+    if arguments >= 2 && primary_argument == "audit" {
         return cli_repository_audit_command();
     }
-    if arguments >= 2 && process.argument(0) == "pe-audit" {
+    if arguments >= 2 && primary_argument == "pe-audit" {
         return cli_pe_audit_command();
     }
-    if arguments >= 2 && process.argument(0) == "lsp-audit" {
+    if arguments >= 2 && primary_argument == "lsp-audit" {
         return cli_lsp_audit_command();
     }
-    if arguments >= 3 && process.argument(0) == "editor-audit" {
+    if arguments >= 3 && primary_argument == "editor-audit" {
         return cli_editor_audit_command();
     }
-    if arguments >= 3 && process.argument(0) == "editor-package" {
+    if arguments >= 3 && primary_argument == "editor-package" {
         return cli_editor_package_command();
     }
-    if arguments >= 6 && process.argument(0) == "finalization-audit" {
+    if arguments >= 6 && primary_argument == "finalization-audit" {
         return cli_finalization_audit_command();
     }
-    if arguments >= 2 && process.argument(0) == "benchmark" {
+    if arguments >= 2 && primary_argument == "benchmark" {
         return cli_benchmark_command();
     }
-    if arguments >= 2 && process.argument(0) == "release" {
+    if arguments >= 2 && primary_argument == "release" {
         return cli_release_command();
     }
-    if arguments >= 4 && process.argument(0) == "artifact" {
+    if arguments >= 4 && primary_argument == "artifact" {
         return cli_artifact_command();
     }
-    if arguments >= 5 && process.argument(0) == "module-coff-link" {
+    if arguments >= 5 && primary_argument == "module-coff-link" {
         return cli_module_coff_link_command();
     }
-    if arguments >= 4 && process.argument(0) == "pe-coff-audit" {
+    if arguments >= 4 && primary_argument == "pe-coff-audit" {
         return cli_pe_coff_audit_command();
     }
-    if arguments >= 4 && process.argument(0) == "com-winrt-audit" {
+    if arguments >= 4 && primary_argument == "com-winrt-audit" {
         return cli_com_winrt_audit_command();
     }
-    if arguments >= 2 && process.argument(0) == "contract-audit" {
+    if arguments >= 2 && primary_argument == "contract-audit" {
         return cli_contract_audit_command();
     }
-    if arguments >= 2 && process.argument(0) == "workflow" {
+    if arguments >= 2 && primary_argument == "workflow" {
         return cli_workflow_command();
     }
     if arguments == 2 &&
-        process.argument(0) == "lsp" &&
+        primary_argument == "lsp" &&
         process.argument(1) == "--stdio" {
         return cli_lsp_stdio();
     }
     if (arguments == 2 || arguments == 3) &&
-        process.argument(0) == "check" {
+        primary_argument == "check" {
         text project_path = process.argument(1);
         if cli_has_prefix(project_path, "--project=") {
             project_path = cli_remove_prefix(
@@ -452,7 +454,7 @@ unsafe i32 main() {
         }
         return cli_check_project(project_path, output_path, true);
     }
-    if arguments >= 2 && process.argument(0) == "run" {
+    if arguments >= 2 && primary_argument == "run" {
         text project_path = process.argument(1);
         if cli_has_prefix(project_path, "--project=") {
             project_path = cli_remove_prefix(
@@ -468,7 +470,7 @@ unsafe i32 main() {
         }
         return cli_run_project(project_path, argument_start);
     }
-    if arguments == 4 && process.argument(0) == "build" {
+    if arguments == 4 && primary_argument == "build" {
         text project_path = process.argument(1);
         text output_executable = process.argument(2);
         text timing_path = process.argument(3);

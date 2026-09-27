@@ -17,7 +17,18 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-09-27): the frozen native type-table cut widened
+Current next decision (2026-09-27): the local
+[compiler CLI-dispatch candidate](SH27_CLI_DISPATCH_SPEED_EVIDENCE.md) saves
+78-99 ms across four guarded, paired corpus lanes, passes strict 20/20 and
+278/278 native conformance, and brings four of five local DMD lanes within
+the 1.25x line. Large functions still measure 1.462x DMD locally, requiring
+about 77 ms more for the gate on this host. Certify this exact source against
+all five pinned compilers on clean Windows, then target the remaining
+large-function semantic/backend critical path and rerun the full final-source
+gates. Keep the incremental cache opt-in until sound default-policy and
+real-project evidence justify enabling it. SH-27 is not complete.
+
+Previous next decision (2026-09-27): the frozen native type-table cut widened
 strict self-build RAM headroom, and the selective semantic cut below removed
 most repeated validation from cached body edits. Keep the source-partition
 cache opt-in while measuring its cold-build cost, normal direct-PE comparison,
