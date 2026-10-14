@@ -168,6 +168,14 @@ unsafe void native_process_current_directory(ref NativeFunction function,
 }
 
 unsafe void native_command_arguments(ref NativeFunction function) {
+    // .data+16 holds an immutable {argc, argv} snapshot for this image.
+    // TLS uses +8, +24 is the image anchor, and heap counters start at +32.
+    // A losing concurrent initializer releases its header and LocalAlloc argv.
+    native_data_address(function, 16, 11);
+    x64_mov_r64_memory(function.code, 0, 11, 0);
+    x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 192);
+    usize cached = native_skip(function.code, 5);
     native_constant_ascii(function, "shell32.dll", true, 1);
     x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
     x64_mov_r64_imm64(function.code, 8, cast(u64, 2048));
@@ -184,11 +192,35 @@ unsafe void native_command_arguments(ref NativeFunction function) {
     x64_emit_memory_modrm(function.code, 2, 4, 496);
     x64_mov_r64_memory(function.code, 11, 4, 488); x64_call_r64(function.code, 11);
     native_runtime_nonzero(function); x64_mov_memory_r64(function.code, 4, 504, 0);
-}
-
-unsafe void native_release_command_arguments(ref NativeFunction function) {
-    x64_mov_r64_memory(function.code, 1, 4, 504); native_import(function, 21);
+    // The parsed argv allocation is independent of the loaded Shell32 module.
     x64_mov_r64_memory(function.code, 1, 4, 480); native_import(function, 22);
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 16));
+    native_heap_allocate_named_r8(function,
+        "fatal[OPENC-NATIVE-ALLOC-BUDGET]: argument snapshot exceeds live allocation budget\n");
+    x64_mov_memory_r64(function.code, 4, 544, 0);
+    x64_mov_r64_memory(function.code, 11, 4, 496);
+    x64_mov_memory_r64(function.code, 0, 0, 11);
+    x64_mov_r64_memory(function.code, 11, 4, 504);
+    x64_mov_memory_r64(function.code, 0, 8, 11);
+    native_data_address(function, 16, 10);
+    x64_mov_r64_memory(function.code, 11, 4, 544);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    native_atomic_compare_exchange_r10_r11(function);
+    usize lost_race = native_skip(function.code, 5);
+    x64_mov_r64_memory(function.code, 0, 4, 544);
+    usize published = native_jump(function.code);
+    native_skip_end(function.code, lost_race);
+    x64_mov_memory_r64(function.code, 4, 552, 0);
+    x64_mov_r64_memory(function.code, 1, 4, 504); native_import(function, 21);
+    x64_mov_r64_memory(function.code, 8, 4, 544);
+    native_heap_free_r8(function);
+    x64_mov_r64_memory(function.code, 0, 4, 552);
+    native_skip_end(function.code, published);
+    native_skip_end(function.code, cached);
+    x64_mov_r64_memory(function.code, 11, 0, 0);
+    x64_mov_memory_r64(function.code, 4, 496, 11);
+    x64_mov_r64_memory(function.code, 11, 0, 8);
+    x64_mov_memory_r64(function.code, 4, 504, 11);
 }
 
 unsafe void native_process_argument_count(ref NativeFunction function, usize result) {
@@ -196,7 +228,6 @@ unsafe void native_process_argument_count(ref NativeFunction function, usize res
     x64_mov_r64_memory(function.code, 0, 4, 496); native_runtime_nonzero(function);
     x64_alu_r64_imm8(function.code, 5, 0, 1);
     native_store(function, result, 0);
-    native_release_command_arguments(function);
 }
 
 unsafe void native_process_argument(ref NativeFunction function, usize value,
@@ -227,6 +258,16 @@ unsafe void native_process_argument(ref NativeFunction function, usize value,
     native_skip_end(function.code, length_done);
     x64_mov_memory_r64(function.code, 4, 520, 9);
 
+    x64_emit_u8(function.code, 77); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 201);
+    usize nonempty_argument = native_skip(function.code, 5);
+    native_constant_ascii(function, "", false, 0);
+    native_store(function, result, 0);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    x64_mov_memory_r64(function.code, 4, native_slot(function, result) + 8, 0);
+    usize empty_argument_done = native_jump(function.code);
+    native_skip_end(function.code, nonempty_argument);
+
     x64_mov_r64_imm64(function.code, 1, cast(u64, 65001));
     x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
     x64_mov_r64_memory(function.code, 8, 4, 512);
@@ -255,10 +296,10 @@ unsafe void native_process_argument(ref NativeFunction function, usize value,
     x64_mov_r64_memory(function.code, 11, 4, 536);
     x64_mov_r64_memory(function.code, 10, 4, 528); x64_add_r64_r64(function.code, 11, 10);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0)); x64_mov_memory_r64(function.code, 11, 0, 0);
-    native_release_command_arguments(function);
     x64_mov_r64_memory(function.code, 0, 4, 536); native_store(function, result, 0);
     x64_mov_r64_memory(function.code, 0, 4, 528);
     x64_mov_memory_r64(function.code, 4, native_slot(function, result) + 8, 0);
+    native_skip_end(function.code, empty_argument_done);
 }
 
 unsafe void native_utf8_path(ref NativeFunction function, usize value) {

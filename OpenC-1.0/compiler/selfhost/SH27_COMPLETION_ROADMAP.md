@@ -17,7 +17,20 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-09-27): the local
+Current next decision (2026-10-14): the
+[native argument snapshot candidate](SH27_ARGUMENT_SNAPSHOT_EVIDENCE.md)
+passes a local pinned DMD 20-sample comparison on the migrated 12-logical-CPU
+host (large 1.198x, control 0.996x), the strict 20-generation chain,
+278 conformance cases, exact worker diagnostics/outputs, and concurrent
+EXE/DLL argument checks. Small/many-file paired gains exceed the null floor;
+large/control paired effects remain below noise and self-build is flat.
+Obtain clean five-compiler proof for this exact source, then continue
+first-visit semantics/lowering for stable headroom on faster DMD hosts.
+The earlier four-CPU C: deficit remains unclosed historical evidence.
+Normal cache policy, retained-project breadth, final repeated certification,
+and editor/release gates still prevent SH-27 closure.
+
+Previous next decision (2026-09-27): the local
 [compiler CLI-dispatch candidate](SH27_CLI_DISPATCH_SPEED_EVIDENCE.md) saves
 78-99 ms across four guarded, paired corpus lanes, passes strict 20/20 and
 278/278 native conformance, and brings four of five local DMD lanes within

@@ -6,6 +6,16 @@ decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
 contract. An isolated prototype, a green evidence-only workflow, or one lucky
 comparator run does not complete a step below.
 
+Latest checkpoint (2026-10-14): the migrated host's pinned baseline reproduces
+a 1.301x DMD large-function deficit. The native argument snapshot candidate
+then passes all five available local DMD ratios, including 1.198x large,
+with strict 20/20 closure and correctness/runtime tests. Its measured
+small/many-file gains are stronger than the noisy large/control changes;
+full self-build is flat. See
+[`SH27_ARGUMENT_SNAPSHOT_EVIDENCE.md`](SH27_ARGUMENT_SNAPSHOT_EVIDENCE.md).
+Hosted final-source C/D proof and the remaining incremental/project/release
+steps below are still required; the old four-CPU host's gap is not erased.
+
 Current 2026-09-27 checkpoint: the opt-in source-partition cache now skips
 authenticated unchanged-source flow and acceptance work. Its guarded
 11-pair compiler body-edit proof won 11/11 at 4.952/2.872 s medians, with

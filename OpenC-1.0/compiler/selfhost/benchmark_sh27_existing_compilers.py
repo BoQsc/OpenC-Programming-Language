@@ -79,8 +79,17 @@ def main() -> int:
     parser.add_argument("--candidate-source-chunks",
                         choices=("default", "1", "2", "4", "auto"))
     parser.add_argument("--pairs", type=int, default=11)
+    parser.add_argument(
+        "--baseline-self-build-sha256",
+        help="Pinned transition output for a baseline with older runtime code generation; selfhost only",
+    )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if args.baseline_self_build_sha256 is not None:
+        if args.workload != "selfhost" or len(args.baseline_self_build_sha256) != 64 or any(
+            octet not in "0123456789abcdef" for octet in args.baseline_self_build_sha256
+        ):
+            raise SystemExit("--baseline-self-build-sha256 requires selfhost and a full lowercase SHA-256")
     if not 3 <= args.pairs <= 31:
         raise SystemExit("--pairs must be 3..31")
     baseline = args.baseline.resolve(strict=True)
@@ -116,6 +125,10 @@ def main() -> int:
     }
     compilers = {"baseline": baseline, "candidate": candidate}
     candidate_hash = sha256(candidate)
+    expected_outputs = {
+        "baseline": args.baseline_self_build_sha256 or candidate_hash,
+        "candidate": candidate_hash,
+    }
     chunks: dict[str, int | str] = {
         name: int(mode) if mode in ("1", "2", "4") else mode
         for name, mode in modes.items()
@@ -129,7 +142,7 @@ def main() -> int:
             if args.workload == "selfhost":
                 sample = run_selfhost_sample(
                     compilers[name], project, sample_root, chunks[name],
-                    candidate_hash,
+                    expected_outputs[name],
                 )
             else:
                 sample = run_sample(
@@ -163,16 +176,20 @@ def main() -> int:
         for group in samples.values() for sample in group
     )
     exact = len(output_hashes) == 1 and "None" not in output_hashes
+    declared_outputs_exact = all(
+        {sample["output_sha256"] for sample in samples[name]} == {expected_outputs[name]}
+        for name in samples
+    ) if args.workload == "selfhost" else exact
     matches_current_source = bool(
         args.workload == "selfhost" and all(
-            bool(sample["matches_current_source_binary"])
+            sample["output_sha256"] == candidate_hash
             for group in samples.values() for sample in group
         )
     )
     median_delta = statistics.median(deltas)
     result = {
         "schema": "openc.sh27.existing_compiler_pair.v1",
-        "status": "PASS" if all_passed and exact else "FAIL",
+        "status": "PASS" if all_passed and declared_outputs_exact else "FAIL",
         "baseline": {"path": str(baseline), "sha256": sha256(baseline)},
         "candidate": {"path": str(candidate), "sha256": sha256(candidate)},
         "corpus_sha256": corpus_hash,
@@ -191,6 +208,8 @@ def main() -> int:
         "all_self_builds_match_candidate_fixed_point": (
             matches_current_source if args.workload == "selfhost" else None
         ),
+        "declared_self_build_outputs": expected_outputs if args.workload == "selfhost" else None,
+        "all_outputs_match_declared_identity": declared_outputs_exact,
         "samples": samples,
     }
     output.parent.mkdir(parents=True, exist_ok=True)

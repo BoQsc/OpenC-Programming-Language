@@ -201,7 +201,12 @@ def main() -> int:
         edit, _, edit_exe, edit_manifest = build("body-edit", True)
         assert edit["object_cache"]["hits"] == args.partitions - 1
         assert edit["object_cache"]["misses"] == 1
-        assert edit["object_cache"]["flow_sources_skipped"] > 0
+        # Selective semantic reuse is prepared only by the 2/4-worker path.
+        # Serial builds still reuse unchanged objects after full validation.
+        if args.flow4:
+            assert edit["object_cache"]["flow_sources_skipped"] > 0
+        else:
+            assert edit["object_cache"]["flow_sources_skipped"] == 0
         assert edit["object_cache"]["flow_sources_skipped"] == edit[
             "object_cache"]["acceptance_sources_skipped"]
         assert sum(not p["cache_hit"] for p in edit_manifest["partitions"]) == 1

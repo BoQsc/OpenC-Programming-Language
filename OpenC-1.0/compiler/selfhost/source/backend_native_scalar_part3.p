@@ -119,6 +119,7 @@ unsafe void native_emit_function(
     bool function_has_call = false;
     bool function_has_cast = false;
     bool function_has_small_integer = false;
+    usize argument_snapshot_calls = 0;
     usize direct_constant_capacity = 256;
     index = 0;
     while index < context.instructions.length {
@@ -133,7 +134,15 @@ unsafe void native_emit_function(
         if opcode == ir_op_scope_register() {
             scope_count = scope_count + 1;
         }
-        if opcode == ir_op_call() { function_has_call = true; }
+        if opcode == ir_op_call() {
+            function_has_call = true;
+            if c_builtin_is(context, index,
+                "process.argument", "system.process.argument") ||
+                c_builtin_is(context, index,
+                "process.argument_count", "system.process.argument_count") {
+                argument_snapshot_calls = argument_snapshot_calls + 1;
+            }
+        }
         if opcode == ir_op_cast() { function_has_cast = true; }
         if opcode == ir_op_const_integer() &&
             read_record_field(context.instruction_detail, index, 0) == 4 &&
@@ -183,6 +192,11 @@ unsafe void native_emit_function(
     usize code_capacity = context.instructions.length * 1024 +
         maximum_layout_size * 32 + 65536;
     usize relocation_capacity = context.instructions.length * 32 + 32;
+    // The lazy argument snapshot includes allocation checks, CAS publication,
+    // and loser cleanup. Keep its larger intrinsic expansion in the bounds;
+    // the initial allocations below still grow only as actual emission needs.
+    code_capacity = code_capacity + argument_snapshot_calls * 2048;
+    relocation_capacity = relocation_capacity + argument_snapshot_calls * 128;
     usize constant_capacity = context.source.length * 2 + 256;
     // A call-free function cannot enter a runtime intrinsic emitter.  Its
     // constant section contains only decoded source literals, whose encoded

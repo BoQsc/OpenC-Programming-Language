@@ -5,12 +5,14 @@ on:
     branches:
       - master
       - codex/sh27-incremental-object-slice
+      - codex/sh27-local-throughput
     paths:
       - OpenC-1.0/benchmarks/sh27/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_argument_snapshot.py
       - .github/bootstrap/openc-stage0.exe
       - .github/workflows/openc-performance.yml
   workflow_dispatch:
@@ -69,7 +71,7 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_production.py
           --openc .github\bootstrap\openc-stage0.exe
           --bootstrap-current
-          --runs ${{ (github.event_name == 'push' && github.ref == 'refs/heads/codex/sh27-incremental-object-slice') && '20' || inputs.runs || '3' }}
+          --runs ${{ (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/codex/sh27-')) && '20' || inputs.runs || '3' }}
           --self-build-runs 3
           --parallel-projects 4
           --require-all
@@ -78,8 +80,17 @@ jobs:
           --expected-dmd-version DMD64
           --expected-ldc-version 1.43.0
           --antivirus-state github-hosted-windows-2025-default-not-modified
-          ${{ ((github.event_name == 'push' && github.ref == 'refs/heads/codex/sh27-incremental-object-slice') || inputs.enforce_parity) && '--enforce-parity' || '' }}
+          ${{ ((github.event_name == 'push' && startsWith(github.ref, 'refs/heads/codex/sh27-')) || inputs.enforce_parity) && '--enforce-parity' || '' }}
           --output artifacts\sh27-production-comparators.json
+
+      - name: Verify native argument snapshot and concurrent initialization
+        if: always()
+        shell: cmd
+        run: >-
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/verify_sh27_argument_snapshot.py','--compiler',str(compiler),'--output','artifacts/sh27-argument-snapshot.json']))"
 
       - name: Retain raw performance evidence
         if: always()
@@ -91,3 +102,5 @@ jobs:
           path: |
             artifacts/sh27-production-comparators.json
             artifacts/sh27-production-comparators-runs-*/**
+            artifacts/sh27-argument-snapshot.json
+            artifacts/sh27-argument-snapshot-runs/**

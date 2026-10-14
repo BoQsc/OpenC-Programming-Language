@@ -15,7 +15,8 @@ unsafe void native_import(ref NativeFunction function, usize index) {
         cast(usize, 1073741824) + index, 0, 4);
 }
 
-// Native images reserve .data+32 for the current heap payload byte count.
+// Native images reserve .data+16 for the immutable argument snapshot,
+// .data+24 for the PE image anchor, and +32 for the heap payload byte count.
 // The relocation is RIP-relative and therefore adds no base-relocation entry.
 unsafe void native_data_address(ref NativeFunction function, usize offset, usize reg) {
     x64_emit_rex(function.code, true, reg, 0, 5);
