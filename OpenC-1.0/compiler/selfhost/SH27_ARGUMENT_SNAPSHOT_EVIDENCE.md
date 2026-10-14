@@ -3,6 +3,19 @@
 Status: **local runtime candidate verified; hosted final-source proof pending;
 SH-27 active** (2026-10-14).
 
+Latest source correction: the compiler is now
+`91573ac579fc66df94b8ce7123bd7dcf9798b01eb05f02a8dfb0b6c2abdeb959`.
+The measurements below initially used `2109e1ef...`; the public CLI check
+then exposed insufficient constant capacity when compiling the short
+`D_HOSTED_CLI` program. Each argument intrinsic now contributes an additional
+512-byte constant bound as well as its relocation/code bound. The expanded
+regression fails on the earlier compiler and passes on the corrected compiler.
+The corrected source passes Stage 2/3 fixed point, 278/278 conformance,
+12/12 CLI checks, and a fresh strict 20/20 chain (216.85 MiB private,
+51.77 MiB working set). Corrected-source 20-sample comparator and hosted
+proof are in progress; the earlier compiler's timing is not represented as
+final-source certification.
+
 The workspace moved to an Intel i5-12450H with 12 logical CPUs. The latest
 retained source `2e70d0f` was recovered from Git into
 `codex/sh27-local-throughput` and rebuilt through three guarded stages.
@@ -128,6 +141,8 @@ Raw local reports are under ignored `build-output/sh27-current-host/`:
 | `argv-selfhost11.json` | `824444d12e80cd71f1bdf61ebadf16de87894ef0b2a6db7e334849150f861ef6` |
 | `argv-cache-flow4.json` | `d73cbb81e31a2d488d4eae40d94d8102e31a8c66fb30a2747facd5a357bb4836` |
 | `argv-cache-serial-fixed.json` | `468020d91b4b39775243c2072fb8f76b7829c797aa872e9093d2ebdb86ebeccd` |
+| `argv-bounded-regression.json` | `05f00149dafdc05ff7d34af1d4e65b1547a4bf2b56e72b8a438c34c7a3168cc5` |
+| `argv-bounded-stability.json` | `0992f253687f8d0d3fe94d700d0934888a081628d49db63288f6f0decb820809` |
 
 Next: obtain hosted five-compiler proof for this source, then continue the first-visit semantic/lowering work
 for robust DMD headroom. Normal incremental policy, larger retained projects,

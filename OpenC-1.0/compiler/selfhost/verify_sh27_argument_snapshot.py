@@ -155,9 +155,24 @@ def main() -> int:
                 "payload": payload, "exe": executable, "dll_concurrent": concurrent,
                 "passed": passed(executable) and exact and passed(concurrent),
             })
-    success = all(passed(sample) for sample in builds) and len(cases) == 4 and all(c["passed"] for c in cases)
+    # This retained short source catches intrinsic constant-budget estimates
+    # that a larger generated test source could conceal.
+    cli_exe = directory / "retained-cli.exe"
+    cli_build = measured([
+        str(compiler), "build",
+        f"--project={ROOT / 'programs/D_HOSTED_CLI/openc.project.json'}",
+        f"--output={cli_exe}",
+    ], ROOT)
+    cli_run = measured([str(cli_exe), "alpha", "two words"], directory) if passed(cli_build) else None
+    cli_passed = (
+        cli_run is not None and passed(cli_run)
+        and cli_run["stdout"] == "arguments: 2\n0: alpha\n1: two words\n"
+        and cli_run["stderr"] == ""
+    )
+    success = all(passed(sample) for sample in builds) and len(cases) == 4 and all(c["passed"] for c in cases) and cli_passed
     report = {"schema": "openc.sh27.argument_snapshot.v1", "status": "PASS" if success else "FAIL",
-              "compiler_sha256": sha256(compiler), "builds": builds, "cases": cases}
+              "compiler_sha256": sha256(compiler), "builds": builds, "cases": cases,
+              "retained_cli": {"build": cli_build, "run": cli_run, "passed": cli_passed}}
     output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     print(f"SH-27 argument snapshot: {report['status']}; cases={sum(c['passed'] for c in cases)}/4; report={output}")
     return 0 if success else 1

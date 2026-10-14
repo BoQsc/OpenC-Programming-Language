@@ -198,6 +198,7 @@ unsafe void native_emit_function(
     code_capacity = code_capacity + argument_snapshot_calls * 2048;
     relocation_capacity = relocation_capacity + argument_snapshot_calls * 128;
     usize constant_capacity = context.source.length * 2 + 256;
+    constant_capacity = constant_capacity + argument_snapshot_calls * 512;
     // A call-free function cannot enter a runtime intrinsic emitter.  Its
     // constant section contains only decoded source literals, whose encoded
     // IR spans are a conservative exact bound, plus one terminator each.
