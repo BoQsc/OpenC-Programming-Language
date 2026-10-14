@@ -12,9 +12,14 @@ then exposed insufficient constant capacity when compiling the short
 regression fails on the earlier compiler and passes on the corrected compiler.
 The corrected source passes Stage 2/3 fixed point, 278/278 conformance,
 12/12 CLI checks, and a fresh strict 20/20 chain (216.85 MiB private,
-51.77 MiB working set). Corrected-source 20-sample comparator and hosted
-proof are in progress; the earlier compiler's timing is not represented as
-final-source certification.
+51.77 MiB working set). Its fresh 20-sample DMD comparison **fails large
+functions** at 0.295/0.234 s = **1.263x**, while all four other ratios and
+execution/memory checks pass (small 0.323x, many 0.788x, control 0.884x,
+startup/file/allocation 0.289x). It needs roughly 3 ms for that run's public
+1.25x line, or 14 ms for 1.20x margin. The older 1.198x result below does
+not certify the corrected source. A paired experiment would be needed to
+attribute the timing difference to the constant-bound correction rather
+than host variation. Hosted proof is pending.
 
 The workspace moved to an Intel i5-12450H with 12 logical CPUs. The latest
 retained source `2e70d0f` was recovered from Git into
@@ -47,7 +52,8 @@ counted for argument intrinsics during native function emission. The initial
 allocations still grow on demand, under the existing maximum function budgets.
 The first experiment failed when the older generic relocation estimate was
 exhausted; after the explicit bound was added, all three bootstrap stages
-passed with exact Stage 2/3 closure. Final compiler SHA-256:
+passed with exact Stage 2/3 closure. Initial compiler SHA-256 (superseded by
+the constant-bound correction above):
 `2109e1efa6c367a0559f4253027042f245c5987bc4b01ded5b0590f95ccac216`.
 
 ## Measured effect and limits
@@ -70,7 +76,7 @@ was separately tested below. Executables remain deterministic per compiler,
 and exact program behavior passes. Runtime code changes permit different
 executable bytes across compiler revisions.
 
-The final compiler's separate pinned 20-sample comparison was:
+The initial candidate's separate pinned 20-sample comparison was:
 
 | Workload | OpenC median | DMD median | OpenC/DMD |
 | --- | ---: | ---: | ---: |
@@ -143,6 +149,7 @@ Raw local reports are under ignored `build-output/sh27-current-host/`:
 | `argv-cache-serial-fixed.json` | `468020d91b4b39775243c2072fb8f76b7829c797aa872e9093d2ebdb86ebeccd` |
 | `argv-bounded-regression.json` | `05f00149dafdc05ff7d34af1d4e65b1547a4bf2b56e72b8a438c34c7a3168cc5` |
 | `argv-bounded-stability.json` | `0992f253687f8d0d3fe94d700d0934888a081628d49db63288f6f0decb820809` |
+| `argv-bounded-pinned20.json` | `545ab79bf7107b9f0baa17fe472d22d3203ae181e274615a2269706be849e83b` |
 
 Next: obtain hosted five-compiler proof for this source, then continue the first-visit semantic/lowering work
 for robust DMD headroom. Normal incremental policy, larger retained projects,

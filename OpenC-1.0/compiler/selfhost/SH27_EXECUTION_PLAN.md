@@ -7,9 +7,11 @@ contract. An isolated prototype, a green evidence-only workflow, or one lucky
 comparator run does not complete a step below.
 
 Latest checkpoint (2026-10-14): the migrated host's pinned baseline reproduces
-a 1.301x DMD large-function deficit. The native argument snapshot candidate
-then passes all five available local DMD ratios, including 1.198x large,
-with strict 20/20 closure and correctness/runtime tests. Its measured
+a 1.301x DMD large-function deficit. The initial native argument snapshot
+candidate passed all five available DMD ratios; after a required short-CLI
+constant-budget fix, the fresh 20-sample run measures **1.263x** large, with
+the other four lanes passing. Strict 20/20 closure and correctness/runtime
+tests pass on the corrected binary. Its measured
 small/many-file gains are stronger than the noisy large/control changes;
 full self-build is flat. See
 [`SH27_ARGUMENT_SNAPSHOT_EVIDENCE.md`](SH27_ARGUMENT_SNAPSHOT_EVIDENCE.md).

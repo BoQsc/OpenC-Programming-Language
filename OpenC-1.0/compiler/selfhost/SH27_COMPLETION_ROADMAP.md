@@ -19,10 +19,13 @@ it is not a substitute for the semantic cutover.
 
 Current next decision (2026-10-14): the
 [native argument snapshot candidate](SH27_ARGUMENT_SNAPSHOT_EVIDENCE.md)
-passes a local pinned DMD 20-sample comparison on the migrated 12-logical-CPU
-host (large 1.198x, control 0.996x), the strict 20-generation chain,
+initially passed a local pinned DMD comparison on the migrated 12-logical-CPU
+host (large 1.198x). A constant-budget correction needed by the short CLI
+program then passed the strict 20-generation chain,
 278 conformance cases, exact worker diagnostics/outputs, and concurrent
-EXE/DLL argument checks. Small/many-file paired gains exceed the null floor;
+EXE/DLL argument checks, but its fresh 20-sample DMD run misses large at
+1.263x (0.295/0.234 s); the other four lanes pass. Small/many-file paired
+gains exceed the null floor;
 large/control paired effects remain below noise and self-build is flat.
 Obtain clean five-compiler proof for this exact source, then continue
 first-visit semantics/lowering for stable headroom on faster DMD hosts.
