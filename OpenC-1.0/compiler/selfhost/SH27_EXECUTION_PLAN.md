@@ -6,7 +6,22 @@ decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
 contract. An isolated prototype, a green evidence-only workflow, or one lucky
 comparator run does not complete a step below.
 
-Latest checkpoint (2026-10-14): the migrated host's pinned baseline reproduces
+Latest checkpoint (2026-10-15): the retained compiler is unchanged at
+`91573ac5...`; its October 14 exact-source hosted five-compiler artifact is
+verified as one `PASS_PARITY`. The observer now wakes on process exit instead
+of sleeping to the next memory sample and excludes post-exit output reading.
+All 20 harness and nine matrix decision tests pass. A five-candidate batch
+and independent integration test failed to reproduce a qualifying target
+gain, so no compiler edit was promoted. See
+[`SH27_PROCESS_EXIT_TIMING_EVIDENCE.md`](SH27_PROCESS_EXIT_TIMING_EVIDENCE.md).
+A fresh corrected-basis 20-sample run of the unchanged compiler passes all
+five available DMD ratios (large 1.135x, control 0.922x), without certifying
+absent C/LDC tools or attributing the cross-run difference to a compiler edit.
+Obtain corrected-basis clean-host proof and continue the normalized
+semantic/lowering architecture. Remaining project,
+default incremental, repeated certification, and release gates are unchanged.
+
+Previous checkpoint (2026-10-14): the migrated host's pinned baseline reproduces
 a 1.301x DMD large-function deficit. The initial native argument snapshot
 candidate passed all five available DMD ratios; after a required short-CLI
 constant-budget fix, the fresh 20-sample run measures **1.263x** large, with

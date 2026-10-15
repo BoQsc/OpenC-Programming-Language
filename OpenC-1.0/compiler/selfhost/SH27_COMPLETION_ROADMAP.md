@@ -17,7 +17,23 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-10-14): the
+Current next decision (2026-10-15): the
+[process-exit timing audit](SH27_PROCESS_EXIT_TIMING_EVIDENCE.md) removed
+sampling-interval/output-reading bias from the observer and preserved all
+RAM guards. A five-candidate matrix and independent integration matrix did
+not reproduce a qualifying large-function source gain; all compiler edits
+were removed. The compiler remains `91573ac5...`. Its October 14 exact-source
+hosted artifact has now been inspected and passes all 20 C/D ratios once;
+the historical local 1.263x result remains disclosed. A fresh corrected-harness
+20-sample run of the unchanged compiler passes all five available DMD ratios
+(large 1.135x, control 0.922x), but the absent C/LDC comparators still make it
+`FAIL_PARITY`, and host variation is not isolated from the timing change.
+Obtain clean hosted corrected-basis proof. Resume normalized first-visit semantics/lowering, not
+another attempt at these helper variants. Default incremental policy,
+retained-project breadth, repeated final certification, and release gates
+remain open.
+
+Previous next decision (2026-10-14): the
 [native argument snapshot candidate](SH27_ARGUMENT_SNAPSHOT_EVIDENCE.md)
 initially passed a local pinned DMD comparison on the migrated 12-logical-CPU
 host (large 1.198x). A constant-budget correction needed by the short CLI

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ctypes
 from ctypes import wintypes
+import math
 import os
 import subprocess
 import tempfile
@@ -16,6 +17,8 @@ JOB_OBJECT_EXTENDED_LIMIT_INFORMATION_CLASS = 9
 JOB_OBJECT_LIMIT_PROCESS_MEMORY = 0x00000100
 JOB_OBJECT_LIMIT_JOB_MEMORY = 0x00000200
 JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x00002000
+WAIT_OBJECT_0 = 0
+WAIT_TIMEOUT = 0x00000102
 
 
 class ProcessMemoryCountersEx(ctypes.Structure):
@@ -89,6 +92,8 @@ def _job_api() -> ctypes.WinDLL:
     kernel32.TerminateJobObject.restype = wintypes.BOOL
     kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
     kernel32.CloseHandle.restype = wintypes.BOOL
+    kernel32.WaitForSingleObject.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+    kernel32.WaitForSingleObject.restype = wintypes.DWORD
     return kernel32
 
 
@@ -174,11 +179,13 @@ def run_measured(
 ) -> dict[str, object]:
     if os.name != "nt":
         raise RuntimeError("Windows process measurement is Windows-only")
-    if sample_interval <= 0:
+    if not math.isfinite(sample_interval) or sample_interval <= 0:
         raise ValueError("sample interval must be positive")
     if max_captured_output_bytes <= 0:
         raise ValueError("captured output limit must be positive")
-    if timeout_seconds is not None and timeout_seconds <= 0:
+    if timeout_seconds is not None and (
+        not math.isfinite(timeout_seconds) or timeout_seconds <= 0
+    ):
         raise ValueError("timeout must be positive")
     kernel32 = _job_api()
     job = _create_job(kernel32, max_private_bytes)
@@ -292,8 +299,19 @@ def _run_measured_in_job(
                     memory_observed_bytes = counters.WorkingSetSize
                     kernel32.TerminateJobObject(job, 1)
                     break
-                time.sleep(sample_interval)
+                # A sampling sleep quantizes observed process exit by up to
+                # a full interval. Wait on the process instead: keep sampling
+                # RAM at the requested cadence, but wake immediately on exit.
+                wait_seconds = sample_interval
+                if timeout_seconds is not None:
+                    remaining = timeout_seconds - (time.perf_counter() - started)
+                    wait_seconds = min(wait_seconds, max(0.0, remaining))
+                wait_ms = min(0xFFFFFFFE, math.ceil(wait_seconds * 1000))
+                waited = kernel32.WaitForSingleObject(process._handle, wait_ms)
+                if waited not in (WAIT_OBJECT_0, WAIT_TIMEOUT):
+                    raise ctypes.WinError(ctypes.get_last_error())
             process.wait()
+            execution_finished = time.perf_counter()
             peak_job_private = max(
                 peak_job_private, _job_peak_private(kernel32, job)
             )
@@ -320,20 +338,14 @@ def _run_measured_in_job(
         finally:
             kernel32.CloseHandle(handle)
 
-        def captured(file: object) -> tuple[str, bool]:
-            file.flush()
-            file.seek(0)
-            data = file.read(max_captured_output_bytes + 1)
-            truncated = len(data) > max_captured_output_bytes
-            return (
-                data[:max_captured_output_bytes].decode("utf-8", errors="replace"),
-                truncated,
-            )
-
-        stdout, stdout_truncated = captured(stdout_file)
-        stderr, stderr_truncated = captured(stderr_file)
+        stdout, stdout_truncated = _read_captured_output(
+            stdout_file, max_captured_output_bytes)
+        stderr, stderr_truncated = _read_captured_output(
+            stderr_file, max_captured_output_bytes)
     return {
-        "elapsed_seconds": round(time.perf_counter() - started, 3),
+        "elapsed_seconds": round(execution_finished - started, 6),
+        "timing_basis": "parent_perf_counter_launch_to_process_exit_v2",
+        "measurement_wall_seconds": round(time.perf_counter() - started, 6),
         "sample_interval_seconds": sample_interval,
         "samples": samples,
         "peak_working_set_bytes": peak_working_set,
@@ -351,3 +363,10 @@ def _run_measured_in_job(
         "stdout_truncated": stdout_truncated,
         "stderr_truncated": stderr_truncated,
     }
+
+
+def _read_captured_output(file: object, limit: int) -> tuple[str, bool]:
+    file.flush()
+    file.seek(0)
+    data = file.read(limit + 1)
+    return data[:limit].decode("utf-8", errors="replace"), len(data) > limit

@@ -13,6 +13,7 @@ on:
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_argument_snapshot.py
+      - OpenC-1.0/tests/python/test_sh27_production.py
       - .github/bootstrap/openc-stage0.exe
       - .github/workflows/openc-performance.yml
   workflow_dispatch:

@@ -1,6 +1,6 @@
 # SH-27 native argument snapshot
 
-Status: **local runtime candidate verified; hosted final-source proof pending;
+Status: **local runtime candidate and one exact-source hosted run verified;
 SH-27 active** (2026-10-14).
 
 Latest source correction: the compiler is now
@@ -19,7 +19,25 @@ startup/file/allocation 0.289x). It needs roughly 3 ms for that run's public
 1.25x line, or 14 ms for 1.20x margin. The older 1.198x result below does
 not certify the corrected source. A paired experiment would be needed to
 attribute the timing difference to the constant-bound correction rather
-than host variation. Hosted proof is pending.
+than host variation. Hosted proof was subsequently inspected as recorded below.
+
+## Exact-source hosted artifact inspected 2026-10-15
+
+Clean [run 38559939223](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/38559939223)
+at `d602d6e5c527d463f0a9497aa248c2c52a682182` succeeded on October 14.
+Its raw `sh27-production-comparators.json` is `PASS_PARITY`, with all
+20 normal-default ratios passing and 20 samples per workload/compiler.
+The compiler SHA-256 is exactly `91573ac5...` above. In the same run,
+large-function OpenC/MSVC/Clang/DMD/LDC medians were
+0.4155/0.8380/1.2630/0.5725/1.5390 seconds; OpenC/DMD was 0.726x.
+`sh27-argument-snapshot.json` also passed on that binary.
+
+Downloaded artifact ID `11892525197` has SHA-256
+`8a3e7fcd032a798687f9401aa969a75e1a2ec7c7372853ed0738ed0d9b64d7ce`.
+This is one clean hosted success, not the required final repeated
+certification or evidence that the separately measured local deficit is
+solved. The [process-exit timing audit](SH27_PROCESS_EXIT_TIMING_EVIDENCE.md)
+subsequently corrected the benchmark observer without changing this compiler.
 
 The workspace moved to an Intel i5-12450H with 12 logical CPUs. The latest
 retained source `2e70d0f` was recovered from Git into
@@ -151,6 +169,6 @@ Raw local reports are under ignored `build-output/sh27-current-host/`:
 | `argv-bounded-stability.json` | `0992f253687f8d0d3fe94d700d0934888a081628d49db63288f6f0decb820809` |
 | `argv-bounded-pinned20.json` | `545ab79bf7107b9f0baa17fe472d22d3203ae181e274615a2269706be849e83b` |
 
-Next: obtain hosted five-compiler proof for this source, then continue the first-visit semantic/lowering work
+Next: obtain repeated corrected-harness five-compiler proof, then continue the first-visit semantic/lowering work
 for robust DMD headroom. Normal incremental policy, larger retained projects,
 two final-source clean certifications, and editor/release gates remain open.

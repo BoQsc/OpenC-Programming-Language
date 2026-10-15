@@ -9,7 +9,9 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -488,6 +490,69 @@ class Sh27ProductionTests(unittest.TestCase):
             self.assertEqual(measurement["stage"], 1)
             self.assertFalse(measurement["output_exists"])
             self.assertNotEqual(measurement["exit_code"], 0)
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_sampling_and_deadline_reject_nonfinite_or_nonpositive_values(self) -> None:
+        for invalid in (0.0, -0.01, float("inf"), float("nan")):
+            with self.subTest(sample_interval=invalid):
+                with self.assertRaises(ValueError):
+                    BENCHMARK.run_measured([sys.executable, "-c", "pass"],
+                                           cwd=ROOT, sample_interval=invalid)
+            with self.subTest(timeout_seconds=invalid):
+                with self.assertRaises(ValueError):
+                    BENCHMARK.run_measured([sys.executable, "-c", "pass"],
+                                           cwd=ROOT, timeout_seconds=invalid)
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_process_exit_does_not_wait_for_memory_sample_interval(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            result = BENCHMARK.run_measured(
+                [sys.executable, "-c", "pass"],
+                cwd=directory,
+                sample_interval=1.0,
+                timeout_seconds=3,
+                max_private_bytes=128 * BENCHMARK.MIB,
+            )
+        self.assertEqual(result["exit_code"], 0, result)
+        self.assertFalse(result["timed_out"], result)
+        self.assertLess(result["elapsed_seconds"], 0.75, result)
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_timeout_does_not_wait_for_memory_sample_interval(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            result = BENCHMARK.run_measured(
+                [sys.executable, "-c", "import time; time.sleep(5)"],
+                cwd=directory,
+                sample_interval=1.0,
+                timeout_seconds=0.1,
+                max_private_bytes=128 * BENCHMARK.MIB,
+            )
+        self.assertTrue(result["timed_out"], result)
+        self.assertNotEqual(result["exit_code"], 0, result)
+        self.assertLess(result["elapsed_seconds"], 0.75, result)
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_captured_output_reading_is_not_compiler_time(self) -> None:
+        measure = sys.modules[BENCHMARK.run_measured.__module__]
+        original = measure._read_captured_output
+
+        def delayed_read(file: object, limit: int) -> tuple[str, bool]:
+            time.sleep(0.2)
+            return original(file, limit)
+
+        with tempfile.TemporaryDirectory() as directory:
+            with mock.patch.object(measure, "_read_captured_output", delayed_read):
+                result = BENCHMARK.run_measured(
+                    [sys.executable, "-c", "print('timing oracle')"],
+                    cwd=directory, sample_interval=0.01, timeout_seconds=3,
+                    max_private_bytes=128 * BENCHMARK.MIB,
+                )
+        self.assertEqual(result["exit_code"], 0, result)
+        self.assertEqual(result["stdout"].strip(), "timing oracle")
+        self.assertEqual(result["timing_basis"],
+                         "parent_perf_counter_launch_to_process_exit_v2")
+        self.assertGreater(result["measurement_wall_seconds"] -
+                           result["elapsed_seconds"], 0.35, result)
 
     @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
     def test_execution_timeout_kills_child(self) -> None:
