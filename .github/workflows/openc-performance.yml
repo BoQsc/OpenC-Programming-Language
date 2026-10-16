@@ -18,6 +18,8 @@ on:
       - OpenC-1.0/compiler/selfhost/verify_sh27_worker_pool.py
       - OpenC-1.0/compiler/selfhost/test_verify_sh27_worker_pool.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_statement_handoff.py
+      - OpenC-1.0/compiler/selfhost/profile_sh27_owned_threads.py
+      - OpenC-1.0/compiler/selfhost/test_profile_sh27_owned_threads.py
       - OpenC-1.0/tests/sh27_array_initializer_operands/**
       - OpenC-1.0/tests/sh27_indexed_bindings/**
       - OpenC-1.0/tests/sh27_statement_handoff/**
@@ -74,6 +76,10 @@ jobs:
         shell: cmd
         run: python -m unittest discover -s OpenC-1.0\tests\python -p test_sh27_production.py -v
 
+      - name: Validate owned-thread diagnostic safety
+        shell: cmd
+        run: python -m unittest discover -s OpenC-1.0/compiler/selfhost -p test_profile_sh27_owned_threads.py -v
+
       - name: Run bounded production compiler corpus
         shell: cmd
         run: >-
@@ -86,7 +92,7 @@ jobs:
           --require-all
           --expected-msvc-version 19.44
           --expected-clang-version 20.1.8
-          --expected-dmd-version DMD64
+          --expected-dmd-version 2.112.0
           --expected-ldc-version 1.43.0
           --antivirus-state github-hosted-windows-2025-default-not-modified
           ${{ ((github.event_name == 'push' && startsWith(github.ref, 'refs/heads/codex/sh27-')) || inputs.enforce_parity) && '--enforce-parity' || '' }}

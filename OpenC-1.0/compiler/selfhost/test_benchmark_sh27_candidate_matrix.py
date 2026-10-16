@@ -2,14 +2,17 @@
 """Pure decision tests for the SH-27 multi-candidate comparison gate."""
 from __future__ import annotations
 
+import argparse
+import json
 import unittest
 from pathlib import Path
 
 from benchmark_sh27_candidate_matrix import (
-    candidate_spec, compare_pairs, matrix_status, sample_paths_within_budget,
-    sample_root_path,
+    ROOT, candidate_spec, chunk_policy_spec, compare_pairs, matrix_status, sample_paths_within_budget,
+    sample_root_path, validate_matrix_corpus,
 )
 from analyze_sh27_candidate_matrix import numeric_phase
+from benchmark_sh27_production import validate_corpus
 
 
 def sample(
@@ -30,6 +33,47 @@ def sample(
 
 
 class CandidateMatrixTests(unittest.TestCase):
+    def test_function_scale_is_distinct_from_frozen_production_corpus(self):
+        production = json.loads((ROOT / "benchmarks/sh27/CORPUS.json").read_text(encoding="utf-8"))
+        scale = json.loads((ROOT / "benchmarks/sh27/FUNCTION_SCALE.json").read_text(encoding="utf-8"))
+        validate_corpus(production)
+        validate_corpus(scale)
+        self.assertEqual(production["limits"]["maximum_operations_per_function"], 64)
+        self.assertEqual([w["operations_per_function"] for w in scale["workloads"]], [64, 256, 1024])
+        self.assertFalse({w["id"] for w in production["workloads"]} & {w["id"] for w in scale["workloads"]})
+        self.assertTrue(all(w["source_files"] == w["functions_per_file"] == 1 for w in scale["workloads"]))
+        validate_matrix_corpus(production)
+        validate_matrix_corpus(scale)
+
+    def test_custom_metadata_cannot_expand_generator_work_without_bound(self):
+        for files, functions, operations in ((129, 1, 1), (1, 10000, 1024), (1, 1, 1025)):
+            corpus = json.loads((ROOT / "benchmarks/sh27/FUNCTION_SCALE.json").read_text(encoding="utf-8"))
+            corpus["workloads"] = [{"id": "test", "source_files": files,
+                "functions_per_file": functions, "operations_per_function": operations}]
+            corpus["limits"] = {"maximum_source_files_per_workload": 1000000,
+                "maximum_total_functions_per_workload": 1000000, "maximum_operations_per_function": 1000000}
+            with self.assertRaises(SystemExit):
+                validate_matrix_corpus(corpus)
+
+    def test_custom_metadata_rejects_path_escape_and_excess_workload_count(self):
+        corpus = json.loads((ROOT / "benchmarks/sh27/FUNCTION_SCALE.json").read_text(encoding="utf-8"))
+        corpus["workloads"][0]["id"] = "../escape"
+        with self.assertRaises(SystemExit):
+            validate_matrix_corpus(corpus)
+        corpus["workloads"] = [{"id": f"test_{i}", "source_files": 1,
+            "functions_per_file": 1, "operations_per_function": 1} for i in range(17)]
+        with self.assertRaises(SystemExit):
+            validate_matrix_corpus(corpus)
+
+    def test_explicit_worker_policy_is_declared_per_candidate(self):
+        for policy in ("default", "auto", "1", "2", "4"):
+            self.assertEqual(chunk_policy_spec("trial=" + policy), ("trial", policy))
+
+    def test_worker_policy_rejects_unsupported_modes(self):
+        for value in ("trial=0", "trial=3", "trial=8", "trial=", "trial", "=2", "../trial=2"):
+            with self.assertRaises(argparse.ArgumentTypeError):
+                chunk_policy_spec(value)
+
     def test_native_sample_path_budget_covers_null_sidecar(self) -> None:
         root = Path("C:/short/m-abcdefgh")
         sample_root = sample_root_path(

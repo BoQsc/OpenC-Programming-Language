@@ -69,6 +69,34 @@ def candidate_spec(raw: str) -> tuple[str, Path]:
     return name, Path(filename)
 
 
+def chunk_policy_spec(raw: str) -> tuple[str, str]:
+    name, separator, policy = raw.partition("=")
+    if not separator or not name or not all(
+        character.isalnum() or character in "-_" for character in name
+    ) or policy not in {"default", "auto", "1", "2", "4"}:
+        raise argparse.ArgumentTypeError("chunk policy must be NAME=(default|auto|1|2|4)")
+    return name, policy
+
+
+def validate_matrix_corpus(corpus: dict[str, object]) -> None:
+    validate_corpus(corpus)
+    if len(corpus["workloads"]) > 16:
+        raise SystemExit("SH27_MATRIX_BUDGET: more than 16 workloads")
+    for workload in corpus["workloads"]:
+        identifier = str(workload["id"])
+        if not 1 <= len(identifier) <= 64 or not identifier.isascii() or not all(
+            character.isalnum() or character in "-_" for character in identifier
+        ):
+            raise SystemExit("SH27_MATRIX_BUDGET: unsafe workload path identifier")
+        files = int(workload["source_files"])
+        functions = int(workload["functions_per_file"])
+        operations = int(workload["operations_per_function"])
+        # Independent of file-declared limits: custom stress metadata must not
+        # reserve unbounded generator memory before the child Job guard exists.
+        if files > 128 or files * functions > 10000 or operations > 1024 or files * functions * operations > 65536:
+            raise SystemExit("SH27_MATRIX_BUDGET: generator work exceeds hard safety limits")
+
+
 def compare_pairs(
     pairs: list[dict[str, dict[str, object]]],
     *,
@@ -169,6 +197,10 @@ def main() -> int:
         metavar="NAME=PATH",
     )
     parser.add_argument("--workload", action="append", metavar="ID")
+    parser.add_argument("--corpus", type=Path, default=ROOT / "benchmarks/sh27/CORPUS.json",
+        help="explicit additional corpus; default remains the frozen production v1 corpus")
+    parser.add_argument("--baseline-source-chunks", choices=("default", "auto", "1", "2", "4"), default="default")
+    parser.add_argument("--candidate-source-chunks", type=chunk_policy_spec, action="append", default=[], metavar="NAME=MODE")
     parser.add_argument("--pairs", type=int, default=11)
     parser.add_argument("--allow-binary-difference", action="store_true")
     parser.add_argument("--require-gain", action="store_true")
@@ -187,14 +219,21 @@ def main() -> int:
         if not path.is_file():
             parser.error(f"missing candidate compiler: {path}")
         compilers[name] = path
+    policies: dict[str, str] = {}
+    for name, policy in args.candidate_source_chunks:
+        if name not in compilers or name in policies:
+            parser.error(f"unknown or duplicate chunk-policy candidate: {name}")
+        policies[name] = policy
     output = args.output.resolve()
     if output.exists():
         parser.error(f"refusing to replace existing report: {output}")
     require_disk_headroom(output.parent)
     output.parent.mkdir(parents=True, exist_ok=True)
-    corpus_path = ROOT / "benchmarks/sh27/CORPUS.json"
+    corpus_path = args.corpus.resolve(strict=True)
+    if corpus_path.stat().st_size > MIB:
+        parser.error("corpus metadata exceeds the 1 MiB input budget")
     corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
-    validate_corpus(corpus)
+    validate_matrix_corpus(corpus)
     workload_ids = args.workload or list(DEFAULT_WORKLOADS)
     if len(workload_ids) != len(set(workload_ids)):
         parser.error("duplicate workload ID")
@@ -223,9 +262,11 @@ def main() -> int:
             "logical_cpus": os.cpu_count(),
             "runner_image_version": os.environ.get("ImageVersion"),
         },
-        "baseline": {"path": str(baseline), "sha256": sha256(baseline)},
+        "baseline": {"path": str(baseline), "sha256": sha256(baseline),
+            "source_chunks": args.baseline_source_chunks},
         "candidates": {
-            name: {"path": str(path), "sha256": sha256(path)}
+            name: {"path": str(path), "sha256": sha256(path),
+                "source_chunks": policies.get(name, "default")}
             for name, path in compilers.items()
         },
         "corpus": {"path": str(corpus_path), "sha256": sha256(corpus_path)},
@@ -287,6 +328,9 @@ def main() -> int:
                             max_output_bytes=2 * MIB,
                             execution_timeout=30,
                             compiler_timeout=120,
+                            openc_source_chunks=(args.baseline_source_chunks
+                                if side == "baseline" or name == NULL_NAME
+                                else policies.get(name, "default")),
                         )
                         sample_pair[
                             "baseline" if side == "baseline" else "candidate"

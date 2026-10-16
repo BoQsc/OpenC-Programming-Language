@@ -1,7 +1,7 @@
 # SH-27 integrated native pipeline and bounded worker reuse
 
-Status: **local triage and correctness gates pass; clean comparator and
-repeat certification pending**. SH-27 remains active. This candidate closes
+Status: **two clean hosted 20/20 parity passes; independent constrained
+repeat fails large-function parity**. SH-27 remains active. This candidate closes
 the public local four-CPU DMD ceiling once, but does not establish the final
 1.20x margin, broad project performance, default incremental policy or release
 readiness. Baseline is `f58c5a07...` from the indexed-binding batch.
@@ -113,6 +113,50 @@ The fresh critical large-worker medians are 125 ms wall, 23.5 acceptance,
 coarsely timed medians are not an additive ledger. Control remains 47 ms
 wall with 15 ms lowering and acceptance below timer resolution.
 
+### Independent repeat: the large-function deficit remains open
+
+On exact compiler `e2caeea0...`, the independent 20-sample four-CPU run gives
+OpenC/DMD **1.363x large / 0.740x control**. Small/many/startup ratios are
+0.279/0.670/0.259. Large OpenC median is 0.261041 s, with a 0.228191 to
+0.298965 s range. All available non-parity correctness/resource checks pass;
+missing local C/LDC and the large-function ratio fail the report. Do not
+discard the repeat, average it with the first pass, or claim sustained parity.
+Its raw report is `four-cpu-dmd20-repeat.json`, SHA-256
+`ce46f1cd0bb9a9d4ab243152d89a5f5841b8b4964207e63901f30399c9fe00c7`.
+
+Native-worker wall exceeds the slowest chunk by zero in most repeat samples,
+but individual gaps reach 62 ms; declarations and critical chunk wall also
+vary. These coarse timers do not isolate a pool regression or thermal cause.
+Two clean exact-source runs pass at commit `f6fa527`, as recorded below.
+Cold throughput remains ahead
+of incremental/release work until the repeated deficit is resolved.
+
+### Clean hosted replication on the exact fixed point
+
+[Run 38909638831](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/38909638831)
+and independent manual [run 38912021927](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/38912021927)
+both pass all 20 comparator checks, with 20 samples per compiler per workload.
+Both use source `f6fa527570cb5776c49960ac82c57fbbf0ddb3ba` and compiler
+`e2caeea0...`, exactly matching the local fixed point. All worker-pool,
+statement/body, indexed-binding, array and argument regression reports pass.
+The complete worker-verifier source hash maps match the local source proof.
+The bootstrap transition differs from its seed, as expected; stages 2/3
+match. The transition mismatch is not relabeled as a stage-1 fixed point.
+
+| Hosted run | Large OpenC/MSVC | Large OpenC/Clang | Large OpenC/DMD | Control OpenC/DMD |
+| --- | ---: | ---: | ---: | ---: |
+| 38909638831 | 0.541x | 0.330x | 0.886x | 0.493x |
+| 38912021927 | 0.372x | 0.237x | 0.550x | 0.237x |
+
+The raw ZIPs were downloaded, bounded JSONs inspected, and their hashes
+matched GitHub's artifact digests. Artifact `12049792695` is 120,607,808
+bytes, SHA-256 `2499880f49299b3d3a5110e455b1a79f3ea9cfcaf5e8c95d0e73285ea6cd3939`;
+artifact `12051490646` is 120,611,513 bytes, SHA-256
+`f33d9c650c8ab6b32eae277c33c45b06f6c68f552d40e4445482bcd054209b1e`.
+The corresponding `hosted-RUN-*.json` reports and ZIPs are retained beside
+the local reports. These replicate the hosted synthetic gate, not broad
+cross-host parity: the 1.363x constrained-host failure remains authoritative.
+
 ## Correctness and failure proof
 
 Compiler SHA-256:
@@ -171,7 +215,7 @@ Their mechanisms are retained only as the complete integrated candidate,
 except the packet encoder, which remains removed. No independent component
 speedup is credited.
 
-Next require clean exact-source C/D proof and an independent constrained-host
-repeat before claiming sustained parity. The 1.20x margin remains narrow.
+Next resolve the failed constrained-host repeat before claiming sustained
+cross-host parity. The 1.20x local margin remains unproved.
 Then complete the original normal-default incremental, representative-project,
 repeated final-source editor and release gates. None is waived by this result.

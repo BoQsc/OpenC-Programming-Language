@@ -1,6 +1,11 @@
 # SH-27 throughput candidate portfolio
 
-Status: **historical first-batch portfolio; SH-27 remains open**. The current
+Status: **historical first-batch portfolio; SH-27 remains open**. The latest
+[function-source fact / small-parent batch](SH27_FUNCTION_SOURCE_FACT_EVIDENCE.md)
+proves a larger-function scaling gain and full local correctness/RAM, but its
+independent production-v1 gain remains below noise and constrained DMD still
+fails at 1.263x. The next architecture is parser-owned operand/operator facts,
+not another eager cache. The previous
 [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md) has material
 two-lane gains and strict local correctness/memory proof; it leaves a 1.272x
 four-CPU large-function DMD deficit and requires clean final-source CI.

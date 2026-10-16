@@ -24,6 +24,8 @@ struct IrContext {
     usize source_record;
     usize function_node;
     usize function_symbol;
+    usize function_alloc_probe_node;
+    usize function_alloc_probe_state;
     usize function_result;
     usize function_local_first;
     usize function_local_end;

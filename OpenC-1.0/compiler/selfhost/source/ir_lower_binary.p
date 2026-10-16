@@ -4,6 +4,26 @@ import system.memory;
 import system.path;
 import system.text;
 
+// Preserve the existing source-pattern compatibility rule, but discover its
+// function-owned fact at most once per lowering. State is 0 unknown, 1 absent,
+// 2 present; the owner key also protects direct internal-context callers.
+// This is not a replacement for general pointer-bounds analysis.
+unsafe bool ir_function_has_single_byte_allocation(ref IrContext context) {
+    if context.function_alloc_probe_state != 0 &&
+        context.function_alloc_probe_node == context.function_node {
+        return context.function_alloc_probe_state == 2;
+    }
+    context.function_alloc_probe_node = context.function_node;
+    context.function_alloc_probe_state = 1;
+    if flow_span_contains_ascii(context.source,
+        read_record_field(context.syntax_data, context.function_node, 1),
+        read_record_field(context.syntax_data, context.function_node, 2),
+        "memory.alloc(1)") {
+        context.function_alloc_probe_state = 2;
+    }
+    return context.function_alloc_probe_state == 2;
+}
+
 unsafe usize ir_lower_binary(
     ref IrContext context,
     usize node,
@@ -117,26 +137,25 @@ unsafe usize ir_lower_binary(
         bool pointer_fault = ir_pointer_binary_fault(
             context, node, left_node, right_node
         );
-        if !pointer_fault && flow_node_operator(
+        if !pointer_fault && right_kind == 29 && flow_node_operator(
             context.source, context.syntax_data, node, "+"
-        ) && flow_span_contains_ascii(
-            context.source,
-            read_record_field(
-                context.syntax_data, context.function_node, 1
-            ),
-            read_record_field(
-                context.syntax_data, context.function_node, 2
-            ), "memory.alloc(1)"
-        ) && read_record_field(
-            context.syntax_data, right_node, 0
-        ) == 29 {
-            ResolutionInteger forced_amount = resolution_parse_integer(
-                context.source,
-                read_record_field(context.syntax_data, right_node, 1),
-                read_record_field(context.syntax_data, right_node, 2)
-            );
-            if forced_amount.valid && forced_amount.value > 1 {
-                pointer_fault = true;
+        ) {
+            // This legacy rule can only affect a literal RHS. Probe lazily on
+            // the first eligible operation, then consume the local fact without
+            // a helper call or source scan on each subsequent binary node.
+            if context.function_alloc_probe_state == 0 ||
+                context.function_alloc_probe_node != context.function_node {
+                ir_function_has_single_byte_allocation(context);
+            }
+            if context.function_alloc_probe_state == 2 {
+                ResolutionInteger forced_amount = resolution_parse_integer(
+                    context.source,
+                    read_record_field(context.syntax_data, right_node, 1),
+                    read_record_field(context.syntax_data, right_node, 2)
+                );
+                if forced_amount.valid && forced_amount.value > 1 {
+                    pointer_fault = true;
+                }
             }
         }
         if pointer_fault {

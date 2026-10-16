@@ -17,7 +17,24 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-10-16, integrated pipeline): the
+Current next decision (2026-10-16): the [function fact / small-parent cut](SH27_FUNCTION_SOURCE_FACT_EVIDENCE.md)
+has exact bootstrap, strict 20/20, 278 conformance, 25 ABI and differential/
+failure proofs, plus a real function-length scaling gain. It does not close
+the original cold-build gap: fresh local DMD is 1.070x large once, then
+**1.263x** on the independent repeat; control remains 0.786x. The public gap
+is 2.843 ms and the internal margin needs 14.055 ms on that repeat. Clean
+exact-source C/D proof and the parser-to-lowering fact handoff come next.
+All original incremental, project breadth and release gates remain mandatory.
+
+Previous checkpoint (2026-10-16): the independent integrated-pipeline
+four-CPU DMD repeat fails large functions at **1.363x**, while control passes
+at **0.740x**. Correctness/resource checks pass, but the first 1.202x result
+is not sustained parity. Clean exact-source runs `38909638831` and
+`38912021927` at `f6fa527` each pass all 20 comparator checks with matching
+raw artifacts and compiler hash. The local cold-build deficit takes priority;
+no incremental, representative or release gate is waived.
+
+Previous checkpoint (2026-10-16, integrated pipeline): the
 [native preparation/control/worker batch](SH27_INTEGRATED_NATIVE_PIPELINE_EVIDENCE.md)
 passes local triage/correctness/strict RAM with a -16.170 ms large gain,
 23/31 wins above 12.099 ms null. Fresh four-CPU DMD public limits pass

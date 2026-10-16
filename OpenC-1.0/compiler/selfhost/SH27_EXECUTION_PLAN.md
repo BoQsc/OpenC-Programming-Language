@@ -6,7 +6,27 @@ decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
 contract. An isolated prototype, a green evidence-only workflow, or one lucky
 comparator run does not complete a step below.
 
-Latest checkpoint (2026-10-16, integrated native pipeline): the
+Latest checkpoint (2026-10-16, function facts/small parent sets): compiler
+`27a1f830...` passes exact three-stage bootstrap, strict 20/20, 278 conformance,
+25 ABI checks, 96 differential parent cases and all chunk/failure regressions.
+The separately versioned 1,024-operation function case gains 70.632 ms,
+11/11 wins above 4.074 ms null. Production-v1 large's independent 31-pair
+gain is below null; local 20-sample DMD passes once at 1.070x, then fails at
+**1.263x** (2.843 ms public / 14.055 ms internal deficit). Control is 0.786x
+on the repeat. Keep the original throughput requirement open. Obtain clean
+exact-source proof and execute the [parser-owned fact handoff](SH27_FUNCTION_SOURCE_FACT_EVIDENCE.md)
+against the new profile; do not replace the five-workload gate with the added
+scaling test. Incremental/project/release closure still waits on cold speed.
+
+Previous checkpoint (2026-10-16): the integrated candidate's independent
+20-sample four-CPU repeat is **1.363x large / 0.740x control** against DMD.
+Large fails the unchanged 1.25x ceiling; the first 1.202x pass is not sustained
+parity. All available non-parity checks pass. Exact-source clean runs at
+`f6fa527` (`38909638831`, `38912021927`) now each pass all 20 comparator
+checks with 20 samples per cell and matching raw artifacts. Resolve cold
+throughput before advancing incremental/project/release closure.
+
+Previous checkpoint (2026-10-16, integrated native pipeline): the
 [combined preparation/control/worker cut](SH27_INTEGRATED_NATIVE_PIPELINE_EVIDENCE.md)
 wins 23/31 large-function pairs at -16.170 ms versus 12.099 ms null, while
 unrestricted/self-build lanes are flat and protected lanes pass. Strict 20/20,

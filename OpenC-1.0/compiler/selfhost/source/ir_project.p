@@ -11,6 +11,7 @@ unsafe void ir_lower_function(
 ) {
     context.function_node = function_node;
     context.function_symbol = function_symbol;
+    context.function_alloc_probe_state = 0;
     ir_select_function_locals(context, function_symbol);
     context.function_result = read_record_field(
         context.symbol_data, function_symbol, 4

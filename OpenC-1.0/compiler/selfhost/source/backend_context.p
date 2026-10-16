@@ -38,6 +38,8 @@ unsafe IrContext backend_base_context(
         source_record = 0,
         function_node = 0,
         function_symbol = 0,
+        function_alloc_probe_node = 0,
+        function_alloc_probe_state = 0,
         function_result = 0,
         function_local_first = 0,
         function_local_end = 0,

@@ -344,6 +344,8 @@ unsafe usize acceptance_validate_project(
                 source_record = source_record,
                 function_node = 0,
                 function_symbol = 0,
+                function_alloc_probe_node = 0,
+                function_alloc_probe_state = 0,
                 function_result = semantic_type_void(),
                 function_local_first = 0,
                 function_local_end = 0,
