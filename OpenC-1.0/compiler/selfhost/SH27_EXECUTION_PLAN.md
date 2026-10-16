@@ -6,7 +6,16 @@ decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
 contract. An isolated prototype, a green evidence-only workflow, or one lucky
 comparator run does not complete a step below.
 
-Latest checkpoint (2026-10-16, function facts/small parent sets): compiler
+Latest checkpoint (2026-10-16, architecture batch): source `6ad7ba9` has one
+raw-artifact-verified hosted 20/20 C/D pass with exact compiler/source hashes;
+the independent local large-function DMD failure at 1.263x remains open.
+Four [parser operand/operator candidates](SH27_PARSER_OPERAND_BATCH_NO_GO.md)
+fail to qualify a target speed gain and all trial source is removed. Next
+replace the source-byte-sized successor index with compact occupancy and
+exact boundary queries; require a dense differential oracle and original
+protected lanes before promotion. No incremental/project/release gate is waived.
+
+Previous checkpoint (2026-10-16, function facts/small parent sets): compiler
 `27a1f830...` passes exact three-stage bootstrap, strict 20/20, 278 conformance,
 25 ABI checks, 96 differential parent cases and all chunk/failure regressions.
 The separately versioned 1,024-operation function case gains 70.632 ms,

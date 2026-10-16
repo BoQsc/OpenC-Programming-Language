@@ -1,7 +1,7 @@
 # SH-27 function-source facts and small parent sets
 
-Status: **correctness/RAM and function-scaling proof pass; constrained DMD
-repeat still fails at 1.263x; clean certification pending**.
+Status: **correctness/RAM, function scaling and one clean hosted C/D pass;
+constrained DMD repeat still fails at 1.263x**.
 This is a continuation of the integrated native pipeline, not SH-27 closure.
 Retained baseline is compiler `e2caeea094cc455dada71a4a4a90e4876469fc2e7723e57972579796086435b1`
 at `f6fa527`. Its two hosted 20/20 passes and failed 1.363x constrained-host
@@ -182,6 +182,24 @@ bindings versus the retained baseline and concurrent argument-snapshot checks
 pass. The 512 MiB process-tree guards remain unchanged. TCC remains only the
 optional ABI test oracle; normal compilation gains no D/TCC/Python dependency.
 
+## Exact-source hosted certificate
+
+[Run 38932817960](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/38932817960)
+at source `6ad7ba94dd99e85e35d4a35e33b19ba5f05065ef` passes all 20 comparator
+checks with 20 samples per compiler/workload. Large-function OpenC ratios are
+**0.282x MSVC / 0.199x Clang / 0.405x DMD / 0.189x LDC**; control/DMD is
+0.186x. Compiler `27a1f830...` and all 228 source-map hashes match the local
+passing worker proof. All six additional bootstrap/regression reports pass.
+The hosted old-seed transition differs; stages 2/3 match the final fixed point.
+This is one synthetic hosted pass, not a causal A/B gain or a replacement for
+the failed local repeat, broad projects or the second final-source certificate.
+
+Artifact `12059952228` was downloaded and its bounded reports inspected.
+The 120,665,670-byte ZIP SHA-256 matches the API digest:
+`e8e824450b42d3472100a22d1ee5d6c324f67d8d1327bdb44fcc17a5928dc728`.
+Raw ZIP and seven reports are retained beside the local evidence as
+`hosted-38932817960*`.
+
 The custom-corpus matrix independently caps metadata at 1 MiB, workloads at
 16, source files at 128, total functions at 10,000, operations per function at
 1,024 and total operation groups at 65,536 per workload. Workload path IDs
@@ -191,7 +209,12 @@ metadata at 32 MiB and aggregate samples at 100,000. The exact sampler used
 for `large50.json` is retained as `large50-sampler.py`, SHA-256
 `504220585e6ec2353184f304976e8b2f0aadd752a6ef38bd9c611a769adcdba0`.
 
-## Next architecture: parser-owned expression facts
+## Parser-owned expression facts: tested, not promoted
+
+The proposed cut below was implemented as four variants. None qualifies a
+large-function gain; all trial source was removed. See the
+[measured no-go](SH27_PARSER_OPERAND_BATCH_NO_GO.md). Next target the dense
+source-byte successor index, not another parser-link/cache variation.
 
 The pinned DMD 2.112.0 distribution was inspected directly:
 `dmd/parse.d:9163` constructs addition nodes with both operands;

@@ -17,7 +17,15 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-10-16): the [function fact / small-parent cut](SH27_FUNCTION_SOURCE_FACT_EVIDENCE.md)
+Current next decision (2026-10-16): source `6ad7ba9` has one verified exact-
+source hosted 20/20 C/D pass, but local large-function DMD still fails at
+1.263x. The four [parser-link/operator variants](SH27_PARSER_OPERAND_BATCH_NO_GO.md)
+were built, measured and removed: no qualifying large gain. Next remove the
+dense source-byte successor fill with a compact occupancy index and exact
+successor queries. Keep the 1.20x internal margin, original protected lanes,
+strict RAM, incremental/project breadth and final release requirements intact.
+
+Previous next decision (2026-10-16): the [function fact / small-parent cut](SH27_FUNCTION_SOURCE_FACT_EVIDENCE.md)
 has exact bootstrap, strict 20/20, 278 conformance, 25 ABI and differential/
 failure proofs, plus a real function-length scaling gain. It does not close
 the original cold-build gap: fresh local DMD is 1.070x large once, then
