@@ -22,9 +22,11 @@ has a material two-lane gain above null noise and 11/11 paired wins on both
 four-CPU/unrestricted profiles and real self-build. Strict 20/20, 278 native
 conformance and focused scope/parameter/ABI checks pass. Fresh four-CPU DMD
 is **1.272x large / 0.723x control**, leaving 4 ms to the public large ceiling
-or 13 ms to internal headroom. Reprofile that remaining lane and audit
-source import/cycle scans; do not continue optimizing the now-removed scope
-and parameter scans. Clean exact-source CI, normal-default incremental,
+or 13 ms to internal headroom. The refreshed critical worker has 31 ms
+acceptance, 32 IR lowering, and 23.5 native emission (separate medians);
+the follow-on import-graph batch was flat and removed. Target IR/native
+emission now, not the removed scope/parameter scans or the old 94 ms
+acceptance budget. Clean exact-source CI, normal-default incremental,
 representative-project and final repeated release gates remain mandatory.
 
 Previous next decision (2026-10-15, four-CPU resource audit): clean corrected-

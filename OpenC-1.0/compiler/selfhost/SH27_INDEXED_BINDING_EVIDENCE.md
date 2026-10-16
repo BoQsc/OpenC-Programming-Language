@@ -132,9 +132,28 @@ Raw evidence under that directory:
 - `bindings.json`: `a20b589b2cf511c77a1aeab6de961e78a4379dce4afe16ac035a24b3c6ee10e1`.
 - `protected31.json`: `b0a9bd6320664e8f908a8eaa89195fb770561a60bbf853a545c48f0a9c44b6d5`.
 
-Next: close the remaining large-function margin, using the new critical-path
-profile rather than assuming all old semantic costs remain. Import/cycle
-queries still rescan complete sources and deserve a retained-graph audit.
-Then finish normal-default incremental policy, representative projects and
+## New critical path and graph rejection
+
+The fresh unprofiled four-CPU report's critical large-worker medians are
+141 ms wall, 31 acceptance, 32 IR lowering, 23.5 native emission and 15
+indexing. Nested expression/assignment are 31/16 ms within acceptance;
+calls are below the coarse timer resolution. These independent medians
+are not one additive wall ledger. Control's critical worker is now 47 ms
+wall with 15 ms lowering and acceptance below timer resolution. Do not
+continue using the old 94 ms large acceptance budget after this cut.
+
+A follow-on bounded import-adjacency graph candidate preserves the old
+matching relation and reaches a three-stage fixed point, but its guarded
+11-pair four-CPU test is **NO-GO**: large +2.404 ms (5/11 wins, 9.933 ms
+null), control +8.787 ms (4/11, 12.134 ms null). Every generated PE/runtime
+and memory check passes; no material speed gain does. All graph compiler
+edits were removed. Raw report `build-output/sh27-import-graph/four-cpu-matrix11.json`
+has SHA-256 `ea3b3836620841ff2e71a116e8ec853b79aa61863289bc36e83ab8588e6df2e7`;
+the archived rejected patch is `e84bd866c6ee419a33a54bd171fd6bb28a5dcff3da872f9531d38df053271126`.
+
+Next: close the remaining large-function margin by targeting the now-larger
+IR/native emission path, with current-source pairs, protected lanes and
+strict memory proof. The import graph is not a promoted shortcut. Then
+finish normal-default incremental policy, representative projects and
 repeated final-source correctness, memory, comparator, editor and release
 certification. This batch does not complete SH-27.
