@@ -222,6 +222,55 @@ unsafe usize ir_next_initializer_field(
     return encoded - 1;
 }
 
+struct IrArrayIterator {
+    usize token;
+    usize end;
+    usize start;
+}
+
+unsafe IrArrayIterator ir_array_elements(ref IrContext context, usize parent) {
+    usize start = read_record_field(context.syntax_data, parent, 1);
+    usize end = start + read_record_field(context.syntax_data, parent, 2);
+    usize token = semantic_token_at_or_after(context.token_data, context.tokens, start);
+    if token >= context.tokens.length || !span_equals_ascii(context.source,
+        read_record_field(context.token_data, token, 1),
+        read_record_field(context.token_data, token, 2), "{") {
+        return IrArrayIterator{ token = context.tokens.length, end = end, start = end };
+    }
+    usize after = read_record_field(context.token_data, token, 1) +
+        read_record_field(context.token_data, token, 2);
+    return IrArrayIterator{ token = token + 1, end = end, start = after };
+}
+
+unsafe usize ir_array_next_element(ref IrContext context, ref IrArrayIterator iterator) {
+    usize depth = 0;
+    while iterator.token < context.tokens.length {
+        usize token = iterator.token;
+        usize start = read_record_field(context.token_data, token, 1);
+        usize length = read_record_field(context.token_data, token, 2);
+        if start >= iterator.end { break; }
+        bool comma = span_equals_ascii(context.source, start, length, ",");
+        bool end = span_equals_ascii(context.source, start, length, "}");
+        if depth == 0 && (comma || end) {
+            usize first = iterator.start;
+            iterator.start = start + length;
+            iterator.token = token + 1;
+            if end { iterator.token = context.tokens.length; }
+            return ir_root_in_bounds(context, first, start);
+        }
+        bool open = span_equals_ascii(context.source, start, length, "(") ||
+            span_equals_ascii(context.source, start, length, "[") ||
+            span_equals_ascii(context.source, start, length, "{");
+        bool close = span_equals_ascii(context.source, start, length, ")") ||
+            span_equals_ascii(context.source, start, length, "]") || end;
+        if open { depth = depth + 1; }
+        else if close && depth != 0 { depth = depth - 1; }
+        iterator.token = token + 1;
+    }
+    iterator.token = context.tokens.length;
+    return context.syntax.length;
+}
+
 unsafe void ir_initialize_array_elements(ref IrContext context) {
     if context.array_element_first == null ||
         context.array_element_next == null ||
@@ -241,57 +290,22 @@ unsafe void ir_initialize_array_elements(ref IrContext context) {
     usize parent = 0;
     while parent < context.syntax.length {
         if read_record_field(context.syntax_data, parent, 0) == 50 {
-            usize index = 0;
-            while index < context.expression_count {
-                usize record = read_usize(
-                    context.expression_nodes, index * size_of(usize)
-                );
-                if record != parent && semantic_node_contains(
-                    context.syntax_data, parent, record
-                ) && resolution_smallest_parent(
-                    context.syntax_data, context.syntax, record,
-                    50, 999, 998
-                ) == parent {
-                    usize start = read_record_field(
-                        context.syntax_data, record, 1
-                    );
-                    usize previous = 0;
-                    usize encoded = read_usize(
-                        context.array_element_first,
-                        parent * size_of(usize)
-                    );
-                    while encoded != 0 {
-                        usize current = encoded - 1;
-                        usize current_start = read_record_field(
-                            context.syntax_data, current, 1
-                        );
-                        if current_start > start ||
-                            (current_start == start && current > record) {
-                            break;
-                        }
-                        previous = encoded;
-                        encoded = read_usize(
-                            context.array_element_next,
-                            current * size_of(usize)
-                        );
-                    }
-                    if previous == 0 {
-                        write_usize(
-                            context.array_element_first,
-                            parent * size_of(usize), record + 1
-                        );
-                    } else {
-                        write_usize(
-                            context.array_element_next,
-                            (previous - 1) * size_of(usize), record + 1
-                        );
-                    }
-                    write_usize(
-                        context.array_element_next,
-                        record * size_of(usize), encoded
-                    );
+            // Only roots between top-level initializer delimiters are elements.
+            // A nearest-array-parent search also admits call arguments and
+            // arithmetic descendants, which are not independent elements.
+            IrArrayIterator iterator = ir_array_elements(context, parent);
+            usize last = 0;
+            usize record = ir_array_next_element(context, iterator);
+            while record < context.syntax.length {
+                if last == 0 {
+                    write_usize(context.array_element_first,
+                        parent * size_of(usize), record + 1);
+                } else {
+                    write_usize(context.array_element_next,
+                        (last - 1) * size_of(usize), record + 1);
                 }
-                index = index + 1;
+                last = record + 1;
+                record = ir_array_next_element(context, iterator);
             }
         }
         parent = parent + 1;

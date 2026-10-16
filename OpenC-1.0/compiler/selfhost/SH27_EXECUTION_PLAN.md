@@ -6,7 +6,22 @@ decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
 contract. An isolated prototype, a green evidence-only workflow, or one lucky
 comparator run does not complete a step below.
 
-Latest checkpoint (2026-10-15): the retained compiler is unchanged at
+Latest checkpoint (2026-10-15, resource-profile audit): the corrected-basis
+hosted run 38693328802 passes all 20 ratios on retained compiler `91573ac5...`,
+but the separately pinned four-logical-CPU profile reproduces **1.459x large
+and 1.277x control**. The same-run internal-margin budgets are **47/8.5 ms**.
+See [`SH27_FOUR_CPU_PROFILE_EVIDENCE.md`](SH27_FOUR_CPU_PROFILE_EVIDENCE.md).
+The lowering-scratch batch was flat and removed. A separately reproduced
+array-root/operand/layout correctness defect now has a fixed-point candidate,
+278/278 conformance, a detecting regression, and strict 20/20 proof; see
+[`SH27_ARRAY_INITIALIZER_EVIDENCE.md`](SH27_ARRAY_INITIALIZER_EVIDENCE.md).
+Four-CPU/unrestricted paired non-regression and self-build checks now pass;
+final-source CI is still required. This is not a throughput fix.
+Candidate architecture selection must now include the failing four-CPU
+profile and preserve unrestricted and self-build lanes. Steps 2-4 remain
+ahead of default-cache promotion and new platforms.
+
+Previous checkpoint (2026-10-15): the retained compiler is unchanged at
 `91573ac5...`; its October 14 exact-source hosted five-compiler artifact is
 verified as one `PASS_PARITY`. The observer now wakes on process exit instead
 of sleeping to the next memory sample and excludes post-exit output reading.

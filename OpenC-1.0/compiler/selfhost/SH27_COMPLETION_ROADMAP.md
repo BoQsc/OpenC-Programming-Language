@@ -17,7 +17,22 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-10-15): the
+Current next decision (2026-10-15, four-CPU resource audit): clean corrected-
+basis run 38693328802 passes all 20 ratios, but a local affinity-pinned
+four-logical-CPU profile fails at **1.459x large / 1.277x control** on the
+same retained binary. The target margins are **47/8.5 ms** on that profile;
+see [`SH27_FOUR_CPU_PROFILE_EVIDENCE.md`](SH27_FOUR_CPU_PROFILE_EVIDENCE.md).
+The source-local lowering-scratch batch was flat and removed. The
+[array-root/operand correction](SH27_ARRAY_INITIALIZER_EVIDENCE.md) fixes a
+reproduced execution and validation gap, with local fixed point, conformance,
+strict 20/20, and targeted oracles. It must be certified independently and
+is not a claim that the constrained-host deficit is solved. Next select the
+first-visit semantic/lowering architecture using the failing profile, with
+same-host pairs/null controls and protected unrestricted/self-build lanes.
+SH-27 remains active; incremental, real-project, repeated final-source,
+editor, and release gates are unchanged.
+
+Previous next decision (2026-10-15): the
 [process-exit timing audit](SH27_PROCESS_EXIT_TIMING_EVIDENCE.md) removed
 sampling-interval/output-reading bias from the observer and preserved all
 RAM guards. A five-candidate matrix and independent integration matrix did

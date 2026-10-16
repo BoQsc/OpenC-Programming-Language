@@ -72,6 +72,14 @@ unsafe bool backend_native_scalar_emit_composite(
         return true;
     }
     if opcode == ir_op_aggregate_create() || opcode == ir_op_status_create() || opcode == ir_op_array_create() {
+        // Never turn a malformed array operand range into writes beyond its
+        // stack slot. Core fixed arrays require exactly the declared length.
+        if opcode == ir_op_array_create() &&
+            (read_record_field(context.type_data, type_id, 0) != 10 ||
+             d_operand_count(context, instruction) !=
+                read_record_field(context.type_data, type_id, 2)) {
+            function.code.ok = false; return true;
+        }
         x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
         usize offset = 0;
         while offset < result_layout.size {
@@ -90,6 +98,16 @@ unsafe bool backend_native_scalar_emit_composite(
             if offset == cast(usize, 4294967295) { function.code.ok = false; return true; }
             usize value = d_operand_value(context, instruction, argument);
             usize member_type = native_value_read(function, function.value_types, value);
+            if opcode == ir_op_array_create() {
+                NativeLayout member = native_layout(context, member_type, 0);
+                NativeLayout element = native_layout(context,
+                    read_record_field(context.type_data, type_id, 1), 0);
+                if !member.valid || !element.valid || element.size == 0 ||
+                    member.size > element.size || offset > result_layout.size ||
+                    member.size > result_layout.size - offset {
+                    function.code.ok = false; return true;
+                }
+            }
             native_address(function, result, 10);
             x64_mov_r64_imm64(function.code, 0, cast(u64, offset));
             x64_add_r64_r64(function.code, 10, 0);

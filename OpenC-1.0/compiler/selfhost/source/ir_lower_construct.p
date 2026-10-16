@@ -71,6 +71,38 @@ unsafe bool ir_collected_field_supplied(
     return false;
 }
 
+unsafe usize ir_lower_array_element(
+    ref IrContext context, usize child, usize expected
+) {
+    usize value = ir_lower_expected(context, child, expected);
+    usize actual = ir_node_type(context, child, expected);
+    if actual < context.types.length && expected < context.types.length &&
+        read_record_field(context.type_data, actual, 0) == 12 &&
+        read_record_field(context.type_data, actual, 1) == expected {
+        usize first = context.operands.length;
+        ir_operand_empty(context, value);
+        value = ir_emit_value(context, ir_op_load(), expected, child,
+            0, 0, 0, first, 1);
+        actual = expected;
+    }
+    if actual != expected && actual < context.types.length &&
+        expected < context.types.length {
+        usize actual_kind = read_record_field(context.type_data, actual, 0);
+        usize expected_kind = read_record_field(context.type_data, expected, 0);
+        bool actual_numeric = actual_kind == 2 || actual_kind == 3 ||
+            actual_kind == 4 || actual_kind == 6;
+        bool expected_numeric = expected_kind == 2 || expected_kind == 3 ||
+            expected_kind == 4 || expected_kind == 6;
+        if actual_numeric && expected_numeric {
+            usize first = context.operands.length;
+            ir_operand_empty(context, value);
+            value = ir_emit_value(context, ir_op_cast(), expected, child,
+                0, 0, 0, first, 1);
+        }
+    }
+    return value;
+}
+
 unsafe usize ir_lower_construct(
     ref IrContext context,
     usize node,
@@ -254,77 +286,61 @@ unsafe usize ir_lower_construct(
         );
     }
     if kind == 50 {
+        usize element_type = semantic_type_error();
+        if type_id < context.types.length &&
+            read_record_field(context.type_data, type_id, 0) == 10 {
+            element_type = read_record_field(context.type_data, type_id, 1);
+        }
         if context.array_element_first != null &&
             context.array_element_next != null {
-            usize first = context.operands.length;
+            // Child calls, conversions, and nested arrays append their own
+            // operands. Collect only their result values before publishing
+            // this array's contiguous operand range, in written order.
+            usize count = 0;
             usize child = ir_first_array_element(context, node);
             while child < context.syntax.length {
-                ir_operand_empty(
-                    context,
-                    ir_lower_node(
-                        context, child, semantic_type_error(), 0
-                    )
-                );
+                count = count + 1;
                 child = ir_next_array_element(context, child);
             }
-            return ir_emit_value(
-                context, ir_op_array_create(), type_id, node,
-                0, 0, 0, first, context.operands.length - first
-            );
-        }
-        ptr byte element_values = memory.alloc(
-            (context.syntax.length + 1) * size_of(usize)
-        );
-        usize element_count = 0;
-        usize previous_start = 0;
-        usize previous_record = 0;
-        bool first_child = true;
-        while true {
-            usize child = context.syntax.length;
-            usize child_start = cast(usize, 4294967295);
+            ptr byte values = memory.alloc((count + 1) * size_of(usize));
             usize index = 0;
-            usize candidate_count = context.syntax.length;
-            if context.expression_nodes != null {
-                candidate_count = context.expression_count;
+            child = ir_first_array_element(context, node);
+            while child < context.syntax.length {
+                write_usize(values, index * size_of(usize),
+                    ir_lower_array_element(context, child, element_type));
+                index = index + 1;
+                child = ir_next_array_element(context, child);
             }
-            context.profile_syntax_candidates =
-                context.profile_syntax_candidates + candidate_count;
-            while index < candidate_count {
-                usize record = index;
-                if context.expression_nodes != null {
-                    record = read_usize(
-                        context.expression_nodes, index * size_of(usize)
-                    );
-                }
-                usize child_kind = read_record_field(
-                    context.syntax_data, record, 0
-                );
-                usize record_start = read_record_field(
-                    context.syntax_data, record, 1
-                );
-                if resolution_expression_kind(child_kind) && record != node &&
-                    semantic_node_contains(context.syntax_data, node, record) &&
-                    resolution_smallest_parent(
-                        context.syntax_data, context.syntax, record,
-                        50, 999, 998
-                    ) == node &&
-                    (first_child || record_start > previous_start ||
-                     (record_start == previous_start && record > previous_record)) &&
-                    (child == context.syntax.length || record_start < child_start) {
-                    child = record;
-                    child_start = record_start;
-                }
+            usize first = context.operands.length;
+            index = 0;
+            while index < count {
+                ir_operand_empty(context, read_usize(values, index * size_of(usize)));
                 index = index + 1;
             }
-            if child >= context.syntax.length { break; }
-            write_usize(
-                element_values, element_count * size_of(usize),
-                ir_lower_node(context, child, semantic_type_error(), 0)
+            memory.free(values);
+            return ir_emit_value(
+                context, ir_op_array_create(), type_id, node,
+                0, 0, 0, first, count
             );
+        }
+        IrArrayIterator iterator = ir_array_elements(context, node);
+        usize element_capacity = 0;
+        usize fallback_child = ir_array_next_element(context, iterator);
+        while fallback_child < context.syntax.length {
+            element_capacity = element_capacity + 1;
+            fallback_child = ir_array_next_element(context, iterator);
+        }
+        ptr byte element_values = memory.alloc(
+            (element_capacity + 1) * size_of(usize)
+        );
+        usize element_count = 0;
+        iterator = ir_array_elements(context, node);
+        fallback_child = ir_array_next_element(context, iterator);
+        while fallback_child < context.syntax.length {
+            write_usize(element_values, element_count * size_of(usize),
+                ir_lower_array_element(context, fallback_child, element_type));
             element_count = element_count + 1;
-            previous_start = child_start;
-            previous_record = child;
-            first_child = false;
+            fallback_child = ir_array_next_element(context, iterator);
         }
         usize array_operand_first = context.operands.length;
         usize element_index = 0;

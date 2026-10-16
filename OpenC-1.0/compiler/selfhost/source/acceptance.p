@@ -160,6 +160,11 @@ unsafe bool acceptance_lossless(
     }
     if actual_kind == expected_kind && actual_kind >= 10 &&
         actual_kind <= 14 {
+        if actual_kind == 10 &&
+            read_record_field(context.type_data, actual, 2) !=
+                read_record_field(context.type_data, expected, 2) {
+            return false;
+        }
         usize actual_element = read_record_field(
             context.type_data, actual, 1
         );
@@ -282,6 +287,26 @@ unsafe bool acceptance_literal_fits(
     return value.value <= maximum;
 }
 
+unsafe bool acceptance_array_initializer(
+    ref IrContext context, usize node, usize expected
+) {
+    usize length = read_record_field(context.type_data, expected, 2);
+    usize element_type = read_record_field(context.type_data, expected, 1);
+    IrArrayIterator iterator = ir_array_elements(context, node);
+    usize count = 0;
+    usize child = ir_array_next_element(context, iterator);
+    while child < context.syntax.length {
+        if count >= length { return false; }
+        usize actual = ir_node_type(context, child, semantic_type_error());
+        if !acceptance_can_initialize(context, child, actual, element_type) {
+            return false;
+        }
+        count = count + 1;
+        child = ir_array_next_element(context, iterator);
+    }
+    return length != 0 && count == length;
+}
+
 unsafe bool acceptance_can_initialize(
     ref IrContext context,
     usize node,
@@ -295,7 +320,9 @@ unsafe bool acceptance_can_initialize(
         usize expected_kind = acceptance_kind(context, expected);
         if kind == 33 && expected_kind == 13 { return true; }
         if kind == 34 && expected_kind == 14 { return true; }
-        if kind == 50 && expected_kind == 10 { return true; }
+        if kind == 50 && expected_kind == 10 {
+            return acceptance_array_initializer(context, node, expected);
+        }
         if expected_kind == 14 && acceptance_lossless(
             context, actual,
             read_record_field(context.type_data, expected, 1)
