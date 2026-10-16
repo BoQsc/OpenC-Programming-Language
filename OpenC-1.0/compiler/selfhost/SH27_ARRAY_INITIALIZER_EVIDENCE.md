@@ -3,6 +3,14 @@
 Date: 2026-10-16. Status: **local correctness and paired non-regression
 verified; throughput closure and hosted final-source certification remain open**.
 
+The exact-source [clean run 38860319353](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/38860319353)
+at `894e50c` now passes all 20 comparator ratios and the array/argument
+regressions on this `ce6e976c...` compiler. The raw artifact `12028863615`
+was inspected: ZIP SHA-256
+`434433fe9f24a09ac86fde38e79769c820d15e93311bbb715ecc31c7f77fcdbd`.
+Large-function OpenC/DMD is 1.246x, close to the public ceiling. This is
+one hosted pass, not a repeated final-source or cross-host certificate.
+
 During the lowering-scratch investigation, inspection found two independent
 array defects. The old nearest-array-parent index admitted every expression
 descendant, including call arguments and binary operands, as an array

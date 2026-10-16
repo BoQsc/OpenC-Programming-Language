@@ -1,7 +1,10 @@
 # SH-27 throughput candidate portfolio
 
-Status: **no normal-default compiler-speed candidate promoted; SH-27 remains
-open**. The later opt-in
+Status: **historical first-batch portfolio; SH-27 remains open**. The current
+[indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md) has material
+two-lane gains and strict local correctness/memory proof; it leaves a 1.272x
+four-CPU large-function DMD deficit and requires clean final-source CI.
+The rejected candidates below remain rejected. The later opt-in
 [shared COFF identity cut](../../../SH27_SHARED_COFF_IDENTITY_EVIDENCE.md)
 has both local and clean hosted 11/11 paired cold-partition speed signals
 with byte-identical output (hosted 23.731/12.245 s medians), but it does

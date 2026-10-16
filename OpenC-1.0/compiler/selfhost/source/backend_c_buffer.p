@@ -181,6 +181,26 @@ unsafe usize c_local_parameter(
     ref IrContext context,
     usize instruction
 ) {
+    if context.function_parameter_first != null &&
+        context.parameter_next != null &&
+        context.function_symbol < context.symbols.length {
+        usize encoded = read_usize(context.function_parameter_first,
+            context.function_symbol * size_of(usize));
+        while encoded != 0 {
+            usize parameter = encoded - 1;
+            if span_equals_ascii(context.source,
+                read_record_field(context.instruction_detail, instruction, 1),
+                read_record_field(context.instruction_detail, instruction, 2),
+                project_slice(context.source,
+                    read_record_field(context.symbol_data, parameter, 2),
+                    read_record_field(context.symbol_data, parameter, 3))) {
+                return parameter;
+            }
+            encoded = read_usize(context.parameter_next,
+                parameter * size_of(usize));
+        }
+        return context.symbols.length;
+    }
     usize symbol = 0;
     while symbol < context.symbols.length {
         if read_record_field(context.symbol_data, symbol, 0) ==

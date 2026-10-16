@@ -6,7 +6,17 @@ decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
 contract. An isolated prototype, a green evidence-only workflow, or one lucky
 comparator run does not complete a step below.
 
-Latest checkpoint (2026-10-15, resource-profile audit): the corrected-basis
+Latest checkpoint (2026-10-16): the [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md)
+removes whole-syntax and whole-project symbol scans from consumers of already
+built indexes. Both four-CPU target lanes win 11/11 pairs above null noise
+(-32.5/-63.9 ms); unrestricted target lanes and real self-build also win
+11/11. Strict 20/20, 278 conformance and focused diagnostics/ABI checks pass.
+Fresh four-CPU DMD ratios are **1.272x large / 0.723x control**: large still
+needs 4 ms for the public ceiling or 13 ms internal headroom in that run.
+Keep SH-27 active. Close the remaining large margin, then complete Steps
+6-8; clean exact-source CI is still required for this batch.
+
+Previous checkpoint (2026-10-15, resource-profile audit): the corrected-basis
 hosted run 38693328802 passes all 20 ratios on retained compiler `91573ac5...`,
 but the separately pinned four-logical-CPU profile reproduces **1.459x large
 and 1.277x control**. The same-run internal-margin budgets are **47/8.5 ms**.

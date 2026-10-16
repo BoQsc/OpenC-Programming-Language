@@ -17,7 +17,17 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-10-15, four-CPU resource audit): clean corrected-
+Current next decision (2026-10-16): the [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md)
+has a material two-lane gain above null noise and 11/11 paired wins on both
+four-CPU/unrestricted profiles and real self-build. Strict 20/20, 278 native
+conformance and focused scope/parameter/ABI checks pass. Fresh four-CPU DMD
+is **1.272x large / 0.723x control**, leaving 4 ms to the public large ceiling
+or 13 ms to internal headroom. Reprofile that remaining lane and audit
+source import/cycle scans; do not continue optimizing the now-removed scope
+and parameter scans. Clean exact-source CI, normal-default incremental,
+representative-project and final repeated release gates remain mandatory.
+
+Previous next decision (2026-10-15, four-CPU resource audit): clean corrected-
 basis run 38693328802 passes all 20 ratios, but a local affinity-pinned
 four-logical-CPU profile fails at **1.459x large / 1.277x control** on the
 same retained binary. The target margins are **47/8.5 ms** on that profile;
