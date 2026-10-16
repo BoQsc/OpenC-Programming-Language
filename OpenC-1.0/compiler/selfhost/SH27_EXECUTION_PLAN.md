@@ -6,7 +6,18 @@ decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
 contract. An isolated prototype, a green evidence-only workflow, or one lucky
 comparator run does not complete a step below.
 
-Latest checkpoint (2026-10-16): the [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md)
+Latest checkpoint (2026-10-16, integrated native pipeline): the
+[combined preparation/control/worker cut](SH27_INTEGRATED_NATIVE_PIPELINE_EVIDENCE.md)
+wins 23/31 large-function pairs at -16.170 ms versus 12.099 ms null, while
+unrestricted/self-build lanes are flat and protected lanes pass. Strict 20/20,
+278 conformance, exact 2/4-chunk outputs/diagnostics, 25 ABI checks and 15
+worker-setup fault variants pass. Fresh four-CPU DMD is **1.202x large /
+0.697x control**: all five available public ceilings pass once; absent local
+C/LDC tools still prevent full certification, and the 1.20x margin is not
+closed. Obtain clean exact-source and independent constrained-host proof,
+then finish the original incremental/project/release gates. SH-27 is active.
+
+Previous checkpoint (2026-10-16): the [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md)
 removes whole-syntax and whole-project symbol scans from consumers of already
 built indexes. Both four-CPU target lanes win 11/11 pairs above null noise
 (-32.5/-63.9 ms); unrestricted target lanes and real self-build also win

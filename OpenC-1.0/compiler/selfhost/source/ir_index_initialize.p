@@ -55,6 +55,36 @@ unsafe void ir_initialize_function_positions(ref IrContext context) {
         }
         symbol = symbol + 1;
     }
+    // Function nodes cannot be control parents (that index covers kinds
+    // 14-19/24/25). Reuse their otherwise empty control-block head slots for
+    // the largest contained block, so acceptance and lowering share a body
+    // fact instead of each scanning every source block for every function.
+    if context.control_block_first == null || context.block_nodes == null {
+        return;
+    }
+    usize block_index = 0;
+    while block_index < context.block_count {
+        usize block = read_usize(context.block_nodes, block_index * size_of(usize));
+        usize start = read_record_field(context.syntax_data, block, 1);
+        if start < context.expression_start_capacity {
+            usize owner = read_usize(context.function_at_position, start * size_of(usize));
+            if owner != 0 && owner - 1 < context.symbols.length {
+                usize declaration = read_record_field(context.detail_data, owner - 1, 1);
+                if declaration < context.syntax.length &&
+                    read_record_field(context.syntax_data, declaration, 0) == 2 &&
+                    semantic_node_contains(context.syntax_data, declaration, block) {
+                    usize previous = read_usize(context.control_block_first,
+                        declaration * size_of(usize));
+                    if previous == 0 || read_record_field(context.syntax_data, block, 2) >
+                        read_record_field(context.syntax_data, previous - 1, 2) {
+                        write_usize(context.control_block_first,
+                            declaration * size_of(usize), block + 1);
+                    }
+                }
+            }
+        }
+        block_index = block_index + 1;
+    }
 }
 
 unsafe void ir_initialize_parent_position_kind(

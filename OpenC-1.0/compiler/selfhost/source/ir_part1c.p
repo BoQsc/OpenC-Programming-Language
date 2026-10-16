@@ -181,6 +181,13 @@ unsafe usize ir_largest_direct_block(
     ref IrContext context,
     usize parent
 ) {
+    if context.control_block_first != null &&
+        context.function_at_position != null && parent < context.syntax.length &&
+        read_record_field(context.syntax_data, parent, 0) == 2 {
+        usize body = read_usize(context.control_block_first, parent * size_of(usize));
+        if body == 0 { return context.syntax.length; }
+        return body - 1;
+    }
     if context.block_nodes == null {
         return flow_largest_direct_block(
             context.syntax_data, context.syntax, parent

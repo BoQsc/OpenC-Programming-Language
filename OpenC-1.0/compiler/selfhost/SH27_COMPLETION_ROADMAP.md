@@ -17,7 +17,17 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-10-16): the [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md)
+Current next decision (2026-10-16, integrated pipeline): the
+[native preparation/control/worker batch](SH27_INTEGRATED_NATIVE_PIPELINE_EVIDENCE.md)
+passes local triage/correctness/strict RAM with a -16.170 ms large gain,
+23/31 wins above 12.099 ms null. Fresh four-CPU DMD public limits pass
+at **1.202x large / 0.697x control** once. The 1.20x internal margin remains
+narrow and clean exact-source C/D plus independent constrained-host repeat
+are required. Do not credit the isolated components or packet trial as
+independent wins. Normal-default incremental policy, representative breadth,
+two final-source parity runs and editor/release audits remain open.
+
+Previous next decision (2026-10-16): the [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md)
 has a material two-lane gain above null noise and 11/11 paired wins on both
 four-CPU/unrestricted profiles and real self-build. Strict 20/20, 278 native
 conformance and focused scope/parameter/ABI checks pass. Fresh four-CPU DMD

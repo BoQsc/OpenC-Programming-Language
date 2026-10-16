@@ -473,6 +473,16 @@ unsafe u32 c_native_chunk_thread_entry_four(ref CNativeChunkState state) {
     return cast(u32, c_native_chunk_run(state.chunk_four, state));
 }
 
+unsafe void c_native_pool_one(ptr byte instance, ref CNativeChunkState state, ptr byte work) {
+    c_native_chunk_thread_entry(state);
+}
+unsafe void c_native_pool_two(ptr byte instance, ref CNativeChunkState state, ptr byte work) {
+    c_native_chunk_thread_entry_two(state);
+}
+unsafe void c_native_pool_three(ptr byte instance, ref CNativeChunkState state, ptr byte work) {
+    c_native_chunk_thread_entry_three(state);
+}
+
 unsafe void c_native_chunk_state_destroy(ref CNativeChunkState state) {
     c_parallel_chunk_destroy(state.chunk_four);
     c_parallel_chunk_destroy(state.chunk_three);

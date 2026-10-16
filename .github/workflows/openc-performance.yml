@@ -15,8 +15,12 @@ on:
       - OpenC-1.0/compiler/selfhost/verify_sh27_argument_snapshot.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_array_initializers.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_indexed_bindings.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_worker_pool.py
+      - OpenC-1.0/compiler/selfhost/test_verify_sh27_worker_pool.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_statement_handoff.py
       - OpenC-1.0/tests/sh27_array_initializer_operands/**
       - OpenC-1.0/tests/sh27_indexed_bindings/**
+      - OpenC-1.0/tests/sh27_statement_handoff/**
       - OpenC-1.0/tests/python/test_sh27_production.py
       - .github/bootstrap/openc-stage0.exe
       - .github/workflows/openc-performance.yml
@@ -115,6 +119,25 @@ jobs:
           compiler=pathlib.Path(report['tools']['openc']['path']);
           sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/verify_sh27_indexed_bindings.py','--compiler',str(compiler),'--output','artifacts/sh27-indexed-bindings.json']))"
 
+      - name: Verify bounded worker setup and failure fallback
+        if: always()
+        shell: cmd
+        run: >-
+          python -m unittest discover -s OpenC-1.0/compiler/selfhost -p test_verify_sh27_worker_pool.py &&
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/verify_sh27_worker_pool.py','--compiler',str(compiler),'--output','artifacts/sh27-worker-pool.json']))"
+
+      - name: Verify statement ordering and function body handoff
+        if: always()
+        shell: cmd
+        run: >-
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/verify_sh27_statement_handoff.py','--compiler',str(compiler),'--output','artifacts/sh27-statement-handoff.json']))"
+
       - name: Retain raw performance evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -131,3 +154,7 @@ jobs:
             artifacts/sh27-array-initializers-runs/**
             artifacts/sh27-indexed-bindings.json
             artifacts/sh27-indexed-bindings-runs/**
+            artifacts/sh27-worker-pool.json
+            artifacts/sh27-worker-pool-runs/**
+            artifacts/sh27-statement-handoff.json
+            artifacts/sh27-statement-handoff-runs/**

@@ -72,8 +72,13 @@ unsafe void ir_initialize_statement_adjacency(ref IrContext context) {
         );
         node = node + 1;
     }
-    usize index = 0;
-    while index < context.statement_count {
+    // Visit creation order backwards. Direct statements normally arrive in
+    // written order within their block, so each predecessor can be prepended
+    // in O(1), rather than repeatedly walking the entire growing sibling list.
+    // The sorted insertion below handles every non-monotonic span/tie case.
+    usize index = context.statement_count;
+    while index != 0 {
+        index = index - 1;
         usize record = read_usize(
             context.statement_nodes, index * size_of(usize)
         );
@@ -125,6 +130,5 @@ unsafe void ir_initialize_statement_adjacency(ref IrContext context) {
                 );
             }
         }
-        index = index + 1;
     }
 }

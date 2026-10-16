@@ -30,6 +30,15 @@ The fixed-point compiler SHA-256 is
 The retained A/B baseline is array-corrected compiler `ce6e976c...`, not an
 older compiler with the array defect. All three bootstrap stages match.
 
+The exact-source [clean run 38862606263](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/38862606263)
+at `4b23f98` passes all 20 comparator ratios with 20 samples per cell,
+fixed-point bootstrap, and all indexed-binding/array/argument regressions.
+Large/control OpenC-to-DMD ratios are **0.588x/0.246x**. Raw artifact
+`12029903355` was downloaded and inspected (94,081,110 bytes; ZIP SHA-256
+`37a70de84fb1ab9bfbef3be1a29051a2f997eb30712bb0dea9e84067e4f2bad4`).
+This is one clean hosted pass of this source, not final two-run or cross-host
+certification; the separate four-CPU large-function failure remains below.
+
 ## Same-host paired measurements
 
 Eleven adjacent order-alternated pairs and baseline/null controls per lane

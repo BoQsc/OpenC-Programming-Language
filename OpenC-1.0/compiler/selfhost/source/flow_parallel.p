@@ -126,6 +126,16 @@ unsafe u32 flow_parallel_thread_entry_four(ref FlowParallelState state) {
     return cast(u32, flow_parallel_chunk_run(state.chunk_four, state));
 }
 
+unsafe void flow_parallel_pool_one(ptr byte instance, ref FlowParallelState state, ptr byte work) {
+    flow_parallel_thread_entry_one(state);
+}
+unsafe void flow_parallel_pool_two(ptr byte instance, ref FlowParallelState state, ptr byte work) {
+    flow_parallel_thread_entry_two(state);
+}
+unsafe void flow_parallel_pool_three(ptr byte instance, ref FlowParallelState state, ptr byte work) {
+    flow_parallel_thread_entry_three(state);
+}
+
 unsafe i32 flow_parallel_jobs(ptr FlowParallelState state) { return 3; }
 unsafe i32 flow_parallel_jobs_two(ptr FlowParallelState state) { return 3; }
 

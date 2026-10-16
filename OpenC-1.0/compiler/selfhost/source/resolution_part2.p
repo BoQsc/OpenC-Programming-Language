@@ -388,8 +388,18 @@ unsafe u32 resolution_parse_thread_entry_four(ref ResolutionParseState state) {
     return cast(u32, resolution_parse_chunk_run(state.four, state));
 }
 
-// The native backend replaces this with the same guarded CreateThread/Wait
-// substrate used by native source and flow workers. Older bootstrap seeds
+unsafe void resolution_parse_pool_one(ptr byte instance, ref ResolutionParseState state, ptr byte work) {
+    resolution_parse_thread_entry_one(state);
+}
+unsafe void resolution_parse_pool_two(ptr byte instance, ref ResolutionParseState state, ptr byte work) {
+    resolution_parse_thread_entry_two(state);
+}
+unsafe void resolution_parse_pool_three(ptr byte instance, ref ResolutionParseState state, ptr byte work) {
+    resolution_parse_thread_entry_three(state);
+}
+
+// The native backend replaces this with bounded Windows threadpool work,
+// sharing the native-source/flow setup-and-join contract. Older bootstrap seeds
 // return 3 and use the deterministic serial fallback below.
 unsafe i32 resolution_parse_parallel_jobs(ptr ResolutionParseState state) {
     return 3;

@@ -19,6 +19,123 @@ unsafe usize native_compiler_named_function(ref IrContext context,
     return context.symbols.length;
 }
 
+// All work objects are created before any submission. A setup failure closes
+// unsubmitted objects and returns 3 for the existing serial fallback. After
+// submission, every callback is joined before its state can be released.
+unsafe void native_compiler_pool_work(
+    ref IrContext context, ref NativeFunction function,
+    usize instruction, usize result,
+    usize callback_one, usize callback_two, usize callback_three,
+    usize callback_four, bool two_workers
+) {
+    usize workers = 3;
+    if two_workers { workers = 1; }
+    usize caller = callback_four;
+    if two_workers {
+        text name = "c_native_chunk_thread_entry_two";
+        if d_symbol_name_is(context, callback_one, "flow_parallel_pool_one") {
+            name = "flow_parallel_thread_entry_two";
+        }
+        caller = native_compiler_named_function(context, name);
+        if caller >= context.symbols.length { function.code.ok = false; return; }
+    }
+    ptr byte failures = memory.alloc(7 * size_of(usize));
+    scope memory.free(failures);
+    usize failure_count = 0;
+    native_load(function, d_operand_value(context, instruction, 0), 0);
+    x64_mov_memory_r64(function.code, 4, 1424, 0);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    usize worker = 0;
+    while worker < workers {
+        x64_mov_memory_r64(function.code, 4, 1440 + worker * 8, 0);
+        worker = worker + 1;
+    }
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 3));
+    x64_mov_memory_r64(function.code, 4, 1464, 0);
+    native_windows_dynamic_prepare(function, "kernel32.dll", "CreateThreadpoolWork");
+    x64_mov_r64_memory(function.code, 0, 4, 608);
+    x64_mov_memory_r64(function.code, 4, 1472, 0);
+    x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 192);
+    write_usize(failures, failure_count * 8, native_skip(function.code, 4));
+    failure_count = failure_count + 1;
+    usize api_index = 0;
+    while api_index < 3 {
+        text name = "SubmitThreadpoolWork";
+        if api_index == 1 { name = "WaitForThreadpoolWorkCallbacks"; }
+        if api_index == 2 { name = "CloseThreadpoolWork"; }
+        x64_mov_r64_memory(function.code, 1, 4, 600);
+        native_constant_ascii(function, name, false, 2);
+        native_import(function, 20);
+        x64_mov_memory_r64(function.code, 4, 1480 + api_index * 8, 0);
+        x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+        x64_emit_u8(function.code, 192);
+        write_usize(failures, failure_count * 8, native_skip(function.code, 4));
+        failure_count = failure_count + 1;
+        api_index = api_index + 1;
+    }
+    worker = 0;
+    while worker < workers {
+        usize callback = callback_one;
+        if worker == 1 { callback = callback_two; }
+        if worker == 2 { callback = callback_three; }
+        native_symbol_address(function, callback, 1);
+        x64_mov_r64_memory(function.code, 2, 4, 1424);
+        x64_mov_r64_imm64(function.code, 8, cast(u64, 0));
+        x64_mov_r64_memory(function.code, 11, 4, 1472);
+        x64_call_r64(function.code, 11);
+        x64_mov_memory_r64(function.code, 4, 1440 + worker * 8, 0);
+        x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+        x64_emit_u8(function.code, 192);
+        write_usize(failures, failure_count * 8, native_skip(function.code, 4));
+        failure_count = failure_count + 1;
+        worker = worker + 1;
+    }
+    worker = 0;
+    while worker < workers {
+        x64_mov_r64_memory(function.code, 1, 4, 1440 + worker * 8);
+        x64_mov_r64_memory(function.code, 11, 4, 1480);
+        x64_call_r64(function.code, 11);
+        worker = worker + 1;
+    }
+    x64_mov_r64_memory(function.code, 1, 4, 1424);
+    x64_call_symbol(function.code, caller, 0);
+    worker = 0;
+    while worker < workers {
+        x64_mov_r64_memory(function.code, 1, 4, 1440 + worker * 8);
+        x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
+        x64_mov_r64_memory(function.code, 11, 4, 1488);
+        x64_call_r64(function.code, 11);
+        worker = worker + 1;
+    }
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+    x64_mov_memory_r64(function.code, 4, 1464, 0);
+    usize failure = 0;
+    while failure < failure_count {
+        native_skip_end(function.code, read_usize(failures, failure * 8));
+        failure = failure + 1;
+    }
+    worker = 0;
+    while worker < workers {
+        x64_mov_r64_memory(function.code, 1, 4, 1440 + worker * 8);
+        x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+        x64_emit_u8(function.code, 201);
+        usize absent = native_skip(function.code, 4);
+        x64_mov_r64_memory(function.code, 11, 4, 1496);
+        x64_call_r64(function.code, 11);
+        native_skip_end(function.code, absent);
+        worker = worker + 1;
+    }
+    x64_mov_r64_memory(function.code, 1, 4, 600);
+    x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
+    x64_emit_u8(function.code, 201);
+    usize missing_module = native_skip(function.code, 4);
+    native_windows_dynamic_close(function);
+    native_skip_end(function.code, missing_module);
+    x64_mov_r64_memory(function.code, 0, 4, 1464);
+    native_store(function, result, 0);
+}
+
 unsafe bool native_compiler_intrinsic(ref IrContext context,
     ref NativeFunction function, usize instruction, usize result) {
     usize kind = read_record_field(context.instruction_detail, instruction, 0);
@@ -42,20 +159,20 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         if d_operand_count(context, instruction) != 1 {
             function.code.ok = false; return true;
         }
-        text name_one = "c_native_chunk_thread_entry";
-        text name_two = "c_native_chunk_thread_entry_two";
-        text name_three = "c_native_chunk_thread_entry_three";
+        text name_one = "c_native_pool_one";
+        text name_two = "c_native_pool_two";
+        text name_three = "c_native_pool_three";
         text name_four = "c_native_chunk_thread_entry_four";
         if flow_workers {
-            name_one = "flow_parallel_thread_entry_one";
-            name_two = "flow_parallel_thread_entry_two";
-            name_three = "flow_parallel_thread_entry_three";
+            name_one = "flow_parallel_pool_one";
+            name_two = "flow_parallel_pool_two";
+            name_three = "flow_parallel_pool_three";
             name_four = "flow_parallel_thread_entry_four";
         }
         if parse_workers {
-            name_one = "resolution_parse_thread_entry_one";
-            name_two = "resolution_parse_thread_entry_two";
-            name_three = "resolution_parse_thread_entry_three";
+            name_one = "resolution_parse_pool_one";
+            name_two = "resolution_parse_pool_two";
+            name_three = "resolution_parse_pool_three";
             name_four = "resolution_parse_thread_entry_four";
         }
         usize callback_one = native_compiler_named_function(context, name_one);
@@ -68,74 +185,9 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
             callback_four == context.symbols.length {
             function.code.ok = false; return true;
         }
-        usize argument = d_operand_value(context, instruction, 0);
-        native_load(function, argument, 0);
-        x64_mov_memory_r64(function.code, 4, 1424, 0);
-        native_windows_dynamic_prepare(function, "kernel32.dll", "CreateThread");
-        usize available = native_windows_dynamic_available(function);
-        x64_mov_r64_memory(function.code, 1, 4, 600);
-        x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
-        x64_emit_u8(function.code, 201);
-        usize missing_module = native_skip(function.code, 4);
-        native_windows_dynamic_close(function);
-        native_skip_end(function.code, missing_module);
-        x64_mov_r64_imm64(function.code, 0, cast(u64, 3));
-        native_store(function, result, 0);
-        usize unavailable_done = native_jump(function.code);
-        native_skip_end(function.code, available);
-
-        x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
-        x64_mov_memory_r64(function.code, 4, 1464, 0);
-        usize spawned_workers = 3;
-        if two_workers { spawned_workers = 1; }
-        usize worker = 0;
-        while worker < spawned_workers {
-            usize callback = callback_one;
-            if worker == 1 { callback = callback_two; }
-            if worker == 2 { callback = callback_three; }
-            x64_mov_r64_imm64(function.code, 1, cast(u64, 0));
-            x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
-            native_symbol_address(function, callback, 8);
-            x64_mov_r64_memory(function.code, 9, 4, 1424);
-            x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
-            x64_mov_memory_r64(function.code, 4, 32, 0);
-            x64_mov_memory_r64(function.code, 4, 40, 0);
-            x64_mov_r64_memory(function.code, 11, 4, 608);
-            x64_call_r64(function.code, 11);
-            x64_mov_memory_r64(function.code, 4, 1440 + worker * 8, 0);
-            x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
-            x64_emit_u8(function.code, 192);
-            usize created = native_skip(function.code, 5);
-            x64_mov_r64_imm64(function.code, 0, cast(u64, 3));
-            x64_mov_memory_r64(function.code, 4, 1464, 0);
-            native_skip_end(function.code, created);
-            worker = worker + 1;
-        }
-
-        x64_mov_r64_memory(function.code, 1, 4, 1424);
-        usize caller_callback = callback_four;
-        if two_workers { caller_callback = callback_two; }
-        x64_call_symbol(function.code, caller_callback, 0);
-        worker = 0;
-        while worker < spawned_workers {
-            x64_mov_r64_memory(function.code, 1, 4, 1440 + worker * 8);
-            x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
-            x64_emit_u8(function.code, 201);
-            usize missing = native_skip(function.code, 4);
-            x64_mov_r64_imm64(function.code, 2, cast(u64, 4294967295));
-            native_import(function, 26);
-            x64_mov_r64_imm64(function.code, 11, cast(u64, 0));
-            x64_cmp_r64_r64(function.code, 0, 11);
-            native_require(function.code, 4);
-            x64_mov_r64_memory(function.code, 1, 4, 1440 + worker * 8);
-            native_import(function, 0); native_runtime_nonzero(function);
-            native_skip_end(function.code, missing);
-            worker = worker + 1;
-        }
-        native_windows_dynamic_close(function);
-        x64_mov_r64_memory(function.code, 0, 4, 1464);
-        native_store(function, result, 0);
-        native_skip_end(function.code, unavailable_done);
+        native_compiler_pool_work(context, function, instruction, result,
+            callback_one, callback_two, callback_three, callback_four,
+            two_workers);
         return true;
     }
     if native_compiler_span_is(

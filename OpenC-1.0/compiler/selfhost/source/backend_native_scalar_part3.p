@@ -83,7 +83,7 @@ unsafe bool native_try_integer_immediate(
 
 unsafe void native_emit_function(
     ref IrContext context, ref DBuffer output, ref BuildTimings timings,
-    usize symbol, usize entry_module
+    usize symbol, usize entry_module, usize first
 ) {
     if !output.ok { return; }
     // These are compiler-engineering budgets, not language limits. They stop a
@@ -107,13 +107,17 @@ unsafe void native_emit_function(
         output.ok = false;
         return;
     }
-    usize first = context.next_value;
-    usize index = 0;
-    while index < context.instructions.length {
-        usize value = read_record_field(context.instruction_data, index, 1);
-        if value != 0 && value < first { first = value; }
-        index = index + 1;
-    }
+    // Lowering publishes monotonically increasing function-local SSA values.
+    // Its caller captures the first ID before lowering. Build types, slots,
+    // operand-use counts and capacity facts together in creation order; none
+    // depends on final block order. The old reference-origin pass wrote into
+    // value_slots and was immediately overwritten before any reader.
+    usize value_capacity = context.next_value - first + 1;
+    ptr byte value_types = memory.alloc(value_capacity * size_of(usize));
+    ptr byte value_slots = memory.alloc(value_capacity * size_of(usize));
+    ptr byte references = memory.alloc(value_capacity * size_of(usize));
+    usize frame_cursor = 1536;
+    usize next_result = first;
     usize scope_count = 0;
     usize maximum_layout_size = 8;
     bool function_has_call = false;
@@ -121,12 +125,46 @@ unsafe void native_emit_function(
     bool function_has_small_integer = false;
     usize argument_snapshot_calls = 0;
     usize direct_constant_capacity = 256;
-    index = 0;
+    usize index = 0;
     while index < context.instructions.length {
         NativeLayout instruction_layout = native_layout(context,
             read_record_field(context.instruction_data, index, 3), 0);
         if instruction_layout.valid && instruction_layout.size > maximum_layout_size {
             maximum_layout_size = instruction_layout.size;
+        }
+        usize result = read_record_field(context.instruction_data, index, 1);
+        if result != 0 {
+            // Fail before indexing scratch if a future lowerer violates the
+            // contiguous-ID handoff, rather than silently changing frame order.
+            if result != next_result || result >= context.next_value {
+                memory.free(references); memory.free(value_slots);
+                memory.free(value_types); output.ok = false; return;
+            }
+            usize value_size = 8;
+            usize value_alignment = 8;
+            if instruction_layout.valid {
+                if instruction_layout.size > value_size { value_size = instruction_layout.size; }
+                if instruction_layout.alignment > value_alignment {
+                    value_alignment = instruction_layout.alignment;
+                }
+            }
+            frame_cursor = x64_align_up(frame_cursor, value_alignment);
+            write_usize(value_slots, (result - first) * size_of(usize), frame_cursor);
+            write_usize(value_types, (result - first) * size_of(usize),
+                read_record_field(context.instruction_data, index, 3));
+            frame_cursor = frame_cursor + value_size;
+            next_result = next_result + 1;
+        }
+        usize operand_first = read_record_field(context.instruction_detail, index, 3);
+        usize operand_count = d_operand_count(context, index);
+        usize operand = 0;
+        while operand < operand_count {
+            usize value = read_record_field(context.operand_data, operand_first + operand, 0);
+            if value >= first && value - first < value_capacity {
+                usize offset = (value - first) * size_of(usize);
+                write_usize(references, offset, read_usize(references, offset) + 1);
+            }
+            operand = operand + 1;
         }
         usize opcode = read_record_field(
             context.instruction_data, index, 2
@@ -155,39 +193,15 @@ unsafe void native_emit_function(
         }
         index = index + 1;
     }
-    // SSA numbers are project-wide, but all function analyses are local. Keep
-    // storage proportional to this function instead of reallocating and
-    // clearing every value produced by all preceding functions.
-    usize value_capacity = context.next_value - first + 1;
-    ptr byte value_types = memory.alloc(value_capacity * size_of(usize));
-    ptr byte value_slots = memory.alloc(value_capacity * size_of(usize));
-    ptr byte references = null;
-    if function_has_small_integer {
-        references = memory.alloc(value_capacity * size_of(usize));
+    if next_result != context.next_value {
+        memory.free(references); memory.free(value_slots);
+        memory.free(value_types); output.ok = false; return;
     }
+    // Preserve the historical one-past-last sentinel slot and exact frame.
+    frame_cursor = x64_align_up(frame_cursor, 8);
+    write_usize(value_slots, (context.next_value - first) * size_of(usize), frame_cursor);
+    frame_cursor = frame_cursor + 8;
     ptr byte order = d_instruction_order(context);
-    native_analyze_values(context, first, value_types, value_slots,
-        order, references, value_capacity);
-    usize frame_cursor = 1536;
-    index = first;
-    while index <= context.next_value {
-        NativeLayout value_layout = native_layout(context,
-            read_usize(value_types,
-                (index - first) * size_of(usize)), 0);
-        usize value_size = 8;
-        usize value_alignment = 8;
-        if value_layout.valid {
-            if value_layout.size > value_size { value_size = value_layout.size; }
-            if value_layout.alignment > value_alignment {
-                value_alignment = value_layout.alignment;
-            }
-        }
-        frame_cursor = x64_align_up(frame_cursor, value_alignment);
-        write_usize(value_slots,
-            (index - first) * size_of(usize), frame_cursor);
-        frame_cursor = frame_cursor + value_size;
-        index = index + 1;
-    }
     usize frame = x64_align_up(frame_cursor, 16) + 8;
     usize code_capacity = context.instructions.length * 1024 +
         maximum_layout_size * 32 + 65536;
