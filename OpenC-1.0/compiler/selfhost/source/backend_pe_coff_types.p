@@ -14,6 +14,7 @@ struct NativeArtifactOptions {
     text module_name;
     text cache_prefix;
     text cache_project_key;
+    bool cache_retry_required;
 }
 usize native_artifact_executable() { return 0; }
 usize native_artifact_coff_object() { return 1; }
@@ -21,6 +22,7 @@ usize native_artifact_dll() { return 2; }
 usize native_artifact_static_library() { return 3; }
 usize native_artifact_import_library() { return 4; }
 usize native_artifact_module_coff_set() { return 5; }
+usize native_artifact_cached_executable() { return 6; }
 
 NativeArtifactOptions native_artifact_default_options() {
     return NativeArtifactOptions{
@@ -36,7 +38,8 @@ NativeArtifactOptions native_artifact_default_options() {
         linked_output_path = "",
         module_name = "",
         cache_prefix = "",
-        cache_project_key = ""
+        cache_project_key = "",
+        cache_retry_required = false
     };
 }
 

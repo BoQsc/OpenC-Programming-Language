@@ -29,6 +29,10 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.source_files);
     d_put(output, ",\n  \"source_bytes\": ");
     d_put_usize(output, timings.source_bytes);
+    if timings.object_cache_retries != 0 {
+        d_put(output, ",\n  \"object_cache_retries\": ");
+        d_put_usize(output, timings.object_cache_retries);
+    }
     if timings.module_selection_enabled {
         d_put(output, ",\n  \"module_selection\": {\"sources_lowered\": ");
         d_put_usize(output, timings.module_sources_lowered);

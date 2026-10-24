@@ -58,6 +58,7 @@ struct BuildTimings {
     usize object_cache_hits;
     usize object_cache_misses;
     usize object_cache_publish_failures;
+    usize object_cache_retries;
     bool object_cache_validation_skipped;
     usize object_cache_flow_sources_skipped;
     usize object_cache_acceptance_sources_skipped;
@@ -235,6 +236,7 @@ BuildTimings build_timings_empty() {
         object_cache_hits = 0,
         object_cache_misses = 0,
         object_cache_publish_failures = 0,
+        object_cache_retries = 0,
         object_cache_validation_skipped = false,
         object_cache_flow_sources_skipped = 0,
         object_cache_acceptance_sources_skipped = 0,

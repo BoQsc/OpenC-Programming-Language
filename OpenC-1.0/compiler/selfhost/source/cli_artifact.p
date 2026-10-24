@@ -5,6 +5,7 @@ import system.text;
 
 text cli_artifact_kind_name(usize kind) {
     if kind == native_artifact_executable() { return "exe"; }
+    if kind == native_artifact_cached_executable() { return "cached-exe"; }
     if kind == native_artifact_coff_object() { return "coff-object"; }
     if kind == native_artifact_module_coff_set() { return "module-coff-set"; }
     if kind == native_artifact_dll() { return "dll"; }
@@ -13,6 +14,7 @@ text cli_artifact_kind_name(usize kind) {
 }
 usize cli_artifact_kind(text value) {
     if value == "exe" { return native_artifact_executable(); }
+    if value == "cached-exe" { return native_artifact_cached_executable(); }
     if value == "coff-object" { return native_artifact_coff_object(); }
     if value == "module-coff-set" { return native_artifact_module_coff_set(); }
     if value == "dll" { return native_artifact_dll(); }
@@ -140,11 +142,12 @@ unsafe i32 cli_artifact_command() {
     }
     options.kind = cli_artifact_kind(kind_name);
     if !source_chunks_explicit &&
-        options.kind != native_artifact_executable() {
+        options.kind != native_artifact_executable() &&
+        options.kind != native_artifact_cached_executable() {
         options.source_chunks = 1;
     }
     if text.byte_length(project) == 0 ||
-        text.byte_length(output_path) == 0 || options.kind > 5 {
+        text.byte_length(output_path) == 0 || options.kind > 6 {
         valid = false;
     }
     if (options.kind == native_artifact_dll() ||
@@ -162,6 +165,7 @@ unsafe i32 cli_artifact_command() {
     }
     if options.source_chunks != 1 &&
         options.kind != native_artifact_executable() &&
+        options.kind != native_artifact_cached_executable() &&
         !(options.kind == native_artifact_module_coff_set() &&
             options.source_partitions != 0 &&
             options.source_chunks == 4) { valid = false; }
@@ -180,20 +184,29 @@ unsafe i32 cli_artifact_command() {
         valid = false;
     }
     if text.byte_length(options.cache_prefix) != 0 &&
-        (options.kind != native_artifact_module_coff_set() ||
-            text.byte_length(options.linked_output_path) == 0 ||
+        ((options.kind != native_artifact_module_coff_set() &&
+            options.kind != native_artifact_cached_executable()) ||
+            (options.kind == native_artifact_module_coff_set() &&
+                text.byte_length(options.linked_output_path) == 0) ||
             text.byte_length(options.cache_prefix) > 4096 || module_explicit ||
             options.subsystem != pe32_subsystem_windows_console()) {
         valid = false;
     }
     if options.source_partitions != 0 &&
-        (options.kind != native_artifact_module_coff_set() ||
-            text.byte_length(options.linked_output_path) == 0 ||
+        ((options.kind != native_artifact_module_coff_set() &&
+            options.kind != native_artifact_cached_executable()) ||
+            (options.kind == native_artifact_module_coff_set() &&
+                text.byte_length(options.linked_output_path) == 0) ||
             module_explicit) {
         valid = false;
     }
+    if options.kind == native_artifact_cached_executable() &&
+        (text.byte_length(options.cache_prefix) == 0 ||
+         text.byte_length(options.manifest_path) != 0 ||
+         text.byte_length(options.resource_path) != 0 ||
+         options.subsystem != pe32_subsystem_windows_console()) { valid = false; }
     if !valid {
-        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|module-coff-set|dll|static-library|import-library) --output=FILE-OR-PREFIX [--module=MODULE (module-coff-set only, no linked-exe)] [--linked-exe=FILE (module-coff-set only)] [--cache-prefix=PREFIX (console module-coff-set with linked-exe)] [--source-partitions=(2|4|8|16|32) (linked module-coff-set)] [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--stable-coff-symbols] [--source-chunks=(1|2|4|auto)]\n");
+        io.error("usage: openc artifact --project=PROJECT --kind=(exe|cached-exe|coff-object|module-coff-set|dll|static-library|import-library) --output=FILE-OR-PREFIX [--module=MODULE (module-coff-set only, no linked-exe)] [--linked-exe=FILE (module-coff-set only)] [--cache-prefix=PREFIX (cached-exe or console module-coff-set with linked-exe)] [--source-partitions=(2|4|8|16|32) (cached-exe or linked module-coff-set)] [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--stable-coff-symbols] [--source-chunks=(1|2|4|auto)]\n");
         return 64;
     }
     BuildTimings timings = build_timings_empty();

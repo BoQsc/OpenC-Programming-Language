@@ -877,6 +877,12 @@ def main() -> int:
                     openc_source_chunks=args.openc_source_chunks,
                 )
                 sample["run"] = run + 1
+                if tool == "openc":
+                    timing = sample.get("compiler_timings")
+                    sample["object_cache_was_cold"] = (isinstance(timing, dict)
+                        and timing.get("status") == "PASS"
+                        and timing.get("object_cache", {}).get("hits", 0) == 0)
+                    sample["passed"] = bool(sample["passed"] and sample["object_cache_was_cold"])
                 sample["cache_state"] = "first_observation" if run == 0 else "warm_os_cache"
                 tool_samples[tool].append(sample)
                 integrity = integrity and bool(sample["passed"])

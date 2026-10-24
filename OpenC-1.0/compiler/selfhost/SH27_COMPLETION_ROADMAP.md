@@ -21,13 +21,22 @@ Current decision (2026-10-24): the [saved-link hash cut](SH27_SAVED_LINK_HASH_EV
 has a local 11/11 exact-output gain from 1.232 to 0.073 seconds, full local
 strict-memory/conformance/cache proof and a forced-unavailable-API fallback
 test. Clean hosted module/COFF and strict 20/20 now pass; the independent
-relink series is 2.481 to 0.104 seconds, 11/11 wins. One exact-source hosted
-C/D series passes 20/20; an independent repeat remains required. The public
+relink series is 2.481 to 0.104 seconds, 11/11 wins. Two artifact-verified
+independent hosted C/D series pass 20/20 on the retained compiler. The public
 saved-object reader uses the same optional digest path as cache hits. Cold/default throughput,
 normal incremental policy, representative breadth and final-source repeated
 C/D/editor/release certification still prevent SH-27 completion. Removed
 index, constant, symbol-resolution and serialization prototypes remain
 recorded negative results rather than queued implementation requirements.
+
+The isolated [native-object default candidate](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md)
+replaces cold COFF conversion with direct function records, batches publication
+into one bounded atomic bundle and reuses content-validated source groups in
+ordinary `build`. Its fixed point, strict 20/20, 278 conformance, malformed
+cache recovery and forced full retry pass locally. The 24-file matrix still
+fails cold/warm/edit economics. It remains unpromoted while frontend-state
+reuse is developed and both project sizes are remeasured. Final-source C/D,
+constrained-host, representative and release gates remain open.
 
 Previous next decision (2026-10-16): source `6ad7ba9` has one verified exact-
 source hosted 20/20 C/D pass, but local large-function DMD still fails at

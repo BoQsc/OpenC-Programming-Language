@@ -12,6 +12,7 @@ import system.text;
 // declaration projection and global flow flags.
 struct ModuleCacheState {
     bool enabled;
+    bool native_objects;
     DBuffer keys;
     DBuffer hashes;
     DBuffer saved;
@@ -56,7 +57,7 @@ unsafe void module_cache_digest(ptr byte data, usize length, ref DBuffer output)
 ModuleCacheState module_cache_empty() {
     DBuffer empty = DBuffer{ data = null, length = 0, capacity = 0, ok = true };
     return ModuleCacheState{
-        enabled = false, keys = empty, hashes = empty, saved = empty, entry = empty,
+        enabled = false, native_objects = false, keys = empty, hashes = empty, saved = empty, entry = empty,
         offsets = null, stable_hashes = empty, stable_offsets = null,
         stable_ready = false
     };
@@ -188,7 +189,7 @@ unsafe bool module_cache_module_reference(
         acceptance_source_imports(source, project_source, start, length);
 }
 
-unsafe bool module_cache_read_hit(
+unsafe bool module_cache_read_key_record(
     text prefix, usize module_index, ref ModuleCacheState cache
 ) {
     DBuffer record_path = d_buffer_create(text.byte_length(prefix) + 100);
@@ -217,7 +218,14 @@ unsafe bool module_cache_read_hit(
         }
     }
     memory.free(data);
-    if !ok { return false; }
+    return ok;
+}
+
+unsafe bool module_cache_read_hit(
+    text prefix, usize module_index, ref ModuleCacheState cache
+) {
+    if !module_cache_read_key_record(prefix, module_index, cache) { return false; }
+    bool ok = true;
     DBuffer object_path = d_buffer_create(text.byte_length(prefix) + 100);
     module_cache_path(object_path, prefix, ".o.", cache.hashes, module_index, ".obj");
     DBuffer hash = d_buffer_create(65);
@@ -825,6 +833,12 @@ unsafe bool source_partition_cache_prepare(
     ref ModuleCacheState cache, ref BuildTimings timings
 ) {
     usize source_count = c_project_source_count(context);
+    // Native records are reused only under the closed-type worker path.
+    // Serial lowering may create derived type IDs lazily and cannot yet
+    // promise the same numbering after another source's implementation edit.
+    if cache.native_objects && source_chunks != 2 && source_chunks != 4 {
+        return false;
+    }
     if partitions < 2 || partitions > 32 || source_count < partitions ||
         context.modules.length == 0 || context.modules.length > 64 ||
         timings.source_bytes > 4194304 || context.symbols.length > 16384 {
@@ -842,16 +856,47 @@ unsafe bool source_partition_cache_prepare(
         return false;
     }
     scope memory.free(starts);
+    usize native_interface_bytes = 0;
+    if cache.native_objects { native_interface_bytes = timings.source_bytes; }
     DBuffer interface = d_buffer_create(
         text.byte_length(context.project_source) +
-        text.byte_length(context.project_root) + source_count * 80 + 4096
+        text.byte_length(context.project_root) + source_count * 80 +
+        context.symbols.length * 32 + native_interface_bytes + 4096
     );
     scope d_buffer_destroy(interface);
     DBuffer contents = d_buffer_create(
         timings.source_bytes + source_count * 24 + 1
     );
     scope d_buffer_destroy(contents);
-    d_put(interface, "openc-source-partition-cache-v2:windows-x86_64-llp64\n");
+    if cache.native_objects {
+        d_put(interface, "openc-native-object-cache-v3:windows-x86_64-llp64\n");
+        cache.stable_offsets = memory.alloc((partitions + 1) * size_of(usize));
+        DBuffer numbering = d_buffer_create(context.symbols.length * 32 + 128);
+        DBuffer type_hash = d_buffer_create(65);
+        module_cache_digest(context.type_data, context.types.length * record_stride(), type_hash);
+        d_put(numbering, d_buffer_text(type_hash));
+        usize numbered_symbol = 0;
+        while numbered_symbol < context.symbols.length {
+            if read_record_field(context.symbol_data, numbered_symbol, 0) ==
+                resolution_symbol_function() {
+                pe32_put_u64(numbering, cast(u64, numbered_symbol));
+                pe32_put_u64(numbering, cast(u64,
+                    read_record_field(context.symbol_data, numbered_symbol, 1)));
+                pe32_put_u64(numbering, cast(u64,
+                    read_record_field(context.detail_data, numbered_symbol, 0)));
+                pe32_put_u64(numbering, cast(u64,
+                    read_record_field(context.symbol_data, numbered_symbol, 4)));
+            }
+            numbered_symbol = numbered_symbol + 1;
+        }
+        if !numbering.ok || !type_hash.ok || cache.stable_offsets == null {
+            d_buffer_destroy(type_hash); d_buffer_destroy(numbering); return false;
+        }
+        module_cache_digest(numbering.data, numbering.length, interface);
+        d_buffer_destroy(type_hash); d_buffer_destroy(numbering);
+    } else {
+        d_put(interface, "openc-source-partition-cache-v2:windows-x86_64-llp64\n");
+    }
     d_put_usize(interface, partitions); d_put(interface, ":");
     d_put_usize(interface, source_chunks); d_put(interface, ":");
     d_put(interface, context.project_root);
@@ -917,9 +962,16 @@ unsafe bool source_partition_cache_prepare(
             DBuffer declaration_hash = d_buffer_create(65);
             ok = module_cache_source_projection(source, parsed, projected);
             if ok {
-                module_cache_digest(projected.data, projected.length,
-                    declaration_hash);
-                d_put(interface, d_buffer_text(declaration_hash));
+                if cache.native_objects {
+                    // One length-delimited declaration stream avoids a pure
+                    // SHA invocation for each small source projection. The
+                    // complete interface is hashed once below.
+                    d_put_usize(interface, projected.length); d_put(interface, ":");
+                    d_put_raw(interface, projected.data, projected.length);
+                } else {
+                    module_cache_digest(projected.data, projected.length, declaration_hash);
+                    d_put(interface, d_buffer_text(declaration_hash));
+                }
                 d_put_usize(contents, text.byte_length(source));
                 d_put(contents, ":"); d_put(contents, source);
                 ok = projected.ok && declaration_hash.ok &&
@@ -969,7 +1021,7 @@ unsafe bool source_partition_cache_prepare(
         symbol = symbol + 1;
     }
     if entry == context.symbols.length { ok = false; }
-    if ok {
+    if ok && !cache.native_objects {
         usize entry_source_record = read_record_field(context.symbol_data, entry, 1);
         text source;
         status loaded = project_read_source_record(
@@ -992,10 +1044,19 @@ unsafe bool source_partition_cache_prepare(
     cache.enabled = ok;
     if ok {
         timings.object_cache_enabled = true;
+        if cache.native_objects {
+            native_object_cache_load(prefix, partitions, source_count, cache);
+        }
         partition = 0;
         while partition < partitions {
             write_usize(cache.offsets, partition * size_of(usize), 0);
-            if module_cache_read_hit(prefix, partition, cache) {
+            bool hit = false;
+            if cache.native_objects {
+                write_usize(cache.stable_offsets, partition * size_of(usize), 0);
+                hit = native_object_cache_read_hit(
+                    prefix, partition, partitions, context, entry_module, cache);
+            } else { hit = module_cache_read_hit(prefix, partition, cache); }
+            if hit {
                 timings.object_cache_hits = timings.object_cache_hits + 1;
             } else {
                 timings.object_cache_misses = timings.object_cache_misses + 1;
@@ -1028,6 +1089,10 @@ unsafe bool source_partition_cache_source_hit(
 unsafe bool source_partition_cache_evict_saved(
     ref ModuleCacheState cache, usize partitions
 ) {
+    // Small native bundles remain immutable compilation-owned snapshots.
+    // Keeping at most 2 MiB avoids rereading/revalidating their bytes without
+    // retaining the large compiler bundle across worker scratch allocation.
+    if cache.native_objects && cache.saved.length <= 2097152 { return true; }
     DBuffer empty = d_buffer_create(1024);
     if !empty.ok { d_buffer_destroy(empty); return false; }
     d_buffer_destroy(cache.saved);
@@ -1054,7 +1119,9 @@ unsafe bool module_cache_store(
         digit = digit + 1;
     }
     DBuffer object_path = d_buffer_create(text.byte_length(prefix) + 100);
-    module_cache_path(object_path, prefix, ".o.", cache.hashes, module_index, ".obj");
+    text suffix = ".obj";
+    if cache.native_objects { suffix = ".nobj"; }
+    module_cache_path(object_path, prefix, ".o.", cache.hashes, module_index, suffix);
     bool ok = object_path.ok && module_cache_publish(
         d_buffer_text(object_path), object.data, object.length
     );

@@ -74,14 +74,21 @@ hosted retry pass; compiler source and binary are unchanged by that repair.
 The [20-sample hosted C/D run](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40103916224)
 also passes all 20 ratios on this exact compiler. Large/control OpenC-to-DMD
 ratios are 0.519/0.231; large MSVC/Clang/LDC ratios are 0.364/0.241/0.203.
-This is one current-source pass and does not erase the earlier constrained
-host's deficit. The downloaded archive was streamed and verified against
+The [independent repeat](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40104834876)
+also passes all 20 ratios with 20 samples per cell and the same stage-2/stage-3
+compiler hash. Its large/control OpenC-to-DMD ratios are 0.896/0.480; large
+MSVC/Clang/LDC ratios are 0.551/0.292/0.230. This replicates hosted synthetic
+parity for the retained compiler; the constrained-host deficit and subsequent
+native-cache candidate still need their own proof. The first downloaded
+archive was streamed and verified against
 SHA-256 `297913259711c4d309f92bc29bdb9aa13acf7b12d4bdc466902e8c1af3486643`;
 the raw production report SHA-256 is
 `36322b82c39e18d9022febe466de00e0add268e2f709219a7c6c9065a5a8153e`.
 The report's compiler and stage-2/stage-3 hashes all equal the local fixed
-point. Adding the new safety tests to the production workflow will obtain
-an independent C/D repeat without changing compiler source.
+point. The repeat archive SHA-256 is
+`4356e9b8941ece998f8594f7db82bf2a0b39cac0ff81f3c8dded2e53fa4ba486`,
+and its raw production report SHA-256 is
+`1ea94195831dcff3a0fb6c9aa1b946536482e6304a665d298dd5ddf2c7a4d6b5`.
 
 The final-source local 24-file cache check has no-op/body-edit/normal medians
 of 31.403/140.923/63.368 ms. No-op is faster, but edited-module reuse is still

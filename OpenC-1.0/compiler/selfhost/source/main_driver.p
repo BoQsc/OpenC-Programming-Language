@@ -26,6 +26,14 @@ unsafe i32 build_default_windows(
     text output_executable,
     text timing_path
 ) {
+    return build_default_windows_options(
+        project_path, output_executable, timing_path, true);
+}
+
+unsafe i32 build_default_windows_options(
+    text project_path, text output_executable,
+    text timing_path, bool use_cache
+) {
     DBuffer record = d_buffer_create(
         text.byte_length(output_executable) + 32
     );
@@ -37,8 +45,19 @@ unsafe i32 build_default_windows(
     }
     BuildTimings timings = build_timings_empty();
     timings.emission_mode = 2;
-    i32 result = emit_bootstrap_d_mode(
-        project_path, output_executable, true, true, timings
+    NativeArtifactOptions options = native_artifact_default_options();
+    DBuffer cache_path = d_buffer_create(text.byte_length(output_executable) + 40);
+    scope d_buffer_destroy(cache_path);
+    if use_cache && cache_path.ok {
+        d_put(cache_path, output_executable);
+        d_put(cache_path, ".openc-cache/objects");
+        if cache_path.ok {
+            options.kind = native_artifact_cached_executable();
+            options.cache_prefix = d_buffer_text(cache_path);
+        }
+    }
+    i32 result = emit_bootstrap_d_mode_artifact(
+        project_path, output_executable, true, true, timings, options
     );
     text build_record = "{\n  \"schema\": \"openc-sh5-windows-build-v1\",\n  \"status\": \"FAILED\",\n  \"backend\": \"openc-x64-pe32\",\n  \"dmd_invoked\": false,\n  \"dub_invoked\": false,\n  \"python_invoked\": false,\n  \"tinycc_invoked\": false,\n  \"external_assembler_invoked\": false,\n  \"external_linker_invoked\": false\n}\n";
     if result == 0 {
@@ -56,6 +75,37 @@ unsafe i32 build_default_windows(
     d_buffer_destroy(record);
     if !record_written.ok || !timing_written { return 1; }
     return result;
+}
+
+unsafe i32 cli_build_command(usize arguments) {
+    text project = "";
+    text output = "";
+    text timings = "";
+    bool use_cache = true;
+    bool valid = true;
+    usize argument = 1;
+    while argument < arguments {
+        text value = process.argument(argument);
+        if cli_has_prefix(value, "--project=") {
+            if text.byte_length(project) != 0 { valid = false; }
+            project = cli_remove_prefix(value, "--project=");
+        } else if cli_has_prefix(value, "--output=") {
+            if text.byte_length(output) != 0 { valid = false; }
+            output = cli_remove_prefix(value, "--output=");
+        } else if cli_has_prefix(value, "--timings=") {
+            if text.byte_length(timings) != 0 { valid = false; }
+            timings = cli_remove_prefix(value, "--timings=");
+        } else if value == "--no-cache" { use_cache = false; }
+        else if argument == 1 && !cli_has_prefix(value, "--") { project = value; }
+        else if argument == 2 && !cli_has_prefix(value, "--") { output = value; }
+        else { valid = false; }
+        argument = argument + 1;
+    }
+    if !valid || text.byte_length(project) == 0 || text.byte_length(output) == 0 {
+        io.error("usage: openc build --project=PROJECT --output=OUTPUT-EXE [--timings=TIMINGS.json] [--no-cache]\n");
+        return 64;
+    }
+    return build_default_windows_options(project, output, timings, use_cache);
 }
 
 unsafe i32 cli_eight_argument_command() {
@@ -470,31 +520,8 @@ unsafe i32 main() {
         }
         return cli_run_project(project_path, argument_start);
     }
-    if arguments == 4 && primary_argument == "build" {
-        text project_path = process.argument(1);
-        text output_executable = process.argument(2);
-        text timing_path = process.argument(3);
-        if cli_has_prefix(project_path, "--project=") {
-            project_path = cli_remove_prefix(
-                project_path, "--project="
-            );
-        }
-        if cli_has_prefix(output_executable, "--output=") {
-            output_executable = cli_remove_prefix(
-                output_executable, "--output="
-            );
-        }
-        if cli_has_prefix(timing_path, "--timings=") {
-            timing_path = cli_remove_prefix(
-                timing_path, "--timings="
-            );
-        } else {
-            io.error("usage: openc build --project=PROJECT --output=OUTPUT-EXE --timings=TIMINGS.json\n");
-            return 64;
-        }
-        return build_default_windows(
-            project_path, output_executable, timing_path
-        );
+    if arguments >= 3 && primary_argument == "build" {
+        return cli_build_command(arguments);
     }
     if arguments != 1 && arguments != 2 && arguments != 3 && arguments != 8 {
         io.error("usage: openc help\n");

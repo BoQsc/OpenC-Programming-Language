@@ -4,6 +4,35 @@ Date: 2026-09-24. Isolated branch `codex/sh27-incremental-object-slice`,
 based on production compiler source `1b58d5e1bde84307426c5f5ff33171765b4ecf1f`.
 No production source or cache format was changed, and no timing claim is made.
 
+## Native bundle candidate on 2026-10-24
+
+The [ordinary-build candidate](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md) revisits
+the private function-stream boundary after stable COFF exports, content-bound
+semantic reuse and frozen worker types have been proved independently. The
+COFF export/native-link path remains available; ordinary source builds can
+retain their direct PE linker without serializing through COFF.
+
+Native keys now include compiler bytes, target/schema/worker mode, the complete
+resolved type table, function ID/source/module/return-type numbering, full
+project declarations and group source contents. A local declaration that shifts
+later function IDs invalidates all groups. Reuse currently requires the closed
+2/4-worker path; serial builds retain lazy types and direct compilation.
+
+One atomic bounded bundle replaces 64 per-group filesystem publications.
+Each group has an independent content key and SHA-256 plus a validated native
+record extent. Bundles at most 2 MiB remain immutable compilation snapshots;
+larger bundles are released before workers and reauthenticated afterwards.
+Failed late reads retry full validation and lowering after the first arenas
+are released. Strict 20/20, 278 conformance and edit/corruption/fault checks pass.
+
+The medium-project performance gate still fails. Default promotion requires
+restoring validated unchanged frontend state, rebuilding the edited source,
+and checking that its declaration/type/local-symbol mapping still matches.
+Interface, numbering or unsupported-state changes must take the complete
+fresh path. Qualify both the 24-file and compiler paired matrices before
+promotion; the historical direct-stream warnings below still govern any
+extension beyond the proved worker/identity boundary.
+
 ## Current implementation delta (2026-09-26)
 
 The historical boundary below has advanced in isolated, unpromoted commits:

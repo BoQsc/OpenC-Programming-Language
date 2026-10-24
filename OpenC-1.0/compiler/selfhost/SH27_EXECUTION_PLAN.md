@@ -12,13 +12,24 @@ reduces project-free 32-object relink time from 1.232 to 0.073 seconds in
 corruption/size tests, 278 conformance cases and strict 20/20 pass locally.
 Clean hosted module/COFF and strict 20/20 pass; independent saved-link pairs
 win 11/11 at 2.481/0.104 s. One artifact-verified 20-sample C/D run passes all
-20 ratios on the same `7f2f503a...` compiler. A second current-source run is
-still required. This reader change does not speed ordinary source compilation.
+20 ratios on the same `7f2f503a...` compiler. The independently downloaded
+repeat `40104834876` also passes all 20 ratios on that binary. This reader
+change does not speed ordinary source compilation.
 The compact-index and constant-materialization batches are unpromoted; the
 symbol-target, wide-store and single-buffer writer experiments also failed
 repeatable target gains and are removed. Continue normal-default incremental
 integration, representative cold/edit economics and final-source certification;
 the original constrained-host throughput requirement remains open.
+
+The [native-object default candidate](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md)
+now caches direct-link function records in one atomic bounded bundle and
+integrates reuse into ordinary `build`, with `--no-cache` and a full validating
+retry after late cache-read failure. Current-source fixed point, strict 20/20,
+278 conformance and corruption/edit/invalidation tests pass locally. The
+24-file cold/warm/edit economics gate **fails**, so default promotion is
+blocked. Complete frontend-state reuse for unchanged sources and rerun both
+the medium and compiler matrices; a compiler-only cache gain cannot close
+Step 6. Serial and oversized-source projects still use direct compilation.
 
 Previous checkpoint (2026-10-16, architecture batch): source `6ad7ba9` has one
 raw-artifact-verified hosted 20/20 C/D pass with exact compiler/source hashes;

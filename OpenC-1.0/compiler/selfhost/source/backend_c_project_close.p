@@ -87,6 +87,8 @@ unsafe i32 c_emit_project(
     bool semantic_cache_ready
 ) {
     usize selected_module = base.modules.length;
+    module_cache.native_objects =
+        artifact_options.kind == native_artifact_cached_executable();
     if !semantic_cache_ready &&
         text.byte_length(artifact_options.cache_prefix) != 0 {
         bool prepared = false;
@@ -103,7 +105,7 @@ unsafe i32 c_emit_project(
                 module_cache, timings
             );
         }
-        if !prepared {
+        if !prepared && !module_cache.native_objects {
             io.error("note[OPENC-MODULE-CACHE-FALLBACK]: unsupported key projection; full module build\n");
         }
     }
@@ -281,6 +283,7 @@ unsafe i32 c_emit_project(
         usize source_partitions = 0;
         usize native_worker_count = artifact_options.source_chunks;
         if module_cache.enabled && artifact_options.source_partitions != 0 {
+            if !module_cache.native_objects {
             usize identity_started = process.monotonic_milliseconds();
             module_cache.stable_hashes = d_buffer_create(
                 base.symbols.length * 64 + 64
@@ -306,6 +309,7 @@ unsafe i32 c_emit_project(
                     data = null, length = 0, capacity = 0, ok = true
                 };
                 module_cache.stable_offsets = null;
+            }
             }
             cache_offsets = module_cache.offsets;
             source_partitions = artifact_options.source_partitions;
@@ -455,7 +459,12 @@ unsafe i32 c_emit_project(
     timings.output_bytes = output.length;
     status written = status{ code = 1 };
     if timings.emission_mode == 2 {
-        if artifact_options.kind == native_artifact_coff_object() {
+        if artifact_options.kind == native_artifact_cached_executable() &&
+            module_cache.enabled {
+            written = native_object_cache_write_image(
+                base, output, output_source, artifact_options,
+                module_cache, timings);
+        } else if artifact_options.kind == native_artifact_coff_object() {
             written = native_write_coff_object(
                 base, output, output_source,
                 artifact_options.stable_coff_symbols

@@ -2,7 +2,7 @@ name: OpenC isolated module COFF proof
 
 on:
   push:
-    branches: [codex/sh27-incremental-object-slice, codex/sh27-local-throughput]
+    branches: [codex/sh27-incremental-object-slice, codex/sh27-local-throughput, codex/sh27-native-object-default]
     paths:
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
@@ -17,6 +17,9 @@ on:
       - OpenC-1.0/compiler/selfhost/test_source_partition_cache.py
       - OpenC-1.0/compiler/selfhost/test_module_selected_lowering.py
       - OpenC-1.0/compiler/selfhost/test_module_object_cache.py
+      - OpenC-1.0/compiler/selfhost/test_native_object_cache.py
+      - OpenC-1.0/compiler/selfhost/test_native_object_cache_retry.py
+      - OpenC-1.0/compiler/selfhost/benchmark_native_object_cache.py
       - OpenC-1.0/benchmarks/sh27/representative/SUITE.json
       - OpenC-1.0/benchmarks/sh27/representative/medium_audit/**
       - OpenC-1.0/compiler/selfhost/benchmark_module_object_cache.py
@@ -56,6 +59,37 @@ jobs:
           python OpenC-1.0\compiler\selfhost\test_coff_bounded_reader.py
           artifacts\module-coff\bootstrap-current\stage3\openc.exe
           --report artifacts\module-coff\bounded-reader.json
+
+      - name: Prove ordinary native cache edits, corruption, invalidation and shared publication
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\run_with_memory_guard.py
+          --max-private-mib 512 --max-working-set-mib 256
+          --record artifacts\module-coff\native-cache-guard.json
+          -- python OpenC-1.0\compiler\selfhost\test_native_object_cache.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --ordinary-build --report artifacts\module-coff\native-cache.json
+
+      - name: Prove full validation after a late cached-object reread failure
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\test_native_object_cache_retry.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --report artifacts\module-coff\native-cache-retry.json
+
+      - name: Verify native conformance on the candidate compiler
+        shell: cmd
+        run: >-
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe validate
+          --manifest=OpenC-1.0\conformance\fixtures\MANIFEST.json
+          --output=artifacts\module-coff\conformance.json
+
+      - name: Verify native x64 ABI and machine-code oracles
+        shell: cmd
+        run: >-
+          python OpenC-1.0\scripts\verify_sh15_windows_x64.py
+          --compiler artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --output artifacts\module-coff\x64-abi.json --enforce
 
       - name: Reject authenticated malformed repeated relocations
         shell: cmd
@@ -165,6 +199,24 @@ jobs:
           --compiler artifacts\module-coff\bootstrap-current\stage3\openc.exe
           --chain-runs 20 --sample-interval 0.01 --enforce
           --output artifacts\module-coff\strict20.json
+
+      - name: Enforce ordinary compiler-cache cold, unchanged and edited build economics
+        if: always()
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_native_object_cache.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --ordinary-build --fixture compiler --pairs 11 --enforce
+          --report artifacts\module-coff\native-cache-compiler-pairs.json
+
+      - name: Enforce ordinary 24-file cache economics
+        if: always()
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_native_object_cache.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --ordinary-build --fixture medium --pairs 11 --enforce
+          --report artifacts\module-coff\native-cache-medium-pairs.json
 
       - name: Retain isolated-source fixed point and guarded raw evidence
         if: always()

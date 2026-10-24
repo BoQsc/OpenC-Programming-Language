@@ -12,6 +12,15 @@ symbol-RVA reuse, wide serialization and a single-buffer object writer are
 unpromoted. The separate [saved-link hash cut](SH27_SAVED_LINK_HASH_EVIDENCE.md)
 has a measured 11/11 relink win; normal-default cold/edited economics and
 constrained-host throughput remain the next production decisions.
+
+The [native-object default batch](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md)
+implements a direct-link cache, one atomic bundle, declaration-hash batching,
+bounded retention, ordinary-build integration and a complete validating retry.
+The 64-file publication prototype was rejected for cold cost. The bundle
+candidate passes local correctness and strict RAM, but its 24-file gains are
+below null and cold is slower. Do not promote it from the compiler-only gain;
+the next architectural cut must reuse unchanged frontend state and qualify
+both project sizes under the existing gates.
 The previous
 [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md) has material
 two-lane gains and strict local correctness/memory proof; it leaves a 1.272x

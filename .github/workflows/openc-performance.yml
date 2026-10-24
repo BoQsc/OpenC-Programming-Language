@@ -6,6 +6,7 @@ on:
       - master
       - codex/sh27-incremental-object-slice
       - codex/sh27-local-throughput
+      - codex/sh27-native-object-default
     paths:
       - OpenC-1.0/benchmarks/sh27/**
       - OpenC-1.0/compiler/selfhost/openc.project.json

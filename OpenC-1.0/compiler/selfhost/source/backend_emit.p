@@ -20,6 +20,37 @@ unsafe i32 emit_bootstrap_d_mode(
 }
 
 unsafe i32 emit_bootstrap_d_mode_artifact(
+    text project_path, text output_directory,
+    bool validate_semantics, bool c_backend,
+    ref BuildTimings timings, ref NativeArtifactOptions artifact_options
+) {
+    usize started = process.monotonic_milliseconds();
+    usize requested_chunks = artifact_options.source_chunks;
+    i32 result = emit_bootstrap_d_mode_artifact_once(
+        project_path, output_directory, validate_semantics,
+        c_backend, timings, artifact_options);
+    if result != 0 && artifact_options.cache_retry_required {
+        // Cached bytes can disappear between early validation and linking.
+        // Release the first compilation's arenas before retrying the complete
+        // validating path. The failed attempt has published no executable.
+        bool profile = timings.profile_type_queries_enabled;
+        timings = build_timings_empty();
+        timings.emission_mode = 2;
+        timings.profile_type_queries_enabled = profile;
+        timings.object_cache_retries = 1;
+        artifact_options.cache_retry_required = false;
+        artifact_options.cache_prefix = "";
+        artifact_options.source_partitions = 0;
+        artifact_options.source_chunks = requested_chunks;
+        result = emit_bootstrap_d_mode_artifact_once(
+            project_path, output_directory, validate_semantics,
+            c_backend, timings, artifact_options);
+        timings.total_ms = process.monotonic_milliseconds() - started;
+    }
+    return result;
+}
+
+unsafe i32 emit_bootstrap_d_mode_artifact_once(
     text project_path,
     text output_directory,
     bool validate_semantics,
@@ -49,6 +80,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     project_sort_modules(project_source, module_data, modules);
     text project_root = path.directory(project_path);
     usize total_source_length = 0;
+    bool native_cache_sources_supported = true;
     usize module_index = 0;
     while module_index < modules.length {
         usize source_first = read_record_field(module_data, module_index, 2);
@@ -61,6 +93,9 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 source_first + source_index, out source
             );
             if !loaded.ok { return 1; }
+            if text.byte_length(source) > 131072 {
+                native_cache_sources_supported = false;
+            }
             total_source_length = total_source_length + text.byte_length(source);
             source_index = source_index + 1;
         }
@@ -84,6 +119,23 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
             artifact_options.source_chunks = 2;
         } else {
             artifact_options.source_chunks = 1;
+        }
+    }
+
+    if artifact_options.kind == native_artifact_cached_executable() {
+        if !native_cache_sources_supported || sources.length < 2 || (artifact_options.source_chunks != 2 &&
+                artifact_options.source_chunks != 4) {
+            // Preserve the fast serial path and its lazy derived type IDs.
+            artifact_options.cache_prefix = "";
+            artifact_options.source_partitions = 0;
+        } else if text.byte_length(artifact_options.cache_prefix) != 0 {
+            if artifact_options.source_partitions == 0 {
+                artifact_options.source_partitions = sources.length;
+                if artifact_options.source_partitions > 32 {
+                    artifact_options.source_partitions = 32;
+                }
+            }
+            cli_file_create_directory(path.directory(artifact_options.cache_prefix));
         }
     }
 
@@ -343,7 +395,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     scope module_cache_destroy(semantic_cache);
     bool semantic_cache_ready = false;
     if validate_semantics && c_backend && timings.emission_mode == 2 &&
-        artifact_options.kind == native_artifact_module_coff_set() &&
+        (artifact_options.kind == native_artifact_module_coff_set() ||
+            artifact_options.kind == native_artifact_cached_executable()) &&
         artifact_options.source_partitions != 0 &&
         (artifact_options.source_chunks == 2 ||
          artifact_options.source_chunks == 4) &&
@@ -358,6 +411,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
             project_source, project_root, source_data,
             symbol_data, detail_data, symbols, modules.length
         );
+        semantic_cache.native_objects =
+            artifact_options.kind == native_artifact_cached_executable();
         semantic_cache_ready = source_partition_cache_prepare(
             prepared_base, parsed_source_cache,
             artifact_options.cache_prefix, prepared_entry,
@@ -372,6 +427,9 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         if !semantic_cache_ready {
             module_cache_destroy(semantic_cache);
             semantic_cache = module_cache_empty();
+            if artifact_options.kind == native_artifact_cached_executable() {
+                artifact_options.cache_prefix = "";
+            }
         }
     }
     phase_started = process.monotonic_milliseconds();
