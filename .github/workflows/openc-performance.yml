@@ -18,6 +18,9 @@ on:
       - OpenC-1.0/compiler/selfhost/verify_sh27_worker_pool.py
       - OpenC-1.0/compiler/selfhost/test_verify_sh27_worker_pool.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_statement_handoff.py
+      - OpenC-1.0/compiler/selfhost/test_coff_hash_fallback.py
+      - OpenC-1.0/compiler/selfhost/test_coff_relocation_targets.py
+      - OpenC-1.0/compiler/selfhost/test_module_coff_set.py
       - OpenC-1.0/compiler/selfhost/profile_sh27_owned_threads.py
       - OpenC-1.0/compiler/selfhost/test_profile_sh27_owned_threads.py
       - OpenC-1.0/tests/sh27_array_initializer_operands/**
@@ -144,6 +147,16 @@ jobs:
           compiler=pathlib.Path(report['tools']['openc']['path']);
           sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/verify_sh27_statement_handoff.py','--compiler',str(compiler),'--output','artifacts/sh27-statement-handoff.json']))"
 
+      - name: Verify saved-object authentication and optional SHA fallback
+        if: always()
+        shell: cmd
+        run: >-
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          subprocess.check_call([sys.executable,'OpenC-1.0/compiler/selfhost/test_coff_relocation_targets.py',str(compiler)]);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/test_coff_hash_fallback.py',str(compiler),'--report','artifacts/sh27-hash-fallback.json']))"
+
       - name: Retain raw performance evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -164,3 +177,4 @@ jobs:
             artifacts/sh27-worker-pool-runs/**
             artifacts/sh27-statement-handoff.json
             artifacts/sh27-statement-handoff-runs/**
+            artifacts/sh27-hash-fallback.json

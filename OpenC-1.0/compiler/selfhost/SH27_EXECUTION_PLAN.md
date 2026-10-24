@@ -10,8 +10,10 @@ Latest checkpoint (2026-10-24): the [saved-object hash cut](SH27_SAVED_LINK_HASH
 reduces project-free 32-object relink time from 1.232 to 0.073 seconds in
 11/11 exact-output pairs. Optional system SHA and forced-unavailable fallback,
 corruption/size tests, 278 conformance cases and strict 20/20 pass locally.
-Hosted module/COFF proof and pinned-baseline relink pairs are pending. This
-reader change does not alter the normal compile path or certify C/D parity.
+Clean hosted module/COFF and strict 20/20 pass; independent saved-link pairs
+win 11/11 at 2.481/0.104 s. One artifact-verified 20-sample C/D run passes all
+20 ratios on the same `7f2f503a...` compiler. A second current-source run is
+still required. This reader change does not speed ordinary source compilation.
 The compact-index and constant-materialization batches are unpromoted; the
 symbol-target, wide-store and single-buffer writer experiments also failed
 repeatable target gains and are removed. Continue normal-default incremental

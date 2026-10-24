@@ -20,8 +20,10 @@ it is not a substitute for the semantic cutover.
 Current decision (2026-10-24): the [saved-link hash cut](SH27_SAVED_LINK_HASH_EVIDENCE.md)
 has a local 11/11 exact-output gain from 1.232 to 0.073 seconds, full local
 strict-memory/conformance/cache proof and a forced-unavailable-API fallback
-test. Clean hosted verification is next. The public saved-object reader now
-uses the same optional digest path as cache hits. Cold/default throughput,
+test. Clean hosted module/COFF and strict 20/20 now pass; the independent
+relink series is 2.481 to 0.104 seconds, 11/11 wins. One exact-source hosted
+C/D series passes 20/20; an independent repeat remains required. The public
+saved-object reader uses the same optional digest path as cache hits. Cold/default throughput,
 normal incremental policy, representative breadth and final-source repeated
 C/D/editor/release certification still prevent SH-27 completion. Removed
 index, constant, symbol-resolution and serialization prototypes remain

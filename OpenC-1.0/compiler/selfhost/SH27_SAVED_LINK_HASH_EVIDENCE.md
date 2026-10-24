@@ -55,9 +55,38 @@ successful temporary outputs are removed after their measurements are saved.
 - The reusable saved-link runner and pinned-baseline CI wrapper pass separate
   three-pair smoke runs with an enforced above-null gain (3/3 wins each).
 
-The module/COFF workflow now also runs on `codex/sh27-local-throughput` and
-includes these regressions plus an 11-pair hosted saved-link comparison.
-Clean-host status is pending at the time of this local record.
+The [clean hosted module/COFF proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40104280273)
+passes at `2a0eaf0`: bootstrap, missing-API fallback, repeated-relocation
+falsification, the pinned-baseline comparison, large objects, source-group
+edit/recovery, representative builds and strict 20/20. Its independent
+11-pair saved-link result is **2.481394 s to 0.103594 s (23.95x)**, 11/11 wins,
+with a -2.378958 s paired median and 7.227 ms null floor. The logs and
+source-group report identify the same `7f2f503a...` compiler. Artifact ID
+`12563698202` has archive SHA-256
+`d0112178b9fe1a3c44898950b92afc533fde70c783901aa8ae6141919a70fc89`.
+
+The [first hosted attempt](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40103916163)
+failed before the fallback bootstrap because the fixture tried to make
+relative paths from a C: temporary directory to a D: checkout. The corrected
+fixture stays on the source volume. A local cross-drive report test and the
+hosted retry pass; compiler source and binary are unchanged by that repair.
+
+The [20-sample hosted C/D run](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40103916224)
+also passes all 20 ratios on this exact compiler. Large/control OpenC-to-DMD
+ratios are 0.519/0.231; large MSVC/Clang/LDC ratios are 0.364/0.241/0.203.
+This is one current-source pass and does not erase the earlier constrained
+host's deficit. The downloaded archive was streamed and verified against
+SHA-256 `297913259711c4d309f92bc29bdb9aa13acf7b12d4bdc466902e8c1af3486643`;
+the raw production report SHA-256 is
+`36322b82c39e18d9022febe466de00e0add268e2f709219a7c6c9065a5a8153e`.
+The report's compiler and stage-2/stage-3 hashes all equal the local fixed
+point. Adding the new safety tests to the production workflow will obtain
+an independent C/D repeat without changing compiler source.
+
+The final-source local 24-file cache check has no-op/body-edit/normal medians
+of 31.403/140.923/63.368 ms. No-op is faster, but edited-module reuse is still
+slower than ordinary direct compilation on that small project. Default cache
+promotion therefore remains open.
 
 ## Rejected companion candidates
 
