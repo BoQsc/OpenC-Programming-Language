@@ -46,12 +46,13 @@ def build(
     root: Path,
     *,
     alpha: str = ALPHA,
+    beta: str = BETA,
     reverse_manifest: bool = False,
     native_link: bool = False,
 ) -> tuple[dict[str, bytes], dict]:
     root.mkdir()
     (root / "alpha.p").write_text(alpha, encoding="utf-8")
-    (root / "beta.p").write_text(BETA, encoding="utf-8")
+    (root / "beta.p").write_text(beta, encoding="utf-8")
     modules = {"alpha": ["alpha.p"], "beta": ["beta.p"]}
     if reverse_manifest:
         modules = {"beta": ["beta.p"], "alpha": ["alpha.p"]}

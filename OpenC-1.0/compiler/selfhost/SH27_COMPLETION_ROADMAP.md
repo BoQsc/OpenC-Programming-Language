@@ -17,7 +17,17 @@ its first successful clean production-policy run. That run does not close the
 two-run parity or memory gates. The bounded-IR experiment is recorded below;
 it is not a substitute for the semantic cutover.
 
-Current next decision (2026-10-16): source `6ad7ba9` has one verified exact-
+Current decision (2026-10-24): the [saved-link hash cut](SH27_SAVED_LINK_HASH_EVIDENCE.md)
+has a local 11/11 exact-output gain from 1.232 to 0.073 seconds, full local
+strict-memory/conformance/cache proof and a forced-unavailable-API fallback
+test. Clean hosted verification is next. The public saved-object reader now
+uses the same optional digest path as cache hits. Cold/default throughput,
+normal incremental policy, representative breadth and final-source repeated
+C/D/editor/release certification still prevent SH-27 completion. Removed
+index, constant, symbol-resolution and serialization prototypes remain
+recorded negative results rather than queued implementation requirements.
+
+Previous next decision (2026-10-16): source `6ad7ba9` has one verified exact-
 source hosted 20/20 C/D pass, but local large-function DMD still fails at
 1.263x. The four [parser-link/operator variants](SH27_PARSER_OPERAND_BATCH_NO_GO.md)
 were built, measured and removed: no qualifying large gain. Next remove the

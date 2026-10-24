@@ -2,11 +2,15 @@ name: OpenC isolated module COFF proof
 
 on:
   push:
-    branches: [codex/sh27-incremental-object-slice]
+    branches: [codex/sh27-incremental-object-slice, codex/sh27-local-throughput]
     paths:
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
       - OpenC-1.0/compiler/selfhost/test_module_coff_set.py
+      - OpenC-1.0/compiler/selfhost/test_coff_relocation_targets.py
+      - OpenC-1.0/compiler/selfhost/test_coff_hash_fallback.py
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_saved_link.py
+      - OpenC-1.0/compiler/selfhost/benchmark_sh27_saved_link_ci.py
       - OpenC-1.0/compiler/selfhost/test_coff_bounded_reader.py
       - OpenC-1.0/compiler/selfhost/test_large_coff_selfhost.py
       - OpenC-1.0/compiler/selfhost/test_source_partition_coff.py
@@ -38,6 +42,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+          fetch-depth: 0
 
       - name: Guarded native Stage 2/3 byte-exact fixed point
         shell: cmd
@@ -51,6 +56,32 @@ jobs:
           python OpenC-1.0\compiler\selfhost\test_coff_bounded_reader.py
           artifacts\module-coff\bootstrap-current\stage3\openc.exe
           --report artifacts\module-coff\bounded-reader.json
+
+      - name: Reject authenticated malformed repeated relocations
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\run_with_memory_guard.py
+          --max-private-mib 512 --max-working-set-mib 256
+          --max-captured-output-mib 2
+          --record artifacts\module-coff\relocation-targets.json
+          -- python OpenC-1.0\compiler\selfhost\test_coff_relocation_targets.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+
+      - name: Prove missing optional SHA API falls back with identical linked output
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\test_coff_hash_fallback.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --report artifacts\module-coff\hash-fallback.json
+
+      - name: Enforce same-host saved-object relink gain against pinned baseline
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\benchmark_sh27_saved_link_ci.py
+          --baseline-ref 439c4d12995a9e6333094824d077561f8ed35498
+          --seed .github\bootstrap\openc-stage0.exe
+          --compiler artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --pairs 11 --output artifacts\module-coff\saved-link.json
 
       - name: Prove overflow COFF relocations and cached compiler self-host fixed point
         shell: cmd

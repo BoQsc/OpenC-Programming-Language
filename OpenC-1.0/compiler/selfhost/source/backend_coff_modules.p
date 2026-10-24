@@ -192,8 +192,10 @@ unsafe bool coff_link_append_published_object(
     text expected_hash,
     usize expected_length
 ) {
+    // Use the same optional SHA-256 acceleration as cache hits. The shared
+    // digest helper falls back to OpenC when the system API is unavailable.
     return coff_link_append_published_object_mode(
-        bundle, object_path, expected_hash, expected_length, false
+        bundle, object_path, expected_hash, expected_length, true
     );
 }
 

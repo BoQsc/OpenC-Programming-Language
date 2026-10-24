@@ -6,7 +6,19 @@ decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
 contract. An isolated prototype, a green evidence-only workflow, or one lucky
 comparator run does not complete a step below.
 
-Latest checkpoint (2026-10-16, architecture batch): source `6ad7ba9` has one
+Latest checkpoint (2026-10-24): the [saved-object hash cut](SH27_SAVED_LINK_HASH_EVIDENCE.md)
+reduces project-free 32-object relink time from 1.232 to 0.073 seconds in
+11/11 exact-output pairs. Optional system SHA and forced-unavailable fallback,
+corruption/size tests, 278 conformance cases and strict 20/20 pass locally.
+Hosted module/COFF proof and pinned-baseline relink pairs are pending. This
+reader change does not alter the normal compile path or certify C/D parity.
+The compact-index and constant-materialization batches are unpromoted; the
+symbol-target, wide-store and single-buffer writer experiments also failed
+repeatable target gains and are removed. Continue normal-default incremental
+integration, representative cold/edit economics and final-source certification;
+the original constrained-host throughput requirement remains open.
+
+Previous checkpoint (2026-10-16, architecture batch): source `6ad7ba9` has one
 raw-artifact-verified hosted 20/20 C/D pass with exact compiler/source hashes;
 the independent local large-function DMD failure at 1.263x remains open.
 Four [parser operand/operator candidates](SH27_PARSER_OPERAND_BATCH_NO_GO.md)
