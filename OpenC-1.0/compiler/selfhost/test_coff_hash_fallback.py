@@ -23,7 +23,12 @@ def main() -> int:
     report = {"schema": "openc.sh27.coff_hash_fallback.v1", "status": "FAIL",
               "compiler_sha256": sha256(compiler), "builds": [], "links": {}}
     try:
-        with tempfile.TemporaryDirectory(prefix="openc-hash-") as temporary:
+        # A hosted checkout can live on D: while TEMP lives on C:. Keep the
+        # isolated project on the source volume so relative source references
+        # remain valid without changing the user's process environment.
+        source_volume_runs = ROOT / "build-output"
+        source_volume_runs.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix="hash-", dir=source_volume_runs) as temporary:
             directory = Path(temporary)
             canonical = ROOT / "compiler/selfhost"
             project = json.loads((canonical / "openc.project.json").read_text())
