@@ -54,6 +54,14 @@ Local retry, 30-case recovery and all 26 worker setup faults pass. Complete
 remaining exact-source correctness/resource proof, then retain hosted and
 constrained repeats before promotion. Serial and oversized-source
 projects still use direct compilation; a compiler-only win cannot close Step 6.
+Current COFF-lifetime successor `964a8e71...` releases selected native records
+after serialization and the written COFF owner before authenticated readback.
+It fixes the separately reproduced serial fresh-COFF 64 MiB peak failure and
+passes overflow/cached/fresh/seeded closure and module-boundary tests locally.
+Source `e7a41d5` is running fresh hosted production, module and representative
+proof. Its representative runner pin adds a new image identity with exactly
+the already reviewed compiler/linker/DMD bytes. Certify this source, not its
+predecessor; representative breadth, repeated margin and release remain open.
 
 Previous checkpoint (2026-10-16, architecture batch): source `6ad7ba9` has one
 raw-artifact-verified hosted 20/20 C/D pass with exact compiler/source hashes;

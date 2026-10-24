@@ -39,6 +39,11 @@ same-size serial fallback controls replace guesswork about publication cost.
 Medium/compiler publication pairs win 9/11 and 8/11 above null; this is an
 ablation signal, not final ordinary-cold or constrained C/D certification.
 Local retry, 30-case recovery and all 26 pool setup faults pass.
+Current successor `964a8e71...` fixes the newly exposed serial fresh-COFF
+peak by releasing completed serialization owners before authenticated
+readback. Overflow/cached/fresh/corruption/seeded closure and module boundaries
+pass locally; fresh hosted production/module/representative proof is running
+on `e7a41d5`. Keep final certification and broader project coverage open.
 The previous
 [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md) has material
 two-lane gains and strict local correctness/memory proof; it leaves a 1.272x

@@ -56,6 +56,13 @@ wins 9/11 medium and 8/11 compiler pairs above the respective null floors.
 Local retry, all 30 cache cases and 26 pool faults pass. Keep the candidate
 isolated until exact-source hosted, constrained-host, representative and
 release gates pass. Ordinary cold economics is not yet closed.
+The current `964a8e71...` COFF-lifetime successor removes overlapping native
+selection/written-object/readback owners. A serial fresh-COFF peak failure
+reproduced locally and now passes at 61,906,944 bytes under 64 MiB, with
+overflow/corruption/seeded fixed point and module-boundary proofs. Fresh
+hosted source `e7a41d5` is running; predecessor C/D and partial module results
+cannot certify it. The representative runner update preserves the exact
+already reviewed toolchain hashes. No original SH-27 requirement is waived.
 
 Previous next decision (2026-10-16): source `6ad7ba9` has one verified exact-
 source hosted 20/20 C/D pass, but local large-function DMD still fails at

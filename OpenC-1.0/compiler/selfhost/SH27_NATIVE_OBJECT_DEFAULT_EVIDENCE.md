@@ -98,7 +98,24 @@ and writing; the written COFF owner is then released before independently
 authenticated readback into the link bundle. Neither owner is borrowed after
 those transitions. Exact Stage 2/3 bootstrap, large-COFF overflow/cold/warm/
 fresh/corruption/seeded fixed point and module-boundary/native/saved-link/failure
-proof pass locally. Final-source hosted and remaining full gates are pending.
+proof pass locally. The fresh COFF path now peaks at 61,906,944 bytes; cold
+and warm peak at 62,054,400 and 35,708,928, under the unchanged 64 MiB cap.
+`lifetimes-test_large_coff_selfhost.json` SHA-256 is
+`dceacb97777930a73fcf4bbea83e80a02128e5f2ce18a6c70c57a43d8561fd26`.
+Final-source hosted and remaining full gates are pending.
+
+The preceding publication candidate's production ZIP `40126199183` is
+downloaded and verified as
+`6f73caf4b1616b58cbdeade7520cedaea29d9e109b6eb2fadd94f6bc0d564e63`.
+Its raw comparator report verifies as
+`6b1c6425bd9f82c029af224b8b622ad4d5df84f98e477c27c54340f4f4c77bcc`,
+with exact `eaa0017d...` compiler identity and 20 successful samples in every
+cell. All 20 ratios pass; large/control versus DMD are 0.953x/0.515x. This
+does not certify the newer COFF source. The module run completed both ordinary
+economics steps successfully before cancellation by the corrective push;
+the reported medium cold delta is +8.699 ms versus 8.252 ms null. Its earlier
+large-COFF failure and skipped downstream safety steps remain failures/unproved,
+not a passing module certificate.
 
 Raw local reports under `build-output/sh27-native-cache/`:
 
