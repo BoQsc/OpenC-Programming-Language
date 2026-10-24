@@ -27,12 +27,15 @@ integrates reuse into ordinary `build`, with `--no-cache` and a full validating
 retry after late cache-read failure. Current-source fixed point, strict 20/20,
 278 conformance and corruption/edit/invalidation tests pass locally. Frontend
 contributions now replay unchanged files with exact incoming type/name/symbol
-binding; the SHA resolver initializes once per process. New balanced v2
-matrices qualify compiler cold/warm/edit and medium warm/edit. Medium cold
-still fails: +12.422 ms against 9.810 ms null. V1 cache matrices had a process-
-order bug and are excluded from promotion. Next reduce full-compiler
-fingerprint/publication cost without weakening authentication, then obtain
-final-source hosted and constrained-host proof. Serial and oversized-source
+binding; the SHA resolver initializes once per process. Compiler `5b29f1a...`
+now prepares cold identity/keys alongside native workers and hashes the full
+bounded compiler through an optional read-only mapping. Balanced v2 compiler
+and two medium matrices pass cold/warm/edit; medium repeat cold is +7.082 ms
+against 11.153 ms null. All 25 worker setup faults, 30 cache builds, strict
+20/20, 278 conformance, 25 ABI and unavailable mapping/SHA APIs pass. V1 cache
+and general candidate matrices had side-order bugs and cannot qualify speed
+promotion without balanced remeasurement. Obtain final-source hosted and
+constrained-host proof next. Serial and oversized-source
 projects still use direct compilation; a compiler-only win cannot close Step 6.
 
 Previous checkpoint (2026-10-16, architecture batch): source `6ad7ba9` has one

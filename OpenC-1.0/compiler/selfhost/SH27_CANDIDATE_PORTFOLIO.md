@@ -17,12 +17,14 @@ The [native-object default batch](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md)
 implements a direct-link cache, one atomic bundle, declaration-hash batching,
 bounded retention, ordinary-build integration and a complete validating retry.
 The 64-file publication prototype was rejected for cold cost. The bundle
-candidate passes local correctness and strict RAM. Frontend contribution
-replay and a process-owned SHA resolver now qualify compiler cold/warm/edit
-and medium warm/edit in balanced v2 series; medium cold remains over budget.
-V1 process ordering was incorrect and those cache matrices cannot qualify
-promotion. Next reduce complete compiler fingerprint/publication cost and
-repeat both project sizes before final-source certification.
+candidate passes local correctness and strict RAM. The `5b29f1a...` successor
+adds parallel cold key preparation and bounded mapped compiler hashing to
+frontend replay and the process-owned SHA resolver. Compiler and two medium
+v2 matrices pass all three economics gates; medium repeat cold is +7.082 ms
+against 11.153 ms null. Thirty cache builds, 25 pool fault variants, strict
+20/20, conformance and ABI pass. V1 cache and general candidate matrix order
+was biased and cannot qualify promotion. Final-source hosted, constrained-host,
+representative breadth and release proof remain open.
 The previous
 [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md) has material
 two-lane gains and strict local correctness/memory proof; it leaves a 1.272x

@@ -34,11 +34,13 @@ replaces cold COFF conversion with direct function records, batches publication
 into one bounded atomic bundle and reuses content-validated source groups in
 ordinary `build`. Its fixed point, strict 20/20, 278 conformance, malformed
 cache recovery and forced full retry pass locally. Frontend contribution
-replay and one process-owned SHA context now qualify compiler cold/warm/edit
-and medium warm/edit in new balanced v2 matrices. Medium cold still fails at
-+12.422 ms versus 9.810 ms null; the old v1 process-order bug invalidates those
-earlier cache timing decisions. Reduce fingerprint/publication cost while
-preserving full-byte identity before default promotion. Final-source C/D,
+replay and one process-owned SHA context are now joined by parallel cold key
+preparation and optional bounded mapped compiler hashing (`5b29f1a...`). The
+compiler and two independent medium v2 matrices pass all cold/warm/edit gates;
+medium repeat cold remains +7.082 ms against 11.153 ms null. Thirty cache
+builds, 25 worker faults, strict 20/20, 278 conformance and 25 ABI checks pass.
+V1 cache and general candidate matrices require balanced remeasurement after
+their process-order defects. Keep the candidate isolated pending final-source C/D,
 constrained-host, representative and release gates remain open.
 
 Previous next decision (2026-10-16): source `6ad7ba9` has one verified exact-

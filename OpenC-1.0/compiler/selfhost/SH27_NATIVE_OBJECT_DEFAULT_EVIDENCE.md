@@ -92,6 +92,32 @@ economics (+12.557 ms against 1.577 ms null). Those hosted results certify the
 predecessor, not the parallel candidate. Final-source hosted and constrained
 comparisons remain separate gates.
 
+Two final-source 20-sample DMD-only diagnostics use the retained pinned
+2.112.0 executable (`5ec3152d...`), affinity mask `0xf`, the original production
+corpus and 512/512 MiB corpus guards. The host exposes 12 logical CPUs; this is
+a four-CPU constrained run, not a claim that the host has only four CPUs.
+The separate strict self-build caps remain 256/64 MiB.
+
+| Four-CPU run | Large OpenC / DMD | Ratio | Control OpenC / DMD | Ratio |
+| --- | ---: | ---: | ---: | ---: |
+| First | 238.535 / 189.625 ms | **1.258x FAIL** | 85.939 / 116.787 ms | 0.736x |
+| Independent repeat | 404.282 / 755.387 ms | 0.535x | 155.439 / 566.330 ms | 0.274x |
+
+All four other available ratios and all execution/resource checks pass in
+both runs. Both reports are `PARTIAL_COMPARATOR_SET` because MSVC, Clang and
+LDC are absent. The first run still needs 1.504 ms for the public 1.25x gate
+and 10.985 ms for the 1.20x internal margin. The same compiler produced both
+series, and both compilers' medians moved substantially; the repeat does not
+erase the first failure or establish a source speedup. The first run's median
+large-function declarations/resolution are 62/15 ms; critical-worker wall is
+132.5 ms, with 31 ms acceptance and 32 ms native emission. These are nested
+phase diagnostics, not additive or high-resolution savings budgets.
+
+Representative CLI/file-application/compiler correctness passes three runs
+per workload and three compiler generations. The current SHA first-call race
+also passes all 3,840 independently checked digests. These checks do not certify
+representative cross-language speed or close constrained-host consistency.
+
 ## Current architecture
 
 Eligible ordinary builds retain two bounded latest-generation files beside
@@ -177,10 +203,9 @@ body edit replays 229 (23) frontend contributions plus 31/32 (23/24) objects.
 An isolated DLL diagnostic independently checked SHA digests against Python.
 For the 8,077,312-byte compiler, 31 warmed samples measure 3.9325 ms for hashing
 resident bytes and 6.8156 ms for bounded file read/hash/free. This identifies a
-material fixed cold cost. Next test a same-handle mapped-file fingerprint and
-cache publication batching while preserving complete-byte authentication;
-metadata-only shortcuts do not qualify. Final-source balanced repeats remain
-mandatory after any implementation change.
+material fixed cold cost. It motivated the mapped-file diagnostic and parallel
+preparation checkpoint above. Metadata-only shortcuts do not qualify;
+final-source balanced repeats remain mandatory after implementation changes.
 
 ## Current local verification
 
