@@ -15,6 +15,18 @@ than consuming discovered hashes as proof expectations. That discovery run
 correctly failed on the previously unreviewed image and is not a representative
 proof. Fresh candidate-source proof remains required.
 
+The subsequent current-source run `40126914602` now passes discovery and the
+pinned medium-app proof on compiler
+`964a8e7193fb1ea8cf26d1b06edb0ef421722e3bb9aa2c1a6133684f931a8e32`.
+Its downloaded proof artifact `12572968074` verifies as ZIP SHA-256
+`2ebe7dfd9eb832bc5fc5737570d729b8a991abeaa337f5fb78deaae9f6d291b7`;
+the raw `representative-medium.json` verifies as
+`fefdf0c4f9db4e23fd6a45e01c78e4a689d7b445affca9000e9ae50c171ce57c`.
+The report retains the same literal MSVC/linker/DMD hashes and three
+repetitions of cold/warm/edit exact runtime equivalence. Its timing samples
+are descriptive; this does not establish broad project throughput parity or
+complete SH-27.
+
 The [Windows-2025 hosted run 35946485926](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35946485926)
 at commit `5739dfb` verified separately reviewed literal SHA-256 identities for
 MSVC `cl.exe`/`link.exe` and DMD 2.112.0, guardedly bootstrapped the checked-out

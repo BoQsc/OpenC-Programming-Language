@@ -103,6 +103,12 @@ and warm peak at 62,054,400 and 35,708,928, under the unchanged 64 MiB cap.
 `lifetimes-test_large_coff_selfhost.json` SHA-256 is
 `dceacb97777930a73fcf4bbea83e80a02128e5f2ce18a6c70c57a43d8561fd26`.
 Final-source hosted and remaining full gates are pending.
+The pinned medium-app representative run `40126914602` now passes on this
+exact `964a8e71...` binary. Its independently downloaded artifact/report hashes
+and equivalence scope are retained in
+[the representative evidence](SH27_REPRESENTATIVE_HOSTED_PROOF.md). Full
+production/module results, repeated headroom, project breadth and release
+certification remain open.
 
 The preceding publication candidate's production ZIP `40126199183` is
 downloaded and verified as
