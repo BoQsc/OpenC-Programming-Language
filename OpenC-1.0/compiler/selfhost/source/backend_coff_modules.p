@@ -286,6 +286,10 @@ unsafe bool coff_write_one_module(
         DBuffer object = native_build_coff_object(
             context, subset, exports, relocations, true, true
         );
+        // The COFF writer owns its complete result. The source selection is
+        // no longer borrowed; release it before hashing/writing/readback.
+        d_buffer_destroy(subset);
+        subset = DBuffer{data = null, length = 0, capacity = 0, ok = true};
         ok = object.ok;
         if !ok && text.byte_length(linked_output_path) != 0 {
             io.error("error[OPENC-COFF-LINK-COFF]: object writer failed\n");
@@ -301,10 +305,13 @@ unsafe bool coff_write_one_module(
                 io.error("error[OPENC-COFF-LINK-FILE]: object write failed\n");
             }
         }
+        usize object_length = object.length;
+        d_buffer_destroy(object);
+        object = DBuffer{data = null, length = 0, capacity = 0, ok = true};
         if ok && text.byte_length(linked_output_path) != 0 {
             ok = coff_link_append_published_object(
                 bundle, d_buffer_text(object_path),
-                d_buffer_text(object_hash), object.length
+                d_buffer_text(object_hash), object_length
             );
             if !ok {
                 io.error("error[OPENC-COFF-LINK-READBACK]: saved object rejected\n");

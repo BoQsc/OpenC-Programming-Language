@@ -84,6 +84,22 @@ cross-language representative proof and broader project coverage remain open.
 The representative C/D workflow now also triggers on this isolated branch,
 using its existing reviewed literal toolchain pins and manual entry point.
 
+The independent four-CPU repeat passes the five available DMD ceilings again:
+large 1.187x and control 0.748x. This second run clears the internal 1.20x
+margin, while the first still does not. Hosted C/D run `40126199183` passes
+on `eaa0017d...`; its module run `40126199204` passes the corrected late-read
+retry and safety stages through ABI, but the serial fresh large-COFF path
+exceeds peak working set. The local reproducer records 67,268,608 bytes.
+
+Current lifetime-fix compiler SHA-256 is
+`964a8e7193fb1ea8cf26d1b06edb0ef421722e3bb9aa2c1a6133684f931a8e32`.
+After COFF serialization, the native selection copy is released before hashing
+and writing; the written COFF owner is then released before independently
+authenticated readback into the link bundle. Neither owner is borrowed after
+those transitions. Exact Stage 2/3 bootstrap, large-COFF overflow/cold/warm/
+fresh/corruption/seeded fixed point and module-boundary/native/saved-link/failure
+proof pass locally. Final-source hosted and remaining full gates are pending.
+
 Raw local reports under `build-output/sh27-native-cache/`:
 
 | Report | SHA-256 |

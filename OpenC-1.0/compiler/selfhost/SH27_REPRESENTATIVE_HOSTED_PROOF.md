@@ -3,6 +3,18 @@
 Status: **PASS for this checked-in four-module audit fixture; not SH-27
 completion or broad C/D-class parity.**
 
+On 2026-10-24 the candidate branch was added to the same push/manual workflow.
+Discovery run `40126437277`, artifact `12573347352`, identifies runner image
+`20261021.278.1`. Its downloaded ZIP verifies as
+`dbfc6ab85ff5bb72f3904ee9973f8810b83f9cd2042a0337c9f8984f6c8c3ba2`.
+The MSVC compiler/linker hashes exactly match the already reviewed
+`20260922.246.2` pair below; DMD also exactly matches its existing literal pin.
+The version outputs remain 19.44.35229 / 14.44.35229.0 / DMD 2.112.0.
+This image identity is now recorded with those same literal hashes, rather
+than consuming discovered hashes as proof expectations. That discovery run
+correctly failed on the previously unreviewed image and is not a representative
+proof. Fresh candidate-source proof remains required.
+
 The [Windows-2025 hosted run 35946485926](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35946485926)
 at commit `5739dfb` verified separately reviewed literal SHA-256 identities for
 MSVC `cl.exe`/`link.exe` and DMD 2.112.0, guardedly bootstrapped the checked-out
