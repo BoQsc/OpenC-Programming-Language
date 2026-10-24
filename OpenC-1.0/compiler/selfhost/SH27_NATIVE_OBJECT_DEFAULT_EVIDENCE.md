@@ -72,6 +72,18 @@ checks, legacy module-cache behavior, and 26 worker-setup faults. The complete
 516,554,752 peak aggregate private bytes. Fresh hosted and constrained-host
 proof, representative breadth and release certification remain open.
 
+The first final-source four-CPU, pinned-DMD 20-sample diagnostic passes all
+five available public ceilings: large 224.822/186.221 ms = 1.207x; control
+94.130/125.104 ms = 0.752x. Large still lacks 1.357 ms for the 1.20x internal
+margin, and an independent repeat is required. Missing local C/LDC tools
+leave the overall status `PARTIAL_COMPARATOR_SET`. This unpaired comparison
+with earlier revisions cannot attribute a source speedup. All three retained
+representative projects pass three cold/warm/edit repetitions with three
+compiler fixed-point generations (`publication-representative3.json`);
+cross-language representative proof and broader project coverage remain open.
+The representative C/D workflow now also triggers on this isolated branch,
+using its existing reviewed literal toolchain pins and manual entry point.
+
 Raw local reports under `build-output/sh27-native-cache/`:
 
 | Report | SHA-256 |

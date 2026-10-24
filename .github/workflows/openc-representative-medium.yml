@@ -6,6 +6,7 @@ on:
       - master
       - codex/sh27-representative-work
       - codex/sh27-critical-worker-budget
+      - codex/sh27-native-object-default
     paths:
       - .github/bootstrap/openc-stage0.exe
       - .github/representative-toolchain-pins.json
