@@ -38,7 +38,7 @@ def numeric_phase(sample: dict, field: str) -> int | None:
 
 def analyze(path: Path, candidate_filter: str | None = None) -> dict:
     report = json.loads(path.read_text(encoding="utf-8"))
-    if report.get("schema") != "openc.sh27.candidate_matrix.v1":
+    if report.get("schema") not in ("openc.sh27.candidate_matrix.v1", "openc.sh27.candidate_matrix.v2"):
         raise ValueError("not an SH-27 candidate matrix report")
     result = {
         "schema": "openc.sh27.candidate_matrix_phase_summary.v1",

@@ -23,8 +23,14 @@ from benchmark_sh27_production import (
 )
 
 
-SCHEMA = "openc.sh27.candidate_matrix.v1"
+SCHEMA = "openc.sh27.candidate_matrix.v2"
 DEFAULT_WORKLOADS = ("large_functions", "control_flow")
+
+
+def paired_order(pair_index: int, name: str, names: list[str]) -> tuple[str, str]:
+    # Candidate rotation must not cancel baseline/candidate alternation.
+    return (("baseline", name) if (pair_index + names.index(name)) % 2 == 0
+            else (name, "baseline"))
 NULL_NAME = "__null__"
 MAX_NATIVE_SAMPLE_REPORT_PATH = 248
 
@@ -253,6 +259,7 @@ def main() -> int:
 
     result: dict[str, object] = {
         "schema": SCHEMA,
+        "pair_order_policy": "alternating_fixed_candidate_ordinal",
         "status": "INCOMPLETE",
         "measured_at_utc": datetime.now(timezone.utc).isoformat(),
         "host": {
@@ -304,12 +311,8 @@ def main() -> int:
             names = [*compilers, NULL_NAME]
             for pair_index in range(args.pairs):
                 rotated = names[pair_index % len(names):] + names[:pair_index % len(names)]
-                for candidate_index, name in enumerate(rotated):
-                    order = (
-                        ("baseline", name)
-                        if (pair_index + candidate_index) % 2 == 0
-                        else (name, "baseline")
-                    )
+                for name in rotated:
+                    order = paired_order(pair_index, name, names)
                     sample_pair: dict[str, dict[str, object]] = {}
                     for side in order:
                         executable = (

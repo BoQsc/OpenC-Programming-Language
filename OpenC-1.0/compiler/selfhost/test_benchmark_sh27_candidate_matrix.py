@@ -9,7 +9,7 @@ from pathlib import Path
 
 from benchmark_sh27_candidate_matrix import (
     ROOT, candidate_spec, chunk_policy_spec, compare_pairs, matrix_status, sample_paths_within_budget,
-    sample_root_path, validate_matrix_corpus,
+    sample_root_path, validate_matrix_corpus, paired_order,
 )
 from analyze_sh27_candidate_matrix import numeric_phase
 from benchmark_sh27_production import validate_corpus
@@ -33,6 +33,20 @@ def sample(
 
 
 class CandidateMatrixTests(unittest.TestCase):
+    def test_each_candidate_alternates_independently_of_rotation(self):
+        for count in range(1, 7):
+            names = [f"candidate{i}" for i in range(count)] + ["__null__"]
+            orders = {name: [] for name in names}
+            for pair in range(11):
+                rotated = names[pair % len(names):] + names[:pair % len(names)]
+                for name in rotated:
+                    orders[name].append(paired_order(pair, name, names))
+            for name, observed in orders.items():
+                with self.subTest(count=count, name=name):
+                    self.assertTrue(all(a != b for a, b in zip(observed, observed[1:])))
+                    self.assertEqual(abs(sum(o[0] == "baseline" for o in observed)
+                                         - sum(o[0] == name for o in observed)), 1)
+
     def test_function_scale_is_distinct_from_frozen_production_corpus(self):
         production = json.loads((ROOT / "benchmarks/sh27/CORPUS.json").read_text(encoding="utf-8"))
         scale = json.loads((ROOT / "benchmarks/sh27/FUNCTION_SCALE.json").read_text(encoding="utf-8"))
