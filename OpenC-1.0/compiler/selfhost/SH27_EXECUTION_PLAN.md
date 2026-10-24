@@ -1,5 +1,18 @@
 # SH-27 execution plan: finish the compiler, then certify the release
 
+Latest checkpoint: `1859f47f...` prepares a frontend temporary on a second
+joined job while PE linking runs, and commits after PE success. Stable owner
+pointers clean up late-populated state. The retained audit app exposed an
+unsorted-module/source-order fallback; native v5 keys and frontend v3 identity
+now preserve those independent orders. Locked commits, failed PE cleanup,
+named layouts, selective edits and rehashed wrong-source-order records have
+detecting tests. Current local 27 worker faults, 30 cache cases, strict 20/20,
+278 conformance, 25 ABI, overflow-COFF and source-cache proofs pass. The prior
+hosted module run failed medium cold (+11.218 ms against 0.733 ms null).
+Current-source hosted economics, repeated constrained margin, broader projects
+and release certification remain required. The zero-allocation batch failed
+its independent repeat and was removed.
+
 Status: **active, not complete**. This is the ordered engineering checklist for
 SH-27. `SH27_COMPLETION_ROADMAP.md` retains the detailed measurements and
 decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
@@ -312,7 +325,7 @@ comparison; only OpenC's guarded two-lane wall measurements can validate it.
 | 4. Remaining architecture | Not implemented | After a first-visit cut, reprofile and attack the largest remaining serial phase. Native value cuts have so far changed code size more than compiler throughput. |
 | 5. Production policy/RAM | Current source passed strict 20/20; final source pending | Normal adaptive mode passed exact-output current-source 20-generation 64/256 MiB child and 512 MiB Job guards. Repeat after any accepted compiler source change. |
 | 6. Incremental objects | Isolated automatic native cache locally and hosted proved; normal-default speed/general scope open | [Automatic cache evidence](https://github.com/BoQsc/OpenC-Programming-Language/blob/2ca15c1/SH27_AUTO_MODULE_CACHE_EVIDENCE.md) proves real hits/missed-module lowering, body/declaration invalidation, atomic publication, authenticated snapshots, and corrupt/oversized/concurrent/storage recovery. Whole-project parsing/resolution/flow/acceptance still runs; interface changes safely invalidate all modules. A 24-file/1153-function exact COFF/PE/runtime proof fixes a linker scratch ceiling and stays within strict RAM. [Hosted run 36263328048](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36263328048) passed all cache/24-file checks and 13 strict checks with 20/20 exact rebuilds. Local no-op/normal medians 0.335/0.325 s and hosted 0.178/0.188 s do not prove a robust normal-build win; the cold speed batch failed its gain/noise gate. Add validated no-op front-end skipping, selective complete transitive keys, general shared-data/runtime support and real-project/default speed before promotion. Stage 2 bootstrap still exceeds strict 64/256 MiB. |
-| 7. Representative projects | Small hosted C/D/OpenC proof passed; broad project gate open | `benchmarks/sh27/representative/SUITE.json` covers a CLI, four-module file-audit app, and the 222-source compiler. The [pinned hosted medium-app proof](SH27_REPRESENTATIVE_HOSTED_PROOF.md) passed 3/3 cold/warm/edit repetitions with exact three-language output. Add a retained user project, a larger multi-module case, and repeated cross-language measurements before claiming representative parity. |
+| 7. Representative projects | Small hosted C/D/OpenC proof passed; broad project gate open | `benchmarks/sh27/representative/SUITE.json` covers a CLI, four-module file-audit app, and the 230-source compiler. The [pinned hosted medium-app proof](SH27_REPRESENTATIVE_HOSTED_PROOF.md) passed 3/3 cold/warm/edit repetitions with exact three-language output. Add a retained user project, a larger multi-module case, and repeated cross-language measurements before claiming representative parity. |
 | 8. Final-source certification | Partial, current-source parity/memory/conformance/editor only | Two independent clean 20/20 normal-default runs, strict 20/20 self-build, native 278/278 conformance, old-release asset integrity, fresh VS Code clean-profile, and direct finalization 44/44 passed on `1b58d5e`. Its daily aggregate was 13/14 because it hardcoded the historical profile path. The [isolated workflow input](https://github.com/BoQsc/OpenC-Programming-Language/blob/e233fee/OpenC-1.0/compiler/selfhost/SH27_WORKFLOW_CLEAN_PROFILE_INPUT.md) now routes an explicit report but correctly still fails two identity checks on its new compiler/VSIX; the final source needs a fresh matching profile and 14/14 rerun. Incremental, representative breadth, and other final checks remain. |
 
 The isolated bounded saved-object reader now also has an independent

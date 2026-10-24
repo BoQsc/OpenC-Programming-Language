@@ -1,5 +1,14 @@
 # SH-27 throughput candidate portfolio
 
+Latest decision: `1859f47f...` overlaps frontend preparation with PE linking,
+commits after success and cleans up through stable owner pointers. The audit
+app exposed an unsorted-module cache fallback; native v5/source-group order
+and frontend v3/contribution order are now distinct. Detecting locked-file,
+failed-PE, named-layout and rehashed wrong-order probes pass, as do 27 pool
+faults and the full local correctness/strict-RAM gates. Hosted cold and final
+certification remain open. The separate [zero-initialization portfolio](SH27_ZERO_INITIALIZATION_BATCH_NO_GO.md)
+failed its independent 31-pair repeat and was removed before this checkpoint.
+
 Status: **historical first-batch portfolio; SH-27 remains open**. The latest
 [function-source fact / small-parent batch](SH27_FUNCTION_SOURCE_FACT_EVIDENCE.md)
 proves a larger-function scaling gain and full local correctness/RAM, but its

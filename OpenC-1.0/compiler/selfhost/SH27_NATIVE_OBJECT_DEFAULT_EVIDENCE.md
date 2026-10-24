@@ -10,6 +10,91 @@ frontend-only candidate's failed medium cold gate is retained below.
 
 ## Current digest/scratch and peak-guard checkpoint
 
+### Frontend publication and independent manifest/source ordering
+
+Current checkpoint compiler SHA-256 is
+`1859f47fa388d0de3f6003c028a5d3ed2bb6a70bd95dfe8091d46139237c1ed1`.
+Three guarded stages reach an exact Stage 2/3 fixed point. This supersedes
+the `964a8e71...` lifetime checkpoint below; hosted certification is pending.
+
+The downloaded `964a8e71...` production run `40126914473` passes all twenty
+ratios with 20 successful samples per compiler/cell. Its ZIP/report SHA-256
+values are `0657ee4e432af1186fcaeeaa3666f76375560d9cf8f4e8100aeb855197e9836f`
+and `429fa5de059074ff689ecdadf3bbfb72ad3fcccb6bde871930b87f22845ae2bd`.
+The corresponding module run `40126914437` passes every correctness, strict
+memory, cache recovery, COFF and representative step, but fails medium cold
+economics: +11.218 ms, 0/11 wins, versus 0.733 ms null and 143.684 ms direct.
+Its downloaded ZIP verifies as
+`cd39eaa3a3e629f516423e4a68015a72d4c3ba1d84a49ee48a9c63b607ecd51c`.
+That failure is the reason for the following architectural change.
+
+The publication pool now joins two callbacks with the parent PE link. One
+publishes native records; the other encodes and writes the bounded frontend
+snapshot into an exclusively claimed temporary. It reads only frozen source,
+symbol and semantic-type prefixes; native closed derived types are excluded.
+The parent commits the frontend temporary atomically only after PE success.
+API/setup failure completes the original serial path, including frontend
+publication. Every submitted callback finishes before its owners return.
+
+Pending-file ownership is explicit. Failed commits and failed PE links discard
+only the temporary that this invocation successfully claimed, using the
+documented [DeleteFileW API](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-deletefilew).
+No directory scan or deletion of unclaimed names occurs. A first prototype
+left its failed-link temporary behind; the new fault probe detected this.
+Frontend and module-cache scope guards now capture stable owner pointers,
+so cleanup observes fields populated after registration. The final failure
+probe confirms that the old snapshot and an unrelated foreign temporary
+survive, and the newly claimed temporary does not.
+
+The real audit application also exposed an independent cache limitation.
+Its manifest lists main/scan/score/report, while the compiler visits sorted
+modules as main/report/scan/score. The old key builder required sorted module
+intervals to equal original source-record order and silently disabled native
+reuse. Frontend validation likewise assumed source rows were contribution
+order. Native key domain v5 now visits original source IDs; frontend identity
+v3 validates/materializes contributions in actual module-pass order while
+keeping rows indexed by source ID. Native records are ordered by source ID,
+then symbol ID within each source, preserving duplicate rejection even when
+global symbol numbers decrease between sources. An independently rehashed
+wrong-source-order bundle is rejected and rebuilt with exact fresh PE bytes.
+
+`test_frontend_publication.py` exercises the retained four-module file app,
+with staged named layouts in its unsorted source order, through the explicit
+four-worker/two-group diagnostic boundary. It proves selective body-edit
+reuse, all-source frontend replay, a locked snapshot's failed commit, a real
+prepared temporary followed by forced PE failure, recovery, and foreign-file
+preservation. Tiny ordinary projects retain the serial policy; normal-default
+performance qualification uses the unchanged compiler and 24-file matrices.
+
+Current-source local proof passes 27 worker setup faults, 30 guarded cache
+cases, full validating late-read retry, named layout/invalid-input replay,
+legacy module-cache behavior, strict 20/20, conformance 278/278, ABI 25/25,
+large overflow-COFF seeded closure and source-partition cache invalidation.
+The strict-chain private/working-set peaks are 239,136,768/61,054,976 bytes;
+cache cases peak at 248,852,480/59,424,768. The outer cache job peaks at
+518,660,096 bytes under the unchanged 512 MiB aggregate cap.
+
+The immediately preceding `a674af46...` prototype passes both balanced
+11-pair economics matrices: medium cold -14.613 ms (10/11 wins) versus
+20.917 ms null; compiler cold -2.666 ms (7/11) versus 41.526 ms null.
+Warm/edit win 11/11 on both. These cold differences remain below null and
+do not prove a cold speedup. Current-source hosted economics, constrained
+margin, representative breadth and final release certification remain open.
+
+Raw current-source reports under `build-output/sh27-native-cache/`:
+
+| Report | SHA-256 |
+| --- | --- |
+| `frontend-final-publication.json` | `0ce8fa218798c3cf3b7afbc4b2f81a957e6dd494b3fe8215ae79069e48efc28d` |
+| `frontend-final-workers.json` | `5ed408f37762bfe169666021f945974d1025787dee1fa40c7104cc8cd39c3b91` |
+| `frontend-final-cache.json` | `bf927da61a74a662150ca4141f6b3935169ede432f50d3d7182a33a7b83fd0e7` |
+| `frontend-final-cache-guard.json` | `baba825275994c3894a8daec1c9072194c6e82ffa053a6781b53f8310a2fc5a9` |
+| `frontend-final-strict20.json` | `27d30ef902b603a497933d613e84687151e058b29277860d7d224d54f62c8b0a` |
+
+The separate [zero-initialization batch](SH27_ZERO_INITIALIZATION_BATCH_NO_GO.md)
+did not reproduce a qualifying target gain and all of its source changes were
+removed. It is not included in this checkpoint.
+
 ### Hosted evidence for `2832d79` and the next ownership/publication candidate
 
 The downloaded raw artifact for production run `40124695875` proves

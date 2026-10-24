@@ -19,6 +19,7 @@ on:
       - OpenC-1.0/compiler/selfhost/test_module_object_cache.py
       - OpenC-1.0/compiler/selfhost/test_native_object_cache.py
       - OpenC-1.0/compiler/selfhost/test_native_object_cache_retry.py
+      - OpenC-1.0/compiler/selfhost/test_frontend_publication.py
       - OpenC-1.0/compiler/selfhost/test_native_frontend_edges.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_hash_context.py
       - OpenC-1.0/compiler/selfhost/test_cache_file_hash.py
@@ -85,6 +86,13 @@ jobs:
           python OpenC-1.0\compiler\selfhost\test_native_object_cache_retry.py
           artifacts\module-coff\bootstrap-current\stage3\openc.exe
           --report artifacts\module-coff\native-cache-retry.json
+
+      - name: Prove frontend preparation, unsorted modules and failed publication cleanup
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\test_frontend_publication.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --report artifacts\module-coff\frontend-publication.json
 
       - name: Verify named-type replay, native layout queries and exact invalid diagnostics
         shell: cmd

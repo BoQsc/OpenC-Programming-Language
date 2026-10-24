@@ -47,6 +47,8 @@ unsafe bool write_build_timings(
         d_put_usize(output, timings.frontend_resolution_hits);
         d_put(output, ", \"publish_failures\": ");
         d_put_usize(output, timings.frontend_publish_failures);
+        d_put(output, ", \"prepare_parallel\": ");
+        native_put_bool(output, timings.frontend_prepare_parallel);
         d_put(output, "}");
     }
     if timings.object_cache_enabled {

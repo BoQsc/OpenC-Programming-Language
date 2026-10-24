@@ -20,6 +20,7 @@ unsafe bool native_object_cache_valid(
         native_read_u32(object, 12) != end { return false; }
     usize cursor = 16;
     usize previous = 0;
+    usize previous_source = first;
     bool have_previous = false;
     while cursor < object.length {
         if object.length - cursor < 24 { return false; }
@@ -36,11 +37,13 @@ unsafe bool native_object_cache_valid(
         }
         usize source = read_record_field(context.symbol_data, symbol, 1);
         if source < first || source >= end ||
-            (have_previous && symbol <= previous) { return false; }
+            (have_previous && (source < previous_source ||
+                (source == previous_source && symbol <= previous))) { return false; }
         if c_function_is_entry(context, symbol, entry_module) != (entry_flag == 1) {
             return false;
         }
         previous = symbol;
+        previous_source = source;
         have_previous = true;
         usize after_code = cursor + 24;
         if code > object.length - after_code { return false; }
@@ -224,6 +227,23 @@ unsafe void native_object_cache_link_main(ref NativeCachePublication publication
     ref NativeArtifactOptions options = *(reinterpret(ptr NativeArtifactOptions, publication.options));
     publication.written = native_write_image_options(
         context, objects, publication.output_path, options);
+}
+
+unsafe void native_object_cache_frontend_pool(
+    ptr byte instance, ref NativeCachePublication publication, ptr byte work
+) {
+    ref IrContext context = *(reinterpret(ptr IrContext, publication.context));
+    ref NativeArtifactOptions options = *(reinterpret(ptr NativeArtifactOptions, publication.options));
+    if options.frontend_state == null { return; }
+    ref NativeFrontendState frontend = *(reinterpret(ptr NativeFrontendState, options.frontend_state));
+    PackedBuffer semantic_types = context.types;
+    if options.cache_type_count == 0 || options.cache_type_count > semantic_types.length { return; }
+    semantic_types.length = options.cache_type_count;
+    frontend.prepare_parallel = true;
+    // Only the frozen semantic prefix belongs in the frontend snapshot.
+    // Linking may use derived closed types, never mutate that prefix.
+    native_frontend_prepare_publish(frontend, options.cache_prefix,
+        context.type_data, semantic_types, context.symbol_data, context.detail_data, context.symbols);
 }
 
 unsafe status native_object_cache_write_image(

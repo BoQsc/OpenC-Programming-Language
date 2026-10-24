@@ -9,6 +9,10 @@ import system.text;
 struct NativeFrontendState {
     bool enabled;
     bool deferred;
+    bool publish_prepared;
+    bool prepare_parallel;
+    ModuleCachePendingFile pending;
+    ptr byte source_order;
     usize source_count;
     usize predecl_count;
     DBuffer saved;
@@ -28,7 +32,9 @@ struct NativeFrontendState {
 
 NativeFrontendState native_frontend_empty() {
     DBuffer empty = DBuffer{data = null, length = 0, capacity = 0, ok = true};
-    return NativeFrontendState{enabled = false, deferred = false, source_count = 0,
+    return NativeFrontendState{enabled = false, deferred = false,
+        publish_prepared = false, prepare_parallel = false,
+        pending = module_cache_pending_empty(), source_order = null, source_count = 0,
         predecl_count = 0, saved = empty, rows = empty,
         projections = empty, identity = empty, compiler_hash = empty,
         type_identity = empty, type_scratch = empty, hashed_types = 0, source_bytes = 0, source_chunks = 0,
@@ -36,6 +42,8 @@ NativeFrontendState native_frontend_empty() {
 }
 
 unsafe void native_frontend_destroy(ref NativeFrontendState state) {
+    module_cache_pending_discard(state.pending);
+    memory.free(state.source_order);
     if state.saved.data != null { d_buffer_destroy(state.saved); }
     if state.rows.data != null { d_buffer_destroy(state.rows); }
     if state.projections.data != null { d_buffer_destroy(state.projections); }
@@ -43,6 +51,13 @@ unsafe void native_frontend_destroy(ref NativeFrontendState state) {
     if state.compiler_hash.data != null { d_buffer_destroy(state.compiler_hash); }
     if state.type_identity.data != null { d_buffer_destroy(state.type_identity); }
     if state.type_scratch.data != null { d_buffer_destroy(state.type_scratch); }
+}
+
+// Scope arguments are captured at registration. Keep a stable owner pointer
+// when callbacks will populate additional fields after that registration.
+unsafe void native_frontend_destroy_owner(ptr byte owner) {
+    ref NativeFrontendState state = *(reinterpret(ptr NativeFrontendState, owner));
+    native_frontend_destroy(state);
 }
 
 unsafe bool native_frontend_equal(ptr byte left, ptr byte right, usize length) {
@@ -164,8 +179,10 @@ unsafe bool native_frontend_saved_valid(
     usize next_type = predecl;
     usize next_symbol = 0;
     usize next_projection = 0;
-    usize source = 0;
-    while source < count {
+    usize ordinal = 0;
+    while ordinal < count {
+        usize source = read_usize(state.source_order, ordinal * size_of(usize));
+        if source >= count { return false; }
         usize row = 112 + source * 232;
         usize first = native_read_u32(bytes, row + 192);
         usize added = native_read_u32(bytes, row + 196);
@@ -207,7 +224,7 @@ unsafe bool native_frontend_saved_valid(
         }
         next_pre = first + added; next_type = rfirst + radded;
         next_symbol = sfirst + sadded; next_projection = pfirst + padded;
-        source = source + 1;
+        ordinal = ordinal + 1;
     }
     if next_pre != predecl || next_type != types || next_symbol != symbols ||
         next_projection != projection_bytes { return false; }
@@ -237,7 +254,7 @@ unsafe bool native_frontend_prepare_identity(ref NativeFrontendState state) {
     DBuffer key = d_buffer_create(text.byte_length(state.project_source) +
         text.byte_length(state.project_root) + 256);
     scope d_buffer_destroy(key);
-    d_put(key, "openc-frontend-contributions-v2:windows-x86_64-llp64:");
+    d_put(key, "openc-frontend-contributions-v3:windows-x86_64-llp64:");
     if !module_cache_compiler_file_hash(process.executable_path(), state.compiler_hash) {
         return false;
     }
@@ -252,7 +269,7 @@ unsafe bool native_frontend_prepare_identity(ref NativeFrontendState state) {
 unsafe NativeFrontendState native_frontend_open(
     text project, text root, text prefix, usize source_count,
     usize source_bytes, usize source_chunks, usize module_count,
-    ptr byte source_data,
+    ptr byte source_data, ptr byte module_data,
     ref BuildTimings timings
 ) {
     NativeFrontendState state = native_frontend_empty();
@@ -269,9 +286,28 @@ unsafe NativeFrontendState native_frontend_open(
     state.identity = d_buffer_create(65);
     state.compiler_hash = d_buffer_create(65);
     state.type_identity = d_buffer_create(65);
+    state.source_order = memory.alloc(source_count * size_of(usize));
     if state.rows.data == null || state.projections.data == null ||
         state.identity.data == null || state.compiler_hash.data == null ||
-        state.type_identity.data == null { return state; }
+        state.type_identity.data == null || state.source_order == null { return state; }
+    // Module sorting preserves the parser's disjoint source intervals.
+    // Contributions are collected in that module order, while rows and
+    // native source groups remain indexed by the original source record.
+    usize ordinal = 0;
+    usize module = 0;
+    while module < module_count {
+        usize first = read_record_field(module_data, module, 2);
+        usize count = read_record_field(module_data, module, 3);
+        if first > source_count || count > source_count - first ||
+            count > source_count - ordinal { return state; }
+        usize index = 0;
+        while index < count {
+            write_usize(state.source_order, ordinal * size_of(usize), first + index);
+            ordinal = ordinal + 1; index = index + 1;
+        }
+        module = module + 1;
+    }
+    if ordinal != source_count { return state; }
     state.rows.length = source_count * 232;
     state.enabled = true;
     timings.frontend_cache_enabled = true;
@@ -416,9 +452,10 @@ unsafe bool native_frontend_materialize(
 ) {
     if !state.enabled { return false; }
     if !state.deferred { return true; }
-    usize source_record = 0;
+    usize ordinal = 0;
     PackedBuffer prefix = PackedBuffer{length = 19, capacity = 16384};
-    while source_record < state.source_count {
+    while ordinal < state.source_count {
+        usize source_record = read_usize(state.source_order, ordinal * size_of(usize));
         usize row = source_record * 232;
         text source;
         status loaded = project_read_source_record(state.project_source,
@@ -431,29 +468,32 @@ unsafe bool native_frontend_materialize(
         state.enabled = native_frontend_hash(bytes, text.byte_length(source), state.rows.data + row) &&
             native_frontend_type_hash(state, type_data, prefix, state.rows.data + row + 64);
         if !state.enabled { return false; }
-        source_record = source_record + 1;
+        ordinal = ordinal + 1;
     }
-    source_record = 0;
-    while source_record < state.source_count {
+    ordinal = 0;
+    while ordinal < state.source_count {
+        usize source_record = read_usize(state.source_order, ordinal * size_of(usize));
         usize row = source_record * 232;
         prefix.length = native_read_u32(state.rows, row + 200);
         if prefix.length < 19 || prefix.length > 16384 ||
             !native_frontend_type_hash(state, type_data, prefix, state.rows.data + row + 128) {
             state.enabled = false; return false;
         }
-        source_record = source_record + 1;
+        ordinal = ordinal + 1;
     }
     state.deferred = false;
     state.enabled = state.rows.ok && state.projections.ok;
     return state.enabled;
 }
 
-unsafe bool native_frontend_publish(
+unsafe bool native_frontend_prepare_publish(
     ref NativeFrontendState state, text prefix,
     ptr byte type_data, ref PackedBuffer types, ptr byte symbol_data,
     ptr byte detail_data, ref PackedBuffer symbols
 ) {
     if !state.enabled { return true; }
+    if state.publish_prepared { return state.pending.claimed; }
+    state.publish_prepared = true;
     if !native_frontend_prepare_identity(state) { return false; }
     usize type_offset = 112 + state.rows.length;
     usize symbol_offset = type_offset + types.length * record_stride();
@@ -484,6 +524,22 @@ unsafe bool native_frontend_publish(
     DBuffer path = d_buffer_create(text.byte_length(prefix) + 16);
     scope d_buffer_destroy(path);
     d_put(path, prefix); d_put(path, ".frontend");
-    return output.ok && output.length == size && digest.ok && digest.length == 64 &&
-        path.ok && module_cache_publish(d_buffer_text(path), output.data, output.length);
+    if output.ok && output.length == size && digest.ok && digest.length == 64 && path.ok {
+        state.pending = module_cache_prepare_file(d_buffer_text(path), output.data, output.length);
+    }
+    return state.pending.claimed;
+}
+
+unsafe bool native_frontend_publish(
+    ref NativeFrontendState state, text prefix,
+    ptr byte type_data, ref PackedBuffer types, ptr byte symbol_data,
+    ptr byte detail_data, ref PackedBuffer symbols
+) {
+    if !state.enabled { return true; }
+    if !native_frontend_prepare_publish(state, prefix,
+            type_data, types, symbol_data, detail_data, symbols) { return false; }
+    DBuffer path = d_buffer_create(text.byte_length(prefix) + 16);
+    scope d_buffer_destroy(path);
+    d_put(path, prefix); d_put(path, ".frontend");
+    return path.ok && module_cache_commit_file(state.pending, d_buffer_text(path));
 }

@@ -26,7 +26,7 @@ APIS = ("CreateThreadpoolWork", "SubmitThreadpoolWork",
 PHASES = {"parse": ("resolution_parse_sources_parallel", 3),
           "flow": ("flow_validate_project_parallel", 4),
           "native": ("c_emit_native_sources_chunked", 10),
-          "publication": ("native_object_cache_write_image", 1)}
+          "publication": ("native_object_cache_write_image", 2)}
 CREATE_CALL = bytes.fromhex("4c8b9c24c005000041ffd3")
 
 
@@ -213,6 +213,7 @@ def main() -> int:
               expected_fallback = expected_fallback and timing.get("object_cache", {}).get("prepare_parallel") is name.startswith("publication-")
               expected_publication = not name.startswith(("missing-", "publication-"))
               expected_fallback = expected_fallback and timing.get("object_cache", {}).get("publish_parallel") is expected_publication
+              expected_fallback = expected_fallback and timing.get("frontend_cache", {}).get("prepare_parallel") is expected_publication
             passed = bool(guarded(vm) and vm["exit_code"] == 0 and valid["binary_sha256"] == expected_hash and
                 guarded(im) and im["exit_code"] != 0 and invalid["binary_sha256"] is None and
                 diagnostic(im) == invalid_diagnostic and expected_fallback and
@@ -235,8 +236,8 @@ def main() -> int:
         "invalid_controls_reject": all(guarded(c["invalid"]["measurement"]) and
             c["invalid"]["measurement"]["exit_code"] != 0 and c["invalid"]["binary_sha256"] is None and
             "SEMANTIC_ERROR" in c["invalid"]["measurement"]["stdout"] for c in controls.values()),
-        "all_twenty_six_fault_variants_pass": len(results) == 26 and all(r["passed"] for r in results.values())}
-    report = {"schema": "openc.sh27.worker_pool_faults.v3", "status": "PASS" if all(checks.values()) else "FAIL",
+        "all_twenty_seven_fault_variants_pass": len(results) == 27 and all(r["passed"] for r in results.values())}
+    report = {"schema": "openc.sh27.worker_pool_faults.v4", "status": "PASS" if all(checks.values()) else "FAIL",
         "compiler": {"path": str(compiler), "sha256": sha256(compiler)},
         "script_sha256": sha256(Path(__file__)), "source_map_sha256": source_hashes,
         "checks": checks, "controls": controls, "faults": results}

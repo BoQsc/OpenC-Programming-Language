@@ -29,6 +29,9 @@ unsafe status cli_cache_write_exclusive(text path, ptr byte data, usize length) 
 unsafe status cli_cache_atomic_replace(text temporary, text destination) {
     return status{ code = 1 };
 }
+unsafe status cli_cache_discard_temporary(text temporary) {
+    return status{ code = 1 };
+}
 unsafe bool cli_cache_sha256_runtime(ptr byte data, usize length, ptr byte digest) {
     return false;
 }
@@ -98,6 +101,11 @@ unsafe void module_cache_destroy(ref ModuleCacheState cache) {
     memory.free(cache.stable_offsets);
 }
 
+unsafe void module_cache_destroy_owner(ptr byte owner) {
+    ref ModuleCacheState cache = *(reinterpret(ptr ModuleCacheState, owner));
+    module_cache_destroy(cache);
+}
+
 unsafe void module_cache_path(
     ref DBuffer output, text prefix, text category,
     ref DBuffer hashes, usize index, text suffix
@@ -107,9 +115,29 @@ unsafe void module_cache_path(
     d_put(output, suffix);
 }
 
-// Exclusive creation claims a temporary name. A collision never truncates
-// another writer's temporary file. Only our successfully claimed name moves.
-unsafe bool module_cache_publish(text destination, ptr byte data, usize length) {
+struct ModuleCachePendingFile {
+    DBuffer temporary;
+    bool claimed;
+}
+
+ModuleCachePendingFile module_cache_pending_empty() {
+    return ModuleCachePendingFile{temporary = DBuffer{
+        data = null, length = 0, capacity = 0, ok = true}, claimed = false};
+}
+
+// A pending owner may discard only its successfully claimed exclusive name.
+// Preparation can overlap linking; publication still waits for its caller.
+unsafe void module_cache_pending_discard(ref ModuleCachePendingFile pending) {
+    if pending.claimed {
+        cli_cache_discard_temporary(d_buffer_text(pending.temporary));
+    }
+    if pending.temporary.data != null { d_buffer_destroy(pending.temporary); }
+    pending = module_cache_pending_empty();
+}
+
+unsafe ModuleCachePendingFile module_cache_prepare_file(
+    text destination, ptr byte data, usize length
+) {
     usize attempt = 0;
     while attempt < 8 {
         DBuffer temporary = d_buffer_create(text.byte_length(destination) + 80);
@@ -121,16 +149,26 @@ unsafe bool module_cache_publish(text destination, ptr byte data, usize length) 
             claimed = cli_cache_write_exclusive(d_buffer_text(temporary), data, length);
         }
         if claimed.ok {
-            status published = cli_cache_atomic_replace(
-                d_buffer_text(temporary), destination
-            );
-            d_buffer_destroy(temporary);
-            return published.ok;
+            return ModuleCachePendingFile{temporary = temporary, claimed = true};
         }
         d_buffer_destroy(temporary);
         attempt = attempt + 1;
     }
-    return false;
+    return module_cache_pending_empty();
+}
+
+unsafe bool module_cache_commit_file(ref ModuleCachePendingFile pending, text destination) {
+    if !pending.claimed { return false; }
+    status published = cli_cache_atomic_replace(
+        d_buffer_text(pending.temporary), destination);
+    if published.ok { pending.claimed = false; }
+    module_cache_pending_discard(pending);
+    return published.ok;
+}
+
+unsafe bool module_cache_publish(text destination, ptr byte data, usize length) {
+    ModuleCachePendingFile pending = module_cache_prepare_file(destination, data, length);
+    return module_cache_commit_file(pending, destination);
 }
 
 // Hash all source bytes outside ordinary function bodies, including imports,
@@ -898,7 +936,7 @@ unsafe bool source_partition_cache_prepare(
     );
     scope d_buffer_destroy(contents);
     if cache.native_objects {
-        d_put(interface, "openc-native-object-cache-v4:windows-x86_64-llp64\n");
+        d_put(interface, "openc-native-object-cache-v5:windows-x86_64-llp64\n");
         cache.stable_offsets = memory.alloc((partitions + 1) * size_of(usize));
         DBuffer numbering = d_buffer_create(context.symbols.length * 32 + 128);
         DBuffer type_hash = d_buffer_create(65);
@@ -984,67 +1022,65 @@ unsafe bool source_partition_cache_prepare(
         );
         d_put_usize(interface, text.byte_length(module_name));
         d_put(interface, ":"); d_put(interface, module_name);
-        usize first = read_record_field(context.module_data, module_index, 2);
-        usize count = read_record_field(context.module_data, module_index, 3);
-        usize source_index = 0;
-        while source_index < count && ok {
-            if first + source_index != source_record { ok = false; break; }
-            while next_partition < partitions &&
-                source_record == source_count * next_partition / partitions {
-                write_usize(starts, next_partition * size_of(usize), contents.length);
-                next_partition = next_partition + 1;
-            }
-            text source;
-            status loaded = project_read_source_record(
-                context.project_source, context.project_root,
-                context.source_data, source_record, out source
-            );
-            if !loaded.ok || text.byte_length(source) > 131072 {
-                ok = false; break;
-            }
-            bool borrowed_projection = cache.native_objects && frontend_rows != null &&
-                frontend_projections != null;
-            DBuffer projected = DBuffer{data = null, length = 0, capacity = 0, ok = true};
-            DBuffer declaration_hash = d_buffer_create(65);
-            if borrowed_projection {
-                DBuffer rows = DBuffer{data = frontend_rows, length = source_count * 232,
-                    capacity = source_count * 232, ok = true};
-                usize start = native_read_u32(rows, source_record * 232 + 216);
-                usize length = native_read_u32(rows, source_record * 232 + 220);
-                ok = start <= frontend_projection_length;
-                if ok { ok = length <= frontend_projection_length - start; }
-                if ok {
-                    projected = DBuffer{data = frontend_projections + start,
-                        length = length, capacity = length, ok = true};
-                }
-            } else {
-                ResolutionParsedSource parsed = resolution_cached_parsed_source(
-                    parsed_source_cache, source_record);
-                projected = d_buffer_create(text.byte_length(source) + 8192);
-                ok = module_cache_source_projection(source, parsed, projected);
-            }
-            if ok {
-                if cache.native_objects {
-                    // One length-delimited declaration stream avoids a pure
-                    // SHA invocation for each small source projection. The
-                    // complete interface is hashed once below.
-                    d_put_usize(interface, projected.length); d_put(interface, ":");
-                    d_put_raw(interface, projected.data, projected.length);
-                } else {
-                    module_cache_digest(projected.data, projected.length, declaration_hash);
-                    d_put(interface, d_buffer_text(declaration_hash));
-                }
-                d_put_usize(contents, text.byte_length(source));
-                d_put(contents, ":"); d_put(contents, source);
-                ok = projected.ok && declaration_hash.ok &&
-                    interface.ok && contents.ok;
-            }
-            d_buffer_destroy(declaration_hash);
-            if !borrowed_projection { d_buffer_destroy(projected); }
-            source_record = source_record + 1;
-            source_index = source_index + 1;
-        }
         module_index = module_index + 1;
+    }
+    // Source IDs retain parser order when the module table is sorted. Keys
+    // and native partitions must visit that original source order, rather
+    // than silently rejecting an otherwise valid unsorted module manifest.
+    while source_record < source_count && ok {
+        while next_partition < partitions &&
+            source_record == source_count * next_partition / partitions {
+            write_usize(starts, next_partition * size_of(usize), contents.length);
+            next_partition = next_partition + 1;
+        }
+        text source;
+        status loaded = project_read_source_record(
+            context.project_source, context.project_root,
+            context.source_data, source_record, out source
+        );
+        if !loaded.ok || text.byte_length(source) > 131072 {
+            ok = false; break;
+        }
+        bool borrowed_projection = cache.native_objects && frontend_rows != null &&
+            frontend_projections != null;
+        DBuffer projected = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+        DBuffer declaration_hash = d_buffer_create(65);
+        if borrowed_projection {
+            DBuffer rows = DBuffer{data = frontend_rows, length = source_count * 232,
+                capacity = source_count * 232, ok = true};
+            usize start = native_read_u32(rows, source_record * 232 + 216);
+            usize length = native_read_u32(rows, source_record * 232 + 220);
+            ok = start <= frontend_projection_length;
+            if ok { ok = length <= frontend_projection_length - start; }
+            if ok {
+                projected = DBuffer{data = frontend_projections + start,
+                    length = length, capacity = length, ok = true};
+            }
+        } else {
+            ResolutionParsedSource parsed = resolution_cached_parsed_source(
+                parsed_source_cache, source_record);
+            projected = d_buffer_create(text.byte_length(source) + 8192);
+            ok = module_cache_source_projection(source, parsed, projected);
+        }
+        if ok {
+            if cache.native_objects {
+                // One length-delimited declaration stream avoids a pure
+                // SHA invocation for each small source projection. The
+                // complete interface is hashed once below.
+                d_put_usize(interface, projected.length); d_put(interface, ":");
+                d_put_raw(interface, projected.data, projected.length);
+            } else {
+                module_cache_digest(projected.data, projected.length, declaration_hash);
+                d_put(interface, d_buffer_text(declaration_hash));
+            }
+            d_put_usize(contents, text.byte_length(source));
+            d_put(contents, ":"); d_put(contents, source);
+            ok = projected.ok && declaration_hash.ok &&
+                interface.ok && contents.ok;
+        }
+        d_buffer_destroy(declaration_hash);
+        if !borrowed_projection { d_buffer_destroy(projected); }
+        source_record = source_record + 1;
     }
     write_usize(starts, partitions * size_of(usize), contents.length);
     ok = ok && source_record == source_count && next_partition == partitions;

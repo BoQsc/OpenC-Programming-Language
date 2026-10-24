@@ -1,5 +1,20 @@
 # SH-27 representative file application on the module-object cache
 
+Current native-function-record checkpoint (2026-10-24): compiler
+`1859f47fa388d0de3f6003c028a5d3ed2bb6a70bd95dfe8091d46139237c1ed1`
+now supports this application's unsorted manifest through the explicit
+four-worker/two-group cache boundary. The old native key builder conflated
+sorted module traversal with original source-record order and silently fell
+back. Source-group key v5 and frontend identity v3 separate those orders;
+frontend contributions replay all four files, and a body edit reuses one of
+two native groups. Staged named layouts also prove ordered type-prefix replay.
+An authenticated reverse-source bundle misses only its malformed group and
+reproduces the fresh PE. Locked frontend commit and forced PE-link failure
+preserve the old snapshot, discard the owned temporary and retain an unrelated
+foreign temporary. This diagnostic is separate from ordinary tiny-project
+policy and from the historical opt-in COFF proof below. Normal-default hosted
+economics, broader coverage and final certification remain open.
+
 Status: **isolated opt-in cut; local and hosted fixed-point, correctness, and
 guarded project proof passed; normal-default promotion pending**.
 

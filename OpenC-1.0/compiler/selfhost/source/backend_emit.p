@@ -236,12 +236,13 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
     declaration_parse_profile.enabled = timings.profile_type_queries_enabled;
 
     NativeFrontendState frontend = native_frontend_empty();
-    scope native_frontend_destroy(frontend);
+    ptr byte frontend_owner = reinterpret(ptr byte, &frontend);
+    scope native_frontend_destroy_owner(frontend_owner);
     if artifact_options.kind == native_artifact_cached_executable() &&
         !timings.profile_type_queries_enabled && parsed_source_cache != null {
         frontend = native_frontend_open(project_source, project_root,
             artifact_options.cache_prefix, sources.length, total_source_length,
-            artifact_options.source_chunks, modules.length, source_data, timings);
+            artifact_options.source_chunks, modules.length, source_data, module_data, timings);
         if frontend.compiler_hash.length == 64 {
             artifact_options.cache_compiler_hash = d_buffer_text(frontend.compiler_hash);
         }
@@ -451,7 +452,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
         artifact_options.cold_cache_pending = frontend.compiler_hash.length == 0;
     }
     ModuleCacheState semantic_cache = module_cache_empty();
-    scope module_cache_destroy(semantic_cache);
+    ptr byte semantic_cache_owner = reinterpret(ptr byte, &semantic_cache);
+    scope module_cache_destroy_owner(semantic_cache_owner);
     bool semantic_cache_ready = false;
     if validate_semantics && c_backend && timings.emission_mode == 2 &&
         (artifact_options.kind == native_artifact_module_coff_set() ||
@@ -703,6 +705,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
             parsed_source_cache, artifact_options,
             semantic_cache, semantic_cache_ready
         );
+        timings.frontend_prepare_parallel = frontend.prepare_parallel;
         if c_result == 0 && frontend.enabled &&
             text.byte_length(artifact_options.cache_prefix) != 0 {
             if !native_frontend_publish(frontend, artifact_options.cache_prefix,

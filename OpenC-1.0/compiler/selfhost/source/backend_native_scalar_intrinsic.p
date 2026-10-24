@@ -36,6 +36,7 @@ unsafe void native_compiler_pool_work(
     usize workers = 3;
     if two_workers { workers = 1; }
     if cold_cache { workers = workers + 1; }
+    if d_symbol_name_is(context, callback_one, "native_object_cache_publish_pool") { workers = 2; }
     usize caller = callback_four;
     if two_workers {
         text name = "c_native_chunk_thread_entry_two";
@@ -195,7 +196,7 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         }
         if cache_publication {
             name_one = "native_object_cache_publish_pool";
-            name_two = name_one; name_three = name_one;
+            name_two = "native_object_cache_frontend_pool"; name_three = name_one;
             name_four = "native_object_cache_link_main";
         }
         usize callback_one = native_compiler_named_function(context, name_one);

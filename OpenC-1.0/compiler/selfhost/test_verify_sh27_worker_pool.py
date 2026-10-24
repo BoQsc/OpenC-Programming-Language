@@ -54,7 +54,7 @@ class PatchLocationTests(unittest.TestCase):
         sections, locations, hashes = self.locate()
         self.assertEqual(set(sections), {".text", ".pdata", ".rdata"})
         self.assertEqual({name: len(value) for name, value in locations.items()},
-            {"parse": 3, "flow": 4, "native": 10, "publication": 1})
+            {"parse": 3, "flow": 4, "native": 10, "publication": 2})
         self.assertEqual(locations["flow"], [1664, 1680, 1696, 1712])
         self.assertEqual(hashes["source/main.p"], hashlib.sha256(
             (self.root / "compiler/selfhost/source/main.p").read_bytes()).hexdigest())

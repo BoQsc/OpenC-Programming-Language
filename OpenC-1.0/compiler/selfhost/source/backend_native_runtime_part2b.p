@@ -60,6 +60,8 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         ) && !native_runtime_name(
             call_span, "cli_cache_atomic_replace", "cli_cache_atomic_replace"
         ) && !native_runtime_name(
+            call_span, "cli_cache_discard_temporary", "cli_cache_discard_temporary"
+        ) && !native_runtime_name(
             call_span, "cli_cache_sha256_runtime", "cli_cache_sha256_runtime"
         ) && !native_runtime_name(
             call_span, "cli_cache_file_sha256_runtime", "cli_cache_file_sha256_runtime"
@@ -485,6 +487,10 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
     if native_runtime_name(call_span, "cli_cache_atomic_replace", "cli_cache_atomic_replace") {
         if d_operand_count(context, instruction) != 2 { function.code.ok = false; return true; }
         native_cache_atomic_replace(context, function, instruction, result); return true;
+    }
+    if native_runtime_name(call_span, "cli_cache_discard_temporary", "cli_cache_discard_temporary") {
+        if d_operand_count(context, instruction) != 1 { function.code.ok = false; return true; }
+        native_cache_discard_temporary(context, function, instruction, result); return true;
     }
     if native_runtime_name(call_span, "cli_cache_sha256_runtime", "cli_cache_sha256_runtime") {
         if d_operand_count(context, instruction) != 3 { function.code.ok = false; return true; }

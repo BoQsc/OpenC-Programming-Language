@@ -225,3 +225,33 @@ unsafe void native_cache_atomic_replace(
     x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
     x64_mov_r64_memory(function.code, 8, 4, 624); native_heap_free_r8(function);
 }
+
+// Only compiler-owned exclusive temporary names reach this primitive.
+unsafe void native_cache_discard_temporary(
+    ref IrContext context, ref NativeFunction function,
+    usize instruction, usize result
+) {
+    native_utf8_path(function, d_operand_value(context, instruction, 0));
+    x64_mov_r64_memory(function.code, 0, 4, 504);
+    x64_mov_memory_r64(function.code, 4, 616, 0);
+    native_windows_dynamic_prepare(function, "kernel32.dll", "DeleteFileW");
+    usize available = native_windows_dynamic_available(function);
+    native_status_failure(function, result, 1);
+    usize done = native_jump(function.code);
+    native_skip_end(function.code, available);
+    x64_mov_r64_memory(function.code, 1, 4, 616);
+    x64_mov_r64_memory(function.code, 0, 4, 608);
+    x64_call_r64(function.code, 0);
+    x64_emit_u8(function.code, 133); x64_emit_u8(function.code, 192);
+    usize failed = native_skip(function.code, 4);
+    native_status_success(function, result);
+    usize succeeded = native_jump(function.code);
+    native_skip_end(function.code, failed);
+    native_status_failure(function, result, 1);
+    native_skip_end(function.code, succeeded);
+    native_skip_end(function.code, done);
+    native_windows_dynamic_close(function);
+    native_import(function, 7); x64_mov_r64_r64(function.code, 1, 0);
+    x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
+    x64_mov_r64_memory(function.code, 8, 4, 616); native_heap_free_r8(function);
+}

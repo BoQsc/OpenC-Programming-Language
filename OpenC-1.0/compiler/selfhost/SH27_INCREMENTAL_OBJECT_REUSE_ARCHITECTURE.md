@@ -6,6 +6,22 @@ No production source or cache format was changed, and no timing claim is made.
 
 ## Native bundle candidate on 2026-10-24
 
+Current `1859f47f...` extends the publication stage to two joined callbacks.
+Native hint publication and frontend encoding/exclusive temporary writing run
+beside the parent PE link. Frontend commit waits for PE success; unsuccessful
+links and commits discard only an exclusively claimed temporary. Stable owner
+pointers keep post-registration state visible to cleanup. The two persistent
+snapshots remain independently authenticated storage hints.
+
+Native key domain v5 uses original source-record order. Frontend identity v3
+uses actual sorted-module pass order for contribution prefixes, with source-ID
+indexed rows. Native records order source IDs before symbol IDs within a
+source. These separate orders fix the retained audit app's unsorted-manifest
+fallback without permitting duplicate or reverse-source records. Named-type,
+locked-file, failed-PE and authenticated wrong-order regressions pass. See the
+[checkpoint evidence](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md); hosted economics
+and final SH-27 certification remain open.
+
 The [ordinary-build candidate](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md) revisits
 the private function-stream boundary after stable COFF exports, content-bound
 semantic reuse and frozen worker types have been proved independently. The

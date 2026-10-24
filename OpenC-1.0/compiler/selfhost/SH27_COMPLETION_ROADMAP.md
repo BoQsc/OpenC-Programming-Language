@@ -1,5 +1,17 @@
 # SH-27 completion roadmap
 
+Latest checkpoint: `1859f47f...` overlaps frontend encoding/exclusive temporary
+writing with PE linking and commits only after success. Stable owner pointers
+fix failed-link cleanup. The audit app's unsorted manifest exposed separate
+source-record and module-pass orders; native key v5 and frontend identity v3
+now preserve both. Named layouts, selective edits, authenticated wrong-order
+records, locked publication and failed PE cleanup pass, alongside 27 worker
+faults, 30 cache cases, strict 20/20, 278 conformance, 25 ABI, overflow-COFF
+and source-cache checks. The predecessor still failed hosted medium cold;
+current-source hosted/constrained, broader project and release gates remain
+open. The zero-initialization portfolio failed its 31-pair repeat and all
+of its compiler changes were removed.
+
 Status: **ACTIVE; prior-source hosted synthetic parity replicated, but the
 latest source still lacks final C/D parity certification and SH-27 is not
 complete**. The ordered, falsifiable
