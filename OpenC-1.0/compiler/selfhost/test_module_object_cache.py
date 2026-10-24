@@ -64,6 +64,7 @@ def main():
         assert c["object_cache"] == {
             "hits": 0, "misses": 3, "publish_failures": 0,
             "prepare_parallel": False,
+            "publish_parallel": False,
             "validation_skipped": False,
             "flow_sources_skipped": 0,
             "acceptance_sources_skipped": 0,

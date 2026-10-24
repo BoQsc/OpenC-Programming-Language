@@ -58,6 +58,8 @@ unsafe bool write_build_timings(
         d_put_usize(output, timings.object_cache_publish_failures);
         d_put(output, ", \"prepare_parallel\": ");
         native_put_bool(output, timings.object_cache_prepare_parallel);
+        d_put(output, ", \"publish_parallel\": ");
+        native_put_bool(output, timings.object_cache_publish_parallel);
         d_put(output, ", \"validation_skipped\": ");
         native_put_bool(output, timings.object_cache_validation_skipped);
         d_put(output, ", \"flow_sources_skipped\": ");

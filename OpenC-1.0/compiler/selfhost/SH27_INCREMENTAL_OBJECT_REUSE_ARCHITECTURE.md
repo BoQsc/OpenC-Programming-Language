@@ -34,11 +34,17 @@ while binding complete declarations, so a body-length edit before a struct
 can preserve other groups. A process-owned optional SHA resolver avoids
 repeated DLL loading; full compiler-byte authentication is retained.
 
-Balanced v2 matrices qualify compiler cold/warm/edit and medium warm/edit.
-Medium cold still fails at +12.422 ms versus 9.810 ms null. V1 cache matrices
-had an ordering bug and cannot qualify promotion. A measured bounded compiler
-read/hash/free alone costs 6.816 ms. Next test mapped-file authentication and
-publication batching, then repeat both project sizes. Interface, numbering or
+Balanced v2 matrices qualify compiler cold/warm/edit and medium warm/edit;
+hosted medium cold still fails on `2832d79` at +7.417 ms against 1.516 ms null.
+V1 cache matrices had an ordering bug and cannot qualify promotion. Mapped
+full-compiler hashing, parallel cold preparation and deferred bounded digest
+scratch are implemented. Current hit rereads authenticate before allocating
+merge destinations, and copied snapshots are released before linking. One
+joined publication job borrows the immutable new native bundle/path while
+the caller links the PE; API/setup failure completes both serially. Every
+submitted callback finishes before its owners return. Four diagnostic
+ablations and a same-size forced-serial control identify publication cost;
+repeat final ordinary economics and hosted/constrained gates. Interface, numbering or
 unsupported-state changes must take the complete fresh path. The historical
 warnings below still govern extensions beyond the proved identity boundary.
 

@@ -47,11 +47,13 @@ def main() -> int:
                 measured = run_measured(command, cwd=root, sample_interval=0.01,
                     max_private_bytes=256 * MIB, max_working_set_bytes=64 * MIB,
                     max_captured_output_bytes=MIB, timeout_seconds=120)
+                result = {"measurement": measured,
+                          "command": command,
+                          "timings": json.loads(timing.read_text()) if timing.is_file() else None,
+                          "sha256": sha256(output) if output.is_file() else None}
+                report["builds"].append(result)
                 assert measured["exit_code"] == 0 and not measured["memory_limit_exceeded"] and not measured["timed_out"], measured
                 assert not measured["stdout_truncated"] and not measured["stderr_truncated"]
-                result = {"measurement": measured, "timings": json.loads(timing.read_text()),
-                          "sha256": sha256(output)}
-                report["builds"].append(result)
                 return result
 
             current = compiler

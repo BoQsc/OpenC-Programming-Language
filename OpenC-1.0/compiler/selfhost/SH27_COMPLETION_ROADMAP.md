@@ -46,8 +46,16 @@ digests, bounds/reuses type scratch, frees rejected native snapshots instead of
 retaining them through workers, and enforces recorded working-set peaks in
 both Python and native subprocess supervision. Current strict 20/20, 30-case
 cache recovery, native conformance/ABI and deterministic post-exit peak probes
-pass. Keep the candidate isolated pending final-source C/D,
-constrained-host, representative and release gates remain open.
+pass. Its raw-artifact-verified hosted run `40124695875` passes all 20 C/D
+ratios; module run `40124695871` fails forced-retry peak RAM and medium cold
+economics. The `eaa0017d...` successor authenticates rereads before destination
+allocation, releases consumed snapshots and overlaps native publication with
+PE linking through one joined work item. Four diagnostic ablations preserve
+output bytes while isolating cost; the same-size forced-serial comparison
+wins 9/11 medium and 8/11 compiler pairs above the respective null floors.
+Local retry, all 30 cache cases and 26 pool faults pass. Keep the candidate
+isolated until exact-source hosted, constrained-host, representative and
+release gates pass. Ordinary cold economics is not yet closed.
 
 Previous next decision (2026-10-16): source `6ad7ba9` has one verified exact-
 source hosted 20/20 C/D pass, but local large-function DMD still fails at

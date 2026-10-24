@@ -30,6 +30,15 @@ reusable type scratch; it also fixes retained rejected bundles and Python/native
 peak-working-set accounting. Current corrected-guard strict 20/20, 30 cache
 cases, conformance/ABI and controlled post-exit peak probes pass. Do not claim
 cold economics closed before final-source hosted and constrained repeats.
+Its raw-artifact-verified hosted C/D run `40124695875` passes all twenty ratios,
+but `40124695871` fails forced-retry peak RAM and medium cold economics.
+The `eaa0017d...` candidate now validates rereads before allocating merge
+destinations, releases consumed snapshot owners and joins native publication
+concurrently with linking. Four owned diagnostic encodings/I/O ablations and
+same-size serial fallback controls replace guesswork about publication cost.
+Medium/compiler publication pairs win 9/11 and 8/11 above null; this is an
+ablation signal, not final ordinary-cold or constrained C/D certification.
+Local retry, 30-case recovery and all 26 pool setup faults pass.
 The previous
 [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md) has material
 two-lane gains and strict local correctness/memory proof; it leaves a 1.272x

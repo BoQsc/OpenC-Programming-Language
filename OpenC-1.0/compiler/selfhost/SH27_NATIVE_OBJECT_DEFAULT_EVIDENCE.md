@@ -10,7 +10,79 @@ frontend-only candidate's failed medium cold gate is retained below.
 
 ## Current digest/scratch and peak-guard checkpoint
 
-Current compiler SHA-256 is
+### Hosted evidence for `2832d79` and the next ownership/publication candidate
+
+The downloaded raw artifact for production run `40124695875` proves
+`PASS_PARITY`, all twenty comparator ceilings, 20 samples per cell, and the
+`e0299413...` compiler below. Its ZIP SHA-256 is
+`c0f72570b74c140e229deacc14d39a1e2b0ed0da83f7131c74a747a92ea585d7`;
+the extracted `sh27-production-comparators.json` SHA-256 is
+`cd1ab9ffa10ff39bc26ca2a941c7f35cf3fc02d370e2c81329694baf32df8bd4`.
+Hosted large/control are 0.419x/0.215x DMD. This is one hosted certification,
+and does not erase the constrained-host failure or certify subsequent source.
+
+Module run `40124695871` passes bootstrap, bounded reads and all 30 cache
+cases, but fails the forced late-read retry at 67,469,312 peak working-set
+bytes under the unchanged 67,108,864-byte cap. Its medium cold gate also
+fails: +7.417 ms against 1.516 ms null, direct median 106.839 ms. Compiler
+economics passes. All later safety steps skipped after the retry failure
+remain unverified on that hosted run. The downloaded module ZIP is verified
+as `4dce9c85172efc4b2e6e483a8f546b4d9c9f02fb5f44790eb2637ffab43655d1`.
+
+The next source authenticates every evicted hit before allocating merged
+destination streams. A failed reread releases its saved owner immediately;
+successful merging releases the saved bundle before PE linking. A serial
+publication releases the encoded next bundle before linking as well. These
+are changes to object lifetimes, with no memory threshold changes.
+
+Four separately bootstrapped diagnostic variants omit publication I/O,
+frontend encoding, native encoding, or both encodings. All generated medium
+images match. In 11 balanced pairs, removing I/O costs -5.017 ms, 7/11 wins,
+against 4.272 ms null. Removing both encodings costs -9.688 ms, 8/11 wins;
+the single-component ablations are noisy. These incomplete-cache binaries
+are diagnostic only and cannot be promoted.
+
+The joined-publication candidate uses the existing bounded one-work pool
+machinery: an immutable encoded bundle/path belongs to the publication
+callback, while the caller owns PE linking and its mutable context. Submission
+and both operations finish before returning or releasing borrowed buffers.
+Missing APIs or work-creation failure use the complete serial fallback.
+`object_cache.publish_parallel` records actual successful pool setup; a warm
+all-hit link starts no publication job. The worker fault proof now covers
+the extra creation site and all four absent APIs, including serial publication.
+
+Candidate compiler SHA-256 is
+`eaa0017defb9cd4691239f0e3ae293ae9483799e13fc50c9bec24920086abe56`
+(8,133,632 bytes; exact Stage 2/3 bootstrap). The local late-read proof passes
+at 60,342,272 peak working-set bytes; all 30 cache cases pass at 61,251,584
+peak working-set and 248,905,728 private bytes. The initial medium economics
+run passes only its noise alternative (+9.944 ms versus 23.078 ms null), so
+it is not evidence that cold overhead is resolved. Same-size owned-binary
+publication ablation gives -18.290 ms medium (9/11 wins versus 15.148 ms
+null) and -81.039 ms compiler (8/11 wins versus 62.879 ms null). Both sides
+use the same-size compiler image; the serial control replaces only the
+publication work-creation call with a failed creation, exercises cleanup and
+serial fallback, and produces identical images. This supports overlapping
+publication; it does not establish final ordinary cold economics.
+
+The comment-frozen source rebuilds to the same `eaa0017d...` SHA in three
+guarded stages. It passes strict 20/20, all 278 conformance cases, 25 ABI
+checks, legacy module-cache behavior, and 26 worker-setup faults. The complete
+30-case cache proof also passes inside an outer 512 MiB job guard, with
+516,554,752 peak aggregate private bytes. Fresh hosted and constrained-host
+proof, representative breadth and release certification remain open.
+
+Raw local reports under `build-output/sh27-native-cache/`:
+
+| Report | SHA-256 |
+| --- | --- |
+| `publication-strict20.json` | `5aaf0544eae72781a03d23a930494bcae88b607578047a3884eef1e1792e69d7` |
+| `publication-cache-guard.json` | `0ee9fea798b271cdaaca1fde602245441ea957a074a51439465d15d57b6d77e5` |
+| `publication-cache-guarded.json` | `4adf1349cead61948139c58702443e12f8eb204f2287f4056fa01eccfb4f7067` |
+| `publication-worker-pool.json` | `d0f5a359804143059ee17dc115b74baef16295c1a3308bd310d18ff4ea4f381f` |
+| `publication-pairs/report.json` | `6fb4c7abf33841849ea5feaee75b7c78bda20f4d17dcd97f5693e6a11fe54d20` |
+
+Preceding compiler SHA-256 is
 `e02994136860f9dbc8181af0696364d58b19dbb0b5157288d8773d4fe59763b6`
 (8,126,976 bytes), with exact Stage 2/3 bootstrap under the corrected peak
 working-set guard. The 5b29 checkpoint and its measurements below are history.

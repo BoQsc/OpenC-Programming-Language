@@ -22,7 +22,7 @@ class PatchLocationTests(unittest.TestCase):
         (source / "main.p").write_text(self.source, encoding="utf-8")
         (source.parent / "openc.project.json").write_text(json.dumps({
             "modules": {"openc.selfhost.main": ["source/main.p"]}}), encoding="utf-8")
-        self.image = bytearray(2304)
+        self.image = bytearray(2496)
         self.image[:2] = b"MZ"
         struct.pack_into("<I", self.image, 60, 64)
         self.image[64:68] = b"PE\0\0"
@@ -30,15 +30,15 @@ class PatchLocationTests(unittest.TestCase):
         struct.pack_into("<H", self.image, 84, 240)
         struct.pack_into("<H", self.image, 88, 0x20B)
         for index, (name, size, rva, raw_size, raw) in enumerate([
-            (b".text", 1536, 4096, 1536, 512),
-            (b".pdata", 96, 8192, 128, 2048),
-            (b".rdata", 128, 12288, 128, 2176),
+            (b".text", 1728, 4096, 1728, 512),
+            (b".pdata", 108, 8192, 128, 2240),
+            (b".rdata", 128, 12288, 128, 2368),
         ]):
             at = 328 + index * 40
             self.image[at:at + len(name)] = name
             struct.pack_into("<IIII", self.image, at + 8, size, rva, raw_size, raw)
-        for index in range(8):
-            struct.pack_into("<III", self.image, 2048 + index * 12,
+        for index in range(9):
+            struct.pack_into("<III", self.image, 2240 + index * 12,
                 4096 + index * 192, 4096 + (index + 1) * 192, 16384)
         for index, (_, count) in enumerate(verifier.PHASES.values()):
             offset = 512 + (index + 5) * 192
@@ -54,7 +54,7 @@ class PatchLocationTests(unittest.TestCase):
         sections, locations, hashes = self.locate()
         self.assertEqual(set(sections), {".text", ".pdata", ".rdata"})
         self.assertEqual({name: len(value) for name, value in locations.items()},
-            {"parse": 3, "flow": 4, "native": 10})
+            {"parse": 3, "flow": 4, "native": 10, "publication": 1})
         self.assertEqual(locations["flow"], [1664, 1680, 1696, 1712])
         self.assertEqual(hashes["source/main.p"], hashlib.sha256(
             (self.root / "compiler/selfhost/source/main.p").read_bytes()).hexdigest())
@@ -75,7 +75,7 @@ class PatchLocationTests(unittest.TestCase):
             self.locate()
 
     def test_rejects_unwind_range_overlap(self):
-        struct.pack_into("<I", self.image, 2048 + 12, 4096)
+        struct.pack_into("<I", self.image, 2240 + 12, 4096)
         with self.assertRaises(ValueError):
             self.locate()
 

@@ -42,6 +42,9 @@ unsafe void native_compiler_pool_work(
         if d_symbol_name_is(context, callback_one, "flow_parallel_pool_one") {
             name = "flow_parallel_thread_entry_two";
         }
+        if d_symbol_name_is(context, callback_one, "native_object_cache_publish_pool") {
+            name = "native_object_cache_link_main";
+        }
         caller = native_compiler_named_function(context, name);
         if caller >= context.symbols.length { function.code.ok = false; return; }
     }
@@ -160,9 +163,11 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
     bool parse_workers = native_compiler_span_is(
         call_span, "resolution_parse_parallel_jobs"
     );
+    bool cache_publication = native_compiler_span_is(
+        call_span, "native_object_cache_publish_link_jobs");
     bool two_workers = native_compiler_span_is(
         call_span, "c_native_parallel_jobs_two"
-    ) || native_compiler_span_is(call_span, "flow_parallel_jobs_two") ||
+    ) || native_compiler_span_is(call_span, "flow_parallel_jobs_two") || cache_publication ||
         native_compiler_span_is(call_span, "c_native_parallel_jobs_two_cold");
     bool cold_cache = native_compiler_span_is(call_span, "c_native_parallel_jobs_cold") ||
         native_compiler_span_is(call_span, "c_native_parallel_jobs_two_cold");
@@ -187,6 +192,11 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
             name_two = "resolution_parse_pool_two";
             name_three = "resolution_parse_pool_three";
             name_four = "resolution_parse_thread_entry_four";
+        }
+        if cache_publication {
+            name_one = "native_object_cache_publish_pool";
+            name_two = name_one; name_three = name_one;
+            name_four = "native_object_cache_link_main";
         }
         usize callback_one = native_compiler_named_function(context, name_one);
         usize callback_two = native_compiler_named_function(context, name_two);

@@ -194,6 +194,38 @@ unsafe bool native_object_cache_index_fresh(
     return objects.ok && cursor == objects.length;
 }
 
+// Publication borrows only the immutable encoded bundle/path. The parent
+// owns linking and its context/options. Both callbacks finish before any
+// borrowed owner can be released; unavailable pool setup runs both serially.
+struct NativeCachePublication {
+    ptr byte context;
+    ptr byte objects;
+    ptr byte options;
+    text output_path;
+    text cache_path;
+    ptr byte data;
+    usize length;
+    bool published;
+    status written;
+}
+
+unsafe i32 native_object_cache_publish_link_jobs(ptr NativeCachePublication work) { return 3; }
+
+unsafe void native_object_cache_publish_pool(
+    ptr byte instance, ref NativeCachePublication publication, ptr byte work
+) {
+    publication.published = module_cache_publish(
+        publication.cache_path, publication.data, publication.length);
+}
+
+unsafe void native_object_cache_link_main(ref NativeCachePublication publication) {
+    ref IrContext context = *(reinterpret(ptr IrContext, publication.context));
+    ref DBuffer objects = *(reinterpret(ptr DBuffer, publication.objects));
+    ref NativeArtifactOptions options = *(reinterpret(ptr NativeArtifactOptions, publication.options));
+    publication.written = native_write_image_options(
+        context, objects, publication.output_path, options);
+}
+
 unsafe status native_object_cache_write_image(
     ref IrContext context, ref DBuffer objects, text output_path,
     ref NativeArtifactOptions options, ref ModuleCacheState cache,
@@ -229,12 +261,39 @@ unsafe status native_object_cache_write_image(
         options.cache_retry_required = true;
         return status{code = 1};
     }
+    usize entry_module = ir_entry_module(context.project_source, context.project_root,
+        context.source_data, context.symbol_data, context.detail_data,
+        context.symbols, context.modules.length);
+    bool ok = true;
+    bool retained = cache.saved.length != 0;
+    if has_hits && !retained {
+        // Authenticate the reloaded snapshot before allocating either merged
+        // stream. A failed read must not touch a full object-sized destination
+        // only to discard it and start a complete validating compilation.
+        bool loaded = native_object_cache_load(
+            options.cache_prefix, partitions, source_count, cache);
+        partition = 0;
+        while partition < partitions && loaded {
+            if read_usize(cache.offsets, partition * size_of(usize)) != 0 {
+                ok = native_object_cache_read_hit(options.cache_prefix,
+                    partition, partitions, context, entry_module, cache);
+                loaded = ok;
+            }
+            partition = partition + 1;
+        }
+        if !loaded {
+            options.cache_retry_required = true;
+            d_buffer_destroy(cache.saved);
+            cache.saved = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+            return status{code = 1};
+        }
+    }
     DBuffer merged = d_buffer_create(1);
     if has_hits {
         d_buffer_destroy(merged);
         merged = d_buffer_create(merged_bytes + 1);
     }
-    bool ok = merged.ok;
+    ok = merged.ok;
     if merged.data == null {
         options.cache_retry_required = true;
         d_buffer_destroy(merged);
@@ -254,26 +313,12 @@ unsafe status native_object_cache_write_image(
         next.length = 16 + partitions * 136;
         ok = ok && next.ok;
     }
-    usize entry_module = ir_entry_module(context.project_source, context.project_root,
-        context.source_data, context.symbol_data, context.detail_data,
-        context.symbols, context.modules.length);
-    bool retained = cache.saved.length != 0;
-    if has_hits && !retained && !native_object_cache_load(
-            options.cache_prefix, partitions, source_count, cache) {
-        options.cache_retry_required = true;
-        ok = false;
-    }
     partition = 0;
     while partition < partitions && ok {
         usize first = source_count * partition / partitions;
         usize end = source_count * (partition + 1) / partitions;
         usize object_start = next.length;
         if read_usize(cache.offsets, partition * size_of(usize)) != 0 {
-            if !retained {
-                ok = native_object_cache_read_hit(options.cache_prefix,
-                    partition, partitions, context, entry_module, cache);
-            }
-            if !ok { options.cache_retry_required = true; }
             if ok {
                 usize length = read_usize(cache.stable_offsets, partition * size_of(usize));
                 usize offset = read_usize(cache.offsets, partition * size_of(usize)) - 1;
@@ -308,23 +353,57 @@ unsafe status native_object_cache_write_image(
         }
         partition = partition + 1;
     }
+    // All borrowed extents have been copied. Neither publication nor PE
+    // linking needs the saved bundle to remain resident beside those copies.
+    if cache.saved.data != null {
+        d_buffer_destroy(cache.saved);
+        cache.saved = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+    }
     status written = status{code = 1};
     if ok {
+        bool linked = false;
         if has_misses {
             DBuffer path = d_buffer_create(text.byte_length(options.cache_prefix) + 16);
             d_put(path, options.cache_prefix); d_put(path, ".bundle");
-            if !path.ok || !next.ok || next.length != bundle_bytes ||
-                !module_cache_publish(d_buffer_text(path), next.data, next.length) {
+            bool published = false;
+            if path.ok && next.ok && next.length == bundle_bytes &&
+                (!has_hits || merged.length == merged_bytes) {
+                ptr byte image_objects = reinterpret(ptr byte, &objects);
+                if has_hits { image_objects = reinterpret(ptr byte, &merged); }
+                NativeCachePublication publication = NativeCachePublication{
+                    context = reinterpret(ptr byte, &context), objects = image_objects,
+                    options = reinterpret(ptr byte, &options), output_path = output_path,
+                    cache_path = d_buffer_text(path), data = next.data, length = next.length,
+                    published = false, written = status{code = 1}};
+                i32 launch = native_object_cache_publish_link_jobs(&publication);
+                if launch != 0 {
+                    publication.published = module_cache_publish(
+                        publication.cache_path, publication.data, publication.length);
+                    // Serial fallback need not retain the encoded bundle
+                    // throughout linking once its write has finished.
+                    d_buffer_destroy(next);
+                    next = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+                    native_object_cache_link_main(publication);
+                } else { timings.object_cache_publish_parallel = true; }
+                published = publication.published;
+                written = publication.written;
+                linked = true;
+            }
+            if !published {
                 timings.object_cache_publish_failures =
                     timings.object_cache_publish_failures + timings.object_cache_misses;
             }
             d_buffer_destroy(path);
         }
-        if has_hits {
+        // Publication and any joined link have finished. Release this owner
+        // before a remaining serial link or the caller's frontend publication.
+        if next.data != null { d_buffer_destroy(next); }
+        next = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+        if !linked && has_hits {
             if merged.length == merged_bytes {
                 written = native_write_image_options(context, merged, output_path, options);
             } else { options.cache_retry_required = true; }
-        } else { written = native_write_image_options(context, objects, output_path, options); }
+        } else if !linked { written = native_write_image_options(context, objects, output_path, options); }
     }
     d_buffer_destroy(next);
     d_buffer_destroy(merged);

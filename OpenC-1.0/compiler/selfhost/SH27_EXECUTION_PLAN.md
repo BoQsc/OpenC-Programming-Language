@@ -36,12 +36,23 @@ against 11.153 ms null. All 25 worker setup faults, 30 cache builds, strict
 and general candidate matrices had side-order bugs and cannot qualify speed
 promotion without balanced remeasurement. Its hosted medium cold gate still
 fails (+10.170 ms versus 2.689 ms null), and constrained DMD is inconsistent.
-Current `e0299413...` moves cold digest work into the bounded job, reuses
+Preceding `e0299413...` moves cold digest work into the bounded job, reuses
 exact-sized type scratch, releases rejected large snapshots immediately and
 corrects Python/native working-set peak enforcement, including post-exit
 accounting. Corrected-guard 30-case recovery, strict 20/20, conformance, ABI and
 controlled native peak probes pass. Measure remaining publication cost and
-obtain final-source hosted/constrained proof next. Serial and oversized-source
+obtain final-source hosted/constrained proof next. Its raw-artifact-verified
+hosted C/D run `40124695875` passes all 20 ratios, but module run `40124695871`
+fails the forced reread retry's 64 MiB cap and medium cold economics.
+The `eaa0017d...` ownership/publication candidate authenticates evicted hits
+before allocating merged streams, releases consumed snapshots, and joins
+native-cache publication concurrently with PE linking. Four diagnostic
+ablations isolate the remaining encoding/I/O cost. Same-size forced-serial
+controls give 9/11 medium and 8/11 compiler wins above their null floors;
+normal-default cold economics still needs independent hosted qualification.
+Local retry, 30-case recovery and all 26 worker setup faults pass. Complete
+remaining exact-source correctness/resource proof, then retain hosted and
+constrained repeats before promotion. Serial and oversized-source
 projects still use direct compilation; a compiler-only win cannot close Step 6.
 
 Previous checkpoint (2026-10-16, architecture batch): source `6ad7ba9` has one
