@@ -1,6 +1,6 @@
 # SH 27 ordinary build native object and frontend cache candidate
 
-Status: **unpromoted; parallel cold preparation passes local economics**.
+Status: **unpromoted; hosted cold economics and final-source proof remain open**.
 The isolated `codex/sh27-native-object-default` branch now overlaps cold
 compiler fingerprinting and object-key preparation with native compilation.
 The compiler matrix and two independent medium matrices pass their unchanged
@@ -8,9 +8,71 @@ cold/warm/edit gates. Final-source hosted proof, constrained-host parity,
 representative breadth and release certification remain mandatory. The older
 frontend-only candidate's failed medium cold gate is retained below.
 
+## Current digest/scratch and peak-guard checkpoint
+
+Current compiler SHA-256 is
+`e02994136860f9dbc8181af0696364d58b19dbb0b5157288d8773d4fe59763b6`
+(8,126,976 bytes), with exact Stage 2/3 bootstrap under the corrected peak
+working-set guard. The 5b29 checkpoint and its measurements below are history.
+
+Cold source/type-prefix digests now materialize in the cache job from recorded
+contribution boundaries and frozen type/source bytes. Declaration projections
+are copied before launch: native workers consume and release retained parsed
+records. An attempted deferred AST projection failed the named-type proof and
+was corrected; background native key preparation no longer even looks up a
+parsed record when it already owns a declaration projection. Type-prefix hash
+scratch is sized from actual records and named spelling within the original
+bound, and reused across prefixes, rather than allocating a project-sized
+buffer for every prefix change. Warm-hit validation remains ordered and exact.
+
+A RAM audit caught a real guard defect. The Python sampler reported OS peak
+working set, but enforced only sampled current working set and omitted a final
+peak check. A 70,393,856-byte cache-test peak was therefore labeled PASS under
+a 64 MiB cap. That run is excluded from acceptance. Three regression tests now
+enforce an earlier peak, a peak first observed after exit, and the exact cap;
+both CI workflows run them. The corrected guard reproduced the failure at
+70,791,168 bytes in `cache-version-change`.
+
+The rejected native bundle still owned its large allocation after its length
+was set to zero. The small-buffer eviction test consequently retained roughly
+9 MB through every worker. Invalid bundle grammar now releases the allocation
+immediately and replaces it with an empty owner. With the corrected guard,
+`peak-fixed-proof.json` passes all 30 cache cases at maximum 245,170,176 private
+and 63,676,416 working-set bytes, below the unchanged 256/64 MiB limits. This is
+a source fix, rather than an exception to the resource gate.
+
+The preceding scratch-only compiler `f6b3f092...` passed the four-CPU medium
+matrix's unchanged gate, but still cost +12.064 ms cold against 21.998 ms null;
+warm/edit won 11/11. The earlier deferred-digest prototype failed that gate
+at +26.595 ms against 21.825 ms null. These separate source runs do not prove
+a paired speedup or eliminate cold overhead. Final-source compiler/medium
+economics and constrained C/D proof must still be repeated.
+
+Hosted source `693c275` passed the full C/D workflow `40119581212`. Its module
+workflow `40119581236` failed medium cold at +10.170 ms versus 2.689 ms null,
+and an exact legacy-cache dictionary assertion omitted the new
+`prepare_parallel: false` field. That assertion is corrected and the complete
+legacy cache test passes locally. The hosted failure remains disclosed;
+it does not certify this newer compiler.
+
+The native subprocess supervisor now reads OS peak working set during live
+supervision and captures retained peak working-set/commit counters after exit,
+before closing the child handle. Its live and post-exit 64 MiB probes pass.
+An owned compiler variant waits for exit before its first poll, so the final
+query is the only possible source of counters. Removing only that query makes
+both the small-child accounting and over-budget rejection controls fail as
+expected. These six observations are in `native-peaks-proof-final.json`.
+
+Final `e0299413...` source passes all 13 stability checks and 20/20 exact native
+generations with 238,350,336 private and 61,071,360 peak working-set bytes.
+Its 30-case corrected-guard cache proof peaks at 245,960,704 private and
+63,864,832 working-set bytes; the outer tree is 516,886,528 bytes under 512 MiB.
+Conformance passes 278/278 and x64 ABI 25/25. Final-source hosted, constrained,
+representative speed/breadth and release requirements remain open.
+
 ## Parallel cold preparation checkpoint
 
-Current compiler SHA-256:
+Parallel-preparation compiler SHA-256:
 `5b29f1a15059e861ff8918c3b2353af10f1684353d1d4d9c45a2245974adb5ff`
 (8,111,104 bytes; exact Stage 2/3 fixed point).
 
@@ -259,3 +321,14 @@ Reports are under `OpenC-1.0/build-output/sh27-native-cache/`.
 Earlier v1 timings remain archived beside these reports, excluded from the
 promotion decision. The prototype, a compiler-only win, or one hosted pass
 cannot close SH-27.
+
+## Current peak-guard raw reports
+
+| Report | SHA-256 |
+| --- | --- |
+| `final-peak-cache.json` | `967384663b76871a346abb700b6016084e8c05946bc26ee8194766fa5bb624a7` |
+| `final-peak-cache-guard.json` | `7a70de32defce9566d6394f91fa7a45d3ab48a4c9872f052f6491dde0b664c17` |
+| `final-peak-strict20.json` | `2cb8e12af26e834915239bf362ccae65389ad741d183c15588bec2971c1b732a` |
+| `final-peak-conformance.json` | `3dd7d80aeab7a152e4ba75ad2414e6e4cddef948b7b75b7f1cfc4d4577354c3b` |
+| `final-peak-abi.json` | `18aa690ae2c6b4a8d61f7744564500dd626aa4b4a84488d0331b9fdeb87ecc14` |
+| `native-peaks-proof-final.json` | `e6b01888321c42022a321ed33fdcb8f0ce7d163e88a2ef2478fd2513d24f441d` |

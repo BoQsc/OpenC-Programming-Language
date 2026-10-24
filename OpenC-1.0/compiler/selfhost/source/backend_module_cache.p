@@ -1002,9 +1002,6 @@ unsafe bool source_partition_cache_prepare(
             if !loaded.ok || text.byte_length(source) > 131072 {
                 ok = false; break;
             }
-            ResolutionParsedSource parsed = resolution_cached_parsed_source(
-                parsed_source_cache, source_record
-            );
             bool borrowed_projection = cache.native_objects && frontend_rows != null &&
                 frontend_projections != null;
             DBuffer projected = DBuffer{data = null, length = 0, capacity = 0, ok = true};
@@ -1021,6 +1018,8 @@ unsafe bool source_partition_cache_prepare(
                         length = length, capacity = length, ok = true};
                 }
             } else {
+                ResolutionParsedSource parsed = resolution_cached_parsed_source(
+                    parsed_source_cache, source_record);
                 projected = d_buffer_create(text.byte_length(source) + 8192);
                 ok = module_cache_source_projection(source, parsed, projected);
             }

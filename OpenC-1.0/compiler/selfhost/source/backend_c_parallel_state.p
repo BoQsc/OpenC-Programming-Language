@@ -497,8 +497,10 @@ unsafe void c_native_cache_cold_run(ptr byte raw) {
     ref ModuleCacheState cache = *(reinterpret(ptr ModuleCacheState, work.cache));
     ref BuildTimings timings = *(reinterpret(ptr BuildTimings, work.timings));
     ref NativeFrontendState frontend = *(reinterpret(ptr NativeFrontendState, options.frontend_state));
-    bool prepared = native_frontend_prepare_identity(frontend);
+    bool prepared = native_frontend_materialize(frontend, base.type_data) &&
+        native_frontend_prepare_identity(frontend);
     if prepared {
+        options.frontend_projection_length = frontend.projections.length;
         options.cache_compiler_hash = d_buffer_text(frontend.compiler_hash);
         cache.native_objects = true;
         prepared = source_partition_cache_prepare(base, work.parsed_source_cache,

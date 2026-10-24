@@ -8,6 +8,7 @@ import system.text;
 // numeric ID. Changed contributions run the ordinary parser and resolver.
 struct NativeFrontendState {
     bool enabled;
+    bool deferred;
     usize source_count;
     usize predecl_count;
     DBuffer saved;
@@ -16,6 +17,7 @@ struct NativeFrontendState {
     DBuffer identity;
     DBuffer compiler_hash;
     DBuffer type_identity;
+    DBuffer type_scratch;
     usize hashed_types;
     usize source_bytes;
     usize source_chunks;
@@ -26,10 +28,10 @@ struct NativeFrontendState {
 
 NativeFrontendState native_frontend_empty() {
     DBuffer empty = DBuffer{data = null, length = 0, capacity = 0, ok = true};
-    return NativeFrontendState{enabled = false, source_count = 0,
+    return NativeFrontendState{enabled = false, deferred = false, source_count = 0,
         predecl_count = 0, saved = empty, rows = empty,
         projections = empty, identity = empty, compiler_hash = empty,
-        type_identity = empty, hashed_types = 0, source_bytes = 0, source_chunks = 0,
+        type_identity = empty, type_scratch = empty, hashed_types = 0, source_bytes = 0, source_chunks = 0,
         project_source = "", project_root = "", source_data = null};
 }
 
@@ -40,6 +42,7 @@ unsafe void native_frontend_destroy(ref NativeFrontendState state) {
     if state.identity.data != null { d_buffer_destroy(state.identity); }
     if state.compiler_hash.data != null { d_buffer_destroy(state.compiler_hash); }
     if state.type_identity.data != null { d_buffer_destroy(state.type_identity); }
+    if state.type_scratch.data != null { d_buffer_destroy(state.type_scratch); }
 }
 
 unsafe bool native_frontend_equal(ptr byte left, ptr byte right, usize length) {
@@ -71,8 +74,26 @@ unsafe bool native_frontend_type_hash(
     // digest includes named-type spelling, not only source spans: a same-
     // length type rename must invalidate later resolution contributions.
     if state.hashed_types != types.length {
-        DBuffer identity = d_buffer_create(types.length * 48 + state.source_bytes + 1);
-        scope d_buffer_destroy(identity);
+        usize capacity = types.length * record_stride() + 1;
+        usize limit = types.length * 48 + state.source_bytes + 1;
+        usize named = 19;
+        while named < types.length {
+            usize flags = read_record_field(type_data, named, 4);
+            if read_record_field(type_data, named, 0) == 9 && (flags / 8) % 2 == 0 {
+                usize length = read_record_field(type_data, named, 3);
+                if capacity > limit || limit - capacity < 8 ||
+                    length > limit - capacity - 8 { return false; }
+                capacity = capacity + 8 + length;
+            }
+            named = named + 1;
+        }
+        if state.type_scratch.capacity < capacity {
+            if state.type_scratch.data != null { d_buffer_destroy(state.type_scratch); }
+            state.type_scratch = d_buffer_create(capacity);
+        }
+        DBuffer identity = state.type_scratch;
+        identity.length = 0;
+        identity.ok = true;
         if identity.data == null { return false; }
         d_put_raw(identity, type_data, types.length * record_stride());
         usize type = 19;
@@ -275,7 +296,7 @@ unsafe NativeFrontendState native_frontend_open(
         if found.ok {
             memory.free(existing);
             if !native_frontend_prepare_identity(state) { state.enabled = false; }
-        }
+        } else { state.deferred = true; }
         return state;
     }
     state.saved = DBuffer{data = data, length = length, capacity = length, ok = true};
@@ -292,14 +313,15 @@ unsafe bool native_frontend_predeclare_hit(
 ) {
     if !state.enabled { return false; }
     usize row = source_record * 232;
+    pe32_patch_u32(state.rows, row + 192, types.length);
+    pe32_patch_u32(state.rows, row + 224, text.byte_length(source));
+    if state.deferred { return false; }
     ptr byte source_representation = reinterpret(ptr byte, &source);
     ptr byte source_bytes = resolution_pointer_decode(read_usize(source_representation, 0));
     state.enabled = native_frontend_hash(
         source_bytes, text.byte_length(source), state.rows.data + row) &&
         native_frontend_type_hash(state, type_data, types, state.rows.data + row + 64);
     if !state.enabled { return false; }
-    pe32_patch_u32(state.rows, row + 192, types.length);
-    pe32_patch_u32(state.rows, row + 224, text.byte_length(source));
     usize old = 112 + row;
     if state.saved.length == 0 || !native_frontend_equal(state.rows.data + row,
             state.saved.data + old, 128) ||
@@ -345,10 +367,11 @@ unsafe bool native_frontend_resolution_hit(
 ) {
     if !state.enabled { return false; }
     usize row = source_record * 232;
-    state.enabled = native_frontend_type_hash(state, type_data, types, state.rows.data + row + 128);
-    if !state.enabled { return false; }
     pe32_patch_u32(state.rows, row + 200, types.length);
     pe32_patch_u32(state.rows, row + 208, symbols.length);
+    if state.deferred { return false; }
+    state.enabled = native_frontend_type_hash(state, type_data, types, state.rows.data + row + 128);
+    if !state.enabled { return false; }
     usize old = 112 + row;
     if state.saved.length == 0 ||
         !native_frontend_equal(state.rows.data + row, state.saved.data + old, 64) ||
@@ -382,6 +405,47 @@ unsafe void native_frontend_finish_resolution(
     pe32_patch_u32(state.rows, row + 204, types.length - native_read_u32(state.rows, row + 200));
     pe32_patch_u32(state.rows, row + 212, symbols.length - native_read_u32(state.rows, row + 208));
     if types.length > 16384 || symbols.length > 16384 { state.enabled = false; }
+}
+
+// Cold collection records only append-only contribution boundaries. After
+// the tables freeze, reconstruct their exact incoming prefix digests and
+// source/type digests in the cache task. Declaration projections are copied
+// before launch: native workers consume and release their retained ASTs.
+unsafe bool native_frontend_materialize(
+    ref NativeFrontendState state, ptr byte type_data
+) {
+    if !state.enabled { return false; }
+    if !state.deferred { return true; }
+    usize source_record = 0;
+    PackedBuffer prefix = PackedBuffer{length = 19, capacity = 16384};
+    while source_record < state.source_count {
+        usize row = source_record * 232;
+        text source;
+        status loaded = project_read_source_record(state.project_source,
+            state.project_root, state.source_data, source_record, out source);
+        if !loaded.ok { state.enabled = false; return false; }
+        ptr byte representation = reinterpret(ptr byte, &source);
+        ptr byte bytes = resolution_pointer_decode(read_usize(representation, 0));
+        prefix.length = native_read_u32(state.rows, row + 192);
+        if prefix.length < 19 || prefix.length > 16384 { state.enabled = false; return false; }
+        state.enabled = native_frontend_hash(bytes, text.byte_length(source), state.rows.data + row) &&
+            native_frontend_type_hash(state, type_data, prefix, state.rows.data + row + 64);
+        if !state.enabled { return false; }
+        source_record = source_record + 1;
+    }
+    source_record = 0;
+    while source_record < state.source_count {
+        usize row = source_record * 232;
+        prefix.length = native_read_u32(state.rows, row + 200);
+        if prefix.length < 19 || prefix.length > 16384 ||
+            !native_frontend_type_hash(state, type_data, prefix, state.rows.data + row + 128) {
+            state.enabled = false; return false;
+        }
+        source_record = source_record + 1;
+    }
+    state.deferred = false;
+    state.enabled = state.rows.ok && state.projections.ok;
+    return state.enabled;
 }
 
 unsafe bool native_frontend_publish(

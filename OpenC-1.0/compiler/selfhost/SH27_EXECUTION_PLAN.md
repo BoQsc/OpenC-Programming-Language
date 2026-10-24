@@ -27,15 +27,21 @@ integrates reuse into ordinary `build`, with `--no-cache` and a full validating
 retry after late cache-read failure. Current-source fixed point, strict 20/20,
 278 conformance and corruption/edit/invalidation tests pass locally. Frontend
 contributions now replay unchanged files with exact incoming type/name/symbol
-binding; the SHA resolver initializes once per process. Compiler `5b29f1a...`
+binding; the SHA resolver initializes once per process. The earlier `5b29f1a...`
 now prepares cold identity/keys alongside native workers and hashes the full
 bounded compiler through an optional read-only mapping. Balanced v2 compiler
 and two medium matrices pass cold/warm/edit; medium repeat cold is +7.082 ms
 against 11.153 ms null. All 25 worker setup faults, 30 cache builds, strict
 20/20, 278 conformance, 25 ABI and unavailable mapping/SHA APIs pass. V1 cache
 and general candidate matrices had side-order bugs and cannot qualify speed
-promotion without balanced remeasurement. Obtain final-source hosted and
-constrained-host proof next. Serial and oversized-source
+promotion without balanced remeasurement. Its hosted medium cold gate still
+fails (+10.170 ms versus 2.689 ms null), and constrained DMD is inconsistent.
+Current `e0299413...` moves cold digest work into the bounded job, reuses
+exact-sized type scratch, releases rejected large snapshots immediately and
+corrects Python/native working-set peak enforcement, including post-exit
+accounting. Corrected-guard 30-case recovery, strict 20/20, conformance, ABI and
+controlled native peak probes pass. Measure remaining publication cost and
+obtain final-source hosted/constrained proof next. Serial and oversized-source
 projects still use direct compilation; a compiler-only win cannot close Step 6.
 
 Previous checkpoint (2026-10-16, architecture batch): source `6ad7ba9` has one

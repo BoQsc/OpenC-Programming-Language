@@ -40,7 +40,13 @@ compiler and two independent medium v2 matrices pass all cold/warm/edit gates;
 medium repeat cold remains +7.082 ms against 11.153 ms null. Thirty cache
 builds, 25 worker faults, strict 20/20, 278 conformance and 25 ABI checks pass.
 V1 cache and general candidate matrices require balanced remeasurement after
-their process-order defects. Keep the candidate isolated pending final-source C/D,
+their process-order defects. Hosted `693c275` passes C/D but still fails medium
+cold (+10.170 ms against 2.689 ms null). The `e0299413...` successor defers cold
+digests, bounds/reuses type scratch, frees rejected native snapshots instead of
+retaining them through workers, and enforces recorded working-set peaks in
+both Python and native subprocess supervision. Current strict 20/20, 30-case
+cache recovery, native conformance/ABI and deterministic post-exit peak probes
+pass. Keep the candidate isolated pending final-source C/D,
 constrained-host, representative and release gates remain open.
 
 Previous next decision (2026-10-16): source `6ad7ba9` has one verified exact-

@@ -22,6 +22,8 @@ on:
       - OpenC-1.0/compiler/selfhost/test_native_frontend_edges.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_hash_context.py
       - OpenC-1.0/compiler/selfhost/test_cache_file_hash.py
+      - OpenC-1.0/compiler/selfhost/test_windows_process_measure.py
+      - OpenC-1.0/compiler/selfhost/test_native_process_peaks.py
       - OpenC-1.0/compiler/selfhost/benchmark_native_object_cache.py
       - OpenC-1.0/benchmarks/sh27/representative/SUITE.json
       - OpenC-1.0/benchmarks/sh27/representative/medium_audit/**
@@ -49,6 +51,10 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+
+      - name: Verify peak working-set enforcement
+        shell: cmd
+        run: python -m unittest discover -s OpenC-1.0/compiler/selfhost -p test_windows_process_measure.py -v
 
       - name: Guarded native Stage 2/3 byte-exact fixed point
         shell: cmd
@@ -100,6 +106,13 @@ jobs:
           artifacts\module-coff\bootstrap-current\stage3\openc.exe validate
           --manifest=OpenC-1.0\conformance\fixtures\MANIFEST.json
           --output=artifacts\module-coff\conformance.json
+
+      - name: Verify native live and post-exit memory peaks
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\test_native_process_peaks.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --report artifacts\module-coff\native-process-peaks.json
 
       - name: Verify bounded mapped compiler hashes and unavailable mapping APIs
         shell: cmd

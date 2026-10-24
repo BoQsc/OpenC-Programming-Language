@@ -113,7 +113,13 @@ unsafe bool native_object_cache_load(
         partition = partition + 1;
     }
     ok = ok && expected == length;
-    if !ok { cache.saved.length = 0; }
+    if !ok {
+        // The eviction policy uses logical length. Retaining a rejected
+        // multi-megabyte allocation with length zero bypasses that policy
+        // and keeps its resident pages alive across all native workers.
+        d_buffer_destroy(cache.saved);
+        cache.saved = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+    }
     return ok;
 }
 

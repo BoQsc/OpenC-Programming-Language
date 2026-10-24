@@ -24,7 +24,12 @@ v2 matrices pass all three economics gates; medium repeat cold is +7.082 ms
 against 11.153 ms null. Thirty cache builds, 25 pool fault variants, strict
 20/20, conformance and ABI pass. V1 cache and general candidate matrix order
 was biased and cannot qualify promotion. Final-source hosted, constrained-host,
-representative breadth and release proof remain open.
+representative breadth and release proof remain open. Its hosted medium cold
+repeat still fails. The `e0299413...` successor defers cold digests and bounds
+reusable type scratch; it also fixes retained rejected bundles and Python/native
+peak-working-set accounting. Current corrected-guard strict 20/20, 30 cache
+cases, conformance/ABI and controlled post-exit peak probes pass. Do not claim
+cold economics closed before final-source hosted and constrained repeats.
 The previous
 [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md) has material
 two-lane gains and strict local correctness/memory proof; it leaves a 1.272x

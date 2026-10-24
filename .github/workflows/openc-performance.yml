@@ -25,6 +25,8 @@ on:
       - OpenC-1.0/compiler/selfhost/test_native_frontend_edges.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_hash_context.py
       - OpenC-1.0/compiler/selfhost/test_cache_file_hash.py
+      - OpenC-1.0/compiler/selfhost/test_windows_process_measure.py
+      - OpenC-1.0/compiler/selfhost/test_native_process_peaks.py
       - OpenC-1.0/compiler/selfhost/profile_sh27_owned_threads.py
       - OpenC-1.0/compiler/selfhost/test_profile_sh27_owned_threads.py
       - OpenC-1.0/tests/sh27_array_initializer_operands/**
@@ -81,7 +83,9 @@ jobs:
 
       - name: Validate SH-27 harness and runtime oracle
         shell: cmd
-        run: python -m unittest discover -s OpenC-1.0\tests\python -p test_sh27_production.py -v
+        run: >-
+          python -m unittest discover -s OpenC-1.0\tests\python -p test_sh27_production.py -v &&
+          python -m unittest discover -s OpenC-1.0/compiler/selfhost -p test_windows_process_measure.py -v
 
       - name: Validate owned-thread diagnostic safety
         shell: cmd

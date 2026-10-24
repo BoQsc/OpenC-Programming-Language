@@ -34,7 +34,7 @@ unsafe void native_process_supervise(ref NativeFunction function) {
     native_stack_address(function, 1040, 2);
     x64_mov_r64_imm64(function.code, 8, cast(u64, 80));
     x64_call_r64(function.code, 11); native_runtime_nonzero(function);
-    x64_mov_r64_memory(function.code, 10, 4, 1056);
+    x64_mov_r64_memory(function.code, 10, 4, 1048);
     x64_mov_r64_memory(function.code, 9, 4, 1144);
     x64_cmp_r64_r64(function.code, 10, 9);
     usize working_set_not_peak = native_skip(function.code, 6);
@@ -46,7 +46,7 @@ unsafe void native_process_supervise(ref NativeFunction function) {
     usize private_not_peak = native_skip(function.code, 6);
     x64_mov_memory_r64(function.code, 4, 1408, 10);
     native_skip_end(function.code, private_not_peak);
-    x64_mov_r64_memory(function.code, 10, 4, 1056);
+    x64_mov_r64_memory(function.code, 10, 4, 1048);
     x64_mov_r64_memory(function.code, 11, 4, 1416);
     x64_cmp_r64_r64(function.code, 10, 11);
     usize working_set_within_budget = native_skip(function.code, 6);
@@ -210,6 +210,38 @@ unsafe void native_process_supervise(ref NativeFunction function) {
     x64_mov_r64_memory(function.code, 1, 4, 752);
     native_stack_address(function, 832, 2);
     native_import(function, 27);
+    // A child may cross the limit and exit between polls. Query retained
+    // high-water counters before closing its process handle. Older systems
+    // may reject this post-exit query; live supervision above remains strict.
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 80));
+    x64_mov_memory_r64(function.code, 4, 1040, 0);
+    x64_mov_r64_memory(function.code, 1, 4, 752);
+    native_stack_address(function, 1040, 2);
+    x64_mov_r64_imm64(function.code, 8, cast(u64, 80));
+    x64_mov_r64_memory(function.code, 11, 4, 864);
+    x64_call_r64(function.code, 11);
+    x64_emit_u8(function.code, 133); x64_emit_u8(function.code, 192);
+    usize unavailable_final_counters = native_skip(function.code, 4);
+    x64_mov_r64_memory(function.code, 10, 4, 1048);
+    x64_mov_r64_memory(function.code, 9, 4, 1144);
+    x64_cmp_r64_r64(function.code, 10, 9);
+    usize final_working_set_not_peak = native_skip(function.code, 6);
+    x64_mov_memory_r64(function.code, 4, 1144, 10);
+    native_skip_end(function.code, final_working_set_not_peak);
+    x64_mov_r64_memory(function.code, 10, 4, 1104);
+    x64_mov_r64_memory(function.code, 9, 4, 1408);
+    x64_cmp_r64_r64(function.code, 10, 9);
+    usize final_private_not_peak = native_skip(function.code, 6);
+    x64_mov_memory_r64(function.code, 4, 1408, 10);
+    native_skip_end(function.code, final_private_not_peak);
+    x64_mov_r64_memory(function.code, 10, 4, 1144);
+    x64_mov_r64_memory(function.code, 11, 4, 1416);
+    x64_cmp_r64_r64(function.code, 10, 11);
+    usize final_working_set_within_budget = native_skip(function.code, 6);
+    x64_mov_r64_imm64(function.code, 0, cast(u64, 1));
+    x64_mov_memory_r64(function.code, 4, 1120, 0);
+    native_skip_end(function.code, final_working_set_within_budget);
+    native_skip_end(function.code, unavailable_final_counters);
     x64_mov_r64_memory(function.code, 1, 4, 760); native_import(function, 0);
     x64_mov_r64_memory(function.code, 1, 4, 752); native_import(function, 0);
     x64_mov_r64_memory(function.code, 1, 4, 784); native_import(function, 0);

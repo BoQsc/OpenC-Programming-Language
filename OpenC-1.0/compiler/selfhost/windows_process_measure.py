@@ -291,12 +291,12 @@ def _run_measured_in_job(
                     break
                 if (
                     max_working_set_bytes is not None
-                    and counters.WorkingSetSize > max_working_set_bytes
+                    and peak_working_set > max_working_set_bytes
                 ):
                     memory_limit_exceeded = True
                     memory_limit_name = "working_set_bytes"
                     memory_limit_bytes = max_working_set_bytes
-                    memory_observed_bytes = counters.WorkingSetSize
+                    memory_observed_bytes = peak_working_set
                     kernel32.TerminateJobObject(job, 1)
                     break
                 # A sampling sleep quantizes observed process exit by up to
@@ -335,6 +335,15 @@ def _run_measured_in_job(
                 peak_private = max(peak_private, counters.PrivateUsage)
             except OSError:
                 pass
+            # Windows retains the high-water mark after a brief peak or exit;
+            # sampling only the live working set can miss an actual breach.
+            if (max_working_set_bytes is not None
+                    and peak_working_set > max_working_set_bytes
+                    and not memory_limit_exceeded):
+                memory_limit_exceeded = True
+                memory_limit_name = "working_set_bytes"
+                memory_limit_bytes = max_working_set_bytes
+                memory_observed_bytes = peak_working_set
         finally:
             kernel32.CloseHandle(handle)
 
