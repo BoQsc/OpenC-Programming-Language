@@ -32,6 +32,9 @@ unsafe status cli_cache_atomic_replace(text temporary, text destination) {
 unsafe bool cli_cache_sha256_runtime(ptr byte data, usize length, ptr byte digest) {
     return false;
 }
+unsafe bool cli_cache_file_sha256_runtime(text path, usize limit, ptr byte digest) {
+    return false;
+}
 
 // The platform acceleration is optional. The exact OpenC implementation is
 // the fallback and remains the oracle for all source and object digests.
@@ -52,6 +55,29 @@ unsafe void module_cache_compiler_hash(ptr byte data, usize length, ref DBuffer 
 unsafe void module_cache_digest(ptr byte data, usize length, ref DBuffer output) {
     if length >= 4096 { module_cache_compiler_hash(data, length, output); }
     else { winmd_sha256_hex(data, length, output); }
+}
+
+unsafe bool module_cache_compiler_file_hash(text path, ref DBuffer output) {
+    ptr byte digest = memory.alloc(32);
+    scope memory.free(digest);
+    if digest == null { return false; }
+    if cli_cache_file_sha256_runtime(path, 33554432, digest) {
+        usize index = 0;
+        while index < 32 {
+            u8 value = cast(u8, *(digest + index));
+            d_put(output, project_hex_digit(value / 16));
+            d_put(output, project_hex_digit(value % 16));
+            index = index + 1;
+        }
+    } else {
+        ptr byte data;
+        usize length;
+        status loaded = cli_coff_read_bounded_object(path, 33554432, out data, out length);
+        if !loaded.ok { return false; }
+        module_cache_compiler_hash(data, length, output);
+        memory.free(data);
+    }
+    return output.ok && output.length == 64;
 }
 
 ModuleCacheState module_cache_empty() {
@@ -832,6 +858,7 @@ unsafe bool source_partition_cache_prepare(
     usize source_chunks, ptr byte frontend_rows,
     ptr byte frontend_projections, usize frontend_projection_length,
     text known_compiler_hash,
+    bool read_saved, usize key_type_count,
     ref ModuleCacheState cache, ref BuildTimings timings
 ) {
     usize source_count = c_project_source_count(context);
@@ -875,12 +902,15 @@ unsafe bool source_partition_cache_prepare(
         cache.stable_offsets = memory.alloc((partitions + 1) * size_of(usize));
         DBuffer numbering = d_buffer_create(context.symbols.length * 32 + 128);
         DBuffer type_hash = d_buffer_create(65);
-        DBuffer type_identity = d_buffer_create(context.types.length * record_stride());
+        usize type_count = context.types.length;
+        if key_type_count < 19 || key_type_count > type_count { return false; }
+        type_count = key_type_count;
+        DBuffer type_identity = d_buffer_create(type_count * record_stride());
         if type_identity.data == null { d_buffer_destroy(type_identity); return false; }
-        resolution_copy_records(type_identity.data, context.type_data, context.types.length);
-        type_identity.length = context.types.length * record_stride();
+        resolution_copy_records(type_identity.data, context.type_data, type_count);
+        type_identity.length = type_count * record_stride();
         usize type = 19;
-        while type < context.types.length {
+        while type < type_count {
             usize flags = read_record_field(context.type_data, type, 4);
             if read_record_field(context.type_data, type, 0) == 9 && (flags / 8) % 2 == 0 {
                 // Complete declaration spelling is bound below. Native code
@@ -938,13 +968,9 @@ unsafe bool source_partition_cache_prepare(
     if cache.native_objects && text.byte_length(known_compiler_hash) == 64 {
         d_put(compiler_hash, known_compiler_hash);
     } else {
-        ptr byte compiler_data;
-        usize compiler_length;
-        status loaded_compiler = cli_coff_read_bounded_object(
-            process.executable_path(), 33554432, out compiler_data, out compiler_length);
-        if !loaded_compiler.ok { d_buffer_destroy(compiler_hash); return false; }
-        module_cache_compiler_hash(compiler_data, compiler_length, compiler_hash);
-        memory.free(compiler_data);
+        if !module_cache_compiler_file_hash(process.executable_path(), compiler_hash) {
+            d_buffer_destroy(compiler_hash); return false;
+        }
     }
     d_put(interface, d_buffer_text(compiler_hash));
     bool ok = interface.ok && contents.ok && compiler_hash.ok;
@@ -1083,7 +1109,7 @@ unsafe bool source_partition_cache_prepare(
     cache.enabled = ok;
     if ok {
         timings.object_cache_enabled = true;
-        if cache.native_objects {
+        if cache.native_objects && read_saved {
             native_object_cache_load(prefix, partitions, source_count, cache);
         }
         partition = 0;
@@ -1092,8 +1118,10 @@ unsafe bool source_partition_cache_prepare(
             bool hit = false;
             if cache.native_objects {
                 write_usize(cache.stable_offsets, partition * size_of(usize), 0);
-                hit = native_object_cache_read_hit(
-                    prefix, partition, partitions, context, entry_module, cache);
+                if read_saved {
+                    hit = native_object_cache_read_hit(
+                        prefix, partition, partitions, context, entry_module, cache);
+                }
             } else { hit = module_cache_read_hit(prefix, partition, cache); }
             if hit {
                 timings.object_cache_hits = timings.object_cache_hits + 1;

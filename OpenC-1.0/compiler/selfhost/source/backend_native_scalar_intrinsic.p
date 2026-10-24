@@ -22,14 +22,20 @@ unsafe usize native_compiler_named_function(ref IrContext context,
 // All work objects are created before any submission. A setup failure closes
 // unsubmitted objects and returns 3 for the existing serial fallback. After
 // submission, every callback is joined before its state can be released.
+usize native_compiler_work_handle_slot(usize worker) {
+    if worker == 3 { return 1504; }
+    return 1440 + worker * 8;
+}
+
 unsafe void native_compiler_pool_work(
     ref IrContext context, ref NativeFunction function,
     usize instruction, usize result,
     usize callback_one, usize callback_two, usize callback_three,
-    usize callback_four, bool two_workers
+    usize callback_four, bool two_workers, bool cold_cache
 ) {
     usize workers = 3;
     if two_workers { workers = 1; }
+    if cold_cache { workers = workers + 1; }
     usize caller = callback_four;
     if two_workers {
         text name = "c_native_chunk_thread_entry_two";
@@ -39,7 +45,7 @@ unsafe void native_compiler_pool_work(
         caller = native_compiler_named_function(context, name);
         if caller >= context.symbols.length { function.code.ok = false; return; }
     }
-    ptr byte failures = memory.alloc(7 * size_of(usize));
+    ptr byte failures = memory.alloc(8 * size_of(usize));
     scope memory.free(failures);
     usize failure_count = 0;
     native_load(function, d_operand_value(context, instruction, 0), 0);
@@ -47,7 +53,7 @@ unsafe void native_compiler_pool_work(
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
     usize worker = 0;
     while worker < workers {
-        x64_mov_memory_r64(function.code, 4, 1440 + worker * 8, 0);
+        x64_mov_memory_r64(function.code, 4, native_compiler_work_handle_slot(worker), 0);
         worker = worker + 1;
     }
     x64_mov_r64_imm64(function.code, 0, cast(u64, 3));
@@ -79,12 +85,16 @@ unsafe void native_compiler_pool_work(
         usize callback = callback_one;
         if worker == 1 { callback = callback_two; }
         if worker == 2 { callback = callback_three; }
+        if cold_cache && worker + 1 == workers {
+            callback = native_compiler_named_function(context, "c_native_cache_pool");
+            if callback >= context.symbols.length { function.code.ok = false; return; }
+        }
         native_symbol_address(function, callback, 1);
         x64_mov_r64_memory(function.code, 2, 4, 1424);
         x64_mov_r64_imm64(function.code, 8, cast(u64, 0));
         x64_mov_r64_memory(function.code, 11, 4, 1472);
         x64_call_r64(function.code, 11);
-        x64_mov_memory_r64(function.code, 4, 1440 + worker * 8, 0);
+        x64_mov_memory_r64(function.code, 4, native_compiler_work_handle_slot(worker), 0);
         x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
         x64_emit_u8(function.code, 192);
         write_usize(failures, failure_count * 8, native_skip(function.code, 4));
@@ -93,7 +103,7 @@ unsafe void native_compiler_pool_work(
     }
     worker = 0;
     while worker < workers {
-        x64_mov_r64_memory(function.code, 1, 4, 1440 + worker * 8);
+        x64_mov_r64_memory(function.code, 1, 4, native_compiler_work_handle_slot(worker));
         x64_mov_r64_memory(function.code, 11, 4, 1480);
         x64_call_r64(function.code, 11);
         worker = worker + 1;
@@ -102,7 +112,7 @@ unsafe void native_compiler_pool_work(
     x64_call_symbol(function.code, caller, 0);
     worker = 0;
     while worker < workers {
-        x64_mov_r64_memory(function.code, 1, 4, 1440 + worker * 8);
+        x64_mov_r64_memory(function.code, 1, 4, native_compiler_work_handle_slot(worker));
         x64_mov_r64_imm64(function.code, 2, cast(u64, 0));
         x64_mov_r64_memory(function.code, 11, 4, 1488);
         x64_call_r64(function.code, 11);
@@ -117,7 +127,7 @@ unsafe void native_compiler_pool_work(
     }
     worker = 0;
     while worker < workers {
-        x64_mov_r64_memory(function.code, 1, 4, 1440 + worker * 8);
+        x64_mov_r64_memory(function.code, 1, 4, native_compiler_work_handle_slot(worker));
         x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
         x64_emit_u8(function.code, 201);
         usize absent = native_skip(function.code, 4);
@@ -152,8 +162,11 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
     );
     bool two_workers = native_compiler_span_is(
         call_span, "c_native_parallel_jobs_two"
-    ) || native_compiler_span_is(call_span, "flow_parallel_jobs_two");
-    if two_workers || flow_workers || parse_workers || native_compiler_span_is(
+    ) || native_compiler_span_is(call_span, "flow_parallel_jobs_two") ||
+        native_compiler_span_is(call_span, "c_native_parallel_jobs_two_cold");
+    bool cold_cache = native_compiler_span_is(call_span, "c_native_parallel_jobs_cold") ||
+        native_compiler_span_is(call_span, "c_native_parallel_jobs_two_cold");
+    if two_workers || flow_workers || parse_workers || cold_cache || native_compiler_span_is(
         call_span, "c_native_parallel_jobs"
     ) {
         if d_operand_count(context, instruction) != 1 {
@@ -187,7 +200,7 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         }
         native_compiler_pool_work(context, function, instruction, result,
             callback_one, callback_two, callback_three, callback_four,
-            two_workers);
+            two_workers, cold_cache);
         return true;
     }
     if native_compiler_span_is(

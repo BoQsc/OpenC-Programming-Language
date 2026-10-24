@@ -21,6 +21,7 @@ on:
       - OpenC-1.0/compiler/selfhost/test_native_object_cache_retry.py
       - OpenC-1.0/compiler/selfhost/test_native_frontend_edges.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_hash_context.py
+      - OpenC-1.0/compiler/selfhost/test_cache_file_hash.py
       - OpenC-1.0/compiler/selfhost/benchmark_native_object_cache.py
       - OpenC-1.0/benchmarks/sh27/representative/SUITE.json
       - OpenC-1.0/benchmarks/sh27/representative/medium_audit/**
@@ -99,6 +100,13 @@ jobs:
           artifacts\module-coff\bootstrap-current\stage3\openc.exe validate
           --manifest=OpenC-1.0\conformance\fixtures\MANIFEST.json
           --output=artifacts\module-coff\conformance.json
+
+      - name: Verify bounded mapped compiler hashes and unavailable mapping APIs
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\test_cache_file_hash.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --report artifacts\module-coff\file-hash.json
 
       - name: Verify native x64 ABI and machine-code oracles
         shell: cmd

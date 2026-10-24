@@ -22,7 +22,7 @@ class PatchLocationTests(unittest.TestCase):
         (source / "main.p").write_text(self.source, encoding="utf-8")
         (source.parent / "openc.project.json").write_text(json.dumps({
             "modules": {"openc.selfhost.main": ["source/main.p"]}}), encoding="utf-8")
-        self.image = bytearray(1792)
+        self.image = bytearray(2304)
         self.image[:2] = b"MZ"
         struct.pack_into("<I", self.image, 60, 64)
         self.image[64:68] = b"PE\0\0"
@@ -30,18 +30,18 @@ class PatchLocationTests(unittest.TestCase):
         struct.pack_into("<H", self.image, 84, 240)
         struct.pack_into("<H", self.image, 88, 0x20B)
         for index, (name, size, rva, raw_size, raw) in enumerate([
-            (b".text", 1024, 4096, 1024, 512),
-            (b".pdata", 96, 8192, 128, 1536),
-            (b".rdata", 128, 12288, 128, 1664),
+            (b".text", 1536, 4096, 1536, 512),
+            (b".pdata", 96, 8192, 128, 2048),
+            (b".rdata", 128, 12288, 128, 2176),
         ]):
             at = 328 + index * 40
             self.image[at:at + len(name)] = name
             struct.pack_into("<IIII", self.image, at + 8, size, rva, raw_size, raw)
         for index in range(8):
-            struct.pack_into("<III", self.image, 1536 + index * 12,
-                4096 + index * 128, 4096 + (index + 1) * 128, 16384)
+            struct.pack_into("<III", self.image, 2048 + index * 12,
+                4096 + index * 192, 4096 + (index + 1) * 192, 16384)
         for index, (_, count) in enumerate(verifier.PHASES.values()):
-            offset = 512 + (index + 5) * 128
+            offset = 512 + (index + 5) * 192
             for number in range(count):
                 at = offset + number * 16
                 self.image[at:at + len(verifier.CREATE_CALL)] = verifier.CREATE_CALL
@@ -54,8 +54,8 @@ class PatchLocationTests(unittest.TestCase):
         sections, locations, hashes = self.locate()
         self.assertEqual(set(sections), {".text", ".pdata", ".rdata"})
         self.assertEqual({name: len(value) for name, value in locations.items()},
-            {"parse": 3, "flow": 4, "native": 4})
-        self.assertEqual(locations["flow"], [1280, 1296, 1312, 1328])
+            {"parse": 3, "flow": 4, "native": 10})
+        self.assertEqual(locations["flow"], [1664, 1680, 1696, 1712])
         self.assertEqual(hashes["source/main.p"], hashlib.sha256(
             (self.root / "compiler/selfhost/source/main.p").read_bytes()).hexdigest())
 
@@ -75,12 +75,12 @@ class PatchLocationTests(unittest.TestCase):
             self.locate()
 
     def test_rejects_unwind_range_overlap(self):
-        struct.pack_into("<I", self.image, 1536 + 12, 4096)
+        struct.pack_into("<I", self.image, 2048 + 12, 4096)
         with self.assertRaises(ValueError):
             self.locate()
 
     def test_rejects_changed_creation_encoding(self):
-        self.image[1280] = 0x90
+        self.image[1664] = 0x90
         with self.assertRaises(ValueError):
             self.locate()
 

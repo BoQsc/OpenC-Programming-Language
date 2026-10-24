@@ -79,8 +79,10 @@ def main() -> int:
             cold = build("cold", True)
             assert cold["cache"]["hits"] == 0 and cold["cache"]["misses"] == 32
             assert cold["cache"]["publish_failures"] == 0
+            assert cold["cache"]["prepare_parallel"] is True
             warm = build("warm", True)
             assert warm["cache"]["hits"] == 32 and warm["cache"]["misses"] == 0
+            assert warm["cache"]["prepare_parallel"] is False
             assert warm["cache"]["flow_sources_skipped"] == sum(map(len, project_data["modules"].values()))
             assert warm["cache"]["acceptance_sources_skipped"] == warm["cache"]["flow_sources_skipped"]
             assert warm["frontend"]["predeclare_hits"] == warm["cache"]["flow_sources_skipped"], warm
@@ -173,6 +175,10 @@ def main() -> int:
             oversize = build("frontend-oversize", True)
             assert oversize["frontend"]["predeclare_hits"] == 0
             assert oversize["cache"]["hits"] == 32 and oversize["sha256"] == direct["sha256"]
+            frontend_path.unlink()
+            missing = build("frontend-missing", True)
+            assert missing["frontend"]["predeclare_hits"] == 0
+            assert missing["cache"]["hits"] == 32 and missing["sha256"] == direct["sha256"]
 
             main = project_dir / "source/main.p"
             original = main.read_bytes()

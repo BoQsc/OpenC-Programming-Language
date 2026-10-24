@@ -1,12 +1,96 @@
 # SH 27 ordinary build native object and frontend cache candidate
 
-Status: **unpromoted; medium cold cost remains open**. The isolated
-`codex/sh27-native-object-default` branch now replays unchanged declaration and
-resolution contributions as well as native object groups. Balanced local
-matrices qualify the compiler project and the medium project's warm/edit
-lanes. The medium cold penalty still fails its unchanged gate. SH-27 remains
-active pending that fix, final-source hosted proof, constrained-host parity
-and release certification.
+Status: **unpromoted; parallel cold preparation passes local economics**.
+The isolated `codex/sh27-native-object-default` branch now overlaps cold
+compiler fingerprinting and object-key preparation with native compilation.
+The compiler matrix and two independent medium matrices pass their unchanged
+cold/warm/edit gates. Final-source hosted proof, constrained-host parity,
+representative breadth and release certification remain mandatory. The older
+frontend-only candidate's failed medium cold gate is retained below.
+
+## Parallel cold preparation checkpoint
+
+Current compiler SHA-256:
+`5b29f1a15059e861ff8918c3b2353af10f1684353d1d4d9c45a2245974adb5ff`
+(8,111,104 bytes; exact Stage 2/3 fixed point).
+
+When neither bounded snapshot can be loaded, source groups compile with null
+cache offsets. One additional bounded pool job prepares compiler identity and
+native keys concurrently. It reads frozen semantic tables, writes only the
+cache task's state, and cannot publish an artifact. All work objects are created
+before submission; every submitted callback is joined before owners return.
+An unavailable API or any work-creation failure completes the same preparation
+on the parent after serial chunk recovery. Timings distinguish actual pool
+preparation with `object_cache.prepare_parallel`. The cold task never selects
+saved objects after workers have committed to compiling all groups.
+
+Native lowering closes additional derived types before worker launch. Cache
+identity keeps the original resolved type prefix, matching the warm path's
+identity; hashing the closed tail instead caused all warm compiler groups to
+miss and was corrected. A missing or oversized frontend snapshot still permits
+independently authenticated native object hits. Invalid builds publish neither
+frontend state nor object records.
+
+The optional file hash uses a read-only data mapping on the same size-checked
+handle, denies writers, and releases its view and handles. It retains the full
+compiler-byte SHA and 32 MiB pre-mapping bound. API absence falls back to the
+bounded read and exact SHA implementation. Microsoft documents the mapping and
+cleanup contracts in [CreateFileMappingW](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-createfilemappingw),
+[MapViewOfFile](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile)
+and [UnmapViewOfFile](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffile).
+The isolated mapping experiment saved only about 0.8 ms (6.774 to 5.941 ms)
+and failed medium cold economics by itself; it is not a standalone speed claim.
+
+Final-source balanced v2, 11-pair ordinary-build results:
+
+| Project/run and lane | Direct median | Candidate median | Median paired difference | Candidate wins |
+| --- | ---: | ---: | ---: | ---: |
+| Compiler cold | 1.659231 s | 1.747724 s | +40.797 ms | 3/11 |
+| Compiler unchanged | 1.668307 s | 0.091830 s | -1575.924 ms | 11/11 |
+| Compiler body edit | 1.736599 s | 0.326627 s | -1415.056 ms | 11/11 |
+| Medium first cold | 0.155990 s | 0.169715 s | -5.385 ms | 6/11 |
+| Medium repeat cold | 0.115868 s | 0.124490 s | +7.082 ms | 3/11 |
+| Medium repeat unchanged | 0.112348 s | 0.041432 s | -70.731 ms | 11/11 |
+| Medium repeat body edit | 0.116487 s | 0.056676 s | -62.167 ms | 11/11 |
+
+Null floors are 54.712 ms for the compiler and 11.512/11.153 ms for the medium
+runs. Cold passes the unchanged five-percent-or-null gate, rather than proving
+zero overhead. The absolute medians and paired differences need not subtract
+to the same value. Every candidate image matches its fresh counterpart.
+
+Current local correctness/resource proof:
+
+- Strict 20/20 exact generations and all 13 stability checks pass; maximum
+  private/working-set bytes are 237,527,040/59,240,448 under 256/64 MiB.
+- Thirty cache builds pass, including missing/oversized frontend recovery,
+  selective native corruption, body/API edits, invalid diagnostics, storage
+  failure and concurrent publication. Maximum private/working-set bytes are
+  253,792,256/65,802,240; the outer guarded tree peaks at 514,097,152 bytes
+  under 512 MiB.
+- All 25 worker faults pass: absent pool APIs, every ordinary native creation
+  site and every cold two/four-worker creation site, including the new cache
+  work item. Valid images, program output and semantic diagnostics match the
+  serial controls; fallback timing explicitly reports no parallel preparation.
+- File-hash probes cover exact 32 MiB, over-limit rejection before mapping,
+  empty/missing/Unicode files, an open writer, and 269 calls without handle
+  growth. Each of three absent mapping APIs passes three compiler generations,
+  exact closure, native/frontend warm hits and independent digest checks.
+- Native conformance 278/278, x64 ABI 25/25, named-layout/body/invalid-input
+  replay, full validating late-read retry, forced-unavailable SHA and 2/8/32
+  source-group COFF with seeded native closure pass.
+
+The general candidate matrix also had rotation cancel its side-order parity
+for even candidate counts. Its v2 runner now alternates each fixed candidate
+ordinal independently of rotation; a unit test covers one through six
+candidates plus null. Legacy v1 timings require balanced remeasurement for
+promotion. Thirty-one matrix/batch/representative tests and eight worker-patch
+locator tests pass.
+
+The predecessor `67a7ddf` passes hosted C/D run `40117268854` and all module
+safety checks; module run `40117269094` fails only the enforced medium cold
+economics (+12.557 ms against 1.577 ms null). Those hosted results certify the
+predecessor, not the parallel candidate. Final-source hosted and constrained
+comparisons remain separate gates.
 
 ## Current architecture
 
@@ -63,9 +147,9 @@ Native query lowering now uses the actual native ABI layout. Concrete tests
 require size/alignment 8/4 for two i32 fields and 16/8 after changing one field
 to i64, including cross-module return ABI changes and cached/fresh byte parity.
 
-## Balanced local performance
+## Prior frontend-only balanced local performance
 
-Current compiler SHA-256:
+Prior compiler SHA-256:
 `a10814f3c6f71dd2410a533f0647cc62930e636cdbb4340941d926ec1a289863`.
 
 The runner's v1 schedule accidentally canceled process-order reversal when

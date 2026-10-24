@@ -63,6 +63,9 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
     artifact_options.frontend_projections = null;
     artifact_options.frontend_projection_length = 0;
     artifact_options.cache_compiler_hash = "";
+    artifact_options.frontend_state = null;
+    artifact_options.cold_cache_pending = false;
+    artifact_options.cache_type_count = 0;
     usize phase_started = total_started;
     text project_source;
     status loaded_project = file.read_text(project_path, out project_source);
@@ -440,9 +443,12 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
         frontend.saved = DBuffer{data = null, length = 0, capacity = 0, ok = true};
     }
     if frontend.enabled {
+        artifact_options.cache_type_count = types.length;
         artifact_options.frontend_rows = frontend.rows.data;
         artifact_options.frontend_projections = frontend.projections.data;
         artifact_options.frontend_projection_length = frontend.projections.length;
+        artifact_options.frontend_state = reinterpret(ptr byte, &frontend);
+        artifact_options.cold_cache_pending = frontend.compiler_hash.length == 0;
     }
     ModuleCacheState semantic_cache = module_cache_empty();
     scope module_cache_destroy(semantic_cache);
@@ -454,7 +460,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
         (artifact_options.source_chunks == 2 ||
          artifact_options.source_chunks == 4) &&
         sources.length >= artifact_options.source_chunks &&
-        text.byte_length(artifact_options.cache_prefix) != 0 {
+        text.byte_length(artifact_options.cache_prefix) != 0 &&
+        !artifact_options.cold_cache_pending {
         IrContext prepared_base = backend_base_context(
             project_source, project_root, module_data, modules,
             source_data, type_data, types, symbol_data, detail_data,
@@ -473,7 +480,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
             artifact_options.source_chunks, artifact_options.frontend_rows,
             artifact_options.frontend_projections,
             artifact_options.frontend_projection_length, artifact_options.cache_compiler_hash,
-            semantic_cache, timings
+            true, prepared_base.types.length, semantic_cache, timings
         );
         if semantic_cache_ready {
             semantic_cache_ready = source_partition_cache_evict_saved(

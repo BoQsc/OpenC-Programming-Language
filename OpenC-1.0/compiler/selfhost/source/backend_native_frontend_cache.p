@@ -18,6 +18,7 @@ struct NativeFrontendState {
     DBuffer type_identity;
     usize hashed_types;
     usize source_bytes;
+    usize source_chunks;
     text project_source;
     text project_root;
     ptr byte source_data;
@@ -28,7 +29,7 @@ NativeFrontendState native_frontend_empty() {
     return NativeFrontendState{enabled = false, source_count = 0,
         predecl_count = 0, saved = empty, rows = empty,
         projections = empty, identity = empty, compiler_hash = empty,
-        type_identity = empty, hashed_types = 0, source_bytes = 0,
+        type_identity = empty, hashed_types = 0, source_bytes = 0, source_chunks = 0,
         project_source = "", project_root = "", source_data = null};
 }
 
@@ -210,6 +211,23 @@ unsafe bool native_frontend_saved_valid(
     return bytes.ok;
 }
 
+unsafe bool native_frontend_prepare_identity(ref NativeFrontendState state) {
+    if state.identity.length == 64 { return true; }
+    DBuffer key = d_buffer_create(text.byte_length(state.project_source) +
+        text.byte_length(state.project_root) + 256);
+    scope d_buffer_destroy(key);
+    d_put(key, "openc-frontend-contributions-v2:windows-x86_64-llp64:");
+    if !module_cache_compiler_file_hash(process.executable_path(), state.compiler_hash) {
+        return false;
+    }
+    d_put(key, d_buffer_text(state.compiler_hash));
+    d_put_usize(key, state.source_chunks); d_put(key, ":");
+    d_put_usize(key, text.byte_length(state.project_root)); d_put(key, ":");
+    d_put(key, state.project_root); d_put(key, state.project_source);
+    module_cache_compiler_hash(key.data, key.length, state.identity);
+    return key.ok && state.identity.ok && state.identity.length == 64;
+}
+
 unsafe NativeFrontendState native_frontend_open(
     text project, text root, text prefix, usize source_count,
     usize source_bytes, usize source_chunks, usize module_count,
@@ -221,6 +239,7 @@ unsafe NativeFrontendState native_frontend_open(
         source_bytes > 4194304 { return state; }
     state.source_count = source_count;
     state.source_bytes = source_bytes;
+    state.source_chunks = source_chunks;
     state.project_source = project;
     state.project_root = root;
     state.source_data = source_data;
@@ -233,22 +252,6 @@ unsafe NativeFrontendState native_frontend_open(
         state.identity.data == null || state.compiler_hash.data == null ||
         state.type_identity.data == null { return state; }
     state.rows.length = source_count * 232;
-    DBuffer key = d_buffer_create(text.byte_length(project) + text.byte_length(root) + 256);
-    scope d_buffer_destroy(key);
-    ptr byte compiler;
-    usize compiler_bytes;
-    status read = cli_coff_read_bounded_object(process.executable_path(), 33554432,
-        out compiler, out compiler_bytes);
-    if !read.ok { return state; }
-    d_put(key, "openc-frontend-contributions-v2:windows-x86_64-llp64:");
-    module_cache_compiler_hash(compiler, compiler_bytes, state.compiler_hash);
-    d_put(key, d_buffer_text(state.compiler_hash));
-    memory.free(compiler);
-    d_put_usize(key, source_chunks); d_put(key, ":");
-    d_put_usize(key, text.byte_length(root)); d_put(key, ":"); d_put(key, root);
-    d_put(key, project);
-    module_cache_compiler_hash(key.data, key.length, state.identity);
-    if !key.ok || !state.identity.ok || state.identity.length != 64 { return state; }
     state.enabled = true;
     timings.frontend_cache_enabled = true;
     DBuffer path = d_buffer_create(text.byte_length(prefix) + 16);
@@ -258,9 +261,25 @@ unsafe NativeFrontendState native_frontend_open(
     status loaded = cli_coff_read_bounded_object(d_buffer_text(path), 8388608,
         out data, out length);
     d_buffer_destroy(path);
-    if !loaded.ok { return state; }
+    if !loaded.ok {
+        // A missing/rejected frontend must preserve the independent native
+        // bundle's reuse contract. Only a genuinely absent native snapshot
+        // can defer all key preparation and commit to compiling every group.
+        DBuffer bundle = d_buffer_create(text.byte_length(prefix) + 16);
+        d_put(bundle, prefix); d_put(bundle, ".bundle");
+        ptr byte existing;
+        usize existing_length;
+        status found = cli_coff_read_bounded_object(d_buffer_text(bundle),
+            coff_link_bundle_limit(), out existing, out existing_length);
+        d_buffer_destroy(bundle);
+        if found.ok {
+            memory.free(existing);
+            if !native_frontend_prepare_identity(state) { state.enabled = false; }
+        }
+        return state;
+    }
     state.saved = DBuffer{data = data, length = length, capacity = length, ok = true};
-    if !native_frontend_saved_valid(state, module_count) {
+    if !native_frontend_prepare_identity(state) || !native_frontend_saved_valid(state, module_count) {
         d_buffer_destroy(state.saved);
         state.saved = DBuffer{data = null, length = 0, capacity = 0, ok = true};
     }
@@ -371,6 +390,7 @@ unsafe bool native_frontend_publish(
     ptr byte detail_data, ref PackedBuffer symbols
 ) {
     if !state.enabled { return true; }
+    if !native_frontend_prepare_identity(state) { return false; }
     usize type_offset = 112 + state.rows.length;
     usize symbol_offset = type_offset + types.length * record_stride();
     usize detail_offset = symbol_offset + symbols.length * record_stride();

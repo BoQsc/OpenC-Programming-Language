@@ -25,7 +25,7 @@ APIS = ("CreateThreadpoolWork", "SubmitThreadpoolWork",
         "WaitForThreadpoolWorkCallbacks", "CloseThreadpoolWork")
 PHASES = {"parse": ("resolution_parse_sources_parallel", 3),
           "flow": ("flow_validate_project_parallel", 4),
-          "native": ("c_emit_native_sources_chunked", 4)}
+          "native": ("c_emit_native_sources_chunked", 10)}
 CREATE_CALL = bytes.fromhex("4c8b9c24c005000041ffd3")
 
 
@@ -78,8 +78,8 @@ def patch_locations(data: bytes) -> tuple[dict[str, tuple[int, int, int, int]], 
         locations = [offset + m.start() for m in re.finditer(re.escape(CREATE_CALL), code)]
         if len(locations) != expected:
             raise ValueError(f"unexpected work-creation sites for {phase}")
-        # Flow/native have an earlier one-work-item two-worker branch. Tests
-        # explicitly request four chunks and target the following three sites.
+        # Native order is cold-two (2), ordinary-two (1), cold-four (4),
+        # ordinary-four (3); cold branches include a cache-preparation job.
         matches[phase] = locations
     return sections, matches, hashes
 
@@ -92,12 +92,16 @@ def measured(command: list[str]) -> dict[str, object]:
     return sample
 
 
-def build(compiler: Path, project: Path, directory: Path, chunks: str) -> dict[str, object]:
+def build(compiler: Path, project: Path, directory: Path, chunks: str,
+          cached: bool = False) -> dict[str, object]:
     directory.mkdir()
     binary = directory / "program.exe"
     timing = directory / "timings.json"
-    sample = measured([str(compiler), "artifact", f"--project={project}",
-        "--kind=exe", f"--source-chunks={chunks}", f"--output={binary}", f"--timings={timing}"])
+    command = [str(compiler), "artifact", f"--project={project}",
+        "--kind=" + ("cached-exe" if cached else "exe"), f"--source-chunks={chunks}",
+        f"--output={binary}", f"--timings={timing}"]
+    if cached: command.append(f"--cache-prefix={directory / 'cache/objects'}")
+    sample = measured(command)
     return {"measurement": sample, "binary": str(binary),
         "binary_sha256": sha256(binary) if binary.is_file() else None,
         "timings": json.loads(timing.read_text(encoding="utf-8")) if timing.is_file() else None}
@@ -158,22 +162,26 @@ def main() -> int:
         for at in positions:
             patched[at] = ord("Z")
         variants["missing-" + name] = (patched, {"rdata_name_offsets": positions},
-            ("parse-flow2", "flow4"), "4")
-    tests = [("parse", sites["parse"], "parse-flow2", "4"),
-             ("flow-two", sites["flow"][:1], "parse-flow2", "4"),
-             ("flow-four", sites["flow"][1:], "flow4", "4"),
-             ("native-four", sites["native"][1:], "parse-flow2", "4"),
-             ("native-two", sites["native"][:1], "parse-flow2", "2")]
-    for phase, locations, profile, chunks in tests:
+            ("parse-flow2", "flow4"), "4", False)
+        variants["missing-cold-" + name] = (patched,
+            {"rdata_name_offsets": positions}, ("parse-flow2",), "4", True)
+    tests = [("parse", sites["parse"], "parse-flow2", "4", False),
+             ("flow-two", sites["flow"][:1], "parse-flow2", "4", False),
+             ("flow-four", sites["flow"][1:], "flow4", "4", False),
+             ("native-four", sites["native"][7:], "parse-flow2", "4", False),
+             ("native-two", sites["native"][2:3], "parse-flow2", "2", False),
+             ("native-cold-four", sites["native"][3:7], "parse-flow2", "4", True),
+             ("native-cold-two", sites["native"][:2], "parse-flow2", "2", True)]
+    for phase, locations, profile, chunks, cached in tests:
         for index, at in enumerate(locations):
             patched = bytearray(data)
             replacement = b"\x31\xc0" + b"\x90" * (len(CREATE_CALL) - 2)
             patched[at:at + len(CREATE_CALL)] = replacement
             variants[f"{phase}-create-{index + 1}"] = (patched,
                 {"phase": phase, "creation_ordinal": index + 1, "file_offset": at,
-                 "original_hex": CREATE_CALL.hex(), "replacement_hex": replacement.hex()}, (profile,), chunks)
+                 "original_hex": CREATE_CALL.hex(), "replacement_hex": replacement.hex()}, (profile,), chunks, cached)
     results = {}
-    for name, (patched, mutation, profiles, chunks) in variants.items():
+    for name, (patched, mutation, profiles, chunks, cached) in variants.items():
         test_compiler = runs / (name + ".exe")
         with test_compiler.open("xb") as binary_copy:
             binary_copy.write(patched)
@@ -182,9 +190,15 @@ def main() -> int:
             control = controls[profile]
             expected_hash = control["serial"]["binary_sha256"]
             invalid_measure = control["invalid"]["measurement"]
-            invalid_diagnostic = (invalid_measure["exit_code"], invalid_measure["stdout"], invalid_measure["stderr"])
-            valid = build(test_compiler, projects[profile][False], runs / (name + "-" + profile + "-valid"), chunks)
-            invalid = build(test_compiler, projects[profile][True], runs / (name + "-" + profile + "-invalid"), chunks)
+            def diagnostic(sample: dict) -> tuple:
+                # The selected artifact kind changes the CLI's final banner;
+                # preserve every semantic diagnostic byte and its ordering.
+                text = "\n".join(line for line in sample["stdout"].splitlines()
+                                 if not line.startswith("OpenC Windows artifact:"))
+                return sample["exit_code"], text, sample["stderr"]
+            invalid_diagnostic = diagnostic(invalid_measure)
+            valid = build(test_compiler, projects[profile][False], runs / (name + "-" + profile + "-valid"), chunks, cached)
+            invalid = build(test_compiler, projects[profile][True], runs / (name + "-" + profile + "-invalid"), chunks, cached)
             execution = measured([valid["binary"]]) if valid["binary_sha256"] else None
             vm, im = valid["measurement"], invalid["measurement"]
             timing = valid["timings"] or {}
@@ -193,9 +207,11 @@ def main() -> int:
               expected_fallback = timing.get("flow_threads_launched") is False
             if name.startswith("missing-") or name.startswith("native-"):
               expected_fallback = expected_fallback and timing.get("native_parallel_profile", {}).get("launch_completed") is False
+            if cached:
+              expected_fallback = expected_fallback and timing.get("object_cache", {}).get("prepare_parallel") is False
             passed = bool(guarded(vm) and vm["exit_code"] == 0 and valid["binary_sha256"] == expected_hash and
                 guarded(im) and im["exit_code"] != 0 and invalid["binary_sha256"] is None and
-                (im["exit_code"], im["stdout"], im["stderr"]) == invalid_diagnostic and expected_fallback and
+                diagnostic(im) == invalid_diagnostic and expected_fallback and
                 execution is not None and guarded(execution) and execution["exit_code"] == 0 and
                 execution["stdout"] == "pool-ok\n" and execution["stderr"] == "")
             profile_results[profile] = {"valid": valid, "invalid": invalid, "execution": execution,
@@ -215,8 +231,8 @@ def main() -> int:
         "invalid_controls_reject": all(guarded(c["invalid"]["measurement"]) and
             c["invalid"]["measurement"]["exit_code"] != 0 and c["invalid"]["binary_sha256"] is None and
             "SEMANTIC_ERROR" in c["invalid"]["measurement"]["stdout"] for c in controls.values()),
-        "all_fifteen_fault_variants_pass": len(results) == 15 and all(r["passed"] for r in results.values())}
-    report = {"schema": "openc.sh27.worker_pool_faults.v1", "status": "PASS" if all(checks.values()) else "FAIL",
+        "all_twenty_five_fault_variants_pass": len(results) == 25 and all(r["passed"] for r in results.values())}
+    report = {"schema": "openc.sh27.worker_pool_faults.v2", "status": "PASS" if all(checks.values()) else "FAIL",
         "compiler": {"path": str(compiler), "sha256": sha256(compiler)},
         "script_sha256": sha256(Path(__file__)), "source_map_sha256": source_hashes,
         "checks": checks, "controls": controls, "faults": results}

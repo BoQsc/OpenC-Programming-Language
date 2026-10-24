@@ -32,6 +32,17 @@ struct CNativeChunkState {
     usize source_partitions;
     usize source_count;
     bool semantic_cache_ready;
+    ptr byte cold_work;
+}
+
+struct NativeColdCacheWork {
+    ptr byte base;
+    ptr byte options;
+    ptr byte cache;
+    ptr byte timings;
+    ptr byte parsed_source_cache;
+    bool done;
+    bool parallel;
 }
 
 struct CParallelState {
@@ -70,6 +81,8 @@ unsafe i32 c_parallel_jobs(
 unsafe i32 c_native_parallel_jobs(ptr CNativeChunkState state) { return 3; }
 
 unsafe i32 c_native_parallel_jobs_two(ptr CNativeChunkState state) { return 3; }
+unsafe i32 c_native_parallel_jobs_cold(ptr CNativeChunkState state) { return 3; }
+unsafe i32 c_native_parallel_jobs_two_cold(ptr CNativeChunkState state) { return 3; }
 
 unsafe usize c_project_source_count(ref IrContext base) {
     usize source_count = 0;

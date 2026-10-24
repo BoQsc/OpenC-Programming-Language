@@ -59,6 +59,7 @@ struct BuildTimings {
     usize object_cache_misses;
     usize object_cache_publish_failures;
     usize object_cache_retries;
+    bool object_cache_prepare_parallel;
     bool frontend_cache_enabled;
     usize frontend_predeclare_hits;
     usize frontend_resolution_hits;
@@ -241,6 +242,7 @@ BuildTimings build_timings_empty() {
         object_cache_misses = 0,
         object_cache_publish_failures = 0,
         object_cache_retries = 0,
+        object_cache_prepare_parallel = false,
         frontend_cache_enabled = false,
         frontend_predeclare_hits = 0,
         frontend_resolution_hits = 0,

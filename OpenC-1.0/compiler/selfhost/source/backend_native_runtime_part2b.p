@@ -62,6 +62,8 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
         ) && !native_runtime_name(
             call_span, "cli_cache_sha256_runtime", "cli_cache_sha256_runtime"
         ) && !native_runtime_name(
+            call_span, "cli_cache_file_sha256_runtime", "cli_cache_file_sha256_runtime"
+        ) && !native_runtime_name(
             call_span,
             "win_resources_load_runtime", "ocw_library_load_system"
         ) && !native_runtime_name(
@@ -487,6 +489,10 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
     if native_runtime_name(call_span, "cli_cache_sha256_runtime", "cli_cache_sha256_runtime") {
         if d_operand_count(context, instruction) != 3 { function.code.ok = false; return true; }
         native_cache_sha256(context, function, instruction, result); return true;
+    }
+    if native_runtime_name(call_span, "cli_cache_file_sha256_runtime", "cli_cache_file_sha256_runtime") {
+        if d_operand_count(context, instruction) != 3 || result == 0 { return false; }
+        native_cache_file_sha256(context, function, instruction, result); return true;
     }
     if native_runtime_name(call_span, "cli_file_create_directory", "cli_file_create_directory") {
         if d_operand_count(context, instruction) != 1 { function.code.ok = false; return true; }

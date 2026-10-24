@@ -90,7 +90,8 @@ unsafe i32 c_emit_project(
     module_cache.native_objects =
         artifact_options.kind == native_artifact_cached_executable();
     if !semantic_cache_ready &&
-        text.byte_length(artifact_options.cache_prefix) != 0 {
+        text.byte_length(artifact_options.cache_prefix) != 0 &&
+        !artifact_options.cold_cache_pending {
         bool prepared = false;
         if artifact_options.source_partitions != 0 {
             prepared = source_partition_cache_prepare(
@@ -99,7 +100,7 @@ unsafe i32 c_emit_project(
                 artifact_options.source_chunks, artifact_options.frontend_rows,
                 artifact_options.frontend_projections,
                 artifact_options.frontend_projection_length, artifact_options.cache_compiler_hash,
-                module_cache, timings
+                true, base.types.length, module_cache, timings
             );
         } else {
             prepared = module_cache_prepare(
@@ -327,7 +328,7 @@ unsafe i32 c_emit_project(
             base, output, output_capacity, entry_module, timings,
             validation_source_ms, parsed_source_cache,
             native_worker_count, cache_offsets, source_partitions,
-            semantic_cache_ready
+            semantic_cache_ready, artifact_options, module_cache
         );
         if !emitted_parallel {
             io.error("error[OPENC-NATIVE-CHUNK-PROOF]: isolated source emission failed\n");

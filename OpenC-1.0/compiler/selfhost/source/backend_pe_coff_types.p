@@ -19,6 +19,9 @@ struct NativeArtifactOptions {
     ptr byte frontend_projections;
     usize frontend_projection_length;
     text cache_compiler_hash;
+    ptr byte frontend_state;
+    bool cold_cache_pending;
+    usize cache_type_count;
 }
 usize native_artifact_executable() { return 0; }
 usize native_artifact_coff_object() { return 1; }
@@ -47,7 +50,10 @@ NativeArtifactOptions native_artifact_default_options() {
         frontend_rows = null,
         frontend_projections = null,
         frontend_projection_length = 0,
-        cache_compiler_hash = ""
+        cache_compiler_hash = "",
+        frontend_state = null,
+        cold_cache_pending = false,
+        cache_type_count = 0
     };
 }
 

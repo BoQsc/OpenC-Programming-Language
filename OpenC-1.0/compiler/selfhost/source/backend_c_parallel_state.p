@@ -323,7 +323,8 @@ unsafe CNativeChunkState c_native_chunk_state_create(
             cache_offsets = ir_pointer_alias(cache_offsets),
             source_partitions = source_partitions,
             source_count = source_count,
-            semantic_cache_ready = semantic_cache_ready
+            semantic_cache_ready = semantic_cache_ready,
+            cold_work = null
         };
     }
     usize cut_one = source_count / 4;
@@ -357,7 +358,8 @@ unsafe CNativeChunkState c_native_chunk_state_create(
         cache_offsets = ir_pointer_alias(cache_offsets),
         source_partitions = source_partitions,
         source_count = source_count,
-        semantic_cache_ready = semantic_cache_ready
+        semantic_cache_ready = semantic_cache_ready,
+        cold_work = null
     };
 }
 
@@ -483,6 +485,44 @@ unsafe void c_native_pool_three(ptr byte instance, ref CNativeChunkState state, 
     c_native_chunk_thread_entry_three(state);
 }
 
+// Only cold builds use this job. Native workers receive null cache offsets
+// and never access these mutable keys/options. The borrowed base tables are
+// frozen before launch; every callback is joined before their owners return.
+unsafe void c_native_cache_cold_run(ptr byte raw) {
+    if raw == null { return; }
+    ref NativeColdCacheWork work = *(reinterpret(ptr NativeColdCacheWork, raw));
+    if work.done { return; }
+    ref IrContext base = *(reinterpret(ptr IrContext, work.base));
+    ref NativeArtifactOptions options = *(reinterpret(ptr NativeArtifactOptions, work.options));
+    ref ModuleCacheState cache = *(reinterpret(ptr ModuleCacheState, work.cache));
+    ref BuildTimings timings = *(reinterpret(ptr BuildTimings, work.timings));
+    ref NativeFrontendState frontend = *(reinterpret(ptr NativeFrontendState, options.frontend_state));
+    bool prepared = native_frontend_prepare_identity(frontend);
+    if prepared {
+        options.cache_compiler_hash = d_buffer_text(frontend.compiler_hash);
+        cache.native_objects = true;
+        prepared = source_partition_cache_prepare(base, work.parsed_source_cache,
+            options.cache_prefix, ir_entry_module(base.project_source, base.project_root,
+                base.source_data, base.symbol_data, base.detail_data, base.symbols, base.modules.length),
+            options.source_partitions, options.source_chunks, options.frontend_rows,
+            options.frontend_projections, options.frontend_projection_length,
+            options.cache_compiler_hash, false, options.cache_type_count, cache, timings);
+    }
+    if !prepared {
+        module_cache_destroy(cache);
+        cache = module_cache_empty();
+        options.cache_prefix = "";
+    }
+    options.cold_cache_pending = false;
+    work.done = true;
+}
+
+unsafe void c_native_cache_pool(ptr byte instance, ref CNativeChunkState state, ptr byte work) {
+    ref NativeColdCacheWork cold = *(reinterpret(ptr NativeColdCacheWork, state.cold_work));
+    cold.parallel = true;
+    c_native_cache_cold_run(state.cold_work);
+}
+
 unsafe void c_native_chunk_state_destroy(ref CNativeChunkState state) {
     c_parallel_chunk_destroy(state.chunk_four);
     c_parallel_chunk_destroy(state.chunk_three);
@@ -501,7 +541,9 @@ unsafe bool c_emit_native_sources_chunked(
     usize worker_count,
     ptr byte cache_offsets,
     usize source_partitions,
-    bool semantic_cache_ready
+    bool semantic_cache_ready,
+    ref NativeArtifactOptions options,
+    ref ModuleCacheState cache
 ) {
     usize source_count = c_project_source_count(base);
     if worker_count != 2 && worker_count != 4 { return false; }
@@ -518,12 +560,21 @@ unsafe bool c_emit_native_sources_chunked(
         worker_count, cache_offsets, source_partitions,
         semantic_cache_ready
     );
+    NativeColdCacheWork cold = NativeColdCacheWork{
+        base = reinterpret(ptr byte, &base), options = reinterpret(ptr byte, &options),
+        cache = reinterpret(ptr byte, &cache), timings = reinterpret(ptr byte, &timings),
+        parsed_source_cache = parsed_source_cache, done = false, parallel = false
+    };
+    bool cold_pending = options.cold_cache_pending;
+    if cold_pending { state.cold_work = reinterpret(ptr byte, &cold); }
     usize workers_started = process.monotonic_milliseconds();
     i32 launch_result = 3;
     if worker_count == 2 {
-        launch_result = c_native_parallel_jobs_two(&state);
+        if cold_pending { launch_result = c_native_parallel_jobs_two_cold(&state); }
+        else { launch_result = c_native_parallel_jobs_two(&state); }
     } else {
-        launch_result = c_native_parallel_jobs(&state);
+        if cold_pending { launch_result = c_native_parallel_jobs_cold(&state); }
+        else { launch_result = c_native_parallel_jobs(&state); }
     }
     // A failed or unavailable launch returns only after joining the threads
     // already started; run precisely the chunks still marked unstarted.
@@ -539,6 +590,8 @@ unsafe bool c_emit_native_sources_chunked(
     if state.chunk_four.result == -1 {
         c_native_chunk_run(state.chunk_four, state);
     }
+    if cold_pending && !cold.done { c_native_cache_cold_run(state.cold_work); }
+    if cold_pending { timings.object_cache_prepare_parallel = cold.parallel; }
     timings.native_workers_wall_ms =
         process.monotonic_milliseconds() - workers_started;
     timings.native_parallel_launch_completed = launch_result == 0;
