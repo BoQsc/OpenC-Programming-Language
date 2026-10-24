@@ -96,7 +96,9 @@ unsafe i32 c_emit_project(
             prepared = source_partition_cache_prepare(
                 base, parsed_source_cache, artifact_options.cache_prefix,
                 entry_module, artifact_options.source_partitions,
-                artifact_options.source_chunks,
+                artifact_options.source_chunks, artifact_options.frontend_rows,
+                artifact_options.frontend_projections,
+                artifact_options.frontend_projection_length, artifact_options.cache_compiler_hash,
                 module_cache, timings
             );
         } else {

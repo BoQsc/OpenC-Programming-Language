@@ -22,6 +22,8 @@ on:
       - OpenC-1.0/compiler/selfhost/test_coff_hash_fallback.py
       - OpenC-1.0/compiler/selfhost/test_coff_relocation_targets.py
       - OpenC-1.0/compiler/selfhost/test_module_coff_set.py
+      - OpenC-1.0/compiler/selfhost/test_native_frontend_edges.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_hash_context.py
       - OpenC-1.0/compiler/selfhost/profile_sh27_owned_threads.py
       - OpenC-1.0/compiler/selfhost/test_profile_sh27_owned_threads.py
       - OpenC-1.0/tests/sh27_array_initializer_operands/**

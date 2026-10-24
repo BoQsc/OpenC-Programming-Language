@@ -67,6 +67,7 @@ def main() -> int:
                     max_captured_output_bytes=MIB, timeout_seconds=120)
                 data = json.loads(timing.read_text()) if timing.is_file() else {}
                 result = {"measurement": measured, "cache": data.get("object_cache", {}),
+                          "frontend": data.get("frontend_cache", {}),
                           "phases_ms": data.get("phases_ms"),
                           "sha256": sha256(image) if image.is_file() else None}
                 report["builds"][name] = result
@@ -82,6 +83,8 @@ def main() -> int:
             assert warm["cache"]["hits"] == 32 and warm["cache"]["misses"] == 0
             assert warm["cache"]["flow_sources_skipped"] == sum(map(len, project_data["modules"].values()))
             assert warm["cache"]["acceptance_sources_skipped"] == warm["cache"]["flow_sources_skipped"]
+            assert warm["frontend"]["predeclare_hits"] == warm["cache"]["flow_sources_skipped"], warm
+            assert warm["frontend"]["resolution_hits"] == warm["cache"]["flow_sources_skipped"], warm
             assert direct["sha256"] == cold["sha256"] == warm["sha256"] == sha256(compiler)
             bundle_path = Path(str(prefix) + ".bundle")
             original_bundle = bundle_path.read_bytes()
@@ -137,6 +140,40 @@ def main() -> int:
             assert version["cache"]["hits"] == 0 and version["cache"]["misses"] == 32
             assert version["sha256"] == direct["sha256"]
 
+            frontend_path = Path(str(prefix) + ".frontend")
+            frontend_bytes = frontend_path.read_bytes()
+            assert hashlib.sha256(frontend_bytes[:-64]).hexdigest().encode() == frontend_bytes[-64:]
+
+            def damage_frontend(name: str, offset: int, value: int, rehash: bool = True) -> None:
+                damaged = bytearray(frontend_bytes)
+                struct.pack_into("<I", damaged, offset, value)
+                if rehash:
+                    damaged[-64:] = hashlib.sha256(damaged[:-64]).hexdigest().encode()
+                frontend_path.write_bytes(damaged)
+                rebuilt = build(name, True)
+                assert rebuilt["frontend"]["predeclare_hits"] == 0, rebuilt
+                assert rebuilt["frontend"]["resolution_hits"] == 0, rebuilt
+                assert rebuilt["cache"]["hits"] == 32
+                assert rebuilt["sha256"] == direct["sha256"]
+
+            damage_frontend("frontend-checksum", 0, 0, False)
+            damage_frontend("frontend-version", 4, 0xFFFFFFFF)
+            damage_frontend("frontend-extent", 24, 0)
+            symbol_offset = struct.unpack_from("<I", frontend_bytes, 28)[0]
+            detail_offset = struct.unpack_from("<I", frontend_bytes, 32)[0]
+            damage_frontend("frontend-symbol-kind", symbol_offset, 0xFFFFFFFF)
+            damage_frontend("frontend-symbol-span", symbol_offset + 16, 0xFFFFFFFF)
+            damage_frontend("frontend-symbol-owner", detail_offset + 16, 0xFFFFFFFF)
+            type_offset = struct.unpack_from("<I", frontend_bytes, 24)[0]
+            # The builtin byte pointer is type 18 and must reference an
+            # earlier type. A SHA-valid self-cycle cannot enter the resolver.
+            damage_frontend("frontend-type-cycle", type_offset + 18 * 40 + 8, 18)
+            with frontend_path.open("wb") as oversized:
+                oversized.truncate(8 * MIB + 1)
+            oversize = build("frontend-oversize", True)
+            assert oversize["frontend"]["predeclare_hits"] == 0
+            assert oversize["cache"]["hits"] == 32 and oversize["sha256"] == direct["sha256"]
+
             main = project_dir / "source/main.p"
             original = main.read_bytes()
             old_digit = b"return value >= 48 && value <= 57;"
@@ -149,6 +186,8 @@ def main() -> int:
             fresh_body = build("body-fresh", False)
             assert body["cache"]["hits"] == 31 and body["cache"]["misses"] == 1
             assert body["cache"]["flow_sources_skipped"] > 0
+            assert body["frontend"]["predeclare_hits"] == sum(map(len, project_data["modules"].values())) - 1
+            assert body["frontend"]["resolution_hits"] == body["frontend"]["predeclare_hits"]
             assert body["sha256"] == fresh_body["sha256"] != cold["sha256"]
             # A longer body with no new symbols keeps old function numbering.
             main.write_bytes(original.replace(old_digit, old_digit + b" /* body length */", 1))

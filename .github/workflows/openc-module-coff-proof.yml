@@ -19,6 +19,8 @@ on:
       - OpenC-1.0/compiler/selfhost/test_module_object_cache.py
       - OpenC-1.0/compiler/selfhost/test_native_object_cache.py
       - OpenC-1.0/compiler/selfhost/test_native_object_cache_retry.py
+      - OpenC-1.0/compiler/selfhost/test_native_frontend_edges.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_hash_context.py
       - OpenC-1.0/compiler/selfhost/benchmark_native_object_cache.py
       - OpenC-1.0/benchmarks/sh27/representative/SUITE.json
       - OpenC-1.0/benchmarks/sh27/representative/medium_audit/**
@@ -76,6 +78,20 @@ jobs:
           python OpenC-1.0\compiler\selfhost\test_native_object_cache_retry.py
           artifacts\module-coff\bootstrap-current\stage3\openc.exe
           --report artifacts\module-coff\native-cache-retry.json
+
+      - name: Verify named-type replay, native layout queries and exact invalid diagnostics
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\test_native_frontend_edges.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --report artifacts\module-coff\frontend-edges.json
+
+      - name: Verify concurrent first-call SHA context initialization
+        shell: cmd
+        run: >-
+          python OpenC-1.0\compiler\selfhost\verify_sh27_hash_context.py
+          artifacts\module-coff\bootstrap-current\stage3\openc.exe
+          --report artifacts\module-coff\hash-context.json
 
       - name: Verify native conformance on the candidate compiler
         shell: cmd

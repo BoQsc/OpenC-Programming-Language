@@ -39,6 +39,8 @@ def main() -> int:
     args = parser.parse_args()
     compiler = args.compiler.resolve(strict=True)
     project = Path(__file__).with_name("openc.project.json").resolve(strict=True)
+    project_data = json.loads(project.read_text())
+    source_count = sum(len(paths) for paths in project_data["modules"].values())
     report: dict = {
         "schema": "openc.sh27.source_partition_coff.v1",
         "status": "FAIL", "compiler_sha256": sha256(compiler), "variants": {},
@@ -61,7 +63,7 @@ def main() -> int:
             pieces = manifest["partitions"]
             assert len(pieces) == count, (count, len(pieces))
             assert pieces[0]["source_first"] == 0
-            assert pieces[-1]["source_end"] == 228
+            assert pieces[-1]["source_end"] == source_count
             assert all(
                 left["source_end"] == right["source_first"]
                 for left, right in zip(pieces, pieces[1:])

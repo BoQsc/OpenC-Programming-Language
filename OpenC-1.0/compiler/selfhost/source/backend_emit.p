@@ -59,6 +59,10 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
     ref NativeArtifactOptions artifact_options
 ) {
     usize total_started = process.monotonic_milliseconds();
+    artifact_options.frontend_rows = null;
+    artifact_options.frontend_projections = null;
+    artifact_options.frontend_projection_length = 0;
+    artifact_options.cache_compiler_hash = "";
     usize phase_started = total_started;
     text project_source;
     status loaded_project = file.read_text(project_path, out project_source);
@@ -228,6 +232,18 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
         resolution_parse_profile_empty();
     declaration_parse_profile.enabled = timings.profile_type_queries_enabled;
 
+    NativeFrontendState frontend = native_frontend_empty();
+    scope native_frontend_destroy(frontend);
+    if artifact_options.kind == native_artifact_cached_executable() &&
+        !timings.profile_type_queries_enabled && parsed_source_cache != null {
+        frontend = native_frontend_open(project_source, project_root,
+            artifact_options.cache_prefix, sources.length, total_source_length,
+            artifact_options.source_chunks, modules.length, source_data, timings);
+        if frontend.compiler_hash.length == 64 {
+            artifact_options.cache_compiler_hash = d_buffer_text(frontend.compiler_hash);
+        }
+    }
+
     phase_started = process.monotonic_milliseconds();
     // Source-local lexing/parsing may run in private workers. Keep the
     // predeclaration and symbol passes below ordered: they mutate shared
@@ -235,7 +251,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
     // Large self-builds retain the serial parse path while the 256 MiB
     // child-private benchmark cap is in force.
     bool parallel_parsed = false;
-    if parsed_source_cache != null && artifact_options.source_chunks == 4 &&
+    if parsed_source_cache != null && frontend.saved.length == 0 &&
+        artifact_options.source_chunks == 4 &&
         sources.length >= 4 && sources.length <= 16 &&
         total_source_length <= 1048576 {
         usize parallel_parse_started = process.monotonic_milliseconds();
@@ -259,6 +276,18 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
         while index < count {
             usize source_record = first + index;
             if parsed_source_cache != null {
+                if frontend.enabled {
+                    text cached_source;
+                    status cached_loaded = project_read_source_record(project_source,
+                        project_root, source_data, source_record, out cached_source);
+                    if cached_loaded.ok {
+                        if native_frontend_predeclare_hit(frontend, source_record,
+                                cached_source, type_data, types, timings) {
+                            index = index + 1;
+                            continue;
+                        }
+                    } else { frontend.enabled = false; }
+                }
                 usize declaration_part_started = 0;
                 if timings.profile_type_queries_enabled {
                     declaration_part_started =
@@ -308,6 +337,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
                             source, parsed.token_data, parsed.tokens,
                             parsed.syntax_data, parsed.syntax
                         );
+                        native_frontend_finish_predeclare(frontend, source_record,
+                            source, types, parsed);
                         if timings.profile_type_queries_enabled {
                             timings.declaration_predeclare_ms =
                                 timings.declaration_predeclare_ms +
@@ -335,6 +366,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
     }
     timings.declarations_ms =
         process.monotonic_milliseconds() - phase_started;
+    frontend.predecl_count = types.length;
     timings.declaration_read_ms = declaration_parse_profile.read_ms;
     timings.declaration_lex_ms = declaration_parse_profile.lex_ms;
     timings.declaration_parse_ms = declaration_parse_profile.parse_ms;
@@ -347,11 +379,22 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
         usize index = 0;
         while index < count {
             usize source_record = first + index;
+            if native_frontend_resolution_hit(frontend, source_record,
+                    type_data, types, symbol_data, detail_data, symbols, timings) {
+                index = index + 1;
+                continue;
+            }
             if parsed_source_cache != null {
                 ResolutionParsedSource parsed =
                     resolution_cached_parsed_source(
                         parsed_source_cache, source_record
                     );
+                if parsed.token_data == null && frontend.rows.data != null {
+                    parsed = resolution_parse_source_retained_profiled(project_source,
+                        project_root, source_data, source_record, declaration_parse_profile);
+                    resolution_cache_parsed_source(parsed_source_cache, source_record, parsed);
+                    if !parsed.reusable { resolution_release_parsed_source(parsed); }
+                }
                 if parsed.reusable {
                     text source;
                     status source_status = project_read_source_record(
@@ -385,12 +428,22 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
                     type_data, types, symbol_data, detail_data, symbols
                 );
             }
+            native_frontend_finish_resolution(frontend, source_record, types, symbols);
             index = index + 1;
         }
         module_index = module_index + 1;
     }
     timings.resolution_ms =
         process.monotonic_milliseconds() - phase_started;
+    if frontend.saved.data != null {
+        d_buffer_destroy(frontend.saved);
+        frontend.saved = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+    }
+    if frontend.enabled {
+        artifact_options.frontend_rows = frontend.rows.data;
+        artifact_options.frontend_projections = frontend.projections.data;
+        artifact_options.frontend_projection_length = frontend.projections.length;
+    }
     ModuleCacheState semantic_cache = module_cache_empty();
     scope module_cache_destroy(semantic_cache);
     bool semantic_cache_ready = false;
@@ -417,7 +470,10 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
             prepared_base, parsed_source_cache,
             artifact_options.cache_prefix, prepared_entry,
             artifact_options.source_partitions,
-            artifact_options.source_chunks, semantic_cache, timings
+            artifact_options.source_chunks, artifact_options.frontend_rows,
+            artifact_options.frontend_projections,
+            artifact_options.frontend_projection_length, artifact_options.cache_compiler_hash,
+            semantic_cache, timings
         );
         if semantic_cache_ready {
             semantic_cache_ready = source_partition_cache_evict_saved(
@@ -640,6 +696,13 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
             parsed_source_cache, artifact_options,
             semantic_cache, semantic_cache_ready
         );
+        if c_result == 0 && frontend.enabled &&
+            text.byte_length(artifact_options.cache_prefix) != 0 {
+            if !native_frontend_publish(frontend, artifact_options.cache_prefix,
+                    type_data, types, symbol_data, detail_data, symbols) {
+                timings.frontend_publish_failures = timings.frontend_publish_failures + 1;
+            }
+        }
         usize lowering_elapsed =
             process.monotonic_milliseconds() - phase_started;
         if fuse_native_acceptance {

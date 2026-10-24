@@ -25,11 +25,15 @@ The [native-object default candidate](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md)
 now caches direct-link function records in one atomic bounded bundle and
 integrates reuse into ordinary `build`, with `--no-cache` and a full validating
 retry after late cache-read failure. Current-source fixed point, strict 20/20,
-278 conformance and corruption/edit/invalidation tests pass locally. The
-24-file cold/warm/edit economics gate **fails**, so default promotion is
-blocked. Complete frontend-state reuse for unchanged sources and rerun both
-the medium and compiler matrices; a compiler-only cache gain cannot close
-Step 6. Serial and oversized-source projects still use direct compilation.
+278 conformance and corruption/edit/invalidation tests pass locally. Frontend
+contributions now replay unchanged files with exact incoming type/name/symbol
+binding; the SHA resolver initializes once per process. New balanced v2
+matrices qualify compiler cold/warm/edit and medium warm/edit. Medium cold
+still fails: +12.422 ms against 9.810 ms null. V1 cache matrices had a process-
+order bug and are excluded from promotion. Next reduce full-compiler
+fingerprint/publication cost without weakening authentication, then obtain
+final-source hosted and constrained-host proof. Serial and oversized-source
+projects still use direct compilation; a compiler-only win cannot close Step 6.
 
 Previous checkpoint (2026-10-16, architecture batch): source `6ad7ba9` has one
 raw-artifact-verified hosted 20/20 C/D pass with exact compiler/source hashes;

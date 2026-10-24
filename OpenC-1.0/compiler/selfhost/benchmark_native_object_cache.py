@@ -12,6 +12,17 @@ from benchmark_sh27_production import MIB, ROOT, sha256
 from windows_process_measure import run_measured
 
 
+LANES = ("cold", "warm", "edit", "null")
+
+
+def comparison_order(pair: int, lane: str) -> tuple[str, str]:
+    # This ordinal must not come from the reversed execution sequence:
+    # reversing both parity terms otherwise fixes every lane to one order.
+    if (pair + LANES.index(lane)) % 2 == 0:
+        return ("direct", "candidate")
+    return ("candidate", "direct")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("compiler", type=Path)
@@ -24,10 +35,11 @@ def main() -> int:
     if not 1 <= args.pairs <= 31 or args.report.exists():
         parser.error("pairs must be 1..31 and report must not exist")
     compiler = args.compiler.resolve(strict=True)
-    report = {"schema": "openc.sh27.native_cache_pairs.v1", "status": "FAIL",
+    report = {"schema": "openc.sh27.native_cache_pairs.v2", "status": "FAIL",
+              "pair_order_policy": "alternating_fixed_lane_ordinal",
               "compiler_sha256": sha256(compiler), "fixture": args.fixture,
               "ordinary_build": args.ordinary_build,
-              "pairs": {lane: [] for lane in ("cold", "warm", "edit", "null")}}
+              "pairs": {lane: [] for lane in LANES}}
     args.report.parent.mkdir(parents=True, exist_ok=True)
     try:
         parent = ROOT / "build-output"
@@ -95,6 +107,7 @@ def main() -> int:
                 assert not measured["stdout_truncated"] and not measured["stderr_truncated"]
                 timings = json.loads(timing.read_text())
                 result = {"measurement": measured, "cache": timings.get("object_cache", {}),
+                          "frontend": timings.get("frontend_cache", {}),
                           "phases_ms": timings.get("phases_ms"), "sha256": sha256(output)}
                 output.unlink()
                 timing.unlink()
@@ -108,7 +121,7 @@ def main() -> int:
             assert report["prime"]["cache"]["publish_failures"] == 0
             assert report["prime"]["sha256"] == report["preheat"]["sha256"]
             for pair in range(args.pairs):
-                lanes = ("cold", "warm", "edit", "null")
+                lanes = LANES
                 if pair % 2: lanes = tuple(reversed(lanes))
                 for lane in lanes:
                     edited.write_bytes(original)
@@ -124,7 +137,7 @@ def main() -> int:
                         edited.write_bytes(original.replace(old, new, 1))
                     cold_prefix = root / f"cold{pair}/objects"
                     if lane == "cold": cold_prefix.parent.mkdir()
-                    order = ("direct", "candidate") if (pair + lanes.index(lane)) % 2 == 0 else ("candidate", "direct")
+                    order = comparison_order(pair, lane)
                     samples = {}
                     for side in order:
                         cached = side == "candidate" and lane != "null"
@@ -134,6 +147,11 @@ def main() -> int:
                     if lane == "cold": assert cache["hits"] == 0 and cache["misses"] == groups, (lane, pair, cache)
                     if lane == "warm": assert cache["hits"] == groups and cache["misses"] == 0, (lane, pair, cache)
                     if lane == "edit": assert cache["hits"] == groups - 1 and cache["misses"] == 1, (lane, pair, cache)
+                    if lane in ("warm", "edit"):
+                        expected = sum(map(len, data["modules"].values())) - (lane == "edit")
+                        frontend = samples["candidate"]["frontend"]
+                        assert frontend.get("predeclare_hits") == expected, (lane, pair, frontend)
+                        assert frontend.get("resolution_hits") == expected, (lane, pair, frontend)
                     delta = samples["candidate"]["measurement"]["elapsed_seconds"] - samples["direct"]["measurement"]["elapsed_seconds"]
                     report["pairs"][lane].append({"pair": pair + 1, "order": order,
                         "delta_seconds": delta, "samples": samples})

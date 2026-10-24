@@ -829,7 +829,9 @@ usize source_partition_index(
 unsafe bool source_partition_cache_prepare(
     ref IrContext context, ptr byte parsed_source_cache,
     text prefix, usize entry_module, usize partitions,
-    usize source_chunks,
+    usize source_chunks, ptr byte frontend_rows,
+    ptr byte frontend_projections, usize frontend_projection_length,
+    text known_compiler_hash,
     ref ModuleCacheState cache, ref BuildTimings timings
 ) {
     usize source_count = c_project_source_count(context);
@@ -869,11 +871,28 @@ unsafe bool source_partition_cache_prepare(
     );
     scope d_buffer_destroy(contents);
     if cache.native_objects {
-        d_put(interface, "openc-native-object-cache-v3:windows-x86_64-llp64\n");
+        d_put(interface, "openc-native-object-cache-v4:windows-x86_64-llp64\n");
         cache.stable_offsets = memory.alloc((partitions + 1) * size_of(usize));
         DBuffer numbering = d_buffer_create(context.symbols.length * 32 + 128);
         DBuffer type_hash = d_buffer_create(65);
-        module_cache_digest(context.type_data, context.types.length * record_stride(), type_hash);
+        DBuffer type_identity = d_buffer_create(context.types.length * record_stride());
+        if type_identity.data == null { d_buffer_destroy(type_identity); return false; }
+        resolution_copy_records(type_identity.data, context.type_data, context.types.length);
+        type_identity.length = context.types.length * record_stride();
+        usize type = 19;
+        while type < context.types.length {
+            usize flags = read_record_field(context.type_data, type, 4);
+            if read_record_field(context.type_data, type, 0) == 9 && (flags / 8) % 2 == 0 {
+                // Complete declaration spelling is bound below. Native code
+                // does not encode declaration byte offsets, so an earlier
+                // body's length change need not invalidate other groups.
+                write_record_field(type_identity.data, type, 2, 0);
+                write_record_field(type_identity.data, type, 3, 0);
+            }
+            type = type + 1;
+        }
+        module_cache_compiler_hash(type_identity.data, type_identity.length, type_hash);
+        d_buffer_destroy(type_identity);
         d_put(numbering, d_buffer_text(type_hash));
         usize numbered_symbol = 0;
         while numbered_symbol < context.symbols.length {
@@ -915,16 +934,18 @@ unsafe bool source_partition_cache_prepare(
             context.detail_data, context.symbols
         ) { d_put(interface, "1\n"); }
     else { d_put(interface, "0\n"); }
-    ptr byte compiler_data;
-    usize compiler_length;
-    status loaded_compiler = cli_coff_read_bounded_object(
-        process.executable_path(), 33554432,
-        out compiler_data, out compiler_length
-    );
-    if !loaded_compiler.ok { return false; }
     DBuffer compiler_hash = d_buffer_create(65);
-    module_cache_compiler_hash(compiler_data, compiler_length, compiler_hash);
-    memory.free(compiler_data);
+    if cache.native_objects && text.byte_length(known_compiler_hash) == 64 {
+        d_put(compiler_hash, known_compiler_hash);
+    } else {
+        ptr byte compiler_data;
+        usize compiler_length;
+        status loaded_compiler = cli_coff_read_bounded_object(
+            process.executable_path(), 33554432, out compiler_data, out compiler_length);
+        if !loaded_compiler.ok { d_buffer_destroy(compiler_hash); return false; }
+        module_cache_compiler_hash(compiler_data, compiler_length, compiler_hash);
+        memory.free(compiler_data);
+    }
     d_put(interface, d_buffer_text(compiler_hash));
     bool ok = interface.ok && contents.ok && compiler_hash.ok;
     d_buffer_destroy(compiler_hash);
@@ -958,9 +979,25 @@ unsafe bool source_partition_cache_prepare(
             ResolutionParsedSource parsed = resolution_cached_parsed_source(
                 parsed_source_cache, source_record
             );
-            DBuffer projected = d_buffer_create(text.byte_length(source) + 8192);
+            bool borrowed_projection = cache.native_objects && frontend_rows != null &&
+                frontend_projections != null;
+            DBuffer projected = DBuffer{data = null, length = 0, capacity = 0, ok = true};
             DBuffer declaration_hash = d_buffer_create(65);
-            ok = module_cache_source_projection(source, parsed, projected);
+            if borrowed_projection {
+                DBuffer rows = DBuffer{data = frontend_rows, length = source_count * 232,
+                    capacity = source_count * 232, ok = true};
+                usize start = native_read_u32(rows, source_record * 232 + 216);
+                usize length = native_read_u32(rows, source_record * 232 + 220);
+                ok = start <= frontend_projection_length;
+                if ok { ok = length <= frontend_projection_length - start; }
+                if ok {
+                    projected = DBuffer{data = frontend_projections + start,
+                        length = length, capacity = length, ok = true};
+                }
+            } else {
+                projected = d_buffer_create(text.byte_length(source) + 8192);
+                ok = module_cache_source_projection(source, parsed, projected);
+            }
             if ok {
                 if cache.native_objects {
                     // One length-delimited declaration stream avoids a pure
@@ -977,7 +1014,8 @@ unsafe bool source_partition_cache_prepare(
                 ok = projected.ok && declaration_hash.ok &&
                     interface.ok && contents.ok;
             }
-            d_buffer_destroy(declaration_hash); d_buffer_destroy(projected);
+            d_buffer_destroy(declaration_hash);
+            if !borrowed_projection { d_buffer_destroy(projected); }
             source_record = source_record + 1;
             source_index = source_index + 1;
         }
@@ -1000,7 +1038,8 @@ unsafe bool source_partition_cache_prepare(
         d_put(key, ":"); d_put_usize(key, partition);
         d_put(key, ":"); d_put(key, d_buffer_text(content_hash));
         if key.ok && content_hash.ok {
-            module_cache_digest(key.data, key.length, cache.keys);
+            if cache.native_objects { module_cache_compiler_hash(key.data, key.length, cache.keys); }
+            else { module_cache_digest(key.data, key.length, cache.keys); }
             d_put(cache.hashes,
                 "0000000000000000000000000000000000000000000000000000000000000000");
             ok = cache.keys.ok && cache.hashes.ok;

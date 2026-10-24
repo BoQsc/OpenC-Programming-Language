@@ -15,6 +15,10 @@ struct NativeArtifactOptions {
     text cache_prefix;
     text cache_project_key;
     bool cache_retry_required;
+    ptr byte frontend_rows;
+    ptr byte frontend_projections;
+    usize frontend_projection_length;
+    text cache_compiler_hash;
 }
 usize native_artifact_executable() { return 0; }
 usize native_artifact_coff_object() { return 1; }
@@ -39,7 +43,11 @@ NativeArtifactOptions native_artifact_default_options() {
         module_name = "",
         cache_prefix = "",
         cache_project_key = "",
-        cache_retry_required = false
+        cache_retry_required = false,
+        frontend_rows = null,
+        frontend_projections = null,
+        frontend_projection_length = 0,
+        cache_compiler_hash = ""
     };
 }
 

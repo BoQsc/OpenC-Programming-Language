@@ -882,7 +882,11 @@ def main() -> int:
                     sample["object_cache_was_cold"] = (isinstance(timing, dict)
                         and timing.get("status") == "PASS"
                         and timing.get("object_cache", {}).get("hits", 0) == 0)
-                    sample["passed"] = bool(sample["passed"] and sample["object_cache_was_cold"])
+                    sample["frontend_cache_was_cold"] = (isinstance(timing, dict)
+                        and timing.get("frontend_cache", {}).get("predeclare_hits", 0) == 0
+                        and timing.get("frontend_cache", {}).get("resolution_hits", 0) == 0)
+                    sample["passed"] = bool(sample["passed"] and sample["object_cache_was_cold"]
+                                             and sample["frontend_cache_was_cold"])
                 sample["cache_state"] = "first_observation" if run == 0 else "warm_os_cache"
                 tool_samples[tool].append(sample)
                 integrity = integrity and bool(sample["passed"])

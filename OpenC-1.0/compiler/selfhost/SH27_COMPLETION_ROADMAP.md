@@ -33,9 +33,12 @@ The isolated [native-object default candidate](SH27_NATIVE_OBJECT_DEFAULT_EVIDEN
 replaces cold COFF conversion with direct function records, batches publication
 into one bounded atomic bundle and reuses content-validated source groups in
 ordinary `build`. Its fixed point, strict 20/20, 278 conformance, malformed
-cache recovery and forced full retry pass locally. The 24-file matrix still
-fails cold/warm/edit economics. It remains unpromoted while frontend-state
-reuse is developed and both project sizes are remeasured. Final-source C/D,
+cache recovery and forced full retry pass locally. Frontend contribution
+replay and one process-owned SHA context now qualify compiler cold/warm/edit
+and medium warm/edit in new balanced v2 matrices. Medium cold still fails at
++12.422 ms versus 9.810 ms null; the old v1 process-order bug invalidates those
+earlier cache timing decisions. Reduce fingerprint/publication cost while
+preserving full-byte identity before default promotion. Final-source C/D,
 constrained-host, representative and release gates remain open.
 
 Previous next decision (2026-10-16): source `6ad7ba9` has one verified exact-

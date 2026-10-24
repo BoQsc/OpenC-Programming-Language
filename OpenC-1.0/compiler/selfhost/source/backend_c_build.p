@@ -40,6 +40,15 @@ unsafe bool write_build_timings(
         d_put_usize(output, timings.module_sources_validation_only);
         d_put(output, "}");
     }
+    if timings.frontend_cache_enabled {
+        d_put(output, ",\n  \"frontend_cache\": {\"predeclare_hits\": ");
+        d_put_usize(output, timings.frontend_predeclare_hits);
+        d_put(output, ", \"resolution_hits\": ");
+        d_put_usize(output, timings.frontend_resolution_hits);
+        d_put(output, ", \"publish_failures\": ");
+        d_put_usize(output, timings.frontend_publish_failures);
+        d_put(output, "}");
+    }
     if timings.object_cache_enabled {
         d_put(output, ",\n  \"object_cache\": {\"hits\": ");
         d_put_usize(output, timings.object_cache_hits);

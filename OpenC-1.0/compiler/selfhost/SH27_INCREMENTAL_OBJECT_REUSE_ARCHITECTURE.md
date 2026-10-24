@@ -25,13 +25,22 @@ larger bundles are released before workers and reauthenticated afterwards.
 Failed late reads retry full validation and lowering after the first arenas
 are released. Strict 20/20, 278 conformance and edit/corruption/fault checks pass.
 
-The medium-project performance gate still fails. Default promotion requires
-restoring validated unchanged frontend state, rebuilding the edited source,
-and checking that its declaration/type/local-symbol mapping still matches.
-Interface, numbering or unsupported-state changes must take the complete
-fresh path. Qualify both the 24-file and compiler paired matrices before
-promotion; the historical direct-stream warnings below still govern any
-extension beyond the proved worker/identity boundary.
+The frontend now stores ordered per-source declaration/resolution contributions
+with full source hashes and incoming type/name/symbol identities. A changed
+contribution uses the ordinary parser/resolver; later contributions replay
+only if their incoming state matches. Source-bound named-type spelling catches
+same-length renames. Native object keys normalize only declaration positions,
+while binding complete declarations, so a body-length edit before a struct
+can preserve other groups. A process-owned optional SHA resolver avoids
+repeated DLL loading; full compiler-byte authentication is retained.
+
+Balanced v2 matrices qualify compiler cold/warm/edit and medium warm/edit.
+Medium cold still fails at +12.422 ms versus 9.810 ms null. V1 cache matrices
+had an ordering bug and cannot qualify promotion. A measured bounded compiler
+read/hash/free alone costs 6.816 ms. Next test mapped-file authentication and
+publication batching, then repeat both project sizes. Interface, numbering or
+unsupported-state changes must take the complete fresh path. The historical
+warnings below still govern extensions beyond the proved identity boundary.
 
 ## Current implementation delta (2026-09-26)
 
