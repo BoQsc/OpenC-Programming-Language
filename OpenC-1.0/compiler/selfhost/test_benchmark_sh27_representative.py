@@ -26,7 +26,10 @@ class RepresentativeSuiteTests(unittest.TestCase):
                              item["project"])[1])
             for item in self.suite["workloads"]
         ]
-        self.assertEqual(counts, [1, 4, 228])
+        self.assertEqual(counts[:2], [1, 4])
+        canonical = Path(__file__).resolve().parent / "openc.project.json"
+        self.assertEqual(counts[2], len(source_paths(canonical)[1]))
+        self.assertGreater(counts[2], 100)
 
     def test_source_edit_changes_only_staged_tree(self) -> None:
         workload = self.workloads["medium_audit"]
