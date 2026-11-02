@@ -22,6 +22,26 @@ MODULE_REPORTS = (
 )
 
 
+def verify_functional_source(base: str, commit: str) -> None:
+    """Certificates may differ in release prose/editor records, never code/tests."""
+    check(all(re.fullmatch(r"[0-9a-f]{40}", value) for value in (base, commit)),
+          "proof source commit is invalid")
+    if base == commit:
+        return
+    paths = ("OpenC-1.0/compiler", "OpenC-1.0/runtime", "OpenC-1.0/standard_library",
+             "OpenC-1.0/conformance", "OpenC-1.0/benchmarks/sh27", "OpenC-1.0/tests",
+             "OpenC-1.0/standard/core", "OpenC-1.0/schemas", "OpenC-1.0/VERSION",
+             "OpenC-1.0/SOURCE_COMPLETENESS_CONTRACT.json",
+             "OpenC-1.0/release/SH21_NATIVE_RELEASE_PLAN.tsv",
+             ".github/production-toolchain-pins.json", ".github/representative-toolchain-pins.json")
+    changed = subprocess.check_output(["git", "diff", "--name-only", base, commit, "--", *paths],
+        cwd=Path(__file__).resolve().parents[2], text=True).splitlines()
+    unexpected = [name for name in changed if
+        name != "OpenC-1.0/tests/SH21_NATIVE_REPOSITORY_AUDIT_PLAN.tsv" and not
+        (name.startswith("OpenC-1.0/compiler/selfhost/") and name.endswith(".md"))]
+    check(not unexpected, "proof functional inputs differ: " + ", ".join(unexpected))
+
+
 def check(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
@@ -150,13 +170,15 @@ def collect(qualification: dict, destination: Path, artifacts: Path | None = Non
         check(re.fullmatch(r"[0-9a-f]{64}", proof.get("artifact_sha256", "")) is not None,
               "proof digest is invalid")
         token = os.environ.get("GH_TOKEN")
+        proof_commit = proof.get("source_commit", qualification["compiler_source_commit"])
+        verify_functional_source(qualification["compiler_source_commit"], proof_commit)
         attempt = api_json(f"https://api.github.com/repos/{REPOSITORY}/actions/runs/{proof['run_id']}/attempts/{proof['attempt']}", token)
-        check(attempt.get("head_sha") == qualification["compiler_source_commit"] and
+        check(attempt.get("head_sha") == proof_commit and
               attempt.get("run_attempt") == proof["attempt"] and attempt.get("status") == "completed" and
               attempt.get("conclusion") == "success", "workflow attempt did not succeed on the frozen source")
         url = f"https://api.github.com/repos/{REPOSITORY}/actions/artifacts/{proof['artifact_id']}"
         metadata = api_json(url, token)
-        check(metadata.get("workflow_run", {}).get("head_sha") == qualification["compiler_source_commit"],
+        check(metadata.get("workflow_run", {}).get("head_sha") == proof_commit,
               "artifact source commit differs")
         check(metadata.get("workflow_run", {}).get("id") == proof["run_id"], "artifact run differs")
         check(metadata.get("digest") == "sha256:" + proof["artifact_sha256"], "artifact digest differs")

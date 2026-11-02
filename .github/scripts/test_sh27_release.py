@@ -28,6 +28,15 @@ def parity_report() -> dict:
 
 
 class ReleaseProofTests(unittest.TestCase):
+    def test_metadata_only_source_bridge_rejects_changed_functional_inputs(self):
+        with patch.object(evidence.subprocess, "check_output", return_value=""):
+            evidence.verify_functional_source("a"*40, "b"*40)
+        with patch.object(evidence.subprocess, "check_output", return_value="OpenC-1.0/compiler/selfhost/source/backend.p\n"):
+            with self.assertRaisesRegex(ValueError, "functional inputs differ"):
+                evidence.verify_functional_source("a"*40, "b"*40)
+        with self.assertRaisesRegex(ValueError, "source commit is invalid"):
+            evidence.verify_functional_source("bad", "b"*40)
+
     def test_all_twenty_cells_and_sample_counts(self):
         report = parity_report()
         evidence.validate_production(report, "b"*64, "c"*64)

@@ -7,6 +7,8 @@ on:
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
       - OpenC-1.0/VERSION
+      - OpenC-1.0/review/SH25_WINDOWS_EDITOR_EVIDENCE.json
+      - OpenC-1.0/review/SH27_WINDOWS_EDITOR_EVIDENCE.json
       - OpenC-1.0/compiler/selfhost/verify_sh27_project_batch.py
       - OpenC-1.0/release/SH21_NATIVE_RELEASE_PLAN.tsv
       - OpenC-1.0/SOURCE_COMPLETENESS_CONTRACT.json
