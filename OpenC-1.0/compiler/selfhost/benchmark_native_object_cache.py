@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import argparse
+import ctypes
 import json
+import os
 from pathlib import Path
 import shutil
 import statistics
@@ -29,17 +31,41 @@ def main() -> int:
     parser.add_argument("--fixture", choices=("compiler", "medium"), default="compiler")
     parser.add_argument("--pairs", type=int, default=11)
     parser.add_argument("--ordinary-build", action="store_true")
+    parser.add_argument("--baseline-compiler", type=Path)
+    parser.add_argument("--compare-cold", action="store_true",
+                        help="pair two compilers' cold publications, with a same-baseline null control")
+    parser.add_argument("--processor-affinity-mask", type=lambda raw: int(raw, 0),
+                        help="optional harness mask inherited by measured children; default is unchanged")
     parser.add_argument("--enforce", action="store_true")
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
     if not 1 <= args.pairs <= 31 or args.report.exists():
         parser.error("pairs must be 1..31 and report must not exist")
     compiler = args.compiler.resolve(strict=True)
+    if args.compare_cold and (args.baseline_compiler is None or args.fixture != "medium"):
+        parser.error("--compare-cold requires --baseline-compiler and --fixture medium")
+    baseline = args.baseline_compiler.resolve(strict=True) if args.baseline_compiler else compiler
+    if args.processor_affinity_mask is not None:
+        if os.name != "nt" or args.processor_affinity_mask <= 0:
+            parser.error("affinity requires Windows and a positive mask")
+        from ctypes import wintypes
+        kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel.GetCurrentProcess.restype = wintypes.HANDLE
+        kernel.SetProcessAffinityMask.argtypes = (wintypes.HANDLE, ctypes.c_size_t)
+        kernel.SetProcessAffinityMask.restype = wintypes.BOOL
+        if not kernel.SetProcessAffinityMask(kernel.GetCurrentProcess(), args.processor_affinity_mask):
+            raise ctypes.WinError(ctypes.get_last_error())
+    lanes_to_run = ("cold", "null") if args.compare_cold else LANES
     report = {"schema": "openc.sh27.native_cache_pairs.v2", "status": "FAIL",
               "pair_order_policy": "alternating_fixed_lane_ordinal",
               "compiler_sha256": sha256(compiler), "fixture": args.fixture,
               "ordinary_build": args.ordinary_build,
-              "pairs": {lane: [] for lane in LANES}}
+              "pairs": {lane: [] for lane in lanes_to_run}}
+    if args.compare_cold:
+        report["comparison"] = "cold_publication_between_compilers"
+        report["baseline_compiler_sha256"] = sha256(baseline)
+    report["inherited_processor_affinity_mask"] = (
+        hex(args.processor_affinity_mask) if args.processor_affinity_mask is not None else None)
     args.report.parent.mkdir(parents=True, exist_ok=True)
     try:
         parent = ROOT / "build-output"
@@ -84,20 +110,20 @@ def main() -> int:
             prefix.parent.mkdir()
             number = 0
 
-            def build(cached: bool, selected_prefix: Path = prefix) -> dict:
+            def build(cached: bool, selected_prefix: Path = prefix, tool: Path = compiler) -> dict:
                 nonlocal number
                 number += 1
                 output = root / f"p{number}.exe"
                 if args.ordinary_build and cached:
                     output = selected_prefix.parent / "program.exe"
                 timing = root / f"p{number}.json"
-                command = [str(compiler), "artifact", f"--project={project}",
+                command = [str(tool), "artifact", f"--project={project}",
                            "--kind=" + ("cached-exe" if cached else "exe"),
                            f"--output={output}", f"--timings={timing}"]
                 if cached:
                     command += [f"--cache-prefix={selected_prefix}"]
                 if args.ordinary_build:
-                    command = [str(compiler), "build", f"--project={project}",
+                    command = [str(tool), "build", f"--project={project}",
                                f"--output={output}", f"--timings={timing}"]
                     if not cached: command.append("--no-cache")
                 measured = run_measured(command, cwd=root, sample_interval=0.01,
@@ -121,7 +147,7 @@ def main() -> int:
             assert report["prime"]["cache"]["publish_failures"] == 0
             assert report["prime"]["sha256"] == report["preheat"]["sha256"]
             for pair in range(args.pairs):
-                lanes = LANES
+                lanes = lanes_to_run
                 if pair % 2: lanes = tuple(reversed(lanes))
                 for lane in lanes:
                     edited.write_bytes(original)
@@ -141,7 +167,14 @@ def main() -> int:
                     samples = {}
                     for side in order:
                         cached = side == "candidate" and lane != "null"
-                        samples[side] = build(cached, cold_prefix if lane == "cold" else prefix)
+                        selected_prefix = cold_prefix if lane == "cold" else prefix
+                        tool = compiler
+                        if args.compare_cold:
+                            tool = baseline if side == "direct" or lane == "null" else compiler
+                            cached = lane == "cold"
+                            selected_prefix = root / f"{lane}{pair}-{side}/objects"
+                            selected_prefix.parent.mkdir()
+                        samples[side] = build(cached, selected_prefix, tool)
                     assert samples["direct"]["sha256"] == samples["candidate"]["sha256"], (lane, pair)
                     cache = samples["candidate"]["cache"]
                     if lane == "cold": assert cache["hits"] == 0 and cache["misses"] == groups, (lane, pair, cache)
@@ -174,7 +207,11 @@ def main() -> int:
                 0.05 * cold["direct_seconds"], floor),
             **{f"{lane}_gain_above_null": report["summary"][lane]["paired_delta_seconds"] < -floor
                and report["summary"][lane]["candidate_wins"] > args.pairs / 2
-               for lane in ("warm", "edit")}}
+               for lane in ("warm", "edit") if lane in report["summary"]}}
+        if args.compare_cold:
+            report["checks"] = {
+                "cold_gain_above_null": cold["paired_delta_seconds"] < -floor and
+                    cold["candidate_wins"] > args.pairs / 2}
         report["status"] = "PASS" if not args.enforce or all(report["checks"].values()) else "FAIL"
     except Exception as error:
         report["error"] = repr(error)

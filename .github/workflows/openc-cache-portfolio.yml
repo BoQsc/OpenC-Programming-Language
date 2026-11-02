@@ -1,0 +1,42 @@
+name: OpenC cold-cache scheduling portfolio
+
+on:
+  push:
+    branches: [codex/sh27-release-preserve-20261102]
+    paths:
+      - .github/scripts/sh27_cache_portfolio.py
+      - .github/workflows/openc-cache-portfolio.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openc-cache-portfolio-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    runs-on: windows-2025
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Compare all three designs twice against the exact previous compiler
+        run: >-
+          python OpenC-1.0/compiler/selfhost/run_with_memory_guard.py
+          --max-private-mib 512 --max-working-set-mib 256
+          --record artifacts/cold-cache-portfolio-guard.json --
+          python .github/scripts/sh27_cache_portfolio.py --output artifacts/cold-cache
+      - name: Retain every paired observation, including rejected designs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-SH27-cold-cache-portfolio-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 90
+          if-no-files-found: warn
+          path: |
+            artifacts/cold-cache/**/*.json
+            artifacts/cold-cache-portfolio-guard.json
