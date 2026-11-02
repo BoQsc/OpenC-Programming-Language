@@ -4,6 +4,7 @@ from __future__ import annotations
 import copy
 import json
 from pathlib import Path
+import re
 import sys
 import tempfile
 import unittest
@@ -183,6 +184,29 @@ class PublicationSetTests(unittest.TestCase):
         self.assertNotIn(release.RECORD, {entry["path"] for entry in record["artifacts"]})
         self.assertIn(release.SUMS, {entry["path"] for entry in record["artifacts"]})
         self.assertFalse(record["released"])
+
+    def test_publication_gates_fit_the_canonical_release_schema(self):
+        record = release.load_json(self.assets() / release.RECORD)
+        schema = release.load_json(Path(__file__).resolve().parents[2] /
+                                   "OpenC-1.0/schemas/RELEASE_RECORD.schema.json")
+        pattern = schema["properties"]["gates"]["items"]["properties"]["id"]["pattern"]
+        self.assertTrue(all(re.fullmatch(pattern, gate["id"]) for gate in record["gates"]))
+        self.assertIsNone(re.fullmatch(pattern, "G0"))
+        self.assertIsNone(re.fullmatch(pattern, "G30"))
+
+    def test_only_the_declared_release_schema_gate_extension_is_allowed(self):
+        schema = {"properties": {"gates": {"items": {"properties": {
+            "id": {"pattern": "^G([1-9]|1[0-9])$"}}}}}, "unrelated": "preserved"}
+        upgraded = copy.deepcopy(schema)
+        upgraded["properties"]["gates"]["items"]["properties"]["id"]["pattern"] = "^G([1-9]|1[0-9]|2[0-9])$"
+        path = self.root / "schemas/RELEASE_RECORD.schema.json"
+        release.write_json(path, upgraded)
+        with patch.object(release, "git", return_value=json.dumps(schema)):
+            release.verify_release_schema_upgrade(self.root, "a"*40)
+            upgraded["unrelated"] = "tampered"
+            release.write_json(path, upgraded)
+            with self.assertRaisesRegex(ValueError, "beyond the declared gate range"):
+                release.verify_release_schema_upgrade(self.root, "a"*40)
 
     def test_tampering_or_extra_asset_fails(self):
         assets = self.assets()

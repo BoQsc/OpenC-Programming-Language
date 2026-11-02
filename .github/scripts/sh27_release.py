@@ -84,6 +84,17 @@ def git(repo: Path, *arguments: str) -> str:
     return subprocess.check_output(["git", *arguments], cwd=repo, text=True).strip()
 
 
+def verify_release_schema_upgrade(root: Path, anchor: str) -> None:
+    """Only extend release metadata from G1-G19 to the declared G1-G29 gates."""
+    relative = "OpenC-1.0/schemas/RELEASE_RECORD.schema.json"
+    previous = json.loads(git(root.parent, "show", f"{anchor}:{relative}"))
+    gate = previous["properties"]["gates"]["items"]["properties"]["id"]
+    check(gate.get("pattern") == "^G([1-9]|1[0-9])$", "unexpected release schema baseline")
+    gate["pattern"] = "^G([1-9]|1[0-9]|2[0-9])$"
+    check(load_json(root / "schemas/RELEASE_RECORD.schema.json") == previous,
+          "release schema changed beyond the declared gate range")
+
+
 def validate_intent(root: Path, path: Path, *, publish: bool = False) -> tuple[dict, dict]:
     intent = load_json(path)
     check(intent.get("schema") == "openc.github_release_intent.v2", "wrong 1.0.1 intent schema")
@@ -113,7 +124,10 @@ def validate_intent(root: Path, path: Path, *, publish: bool = False) -> tuple[d
              "OpenC-1.0/release/SH21_NATIVE_RELEASE_PLAN.tsv"]
     changed = git(root.parent, "diff", "--name-only", qualification["compiler_source_commit"], "--", *paths)
     allowed_pin = "OpenC-1.0/tests/SH21_NATIVE_REPOSITORY_AUDIT_PLAN.tsv"
-    unexpected = [name for name in changed.splitlines() if name != allowed_pin and not
+    release_schema = "OpenC-1.0/schemas/RELEASE_RECORD.schema.json"
+    if release_schema in changed.splitlines():
+        verify_release_schema_upgrade(root, qualification["compiler_source_commit"])
+    unexpected = [name for name in changed.splitlines() if name not in {allowed_pin, release_schema} and not
                   (name.startswith("OpenC-1.0/compiler/selfhost/") and name.endswith(".md"))]
     check(not unexpected, "functional inputs changed after certification: " + ", ".join(unexpected))
     if publish:

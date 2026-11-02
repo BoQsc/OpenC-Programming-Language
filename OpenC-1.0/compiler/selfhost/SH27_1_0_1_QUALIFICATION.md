@@ -63,6 +63,16 @@ qualification-note edit between its two source builds. Both attempts and all
 other local raw records are retained in the authenticated local-verification
 ZIP. The final hosted candidate rebuilds the exact final checkout.
 
+Independent JSON Schema validation of the first hosted 16-asset candidate
+found that the canonical release-record schema still restricted gate IDs to
+G1-G19, although the release declares G1-G29. The single gate-ID pattern is
+extended to G1-G29; the release verifier compares the entire schema against
+the certified anchor with only that exact field changed. All other schema,
+compiler, runtime, library, corpus and test restrictions remain enforced.
+A detecting publication-gate/schema check and a rejected unrelated-schema
+mutation cover the correction. The candidate is rebuilt after this metadata
+fix; the earlier candidate is not approved for publication.
+
 The predecessor's two hosted production attempts both pass all 20 original
 ratios and both scaling suites. Its module repeat fails medium cold:
 +9.013 ms against an unchanged 8.960 ms five-percent budget; warm/edit win
