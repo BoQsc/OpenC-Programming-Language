@@ -12,6 +12,7 @@ on:
       - OpenC-1.0/compiler/selfhost/openc.project.json
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_parity_enforcement.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_argument_snapshot.py
       - OpenC-1.0/compiler/selfhost/verify_sh27_array_initializers.py
@@ -109,6 +110,13 @@ jobs:
           ${{ (github.event_name == 'push' || inputs.enforce_parity) && '--enforce-parity' || '' }}
           --output artifacts\sh27-production-comparators.json
 
+      - name: Prove deliberate parity deficit fails the actual CLI
+        shell: cmd
+        run: >-
+          python OpenC-1.0/compiler/selfhost/verify_sh27_parity_enforcement.py
+          --reference artifacts/sh27-production-comparators.json
+          --output artifacts/sh27-parity-enforcement.json
+
       - name: Verify native argument snapshot and concurrent initialization
         if: always()
         shell: cmd
@@ -175,6 +183,8 @@ jobs:
           path: |
             artifacts/sh27-production-comparators.json
             artifacts/sh27-production-comparators-runs-*/**
+            artifacts/sh27-parity-enforcement*
+            artifacts/sh27-parity-enforcement-negative-runs-*/**
             artifacts/sh27-argument-snapshot.json
             artifacts/sh27-argument-snapshot-runs/**
             artifacts/sh27-array-initializers.json

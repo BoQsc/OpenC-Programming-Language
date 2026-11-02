@@ -1,7 +1,7 @@
 # SH 27 ordinary build native object and frontend cache candidate
 
-Status: **current-source hosted cold economics pass; independent final-source
-repeat and remaining project/release audits are open**.
+Status: **current-source hosted parity/cache/strict repeats pass; remaining
+project closure and versioned publication are open**.
 The isolated `codex/sh27-native-object-default` branch now overlaps cold
 compiler fingerprinting and object-key preparation with native compilation.
 The compiler matrix and two independent medium matrices pass their unchanged
@@ -11,6 +11,14 @@ frontend-only candidate's failed medium cold gate is retained below.
 
 ## Verified hosted checkpoint (2026-11-02)
 
+The independent hosted repeat is now artifact-verified too:
+production `41436539555` passes all twenty ratios with another 500 successful
+samples, and native/module `41436539551` passes strict 20/20, correctness and
+ordinary cold/warm/edit economics. Both reproduce `1859f47f...`. Clean editor
+and relocated native release proofs also pass after fixing omitted release
+sources. [Current qualification record](../../../SH27_RELEASE_CANDIDATE_EVIDENCE.md)
+retains hashes, margins, archive identities and remaining closure work.
+
 Downloaded artifacts for source `aec36012a159885b98eee58eb82e6bd1b56b07ac`
 all identify fixed-point compiler
 `1859f47fa388d0de3f6003c028a5d3ed2bb6a70bd95dfe8091d46139237c1ed1`.
@@ -18,7 +26,8 @@ The [production run](https://github.com/BoQsc/OpenC-Programming-Language/actions
 passes every one of the twenty pinned comparator ceilings, with 20 successful
 compile/execution samples in each of the 25 cells (500 total). Large/control
 DMD ratios are 0.413/0.202. Cold native/frontend cache state is recorded for
-each ordinary OpenC sample. This is one current-source hosted certificate.
+each parallel OpenC sample. This is the first of two current-source hosted
+certificates; small serial projects do not enable the native object cache.
 
 The [native cache/module run](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40131377877)
 passes all correctness and economics steps, including the previously failing

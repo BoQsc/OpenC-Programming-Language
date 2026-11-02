@@ -1,5 +1,12 @@
 # OpenC canonical mainline status
 
+SH-27 working-branch checkpoint (2026-11-02): compiler `1859f47f...` passes
+two independent clean hosted 20/20 C/D comparisons, strict self-host/cache
+repeats, the clean editor profile and relocated native release checks.
+[Current evidence and remaining closure work](../SH27_RELEASE_CANDIDATE_EVIDENCE.md).
+SH-27 remains active; the SH-25/26 measurements below retain their historical
+release identity.
+
 ```text
 version:                            1.0.0
 canonical development tree:         YES
@@ -9,10 +16,10 @@ Core specification:                 1.0 FINAL AUTHORITY
 Hosted specification:               1.0 FINAL AUTHORITY
 Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
-canonical OpenC compiler source:     221 `.p` UNITS; SELF-HOSTED
+canonical OpenC compiler source:     230 `.p` UNITS; SELF-HOSTED
 legacy D reference source:           OPTIONAL AUDIT; NOT AUTHORITY
 legacy Python bootstrap source:      OPTIONAL AUDIT; NOT AUTHORITY
-official OpenC source extension:      .p; 281 MIGRATED, 547 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 570 TRACKED `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY

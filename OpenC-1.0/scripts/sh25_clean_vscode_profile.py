@@ -82,6 +82,9 @@ def vscode_cli_prefix(code: Path) -> list[str]:
         cli_candidates = sorted(
             install_root.glob("*/resources/app/out/cli.js")
         )
+        portable_cli = install_root / "resources/app/out/cli.js"
+        if portable_cli.is_file():
+            cli_candidates.append(portable_cli)
         launcher = code.read_text(encoding="utf-8", errors="replace")
         match = re.search(
             r"\\([0-9a-fA-F]+)\\resources\\app\\out\\cli\.js",

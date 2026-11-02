@@ -6,6 +6,10 @@ on:
     paths:
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
+      - OpenC-1.0/release/SH21_NATIVE_RELEASE_PLAN.tsv
+      - OpenC-1.0/SOURCE_COMPLETENESS_CONTRACT.json
+      - OpenC-1.0/scripts/verify_native_release_plan.py
+      - OpenC-1.0/tests/python/test_native_release_plan.py
       - OpenC-1.0/compiler/selfhost/test_module_coff_set.py
       - OpenC-1.0/compiler/selfhost/test_coff_relocation_targets.py
       - OpenC-1.0/compiler/selfhost/test_coff_hash_fallback.py
@@ -56,6 +60,13 @@ jobs:
       - name: Verify peak working-set enforcement
         shell: cmd
         run: python -m unittest discover -s OpenC-1.0/compiler/selfhost -p test_windows_process_measure.py -v
+
+      - name: Verify release contains every self-host compiler source
+        shell: cmd
+        run: >-
+          python -m unittest discover -s OpenC-1.0/tests/python -p test_native_release_plan.py -v &&
+          python OpenC-1.0/scripts/verify_native_release_plan.py
+          --output artifacts/release-source-coverage.json
 
       - name: Guarded native Stage 2/3 byte-exact fixed point
         shell: cmd
@@ -270,4 +281,6 @@ jobs:
           name: OpenC-SH27-module-COFF-${{ github.run_id }}
           if-no-files-found: warn
           retention-days: 90
-          path: artifacts/module-coff/**
+          path: |
+            artifacts/module-coff/**
+            artifacts/release-source-coverage.json

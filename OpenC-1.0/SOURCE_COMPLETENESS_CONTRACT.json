@@ -459,7 +459,16 @@
       "compiler/selfhost/source/winmd_types.p",
       "compiler/selfhost/tests/unbalanced.p",
       "compiler/selfhost/tests/unterminated_string.p",
-      "compiler/selfhost/windows_process_measure.py"
+      "compiler/selfhost/windows_process_measure.py",
+      "compiler/selfhost/source/backend_coff_identity.p",
+      "compiler/selfhost/source/backend_coff_link.p",
+      "compiler/selfhost/source/backend_coff_modules.p",
+      "compiler/selfhost/source/backend_module_cache.p",
+      "compiler/selfhost/source/backend_native_cache.p",
+      "compiler/selfhost/source/backend_native_frontend_cache.p",
+      "compiler/selfhost/source/backend_native_object_cache.p",
+      "compiler/selfhost/source/flow_parallel.p",
+      "compiler/selfhost/source/interface_fingerprint.p"
     ],
     "demos": [
       "demos/calculator/main.p",

@@ -15,8 +15,11 @@ The medium cold delta is +6.419 ms, inside the existing five-percent budget;
 warm/edit win 11/11. Two constrained DMD runs pass every available public
 ceiling; large remains 1.228x/1.233x against the 1.20x engineering target.
 The early-snapshot/fused-declaration portfolio does not beat measured null
-noise and remains isolated. Obtain an independent same-source hosted repeat
-and complete project/release audits; SH-27 is active. The zero-allocation
+noise and remains isolated. Independent same-source hosted production and
+module/strict/cache repeats now pass with downloaded artifacts verified.
+Clean editor and relocated release proofs pass after correcting nine omitted
+compiler sources. Complete the project/requirement audit, deliberate CLI
+parity-failure proof and versioned publication; SH-27 is active. The zero-allocation
 batch failed its independent repeat and was removed.
 
 Status: **active, not complete**. This is the ordered engineering checklist for

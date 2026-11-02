@@ -11,6 +11,13 @@ optional future target work.
 
 ## Critical-path priority
 
+SH-27 checkpoint (2026-11-02): the same `1859f47f...` compiler now has two
+artifact-verified clean hosted 20/20 C/D passes and two native-cache/strict
+20-generation passes. The clean-profile editor and relocated native release
+proof pass after correcting omitted release sources. The original constrained
+DMD ceiling passes twice, with limited headroom. SH-27 remains active for the
+remaining [closure audit and publication work](../SH27_RELEASE_CANDIDATE_EVIDENCE.md).
+
 SH-14 closed the compiler-throughput gap: the five-run OpenC-native clean
 median is 4.137 seconds versus 12.731 seconds for the pinned same-host D
 reference, with small/incremental, proportional-scaling, bounded-memory,
