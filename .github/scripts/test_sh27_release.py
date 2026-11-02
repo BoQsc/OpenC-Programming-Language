@@ -1,0 +1,185 @@
+"""Detect publication-policy, digest, and bounded-download regressions."""
+from __future__ import annotations
+
+import copy
+import json
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+import sh27_release as release
+import sh27_release_evidence as evidence
+
+
+def parity_report() -> dict:
+    names = ("small_single_file", "many_files", "large_functions", "control_flow", "startup_file_allocation")
+    tools = ("openc", "msvc", "clang", "dmd", "ldc")
+    return {
+        "schema": "openc.sh27.production_comparators.v1", "status": "PASS_PARITY",
+        "tools": {"openc": {"sha256": "b"*64}}, "corpus": {"sha256": "c"*64},
+        "missing_tools": [], "checks": {"all_passed": True, "version_pin_checks": {"dmd": True}},
+        "ratios": {name: {"openc_to_" + tool: .8 for tool in tools[1:]} for name in names},
+        "lanes": {name: {"compilers": {tool: {"samples": [{"passed": True} for _ in range(20)]}
+                                      for tool in tools}} for name in names},
+    }
+
+
+class ReleaseProofTests(unittest.TestCase):
+    def test_all_twenty_cells_and_sample_counts(self):
+        report = parity_report()
+        evidence.validate_production(report, "b"*64, "c"*64)
+        variants = []
+        bad = copy.deepcopy(report)
+        bad["ratios"]["large_functions"]["openc_to_dmd"] = 1.251
+        variants.append(bad)
+        bad = copy.deepcopy(report)
+        bad["lanes"]["many_files"]["compilers"]["openc"]["samples"].pop()
+        variants.append(bad)
+        bad = copy.deepcopy(report)
+        bad["checks"]["version_pin_checks"]["dmd"] = False
+        variants.append(bad)
+        bad = copy.deepcopy(report)
+        bad["ratios"]["large_functions"]["openc_to_dmd"] = True
+        variants.append(bad)
+        bad = copy.deepcopy(report)
+        bad["missing_tools"] = ["ldc"]
+        variants.append(bad)
+        for bad in variants:
+            with self.subTest(report=bad), self.assertRaises(ValueError):
+                evidence.validate_production(bad, "b"*64, "c"*64)
+
+    def test_wrong_compiler_or_corpus_rejected(self):
+        for compiler, corpus in (("d"*64, "c"*64), ("b"*64, "d"*64)):
+            with self.assertRaises(ValueError):
+                evidence.validate_production(parity_report(), compiler, corpus)
+
+    def test_stream_preserves_binary_bytes(self):
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / "stream.bin"
+            evidence.stream_download([sys.executable, "-c",
+                "import sys;sys.stdout.buffer.write(bytes(range(256))*8)"], target, 2048, 5)
+            self.assertEqual(target.read_bytes(), bytes(range(256))*8)
+
+    def test_stream_stops_at_byte_limit(self):
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / "stream.bin"
+            with self.assertRaisesRegex(ValueError, "byte budget"):
+                evidence.stream_download([sys.executable, "-c",
+                    "import sys;sys.stdout.buffer.write(b'x'*1000000)"], target, 4, 5)
+            self.assertLessEqual(target.stat().st_size, 4)
+
+    def test_stream_detects_truncation_and_timeout(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaises(ValueError):
+                evidence.stream_download([sys.executable, "-c", "print('x')"],
+                    Path(folder) / "short.bin", 16, 5)
+            with self.assertRaises(ValueError):
+                evidence.stream_download([sys.executable, "-c", "import time;time.sleep(10)"],
+                    Path(folder) / "timeout.bin", 1, .1)
+
+
+class PublicationSetTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.base = Path(self.temp.name)
+        self.root = self.base / "OpenC-1.0"
+        self.root.mkdir()
+        (self.root / "VERSION").write_text("1.0.1\n")
+        for name in ("CORPUS.json", "FUNCTION_SCALE.json", "FILE_SCALE.json"):
+            path = self.root / "benchmarks/sh27" / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("{}\n")
+        self.intent = {
+            "schema": "openc.github_release_intent.v2", "version": "1.0.1", "tag": "v1.0.1",
+            "status": "CANDIDATE_RELEASE_READY", "release_scope": "windows_x86_64_hosted",
+            "expected_compiler_sha256": "b"*64,
+            "qualification": ".github/release-evidence/v1.0.1/qualification.json",
+            "bootstrap": {"path": ".github/bootstrap/openc-stage0.exe", "sha256": release.BOOTSTRAP_SHA},
+        }
+        qualification = {"compiler_sha256": "b"*64, "compiler_source_commit": "a"*40}
+        for key, name in (("corpus_sha256", "CORPUS.json"),
+                          ("function_scale_sha256", "FUNCTION_SCALE.json"),
+                          ("file_scale_sha256", "FILE_SCALE.json")):
+            qualification[key] = release.sha256(self.root / "benchmarks/sh27" / name)
+        release.write_json(self.base / self.intent["qualification"], qualification)
+        self.intent_path = self.base / "intent.json"
+        release.write_json(self.intent_path, self.intent)
+
+    def assets(self) -> Path:
+        for _, relative, _, _ in release.DIRECT_ASSETS:
+            path = self.root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(relative + "\n")
+        native = self.base / "native"
+        native.mkdir()
+        names = ("source-a.zip", "standalone-a.zip", "relocated-OpenC-vscode-1.0.1-a.vsix",
+                 "native-release-result.json", "relocated-finalization-audit.json",
+                 "relocated-conformance.json", "relocated-contract-audit.json")
+        for name in names:
+            (native / name).write_bytes((name + "\n").encode())
+        raw = self.base / "evidence"
+        raw.mkdir()
+        (raw / "qualification.json").write_text('{"test_fixture":true}\n')
+        first, second = self.base / "a", self.base / "b"
+        for target in (first, second):
+            release.assemble(self.root, native, raw, target, self.intent, "a"*40)
+        self.assertEqual(release.verify_assets(first, self.intent, "a"*40),
+                         release.verify_assets(second, self.intent, "a"*40))
+        return first
+
+    def test_sixteen_deterministic_assets_and_nonrecursive_checksums(self):
+        assets = self.assets()
+        self.assertEqual(len(release.directory_snapshot(assets)), 16)
+        record = release.load_json(assets / release.RECORD)
+        self.assertNotIn(release.RECORD, {entry["path"] for entry in record["artifacts"]})
+        self.assertIn(release.SUMS, {entry["path"] for entry in record["artifacts"]})
+        self.assertFalse(record["released"])
+
+    def test_tampering_or_extra_asset_fails(self):
+        assets = self.assets()
+        target = assets / "OpenC-vscode-1.0.1.vsix"
+        target.write_bytes(b"tampered")
+        with self.assertRaises(ValueError):
+            release.verify_assets(assets, self.intent, "a"*40)
+
+    def test_bad_checksum_coverage_fails(self):
+        assets = self.assets()
+        (assets / release.SUMS).write_text("")
+        with self.assertRaises(ValueError):
+            release.verify_assets(assets, self.intent, "a"*40)
+
+    def test_missing_gate_or_premature_authorization_fails(self):
+        assets = self.assets()
+        record = release.load_json(assets / release.RECORD)
+        record["gates"].pop()
+        release.write_json(assets / release.RECORD, record)
+        with self.assertRaises(ValueError):
+            release.verify_assets(assets, self.intent, "a"*40)
+        record["gates"].append({"id": "G29", "status": "PASS"})
+        record["authorization"]["status"] = "AUTHORIZED"
+        release.write_json(assets / release.RECORD, record)
+        with self.assertRaises(ValueError):
+            release.verify_assets(assets, self.intent, "a"*40)
+
+    def test_candidate_does_not_authorize_publication(self):
+        with patch.object(release, "git", return_value=""):
+            release.validate_intent(self.root, self.intent_path)
+            with self.assertRaisesRegex(ValueError, "owner authorization"):
+                release.validate_intent(self.root, self.intent_path, publish=True)
+
+    def test_old_tag_and_post_certificate_code_changes_rejected(self):
+        bad = {**self.intent, "version": "1.0.0", "tag": "v1.0.0"}
+        release.write_json(self.intent_path, bad)
+        with self.assertRaisesRegex(ValueError, "only the new"):
+            release.validate_intent(self.root, self.intent_path)
+        release.write_json(self.intent_path, self.intent)
+        with patch.object(release, "git", return_value="OpenC-1.0/compiler/selfhost/source/ir.p"):
+            with self.assertRaisesRegex(ValueError, "functional inputs"):
+                release.validate_intent(self.root, self.intent_path)
+
+
+if __name__ == "__main__":
+    unittest.main()
