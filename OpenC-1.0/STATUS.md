@@ -1,9 +1,13 @@
 # OpenC canonical mainline status
 
-The SH-27 release candidate is now 1.0.1, compiler `81787a12...`. Local strict
-self-hosting, cache recovery, conformance, ABI, COFF and editor audits pass.
-Fresh final-source hosted certification uses guarded process-start timing v3;
-earlier v2 measurements below retain their original compiler identity.
+The SH-27 candidate is 1.0.1, current compiler `0feaf99c...`. Package-integrity
+fixes, local fixed point, conformance/ABI, native regression and fresh editor
+audits pass. **SH-27 remains open:** large-function compilation still exceeds
+the 1.25x DMD ceiling on the separately pinned four-CPU host. Ten isolated
+optimization candidates did not qualify and remain unpromoted. Final-source
+hosted and package verification are recorded in the
+[qualification record](compiler/selfhost/SH27_1_0_1_QUALIFICATION.md).
+Earlier measurements below retain their original compiler identity.
 
 SH-27 working-branch checkpoint (2026-11-02): compiler `1859f47f...` passes
 two independent clean hosted 20/20 C/D comparisons, strict self-host/cache

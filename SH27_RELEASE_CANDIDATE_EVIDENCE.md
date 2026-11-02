@@ -1,12 +1,18 @@
 # SH-27 current compiler and release qualification
 
-1.0.1 update: compiler
-`81787a122301898ce36c0caabe4c7c4a8449cdff8e80f773c63f8bf033549139`
-passes local fixed-point, strict 20-generation, cache/COFF, conformance/ABI and
-fresh editor checks. The evidence harness now assigns Jobs before resuming
-children and identifies that timing basis as v3. Final-source hosted checks
-are pending; the following 1.0.0 compiler measurements remain historical.
-See [1.0.1 qualification](OpenC-1.0/compiler/selfhost/SH27_1_0_1_QUALIFICATION.md).
+Current status: **SH-27 remains open; publication is not authorized**.
+The package-integrity compiler is `0feaf99c92f07b773b47a9436ae620940b3596a550c0f515787dee699ff8943b`.
+Fixed-point, conformance/ABI, native regression and fresh editor checks pass.
+The `81787a12...` predecessor passes hosted original/scaling/negative-CLI,
+module/cache/strict-20 and retained-project proofs, but its v3 four-CPU
+large-function DMD ratio is 1.295x. The integrity compiler's first final-source
+run is 1.274x; the unchanged ceiling remains 1.25x. Ten architectural/runtime
+candidates were tested and rejected rather than promoted without a gain.
+Two release integrity defects are fixed: nested D manifests in standalone
+archives and stale source checksums. Native and independent package validation now pass; fresh hosted
+proofs follow. [Current qualification and findings](OpenC-1.0/compiler/selfhost/SH27_1_0_1_QUALIFICATION.md).
+
+The following checkpoint is historical and belongs to compiler `1859f47f...`.
 
 Status (2026-11-02): **active; verification candidate, publication pending**.
 Compiler SHA-256 is

@@ -23,7 +23,7 @@ unsafe bool cli_release_build_archive(
     DBuffer root_name = d_buffer_create(text.byte_length(version) + 16);
     d_put(root_name, "OpenC-"); d_put(root_name, version);
     CliZipWriter writer = cli_zip_writer_create(
-        archive, d_buffer_text(root_name), standalone
+        archive, d_buffer_text(root_name), true
     );
     usize records = 0;
     usize accepted = 0;
@@ -59,6 +59,10 @@ unsafe bool cli_release_build_archive(
         }
         d_buffer_destroy(release_record);
     }
+    if !standalone && ok {
+        ok = cli_zip_add_data(writer, "MANIFEST.sha256", writer.manifest.data,
+            writer.manifest.length, false);
+    }
     if ok { ok = cli_zip_writer_finish(writer); }
     plan_records = records;
     archive_entries = writer.entries;
@@ -74,9 +78,17 @@ unsafe bool cli_release_verify_manifest(
     usize expected_entries,
     ref usize entries
 ) {
+    return cli_release_verify_manifest_mode(distribution, expected_entries, entries, true);
+}
+
+unsafe bool cli_release_verify_manifest_mode(
+    text distribution, usize expected_entries, ref usize entries, bool standalone
+) {
+    text manifest_name = "MANIFEST.sha256";
+    if standalone { manifest_name = "STANDALONE-MANIFEST.sha256"; }
     text manifest;
     status loaded = file.read_text(path.join(
-        distribution, "STANDALONE-MANIFEST.sha256"
+        distribution, manifest_name
     ), out manifest);
     if !loaded.ok { return false; }
     NativeCursor cursor = NativeCursor{ value = 0 };
@@ -99,6 +111,9 @@ unsafe bool cli_release_verify_manifest(
             DBuffer actual = d_buffer_create(65);
             valid = text.byte_length(expected) == 64 &&
                 text.byte_length(relative) != 0 &&
+                (!standalone || cli_release_standalone_path(relative) ||
+                    relative == "openc.exe" ||
+                    relative == "bootstrap/openc-stage0.exe") &&
                 cli_release_hash_file(path.join(distribution, relative), actual) &&
                 d_buffer_text(actual) == expected;
             d_buffer_destroy(actual);

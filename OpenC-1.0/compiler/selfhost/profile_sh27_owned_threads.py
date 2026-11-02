@@ -236,26 +236,39 @@ def main() -> int:
     runs.mkdir(parents=True, exist_ok=False)
     records = []
     total_samples = 0
-    original_popen = measure.subprocess.Popen
+    original_process = measure._JobProcess
     for index in range(args.runs):
         binary = runs / f'program-{index}.exe'
         remaining = 100000 - total_samples
         if remaining <= 0:
             raise RuntimeError('aggregate sample budget exceeded')
         sampler = OwnedSampler(compiler, ranges, min(20000, remaining))
-        def launch(*arguments, **keywords):
-            process = original_popen(*arguments, **keywords)
-            sampler.attach(process)
-            return process
+        class ProfileProcess(original_process):
+            def __init__(self, *arguments, **keywords):
+                super().__init__(*arguments, **keywords)
+                try:
+                    sampler.attach(self)
+                except BaseException:
+                    self.kill()
+                    self.wait()
+                    super().close()
+                    raise
+
+            def kill(self):
+                measure._winapi.TerminateProcess(self._handle, 1)
+
+            def close(self):
+                sampler.finish()
+                super().close()
         try:
-            measure.subprocess.Popen = launch
+            measure._JobProcess = ProfileProcess
             result = measure.run_measured([str(compiler), 'artifact',
                 f'--project={args.project.resolve(strict=True)}', '--kind=exe',
                 f'--output={binary}'], cwd=ROOT, sample_interval=.01,
                 max_private_bytes=256*MIB, max_working_set_bytes=128*MIB,
                 max_captured_output_bytes=2*MIB, timeout_seconds=60)
         finally:
-            measure.subprocess.Popen = original_popen
+            measure._JobProcess = original_process
             sampler.finish()
         if result['exit_code'] != 0 or result['timed_out'] or result['memory_limit_exceeded'] or sampler.errors:
             raise RuntimeError({'measurement': result, 'sampler_errors': sampler.errors})

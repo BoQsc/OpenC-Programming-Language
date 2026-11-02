@@ -286,6 +286,21 @@ jobs:
           --ordinary-build --fixture medium --pairs 11 --enforce
           --report artifacts\module-coff\native-cache-medium-pairs.json
 
+      - name: Verify native standalone and source archive integrity
+        shell: pwsh
+        run: |
+          $compiler = (Resolve-Path artifacts/module-coff/bootstrap-current/stage3/openc.exe).Path
+          $releaseRoot = (Resolve-Path OpenC-1.0).Path
+          $releaseOutput = Join-Path (Get-Location).Path 'artifacts/module-coff/native-release'
+          python OpenC-1.0/compiler/selfhost/run_with_memory_guard.py `
+            --max-private-mib 512 --max-working-set-mib 256 `
+            --record artifacts/module-coff/native-release-guard.json --cwd $releaseRoot `
+            -- $compiler release "--root=$releaseRoot" "--output=$releaseOutput"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python OpenC-1.0/scripts/verify_native_release_plan.py --archives $releaseOutput `
+            --output artifacts/module-coff/native-release-manifests.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       - name: Retain isolated-source fixed point and guarded raw evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -296,3 +311,5 @@ jobs:
           path: |
             artifacts/module-coff/**
             artifacts/release-source-coverage.json
+            !artifacts/module-coff/native-release/relocated/**
+            !artifacts/module-coff/native-release/source-relocated/**

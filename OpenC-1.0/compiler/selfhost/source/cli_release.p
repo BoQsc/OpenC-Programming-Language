@@ -24,6 +24,7 @@ struct CliReleaseResult {
     bool source_equal;
     bool archives_verified;
     bool manifest_verified;
+    bool source_manifest_verified;
     bool stage_closure;
     bool daily_workflow;
     bool conformance;
@@ -49,8 +50,10 @@ unsafe bool cli_release_standalone_path(text relative) {
         cli_has_prefix(relative, ".github/") {
         return false;
     }
-    if relative == "MANIFEST.sha256" || relative == "tests/dub.json" ||
-        relative == "dub.json" || relative == "dub.selections.json" {
+    if relative == "MANIFEST.sha256" || relative == "dub.json" ||
+        relative == "dub.selections.json" ||
+        cli_release_has_suffix(relative, "/dub.json") ||
+        cli_release_has_suffix(relative, "/dub.selections.json") {
         return false;
     }
     return !cli_release_has_suffix(relative, ".c") &&
@@ -108,9 +111,10 @@ unsafe bool cli_release_add_plan(
         );
         if text.byte_length(relative) != 0 {
             record_count = record_count + 1;
-            if !standalone || cli_release_standalone_path(relative) {
+            if relative != "MANIFEST.sha256" &&
+                (!standalone || cli_release_standalone_path(relative)) {
                 if !cli_zip_add_file(
-                    writer, relative, path.join(root, relative), standalone
+                    writer, relative, path.join(root, relative), true
                 ) {
                     records = record_count;
                     accepted = accepted_count;

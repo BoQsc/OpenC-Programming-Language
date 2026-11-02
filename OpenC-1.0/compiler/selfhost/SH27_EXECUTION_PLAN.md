@@ -1,10 +1,16 @@
 # SH-27 execution plan: finish the compiler, then certify the release
 
-Release candidate checkpoint: 1.0.1 compiler `81787a12...` passes the local
-fixed point, strict 20/20, cache/COFF, conformance/ABI and fresh editor audits.
-The harness assigns bounded Jobs before child execution and labels timing v3.
-[Final-source qualification](SH27_1_0_1_QUALIFICATION.md) now requires fresh
-hosted repeats, including added scaling and retained-project batch gates.
+Current checkpoint (2026-11-02): **SH-27 remains open**. Package-integrity
+compiler `0feaf99c...` passes local fixed point, conformance/ABI, the extended
+native regression and the fresh editor audit. Native source manifests are
+regenerated and verified, and standalone archives exclude nested D manifests.
+The predecessor's current v3 hosted original/scaling/negative-CLI and full
+module/cache/project-batch proofs pass. Its four-CPU large-function DMD ratio
+is 1.295x, and the integrity compiler's first predetermined run is 1.274x.
+Ten isolated optimization candidates failed the target selection/repeat and
+remain unpromoted. Resolve that deficit, certify the same final source twice,
+then complete owner-authorized publication. See the
+[qualification record](SH27_1_0_1_QUALIFICATION.md) for hashes and findings.
 
 Latest checkpoint: `1859f47f...` prepares a frontend temporary on a second
 joined job while PE linking runs, and commits after PE success. Stable owner

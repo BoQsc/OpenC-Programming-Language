@@ -203,6 +203,7 @@ unsafe bool cli_release_relocated_verify(
         distribution, standalone_entries, manifest_entries
     );
     result.manifest_entries = manifest_entries;
+    result.historical_kit_absent = result.manifest_verified;
     text packaged = path.join(distribution, "openc.exe");
     text project = path.join(
         distribution, "compiler/selfhost/openc.project.json"

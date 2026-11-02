@@ -230,6 +230,18 @@ unsafe i32 main() {
         }
         probe_case = probe_case + 1;
     }
+    // Source snapshots retain historical D build descriptions; the native
+    // standalone distribution excludes them at every directory depth.
+    if cli_release_standalone_path("dub.json") { return 240; }
+    if cli_release_standalone_path("compiler/dub.json") { return 241; }
+    if cli_release_standalone_path("runtime/dub.json") { return 242; }
+    if cli_release_standalone_path("standard_library/dub.json") { return 243; }
+    if cli_release_standalone_path("tools/dub.json") { return 244; }
+    if cli_release_standalone_path("nested/tree/dub.selections.json") { return 245; }
+    if cli_release_standalone_path("dub.selections.json") { return 246; }
+    if !cli_release_standalone_path("compiler/selfhost/openc.project.json") { return 247; }
+    if !cli_release_standalone_path("compiler/selfhost/source/main.p") { return 248; }
+    if !cli_release_standalone_path("docs/dub.json.md") { return 249; }
     io.println("statement-handoff-ok");
     return 0;
 }
