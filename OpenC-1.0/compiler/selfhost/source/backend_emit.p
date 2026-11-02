@@ -334,15 +334,10 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
                             declaration_part_started =
                                 process.monotonic_milliseconds();
                         }
-                        semantic_predeclare_parsed_source(
-                            project_source, project_root,
-                            module_data, modules, source_data,
-                            module_index, source_record, type_data, types,
-                            source, parsed.token_data, parsed.tokens,
-                            parsed.syntax_data, parsed.syntax
-                        );
-                        native_frontend_finish_predeclare(frontend, source_record,
-                            source, types, parsed);
+                        native_frontend_predeclare_source(frontend,
+                            project_source, project_root, module_data, modules,
+                            source_data, module_index, source_record, type_data,
+                            types, source, parsed);
                         if timings.profile_type_queries_enabled {
                             timings.declaration_predeclare_ms =
                                 timings.declaration_predeclare_ms +

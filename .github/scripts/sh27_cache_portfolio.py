@@ -19,6 +19,8 @@ BASE = "bf6c9114fef0c2396125ea76ec789f2e9bda7d43"
 BASE_HASH = "f97d4610573391cb4d8f5d4acd71b38a5a2337462e5992c2568413cb8a06a44d"
 OBJECT = "source/backend_native_object_cache.p"
 PARALLEL = "source/backend_c_parallel_state.p"
+FRONTEND = "source/backend_native_frontend_cache.p"
+EMIT = "source/backend_emit.p"
 ANCHOR = "    if !prepared {\n        module_cache_destroy(cache);"
 EARLY = """    if prepared && options.cache_type_count != 0 && options.cache_type_count <= base.types.length {
         PackedBuffer semantic_types = base.types;
@@ -39,19 +41,23 @@ def main() -> int:
     manifest = json.loads((SCRIPTS / "openc.project.json").read_text())
     changed = subprocess.check_output(["git", "diff", "--name-only", BASE, "--",
         "OpenC-1.0/compiler/selfhost/source"], cwd=REPO, text=True).splitlines()
-    if set(changed) - {"OpenC-1.0/compiler/selfhost/" + OBJECT}:
+    if set(changed) - {"OpenC-1.0/compiler/selfhost/" + name for name in (OBJECT, FRONTEND, EMIT)}:
         raise RuntimeError("portfolio inputs differ outside the isolated object-cache cut")
     original = {name: subprocess.check_output(["git", "show",
-        BASE + ":OpenC-1.0/compiler/selfhost/" + name], cwd=REPO) for name in (OBJECT, PARALLEL)}
+        BASE + ":OpenC-1.0/compiler/selfhost/" + name], cwd=REPO) for name in (OBJECT, PARALLEL, FRONTEND, EMIT)}
     compilers = {}
     records = {}
-    for name in ("baseline", "encode", "early", "combined"):
+    variants = ("fused", "fused-encode", "fused-all")
+    for name in ("baseline", *variants):
         folder = output / name
         shutil.copytree(SCRIPTS / "source", folder / "source")
-        if name in {"baseline", "early"}:
+        if name in {"baseline", "fused"}:
             (folder / OBJECT).write_bytes(original[OBJECT])
+        if name == "baseline":
+            for field in (FRONTEND, EMIT):
+                (folder / field).write_bytes(original[field])
         (folder / PARALLEL).write_bytes(original[PARALLEL])
-        if name in {"early", "combined"}:
+        if name == "fused-all":
             path = folder / PARALLEL
             text = path.read_text()
             if text.count(ANCHOR) != 1:
@@ -89,7 +95,7 @@ def main() -> int:
     (output / "compilers.json").write_text(json.dumps(records, indent=2) + "\n")
     results = {}
     for repeat in (1, 2):
-        order = ("encode", "early", "combined") if repeat == 1 else ("combined", "early", "encode")
+        order = variants if repeat == 1 else tuple(reversed(variants))
         for name in order:
             report = output / f"{name}-31-{repeat}.json"
             command = [sys.executable, str(SCRIPTS / "benchmark_native_object_cache.py"), str(compilers[name]),
@@ -99,7 +105,7 @@ def main() -> int:
             result = json.loads(report.read_text())
             results[f"{name}-{repeat}"] = {key: result.get(key) for key in
                 ("status", "checks", "summary", "null_floor_seconds", "error")}
-    qualified = [name for name in ("encode", "early", "combined")
+    qualified = [name for name in variants
                  if all(results[f"{name}-{repeat}"]["status"] == "PASS" for repeat in (1, 2))]
     summary = {"schema": "openc.sh27.cold_cache_portfolio.v1", "status": "EVIDENCE_COMPLETE",
         "baseline_source_commit": BASE, "pairs_per_variant_per_repeat": 31,

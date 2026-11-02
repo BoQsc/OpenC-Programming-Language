@@ -396,6 +396,77 @@ unsafe void native_frontend_finish_predeclare(
     state.enabled = state.enabled && state.rows.ok && state.projections.ok;
 }
 
+// Collect the exact declaration projection during the mandatory named-type
+// pass. The standalone projection routine remains the cache/audit oracle.
+// A projection rejection disables reuse but never skips semantic declarations.
+unsafe void native_frontend_predeclare_source(
+    ref NativeFrontendState state, text project_source, text project_root,
+    ptr byte module_data, ref PackedBuffer modules, ptr byte source_data,
+    usize module_index, usize source_record, ptr byte type_data,
+    ref PackedBuffer types, text source, ref ResolutionParsedSource parsed
+) {
+    if !state.enabled || !parsed.reusable {
+        semantic_predeclare_parsed_source(project_source, project_root,
+            module_data, modules, source_data, module_index, source_record,
+            type_data, types, source, parsed.token_data, parsed.tokens,
+            parsed.syntax_data, parsed.syntax);
+        return;
+    }
+    usize row = source_record * 232;
+    usize projection_start = state.projections.length;
+    usize cursor = 0;
+    usize function_end = 0;
+    usize source_length = text.byte_length(source);
+    bool awaiting_body = false;
+    bool valid = source_length <= 131072;
+    usize node = 0;
+    while node < parsed.syntax.length {
+        usize kind = read_record_field(parsed.syntax_data, node, 0);
+        if (kind == 3 || kind == 4 || kind == 5) &&
+            !semantic_inside_when(parsed.syntax_data, parsed.syntax, node) {
+            usize name_start = read_record_field(parsed.syntax_data, node, 3);
+            usize name_length = read_record_field(parsed.syntax_data, node, 4);
+            semantic_declare_named(project_source, project_root, module_data,
+                modules, source_data, type_data, types, module_index, source_record,
+                source, name_start, name_length, true, kind == 4);
+            semantic_declare_named(project_source, project_root, module_data,
+                modules, source_data, type_data, types, module_index, source_record,
+                source, name_start, name_length, false, kind == 4);
+        }
+        if kind == 8 { valid = false; }
+        if valid && kind == 2 {
+            usize start = read_record_field(parsed.syntax_data, node, 1);
+            usize length = read_record_field(parsed.syntax_data, node, 2);
+            if awaiting_body || start < cursor || start > source_length ||
+                length > source_length - start { valid = false; }
+            else { function_end = start + length; awaiting_body = true; }
+        } else if valid && kind == 11 && awaiting_body {
+            usize start = read_record_field(parsed.syntax_data, node, 1);
+            usize length = read_record_field(parsed.syntax_data, node, 2);
+            if start < cursor || start > source_length ||
+                length > source_length - start || start + length != function_end {
+                valid = false;
+            } else {
+                if byte_at_or_zero(source, start) == 123 {
+                    d_put_slice(state.projections, source, cursor, start - cursor);
+                    d_put(state.projections, "{}\n"); cursor = start + length;
+                }
+                awaiting_body = false;
+            }
+        }
+        node = node + 1;
+    }
+    if valid && !awaiting_body {
+        d_put_slice(state.projections, source, cursor, source_length - cursor);
+    } else { valid = false; }
+    usize first = native_read_u32(state.rows, row + 192);
+    pe32_patch_u32(state.rows, row + 196, types.length - first);
+    pe32_patch_u32(state.rows, row + 228, parsed.syntax.length);
+    pe32_patch_u32(state.rows, row + 216, projection_start);
+    pe32_patch_u32(state.rows, row + 220, state.projections.length - projection_start);
+    state.enabled = valid && state.rows.ok && state.projections.ok;
+}
+
 unsafe bool native_frontend_resolution_hit(
     ref NativeFrontendState state, usize source_record,
     ptr byte type_data, ref PackedBuffer types, ptr byte symbol_data,
