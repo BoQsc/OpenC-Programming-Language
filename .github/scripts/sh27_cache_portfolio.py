@@ -67,13 +67,17 @@ def main() -> int:
         for generation in range(1, 4):
             binary = folder / f"c{generation}.exe"
             transition = name == "baseline" and generation == 1
-            result = run_measured([str(current), "build", f"--project={project}", f"--output={binary}",
-                "--no-cache"], cwd=ROOT, sample_interval=.01, timeout_seconds=180,
+            command = [str(current), "build", f"--project={project}", f"--output={binary}",
+                       f"--timings={folder / f'c{generation}-timings.json'}"]
+            if not transition:
+                command.append("--no-cache")
+            result = run_measured(command, cwd=ROOT, sample_interval=.01, timeout_seconds=180,
                 max_private_bytes=(512 if transition else 256)*MIB,
                 max_working_set_bytes=(256 if transition else 64)*MIB,
                 max_captured_output_bytes=2*MIB)
             (folder / f"c{generation}.json").write_text(json.dumps(result, indent=2) + "\n")
             if result["exit_code"] or result["memory_limit_exceeded"] or result["timed_out"] or result["stdout_truncated"] or result["stderr_truncated"]:
+                print(result["stdout"][-4096:], result["stderr"][-4096:], flush=True)
                 raise RuntimeError(f"{name} bootstrap failed: c{generation}.json")
             hashes.append(sha256(binary))
             current = binary

@@ -171,7 +171,7 @@ def main() -> int:
                         tool = compiler
                         if args.compare_cold:
                             tool = baseline if side == "direct" or lane == "null" else compiler
-                            cached = lane == "cold"
+                            cached = True
                             selected_prefix = root / f"{lane}{pair}-{side}/objects"
                             selected_prefix.parent.mkdir()
                         samples[side] = build(cached, selected_prefix, tool)
