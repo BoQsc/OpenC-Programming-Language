@@ -45,15 +45,14 @@ def main() -> int:
             prefix.parent.mkdir()
 
             def build(name: str, tool: Path = compiler, selected: Path = project,
-                      cached: bool = True, expected: int = 0, bootstrap: bool = False,
-                      selected_prefix: Path = prefix) -> dict:
+                      cached: bool = True, expected: int = 0, bootstrap: bool = False) -> dict:
                 output = root / (name + ".exe")
                 timing = output.with_suffix(".json")
                 command = [str(tool), "artifact", f"--project={selected}",
                            "--kind=" + ("cached-exe" if cached else "exe"),
                            "--source-chunks=4", f"--output={output}", f"--timings={timing}"]
                 if cached:
-                    command += [f"--cache-prefix={selected_prefix}", "--source-partitions=2"]
+                    command += [f"--cache-prefix={prefix}", "--source-partitions=2"]
                 if bootstrap:
                     command = [str(tool), "build", f"--project={selected}",
                                f"--output={output}", "--no-cache", f"--timings={timing}"]
@@ -80,57 +79,11 @@ def main() -> int:
                 return result
 
             expected_stdout = workload["expected_stdout_utf8"]
-            # Keep the complete old projection walk as a same-source oracle.
-            # Only the declaration-collection policy differs; code generation,
-            # schema, worker layout and every source unit remain identical.
-            canonical = ROOT / "compiler/selfhost"
-            oracle_root = root / "projection-oracle"
-            shutil.copytree(canonical / "source", oracle_root / "source")
-            oracle_manifest = json.loads((canonical / "openc.project.json").read_text())
-            for key in ("standard_library_directory", "runtime_directory"):
-                oracle_manifest[key] = str((canonical / oracle_manifest[key]).resolve())
-            oracle_manifest["output_directory"] = "build"
-            oracle_project = oracle_root / "openc.project.json"
-            oracle_project.write_text(json.dumps(oracle_manifest, indent=2) + "\n")
-            target = oracle_root / "source/backend_emit.p"
-            code = target.read_text()
-            fused = ("native_frontend_predeclare_source(frontend,\n"
-                "                            project_source, project_root, module_data, modules,\n"
-                "                            source_data, module_index, source_record, type_data,\n"
-                "                            types, source, parsed);")
-            ordinary = ("semantic_predeclare_parsed_source(project_source, project_root,\n"
-                "                            module_data, modules, source_data, module_index, source_record,\n"
-                "                            type_data, types, source, parsed.token_data, parsed.tokens,\n"
-                "                            parsed.syntax_data, parsed.syntax);\n"
-                "                        native_frontend_finish_predeclare(frontend, source_record, source, types, parsed);")
-            assert code.count(fused) == 1, "projection oracle policy marker changed"
-            target.write_text(code.replace(fused, ordinary), newline="\n")
-            oracle = compiler
-            oracle_hashes = []
-            for generation in (1, 2):
-                name = f"projection-oracle{generation}"
-                result = build(name, tool=oracle, selected=oracle_project, cached=False, bootstrap=True)
-                oracle_hashes.append(result["sha256"])
-                oracle = root / (name + ".exe")
-            assert oracle_hashes[0] == oracle_hashes[1]
             direct = build("direct", cached=False)
             cold = build("cold")
             assert cold["sha256"] == direct["sha256"]
             assert cold["timings"]["frontend_cache"]["prepare_parallel"] is True
             frontend = Path(str(prefix) + ".frontend")
-            oracle_prefix = root / "oracle-cache/objects"
-            oracle_prefix.parent.mkdir()
-            oracle_result = build("old-projection", tool=oracle, selected_prefix=oracle_prefix)
-            old_frontend = Path(str(oracle_prefix) + ".frontend").read_bytes()
-            fused_frontend = frontend.read_bytes()
-            # The 64-byte compiler identity and enclosing digest legitimately
-            # differ. Header, all contribution rows/tables and projection bytes
-            # must remain exact, including unsorted source order and named types.
-            assert old_frontend[:48] == fused_frontend[:48]
-            assert old_frontend[112:-64] == fused_frontend[112:-64]
-            assert oracle_result["sha256"] == cold["sha256"] == direct["sha256"]
-            report["projection_oracle"] = {"status": "PASS", "compiler_sha256": oracle_hashes[1],
-                "contribution_rows_tables_projection_exact": True, "program_bytes_exact": True}
             original = sha256(frontend)
             foreign = prefix.parent / "objects.frontend.tmp.foreign"
             foreign.write_bytes(b"not owned by this compilation\n")

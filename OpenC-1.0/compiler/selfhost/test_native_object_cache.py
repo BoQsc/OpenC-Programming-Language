@@ -82,11 +82,13 @@ def main() -> int:
             assert cold["cache"]["prepare_parallel"] is True
             assert cold["cache"]["publish_parallel"] is True
             assert cold["frontend"]["prepare_parallel"] is True
+            assert cold["frontend"]["identity_parallel"] is True
             warm = build("warm", True)
             assert warm["cache"]["hits"] == 32 and warm["cache"]["misses"] == 0
             assert warm["cache"]["prepare_parallel"] is False
             assert warm["cache"]["publish_parallel"] is False
             assert warm["frontend"]["prepare_parallel"] is False
+            assert warm["frontend"]["identity_parallel"] is False
             assert warm["cache"]["flow_sources_skipped"] == sum(map(len, project_data["modules"].values()))
             assert warm["cache"]["acceptance_sources_skipped"] == warm["cache"]["flow_sources_skipped"]
             assert warm["frontend"]["predeclare_hits"] == warm["cache"]["flow_sources_skipped"], warm

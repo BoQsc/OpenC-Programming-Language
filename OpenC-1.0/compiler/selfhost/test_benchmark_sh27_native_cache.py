@@ -3,10 +3,21 @@ from __future__ import annotations
 
 import unittest
 
-from benchmark_native_object_cache import LANES, comparison_order
+from benchmark_native_object_cache import LANES, aggregate_observations, comparison_order
 
 
 class CacheOrderTests(unittest.TestCase):
+    def test_block_retains_raw_observations_and_worst_memory(self):
+        raw = [{"sha256": "same", "measurement": {"elapsed_seconds": elapsed,
+            "peak_private_bytes": private, "peak_working_set_bytes": private,
+            "peak_job_private_bytes": private}} for elapsed, private in ((1, 3), (3, 7))]
+        block = aggregate_observations(raw)
+        self.assertEqual(block["measurement"]["elapsed_seconds"], 2)
+        self.assertEqual(block["measurement"]["peak_private_bytes"], 7)
+        self.assertEqual(block["observations"], raw)
+        raw[1]["sha256"] = "different"
+        with self.assertRaises(AssertionError):
+            aggregate_observations(raw)
     def test_every_lane_alternates_and_is_balanced_for_eleven_pairs(self):
         observed = {lane: [] for lane in LANES}
         for pair in range(11):

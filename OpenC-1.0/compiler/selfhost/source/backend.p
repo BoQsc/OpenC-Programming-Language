@@ -66,6 +66,7 @@ struct BuildTimings {
     usize frontend_resolution_hits;
     usize frontend_publish_failures;
     bool frontend_prepare_parallel;
+    bool frontend_identity_parallel;
     bool object_cache_validation_skipped;
     usize object_cache_flow_sources_skipped;
     usize object_cache_acceptance_sources_skipped;
@@ -251,6 +252,7 @@ BuildTimings build_timings_empty() {
         frontend_resolution_hits = 0,
         frontend_publish_failures = 0,
         frontend_prepare_parallel = false,
+        frontend_identity_parallel = false,
         object_cache_validation_skipped = false,
         object_cache_flow_sources_skipped = 0,
         object_cache_acceptance_sources_skipped = 0,

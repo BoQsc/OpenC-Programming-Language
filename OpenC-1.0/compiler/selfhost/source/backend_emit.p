@@ -246,6 +246,10 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
         if frontend.compiler_hash.length == 64 {
             artifact_options.cache_compiler_hash = d_buffer_text(frontend.compiler_hash);
         }
+        // The state now resides at its stable compilation owner address.
+        // Hashing touches only its separate compiler-hash buffer while the
+        // caller collects declarations and source contribution rows.
+        native_frontend_begin_identity(frontend);
     }
 
     phase_started = process.monotonic_milliseconds();
@@ -334,10 +338,15 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
                             declaration_part_started =
                                 process.monotonic_milliseconds();
                         }
-                        native_frontend_predeclare_source(frontend,
-                            project_source, project_root, module_data, modules,
-                            source_data, module_index, source_record, type_data,
-                            types, source, parsed);
+                        semantic_predeclare_parsed_source(
+                            project_source, project_root,
+                            module_data, modules, source_data,
+                            module_index, source_record, type_data, types,
+                            source, parsed.token_data, parsed.tokens,
+                            parsed.syntax_data, parsed.syntax
+                        );
+                        native_frontend_finish_predeclare(frontend, source_record,
+                            source, types, parsed);
                         if timings.profile_type_queries_enabled {
                             timings.declaration_predeclare_ms =
                                 timings.declaration_predeclare_ms +
@@ -444,7 +453,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
         artifact_options.frontend_projections = frontend.projections.data;
         artifact_options.frontend_projection_length = frontend.projections.length;
         artifact_options.frontend_state = reinterpret(ptr byte, &frontend);
-        artifact_options.cold_cache_pending = frontend.compiler_hash.length == 0;
+        artifact_options.cold_cache_pending = frontend.deferred;
     }
     ModuleCacheState semantic_cache = module_cache_empty();
     ptr byte semantic_cache_owner = reinterpret(ptr byte, &semantic_cache);
@@ -708,6 +717,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
             semantic_cache, semantic_cache_ready
         );
         timings.frontend_prepare_parallel = frontend.prepare_parallel;
+        timings.frontend_identity_parallel = frontend.identity_parallel;
         if c_result == 0 && frontend.enabled &&
             text.byte_length(artifact_options.cache_prefix) != 0 {
             if !native_frontend_publish(frontend, artifact_options.cache_prefix,

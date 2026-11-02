@@ -1,4 +1,4 @@
-"""Compare the three cold-cache scheduling designs against one frozen baseline."""
+"""Compare early owned identity hashing with its serial control and frozen baseline."""
 from __future__ import annotations
 
 import argparse
@@ -21,6 +21,9 @@ OBJECT = "source/backend_native_object_cache.p"
 PARALLEL = "source/backend_c_parallel_state.p"
 FRONTEND = "source/backend_native_frontend_cache.p"
 EMIT = "source/backend_emit.p"
+BACKEND = "source/backend.p"
+TIMINGS = "source/backend_c_build.p"
+INTRINSICS = "source/backend_native_scalar_intrinsic.p"
 ANCHOR = "    if !prepared {\n        module_cache_destroy(cache);"
 EARLY = """    if prepared && options.cache_type_count != 0 && options.cache_type_count <= base.types.length {
         PackedBuffer semantic_types = base.types;
@@ -41,28 +44,27 @@ def main() -> int:
     manifest = json.loads((SCRIPTS / "openc.project.json").read_text())
     changed = subprocess.check_output(["git", "diff", "--name-only", BASE, "--",
         "OpenC-1.0/compiler/selfhost/source"], cwd=REPO, text=True).splitlines()
-    if set(changed) - {"OpenC-1.0/compiler/selfhost/" + name for name in (OBJECT, FRONTEND, EMIT)}:
+    fields = (OBJECT, PARALLEL, FRONTEND, EMIT, BACKEND, TIMINGS, INTRINSICS)
+    if set(changed) - {"OpenC-1.0/compiler/selfhost/" + name for name in fields}:
         raise RuntimeError("portfolio inputs differ outside the isolated object-cache cut")
     original = {name: subprocess.check_output(["git", "show",
-        BASE + ":OpenC-1.0/compiler/selfhost/" + name], cwd=REPO) for name in (OBJECT, PARALLEL, FRONTEND, EMIT)}
+        BASE + ":OpenC-1.0/compiler/selfhost/" + name], cwd=REPO) for name in fields}
     compilers = {}
     records = {}
-    variants = ("fused", "fused-encode", "fused-all")
+    variants = ("async-identity", "serial-control")
     for name in ("baseline", *variants):
         folder = output / name
         shutil.copytree(SCRIPTS / "source", folder / "source")
-        if name in {"baseline", "fused"}:
-            (folder / OBJECT).write_bytes(original[OBJECT])
         if name == "baseline":
-            for field in (FRONTEND, EMIT):
+            for field in fields:
                 (folder / field).write_bytes(original[field])
-        (folder / PARALLEL).write_bytes(original[PARALLEL])
-        if name == "fused-all":
-            path = folder / PARALLEL
+        if name == "serial-control":
+            path = folder / EMIT
             text = path.read_text()
-            if text.count(ANCHOR) != 1:
-                raise RuntimeError("cold callback marker changed")
-            path.write_text(text.replace(ANCHOR, EARLY + ANCHOR), newline="\n")
+            marker = "native_frontend_begin_identity(frontend);"
+            if text.count(marker) != 1:
+                raise RuntimeError("identity scheduling marker changed")
+            path.write_text(text.replace(marker, "// serial identity control"), newline="\n")
         data = {**manifest, "output_directory": "build"}
         for key in ("runtime_directory", "standard_library_directory"):
             data[key] = str((SCRIPTS / data[key]).resolve())
@@ -100,7 +102,8 @@ def main() -> int:
             report = output / f"{name}-31-{repeat}.json"
             command = [sys.executable, str(SCRIPTS / "benchmark_native_object_cache.py"), str(compilers[name]),
                 "--ordinary-build", "--fixture", "medium", "--pairs", "31", "--enforce", "--compare-cold",
-                "--baseline-compiler", str(compilers["baseline"]), "--report", str(report)]
+                "--baseline-compiler", str(compilers["baseline"]), "--observations-per-side", "5",
+                "--report", str(report)]
             subprocess.run(command, cwd=ROOT, check=False)
             result = json.loads(report.read_text())
             results[f"{name}-{repeat}"] = {key: result.get(key) for key in
@@ -109,6 +112,7 @@ def main() -> int:
                  if all(results[f"{name}-{repeat}"]["status"] == "PASS" for repeat in (1, 2))]
     summary = {"schema": "openc.sh27.cold_cache_portfolio.v1", "status": "EVIDENCE_COMPLETE",
         "baseline_source_commit": BASE, "pairs_per_variant_per_repeat": 31,
+        "observations_per_side": 5, "null_control": "same baseline and cold cache operation",
         "independent_repeats": 2, "results": results, "qualified": qualified,
         "production_promotion_authorized": False}
     (output / "portfolio.json").write_text(json.dumps(summary, indent=2) + "\n")

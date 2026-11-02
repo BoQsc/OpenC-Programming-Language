@@ -208,69 +208,17 @@ struct NativeCachePublication {
     text cache_path;
     ptr byte data;
     usize length;
-    ptr byte starts;
-    ptr byte keys;
     bool published;
     status written;
 }
 
 unsafe i32 native_object_cache_publish_link_jobs(ptr NativeCachePublication work) { return 3; }
 
-// A cold build has no saved extents to merge. Encode and authenticate its
-// immutable fresh stream on the publication worker while the caller links
-// that same stream. Only this worker owns the encoded buffer; all borrowed
-// source/key/index owners outlive the joined callbacks.
-unsafe bool native_object_cache_publish_cold(ref NativeCachePublication publication) {
-    ref IrContext context = *(reinterpret(ptr IrContext, publication.context));
-    ref DBuffer objects = *(reinterpret(ptr DBuffer, publication.objects));
-    ref NativeArtifactOptions options = *(reinterpret(ptr NativeArtifactOptions, publication.options));
-    usize partitions = options.source_partitions;
-    usize source_count = c_project_source_count(context);
-    usize size = 16 + partitions * 152 + objects.length;
-    if size > coff_link_bundle_limit() { return false; }
-    DBuffer next = d_buffer_create(size);
-    scope d_buffer_destroy(next);
-    DBuffer digest = d_buffer_create(65);
-    scope d_buffer_destroy(digest);
-    if next.data == null || digest.data == null { return false; }
-    pe32_put_u32(next, 1112425295); pe32_put_u32(next, 1);
-    pe32_put_u32(next, partitions); pe32_put_u32(next, source_count);
-    next.length = 16 + partitions * 136;
-    usize partition = 0;
-    while partition < partitions && next.ok {
-        usize start = read_usize(publication.starts, partition * size_of(usize));
-        usize end = read_usize(publication.starts, (partition + 1) * size_of(usize));
-        usize object_start = next.length;
-        pe32_put_u32(next, 1330529103); pe32_put_u32(next, 1);
-        pe32_put_u32(next, source_count * partition / partitions);
-        pe32_put_u32(next, source_count * (partition + 1) / partitions);
-        native_copy_range(next, objects, start, end - start);
-        if !next.ok { return false; }
-        digest.length = 0;
-        digest.ok = true;
-        module_cache_digest(next.data + object_start, next.length - object_start, digest);
-        if !digest.ok || digest.length != 64 { return false; }
-        usize slot = 16 + partition * 136;
-        text.copy_utf8_unchecked(next.data + slot,
-            text.from_utf8(publication.keys + partition * 64, 64));
-        text.copy_utf8_unchecked(next.data + slot + 64, d_buffer_text(digest));
-        pe32_patch_u32(next, slot + 128, object_start);
-        pe32_patch_u32(next, slot + 132, next.length - object_start);
-        partition = partition + 1;
-    }
-    return next.ok && next.length == size && module_cache_publish(
-        publication.cache_path, next.data, next.length);
-}
-
 unsafe void native_object_cache_publish_pool(
     ptr byte instance, ref NativeCachePublication publication, ptr byte work
 ) {
-    if publication.starts != null {
-        publication.published = native_object_cache_publish_cold(publication);
-    } else {
-        publication.published = module_cache_publish(
-            publication.cache_path, publication.data, publication.length);
-    }
+    publication.published = module_cache_publish(
+        publication.cache_path, publication.data, publication.length);
 }
 
 unsafe void native_object_cache_link_main(ref NativeCachePublication publication) {
@@ -305,9 +253,8 @@ unsafe status native_object_cache_write_image(
 ) {
     usize partitions = options.source_partitions;
     usize source_count = c_project_source_count(context);
-    DBuffer index = d_buffer_create((partitions + 1) * size_of(usize));
-    scope d_buffer_destroy(index);
-    ptr byte starts = index.data;
+    ptr byte starts = memory.alloc((partitions + 1) * size_of(usize));
+    scope memory.free(starts);
     if starts == null || !native_object_cache_index_fresh(context, objects, partitions, starts) {
         options.cache_retry_required = true;
         return status{code = 1};
@@ -333,34 +280,6 @@ unsafe status native_object_cache_write_image(
     if bundle_bytes > coff_link_bundle_limit() {
         options.cache_retry_required = true;
         return status{code = 1};
-    }
-    if !has_hits {
-        // A rejected or superseded saved generation is not needed by either
-        // callback. Release it before the new buffer overlaps PE linking.
-        if cache.saved.data != null {
-            d_buffer_destroy(cache.saved);
-            cache.saved = DBuffer{data = null, length = 0, capacity = 0, ok = true};
-        }
-        DBuffer path = d_buffer_create(text.byte_length(options.cache_prefix) + 16);
-        scope d_buffer_destroy(path);
-        d_put(path, options.cache_prefix); d_put(path, ".bundle");
-        NativeCachePublication publication = NativeCachePublication{
-            context = reinterpret(ptr byte, &context), objects = reinterpret(ptr byte, &objects),
-            options = reinterpret(ptr byte, &options), output_path = output_path,
-            cache_path = d_buffer_text(path), data = null, length = 0,
-            starts = starts, keys = cache.keys.data,
-            published = false, written = status{code = 1}};
-        i32 launch = 3;
-        if path.ok { launch = native_object_cache_publish_link_jobs(&publication); }
-        if launch != 0 {
-            if path.ok { publication.published = native_object_cache_publish_cold(publication); }
-            native_object_cache_link_main(publication);
-        } else { timings.object_cache_publish_parallel = true; }
-        if !publication.published {
-            timings.object_cache_publish_failures =
-                timings.object_cache_publish_failures + timings.object_cache_misses;
-        }
-        return publication.written;
     }
     bool ok = true;
     bool retained = cache.saved.length != 0;
@@ -472,7 +391,6 @@ unsafe status native_object_cache_write_image(
                     context = reinterpret(ptr byte, &context), objects = image_objects,
                     options = reinterpret(ptr byte, &options), output_path = output_path,
                     cache_path = d_buffer_text(path), data = next.data, length = next.length,
-                    starts = null, keys = null,
                     published = false, written = status{code = 1}};
                 i32 launch = native_object_cache_publish_link_jobs(&publication);
                 if launch != 0 {

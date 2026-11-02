@@ -25,6 +25,17 @@ def comparison_order(pair: int, lane: str) -> tuple[str, str]:
     return ("candidate", "direct")
 
 
+def aggregate_observations(observations: list[dict]) -> dict:
+    assert observations and len({sample["sha256"] for sample in observations}) == 1
+    measurement = dict(observations[0]["measurement"])
+    measurement["elapsed_seconds"] = statistics.mean(
+        sample["measurement"]["elapsed_seconds"] for sample in observations)
+    for field in ("peak_private_bytes", "peak_working_set_bytes", "peak_job_private_bytes"):
+        measurement[field] = max(sample["measurement"][field] for sample in observations)
+    return {**observations[0], "measurement": measurement, "observations": observations,
+            "aggregation": "arithmetic_mean_of_independent_processes"}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("compiler", type=Path)
@@ -36,6 +47,8 @@ def main() -> int:
                         help="pair two compilers' cold publications, with a same-baseline null control")
     parser.add_argument("--processor-affinity-mask", type=lambda raw: int(raw, 0),
                         help="optional harness mask inherited by measured children; default is unchanged")
+    parser.add_argument("--observations-per-side", type=int, default=1,
+                        help="1..7 interleaved cold observations per comparison block; keeps every raw sample")
     parser.add_argument("--enforce", action="store_true")
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
@@ -44,6 +57,8 @@ def main() -> int:
     compiler = args.compiler.resolve(strict=True)
     if args.compare_cold and (args.baseline_compiler is None or args.fixture != "medium"):
         parser.error("--compare-cold requires --baseline-compiler and --fixture medium")
+    if not 1 <= args.observations_per_side <= 7 or (not args.compare_cold and args.observations_per_side != 1):
+        parser.error("observation blocks require --compare-cold and a size in 1..7")
     baseline = args.baseline_compiler.resolve(strict=True) if args.baseline_compiler else compiler
     if args.processor_affinity_mask is not None:
         if os.name != "nt" or args.processor_affinity_mask <= 0:
@@ -60,6 +75,7 @@ def main() -> int:
               "pair_order_policy": "alternating_fixed_lane_ordinal",
               "compiler_sha256": sha256(compiler), "fixture": args.fixture,
               "ordinary_build": args.ordinary_build,
+              "observations_per_side": args.observations_per_side,
               "pairs": {lane: [] for lane in lanes_to_run}}
     if args.compare_cold:
         report["comparison"] = "cold_publication_between_compilers"
@@ -165,16 +181,22 @@ def main() -> int:
                     if lane == "cold": cold_prefix.parent.mkdir()
                     order = comparison_order(pair, lane)
                     samples = {}
-                    for side in order:
-                        cached = side == "candidate" and lane != "null"
-                        selected_prefix = cold_prefix if lane == "cold" else prefix
-                        tool = compiler
-                        if args.compare_cold:
-                            tool = baseline if side == "direct" or lane == "null" else compiler
-                            cached = True
-                            selected_prefix = root / f"{lane}{pair}-{side}/objects"
-                            selected_prefix.parent.mkdir()
-                        samples[side] = build(cached, selected_prefix, tool)
+                    if args.compare_cold:
+                        observations = {side: [] for side in order}
+                        for observation in range(args.observations_per_side):
+                            for side in comparison_order(pair * args.observations_per_side + observation, lane):
+                                tool = baseline if side == "direct" or lane == "null" else compiler
+                                selected_prefix = root / f"{lane}{pair}-{observation}-{side}/objects"
+                                selected_prefix.parent.mkdir()
+                                sample = build(True, selected_prefix, tool)
+                                assert sample["cache"]["hits"] == 0 and sample["cache"]["misses"] == groups
+                                assert sample["cache"]["publish_failures"] == 0
+                                observations[side].append(sample)
+                        samples = {side: aggregate_observations(values) for side, values in observations.items()}
+                    else:
+                        for side in order:
+                            cached = side == "candidate" and lane != "null"
+                            samples[side] = build(cached, cold_prefix if lane == "cold" else prefix)
                     assert samples["direct"]["sha256"] == samples["candidate"]["sha256"], (lane, pair)
                     cache = samples["candidate"]["cache"]
                     if lane == "cold": assert cache["hits"] == 0 and cache["misses"] == groups, (lane, pair, cache)
