@@ -1,0 +1,120 @@
+name: OpenC 1.0.1 verified candidate and owner publication
+
+on:
+  push:
+    branches: [master, codex/sh27-native-object-default]
+    paths:
+      - .github/release-intent-1.0.1.json
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Verify a candidate, or publish the owner-approved candidate
+        required: true
+        default: verify
+        type: choice
+        options: [verify, publish]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: openc-1.0.1-release
+  cancel-in-progress: false
+
+jobs:
+  intent:
+    if: github.repository == 'BoQsc/OpenC-Programming-Language'
+    runs-on: windows-2025
+    timeout-minutes: 5
+    outputs:
+      mode: ${{ steps.intent.outputs.mode }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate versioned intent and frozen functional inputs
+        id: intent
+        run: >-
+          python .github/scripts/sh27_release.py validate-intent
+          --root OpenC-1.0 --intent .github/release-intent-1.0.1.json
+          --action ${{ github.event_name == 'workflow_dispatch' && inputs.action || 'auto' }}
+
+  candidate:
+    needs: intent
+    if: needs.intent.outputs.mode == 'verify'
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Exercise checksum, authorization, and bounded-download failures
+        run: python -m unittest discover -s .github/scripts -p test_sh27_release.py -v
+      - name: Verify both hosted certificates and rebuild the candidate twice
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python OpenC-1.0/compiler/selfhost/run_with_memory_guard.py
+          --max-private-mib 512 --max-working-set-mib 256
+          --record artifacts/release-candidate-guard.json --
+          python .github/scripts/sh27_release.py candidate
+          --root OpenC-1.0 --intent .github/release-intent-1.0.1.json
+          --output artifacts/publication
+      - name: Retain the exact reviewable candidate payloads
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-1.0.1-release-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            artifacts/publication/release-assets/**
+            artifacts/publication/publication-set-verification.json
+      - name: Retain native verification and resource evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-1.0.1-candidate-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: |
+            artifacts/release-candidate-guard.json
+            artifacts/publication/stage*.json
+            artifacts/publication/full-workflow*.json
+            artifacts/publication/archive-manifests.json
+            artifacts/publication/integer-boundaries-guard.json
+            artifacts/publication/evidence/release-integer-boundaries.json
+            artifacts/publication/native-release/native-release-result.json
+
+  publish:
+    needs: intent
+    if: needs.intent.outputs.mode == 'publish' && github.ref == 'refs/heads/master'
+    runs-on: windows-2025
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - name: Publish only the approved artifact and verify immutable assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python .github/scripts/sh27_release.py publish
+          --root OpenC-1.0 --intent .github/release-intent-1.0.1.json
+          --notes .github/release-notes/v1.0.1.md --output artifacts/published
+      - name: Retain publication and old-release continuity audit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: OpenC-1.0.1-publication-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            artifacts/published/publication-result.json
+            artifacts/published/legacy-before.json
+            artifacts/published/legacy-after.json

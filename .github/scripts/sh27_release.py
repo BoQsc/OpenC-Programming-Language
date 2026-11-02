@@ -77,7 +77,7 @@ def validate_intent(root: Path, path: Path, *, publish: bool = False) -> tuple[d
                            str(intent.get("authorized_utc", ""))) is not None,
               "owner authorization has no exact UTC time")
         approved = intent.get("candidate_artifact", {})
-        check(type(approved.get("id")) is int and approved["id"] > 0 and
+        check(all(type(approved.get(key)) is int and approved[key] > 0 for key in ("id", "run_id", "attempt")) and
               re.fullmatch(r"[0-9a-f]{40}", approved.get("release_commit", "")) is not None and
               all(re.fullmatch(r"[0-9a-f]{64}", approved.get(key, "")) is not None
                   for key in ("sha256", "payload_manifest_sha256")), "approved candidate identity is invalid")
@@ -87,6 +87,7 @@ def validate_intent(root: Path, path: Path, *, publish: bool = False) -> tuple[d
 def native(root: Path, command: list[str], record: Path, *, transition: bool = False) -> None:
     sys.path.insert(0, str(root / "compiler/selfhost"))
     from windows_process_measure import run_measured
+    print(f"Native release verification: {record.name}", flush=True)
     result = run_measured(command, cwd=root, sample_interval=.01,
         max_private_bytes=(512 if transition else 256)*MIB,
         max_working_set_bytes=(256 if transition else 64)*MIB,
@@ -176,7 +177,6 @@ def assemble(root: Path, native_release: Path, evidence: Path, output: Path,
 def candidate(args: argparse.Namespace) -> None:
     root = args.root.resolve()
     intent, qualification = validate_intent(root, args.intent.resolve())
-    check(intent["status"] == "CANDIDATE_RELEASE_READY", "candidate build requires candidate intent")
     commit = git(root.parent, "rev-parse", "HEAD")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
@@ -250,6 +250,11 @@ def approve_assets(args: argparse.Namespace) -> Path:
     check(metadata.get("digest") == "sha256:" + approved["sha256"] and
           metadata.get("workflow_run", {}).get("head_sha") == approved["release_commit"],
           "approved candidate artifact identity differs")
+    attempt = api_json(f"https://api.github.com/repos/{REPOSITORY}/actions/runs/{approved['run_id']}/attempts/{approved['attempt']}", os.environ.get("GH_TOKEN"))
+    check(attempt.get("status") == "completed" and attempt.get("conclusion") == "success" and
+          attempt.get("head_sha") == approved["release_commit"] and
+          metadata.get("name") == f"OpenC-1.0.1-release-candidate-{approved['run_id']}-{approved['attempt']}",
+          "approved candidate workflow did not succeed")
     archive = output / "candidate.zip"
     stream_download(["gh", "api", f"/repos/{REPOSITORY}/actions/artifacts/{approved['id']}/zip"],
                     archive, metadata["size_in_bytes"])
@@ -396,6 +401,8 @@ def main() -> int:
             selected.add_argument("--artifacts-dir", type=Path)
         if name == "publish":
             selected.add_argument("--notes", type=Path, required=True)
+        if name == "validate-intent":
+            selected.add_argument("--action", choices=("auto", "verify", "publish"), default="auto")
     legacy = sub.add_parser("verify-legacy")
     legacy.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -408,6 +415,10 @@ def main() -> int:
     else:
         intent, _ = validate_intent(args.root.resolve(), args.intent.resolve())
         mode = "publish" if intent["status"] == "AUTHORIZED" and intent.get("publish_on_push") else "verify"
+        if args.action != "auto":
+            mode = args.action
+        if mode == "publish":
+            validate_intent(args.root.resolve(), args.intent.resolve(), publish=True)
         if os.environ.get("GITHUB_OUTPUT"):
             with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
                 output.write(f"mode={mode}\n")
