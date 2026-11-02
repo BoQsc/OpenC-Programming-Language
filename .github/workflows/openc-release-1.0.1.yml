@@ -2,7 +2,7 @@ name: OpenC 1.0.1 verified candidate and owner publication
 
 on:
   push:
-    branches: [master, codex/sh27-native-object-default]
+    branches: [master, codex/sh27-native-object-default, codex/sh27-release-preserve-20261102]
     paths:
       - .github/release-intent-1.0.1.json
   workflow_dispatch:

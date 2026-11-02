@@ -19,7 +19,8 @@ def parity_report() -> dict:
     return {
         "schema": "openc.sh27.production_comparators.v1", "status": "PASS_PARITY",
         "tools": {"openc": {"sha256": "b"*64}}, "corpus": {"sha256": "c"*64},
-        "missing_tools": [], "checks": {"all_passed": True, "version_pin_checks": {"dmd": True}},
+        "missing_tools": [], "checks": {"all_passed": True,
+            "version_pin_checks": {tool: True for tool in tools[1:]}},
         "ratios": {name: {"openc_to_" + tool: .8 for tool in tools[1:]} for name in names},
         "lanes": {name: {"compilers": {tool: {"samples": [{"passed": True} for _ in range(20)]}
                                       for tool in tools}} for name in names},
@@ -54,6 +55,17 @@ class ReleaseProofTests(unittest.TestCase):
         for compiler, corpus in (("d"*64, "c"*64), ("b"*64, "d"*64)):
             with self.assertRaises(ValueError):
                 evidence.validate_production(parity_report(), compiler, corpus)
+
+    def test_scaling_requires_complete_cells_and_five_samples(self):
+        report = parity_report()
+        names = set(report["ratios"])
+        for lane in report["lanes"].values():
+            for cell in lane["compilers"].values():
+                cell["samples"] = cell["samples"][:5]
+        evidence.validate_scaling(report, "b"*64, "c"*64, names)
+        report["lanes"]["large_functions"]["compilers"]["dmd"]["samples"].pop()
+        with self.assertRaisesRegex(ValueError, "five passing"):
+            evidence.validate_scaling(report, "b"*64, "c"*64, names)
 
     def test_stream_preserves_binary_bytes(self):
         with tempfile.TemporaryDirectory() as folder:

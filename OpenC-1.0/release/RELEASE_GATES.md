@@ -31,6 +31,16 @@ G25 optional COM and WinRT projections (SH-23)             PASS 33/33
 G26 native editor integration and LSP resilience (SH-24)   PASS 33/33
 ```
 
+The versioned 1.0.1 candidate extends this gate list with G27 (44-check
+native finalization and the matching clean-profile editor record), G28
+(two byte-identical 16-asset publication sets, complete archive manifests,
+and streamed verification of the immutable 1.0.0 release), and G29 (two
+independent final-compiler production and cache/stability certificates,
+all 20 original C/D ratios, both scaling suites, and retained-project
+coverage). The candidate workflow records these as PASS only after executing
+their checks. Owner authorization and actual publication remain distinct
+from candidate verification. The published 1.0.0 record is unchanged.
+
 There are no open P0/P1 findings in the maintainer release review. Independent
 third-party grammar, semantic, security, and usability reviews remain strongly
 recommended, but they are post-release assurance work and not mandatory for the

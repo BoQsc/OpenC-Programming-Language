@@ -39,7 +39,8 @@ def validate_production(report: dict, compiler_hash: str, corpus_hash: str) -> N
           "all twenty original parity ceilings must pass")
     check(all(value is True for value in report["checks"].values() if isinstance(value, bool)),
           "parity report contains a failed check")
-    check(all(value is True for value in report["checks"].get("version_pin_checks", {}).values()),
+    check(set(report["checks"].get("version_pin_checks", {})) == {"msvc", "clang", "dmd", "ldc"} and
+          all(value is True for value in report["checks"]["version_pin_checks"].values()),
           "comparator version pin failed")
     names = {"small_single_file", "many_files", "large_functions", "control_flow", "startup_file_allocation"}
     check(set(report.get("ratios", {})) == names, "original parity lanes changed")
@@ -53,6 +54,29 @@ def validate_production(report: dict, compiler_hash: str, corpus_hash: str) -> N
             samples = record.get("samples", [])
             check(len(samples) == 20 and all(s.get("passed") is True for s in samples),
                   f"{name}/{tool} is not twenty passing observations")
+
+
+def validate_scaling(report: dict, compiler_hash: str, corpus_hash: str, names: set[str]) -> None:
+    check(report.get("schema") == "openc.sh27.production_comparators.v1" and
+          report.get("status") == "PASS_PARITY", "scaling report did not pass")
+    check(report.get("tools", {}).get("openc", {}).get("sha256") == compiler_hash and
+          report.get("corpus", {}).get("sha256") == corpus_hash and not report.get("missing_tools"),
+          "scaling proof identity differs")
+    check(set(report.get("ratios", {})) == names, "scaling lanes differ")
+    checks = report.get("checks", {})
+    pins = checks.get("version_pin_checks", {})
+    check(set(pins) == {"msvc", "clang", "dmd", "ldc"} and all(v is True for v in pins.values()) and
+          all(v is True for v in checks.values() if isinstance(v, bool)), "scaling checks or version pins failed")
+    for name in names:
+        ratios = report["ratios"][name]
+        check(set(ratios) == {"openc_to_msvc", "openc_to_clang", "openc_to_dmd", "openc_to_ldc"} and
+              all(type(r) in (int, float) and 0 < r <= 1.25 for r in ratios.values()),
+              "scaling parity ceiling failed")
+        cells = report.get("lanes", {}).get(name, {}).get("compilers", {})
+        check(set(cells) == {"openc", "msvc", "clang", "dmd", "ldc"}, "scaling tools differ")
+        check(all(len(cell.get("samples", [])) == 5 and
+                  all(s.get("passed") is True for s in cell["samples"]) for cell in cells.values()),
+              "scaling requires five passing observations per cell")
 
 
 def validate_modules(reports: dict[str, dict], compiler_hash: str) -> None:
@@ -185,12 +209,13 @@ def collect(qualification: dict, destination: Path, artifacts: Path | None = Non
         if proof["kind"] == "production":
             validate_production(one(PRODUCTION), qualification["compiler_sha256"], qualification["corpus_sha256"])
             check(one("sh27-parity-enforcement.json").get("status") == "PASS", "negative parity CLI did not pass")
-            for name, key in (("sh27-function-scale.json", "function_scale_sha256"),
-                              ("sh27-file-scale.json", "file_scale_sha256")):
-                report = one(name)
-                check(report.get("status") == "PASS_PARITY" and not report.get("missing_tools") and
-                      report.get("tools", {}).get("openc", {}).get("sha256") == qualification["compiler_sha256"] and
-                      report.get("corpus", {}).get("sha256") == qualification[key], "scaling proof differs")
+            for name, key, names in (
+                ("sh27-function-scale.json", "function_scale_sha256",
+                 {"function_64", "function_256", "function_1024", "startup_file_allocation"}),
+                ("sh27-file-scale.json", "file_scale_sha256",
+                 {"files_1", "files_8", "files_24", "files_64", "startup_file_allocation"}),
+            ):
+                validate_scaling(one(name), qualification["compiler_sha256"], qualification[key], names)
         elif proof["kind"] == "modules":
             validate_modules({name: one(name) for name in MODULE_REPORTS}, qualification["compiler_sha256"])
         else:

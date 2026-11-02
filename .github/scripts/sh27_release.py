@@ -188,8 +188,11 @@ def candidate(args: argparse.Namespace) -> None:
     generations = []
     for generation in range(1, 4):
         built = output / f"stage{generation}.exe"
-        native(root, [str(compiler), "build", f"--project={root / 'compiler/selfhost/openc.project.json'}",
-                      f"--output={built}", "--no-cache"], output / f"stage{generation}.json", transition=generation == 1)
+        command = [str(compiler), "build", f"--project={root / 'compiler/selfhost/openc.project.json'}",
+                   f"--output={built}", f"--timings={output / f'stage{generation}-timings.json'}"]
+        if generation != 1:
+            command.append("--no-cache")
+        native(root, command, output / f"stage{generation}.json", transition=generation == 1)
         generations.append(sha256(built))
         compiler = built
     check(generations[1] == generations[2] == intent["expected_compiler_sha256"],
@@ -219,6 +222,7 @@ def candidate(args: argparse.Namespace) -> None:
     subprocess.run([sys.executable, str(root / "scripts/verify_native_release_plan.py"),
                     "--root", str(root), "--archives", str(native_release),
                     "--output", str(output / "archive-manifests.json")], check=True)
+    legacy_audit(evidence / "legacy-v1.0.0.json")
     first, second = output / "a", output / "b"
     assemble(root, native_release, evidence, first, intent, commit)
     assemble(root, native_release, evidence, second, intent, commit)

@@ -1,14 +1,57 @@
 # SH-27 1.0.1 qualification
 
-Status: **SH-27 remains open; no release authorization or publication**.
-The current compact-update compiler is
+Status: **SH-27 remains open pending final certification and publication**.
+The current verification candidate adds early owned compiler-identity hashing:
+`7c6f7bbaa5b9ed737a23c5779c560e54e0954d51f8756c412aad7f5ab05d42f5`.
+The hash task starts while declarations are collected, touches only its separate
+hash buffer, and is joined before identity use or destruction on every return.
+All four pool APIs resolve before submission; failed setup uses the existing
+serial path. A stable compilation owner retains its 24-byte work record.
+Cold preparation is selected from the explicit deferred state, rather than a
+hash-buffer length that the worker can change concurrently.
+
+This candidate reaches a byte-exact fixed point, passes 30 native-cache cases
+and 28 worker fault variants, and passes all 13 strict stability checks with
+20 exact native generations. Strict private/working-set peaks are
+240,553,984/58,900,480 bytes. The new identity-launch failure and all four
+missing-API cases retain exact output, invalid diagnostics and serial fallback.
+Its fresh VS Code 1.144.0 profile and 44/44 finalization audit pass; VSIX hash
+is `fe156d1f1b3bb98f9901eb4198f234a990481ee3863af0dc09b5ae61652e63a5`.
+Editor/OpenC working-set peaks are 1,633,779,712/5,656,576 bytes.
+Hosted source `7faeee5635d5eaf2b4d2d5a6a7acfbfb36fd877f` is being certified.
+
+The predecessor's two hosted production attempts both pass all 20 original
+ratios and both scaling suites. Its module repeat fails medium cold:
++9.013 ms against an unchanged 8.960 ms five-percent budget; warm/edit win
+11/11. The failure remains in
+[attempt 2](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/41486598314/attempts/2),
+artifact `13166337326`, ZIP SHA-256
+`995874e829a9f395bb65bc1f39aba590103faf237671dc7bf05493992e462420`.
+It is not replaced with another favorable sample.
+
+The cold encoding, early frontend snapshot, fused declaration projection and
+their combinations remain unpromoted after two hosted portfolio batches:
+[scheduling](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/41498878175)
+and [projection](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/41500030932).
+Every candidate fails the repeated above-null gain requirement. Fusion's
+same-source oracle passes exact contribution/projection bytes, but correctness
+does not qualify its speed. Those compiler changes have been removed.
+The new identity comparison predeclares two repeats of 31 blocks, five
+interleaved cold processes per side, against the frozen predecessor and a
+same-source serial control. It keeps every observation; normal cold/warm/edit
+acceptance and the original 20-ratio contract are unchanged.
+
+The immutable 1.0.0 audit passes again: exact tag, all 15 streamed asset hashes
+and the mandatory checksum list. No new public tag or release is authorized.
+
+The preceding compact-update compiler is
 `f97d4610573391cb4d8f5d4acd71b38a5a2337462e5992c2568413cb8a06a44d`.
 Canonical-source Stage 2/3 reproduces the measured candidate byte for byte.
 Both predetermined four-CPU DMD runs now pass all available public ceilings:
 large is **1.050x/1.120x**, control **0.694x/0.684x**. Both large results also
 meet the unchanged 1.20x engineering target. Local C/Clang/LDC are absent,
 so these remain `PARTIAL_COMPARATOR_SET`, not five-tool certificates.
-Final-source hosted repeats and publication authorization remain outstanding.
+Those constrained-host observations certify that predecessor, not a later binary.
 
 ## Normalized checked local updates
 
