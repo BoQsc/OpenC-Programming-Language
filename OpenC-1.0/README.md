@@ -8,7 +8,8 @@ This directory is the single canonical development tree for OpenC 1.0.
 
 Canonical OpenC source files use `.p`, derived from the word "open" in OpenC.
 The extension is an official tooling convention; explicit source paths and
-logical module identity remain extension-independent.
+logical module identity remain extension-independent. GitHub displays `.p`
+files as plain text until Linguist supports OpenC.
 
 ## 1.0 release scope
 
@@ -26,7 +27,7 @@ experimental future work and do not block or enlarge the 1.0 claim. See
 - all 4 maintained programs check, build, and run successfully;
 - all 281 migrated OpenC library, program, and fixture sources use `.p`; with
   the expanded compiler-in-OpenC and conformance source, the current tree has
-  547 `.p` files;
+  549 `.p` files;
 - the compiler-in-OpenC frontend builds and passes SH-2A/SH-2B exact owned
   lexer parity on 288 canonical `.p` sources plus 16 probes (304/304), SH-2C
   exact parser parity on those sources plus 15 parser probes (303/303), and
