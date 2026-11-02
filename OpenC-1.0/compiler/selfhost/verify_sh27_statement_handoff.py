@@ -70,7 +70,9 @@ def main() -> int:
         "compiler_sha256": sha256(compiler), "probe_sha256": sha256(probe),
         "implementation_files": {name: sha256(canonical / "source" / name) for name in
             ("ir_adjacency.p", "ir_index_initialize.p", "ir_part1c.p",
-             "ir_lower_binary.p", "ir_project.p", "ir.p", "cli_release.p")},
+             "ir_lower_binary.p", "ir_project.p", "ir.p", "cli_release.p",
+             "backend_coff_modules.p", "backend_module_cache.p",
+             "backend_native_scalar_intrinsic.p", "backend_native_image.p")},
         "checks": checks, "results": results}
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f"SH-27 statement handoff: {report['status']}; report={output}")

@@ -1,7 +1,16 @@
 # SH-27 1.0.1 qualification
 
 Status: **SH-27 remains open; no release authorization or publication**.
-The current package-integrity compiler is
+The current COFF/cache compiler is
+`17430ed22c0c79db0c52684604bedf4e715dc7ad1fa3a4caf49d426570e0ea39`.
+It passes exact Stage 2/3, all 13 strict stability checks (20 generations),
+27 worker faults, 30 ordinary-cache cases, retry/publication/edge recovery,
+278 conformance fixtures, 25 ABI checks, module/source cache invalidation,
+overflow COFF and fresh editor/finalization/contract audits. The large-function
+four-CPU DMD ceiling still fails in both predetermined runs. Hosted proof
+must be obtained on this source; preceding-source results do not transfer.
+
+The preceding package-integrity compiler is
 `0feaf99c92f07b773b47a9436ae620940b3596a550c0f515787dee699ff8943b`.
 It passes guarded exact Stage 2/3, 278 conformance fixtures, 25 ABI checks,
 the extended native regression and the fresh editor profile. Final-source
@@ -9,6 +18,13 @@ hosted certification and the constrained-host throughput deficit remain open.
 
 Release audit findings routed to the project owner:
 
+- **H1 latest, open:** current compiler `17430ed2...` measures 1.261x/1.382x
+  large and 0.753x/0.790x control against the same pinned DMD 2.112.0 in the
+  two planned 20-observation runs. The original 1.25x ceiling and 1.20x
+  engineering target are unchanged. Neither run closes large-function parity.
+  Affinity remains 0xf. A topology audit shows those four logical processors
+  occupy two physical cores; the worker-policy batch below does not establish
+  a qualifying gain, so production policy is unchanged.
 - **H1, open:** the predecessor's current v3 four-CPU DMD run is 1.295x on
   large functions, above the unchanged 1.25x ceiling. The first predetermined
   run of the integrity compiler is also above that ceiling at 1.274x; the
@@ -24,12 +40,94 @@ Release audit findings routed to the project owner:
   from validation instead of an unconditional true value. Published v1.0.0
   remains immutable.
 
-The editor VSIX is deterministic at
+The preceding integrity compiler's editor VSIX is deterministic at
 `c365bf7f59af5e47acf991a3d6d4e05f3c0bf026a9f6cd4f6b2bbb697f7047f7`.
 The new empty-profile report is retained in `review/SH27_WINDOWS_EDITOR_EVIDENCE.json`
 at SHA-256 `7885b9da521f74d9f5f06654eb44da7c8ed7bd980a50192cd6e4852dbb070da9`.
 VS Code/OpenC working-set peaks are 1,746,329,600/5,656,576 bytes; finalization
 44/44, editor 33/33 and contract 38/38 checks pass.
+
+## COFF lifetime and cache-stream successor
+
+Hosted predecessor module run
+[41460531058](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/41460531058)
+failed cold serial compiler COFF at 68,390,912 bytes working set, above
+67,108,864. Its medium ordinary-cache cold delta also missed the unchanged
+five-percent budget. Production run
+[41460531129](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/41460531129)
+passed, but that does not erase either module/cache failure.
+
+The successor validates selection before copying. A module covering the
+whole native stream borrows it read-only; a partial selection owns exactly
+its selected bytes plus the buffer sentinel. Both raw and cached COFF
+writers release only owned selections. Cold/fresh serial self-host COFF now
+passes at 56,578,048/56,291,328 bytes working set, with overflow relocations,
+authenticated readback and seeded fixed point intact. Empty, partial, full
+and malformed selection probes verify ownership and independent mutation.
+
+Entry-module selection is handed from frozen global declarations to warm
+key preparation, cold workers and image publication. Function identity rows
+retain their existing little-endian format using four bounded native-word
+stores. The compiler-private four-byte reader preserves the portable byte
+oracle's exact bounds/error-state behavior and emits one unaligned x64
+32-bit load. Differential tests cover 1,480 length/offset/prior-state cases,
+empty/null buffers and maximum offset in serial and adaptive builds.
+
+The retained 31-pair ordinary 24-file cold check is within its existing
+budget: +8.163 ms against 174.464 ms direct and 10.963 ms null. The reader's
+paired candidate gain is below null; it is not credited as a separately
+demonstrated end-to-end speedup. Earlier entry-only and identity-only
+four-CPU cold checks failed, and remain retained.
+
+Current deterministic VSIX SHA-256 is
+`e737d97955826614e0965ada243e083f16d5dd46d346d4e3a1cfdd866875ea42`.
+Fresh profile SHA-256 is
+`c937c89ddba33f57a2bdf9a46b01272fb721a3a2f19f1ddd4473f22c83ed287c`;
+working-set peaks are 1,771,208,704 bytes for the owned VS Code tree and
+5,738,496 for OpenC. Finalization 44/44, editor 33/33 and contract 38/38 pass.
+
+The native relocated release audit passes all nine checks on this compiler,
+including exact stage closure, both deterministic ZIP pairs, 278 relocated
+conformance fixtures and complete daily/CLI/editor workflow checks. Independent
+manifest validation covers all 1,532 standalone and 1,901 source payload
+entries against the frozen `release-input-word` authored snapshot. Its ZIP
+hashes are `db22bce0a6a717b777c14d3e9b34e52ca98781b6c9545c003c1dca4cb3629df4`
+(standalone pair) and
+`fd1e62298c6e4f52cb6525365823106b0183259ca100ff7ac3c0de6c4f81f9ed`
+(source pair). These identify that staged snapshot, preceding this evidence
+paragraph; the hosted workflow regenerates archives from its exact checkout.
+They are candidate evidence, with no public tag or release publication.
+
+| Current report under `build-output/z27/` | SHA-256 |
+| --- | --- |
+| `word-final-workers.json` | `996c62a0d8ce466b828b81a4a0fbc7f71afe4fed48761532134a958119c6e91d` |
+| `word-final-cache.json` | `6a8be5b6805b8e0a61d47e45265c9007d2338d42ba372024cd5c5a5b6bb4a482` |
+| `word-final-retry.json` | `eaa97088eac8c23224641b886d0c5bf4cbac35200068f97e0107b2d438317ccd` |
+| `word-final-publication.json` | `448b4681f285fda3a6ef52844e89d406e176e8e7fcaebd3698c376340695caaf` |
+| `word-final-edges.json` | `35498bb091ff04cf0edc9e7a8f1a39d8eeae13b0893c919c2111dfd469e77d25` |
+| `word-final-strict20.json` | `069dee14ccf35320e8d682197aad80f09d1cec79f2c1a1273f1f6c4cd30dd66b` |
+| `word-final-coff.json` | `50aa740024848d960760c1e220e0a6f2ebf90f87399264b92dabd291bb42becf` |
+| `word-final-source-cache.json` | `ed9aabaa739c4b3542c01278afbd5ddf767c1e505583ba285e66b2e53554a9b6` |
+| `native-word-reader/word-reader2.json` | `30c26aed4e92edae09956e9f0d1b237a4667270458bac3a5ac21e3ceb412782a` |
+| `reader-target31/report.json` | `0ad9f1f9bd26cc883ff37f777bb893183068533f896dae791d0427af48f3d63b` |
+| `word-dmd20-a.json` | `0840c5f503073ad58a42739873684e4df01f4594c8ebd90d2083b817283e7cc5` |
+| `word-dmd20-b.json` | `cb022c286ec04d2f1b9fc0947867924926bdfa8930217ffff06232b6f19fad0d` |
+
+Three additional isolated portfolios remain unpromoted. Four combinations
+of native/parser workers yield no above-null target gain. Length/character
+keyword dispatch, operator dispatch and their combination also fail. A
+bounded SSA-literal comparison emitter, alone and combined with lexer
+dispatch, fails its 31-pair target selection. All outputs were exact in the
+retained matrices; their `PASS` status means correctness, not speed selection.
+The original first literal prototype failed native compilation because it
+used an unsupported byte-load spelling; the corrected prototype is the
+one measured below. No failed observation was substituted with a retry.
+
+| Unpromoted report under `build-output/z27/` | SHA-256 |
+| --- | --- |
+| `worker-portfolio/matrix11.json` | `235d8d336294ca0baa1ec15a2d8184e65733dc2ce49e3534e26e5f98eac48817` |
+| `lexer-portfolio/matrix11.json` | `abf4a8c5efbb0f03306c19786a38d733705e8172e216338f6dbbe8557a5efad9` |
+| `literal-portfolio2/matrix31.json` | `c319234a465345d04c32cd443e1c4ce8138eb2eeefe6918e75aed51cc765b556` |
 
 The following `81787a12...` observations precede the integrity fix and do not
 certify its final source.

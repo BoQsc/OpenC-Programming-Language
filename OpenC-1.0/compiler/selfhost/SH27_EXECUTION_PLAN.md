@@ -1,15 +1,16 @@
 # SH-27 execution plan: finish the compiler, then certify the release
 
-Current checkpoint (2026-11-02): **SH-27 remains open**. Package-integrity
-compiler `0feaf99c...` passes local fixed point, conformance/ABI, the extended
-native regression and the fresh editor audit. Native source manifests are
-regenerated and verified, and standalone archives exclude nested D manifests.
-The predecessor's current v3 hosted original/scaling/negative-CLI and full
-module/cache/project-batch proofs pass. Its four-CPU large-function DMD ratio
-is 1.295x, and the integrity compiler's first predetermined run is 1.274x.
-Ten isolated optimization candidates failed the target selection/repeat and
-remain unpromoted. Resolve that deficit, certify the same final source twice,
-then complete owner-authorized publication. See the
+Current checkpoint (2026-11-02): **SH-27 remains open**. Compiler `17430ed2...`
+passes the complete local correctness/strict-20/ABI/cache and fresh editor
+suite. Validated COFF borrowing removes the hosted predecessor's 64 MiB
+cold-COFF peak failure; bounded word serialization/readback and entry-fact
+handoff put the retained 31-pair medium cold check inside budget. The hosted
+predecessor passed production but failed module RAM and medium cold; it is
+not a final certificate. Current four-CPU large DMD fails both predetermined
+20-sample runs at 1.261x/1.382x. Worker-policy, lexer and literal-comparison
+portfolios fail above-null target selection and remain isolated. Resolve H1,
+certify the same final source twice, then complete owner-authorized publication.
+See the
 [qualification record](SH27_1_0_1_QUALIFICATION.md) for hashes and findings.
 
 Latest checkpoint: `1859f47f...` prepares a frontend temporary on a second

@@ -890,6 +890,35 @@ usize source_partition_index(
 // a public or private declaration change invalidates all units. A body edit
 // changes only its own unit's full-content digest. This conservative scheme
 // avoids pretending that unqualified cross-file names are separate modules.
+// The native cache is little-endian x64/LLP64. Append one complete binary
+// identity record instead of 32 checked byte appends per function.
+unsafe void module_cache_append_function_identity(ref DBuffer numbering,
+    usize symbol, usize source, usize module, usize type_id
+) {
+    if !numbering.ok { return; }
+    if size_of(usize) == 8 {
+        if numbering.length > numbering.capacity ||
+            numbering.capacity - numbering.length < 32 {
+            numbering.ok = false;
+        } else {
+            ptr byte row = numbering.data + numbering.length;
+            write_usize(row, 0, symbol);
+            write_usize(row, 8, source);
+            write_usize(row, 16, module);
+            write_usize(row, 24, type_id);
+            numbering.length = numbering.length + 32;
+        }
+    } else {
+        pe32_put_u64(numbering, cast(u64, symbol));
+        pe32_put_u64(numbering, cast(u64,
+            source));
+        pe32_put_u64(numbering, cast(u64,
+            module));
+        pe32_put_u64(numbering, cast(u64,
+            type_id));
+    }
+}
+
 unsafe bool source_partition_cache_prepare(
     ref IrContext context, ptr byte parsed_source_cache,
     text prefix, usize entry_module, usize partitions,
@@ -966,13 +995,10 @@ unsafe bool source_partition_cache_prepare(
         while numbered_symbol < context.symbols.length {
             if read_record_field(context.symbol_data, numbered_symbol, 0) ==
                 resolution_symbol_function() {
-                pe32_put_u64(numbering, cast(u64, numbered_symbol));
-                pe32_put_u64(numbering, cast(u64,
-                    read_record_field(context.symbol_data, numbered_symbol, 1)));
-                pe32_put_u64(numbering, cast(u64,
-                    read_record_field(context.detail_data, numbered_symbol, 0)));
-                pe32_put_u64(numbering, cast(u64,
-                    read_record_field(context.symbol_data, numbered_symbol, 4)));
+                module_cache_append_function_identity(numbering, numbered_symbol,
+                    read_record_field(context.symbol_data, numbered_symbol, 1),
+                    read_record_field(context.detail_data, numbered_symbol, 0),
+                    read_record_field(context.symbol_data, numbered_symbol, 4));
             }
             numbered_symbol = numbered_symbol + 1;
         }
@@ -1273,10 +1299,11 @@ unsafe status module_cache_write_set(
             object = DBuffer{ data = cache.saved.data + saved + 3,
                 length = bytes, capacity = bytes, ok = true };
         } else {
-            DBuffer subset = d_buffer_create(objects.length + 1);
             usize selected_bytes = 0;
-            ok = coff_module_subset(context, objects, module_index, subset,
-                records, selected_bytes, true);
+            bool subset_owned = false;
+            DBuffer subset = coff_module_select(context, objects, module_index,
+                records, selected_bytes, subset_owned);
+            ok = subset.ok;
             if ok && records != 0 {
                 usize exports = 0;
                 usize relocations = 0;
@@ -1284,7 +1311,7 @@ unsafe status module_cache_write_set(
                 owned = true;
                 ok = object.ok;
             }
-            d_buffer_destroy(subset);
+            if subset_owned { d_buffer_destroy(subset); }
         }
         if ok && object.length != 0 {
             DBuffer digest = d_buffer_create(65);

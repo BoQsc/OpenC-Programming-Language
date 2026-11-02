@@ -1,5 +1,13 @@
 # SH-27 completion roadmap
 
+Current checkpoint (2026-11-02): **OPEN**. Compiler `17430ed2...` passes full
+local correctness, strict 20/20, native-cache/COFF, editor and relocated release
+proofs. Validated whole-stream borrowing fixes the predecessor's hosted cold
+COFF RAM failure. The current large DMD ratios fail both planned four-CPU
+runs at 1.261x/1.382x. Same-source hosted repeats and sustained throughput
+remain required; no public release is authorized. Current hashes and failed
+candidate portfolios are in [the qualification record](SH27_1_0_1_QUALIFICATION.md).
+
 Latest checkpoint: `1859f47f...` overlaps frontend encoding/exclusive temporary
 writing with PE linking and commits only after success. Stable owner pointers
 fix failed-link cleanup. The audit app's unsorted manifest exposed separate

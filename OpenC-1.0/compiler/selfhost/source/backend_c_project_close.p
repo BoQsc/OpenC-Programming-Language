@@ -466,7 +466,7 @@ unsafe i32 c_emit_project(
             module_cache.enabled {
             written = native_object_cache_write_image(
                 base, output, output_source, artifact_options,
-                module_cache, timings);
+                module_cache, timings, entry_module);
         } else if artifact_options.kind == native_artifact_coff_object() {
             written = native_write_coff_object(
                 base, output, output_source,

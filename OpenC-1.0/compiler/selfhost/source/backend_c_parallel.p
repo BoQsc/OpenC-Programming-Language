@@ -41,6 +41,7 @@ struct NativeColdCacheWork {
     ptr byte cache;
     ptr byte timings;
     ptr byte parsed_source_cache;
+    usize entry_module;
     bool done;
     bool parallel;
 }

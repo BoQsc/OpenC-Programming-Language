@@ -455,6 +455,11 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
     ptr byte semantic_cache_owner = reinterpret(ptr byte, &semantic_cache);
     scope module_cache_destroy_owner(semantic_cache_owner);
     bool semantic_cache_ready = false;
+    // Global declarations are frozen here. Reuse the selected entry through
+    // validation, key preparation and linking instead of rereading names in
+    // every cache stage. Validation never adds or renames global functions.
+    usize resolved_entry = modules.length;
+    bool resolved_entry_ready = false;
     if validate_semantics && c_backend && timings.emission_mode == 2 &&
         (artifact_options.kind == native_artifact_module_coff_set() ||
             artifact_options.kind == native_artifact_cached_executable()) &&
@@ -469,15 +474,16 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
             source_data, type_data, types, symbol_data, detail_data,
             symbols, 1
         );
-        usize prepared_entry = ir_entry_module(
+        resolved_entry = ir_entry_module(
             project_source, project_root, source_data,
             symbol_data, detail_data, symbols, modules.length
         );
+        resolved_entry_ready = true;
         semantic_cache.native_objects =
             artifact_options.kind == native_artifact_cached_executable();
         semantic_cache_ready = source_partition_cache_prepare(
             prepared_base, parsed_source_cache,
-            artifact_options.cache_prefix, prepared_entry,
+            artifact_options.cache_prefix, resolved_entry,
             artifact_options.source_partitions,
             artifact_options.source_chunks, artifact_options.frontend_rows,
             artifact_options.frontend_projections,
@@ -686,10 +692,11 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
         return 0;
     }
 
-    usize entry = ir_entry_module(
-        project_source, project_root, source_data,
-        symbol_data, detail_data, symbols, modules.length
-    );
+    usize entry = resolved_entry;
+    if !resolved_entry_ready {
+        entry = ir_entry_module(project_source, project_root, source_data,
+            symbol_data, detail_data, symbols, modules.length);
+    }
     usize next_value = 1;
     IrContext base = backend_base_context(
         project_source, project_root, module_data, modules,

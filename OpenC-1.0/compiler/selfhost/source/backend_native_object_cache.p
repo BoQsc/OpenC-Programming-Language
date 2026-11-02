@@ -249,7 +249,7 @@ unsafe void native_object_cache_frontend_pool(
 unsafe status native_object_cache_write_image(
     ref IrContext context, ref DBuffer objects, text output_path,
     ref NativeArtifactOptions options, ref ModuleCacheState cache,
-    ref BuildTimings timings
+    ref BuildTimings timings, usize entry_module
 ) {
     usize partitions = options.source_partitions;
     usize source_count = c_project_source_count(context);
@@ -281,9 +281,6 @@ unsafe status native_object_cache_write_image(
         options.cache_retry_required = true;
         return status{code = 1};
     }
-    usize entry_module = ir_entry_module(context.project_source, context.project_root,
-        context.source_data, context.symbol_data, context.detail_data,
-        context.symbols, context.modules.length);
     bool ok = true;
     bool retained = cache.saved.length != 0;
     if has_hits && !retained {

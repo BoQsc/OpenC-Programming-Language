@@ -504,8 +504,7 @@ unsafe void c_native_cache_cold_run(ptr byte raw) {
         options.cache_compiler_hash = d_buffer_text(frontend.compiler_hash);
         cache.native_objects = true;
         prepared = source_partition_cache_prepare(base, work.parsed_source_cache,
-            options.cache_prefix, ir_entry_module(base.project_source, base.project_root,
-                base.source_data, base.symbol_data, base.detail_data, base.symbols, base.modules.length),
+            options.cache_prefix, work.entry_module,
             options.source_partitions, options.source_chunks, options.frontend_rows,
             options.frontend_projections, options.frontend_projection_length,
             options.cache_compiler_hash, false, options.cache_type_count, cache, timings);
@@ -565,7 +564,8 @@ unsafe bool c_emit_native_sources_chunked(
     NativeColdCacheWork cold = NativeColdCacheWork{
         base = reinterpret(ptr byte, &base), options = reinterpret(ptr byte, &options),
         cache = reinterpret(ptr byte, &cache), timings = reinterpret(ptr byte, &timings),
-        parsed_source_cache = parsed_source_cache, done = false, parallel = false
+        parsed_source_cache = parsed_source_cache, entry_module = entry_module,
+        done = false, parallel = false
     };
     bool cold_pending = options.cold_cache_pending;
     if cold_pending { state.cold_work = reinterpret(ptr byte, &cold); }

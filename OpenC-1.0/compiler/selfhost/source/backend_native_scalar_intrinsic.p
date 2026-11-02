@@ -269,6 +269,37 @@ unsafe bool native_compiler_intrinsic(ref IrContext context,
         x64_mov_r64_imm64(function.code, 0, cast(u64, 40));
         native_store(function, result, 0); return true;
     }
+    if native_compiler_span_is(call_span, "native_read_u32") {
+        if d_operand_count(context, instruction) != 2 || result == 0 {
+            function.code.ok = false; return true;
+        }
+        // The private DBuffer is {data,length,capacity,ok}. Preserve the
+        // byte-reader's range checks and failure flag, then use x64's exact
+        // four-byte unaligned load. The portable source remains the oracle.
+        native_value_address(context, function, d_operand_value(context, instruction, 0), 11);
+        native_load(function, d_operand_value(context, instruction, 1), 0);
+        x64_mov_r64_memory(function.code, 8, 11, 8);
+        x64_cmp_r64_r64(function.code, 0, 8);
+        usize bad_offset = native_skip(function.code, 7);
+        x64_binary_r64_r64(function.code, 41, 8, 0);
+        x64_alu_r64_imm8(function.code, 7, 8, 4);
+        usize bad_length = native_skip(function.code, 2);
+        x64_mov_r64_memory(function.code, 10, 11, 0);
+        x64_add_r64_r64(function.code, 10, 0);
+        x64_emit_rex(function.code, false, 0, 0, 10);
+        x64_emit_u8(function.code, 139);
+        x64_emit_memory_modrm(function.code, 0, 10, 0);
+        usize complete = native_jump(function.code);
+        native_skip_end(function.code, bad_offset);
+        native_skip_end(function.code, bad_length);
+        x64_emit_rex(function.code, false, 0, 0, 11);
+        x64_emit_u8(function.code, 198);
+        x64_emit_memory_modrm(function.code, 0, 11, 24);
+        x64_emit_u8(function.code, 0);
+        x64_mov_r64_imm64(function.code, 0, cast(u64, 0));
+        native_skip_end(function.code, complete);
+        native_store(function, result, 0); return true;
+    }
     if native_compiler_span_is(call_span, "read_usize") {
         if d_operand_count(context, instruction) != 2 {
             function.code.ok = false; return true;

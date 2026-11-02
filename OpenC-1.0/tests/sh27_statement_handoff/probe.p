@@ -230,6 +230,10 @@ unsafe i32 main() {
         }
         probe_case = probe_case + 1;
     }
+    i32 selection_check = probe_coff_selection_ownership();
+    if selection_check != 0 { return selection_check; }
+    if !probe_native_identity_encoding() { return 237; }
+    if !probe_native_u32_reader() { return 238; }
     // Source snapshots retain historical D build descriptions; the native
     // standalone distribution excludes them at every directory depth.
     if cli_release_standalone_path("dub.json") { return 240; }
@@ -244,6 +248,128 @@ unsafe i32 main() {
     if !cli_release_standalone_path("docs/dub.json.md") { return 249; }
     io.println("statement-handoff-ok");
     return 0;
+}
+
+unsafe i32 probe_coff_selection_ownership() {
+    PackedBuffer empty = PackedBuffer{length = 0, capacity = 0};
+    PackedBuffer symbols = PackedBuffer{length = 3, capacity = 3};
+    ptr byte details = memory.alloc(3 * record_stride());
+    scope memory.free(details);
+    IrContext context = backend_base_context("", "", null, empty, null,
+        null, empty, null, details, symbols, 1);
+    DBuffer records = d_buffer_create(128);
+    scope d_buffer_destroy(records);
+    usize symbol = 0;
+    while symbol < 3 {
+        write_record_field(details, symbol, 0, 0);
+        pe32_put_u32(records, symbol);
+        pe32_put_u32(records, 0);
+        pe32_put_u32(records, 1);
+        pe32_put_u32(records, 4);
+        pe32_put_u32(records, 0);
+        pe32_put_u32(records, 0);
+        d_put_byte(records, 195);
+        pe32_put_u32(records, 1);
+        symbol = symbol + 1;
+    }
+    usize count = 0;
+    usize bytes = 0;
+    bool owned = true;
+    DBuffer selected = coff_module_select(context, records, 0, count, bytes, owned);
+    if !selected.ok || owned || count != 3 || bytes != 87 ||
+        selected.data != records.data || selected.length != records.length { return 231; }
+    write_record_field(details, 2, 0, 1);
+    selected = coff_module_select(context, records, 1, count, bytes, owned);
+    if !selected.ok || !owned || count != 1 || bytes != 29 ||
+        selected.data == records.data || selected.capacity != 30 { return 232; }
+    if native_read_u32(selected, 0) != 2 { return 233; }
+    pe32_patch_u32(selected, 0, 77);
+    if native_read_u32(records, 58) != 2 { return 234; }
+    d_buffer_destroy(selected);
+    selected = coff_module_select(context, records, 2, count, bytes, owned);
+    if !selected.ok || owned || count != 0 || bytes != 0 ||
+        selected.data != null { return 235; }
+    records.length = records.length - 1;
+    selected = coff_module_select(context, records, 0, count, bytes, owned);
+    if selected.ok || owned { return 236; }
+    return 0;
+}
+
+unsafe bool probe_native_identity_encoding() {
+    DBuffer actual = d_buffer_create(256);
+    scope d_buffer_destroy(actual);
+    DBuffer expected = d_buffer_create(256);
+    scope d_buffer_destroy(expected);
+    d_put(actual, "prefix:"); d_put(expected, "prefix:");
+    usize sample = 0;
+    while sample < 5 {
+        usize value = sample;
+        if sample == 2 { value = cast(usize, 4294967295); }
+        if sample == 3 { value = cast(usize, 4294967296); }
+        if sample == 4 { value = ~cast(usize, 0); }
+        module_cache_append_function_identity(actual, value, 19, sample, 3);
+        pe32_put_u64(expected, cast(u64, value));
+        pe32_put_u64(expected, cast(u64, 19));
+        pe32_put_u64(expected, cast(u64, sample));
+        pe32_put_u64(expected, cast(u64, 3));
+        sample = sample + 1;
+    }
+    if !actual.ok || !expected.ok || actual.length != expected.length ||
+        !native_frontend_equal(actual.data, expected.data, actual.length) { return false; }
+    usize previous = actual.length;
+    write_usize(actual.data, previous, 1234567);
+    actual.capacity = previous + 31;
+    module_cache_append_function_identity(actual, 9, 8, 7, 6);
+    return !actual.ok && actual.length == previous &&
+        read_usize(actual.data, previous) == 1234567;
+}
+
+unsafe usize probe_u32_byte_oracle(ref DBuffer bytes, usize offset) {
+    if offset > bytes.length || bytes.length - offset < 4 {
+        bytes.ok = false; return 0;
+    }
+    usize result = 0;
+    usize index = 0;
+    while index < 4 {
+        result = result | (cast(usize, cast(u8, *(bytes.data + offset + index))) << (index * 8));
+        index = index + 1;
+    }
+    return result;
+}
+
+unsafe bool probe_native_u32_reader() {
+    ptr byte data = memory.alloc(44);
+    scope memory.free(data);
+    usize index = 0;
+    while index < 44 {
+        *(data + index) = cast(byte, (index * 29 + 7) % 256);
+        index = index + 1;
+    }
+    usize length = 0;
+    while length <= 36 {
+        usize offset = 0;
+        while offset <= 39 {
+            bool initial = (offset + length) % 2 == 0;
+            DBuffer actual = DBuffer{data = ir_pointer_alias(data), length = length, capacity = 44, ok = initial};
+            DBuffer expected = DBuffer{data = ir_pointer_alias(data), length = length, capacity = 44, ok = initial};
+            usize a = native_read_u32(actual, offset);
+            usize b = probe_u32_byte_oracle(expected, offset);
+            if a != b || actual.ok != expected.ok || actual.length != length ||
+                actual.capacity != 44 || actual.data != data { return false; }
+            offset = offset + 1;
+        }
+        length = length + 1;
+    }
+    DBuffer empty = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+    if native_read_u32(empty, 0) != 0 || empty.ok { return false; }
+    empty.ok = true;
+    if native_read_u32(empty, ~cast(usize, 0)) != 0 || empty.ok { return false; }
+    index = 0;
+    while index < 44 {
+        if *(data + index) != cast(byte, (index * 29 + 7) % 256) { return false; }
+        index = index + 1;
+    }
+    return true;
 }
 unsafe void probe_parent_reference(
     ref IrContext context,

@@ -108,6 +108,41 @@ unsafe bool coff_module_subset(
     return cursor == objects.length && subset.ok;
 }
 
+// A module that owns the complete stream can borrow it while the COFF writer
+// reads it. Other selections own an exact-sized copy. The caller releases
+// only owned selections; neither path changes the input record bytes.
+unsafe DBuffer coff_module_select(
+    ref IrContext context, ref DBuffer objects, usize module_index,
+    ref usize records, ref usize selected_bytes, ref bool owned
+) {
+    DBuffer selected = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+    owned = false;
+    usize count = 0;
+    usize bytes = 0;
+    if !objects.ok || !coff_module_subset(context, objects, module_index,
+            selected, count, bytes, false) {
+        selected.ok = false;
+        return selected;
+    }
+    records = count;
+    selected_bytes = bytes;
+    if count == 0 { return selected; }
+    if bytes == objects.length {
+        selected.data = ir_pointer_alias(objects.data);
+        selected.length = objects.length;
+        selected.capacity = objects.length;
+        return selected;
+    }
+    selected = d_buffer_create(bytes + 1);
+    owned = true;
+    usize copied_records = 0;
+    usize copied_bytes = 0;
+    if !coff_module_subset(context, objects, module_index, selected,
+            copied_records, copied_bytes, true) || copied_records != count ||
+            copied_bytes != bytes { selected.ok = false; }
+    return selected;
+}
+
 // Keep language-module visibility intact while proving a finer native-object
 // boundary. Symbol records carry their defining source record independently
 // of the module number, so contiguous source groups preserve function order.
@@ -254,31 +289,17 @@ unsafe bool coff_write_one_module(
     );
     if d_buffer_text(object_path) == linked_output_path &&
         text.byte_length(linked_output_path) != 0 { path_ok = false; }
-    DBuffer preview = DBuffer{
-        data = null, length = 0, capacity = 0, ok = true
-    };
     usize records = 0;
     usize selected_bytes = 0;
-    bool ok = path_ok &&
-        coff_module_subset(
-            context, objects, module_index, preview, records,
-            selected_bytes, false
-        );
+    bool subset_owned = false;
+    DBuffer subset = DBuffer{data = null, length = 0, capacity = 0, ok = false};
+    if path_ok {
+        subset = coff_module_select(context, objects, module_index,
+            records, selected_bytes, subset_owned);
+    }
+    bool ok = path_ok && subset.ok;
     if !ok && text.byte_length(linked_output_path) != 0 {
         io.error("error[OPENC-COFF-LINK-SUBSET]: module selection failed\n");
-    }
-    DBuffer subset = d_buffer_create(selected_bytes + 1);
-    if ok && records != 0 {
-        usize copied_records = 0;
-        usize copied_bytes = 0;
-        ok = coff_module_subset(
-            context, objects, module_index, subset,
-            copied_records, copied_bytes, true
-        ) && copied_records == records &&
-            copied_bytes == selected_bytes;
-        if !ok && text.byte_length(linked_output_path) != 0 {
-            io.error("error[OPENC-COFF-LINK-COPY]: module copy failed\n");
-        }
     }
     if ok && records != 0 {
         usize exports = 0;
@@ -288,8 +309,9 @@ unsafe bool coff_write_one_module(
         );
         // The COFF writer owns its complete result. The source selection is
         // no longer borrowed; release it before hashing/writing/readback.
-        d_buffer_destroy(subset);
+        if subset_owned { d_buffer_destroy(subset); }
         subset = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+        subset_owned = false;
         ok = object.ok;
         if !ok && text.byte_length(linked_output_path) != 0 {
             io.error("error[OPENC-COFF-LINK-COFF]: object writer failed\n");
@@ -334,7 +356,7 @@ unsafe bool coff_write_one_module(
         d_buffer_destroy(object_hash);
         d_buffer_destroy(object);
     }
-    d_buffer_destroy(subset);
+    if subset_owned { d_buffer_destroy(subset); }
     d_buffer_destroy(object_path);
     if !ok && text.byte_length(linked_output_path) != 0 {
         io.error("error[OPENC-COFF-LINK-OBJECT]: module object emission failed\n");
