@@ -3,23 +3,57 @@ import system.text;
 struct NativeArtifactOptions {
     usize kind;
     usize subsystem;
+    usize source_chunks;
+    usize source_partitions;
     text manifest_path;
     text resource_path;
     text dll_name;
+    text interface_report_path;
+    bool stable_coff_symbols;
+    text linked_output_path;
+    text module_name;
+    text cache_prefix;
+    text cache_project_key;
+    bool cache_retry_required;
+    ptr byte frontend_rows;
+    ptr byte frontend_projections;
+    usize frontend_projection_length;
+    text cache_compiler_hash;
+    ptr byte frontend_state;
+    bool cold_cache_pending;
+    usize cache_type_count;
 }
 usize native_artifact_executable() { return 0; }
 usize native_artifact_coff_object() { return 1; }
 usize native_artifact_dll() { return 2; }
 usize native_artifact_static_library() { return 3; }
 usize native_artifact_import_library() { return 4; }
+usize native_artifact_module_coff_set() { return 5; }
+usize native_artifact_cached_executable() { return 6; }
 
 NativeArtifactOptions native_artifact_default_options() {
     return NativeArtifactOptions{
         kind = 0,
         subsystem = 3,
+        source_chunks = 0,
+        source_partitions = 0,
         manifest_path = "",
         resource_path = "",
-        dll_name = ""
+        dll_name = "",
+        interface_report_path = "",
+        stable_coff_symbols = false,
+        linked_output_path = "",
+        module_name = "",
+        cache_prefix = "",
+        cache_project_key = "",
+        cache_retry_required = false,
+        frontend_rows = null,
+        frontend_projections = null,
+        frontend_projection_length = 0,
+        cache_compiler_hash = "",
+        frontend_state = null,
+        cold_cache_pending = false,
+        cache_type_count = 0
     };
 }
 

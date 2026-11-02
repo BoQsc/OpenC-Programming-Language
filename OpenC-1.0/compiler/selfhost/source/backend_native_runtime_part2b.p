@@ -54,6 +54,19 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
             "cli_file_create_directory", "cli_file_create_directory"
         ) && !native_runtime_name(
             call_span,
+            "cli_coff_read_bounded_object", "cli_coff_read_bounded_object"
+        ) && !native_runtime_name(
+            call_span, "cli_cache_write_exclusive", "cli_cache_write_exclusive"
+        ) && !native_runtime_name(
+            call_span, "cli_cache_atomic_replace", "cli_cache_atomic_replace"
+        ) && !native_runtime_name(
+            call_span, "cli_cache_discard_temporary", "cli_cache_discard_temporary"
+        ) && !native_runtime_name(
+            call_span, "cli_cache_sha256_runtime", "cli_cache_sha256_runtime"
+        ) && !native_runtime_name(
+            call_span, "cli_cache_file_sha256_runtime", "cli_cache_file_sha256_runtime"
+        ) && !native_runtime_name(
+            call_span,
             "win_resources_load_runtime", "ocw_library_load_system"
         ) && !native_runtime_name(
             call_span,
@@ -446,22 +459,46 @@ unsafe bool native_runtime_call(ref IrContext context, ref NativeFunction functi
     }
     if native_runtime_name(call_span, "file.read_text", "system.file.read_text") ||
         native_runtime_name(call_span, "file.read_bytes", "system.file.read_bytes") {
-        native_file_read(context, function, instruction, result, false); return true;
+        native_file_read(context, function, instruction, result, false, false); return true;
     }
     if native_runtime_name(call_span, "file.read_bytes_raw", "system.file.read_bytes_raw") {
-        native_file_read(context, function, instruction, result, true); return true;
+        native_file_read(context, function, instruction, result, true, false); return true;
+    }
+    if native_runtime_name(call_span, "cli_coff_read_bounded_object", "cli_coff_read_bounded_object") {
+        if d_operand_count(context, instruction) != 4 { function.code.ok = false; return true; }
+        native_file_read(context, function, instruction, result, true, true); return true;
     }
     if native_runtime_name(call_span, "file.write_text", "system.file.write_text") {
         if d_operand_count(context, instruction) != 2 { function.code.ok = false; return true; }
-        native_file_write(context, function, instruction, result, false, false); return true;
+        native_file_write(context, function, instruction, result, false, false, false); return true;
     }
     if native_runtime_name(call_span, "file.write_bytes", "system.file.write_bytes") {
         if d_operand_count(context, instruction) != 3 { function.code.ok = false; return true; }
-        native_file_write(context, function, instruction, result, true, false); return true;
+        native_file_write(context, function, instruction, result, true, false, false); return true;
     }
     if native_runtime_name(call_span, "cli_file_append_bytes", "cli_file_append_bytes") {
         if d_operand_count(context, instruction) != 3 { function.code.ok = false; return true; }
-        native_file_write(context, function, instruction, result, true, true); return true;
+        native_file_write(context, function, instruction, result, true, true, false); return true;
+    }
+    if native_runtime_name(call_span, "cli_cache_write_exclusive", "cli_cache_write_exclusive") {
+        if d_operand_count(context, instruction) != 3 { function.code.ok = false; return true; }
+        native_file_write(context, function, instruction, result, true, false, true); return true;
+    }
+    if native_runtime_name(call_span, "cli_cache_atomic_replace", "cli_cache_atomic_replace") {
+        if d_operand_count(context, instruction) != 2 { function.code.ok = false; return true; }
+        native_cache_atomic_replace(context, function, instruction, result); return true;
+    }
+    if native_runtime_name(call_span, "cli_cache_discard_temporary", "cli_cache_discard_temporary") {
+        if d_operand_count(context, instruction) != 1 { function.code.ok = false; return true; }
+        native_cache_discard_temporary(context, function, instruction, result); return true;
+    }
+    if native_runtime_name(call_span, "cli_cache_sha256_runtime", "cli_cache_sha256_runtime") {
+        if d_operand_count(context, instruction) != 3 { function.code.ok = false; return true; }
+        native_cache_sha256(context, function, instruction, result); return true;
+    }
+    if native_runtime_name(call_span, "cli_cache_file_sha256_runtime", "cli_cache_file_sha256_runtime") {
+        if d_operand_count(context, instruction) != 3 || result == 0 { return false; }
+        native_cache_file_sha256(context, function, instruction, result); return true;
     }
     if native_runtime_name(call_span, "cli_file_create_directory", "cli_file_create_directory") {
         if d_operand_count(context, instruction) != 1 { function.code.ok = false; return true; }

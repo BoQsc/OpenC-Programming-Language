@@ -1,0 +1,16 @@
+{
+  "name": "sh27-representative-log-audit",
+  "version": "1.0.0",
+  "edition": "OpenC 1.0",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "modules": {
+    "audit.main": ["source/main.p"],
+    "audit.scan": ["source/scan.p"],
+    "audit.score": ["source/score.p"],
+    "audit.report": ["source/report.p"]
+  },
+  "standard_library_directory": "../../../../standard_library",
+  "runtime_directory": "../../../../runtime",
+  "output_directory": "build"
+}

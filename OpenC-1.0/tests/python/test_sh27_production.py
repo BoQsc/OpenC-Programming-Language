@@ -1,12 +1,17 @@
 from __future__ import annotations
 
+from contextlib import redirect_stdout
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
+import time
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -18,6 +23,48 @@ SPEC.loader.exec_module(BENCHMARK)
 
 
 class Sh27ProductionTests(unittest.TestCase):
+    def test_parity_annotations_use_unrounded_decision(self) -> None:
+        lanes = {
+            "large_functions": {"compilers": {
+                "openc": {"summary": {"median_seconds": 1.0}},
+                "dmd": {"summary": {"median_seconds": 0.8}},
+            }},
+        }
+        ratios = {"large_functions": {"openc_to_dmd": 1.25}}
+        output = io.StringIO()
+        with redirect_stdout(output):
+            BENCHMARK.emit_parity_annotations(lanes, ratios, 1.25)
+        self.assertIn("::notice title=SH-27 large_functions parity summary::", output.getvalue())
+        self.assertIn("dmd=0.8000s/1.2500x/PASS", output.getvalue())
+        lanes["large_functions"]["compilers"]["dmd"]["summary"][
+            "median_seconds"
+        ] = 0.799
+        output = io.StringIO()
+        with redirect_stdout(output):
+            BENCHMARK.emit_parity_annotations(lanes, ratios, 1.25)
+        self.assertIn("::error title=SH-27 large_functions vs dmd::", output.getvalue())
+        self.assertIn("dmd=0.7990s/1.2516x/FAIL", output.getvalue())
+
+    def test_parity_annotations_fit_notice_cap(self) -> None:
+        lanes = {}
+        ratios = {}
+        for workload in ("small", "many", "large", "control", "runtime"):
+            lanes[workload] = {"compilers": {
+                "openc": {"summary": {"median_seconds": 1.0}},
+                **{name: {"summary": {"median_seconds": 1.0}}
+                   for name in ("msvc", "clang", "dmd", "ldc")},
+            }}
+            ratios[workload] = {
+                f"openc_to_{name}": 1.0
+                for name in ("msvc", "clang", "dmd", "ldc")
+            }
+        output = io.StringIO()
+        with redirect_stdout(output):
+            BENCHMARK.emit_parity_annotations(lanes, ratios, 1.25)
+        text = output.getvalue()
+        self.assertEqual(text.count("::notice"), 5)
+        self.assertEqual(text.count("/PASS"), 20)
+
     def test_control_flow_workload_is_bounded_and_equivalent(self) -> None:
         corpus = json.loads((ROOT / "benchmarks/sh27/CORPUS.json").read_text())
         BENCHMARK.validate_corpus(corpus)
@@ -76,6 +123,9 @@ class Sh27ProductionTests(unittest.TestCase):
         self.assertFalse(BENCHMARK.sample_passed(sample))
         sample["program_output_matches"] = True
         self.assertTrue(BENCHMARK.sample_passed(sample))
+        sample["timed_out"] = True
+        self.assertFalse(BENCHMARK.sample_passed(sample))
+        sample["timed_out"] = False
         sample["program_memory_limit_exceeded"] = True
         self.assertFalse(BENCHMARK.sample_passed(sample))
 
@@ -97,6 +147,324 @@ class Sh27ProductionTests(unittest.TestCase):
             )
             self.assertEqual(command[1:4], ["-O2", "-release", "-boundscheck=off"])
             self.assertEqual(command[4:], [str(source), f"-of={output}", f"-od={root}"])
+
+    def test_normal_default_and_explicit_chunk_modes_are_distinct(self) -> None:
+        project = Path("example.project.json")
+        output = Path("program.exe")
+        report = Path("report.json")
+        input_record = {"project": project, "sources": []}
+        normal_default = BENCHMARK.build_command(
+            "openc", Path("openc.exe"), input_record, output, report,
+        )
+        serial = BENCHMARK.build_command(
+            "openc", Path("openc.exe"), input_record, output, report,
+            openc_source_chunks=1,
+        )
+        parallel = BENCHMARK.build_command(
+            "openc", Path("openc.exe"), input_record, output, report,
+            openc_source_chunks=4,
+        )
+        two_workers = BENCHMARK.build_command(
+            "openc", Path("openc.exe"), input_record, output, report,
+            openc_source_chunks=2,
+        )
+        adaptive = BENCHMARK.build_command(
+            "openc", Path("openc.exe"), input_record, output, report,
+            openc_source_chunks="auto",
+        )
+        self.assertEqual(normal_default[1], "build")
+        self.assertNotIn("--source-chunks=1", normal_default)
+        self.assertEqual(serial[1], "artifact")
+        self.assertIn("--source-chunks=1", serial)
+        self.assertEqual(parallel[1], "artifact")
+        self.assertIn("--kind=exe", parallel)
+        self.assertIn("--source-chunks=4", parallel)
+        self.assertIn(f"--timings={report}", parallel)
+        self.assertIn("--report=openc-artifact.json", parallel)
+        self.assertEqual(two_workers[1], "artifact")
+        self.assertIn("--source-chunks=2", two_workers)
+        self.assertEqual(adaptive[1], "artifact")
+        self.assertIn("--source-chunks=auto", adaptive)
+
+    def test_diagnostic_profile_flag_stays_on_artifact_only(self) -> None:
+        script_directory = str(MODULE_PATH.parent)
+        sys.path.insert(0, script_directory)
+        try:
+            import verify_sh27_native_chunks as proof
+        finally:
+            sys.path.remove(script_directory)
+        paths = tuple(Path(name) for name in (
+            "openc.exe", "example.project.json", "program.exe", "timings.json"
+        ))
+        normal_default = proof.build_mode_command(
+            *paths, True, "auto", True, True,
+        )
+        explicit_auto = proof.build_mode_command(
+            *paths, True, "auto", True, False,
+        )
+        explicit_serial = proof.build_mode_command(
+            *paths, False, 1, True, False,
+        )
+        self.assertEqual(normal_default[1], "build")
+        self.assertNotIn("--profile-type-queries", normal_default)
+        self.assertIn("--profile-type-queries", explicit_auto)
+        self.assertIn("--source-chunks=1", explicit_serial)
+
+    def test_native_chunk_timing_basis_tracks_actual_worker_mode(self) -> None:
+        script_directory = str(MODULE_PATH.parent)
+        sys.path.insert(0, script_directory)
+        try:
+            import verify_sh27_native_chunks as proof
+        finally:
+            sys.path.remove(script_directory)
+        active_profile = {
+            "launch_completed": True, "workers_wall_ms": 400,
+            "merge_wall_ms": 0,
+            "chunk_walls_ms": [350, 300, 0, 0],
+            "critical_chunk": {
+                "first_source": 0, "end_source_exclusive": 1,
+                "wall_ms": 350, "lex_parse_ms": 0, "index_ms": 20,
+                "acceptance_ms": 160, "expression_ms": 120,
+                "assignment_ms": 90, "calls_ms": 10,
+                "ir_lower_ms": 70, "native_emit_ms": 50,
+                "type_queries": 300, "type_cache_hits": 100,
+                "type_uncached": 200, "type_failures": 0,
+                "assignment_type_queries": 100,
+                "assignment_type_cache_hits": 40,
+                "assignment_type_uncached": 60,
+            },
+        }
+        serial_profile = {
+            "launch_completed": False, "workers_wall_ms": 0,
+            "merge_wall_ms": 0,
+            "chunk_walls_ms": [0, 0, 0, 0],
+            "critical_chunk": {
+                "first_source": 0, "end_source_exclusive": 0,
+                "wall_ms": 0, "lex_parse_ms": 0, "index_ms": 0,
+                "acceptance_ms": 0, "expression_ms": 0,
+                "assignment_ms": 0, "calls_ms": 0,
+                "ir_lower_ms": 0, "native_emit_ms": 0,
+                "type_queries": 0, "type_cache_hits": 0,
+                "type_uncached": 0, "type_failures": 0,
+                "assignment_type_queries": 0,
+                "assignment_type_cache_hits": 0,
+                "assignment_type_uncached": 0,
+            },
+        }
+        timing = {
+            "status": "PASS", "source_files": 4, "source_bytes": 206637,
+            "parallel_source_chunks": 2,
+            "parallel_flow_workers": 2,
+            "flow_threads_launched": True,
+            "source_chunks_policy": "explicit_or_default",
+            "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
+            "validation_profile": {
+                "acceptance_time_basis": "summed_worker_elapsed",
+                "flow_group_time_basis": "summed_worker_elapsed",
+            },
+            "native_parallel_profile": active_profile,
+            "declaration_profile": {
+                "enabled": True, "parse_retained_ms": 300,
+                "source_reread_ms": 0, "predeclare_ms": 0,
+                "source_read_ms": 0, "lex_ms": 100,
+                "parse_ms": 200, "compact_ms": 0,
+            },
+            "type_query_profile": {
+                "enabled": True, "validation_queries": 500,
+                "validation_cache_hits": 100,
+                "validation_uncached": 400,
+                "validation_distinct_uncached": 300,
+                "validation_repeated_uncached": 100,
+                "validation_failures": 0,
+                "validation_uncached_by_kind": {
+                    "name": 200, "literal": 0, "unary": 0,
+                    "binary": 100, "assignment": 0, "call": 0,
+                    "other": 100,
+                },
+                "assignment_queries": 180,
+                "assignment_cache_hits": 70,
+                "assignment_uncached": 110,
+                "assignment_distinct_uncached": 80,
+                "assignment_repeated_uncached": 30,
+            },
+        }
+        self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
+        timing["declaration_profile"]["parse_retained_ms"] = 100
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing["declaration_profile"]["parse_retained_ms"] = 300
+        timing["type_query_profile"]["validation_distinct_uncached"] = 0
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing["type_query_profile"]["validation_distinct_uncached"] = 300
+        timing["type_query_profile"]["validation_uncached"] = 399
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing["type_query_profile"]["validation_uncached"] = 400
+        timing["type_query_profile"]["validation_uncached_by_kind"]["name"] = 199
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing["type_query_profile"]["validation_uncached_by_kind"]["name"] = 200
+        timing["native_parallel_profile"]["critical_chunk"]["assignment_ms"] = 170
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing["native_parallel_profile"]["critical_chunk"]["assignment_ms"] = 90
+        self.assertFalse(proof.timing_accounting_valid(timing, False, 2))
+        timing["source_files"] = 1
+        timing["parallel_source_chunks"] = 0
+        timing["parallel_flow_workers"] = 0
+        timing["flow_threads_launched"] = False
+        timing["phase_accounting"] = "wall_elapsed_with_acceptance_in_validation"
+        timing["validation_profile"]["acceptance_time_basis"] = "wall_elapsed"
+        timing["validation_profile"]["flow_group_time_basis"] = "wall_elapsed"
+        timing["native_parallel_profile"] = serial_profile
+        self.assertTrue(proof.timing_accounting_valid(timing, True, 2))
+        timing["validation_profile"]["acceptance_time_basis"] = "summed_worker_elapsed"
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 2))
+        timing.update({
+            "source_files": 4, "source_bytes": 206637,
+            "parallel_source_chunks": 4, "source_chunks_policy": "auto",
+            "parallel_flow_workers": 2, "flow_threads_launched": True,
+            "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
+        })
+        timing["validation_profile"]["flow_group_time_basis"] = "summed_worker_elapsed"
+        timing["native_parallel_profile"] = active_profile
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["declaration_profile"].update({
+            "parse_retained_ms": 75, "source_read_ms": 0,
+            "lex_ms": 100, "parse_ms": 200, "compact_ms": 0,
+        })
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["declaration_profile"]["parse_retained_ms"] = 74
+        self.assertFalse(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["declaration_profile"].update({
+            "parse_retained_ms": 300, "lex_ms": 100, "parse_ms": 200,
+        })
+        timing["source_bytes"] = 196608
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["source_bytes"] = 196607
+        timing["parallel_source_chunks"] = 0
+        timing["parallel_flow_workers"] = 0
+        timing["flow_threads_launched"] = False
+        timing["phase_accounting"] = "wall_elapsed_with_acceptance_in_validation"
+        timing["validation_profile"]["acceptance_time_basis"] = "wall_elapsed"
+        timing["validation_profile"]["flow_group_time_basis"] = "wall_elapsed"
+        timing["native_parallel_profile"] = serial_profile
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["parallel_source_chunks"] = 2
+        self.assertFalse(proof.timing_accounting_valid(timing, True, "auto"))
+        timing.update({
+            "source_files": 8, "source_bytes": 741660,
+            "parallel_source_chunks": 4, "parallel_flow_workers": 2,
+            "flow_threads_launched": True,
+            "phase_accounting": "wall_elapsed_with_acceptance_in_lowering",
+        })
+        timing["validation_profile"]["acceptance_time_basis"] = "summed_worker_elapsed"
+        timing["validation_profile"]["flow_group_time_basis"] = "summed_worker_elapsed"
+        timing["native_parallel_profile"] = active_profile
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["source_files"] = 221
+        timing["source_bytes"] = 2066330
+        timing["parallel_flow_workers"] = 4
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing["type_query_profile"] = {
+            "enabled": False, "validation_queries": 0,
+            "validation_cache_hits": 0, "validation_uncached": 0,
+            "validation_distinct_uncached": 0,
+            "validation_repeated_uncached": 0,
+            "validation_failures": 0,
+            "validation_uncached_by_kind": {
+                "name": 0, "literal": 0, "unary": 0,
+                "binary": 0, "assignment": 0, "call": 0,
+                "other": 0,
+            },
+            "assignment_queries": 0,
+            "assignment_cache_hits": 0, "assignment_uncached": 0,
+            "assignment_distinct_uncached": 0,
+            "assignment_repeated_uncached": 0,
+        }
+        timing["declaration_profile"] = {
+            "enabled": False, "parse_retained_ms": 0,
+            "source_reread_ms": 0, "predeclare_ms": 0,
+            "source_read_ms": 0, "lex_ms": 0,
+            "parse_ms": 0, "compact_ms": 0,
+        }
+        for key in (
+            "type_queries", "type_cache_hits", "type_uncached",
+            "type_failures", "assignment_type_queries",
+            "assignment_type_cache_hits", "assignment_type_uncached",
+        ):
+            timing["native_parallel_profile"]["critical_chunk"][key] = 0
+        self.assertTrue(proof.timing_accounting_valid(timing, True, "auto"))
+        timing.update({
+            "source_files": 24, "source_bytes": 79873,
+            "parallel_source_chunks": 4,
+            "parallel_flow_workers": 0, "flow_threads_launched": False,
+            "source_chunks_policy": "explicit_or_default",
+        })
+        timing["validation_profile"]["flow_group_time_basis"] = "wall_elapsed"
+        timing["native_parallel_profile"] = json.loads(json.dumps(serial_profile))
+        timing["native_parallel_profile"]["launch_completed"] = True
+        self.assertTrue(proof.timing_accounting_valid(timing, True, 4))
+        timing["source_bytes"] = 196608
+        timing["parallel_flow_workers"] = 2
+        timing["flow_threads_launched"] = True
+        timing["validation_profile"]["flow_group_time_basis"] = "summed_worker_elapsed"
+        self.assertFalse(proof.timing_accounting_valid(timing, True, 4))
+
+    def test_worker_tradeoff_requires_same_compiler_and_bounded_memory(self) -> None:
+        script = ROOT / "compiler/selfhost/verify_sh27_worker_tradeoff.py"
+        def proof(chunks: int, peak_mib: int) -> dict[str, object]:
+            return {
+                "status": "PASS", "source_chunks": chunks,
+                "compiler_sha256": "same-compiler",
+                "results": {
+                    name: {
+                        "byte_exact": True,
+                        "serial": {"output_sha256": "same-program"},
+                        "chunked": {"peak_job_private_bytes": peak_mib * BENCHMARK.MIB},
+                    }
+                    for name in ("control_flow", "large_functions", "selfhost")
+                },
+            }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            two = root / "two.json"
+            four = root / "four.json"
+            output = root / "result.json"
+            two.write_text(json.dumps(proof(2, 100)), encoding="utf-8")
+            four_record = proof(4, 140)
+            four.write_text(json.dumps(four_record), encoding="utf-8")
+            command = [
+                sys.executable, str(script), "--two-proof", str(two),
+                "--four-proof", str(four), "--output", str(output),
+            ]
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            self.assertEqual(json.loads(output.read_text())["status"], "PASS")
+            four_record["results"]["large_functions"]["chunked"][
+                "peak_job_private_bytes"
+            ] = 120 * BENCHMARK.MIB
+            four.write_text(json.dumps(four_record), encoding="utf-8")
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            two_record = proof(2, 100)
+            two_record["results"]["large_functions"]["chunked"][
+                "peak_job_private_bytes"
+            ] = 121 * BENCHMARK.MIB
+            two.write_text(json.dumps(two_record), encoding="utf-8")
+            self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            two.write_text(json.dumps(proof(2, 100)), encoding="utf-8")
+            two_record = proof(2, 100)
+            two_record["results"]["large_functions"]["chunked"][
+                "peak_job_private_bytes"
+            ] = 120 * BENCHMARK.MIB
+            two.write_text(json.dumps(two_record), encoding="utf-8")
+            four_record["results"]["large_functions"]["chunked"][
+                "peak_job_private_bytes"
+            ] = 140 * BENCHMARK.MIB
+            four.write_text(json.dumps(four_record), encoding="utf-8")
+            self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            two.write_text(json.dumps(proof(2, 100)), encoding="utf-8")
+            four_record["results"]["large_functions"]["chunked"][
+                "peak_job_private_bytes"
+            ] = 120 * BENCHMARK.MIB
+            four_record["compiler_sha256"] = "different-compiler"
+            four.write_text(json.dumps(four_record), encoding="utf-8")
+            self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
 
     @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
     def test_failed_paired_bootstrap_preserves_stage_measurement(self) -> None:
@@ -122,6 +490,69 @@ class Sh27ProductionTests(unittest.TestCase):
             self.assertEqual(measurement["stage"], 1)
             self.assertFalse(measurement["output_exists"])
             self.assertNotEqual(measurement["exit_code"], 0)
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_sampling_and_deadline_reject_nonfinite_or_nonpositive_values(self) -> None:
+        for invalid in (0.0, -0.01, float("inf"), float("nan")):
+            with self.subTest(sample_interval=invalid):
+                with self.assertRaises(ValueError):
+                    BENCHMARK.run_measured([sys.executable, "-c", "pass"],
+                                           cwd=ROOT, sample_interval=invalid)
+            with self.subTest(timeout_seconds=invalid):
+                with self.assertRaises(ValueError):
+                    BENCHMARK.run_measured([sys.executable, "-c", "pass"],
+                                           cwd=ROOT, timeout_seconds=invalid)
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_process_exit_does_not_wait_for_memory_sample_interval(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            result = BENCHMARK.run_measured(
+                [sys.executable, "-c", "pass"],
+                cwd=directory,
+                sample_interval=1.0,
+                timeout_seconds=3,
+                max_private_bytes=128 * BENCHMARK.MIB,
+            )
+        self.assertEqual(result["exit_code"], 0, result)
+        self.assertFalse(result["timed_out"], result)
+        self.assertLess(result["elapsed_seconds"], 0.75, result)
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_timeout_does_not_wait_for_memory_sample_interval(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            result = BENCHMARK.run_measured(
+                [sys.executable, "-c", "import time; time.sleep(5)"],
+                cwd=directory,
+                sample_interval=1.0,
+                timeout_seconds=0.1,
+                max_private_bytes=128 * BENCHMARK.MIB,
+            )
+        self.assertTrue(result["timed_out"], result)
+        self.assertNotEqual(result["exit_code"], 0, result)
+        self.assertLess(result["elapsed_seconds"], 0.75, result)
+
+    @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
+    def test_captured_output_reading_is_not_compiler_time(self) -> None:
+        measure = sys.modules[BENCHMARK.run_measured.__module__]
+        original = measure._read_captured_output
+
+        def delayed_read(file: object, limit: int) -> tuple[str, bool]:
+            time.sleep(0.2)
+            return original(file, limit)
+
+        with tempfile.TemporaryDirectory() as directory:
+            with mock.patch.object(measure, "_read_captured_output", delayed_read):
+                result = BENCHMARK.run_measured(
+                    [sys.executable, "-c", "print('timing oracle')"],
+                    cwd=directory, sample_interval=0.01, timeout_seconds=3,
+                    max_private_bytes=128 * BENCHMARK.MIB,
+                )
+        self.assertEqual(result["exit_code"], 0, result)
+        self.assertEqual(result["stdout"].strip(), "timing oracle")
+        self.assertEqual(result["timing_basis"],
+                         "parent_perf_counter_suspended_launch_to_process_exit_v3")
+        self.assertGreater(result["measurement_wall_seconds"] -
+                           result["elapsed_seconds"], 0.35, result)
 
     @unittest.skipUnless(os.name == "nt", "Windows process measurement only")
     def test_execution_timeout_kills_child(self) -> None:

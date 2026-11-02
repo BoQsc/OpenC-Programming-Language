@@ -404,9 +404,19 @@ def build_command(
     input_record: dict[str, object],
     output: Path,
     timing: Path,
+    openc_source_chunks: int | str = "default",
 ) -> list[str]:
     sources = [str(path) for path in input_record["sources"]]
     if tool == "openc":
+        if str(openc_source_chunks) != "default":
+            return [
+                str(executable), "artifact",
+                f"--project={input_record['project']}", "--kind=exe",
+                f"--output={output}",
+                f"--source-chunks={openc_source_chunks}",
+                f"--report={output.parent / 'openc-artifact.json'}",
+                f"--timings={timing}",
+            ]
         return [
             str(executable), "build", f"--project={input_record['project']}",
             f"--output={output}", f"--timings={timing}",
@@ -437,6 +447,7 @@ def build_command(
 def sample_passed(sample: dict[str, object]) -> bool:
     return bool(
         int(sample["exit_code"]) == 0
+        and not sample.get("timed_out")
         and not sample["memory_limit_exceeded"]
         and not sample["stdout_truncated"]
         and not sample["stderr_truncated"]
@@ -563,12 +574,20 @@ def run_sample(
     max_working_set_bytes: int,
     max_output_bytes: int,
     execution_timeout: int,
+    compiler_timeout: int | None = None,
+    openc_source_chunks: int | str = "default",
+    output_filename: str = "program.exe",
 ) -> dict[str, object]:
     disk_free_before = require_disk_headroom(sample_root)
     sample_root.mkdir(parents=True, exist_ok=True)
-    output = sample_root / "program.exe"
+    if Path(output_filename).name != output_filename or not output_filename.endswith(".exe"):
+        raise ValueError("output_filename must be a plain .exe filename")
+    output = sample_root / output_filename
     timing = sample_root / "openc-timings.json"
-    command = build_command(tool, executable, input_record, output, timing)
+    command = build_command(
+        tool, executable, input_record, output, timing,
+        openc_source_chunks=openc_source_chunks,
+    )
     measured = run_measured(
         command,
         cwd=sample_root,
@@ -577,12 +596,17 @@ def run_sample(
         max_private_bytes=max_private_bytes,
         max_working_set_bytes=max_working_set_bytes,
         max_captured_output_bytes=max_output_bytes,
+        timeout_seconds=compiler_timeout,
     )
     measured["command"] = command
     measured["disk_free_bytes_before"] = disk_free_before
     measured["output_exists"] = output.is_file()
     measured["output_bytes"] = output.stat().st_size if output.is_file() else None
     measured["output_sha256"] = sha256(output) if output.is_file() else None
+    measured["compiler_timings"] = (
+        json.loads(timing.read_text(encoding="utf-8"))
+        if tool == "openc" and timing.is_file() else None
+    )
     measured["program_exit_code"] = None
     measured["program_elapsed_seconds"] = None
     measured["program_timed_out"] = False
@@ -631,8 +655,55 @@ def run_sample(
             )
         else:
             measured["program_output_matches"] = True
-    measured["passed"] = sample_passed(measured)
+    measured["passed"] = bool(
+        sample_passed(measured)
+        and (tool != "openc" or str(openc_source_chunks) == "default"
+             or (isinstance(measured["compiler_timings"], dict)
+                 and measured["compiler_timings"].get("status") == "PASS"))
+    )
+    # Preserve every completed observation even if a later auxiliary lane
+    # fails before the aggregate report can be written.
+    (sample_root / (output_filename + ".measurement.json")).write_text(
+        json.dumps(measured, indent=2) + "\n", encoding="utf-8")
     return measured
+
+
+def emit_parity_annotations(
+    lanes: dict[str, object], ratios: dict[str, dict[str, float]],
+    ratio_limit: float,
+) -> None:
+    """Expose every ratio despite GitHub's per-job notice annotation cap."""
+    for workload_id, comparator_ratios in ratios.items():
+        compilers = lanes[workload_id]["compilers"]
+        open_median = float(compilers["openc"]["summary"]["median_seconds"])
+        decisions = []
+        for comparator in ("msvc", "clang", "dmd", "ldc"):
+            if f"openc_to_{comparator}" not in comparator_ratios:
+                continue
+            comparator_median = float(
+                compilers[comparator]["summary"]["median_seconds"]
+            )
+            ratio = (
+                open_median / comparator_median
+                if comparator_median else float("inf")
+            )
+            decisions.append(
+                f"{comparator}={comparator_median:.4f}s/{ratio:.4f}x/"
+                f"{'PASS' if ratio <= ratio_limit else 'FAIL'}"
+            )
+            if ratio > ratio_limit:
+                print(
+                    f"::error title=SH-27 {workload_id} vs {comparator}::"
+                    f"OpenC={open_median:.4f}s comparator={comparator_median:.4f}s "
+                    f"ratio={ratio:.4f}x limit={ratio_limit:.2f}x",
+                    flush=True,
+                )
+        print(
+            f"::notice title=SH-27 {workload_id} parity summary::"
+            f"OpenC={open_median:.4f}s limit={ratio_limit:.2f}x "
+            + " ".join(decisions),
+            flush=True,
+        )
 
 
 def main() -> int:
@@ -672,12 +743,19 @@ def main() -> int:
     parser.add_argument("--self-build-runs", type=int, default=1)
     parser.add_argument("--parallel-projects", type=int, default=4)
     parser.add_argument(
+        "--openc-source-chunks", choices=("default", "1", "2", "4", "auto"),
+        default="default",
+        help="measure the normal build default or an explicit source-chunk mode",
+    )
+    parser.add_argument(
         "--output", type=Path,
         default=ROOT / "build-output" / "selfhost-sh27" / "production-comparators.json",
     )
     parser.add_argument("--require-all", action="store_true")
     parser.add_argument("--enforce-parity", action="store_true")
     args = parser.parse_args()
+    if args.openc_source_chunks not in ("default", "auto"):
+        args.openc_source_chunks = int(args.openc_source_chunks)
 
     corpus_path = args.corpus.resolve()
     corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
@@ -800,8 +878,19 @@ def main() -> int:
                     max_working_set_bytes=max_working,
                     max_output_bytes=max_output,
                     execution_timeout=execution_timeout,
+                    openc_source_chunks=args.openc_source_chunks,
                 )
                 sample["run"] = run + 1
+                if tool == "openc":
+                    timing = sample.get("compiler_timings")
+                    sample["object_cache_was_cold"] = (isinstance(timing, dict)
+                        and timing.get("status") == "PASS"
+                        and timing.get("object_cache", {}).get("hits", 0) == 0)
+                    sample["frontend_cache_was_cold"] = (isinstance(timing, dict)
+                        and timing.get("frontend_cache", {}).get("predeclare_hits", 0) == 0
+                        and timing.get("frontend_cache", {}).get("resolution_hits", 0) == 0)
+                    sample["passed"] = bool(sample["passed"] and sample["object_cache_was_cold"]
+                                             and sample["frontend_cache_was_cold"])
                 sample["cache_state"] = "first_observation" if run == 0 else "warm_os_cache"
                 tool_samples[tool].append(sample)
                 integrity = integrity and bool(sample["passed"])
@@ -839,6 +928,7 @@ def main() -> int:
                 max_working_set_bytes=max_working,
                 max_output_bytes=max_output,
                 execution_timeout=execution_timeout,
+                openc_source_chunks=args.openc_source_chunks,
             )
             sample["run"] = run + 1
             sample["cache_state"] = "first_observation" if run == 0 else "warm_os_cache"
@@ -866,7 +956,7 @@ def main() -> int:
         },
     }
 
-    edit_workload_id = "many_files"
+    edit_workload_id = "many_files" if "many_files" in generated else str(corpus["workloads"][-1]["id"])
     edit_lanes: dict[str, object] = {}
     for tool in available:
         path, environment = resolved[tool]
@@ -888,6 +978,11 @@ def main() -> int:
                 max_working_set_bytes=max_working,
                 max_output_bytes=max_output,
                 execution_timeout=execution_timeout,
+                openc_source_chunks=args.openc_source_chunks,
+                output_filename=(
+                    f"program-run-{run + 1:02d}.exe"
+                    if str(args.openc_source_chunks) != "1" else "program.exe"
+                ),
             )
             sample["run"] = run + 1
             sample["changed_source"] = edit_file.name
@@ -899,12 +994,19 @@ def main() -> int:
         edit_lanes[tool] = {"summary": summarize(samples), "samples": samples}
     lanes["one_source_edit"] = {
         "base_workload": edit_workload_id,
-        "policy": "same source tree and output directory; exactly one source text changes before each full compiler invocation",
+        "policy": (
+            "same source tree and output directory; exactly one source text "
+            "changes before each full compiler invocation; the "
+            "chunked lane uses a fresh executable filename per edit"
+            if str(args.openc_source_chunks) != "1" else
+            "same source tree and output directory; exactly one source text "
+            "changes before each full compiler invocation"
+        ),
         "compilers": edit_lanes,
     }
 
     parallel_lanes: dict[str, object] = {}
-    parallel_input_id = "small_single_file"
+    parallel_input_id = "small_single_file" if "small_single_file" in generated else str(corpus["workloads"][0]["id"])
     for tool in available:
         path, environment = resolved[tool]
         started = time.perf_counter()
@@ -920,6 +1022,7 @@ def main() -> int:
                     max_working_set_bytes=max_working,
                     max_output_bytes=max_output,
                     execution_timeout=execution_timeout,
+                    openc_source_chunks=args.openc_source_chunks,
                 )
                 for index in range(args.parallel_projects)
             ]
@@ -953,6 +1056,7 @@ def main() -> int:
             max_working_set_bytes=max_working,
             max_output_bytes=max_output,
             execution_timeout=execution_timeout,
+            openc_source_chunks=args.openc_source_chunks,
         )
         sample["run"] = run + 1
         self_build_samples.append(sample)
@@ -1016,6 +1120,7 @@ def main() -> int:
             "schema": corpus["schema"], "version": corpus["version"],
         },
         "environment": {
+            "openc_source_chunks": args.openc_source_chunks,
             "cache_policy": "OS cache is not flushed; first observation and subsequent warm observations are labeled",
             "run_order": "deterministically rotated by workload and run",
             "msvc_vcvars64": vcvars,
@@ -1056,6 +1161,23 @@ def main() -> int:
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n")
+    if args.enforce_parity and os.environ.get("GITHUB_ACTIONS") == "true":
+        # Public check annotations expose the complete ratio decision even
+        # when Actions artifact downloads require account permissions. They
+        # are emitted only after all timed samples and never affect medians.
+        emit_parity_annotations(lanes, ratios, ratio_limit)
+    for workload_id in ("large_functions", "control_flow"):
+        if "openc_to_dmd" in ratios.get(workload_id, {}):
+            compilers = lanes[workload_id]["compilers"]
+            open_median = compilers["openc"]["summary"]["median_seconds"]
+            dmd_median = compilers["dmd"]["summary"]["median_seconds"]
+            print(
+                f"SH-27 {workload_id}: OpenC={open_median:.3f}s "
+                f"DMD={dmd_median:.3f}s "
+                f"OpenC/DMD={ratios[workload_id]['openc_to_dmd']:.3f}x "
+                f"(target <= {ratio_limit:.2f}x)",
+                flush=True,
+            )
     print(f"SH-27 production comparison: {status}; report={output}", flush=True)
     if status in ("FAIL", "FAIL_PARITY"):
         return 1

@@ -82,12 +82,62 @@ unsafe i32 c_emit_project(
     bool validate_acceptance,
     ptr byte validation_source_ms,
     ptr byte parsed_source_cache,
-    ref NativeArtifactOptions artifact_options
+    ref NativeArtifactOptions artifact_options,
+    ref ModuleCacheState module_cache,
+    bool semantic_cache_ready
 ) {
+    usize selected_module = base.modules.length;
+    module_cache.native_objects =
+        artifact_options.kind == native_artifact_cached_executable();
+    if !semantic_cache_ready &&
+        text.byte_length(artifact_options.cache_prefix) != 0 &&
+        !artifact_options.cold_cache_pending {
+        bool prepared = false;
+        if artifact_options.source_partitions != 0 {
+            prepared = source_partition_cache_prepare(
+                base, parsed_source_cache, artifact_options.cache_prefix,
+                entry_module, artifact_options.source_partitions,
+                artifact_options.source_chunks, artifact_options.frontend_rows,
+                artifact_options.frontend_projections,
+                artifact_options.frontend_projection_length, artifact_options.cache_compiler_hash,
+                true, base.types.length, module_cache, timings
+            );
+        } else {
+            prepared = module_cache_prepare(
+                base, parsed_source_cache, artifact_options.cache_prefix, entry_module,
+                module_cache, timings
+            );
+        }
+        if !prepared && !module_cache.native_objects {
+            io.error("note[OPENC-MODULE-CACHE-FALLBACK]: unsupported key projection; full module build\n");
+        }
+    }
+    bool module_selection = text.byte_length(artifact_options.module_name) != 0;
+    if module_selection {
+        usize candidate = 0;
+        while candidate < base.modules.length {
+            text name = interface_module_name(
+                base.project_source, base.module_data, candidate
+            );
+            if name == artifact_options.module_name {
+                selected_module = candidate;
+            }
+            candidate = candidate + 1;
+        }
+        if selected_module == base.modules.length {
+            io.error("error[OPENC-MODULE-SELECT]: unknown module\n");
+            return 1;
+        }
+    }
     // The fused validating path remains sequential and lets lowering create
     // only the derived types it actually needs.  Eagerly closing every type
     // before acceptance doubles the lookup set and defeats cache reuse.
-    if !validate_acceptance { c_close_lowering_types(base); }
+    if !validate_acceptance ||
+        (timings.emission_mode == 2 &&
+            (artifact_options.source_chunks == 2 ||
+             artifact_options.source_chunks == 4)) {
+        c_close_lowering_types(base);
+    }
     usize native_layout_cache_bytes =
         (base.types.capacity + 1) * size_of(usize);
     ptr byte native_layout_sizes = memory.alloc(native_layout_cache_bytes);
@@ -228,6 +278,75 @@ unsafe i32 c_emit_project(
     }
 
     bool emitted_parallel = false;
+    if timings.emission_mode == 2 &&
+        (artifact_options.source_chunks == 2 ||
+            artifact_options.source_chunks == 4) &&
+        c_project_source_count(base) >= artifact_options.source_chunks {
+        ptr byte cache_offsets = null;
+        usize source_partitions = 0;
+        usize native_worker_count = artifact_options.source_chunks;
+        if module_cache.enabled && artifact_options.source_partitions != 0 {
+            if !module_cache.native_objects {
+            usize identity_started = process.monotonic_milliseconds();
+            module_cache.stable_hashes = d_buffer_create(
+                base.symbols.length * 64 + 64
+            );
+            module_cache.stable_offsets = memory.alloc(
+                (base.symbols.length + 1) * size_of(usize)
+            );
+            if module_cache.stable_hashes.data != null &&
+                module_cache.stable_offsets != null {
+                module_cache.stable_ready = coff_stable_prepare_cached(
+                    base, parsed_source_cache, module_cache.stable_hashes,
+                    module_cache.stable_offsets
+                );
+            }
+            timings.coff_partition_identity_ms =
+                process.monotonic_milliseconds() - identity_started;
+            if !module_cache.stable_ready {
+                if module_cache.stable_hashes.data != null {
+                    d_buffer_destroy(module_cache.stable_hashes);
+                }
+                memory.free(module_cache.stable_offsets);
+                module_cache.stable_hashes = DBuffer{
+                    data = null, length = 0, capacity = 0, ok = true
+                };
+                module_cache.stable_offsets = null;
+            }
+            }
+            cache_offsets = module_cache.offsets;
+            source_partitions = artifact_options.source_partitions;
+            if !source_partition_cache_evict_saved(
+                module_cache, source_partitions
+            ) { native_worker_count = 2; }
+            // Shared frozen types and per-range output budgets let a cold
+            // partition rebuild retain the requested four workers. A failed
+            // saved-object eviction still falls back to two above.
+        }
+        timings.parallel_source_chunks = native_worker_count;
+        emitted_parallel = c_emit_native_sources_chunked(
+            base, output, output_capacity, entry_module, timings,
+            validation_source_ms, parsed_source_cache,
+            native_worker_count, cache_offsets, source_partitions,
+            semantic_cache_ready, artifact_options, module_cache
+        );
+        if !emitted_parallel {
+            io.error("error[OPENC-NATIVE-CHUNK-PROOF]: isolated source emission failed\n");
+            memory.free(enum_item_value);
+            memory.free(field_next);
+            memory.free(aggregate_field_first);
+            memory.free(type_aggregate_symbols);
+            memory.free(function_local_range_end);
+            memory.free(function_local_range_first);
+            memory.free(parameter_next);
+            memory.free(function_parameter_count);
+            memory.free(function_parameter_first);
+            memory.free(function_bucket_next);
+            memory.free(function_bucket_heads);
+            d_buffer_destroy(output);
+            return 1;
+        }
+    }
     if timings.emission_mode == 0 && output_capacity >= 262144 && c_project_source_count(base) >= 16 {
         emitted_parallel = c_emit_sources_parallel(
             base, output, output_capacity, entry_module, timings
@@ -244,12 +363,31 @@ unsafe i32 c_emit_project(
             );
             usize source_index = 0;
             while source_index < source_count {
-                if !c_emit_source_record(
+                bool lower_source = !module_selection || module_index == selected_module;
+                if module_cache.enabled {
+                    usize cache_index = module_index;
+                    if artifact_options.source_partitions != 0 {
+                        cache_index = source_partition_index(
+                            source_first + source_index,
+                            c_project_source_count(base),
+                            artifact_options.source_partitions
+                        );
+                    }
+                    if read_usize(module_cache.offsets,
+                        cache_index * size_of(usize)) != 0 {
+                        lower_source = false;
+                    }
+                }
+                bool emitted = c_emit_source_record_mode(
                     base, output, module_index,
                     source_first + source_index, entry_module, timings,
                     validate_acceptance, validation_source_ms,
-                    parsed_source_cache
-                ) {
+                    parsed_source_cache, lower_source
+                );
+                resolution_release_cached_parsed_source(
+                    parsed_source_cache, source_first + source_index
+                );
+                if !emitted {
                     io.print("OPENC-C-BACKEND-SOURCE-FAILED module=");
                     io.print(module_index); io.print(" source=");
                     io.println(source_first + source_index);
@@ -324,8 +462,47 @@ unsafe i32 c_emit_project(
     timings.output_bytes = output.length;
     status written = status{ code = 1 };
     if timings.emission_mode == 2 {
-        if artifact_options.kind == native_artifact_coff_object() {
-            written = native_write_coff_object(base, output, output_source);
+        if artifact_options.kind == native_artifact_cached_executable() &&
+            module_cache.enabled {
+            written = native_object_cache_write_image(
+                base, output, output_source, artifact_options,
+                module_cache, timings, entry_module);
+        } else if artifact_options.kind == native_artifact_coff_object() {
+            written = native_write_coff_object(
+                base, output, output_source,
+                artifact_options.stable_coff_symbols
+            );
+        } else if artifact_options.kind == native_artifact_module_coff_set() {
+            if artifact_options.source_partitions != 0 {
+                if module_cache.enabled {
+                    written = source_partition_cache_write_set(
+                        base, output, output_source,
+                        artifact_options.linked_output_path,
+                        artifact_options.cache_prefix,
+                        artifact_options.source_partitions,
+                        artifact_options.cache_project_key,
+                        module_cache, timings
+                    );
+                } else {
+                    written = native_write_source_partition_coff_set(
+                        base, output, output_source,
+                        artifact_options.linked_output_path,
+                        artifact_options.source_partitions
+                    );
+                }
+            } else if module_cache.enabled {
+                written = module_cache_write_set(
+                    base, output, output_source, artifact_options.cache_prefix,
+                    artifact_options.linked_output_path,
+                    artifact_options.cache_project_key,
+                    module_cache, timings
+                );
+            } else {
+                written = native_write_module_coff_set(
+                    base, output, output_source,
+                    artifact_options.linked_output_path
+                );
+            }
         } else if artifact_options.kind == native_artifact_static_library() {
             written = native_write_static_library(base, output, output_source);
         } else if artifact_options.kind == native_artifact_import_library() {

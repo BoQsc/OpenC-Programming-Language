@@ -1,0 +1,26 @@
+{
+  "schema": "openc.sh27.production_corpus.v1",
+  "version": 1,
+  "description": "Additional fixed-per-file scaling points; the public production CORPUS.json and its twenty ratio gates are unchanged.",
+  "workloads": [
+    {"id": "files_1", "source_files": 1, "functions_per_file": 4, "operations_per_function": 12},
+    {"id": "files_8", "source_files": 8, "functions_per_file": 4, "operations_per_function": 12},
+    {"id": "files_24", "source_files": 24, "functions_per_file": 4, "operations_per_function": 12},
+    {"id": "files_64", "source_files": 64, "functions_per_file": 4, "operations_per_function": 12}
+  ],
+  "runtime_workload": {
+    "id": "startup_file_allocation", "fixture": "runtime", "iterations": 64,
+    "allocation_bytes": 4096, "output_file": "sh27-runtime-payload.bin",
+    "expected_stdout_line": "SH27_RUNTIME_OK"
+  },
+  "measurement": {
+    "minimum_runs": 3, "sample_interval_seconds": 0.01,
+    "max_private_mib_per_compiler": 512, "max_working_set_mib_per_compiler": 512,
+    "max_captured_output_mib": 2, "execution_timeout_seconds": 30
+  },
+  "parity": {"maximum_openc_to_comparator_median_ratio": 1.25},
+  "limits": {
+    "maximum_source_files_per_workload": 64, "maximum_total_functions_per_workload": 256,
+    "maximum_operations_per_function": 12
+  }
+}

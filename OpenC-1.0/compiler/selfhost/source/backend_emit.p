@@ -20,6 +20,37 @@ unsafe i32 emit_bootstrap_d_mode(
 }
 
 unsafe i32 emit_bootstrap_d_mode_artifact(
+    text project_path, text output_directory,
+    bool validate_semantics, bool c_backend,
+    ref BuildTimings timings, ref NativeArtifactOptions artifact_options
+) {
+    usize started = process.monotonic_milliseconds();
+    usize requested_chunks = artifact_options.source_chunks;
+    i32 result = emit_bootstrap_d_mode_artifact_once(
+        project_path, output_directory, validate_semantics,
+        c_backend, timings, artifact_options);
+    if result != 0 && artifact_options.cache_retry_required {
+        // Cached bytes can disappear between early validation and linking.
+        // Release the first compilation's arenas before retrying the complete
+        // validating path. The failed attempt has published no executable.
+        bool profile = timings.profile_type_queries_enabled;
+        timings = build_timings_empty();
+        timings.emission_mode = 2;
+        timings.profile_type_queries_enabled = profile;
+        timings.object_cache_retries = 1;
+        artifact_options.cache_retry_required = false;
+        artifact_options.cache_prefix = "";
+        artifact_options.source_partitions = 0;
+        artifact_options.source_chunks = requested_chunks;
+        result = emit_bootstrap_d_mode_artifact_once(
+            project_path, output_directory, validate_semantics,
+            c_backend, timings, artifact_options);
+        timings.total_ms = process.monotonic_milliseconds() - started;
+    }
+    return result;
+}
+
+unsafe i32 emit_bootstrap_d_mode_artifact_once(
     text project_path,
     text output_directory,
     bool validate_semantics,
@@ -28,6 +59,13 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     ref NativeArtifactOptions artifact_options
 ) {
     usize total_started = process.monotonic_milliseconds();
+    artifact_options.frontend_rows = null;
+    artifact_options.frontend_projections = null;
+    artifact_options.frontend_projection_length = 0;
+    artifact_options.cache_compiler_hash = "";
+    artifact_options.frontend_state = null;
+    artifact_options.cold_cache_pending = false;
+    artifact_options.cache_type_count = 0;
     usize phase_started = total_started;
     text project_source;
     status loaded_project = file.read_text(project_path, out project_source);
@@ -49,6 +87,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     project_sort_modules(project_source, module_data, modules);
     text project_root = path.directory(project_path);
     usize total_source_length = 0;
+    bool native_cache_sources_supported = true;
     usize module_index = 0;
     while module_index < modules.length {
         usize source_first = read_record_field(module_data, module_index, 2);
@@ -61,6 +100,9 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 source_first + source_index, out source
             );
             if !loaded.ok { return 1; }
+            if text.byte_length(source) > 131072 {
+                native_cache_sources_supported = false;
+            }
             total_source_length = total_source_length + text.byte_length(source);
             source_index = source_index + 1;
         }
@@ -70,13 +112,92 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         process.monotonic_milliseconds() - phase_started;
     timings.source_files = sources.length;
     timings.source_bytes = total_source_length;
+    if timings.emission_mode == 2 && artifact_options.source_chunks == 0 {
+        timings.auto_source_chunks = true;
+        // The default policy keeps tiny projects serial and caps the input
+        // size on which it will duplicate native worker state. Four chunks
+        // target substantial multi-file work; two cover the middle range.
+        if sources.length >= 4 && total_source_length >= 196608 &&
+            total_source_length <= 3145728 {
+            artifact_options.source_chunks = 4;
+        } else if sources.length >= 2 &&
+            total_source_length >= 196608 &&
+            total_source_length <= 4194304 {
+            artifact_options.source_chunks = 2;
+        } else {
+            artifact_options.source_chunks = 1;
+        }
+    }
+
+    if artifact_options.kind == native_artifact_cached_executable() {
+        if !native_cache_sources_supported || sources.length < 2 || (artifact_options.source_chunks != 2 &&
+                artifact_options.source_chunks != 4) {
+            // Preserve the fast serial path and its lazy derived type IDs.
+            artifact_options.cache_prefix = "";
+            artifact_options.source_partitions = 0;
+        } else if text.byte_length(artifact_options.cache_prefix) != 0 {
+            if artifact_options.source_partitions == 0 {
+                artifact_options.source_partitions = sources.length;
+                if artifact_options.source_partitions > 32 {
+                    artifact_options.source_partitions = 32;
+                }
+            }
+            cli_file_create_directory(path.directory(artifact_options.cache_prefix));
+        }
+    }
+
+    DBuffer project_cache_key = DBuffer{
+        data = null, length = 0, capacity = 0, ok = true
+    };
+    scope d_buffer_destroy(project_cache_key);
+    if c_backend && validate_semantics && timings.emission_mode == 2 &&
+        artifact_options.kind == native_artifact_module_coff_set() &&
+        (artifact_options.source_chunks == 1 ||
+            (artifact_options.source_partitions != 0 &&
+                artifact_options.source_chunks == 4)) &&
+        !timings.profile_type_queries_enabled &&
+        text.byte_length(artifact_options.cache_prefix) != 0 {
+        project_cache_key = d_buffer_create(65);
+        bool keyed = false;
+        if artifact_options.source_partitions != 0 {
+            keyed = source_partition_project_key(
+                project_source, project_root, module_data, modules,
+                source_data, total_source_length,
+                artifact_options.source_partitions,
+                artifact_options.source_chunks, project_cache_key
+            );
+        } else {
+            keyed = module_cache_project_key(
+                project_source, project_root, module_data, modules,
+                source_data, total_source_length, project_cache_key
+            );
+        }
+        if keyed {
+            artifact_options.cache_project_key = d_buffer_text(project_cache_key);
+            usize cache_started = process.monotonic_milliseconds();
+            i32 cached = module_cache_project_try(
+                project_source, module_data, modules, output_directory,
+                artifact_options.linked_output_path, artifact_options.cache_prefix,
+                artifact_options.cache_project_key,
+                artifact_options.source_partitions, timings
+            );
+            if cached != 0 {
+                timings.lowering_emit_ms =
+                    process.monotonic_milliseconds() - cache_started;
+                timings.total_ms =
+                    process.monotonic_milliseconds() - total_started;
+                if cached == 1 { return 0; }
+                return 1;
+            }
+        }
+    }
 
     usize semantic_type_capacity =
         total_source_length / 8 + project_length + 65536;
     usize semantic_symbol_capacity =
         total_source_length / 4 + project_length + 65536;
     usize semantic_error_capacity =
-        total_source_length / 4 + project_length + 65536;
+        total_source_length / 4 + project_length + 8192;
     usize output_capacity = total_source_length * 8 + project_length + 65536;
     PackedBuffer types = PackedBuffer{
         length = 0, capacity = semantic_type_capacity
@@ -93,8 +214,9 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     scope memory.free(symbol_data);
     ptr byte detail_data = memory.alloc(symbols.capacity * record_stride());
     scope memory.free(detail_data);
-    ptr byte error_data = memory.alloc(errors.capacity * record_stride());
-    scope memory.free(error_data);
+    // Flow diagnostics are needed only through validation. Do not keep this
+    // source-sized arena live during native emission and its worker copies.
+    ptr byte error_data = null;
     semantic_initialize_types(type_data, types);
 
     // Native lowering reuses the exact parsed records produced by resolution.
@@ -109,8 +231,51 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     scope resolution_release_parse_cache(
         parsed_source_cache, sources.length
     );
+    ResolutionParseProfile declaration_parse_profile =
+        resolution_parse_profile_empty();
+    declaration_parse_profile.enabled = timings.profile_type_queries_enabled;
+
+    NativeFrontendState frontend = native_frontend_empty();
+    ptr byte frontend_owner = reinterpret(ptr byte, &frontend);
+    scope native_frontend_destroy_owner(frontend_owner);
+    if artifact_options.kind == native_artifact_cached_executable() &&
+        !timings.profile_type_queries_enabled && parsed_source_cache != null {
+        frontend = native_frontend_open(project_source, project_root,
+            artifact_options.cache_prefix, sources.length, total_source_length,
+            artifact_options.source_chunks, modules.length, source_data, module_data, timings);
+        if frontend.compiler_hash.length == 64 {
+            artifact_options.cache_compiler_hash = d_buffer_text(frontend.compiler_hash);
+        }
+        // The state now resides at its stable compilation owner address.
+        // Hashing touches only its separate compiler-hash buffer while the
+        // caller collects declarations and source contribution rows.
+        native_frontend_begin_identity(frontend);
+    }
 
     phase_started = process.monotonic_milliseconds();
+    // Source-local lexing/parsing may run in private workers. Keep the
+    // predeclaration and symbol passes below ordered: they mutate shared
+    // type/symbol buffers and determine stable diagnostic/source order.
+    // Large self-builds retain the serial parse path while the 256 MiB
+    // child-private benchmark cap is in force.
+    bool parallel_parsed = false;
+    if parsed_source_cache != null && frontend.saved.length == 0 &&
+        artifact_options.source_chunks == 4 &&
+        sources.length >= 4 && sources.length <= 16 &&
+        total_source_length <= 1048576 {
+        usize parallel_parse_started = process.monotonic_milliseconds();
+        parallel_parsed = resolution_parse_sources_parallel(
+            project_source, project_root, source_data, sources.length,
+            parsed_source_cache, timings.profile_type_queries_enabled,
+            declaration_parse_profile
+        );
+        if timings.profile_type_queries_enabled {
+            timings.declaration_parse_retained_ms =
+                timings.declaration_parse_retained_ms +
+                process.monotonic_milliseconds() - parallel_parse_started;
+        }
+        if !parallel_parsed { return 1; }
+    }
     module_index = 0;
     while module_index < modules.length {
         usize first = read_record_field(module_data, module_index, 2);
@@ -119,18 +284,60 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         while index < count {
             usize source_record = first + index;
             if parsed_source_cache != null {
+                if frontend.enabled {
+                    text cached_source;
+                    status cached_loaded = project_read_source_record(project_source,
+                        project_root, source_data, source_record, out cached_source);
+                    if cached_loaded.ok {
+                        if native_frontend_predeclare_hit(frontend, source_record,
+                                cached_source, type_data, types, timings) {
+                            index = index + 1;
+                            continue;
+                        }
+                    } else { frontend.enabled = false; }
+                }
+                usize declaration_part_started = 0;
+                if timings.profile_type_queries_enabled {
+                    declaration_part_started =
+                        process.monotonic_milliseconds();
+                }
                 ResolutionParsedSource parsed =
-                    resolution_parse_source_retained(
-                        project_source, project_root,
-                        source_data, source_record
+                    resolution_cached_parsed_source(
+                        parsed_source_cache, source_record
                     );
+                if !parallel_parsed || !parsed.reusable {
+                    parsed = resolution_parse_source_retained_profiled(
+                        project_source, project_root, source_data,
+                        source_record, declaration_parse_profile
+                    );
+                }
+                if timings.profile_type_queries_enabled {
+                    timings.declaration_parse_retained_ms =
+                        timings.declaration_parse_retained_ms +
+                        process.monotonic_milliseconds() -
+                        declaration_part_started;
+                }
                 if parsed.token_data != null {
                     text source;
+                    if timings.profile_type_queries_enabled {
+                        declaration_part_started =
+                            process.monotonic_milliseconds();
+                    }
                     status source_status = project_read_source_record(
                         project_source, project_root, source_data,
                         source_record, out source
                     );
+                    if timings.profile_type_queries_enabled {
+                        timings.declaration_reread_ms =
+                            timings.declaration_reread_ms +
+                            process.monotonic_milliseconds() -
+                            declaration_part_started;
+                    }
                     if source_status.ok {
+                        if timings.profile_type_queries_enabled {
+                            declaration_part_started =
+                                process.monotonic_milliseconds();
+                        }
                         semantic_predeclare_parsed_source(
                             project_source, project_root,
                             module_data, modules, source_data,
@@ -138,6 +345,14 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                             source, parsed.token_data, parsed.tokens,
                             parsed.syntax_data, parsed.syntax
                         );
+                        native_frontend_finish_predeclare(frontend, source_record,
+                            source, types, parsed);
+                        if timings.profile_type_queries_enabled {
+                            timings.declaration_predeclare_ms =
+                                timings.declaration_predeclare_ms +
+                                process.monotonic_milliseconds() -
+                                declaration_part_started;
+                        }
                     }
                 }
                 resolution_cache_parsed_source(
@@ -159,6 +374,11 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     }
     timings.declarations_ms =
         process.monotonic_milliseconds() - phase_started;
+    frontend.predecl_count = types.length;
+    timings.declaration_read_ms = declaration_parse_profile.read_ms;
+    timings.declaration_lex_ms = declaration_parse_profile.lex_ms;
+    timings.declaration_parse_ms = declaration_parse_profile.parse_ms;
+    timings.declaration_compact_ms = declaration_parse_profile.compact_ms;
     phase_started = process.monotonic_milliseconds();
     module_index = 0;
     while module_index < modules.length {
@@ -167,11 +387,22 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         usize index = 0;
         while index < count {
             usize source_record = first + index;
+            if native_frontend_resolution_hit(frontend, source_record,
+                    type_data, types, symbol_data, detail_data, symbols, timings) {
+                index = index + 1;
+                continue;
+            }
             if parsed_source_cache != null {
                 ResolutionParsedSource parsed =
                     resolution_cached_parsed_source(
                         parsed_source_cache, source_record
                     );
+                if parsed.token_data == null && frontend.rows.data != null {
+                    parsed = resolution_parse_source_retained_profiled(project_source,
+                        project_root, source_data, source_record, declaration_parse_profile);
+                    resolution_cache_parsed_source(parsed_source_cache, source_record, parsed);
+                    if !parsed.reusable { resolution_release_parsed_source(parsed); }
+                }
                 if parsed.reusable {
                     text source;
                     status source_status = project_read_source_record(
@@ -205,12 +436,77 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                     type_data, types, symbol_data, detail_data, symbols
                 );
             }
+            native_frontend_finish_resolution(frontend, source_record, types, symbols);
             index = index + 1;
         }
         module_index = module_index + 1;
     }
     timings.resolution_ms =
         process.monotonic_milliseconds() - phase_started;
+    if frontend.saved.data != null {
+        d_buffer_destroy(frontend.saved);
+        frontend.saved = DBuffer{data = null, length = 0, capacity = 0, ok = true};
+    }
+    if frontend.enabled {
+        artifact_options.cache_type_count = types.length;
+        artifact_options.frontend_rows = frontend.rows.data;
+        artifact_options.frontend_projections = frontend.projections.data;
+        artifact_options.frontend_projection_length = frontend.projections.length;
+        artifact_options.frontend_state = reinterpret(ptr byte, &frontend);
+        artifact_options.cold_cache_pending = frontend.deferred;
+    }
+    ModuleCacheState semantic_cache = module_cache_empty();
+    ptr byte semantic_cache_owner = reinterpret(ptr byte, &semantic_cache);
+    scope module_cache_destroy_owner(semantic_cache_owner);
+    bool semantic_cache_ready = false;
+    // Global declarations are frozen here. Reuse the selected entry through
+    // validation, key preparation and linking instead of rereading names in
+    // every cache stage. Validation never adds or renames global functions.
+    usize resolved_entry = modules.length;
+    bool resolved_entry_ready = false;
+    if validate_semantics && c_backend && timings.emission_mode == 2 &&
+        (artifact_options.kind == native_artifact_module_coff_set() ||
+            artifact_options.kind == native_artifact_cached_executable()) &&
+        artifact_options.source_partitions != 0 &&
+        (artifact_options.source_chunks == 2 ||
+         artifact_options.source_chunks == 4) &&
+        sources.length >= artifact_options.source_chunks &&
+        text.byte_length(artifact_options.cache_prefix) != 0 &&
+        !artifact_options.cold_cache_pending {
+        IrContext prepared_base = backend_base_context(
+            project_source, project_root, module_data, modules,
+            source_data, type_data, types, symbol_data, detail_data,
+            symbols, 1
+        );
+        resolved_entry = ir_entry_module(
+            project_source, project_root, source_data,
+            symbol_data, detail_data, symbols, modules.length
+        );
+        resolved_entry_ready = true;
+        semantic_cache.native_objects =
+            artifact_options.kind == native_artifact_cached_executable();
+        semantic_cache_ready = source_partition_cache_prepare(
+            prepared_base, parsed_source_cache,
+            artifact_options.cache_prefix, resolved_entry,
+            artifact_options.source_partitions,
+            artifact_options.source_chunks, artifact_options.frontend_rows,
+            artifact_options.frontend_projections,
+            artifact_options.frontend_projection_length, artifact_options.cache_compiler_hash,
+            true, prepared_base.types.length, semantic_cache, timings
+        );
+        if semantic_cache_ready {
+            semantic_cache_ready = source_partition_cache_evict_saved(
+                semantic_cache, artifact_options.source_partitions
+            );
+        }
+        if !semantic_cache_ready {
+            module_cache_destroy(semantic_cache);
+            semantic_cache = module_cache_empty();
+            if artifact_options.kind == native_artifact_cached_executable() {
+                artifact_options.cache_prefix = "";
+            }
+        }
+    }
     phase_started = process.monotonic_milliseconds();
     usize acceptance_errors = 0;
     bool fuse_native_acceptance = false;
@@ -219,6 +515,8 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
     );
     scope memory.free(validation_source_ms);
     if validate_semantics {
+        error_data = memory.alloc(errors.capacity * record_stride());
+        if error_data == null { return 1; }
         usize validation_source = 0;
         while validation_source <= sources.length {
             write_usize(
@@ -239,6 +537,39 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 project_source, project_root, source_data,
                 symbol_data, detail_data, symbols
             );
+        bool parallel_flow = c_backend && timings.emission_mode == 2 &&
+            (artifact_options.source_chunks == 2 ||
+             artifact_options.source_chunks == 4) &&
+            sources.length >= 2 && total_source_length >= 196608;
+        ptr byte semantic_cache_offsets = null;
+        if semantic_cache_ready {
+            semantic_cache_offsets = semantic_cache.offsets;
+        }
+        if parallel_flow {
+            usize flow_worker_count = 2;
+            if artifact_options.source_chunks == 4 &&
+                sources.length >= 32 && total_source_length >= 1048576 {
+                flow_worker_count = 4;
+            }
+            timings.parallel_flow_workers = flow_worker_count;
+            if !flow_validate_project_parallel(
+                project_source, project_root, module_data, modules,
+                source_data, sources, type_data, symbol_data, detail_data,
+                symbols, project_has_pointer_symbol,
+                project_has_unsafe_function, parsed_source_cache,
+                validation_source_ms, error_data, errors, timings,
+                flow_worker_count,
+                semantic_cache_offsets,
+                artifact_options.source_partitions
+            ) {
+                timings.validation_ms =
+                    process.monotonic_milliseconds() - phase_started;
+                timings.total_ms =
+                    process.monotonic_milliseconds() - total_started;
+                memory.free(error_data);
+                return 1;
+            }
+        } else {
         module_index = 0;
         while module_index < modules.length {
             usize first = read_record_field(module_data, module_index, 2);
@@ -246,6 +577,19 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
             usize index = 0;
             while index < count {
                 usize source_record = first + index;
+                if semantic_cache_ready &&
+                    source_partition_cache_source_hit(
+                        semantic_cache.offsets,
+                        artifact_options.source_partitions,
+                        sources.length, source_record
+                    ) {
+                    write_usize(validation_source_ms,
+                        source_record * size_of(usize), 0);
+                    timings.object_cache_flow_sources_skipped =
+                        timings.object_cache_flow_sources_skipped + 1;
+                    index = index + 1;
+                    continue;
+                }
                 usize source_started = process.monotonic_milliseconds();
                 flow_validate_source(
                     project_source, project_root, module_data, modules,
@@ -280,11 +624,13 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                         process.monotonic_milliseconds() - phase_started;
                     timings.total_ms =
                         process.monotonic_milliseconds() - total_started;
+                    memory.free(error_data);
                     return 1;
                 }
                 index = index + 1;
             }
             module_index = module_index + 1;
+        }
         }
         timings.validation_flow_ms =
             process.monotonic_milliseconds() - flow_started;
@@ -326,34 +672,59 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
         }
         timings.total_ms =
             process.monotonic_milliseconds() - total_started;
+        if error_data != null { memory.free(error_data); }
         return 1;
     }
+
+    if error_data != null { memory.free(error_data); }
 
     // Public `openc check` uses the production flow and acceptance pipeline
     // but does not need IR lowering, machine-code emission, or a PE image.
     if timings.emission_mode == 3 {
+        if text.byte_length(artifact_options.interface_report_path) != 0 &&
+            !interface_fingerprint_write(
+                project_source, project_root, module_data, modules,
+                source_data, artifact_options.interface_report_path,
+                total_source_length, symbols.length
+            ) {
+            timings.total_ms =
+                process.monotonic_milliseconds() - total_started;
+            return 1;
+        }
         timings.total_ms =
             process.monotonic_milliseconds() - total_started;
         return 0;
     }
 
-    usize entry = ir_entry_module(
-        project_source, project_root, source_data,
-        symbol_data, detail_data, symbols, modules.length
-    );
+    usize entry = resolved_entry;
+    if !resolved_entry_ready {
+        entry = ir_entry_module(project_source, project_root, source_data,
+            symbol_data, detail_data, symbols, modules.length);
+    }
     usize next_value = 1;
     IrContext base = backend_base_context(
         project_source, project_root, module_data, modules,
         source_data, type_data, types, symbol_data, detail_data,
         symbols, next_value
     );
+    base.profile_type_queries_enabled = timings.profile_type_queries_enabled;
     phase_started = process.monotonic_milliseconds();
     if c_backend {
         i32 c_result = c_emit_project(
             base, output_directory, output_capacity, entry, timings,
             fuse_native_acceptance, validation_source_ms,
-            parsed_source_cache, artifact_options
+            parsed_source_cache, artifact_options,
+            semantic_cache, semantic_cache_ready
         );
+        timings.frontend_prepare_parallel = frontend.prepare_parallel;
+        timings.frontend_identity_parallel = frontend.identity_parallel;
+        if c_result == 0 && frontend.enabled &&
+            text.byte_length(artifact_options.cache_prefix) != 0 {
+            if !native_frontend_publish(frontend, artifact_options.cache_prefix,
+                    type_data, types, symbol_data, detail_data, symbols) {
+                timings.frontend_publish_failures = timings.frontend_publish_failures + 1;
+            }
+        }
         usize lowering_elapsed =
             process.monotonic_milliseconds() - phase_started;
         if fuse_native_acceptance {
@@ -369,11 +740,17 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 );
                 validation_source = validation_source + 1;
             }
-            timings.validation_ms = timings.validation_flow_ms +
-                timings.validation_acceptance_ms;
-            if lowering_elapsed >= timings.validation_acceptance_ms {
-                lowering_elapsed = lowering_elapsed -
+            if timings.parallel_source_chunks != 0 {
+                // Worker acceptance timings are summed elapsed times, not
+                // wall time; the whole fused stage belongs in this phase.
+                timings.validation_ms = timings.validation_flow_ms;
+            } else {
+                timings.validation_ms = timings.validation_flow_ms +
                     timings.validation_acceptance_ms;
+                if lowering_elapsed >= timings.validation_acceptance_ms {
+                    lowering_elapsed = lowering_elapsed -
+                        timings.validation_acceptance_ms;
+                }
             }
         }
         timings.lowering_emit_ms = lowering_elapsed;
@@ -495,6 +872,9 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 source_record = source_record,
                 function_node = 0,
                 function_symbol = 0,
+                function_alloc_probe_node = 0,
+                function_alloc_probe_state = 0,
+                native_compact_updates = false,
                 function_result = 0,
                 function_local_first = 0,
                 function_local_end = 0,
@@ -578,7 +958,23 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
                 profile_parent_candidates = 0,
                 profile_expression_positions = 0,
                 profile_syntax_candidates = 0,
-                profile_symbol_candidates = 0
+                profile_symbol_candidates = 0,
+                profile_type_queries_enabled = false,
+                profile_type_seen = null,
+                profile_type_queries = 0,
+                profile_type_cache_hits = 0,
+                profile_type_uncached = 0,
+                profile_type_distinct_uncached = 0,
+                profile_type_repeated_uncached = 0,
+                profile_type_failures = 0,
+                profile_type_name_uncached = 0,
+                profile_type_literal_uncached = 0,
+                profile_type_unary_uncached = 0,
+                profile_type_binary_uncached = 0,
+                profile_type_assignment_uncached = 0,
+                profile_type_call_uncached = 0,
+                profile_type_other_uncached = 0,
+                suppress_acceptance_diagnostics = false
             };
             ir_initialize_local_values(context);
             usize node = 0;
@@ -627,10 +1023,10 @@ unsafe i32 emit_bootstrap_d_mode_artifact(
             memory.free(call_cache);
             memory.free(name_cache);
             memory.free(local_values);
-            memory.free(operand_data);
-            memory.free(instruction_detail);
-            memory.free(instruction_data);
-            memory.free(block_data);
+            memory.free(context.operand_data);
+            memory.free(context.instruction_detail);
+            memory.free(context.instruction_data);
+            memory.free(context.block_data);
             memory.free(syntax_data);
             memory.free(diagnostic_data);
             memory.free(token_data);

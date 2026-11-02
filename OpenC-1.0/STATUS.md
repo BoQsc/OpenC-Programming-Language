@@ -1,7 +1,31 @@
 # OpenC canonical mainline status
 
+The SH-27 candidate is 1.0.1, compiler `7c6f7bba...`. **Engineering gates pass.**
+Two independent hosted production certificates pass all 20 original C/D
+ratios and both scaling suites; two cache/package certificates pass the
+unchanged cold/warm/edit budgets and strict 20-generation closure. Exact
+pinned DMD 2.112.0 local large-function ratios are 1.087x/1.133x, below the
+1.20x engineering target. Native workflow 19/19, 278 conformance fixtures,
+32 integer/fallback cases, representative/four-project coverage, fresh editor
+and deterministic relocated packaging checks pass. SH-27 remains open only
+for final candidate verification and owner-authorized publication. All exact
+identities, raw artifacts and rejected attempts are indexed in the
+[qualification record](compiler/selfhost/SH27_1_0_1_QUALIFICATION.md).
+
+## Historical checkpoints
+
+Measurements below retain their original compiler identity and are superseded
+by the current qualification above, including entries that then remained open.
+
+SH-27 working-branch checkpoint (2026-11-02): compiler `1859f47f...` passes
+two independent clean hosted 20/20 C/D comparisons, strict self-host/cache
+repeats, the clean editor profile and relocated native release checks.
+[Current evidence and remaining closure work](../SH27_RELEASE_CANDIDATE_EVIDENCE.md).
+SH-27 remains active; the SH-25/26 measurements below retain their historical
+release identity.
+
 ```text
-version:                            1.0.0
+version:                            1.0.1 CANDIDATE
 canonical development tree:         YES
 release scope:                      WINDOWS X86-64 HOSTED
 
@@ -9,10 +33,10 @@ Core specification:                 1.0 FINAL AUTHORITY
 Hosted specification:               1.0 FINAL AUTHORITY
 Linux/freestanding/Native sources:   EXPERIMENTAL; OUT OF 1.0 SUPPORT SCOPE
 
-canonical OpenC compiler source:     221 `.p` UNITS; SELF-HOSTED
+canonical OpenC compiler source:     230 `.p` UNITS; SELF-HOSTED
 legacy D reference source:           OPTIONAL AUDIT; NOT AUTHORITY
 legacy Python bootstrap source:      OPTIONAL AUDIT; NOT AUTHORITY
-official OpenC source extension:      .p; 281 MIGRATED, 547 TOTAL `.p` SOURCES
+official OpenC source extension:      .p; 281 MIGRATED, 570 TRACKED `.p` SOURCES
 compiler-in-OpenC lexer:              SH-2A/SH-2B PASS; 304/304 EXACT PARITY
 compiler-in-OpenC parser:             SH-2C PASS; 303/303 EXACT PARITY
 project/module frontend:              SH-2D PASS; 22/22 EXACT PARITY
@@ -87,6 +111,11 @@ SH-27 benchmark disk headroom:          256 MIB FLOOR; FREE BYTES RECORDED
 SH-27 large Clang parity:               PRIOR CLEAN PASS; RUN 35803835781, 0.862x
 SH-27 large-corpus scaling:             OPEN; PRIOR RUN 35797651687: 0.890/0.498/0.313 S OPENC/MSVC/DMD
 SH-27 latest five-comparator run:       35814722551 PASS; EVIDENCE_COMPLETE_DEFICIT
+SH-27 adaptive native workers:          CLEAN RUN 35831483331 PASS; OPT-IN, PARITY OPEN
+SH-27 parallel flow validation:         CLEAN RUN 35837859544 PASS; OPT-IN, PARITY OPEN
+SH-27 pre-flow paired self-build:        LOCAL 11/11 WINS; -2.601 S PAIRED MEDIAN
+SH-27 pre-flow large functions:         LOCAL 6/11 WINS; NON-REGRESSION ONLY
+SH-27 aggregate ref-to-value fix:       CLEAN RUN 35841915276 PASS; PARITY OPEN
 SH-24 complete workflow:              PASS; NATIVE DAILY 11/11, FULL 16/16
 SH-24 editor resilience audit:        PASS; 33/33, 12 + 12 DETERMINISTIC FRAMES
 SH-24 contract audit:                 PASS; 36/36

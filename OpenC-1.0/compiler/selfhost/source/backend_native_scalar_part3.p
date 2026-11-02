@@ -2,9 +2,88 @@ import system.io;
 import system.memory;
 import system.text;
 
+unsafe bool native_try_integer_immediate(
+    ref IrContext context, ref NativeFunction function,
+    usize constant_instruction, usize binary_instruction,
+    usize following_instruction, ptr byte use_counts,
+    ref usize instruction_count
+) {
+    if read_record_field(context.instruction_data, constant_instruction, 2) !=
+            ir_op_const_integer() ||
+        read_record_field(context.instruction_detail, constant_instruction, 0) != 4 ||
+        read_record_field(context.instruction_data, binary_instruction, 2) !=
+            ir_op_binary() ||
+        d_operand_count(context, binary_instruction) != 2 {
+        return false;
+    }
+    usize constant = read_record_field(
+        context.instruction_data, constant_instruction, 1);
+    if constant < function.first_value ||
+        constant > context.next_value ||
+        d_operand_value(context, binary_instruction, 1) != constant ||
+        read_usize(use_counts,
+            (constant - function.first_value) * size_of(usize)) != 1 {
+        return false;
+    }
+    usize immediate = read_record_field(
+        context.instruction_detail, constant_instruction, 1);
+    if immediate > 127 { return false; }
+    usize type_id = read_record_field(
+        context.instruction_data, binary_instruction, 3);
+    if type_id >= context.types.length { return false; }
+    usize kind = read_record_field(context.type_data, type_id, 0);
+    if kind != 2 && kind != 3 { return false; }
+    usize left = d_operand_value(context, binary_instruction, 0);
+    if left < function.first_value ||
+        left > context.next_value ||
+        native_value_read(function, function.value_types, left) != type_id {
+        return false;
+    }
+    usize operation = 8;
+    if d_instruction_text_is(context, binary_instruction, "+") {
+        operation = 0;
+    } else if d_instruction_text_is(context, binary_instruction, "-") {
+        operation = 5;
+    }
+    if operation == 8 { return false; }
+    usize result = read_record_field(
+        context.instruction_data, binary_instruction, 1);
+    NativeLayout layout = native_layout(context, type_id, 0);
+    instruction_count = 2;
+    if result == 0 || !layout.valid { function.code.ok = false; return true; }
+    usize store_destination = result;
+    if following_instruction < context.instructions.length &&
+        read_record_field(context.instruction_data, following_instruction, 2) ==
+            ir_op_store() &&
+        d_operand_count(context, following_instruction) == 2 &&
+        d_operand_value(context, following_instruction, 1) == result &&
+        result >= function.first_value && result <= context.next_value &&
+        read_usize(use_counts,
+            (result - function.first_value) * size_of(usize)) == 1 &&
+        !d_operand_immediate_is(context, following_instruction, 0, "deref") &&
+        !d_operand_immediate_is(context, following_instruction, 0, "bind") {
+        usize destination = d_operand_value(context, following_instruction, 0);
+        if destination >= function.first_value &&
+            destination <= context.next_value &&
+            native_value_read(function, function.value_types, destination) == type_id &&
+            native_value_read(function, function.address_values, destination) == 0 {
+            store_destination = destination;
+            instruction_count = 3;
+        }
+    }
+    native_load(function, left, 0);
+    x64_alu_r64_imm8(function.code, operation, 0, immediate);
+    usize no_overflow = 3;
+    if kind == 2 { no_overflow = 1; }
+    native_require(function.code, no_overflow);
+    native_check_result(context, function, type_id);
+    native_store(function, store_destination, 0);
+    return true;
+}
+
 unsafe void native_emit_function(
     ref IrContext context, ref DBuffer output, ref BuildTimings timings,
-    usize symbol, usize entry_module
+    usize symbol, usize entry_module, usize first
 ) {
     if !output.ok { return; }
     // These are compiler-engineering budgets, not language limits. They stop a
@@ -28,24 +107,64 @@ unsafe void native_emit_function(
         output.ok = false;
         return;
     }
-    usize first = context.next_value;
-    usize index = 0;
-    while index < context.instructions.length {
-        usize value = read_record_field(context.instruction_data, index, 1);
-        if value != 0 && value < first { first = value; }
-        index = index + 1;
-    }
+    // Lowering publishes monotonically increasing function-local SSA values.
+    // Its caller captures the first ID before lowering. Build types, slots,
+    // operand-use counts and capacity facts together in creation order; none
+    // depends on final block order. The old reference-origin pass wrote into
+    // value_slots and was immediately overwritten before any reader.
+    usize value_capacity = context.next_value - first + 1;
+    ptr byte value_types = memory.alloc(value_capacity * size_of(usize));
+    ptr byte value_slots = memory.alloc(value_capacity * size_of(usize));
+    ptr byte references = memory.alloc(value_capacity * size_of(usize));
+    usize frame_cursor = 1536;
+    usize next_result = first;
     usize scope_count = 0;
     usize maximum_layout_size = 8;
     bool function_has_call = false;
     bool function_has_cast = false;
+    bool function_has_small_integer = false;
+    usize argument_snapshot_calls = 0;
     usize direct_constant_capacity = 256;
-    index = 0;
+    usize index = 0;
     while index < context.instructions.length {
         NativeLayout instruction_layout = native_layout(context,
             read_record_field(context.instruction_data, index, 3), 0);
         if instruction_layout.valid && instruction_layout.size > maximum_layout_size {
             maximum_layout_size = instruction_layout.size;
+        }
+        usize result = read_record_field(context.instruction_data, index, 1);
+        if result != 0 {
+            // Fail before indexing scratch if a future lowerer violates the
+            // contiguous-ID handoff, rather than silently changing frame order.
+            if result != next_result || result >= context.next_value {
+                memory.free(references); memory.free(value_slots);
+                memory.free(value_types); output.ok = false; return;
+            }
+            usize value_size = 8;
+            usize value_alignment = 8;
+            if instruction_layout.valid {
+                if instruction_layout.size > value_size { value_size = instruction_layout.size; }
+                if instruction_layout.alignment > value_alignment {
+                    value_alignment = instruction_layout.alignment;
+                }
+            }
+            frame_cursor = x64_align_up(frame_cursor, value_alignment);
+            write_usize(value_slots, (result - first) * size_of(usize), frame_cursor);
+            write_usize(value_types, (result - first) * size_of(usize),
+                read_record_field(context.instruction_data, index, 3));
+            frame_cursor = frame_cursor + value_size;
+            next_result = next_result + 1;
+        }
+        usize operand_first = read_record_field(context.instruction_detail, index, 3);
+        usize operand_count = d_operand_count(context, index);
+        usize operand = 0;
+        while operand < operand_count {
+            usize value = read_record_field(context.operand_data, operand_first + operand, 0);
+            if value >= first && value - first < value_capacity {
+                usize offset = (value - first) * size_of(usize);
+                write_usize(references, offset, read_usize(references, offset) + 1);
+            }
+            operand = operand + 1;
         }
         usize opcode = read_record_field(
             context.instruction_data, index, 2
@@ -53,48 +172,47 @@ unsafe void native_emit_function(
         if opcode == ir_op_scope_register() {
             scope_count = scope_count + 1;
         }
-        if opcode == ir_op_call() { function_has_call = true; }
+        if opcode == ir_op_call() {
+            function_has_call = true;
+            if c_builtin_is(context, index,
+                "process.argument", "system.process.argument") ||
+                c_builtin_is(context, index,
+                "process.argument_count", "system.process.argument_count") {
+                argument_snapshot_calls = argument_snapshot_calls + 1;
+            }
+        }
         if opcode == ir_op_cast() { function_has_cast = true; }
+        if opcode == ir_op_const_integer() &&
+            read_record_field(context.instruction_detail, index, 0) == 4 &&
+            read_record_field(context.instruction_detail, index, 1) <= 127 {
+            function_has_small_integer = true;
+        }
         if opcode == ir_op_const_text() {
             direct_constant_capacity = direct_constant_capacity +
                 read_record_field(context.instruction_detail, index, 2) + 1;
         }
         index = index + 1;
     }
-    // SSA numbers are project-wide, but all function analyses are local. Keep
-    // storage proportional to this function instead of reallocating and
-    // clearing every value produced by all preceding functions.
-    usize value_capacity = context.next_value - first + 1;
-    ptr byte value_types = memory.alloc(value_capacity * size_of(usize));
-    ptr byte references = memory.alloc(value_capacity * size_of(usize));
-    ptr byte order = d_instruction_order(context);
-    native_analyze_values(context, first, value_types, references, order);
-    ptr byte value_slots = memory.alloc(value_capacity * size_of(usize));
-    usize frame_cursor = 1536;
-    index = first;
-    while index <= context.next_value {
-        NativeLayout value_layout = native_layout(context,
-            read_usize(value_types,
-                (index - first) * size_of(usize)), 0);
-        usize value_size = 8;
-        usize value_alignment = 8;
-        if value_layout.valid {
-            if value_layout.size > value_size { value_size = value_layout.size; }
-            if value_layout.alignment > value_alignment {
-                value_alignment = value_layout.alignment;
-            }
-        }
-        frame_cursor = x64_align_up(frame_cursor, value_alignment);
-        write_usize(value_slots,
-            (index - first) * size_of(usize), frame_cursor);
-        frame_cursor = frame_cursor + value_size;
-        index = index + 1;
+    if next_result != context.next_value {
+        memory.free(references); memory.free(value_slots);
+        memory.free(value_types); output.ok = false; return;
     }
+    // Preserve the historical one-past-last sentinel slot and exact frame.
+    frame_cursor = x64_align_up(frame_cursor, 8);
+    write_usize(value_slots, (context.next_value - first) * size_of(usize), frame_cursor);
+    frame_cursor = frame_cursor + 8;
+    ptr byte order = d_instruction_order(context);
     usize frame = x64_align_up(frame_cursor, 16) + 8;
     usize code_capacity = context.instructions.length * 1024 +
         maximum_layout_size * 32 + 65536;
     usize relocation_capacity = context.instructions.length * 32 + 32;
+    // The lazy argument snapshot includes allocation checks, CAS publication,
+    // and loser cleanup. Keep its larger intrinsic expansion in the bounds;
+    // the initial allocations below still grow only as actual emission needs.
+    code_capacity = code_capacity + argument_snapshot_calls * 2048;
+    relocation_capacity = relocation_capacity + argument_snapshot_calls * 128;
     usize constant_capacity = context.source.length * 2 + 256;
+    constant_capacity = constant_capacity + argument_snapshot_calls * 512;
     // A call-free function cannot enter a runtime intrinsic emitter.  Its
     // constant section contains only decoded source literals, whose encoded
     // IR spans are a conservative exact bound, plus one terminator each.
@@ -113,6 +231,14 @@ unsafe void native_emit_function(
     if !function_has_call {
         constant_capacity = direct_constant_capacity;
     }
+    usize initial_code_capacity = context.instructions.length * 64 + 512;
+    if initial_code_capacity > code_capacity {
+        initial_code_capacity = code_capacity;
+    }
+    usize initial_relocation_capacity = context.instructions.length + 8;
+    if initial_relocation_capacity > relocation_capacity {
+        initial_relocation_capacity = relocation_capacity;
+    }
     if frame > maximum_frame_bytes || code_capacity > maximum_code_bytes ||
         constant_capacity > maximum_constant_bytes {
         io.error("error[OPENC-NATIVE-BUDGET]: function ");
@@ -129,12 +255,15 @@ unsafe void native_emit_function(
         return;
     }
     NativeFunction function = NativeFunction{
-        code = x64_code_create(code_capacity, relocation_capacity),
+        code = x64_code_create_bounded(
+            initial_code_capacity, code_capacity,
+            initial_relocation_capacity, relocation_capacity
+        ),
         constants = d_buffer_create(constant_capacity),
         first_value = first, frame_size = frame,
         indirect_return = native_indirect_aggregate(context,
             read_record_field(context.symbol_data, symbol, 4)),
-        value_types = ir_pointer_alias(value_types),
+        value_types = ir_pointer_alias(value_types), value_uses = ir_pointer_alias(references),
         value_origins = memory.alloc(value_capacity * size_of(usize)),
         address_values = memory.alloc(value_capacity * size_of(usize)),
         value_slots = ir_pointer_alias(value_slots),
@@ -184,9 +313,40 @@ unsafe void native_emit_function(
             context.instruction_data, read_usize(order, index * size_of(usize)), 0
         ) == block && function.code.ok {
             usize lowering_instruction = read_usize(order, index * size_of(usize));
-            native_scalar_instruction(context, function, lowering_instruction);
-            if !function.code.ok { failed_instruction = lowering_instruction; }
-            index = index + 1;
+            bool immediate_pair = false;
+            usize fused_count = 0;
+            if function_has_small_integer &&
+                index + 1 < context.instructions.length {
+                usize next_instruction = read_usize(
+                    order, (index + 1) * size_of(usize));
+                if read_record_field(context.instruction_data,
+                        next_instruction, 0) == block {
+                    usize following_instruction = context.instructions.length;
+                    if index + 2 < context.instructions.length {
+                        usize candidate = read_usize(
+                            order, (index + 2) * size_of(usize));
+                        if read_record_field(context.instruction_data,
+                                candidate, 0) == block {
+                            following_instruction = candidate;
+                        }
+                    }
+                    immediate_pair = native_try_integer_immediate(
+                        context, function, lowering_instruction,
+                        next_instruction, following_instruction,
+                        references, fused_count);
+                    if immediate_pair {
+                        if !function.code.ok {
+                            failed_instruction = next_instruction;
+                        }
+                        index = index + fused_count;
+                    }
+                }
+            }
+            if !immediate_pair {
+                native_scalar_instruction(context, function, lowering_instruction);
+                if !function.code.ok { failed_instruction = lowering_instruction; }
+                index = index + 1;
+            }
         }
         block = block + 1;
     }
@@ -208,6 +368,18 @@ unsafe void native_emit_function(
         index = index + 1;
     }
     usize unwind_size = x64_unwind_allocation_size(prolog, frame);
+    // This compact native stream serializes relocation offset and symbol,
+    // not kind or width. Reject an unsupported kind before it can be patched
+    // as a relative32 and turn a function pointer into an invalid address.
+    index = 0;
+    while index < function.code.relocations.length {
+        if read_record_field(function.code.relocation_data, index, 1) !=
+                x64_relocation_relative32() ||
+            read_record_field(function.code.relocation_data, index, 4) != 4 {
+            function.code.ok = false;
+        }
+        index = index + 1;
+    }
     if function.code.ok && unwind_size != 0 && function.constants.ok {
         pe32_put_u32(output, symbol);
         usize entry = 0; if c_function_is_entry(context, symbol, entry_module) { entry = 1; }
@@ -248,11 +420,12 @@ unsafe void native_emit_function(
         output.ok = false;
     }
     timings.native_code_reserved_bytes =
-        timings.native_code_reserved_bytes + code_capacity;
+        timings.native_code_reserved_bytes + function.code.bytes.capacity;
     timings.native_code_used_bytes =
         timings.native_code_used_bytes + function.code.bytes.length;
     timings.native_relocation_reserved_records =
-        timings.native_relocation_reserved_records + relocation_capacity;
+        timings.native_relocation_reserved_records +
+        function.code.relocations.capacity;
     timings.native_relocation_used_records =
         timings.native_relocation_used_records + function.code.relocations.length;
     timings.native_constant_reserved_bytes =

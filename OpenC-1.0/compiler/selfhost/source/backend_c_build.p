@@ -19,7 +19,7 @@ unsafe bool write_build_timings(
     bool passed
 ) {
     if text.byte_length(timing_path) == 0 { return true; }
-    DBuffer output = d_buffer_create(4096);
+    DBuffer output = d_buffer_create(8192);
     d_put(output, "{\n  \"schema\": \"openc.native_build_timings.v1\",\n");
     d_put(output, "  \"status\": \"");
     if passed { d_put(output, "PASS"); } else { d_put(output, "FAIL"); }
@@ -29,6 +29,94 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.source_files);
     d_put(output, ",\n  \"source_bytes\": ");
     d_put_usize(output, timings.source_bytes);
+    if timings.object_cache_retries != 0 {
+        d_put(output, ",\n  \"object_cache_retries\": ");
+        d_put_usize(output, timings.object_cache_retries);
+    }
+    if timings.module_selection_enabled {
+        d_put(output, ",\n  \"module_selection\": {\"sources_lowered\": ");
+        d_put_usize(output, timings.module_sources_lowered);
+        d_put(output, ", \"sources_validation_only\": ");
+        d_put_usize(output, timings.module_sources_validation_only);
+        d_put(output, "}");
+    }
+    if timings.frontend_cache_enabled {
+        d_put(output, ",\n  \"frontend_cache\": {\"predeclare_hits\": ");
+        d_put_usize(output, timings.frontend_predeclare_hits);
+        d_put(output, ", \"resolution_hits\": ");
+        d_put_usize(output, timings.frontend_resolution_hits);
+        d_put(output, ", \"publish_failures\": ");
+        d_put_usize(output, timings.frontend_publish_failures);
+        d_put(output, ", \"prepare_parallel\": ");
+        native_put_bool(output, timings.frontend_prepare_parallel);
+        d_put(output, ",\"identity_parallel\":");
+        native_put_bool(output, timings.frontend_identity_parallel);
+        d_put(output, "}");
+    }
+    if timings.object_cache_enabled {
+        d_put(output, ",\n  \"object_cache\": {\"hits\": ");
+        d_put_usize(output, timings.object_cache_hits);
+        d_put(output, ", \"misses\": ");
+        d_put_usize(output, timings.object_cache_misses);
+        d_put(output, ", \"publish_failures\": ");
+        d_put_usize(output, timings.object_cache_publish_failures);
+        d_put(output, ", \"prepare_parallel\": ");
+        native_put_bool(output, timings.object_cache_prepare_parallel);
+        d_put(output, ", \"publish_parallel\": ");
+        native_put_bool(output, timings.object_cache_publish_parallel);
+        d_put(output, ", \"validation_skipped\": ");
+        native_put_bool(output, timings.object_cache_validation_skipped);
+        d_put(output, ", \"flow_sources_skipped\": ");
+        d_put_usize(output, timings.object_cache_flow_sources_skipped);
+        d_put(output, ", \"acceptance_sources_skipped\": ");
+        d_put_usize(output, timings.object_cache_acceptance_sources_skipped);
+        d_put(output, "}");
+    }
+    if timings.coff_partition_total_ms != 0 {
+        d_put(output, ",\n  \"coff_partition_profile_ms\": {\"total\": ");
+        d_put_usize(output, timings.coff_partition_total_ms);
+        d_put(output, ", \"identity\": ");
+        d_put_usize(output, timings.coff_partition_identity_ms);
+        d_put(output, ", \"selection\": ");
+        d_put_usize(output, timings.coff_partition_selection_ms);
+        d_put(output, ", \"object\": ");
+        d_put_usize(output, timings.coff_partition_object_ms);
+        d_put(output, ", \"digest\": ");
+        d_put_usize(output, timings.coff_partition_digest_ms);
+        d_put(output, ", \"file\": ");
+        d_put_usize(output, timings.coff_partition_file_ms);
+        d_put(output, ", \"bundle\": ");
+        d_put_usize(output, timings.coff_partition_bundle_ms);
+        d_put(output, ", \"cache\": ");
+        d_put_usize(output, timings.coff_partition_cache_ms);
+        d_put(output, ", \"link\": ");
+        d_put_usize(output, timings.coff_partition_link_ms);
+        d_put(output, "}");
+    }
+    d_put(output, ",\n  \"parallel_source_chunks\": ");
+    d_put_usize(output, timings.parallel_source_chunks);
+    d_put(output, ",\n  \"parallel_flow_workers\": ");
+    d_put_usize(output, timings.parallel_flow_workers);
+    d_put(output, ",\n  \"flow_threads_launched\": ");
+    if timings.flow_threads_launched {
+        d_put(output, "true");
+    } else {
+        d_put(output, "false");
+    }
+    d_put(output, ",\n  \"source_chunks_policy\": \"");
+    if timings.auto_source_chunks {
+        d_put(output, "auto");
+    } else {
+        d_put(output, "explicit_or_default");
+    }
+    d_put(output, "\"");
+    d_put(output, ",\n  \"phase_accounting\": \"");
+    if timings.parallel_source_chunks != 0 {
+        d_put(output, "wall_elapsed_with_acceptance_in_lowering");
+    } else {
+        d_put(output, "wall_elapsed_with_acceptance_in_validation");
+    }
+    d_put(output, "\"");
     d_put(output, ",\n  \"phases_ms\": {\n");
     d_put(output, "    \"project_load\": ");
     d_put_usize(output, timings.project_load_ms);
@@ -42,6 +130,27 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.lowering_emit_ms);
     d_put(output, ",\n    \"tinycc\": ");
     d_put_usize(output, timings.backend_ms);
+    d_put(output, "\n  },\n  \"declaration_profile\": {\n");
+    d_put(output, "    \"enabled\": ");
+    if timings.profile_type_queries_enabled {
+        d_put(output, "true");
+    } else {
+        d_put(output, "false");
+    }
+    d_put(output, ",\n    \"parse_retained_ms\": ");
+    d_put_usize(output, timings.declaration_parse_retained_ms);
+    d_put(output, ",\n    \"source_reread_ms\": ");
+    d_put_usize(output, timings.declaration_reread_ms);
+    d_put(output, ",\n    \"predeclare_ms\": ");
+    d_put_usize(output, timings.declaration_predeclare_ms);
+    d_put(output, ",\n    \"source_read_ms\": ");
+    d_put_usize(output, timings.declaration_read_ms);
+    d_put(output, ",\n    \"lex_ms\": ");
+    d_put_usize(output, timings.declaration_lex_ms);
+    d_put(output, ",\n    \"parse_ms\": ");
+    d_put_usize(output, timings.declaration_parse_ms);
+    d_put(output, ",\n    \"compact_ms\": ");
+    d_put_usize(output, timings.declaration_compact_ms);
     d_put(output, "\n  },\n  \"native_memory\": {\n");
     d_put(output, "    \"validation_initial_live_bytes\": ");
     d_put_usize(output, timings.validation_initial_live_bytes);
@@ -58,6 +167,20 @@ unsafe bool write_build_timings(
     d_put(output, ",\n    \"path_cache_misses\": ");
     d_put_usize(output, timings.validation_path_cache_misses);
     d_put(output, "\n  },\n  \"validation_profile\": {\n");
+    d_put(output, "    \"acceptance_time_basis\": \"");
+    if timings.parallel_source_chunks != 0 {
+        d_put(output, "summed_worker_elapsed");
+    } else {
+        d_put(output, "wall_elapsed");
+    }
+    d_put(output, "\",\n");
+    d_put(output, "    \"flow_group_time_basis\": \"");
+    if timings.parallel_flow_workers != 0 {
+        d_put(output, "summed_worker_elapsed");
+    } else {
+        d_put(output, "wall_elapsed");
+    }
+    d_put(output, "\",\n");
     d_put(output, "    \"flow_ms\": ");
     d_put_usize(output, timings.validation_flow_ms);
     d_put(output, ",\n    \"flow_groups_ms\": {");
@@ -135,7 +258,52 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.validation_third_source_record);
     d_put(output, ", \"milliseconds\": ");
     d_put_usize(output, timings.validation_third_source_ms);
-    d_put(output, "}\n    ]\n  },\n  \"total_ms\": ");
+    d_put(output, "}\n    ]\n  },\n  \"type_query_profile\": {\n");
+    d_put(output, "    \"enabled\": ");
+    if timings.profile_type_queries_enabled {
+        d_put(output, "true");
+    } else {
+        d_put(output, "false");
+    }
+    d_put(output, ",\n    \"validation_queries\": ");
+    d_put_usize(output, timings.validation_type_queries);
+    d_put(output, ",\n    \"validation_cache_hits\": ");
+    d_put_usize(output, timings.validation_type_cache_hits);
+    d_put(output, ",\n    \"validation_uncached\": ");
+    d_put_usize(output, timings.validation_type_uncached);
+    d_put(output, ",\n    \"validation_distinct_uncached\": ");
+    d_put_usize(output, timings.validation_type_distinct_uncached);
+    d_put(output, ",\n    \"validation_repeated_uncached\": ");
+    d_put_usize(output, timings.validation_type_repeated_uncached);
+    d_put(output, ",\n    \"validation_failures\": ");
+    d_put_usize(output, timings.validation_type_failures);
+    d_put(output, ",\n    \"validation_uncached_by_kind\": {");
+    d_put(output, "\n      \"name\": ");
+    d_put_usize(output, timings.validation_type_name_uncached);
+    d_put(output, ",\n      \"literal\": ");
+    d_put_usize(output, timings.validation_type_literal_uncached);
+    d_put(output, ",\n      \"unary\": ");
+    d_put_usize(output, timings.validation_type_unary_uncached);
+    d_put(output, ",\n      \"binary\": ");
+    d_put_usize(output, timings.validation_type_binary_uncached);
+    d_put(output, ",\n      \"assignment\": ");
+    d_put_usize(output, timings.validation_type_assignment_uncached);
+    d_put(output, ",\n      \"call\": ");
+    d_put_usize(output, timings.validation_type_call_uncached);
+    d_put(output, ",\n      \"other\": ");
+    d_put_usize(output, timings.validation_type_other_uncached);
+    d_put(output, "\n    }");
+    d_put(output, ",\n    \"assignment_queries\": ");
+    d_put_usize(output, timings.validation_assignment_type_queries);
+    d_put(output, ",\n    \"assignment_cache_hits\": ");
+    d_put_usize(output, timings.validation_assignment_type_cache_hits);
+    d_put(output, ",\n    \"assignment_uncached\": ");
+    d_put_usize(output, timings.validation_assignment_type_uncached);
+    d_put(output, ",\n    \"assignment_distinct_uncached\": ");
+    d_put_usize(output, timings.validation_assignment_type_distinct_uncached);
+    d_put(output, ",\n    \"assignment_repeated_uncached\": ");
+    d_put_usize(output, timings.validation_assignment_type_repeated_uncached);
+    d_put(output, "\n  },\n  \"total_ms\": ");
     d_put_usize(output, timings.total_ms);
     d_put(output, ",\n  \"compiler_owned\": {\n");
     d_put(output, "    \"lex_parse_ms\": ");
@@ -156,7 +324,64 @@ unsafe bool write_build_timings(
     d_put_usize(output, timings.ir_lower_ms);
     d_put(output, ",\n    \"c_emit_ms\": ");
     d_put_usize(output, timings.c_emit_ms);
-    d_put(output, "\n  },\n  \"native_emission_capacity\": {\n");
+    d_put(output, "\n  },\n  \"native_parallel_profile\": {\n");
+    d_put(output, "    \"launch_completed\": ");
+    if timings.native_parallel_launch_completed {
+        d_put(output, "true");
+    } else {
+        d_put(output, "false");
+    }
+    d_put(output, ",\n    \"workers_wall_ms\": ");
+    d_put_usize(output, timings.native_workers_wall_ms);
+    d_put(output, ",\n    \"merge_wall_ms\": ");
+    d_put_usize(output, timings.native_merge_ms);
+    d_put(output, ",\n    \"chunk_walls_ms\": [");
+    d_put_usize(output, timings.native_chunk_one_wall_ms);
+    d_put(output, ", ");
+    d_put_usize(output, timings.native_chunk_two_wall_ms);
+    d_put(output, ", ");
+    d_put_usize(output, timings.native_chunk_three_wall_ms);
+    d_put(output, ", ");
+    d_put_usize(output, timings.native_chunk_four_wall_ms);
+    d_put(output, "]");
+    d_put(output, ",\n    \"critical_chunk\": {\n");
+    d_put(output, "      \"first_source\": ");
+    d_put_usize(output, timings.native_critical_chunk_first);
+    d_put(output, ",\n      \"end_source_exclusive\": ");
+    d_put_usize(output, timings.native_critical_chunk_end);
+    d_put(output, ",\n      \"wall_ms\": ");
+    d_put_usize(output, timings.native_critical_chunk_ms);
+    d_put(output, ",\n      \"lex_parse_ms\": ");
+    d_put_usize(output, timings.native_critical_lex_parse_ms);
+    d_put(output, ",\n      \"index_ms\": ");
+    d_put_usize(output, timings.native_critical_index_ms);
+    d_put(output, ",\n      \"acceptance_ms\": ");
+    d_put_usize(output, timings.native_critical_acceptance_ms);
+    d_put(output, ",\n      \"expression_ms\": ");
+    d_put_usize(output, timings.native_critical_expression_ms);
+    d_put(output, ",\n      \"assignment_ms\": ");
+    d_put_usize(output, timings.native_critical_assignment_ms);
+    d_put(output, ",\n      \"calls_ms\": ");
+    d_put_usize(output, timings.native_critical_calls_ms);
+    d_put(output, ",\n      \"ir_lower_ms\": ");
+    d_put_usize(output, timings.native_critical_ir_lower_ms);
+    d_put(output, ",\n      \"native_emit_ms\": ");
+    d_put_usize(output, timings.native_critical_emit_ms);
+    d_put(output, ",\n      \"type_queries\": ");
+    d_put_usize(output, timings.native_critical_type_queries);
+    d_put(output, ",\n      \"type_cache_hits\": ");
+    d_put_usize(output, timings.native_critical_type_cache_hits);
+    d_put(output, ",\n      \"type_uncached\": ");
+    d_put_usize(output, timings.native_critical_type_uncached);
+    d_put(output, ",\n      \"type_failures\": ");
+    d_put_usize(output, timings.native_critical_type_failures);
+    d_put(output, ",\n      \"assignment_type_queries\": ");
+    d_put_usize(output, timings.native_critical_assignment_type_queries);
+    d_put(output, ",\n      \"assignment_type_cache_hits\": ");
+    d_put_usize(output, timings.native_critical_assignment_type_cache_hits);
+    d_put(output, ",\n      \"assignment_type_uncached\": ");
+    d_put_usize(output, timings.native_critical_assignment_type_uncached);
+    d_put(output, "\n    }\n  },\n  \"native_emission_capacity\": {\n");
     d_put(output, "    \"code_reserved_bytes\": ");
     d_put_usize(output, timings.native_code_reserved_bytes);
     d_put(output, ",\n    \"code_used_bytes\": ");

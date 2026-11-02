@@ -5,7 +5,7 @@ import system.path;
 import system.process;
 import system.text;
 
-unsafe bool c_emit_source_record(
+unsafe bool c_emit_source_record_mode(
     ref IrContext base,
     ref DBuffer output,
     usize module_index,
@@ -14,7 +14,8 @@ unsafe bool c_emit_source_record(
     ref BuildTimings timings,
     bool validate_acceptance,
     ptr byte validation_source_ms,
-    ptr byte parsed_source_cache
+    ptr byte parsed_source_cache,
+    bool lower_source
 ) {
     usize phase_started = process.monotonic_milliseconds();
     text source;
@@ -75,13 +76,13 @@ unsafe bool c_emit_source_record(
         process.monotonic_milliseconds() - phase_started;
     timings.syntax_nodes = timings.syntax_nodes + syntax.length;
     PackedBuffer blocks = PackedBuffer{
-        length = 0, capacity = source_length + 32
+        length = 0, capacity = syntax.length / 2 + 32
     };
     PackedBuffer instructions = PackedBuffer{
-        length = 0, capacity = source_length * 3 + 64
+        length = 0, capacity = syntax.length + 64
     };
     PackedBuffer operands = PackedBuffer{
-        length = 0, capacity = source_length * 4 + 64
+        length = 0, capacity = syntax.length * 2 + 64
     };
     ptr byte block_data = memory.alloc(
         blocks.capacity * record_stride()
@@ -119,6 +120,22 @@ unsafe bool c_emit_source_record(
     ptr byte type_cache = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
+    ptr byte profile_type_seen = null;
+    if base.profile_type_queries_enabled {
+        profile_type_seen = memory.alloc(
+            (syntax.length + 1) * size_of(usize)
+        );
+        if profile_type_seen != null {
+            usize profile_node = 0;
+            while profile_node <= syntax.length {
+                write_usize(
+                    profile_type_seen,
+                    profile_node * size_of(usize), 0
+                );
+                profile_node = profile_node + 1;
+            }
+        }
+    }
     ptr byte resolved_type_ref_cache = memory.alloc(
         (syntax.length + 1) * size_of(usize)
     );
@@ -257,6 +274,7 @@ unsafe bool c_emit_source_record(
     context.call_argument_last = ir_pointer_alias(call_argument_last);
     context.argument_next = ir_pointer_alias(argument_next);
     context.type_cache = ir_pointer_alias(type_cache);
+    context.profile_type_seen = ir_pointer_alias(profile_type_seen);
     context.resolved_type_ref_cache = ir_pointer_alias(
         resolved_type_ref_cache
     );
@@ -345,6 +363,44 @@ unsafe bool c_emit_source_record(
         }
         usize acceptance_started = process.monotonic_milliseconds();
         usize found = acceptance_validate_context(context, timings);
+        timings.validation_type_queries = timings.validation_type_queries +
+            context.profile_type_queries;
+        timings.validation_type_cache_hits =
+            timings.validation_type_cache_hits +
+            context.profile_type_cache_hits;
+        timings.validation_type_uncached =
+            timings.validation_type_uncached +
+            context.profile_type_uncached;
+        timings.validation_type_distinct_uncached =
+            timings.validation_type_distinct_uncached +
+            context.profile_type_distinct_uncached;
+        timings.validation_type_repeated_uncached =
+            timings.validation_type_repeated_uncached +
+            context.profile_type_repeated_uncached;
+        timings.validation_type_failures =
+            timings.validation_type_failures +
+            context.profile_type_failures;
+        timings.validation_type_name_uncached =
+            timings.validation_type_name_uncached +
+            context.profile_type_name_uncached;
+        timings.validation_type_literal_uncached =
+            timings.validation_type_literal_uncached +
+            context.profile_type_literal_uncached;
+        timings.validation_type_unary_uncached =
+            timings.validation_type_unary_uncached +
+            context.profile_type_unary_uncached;
+        timings.validation_type_binary_uncached =
+            timings.validation_type_binary_uncached +
+            context.profile_type_binary_uncached;
+        timings.validation_type_assignment_uncached =
+            timings.validation_type_assignment_uncached +
+            context.profile_type_assignment_uncached;
+        timings.validation_type_call_uncached =
+            timings.validation_type_call_uncached +
+            context.profile_type_call_uncached;
+        timings.validation_type_other_uncached =
+            timings.validation_type_other_uncached +
+            context.profile_type_other_uncached;
         usize acceptance_elapsed =
             process.monotonic_milliseconds() - acceptance_started;
         timings.validation_acceptance_ms =
@@ -371,6 +427,26 @@ unsafe bool c_emit_source_record(
             c_release_source_context(context, diagnostic_data);
             return true;
         }
+    }
+    if timings.module_selection_enabled {
+        if lower_source {
+            timings.module_sources_lowered =
+                timings.module_sources_lowered + 1;
+        } else {
+            timings.module_sources_validation_only =
+                timings.module_sources_validation_only + 1;
+        }
+    }
+    if !lower_source {
+        // Preserve acceptance-created type closure, but do not allocate SSA
+        // value IDs, lower functions, or emit native records for this source.
+        base.types = context.types;
+        if parsed_source_reused {
+            context.syntax_data = null;
+            context.token_data = null;
+        }
+        c_release_source_context(context, diagnostic_data);
+        return true;
     }
     usize node = 0;
     while node < syntax.length {
@@ -419,4 +495,21 @@ unsafe bool c_emit_source_record(
     }
     c_release_source_context(context, diagnostic_data);
     return true;
+}
+
+unsafe bool c_emit_source_record(
+    ref IrContext base,
+    ref DBuffer output,
+    usize module_index,
+    usize source_record,
+    usize entry_module,
+    ref BuildTimings timings,
+    bool validate_acceptance,
+    ptr byte validation_source_ms,
+    ptr byte parsed_source_cache
+) {
+    return c_emit_source_record_mode(
+        base, output, module_index, source_record, entry_module, timings,
+        validate_acceptance, validation_source_ms, parsed_source_cache, true
+    );
 }

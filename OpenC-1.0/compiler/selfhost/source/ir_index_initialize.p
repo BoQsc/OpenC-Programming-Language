@@ -55,6 +55,93 @@ unsafe void ir_initialize_function_positions(ref IrContext context) {
         }
         symbol = symbol + 1;
     }
+    // Function nodes cannot be control parents (that index covers kinds
+    // 14-19/24/25). Reuse their otherwise empty control-block head slots for
+    // the largest contained block, so acceptance and lowering share a body
+    // fact instead of each scanning every source block for every function.
+    if context.control_block_first == null || context.block_nodes == null {
+        return;
+    }
+    usize block_index = 0;
+    while block_index < context.block_count {
+        usize block = read_usize(context.block_nodes, block_index * size_of(usize));
+        usize start = read_record_field(context.syntax_data, block, 1);
+        if start < context.expression_start_capacity {
+            usize owner = read_usize(context.function_at_position, start * size_of(usize));
+            if owner != 0 && owner - 1 < context.symbols.length {
+                usize declaration = read_record_field(context.detail_data, owner - 1, 1);
+                if declaration < context.syntax.length &&
+                    read_record_field(context.syntax_data, declaration, 0) == 2 &&
+                    semantic_node_contains(context.syntax_data, declaration, block) {
+                    usize previous = read_usize(context.control_block_first,
+                        declaration * size_of(usize));
+                    if previous == 0 || read_record_field(context.syntax_data, block, 2) >
+                        read_record_field(context.syntax_data, previous - 1, 2) {
+                        write_usize(context.control_block_first,
+                            declaration * size_of(usize), block + 1);
+                    }
+                }
+            }
+        }
+        block_index = block_index + 1;
+    }
+}
+
+// For zero/one/two ranges, direct per-node selection is cheaper than clearing
+// and filling two source-byte-sized maps. Preserve the old smallest/runner-up
+// ordering (including input-order ties) and final containment check exactly.
+unsafe void ir_initialize_small_parent_kind(
+    ref IrContext context, bool blocks, ptr byte candidates, usize count
+) {
+    ptr byte parent_cache = context.control_parent_cache;
+    if blocks { parent_cache = context.block_parent_cache; }
+    if count == 0 {
+        usize empty_node = 0;
+        while empty_node < context.syntax.length {
+            write_usize(parent_cache, empty_node * size_of(usize), context.syntax.length);
+            empty_node = empty_node + 1;
+        }
+        return;
+    }
+    usize first = read_usize(candidates, 0);
+    usize first_start = read_record_field(context.syntax_data, first, 1);
+    usize first_length = read_record_field(context.syntax_data, first, 2);
+    usize first_end = first_start + first_length;
+    if first_end > context.expression_start_capacity { first_end = context.expression_start_capacity; }
+    usize second = context.syntax.length;
+    usize second_start = 0;
+    usize second_length = 0;
+    usize second_end = 0;
+    if count == 2 {
+        second = read_usize(candidates, size_of(usize));
+        second_start = read_record_field(context.syntax_data, second, 1);
+        second_length = read_record_field(context.syntax_data, second, 2);
+        second_end = second_start + second_length;
+        if second_end > context.expression_start_capacity { second_end = context.expression_start_capacity; }
+    }
+    usize node = 0;
+    while node < context.syntax.length {
+        usize start = read_record_field(context.syntax_data, node, 1);
+        bool first_active = start >= first_start && start < first_end;
+        bool second_active = count == 2 && second != first &&
+            start >= second_start && start < second_end;
+        usize selected = context.syntax.length;
+        if first_active { selected = first; }
+        if second_active && (!first_active || second_length < first_length) {
+            selected = second;
+        }
+        if selected == node {
+            selected = context.syntax.length;
+            if node == first && second_active { selected = second; }
+            if node == second && second != first && first_active { selected = first; }
+        }
+        if selected < context.syntax.length &&
+            !semantic_node_contains(context.syntax_data, selected, node) {
+            selected = context.syntax.length;
+        }
+        write_usize(parent_cache, node * size_of(usize), selected);
+        node = node + 1;
+    }
 }
 
 unsafe void ir_initialize_parent_position_kind(
@@ -64,6 +151,16 @@ unsafe void ir_initialize_parent_position_kind(
 ) {
     if context.function_at_position == null ||
         context.expression_start_capacity == 0 { return; }
+    usize candidate_count = context.control_count;
+    ptr byte candidates = context.control_nodes;
+    if blocks {
+        candidate_count = context.block_count;
+        candidates = context.block_nodes;
+    }
+    if candidate_count <= 2 {
+        ir_initialize_small_parent_kind(context, blocks, candidates, candidate_count);
+        return;
+    }
     usize position = 0;
     while position < context.expression_start_capacity {
         write_usize(
@@ -73,12 +170,6 @@ unsafe void ir_initialize_parent_position_kind(
             second_at_position, position * size_of(usize), 0
         );
         position = position + 1;
-    }
-    usize candidate_count = context.control_count;
-    ptr byte candidates = context.control_nodes;
-    if blocks {
-        candidate_count = context.block_count;
-        candidates = context.block_nodes;
     }
     usize index = 0;
     while index < candidate_count {
@@ -155,9 +246,12 @@ unsafe void ir_initialize_parent_position_kind(
 unsafe void ir_initialize_parent_position_caches(ref IrContext context) {
     if context.function_at_position == null ||
         context.expression_start_capacity == 0 { return; }
-    ptr byte second_at_position = memory.alloc(
-        context.expression_start_capacity * size_of(usize)
-    );
+    ptr byte second_at_position = null;
+    if context.block_count > 2 || context.control_count > 2 {
+        second_at_position = memory.alloc(
+            context.expression_start_capacity * size_of(usize)
+        );
+    }
     scope memory.free(second_at_position);
     ir_initialize_parent_position_kind(
         context, true, second_at_position

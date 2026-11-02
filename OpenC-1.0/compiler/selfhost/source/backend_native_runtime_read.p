@@ -6,7 +6,7 @@ import system.process;
 import system.text;
 
 unsafe void native_file_read(ref IrContext context, ref NativeFunction function,
-    usize instruction, usize result, bool raw_outputs) {
+    usize instruction, usize result, bool raw_outputs, bool bounded) {
     native_utf8_path(function, d_operand_value(context, instruction, 0));
     x64_mov_r64_memory(function.code, 1, 4, 504);
     x64_mov_r64_imm64(function.code, 2, cast(u64, 2147483648));
@@ -28,6 +28,21 @@ unsafe void native_file_read(ref IrContext context, ref NativeFunction function,
     x64_emit_rex(function.code, true, 2, 0, 4); x64_emit_u8(function.code, 141);
     x64_emit_memory_modrm(function.code, 2, 4, 520);
     native_import(function, 18); native_runtime_nonzero(function);
+    usize size_finished = 0;
+    if bounded {
+        // GetFileSizeEx runs on the same open handle used by ReadFile.
+        // Reject before any file-size-dependent allocation; a later file
+        // growth cannot overrun the buffer because ReadFile keeps this size.
+        native_load(function, d_operand_value(context, instruction, 1), 11);
+        x64_mov_r64_memory(function.code, 8, 4, 520);
+        x64_cmp_r64_r64(function.code, 8, 11);
+        usize within_limit = native_skip(function.code, 6);
+        x64_mov_r64_memory(function.code, 1, 4, 512);
+        native_import(function, 0);
+        native_status_failure(function, result, 1);
+        size_finished = native_jump(function.code);
+        native_skip_end(function.code, within_limit);
+    }
     x64_mov_r64_memory(function.code, 8, 4, 520); x64_add_r64_imm8(function.code, 8, 8);
     native_heap_allocate_named_r8(function,
         "fatal[OPENC-NATIVE-ALLOC-BUDGET]: live allocations exceed 512 MiB in file.read buffer\n");
@@ -45,10 +60,12 @@ unsafe void native_file_read(ref IrContext context, ref NativeFunction function,
     x64_mov_r64_memory(function.code, 10, 4, 528); x64_add_r64_r64(function.code, 11, 10);
     x64_mov_r64_imm64(function.code, 0, cast(u64, 0)); x64_mov_memory_r64(function.code, 11, 0, 0);
     if raw_outputs {
-        usize data_value = d_operand_value(context, instruction, 1);
+        usize first_output = 1;
+        if bounded { first_output = 2; }
+        usize data_value = d_operand_value(context, instruction, first_output);
         native_output_address(function, data_value, 11);
         x64_mov_r64_memory(function.code, 0, 4, 536); x64_mov_memory_r64(function.code, 11, 0, 0);
-        usize length_value = d_operand_value(context, instruction, 2);
+        usize length_value = d_operand_value(context, instruction, first_output + 1);
         native_output_address(function, length_value, 11);
         x64_mov_r64_memory(function.code, 0, 4, 528); x64_mov_memory_r64(function.code, 11, 0, 0);
     } else {
@@ -58,6 +75,7 @@ unsafe void native_file_read(ref IrContext context, ref NativeFunction function,
         x64_mov_r64_memory(function.code, 0, 4, 528); x64_mov_memory_r64(function.code, 11, 8, 0);
     }
     native_status_success(function, result);
+    if bounded { native_skip_end(function.code, size_finished); }
     native_skip_end(function.code, read_finished);
 }
 
@@ -159,7 +177,7 @@ unsafe void native_file_read_cached(ref IrContext context, ref NativeFunction fu
     native_skip_end(function.code, miss_empty); native_skip_end(function.code, miss_hash);
     native_skip_end(function.code, miss_length); native_skip_end(function.code, miss_byte);
     native_counter_increment(function, 64);
-    native_file_read(context, function, instruction, result, false);
+    native_file_read(context, function, instruction, result, false, false);
     native_load(function, result, 0);
     x64_emit_u8(function.code, 72); x64_emit_u8(function.code, 133);
     x64_emit_u8(function.code, 192); usize read_failed = native_skip(function.code, 5);

@@ -156,6 +156,9 @@ unsafe bool ir_observe_emit_source(
         source_record = source_record,
         function_node = 0,
         function_symbol = 0,
+        function_alloc_probe_node = 0,
+        function_alloc_probe_state = 0,
+                native_compact_updates = false,
         function_result = semantic_type_void(),
         function_local_first = 0,
         function_local_end = 0,
@@ -241,7 +244,23 @@ unsafe bool ir_observe_emit_source(
         profile_parent_candidates = 0,
         profile_expression_positions = 0,
         profile_syntax_candidates = 0,
-        profile_symbol_candidates = 0
+        profile_symbol_candidates = 0,
+        profile_type_queries_enabled = false,
+        profile_type_seen = null,
+        profile_type_queries = 0,
+        profile_type_cache_hits = 0,
+        profile_type_uncached = 0,
+        profile_type_distinct_uncached = 0,
+        profile_type_repeated_uncached = 0,
+        profile_type_failures = 0,
+        profile_type_name_uncached = 0,
+        profile_type_literal_uncached = 0,
+        profile_type_unary_uncached = 0,
+        profile_type_binary_uncached = 0,
+        profile_type_assignment_uncached = 0,
+        profile_type_call_uncached = 0,
+        profile_type_other_uncached = 0,
+        suppress_acceptance_diagnostics = false
     };
     ir_initialize_local_values(context);
     ir_initialize_node_indexes(context);
@@ -283,10 +302,10 @@ unsafe bool ir_observe_emit_source(
     memory.free(call_cache);
     memory.free(name_cache);
     memory.free(local_values);
-    memory.free(operand_data);
-    memory.free(instruction_detail);
-    memory.free(instruction_data);
-    memory.free(block_data);
+    memory.free(context.operand_data);
+    memory.free(context.instruction_detail);
+    memory.free(context.instruction_data);
+    memory.free(context.block_data);
     memory.free(syntax_data);
     memory.free(diagnostic_data);
     memory.free(token_data);

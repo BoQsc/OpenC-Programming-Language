@@ -5,14 +5,18 @@ import system.text;
 
 text cli_artifact_kind_name(usize kind) {
     if kind == native_artifact_executable() { return "exe"; }
+    if kind == native_artifact_cached_executable() { return "cached-exe"; }
     if kind == native_artifact_coff_object() { return "coff-object"; }
+    if kind == native_artifact_module_coff_set() { return "module-coff-set"; }
     if kind == native_artifact_dll() { return "dll"; }
     if kind == native_artifact_static_library() { return "static-library"; }
     return "import-library";
 }
 usize cli_artifact_kind(text value) {
     if value == "exe" { return native_artifact_executable(); }
+    if value == "cached-exe" { return native_artifact_cached_executable(); }
     if value == "coff-object" { return native_artifact_coff_object(); }
+    if value == "module-coff-set" { return native_artifact_module_coff_set(); }
     if value == "dll" { return native_artifact_dll(); }
     if value == "static-library" { return native_artifact_static_library(); }
     if value == "import-library" { return native_artifact_import_library(); }
@@ -66,10 +70,14 @@ unsafe i32 cli_artifact_command() {
     text project = "";
     text output_path = "";
     text report_path = "";
+    text timing_path = "";
     text kind_name = "";
     NativeArtifactOptions options = native_artifact_default_options();
     usize argument = 1;
     bool valid = true;
+    bool profile_type_queries = false;
+    bool source_chunks_explicit = false;
+    bool module_explicit = false;
     while argument < process.argument_count() {
         text value = process.argument(argument);
         if cli_has_prefix(value, "--project=") {
@@ -78,6 +86,22 @@ unsafe i32 cli_artifact_command() {
             output_path = cli_remove_prefix(value, "--output=");
         } else if cli_has_prefix(value, "--report=") {
             report_path = cli_remove_prefix(value, "--report=");
+        } else if cli_has_prefix(value, "--timings=") {
+            timing_path = cli_remove_prefix(value, "--timings=");
+        } else if value == "--profile-type-queries" {
+            profile_type_queries = true;
+        } else if value == "--stable-coff-symbols" {
+            options.stable_coff_symbols = true;
+        } else if cli_has_prefix(value, "--linked-exe=") {
+            options.linked_output_path = cli_remove_prefix(
+                value, "--linked-exe="
+            );
+        } else if cli_has_prefix(value, "--module=") {
+            module_explicit = true;
+            options.module_name = cli_remove_prefix(value, "--module=");
+        } else if cli_has_prefix(value, "--cache-prefix=") {
+            options.cache_prefix = cli_remove_prefix(value, "--cache-prefix=");
+            if text.byte_length(options.cache_prefix) == 0 { valid = false; }
         } else if cli_has_prefix(value, "--kind=") {
             kind_name = cli_remove_prefix(value, "--kind=");
         } else if cli_has_prefix(value, "--subsystem=") {
@@ -95,14 +119,35 @@ unsafe i32 cli_artifact_command() {
             options.resource_path = cli_remove_prefix(value, "--resource=");
         } else if cli_has_prefix(value, "--dll-name=") {
             options.dll_name = cli_remove_prefix(value, "--dll-name=");
+        } else if cli_has_prefix(value, "--source-chunks=") {
+            source_chunks_explicit = true;
+            text chunks = cli_remove_prefix(value, "--source-chunks=");
+            if chunks == "1" { options.source_chunks = 1; }
+            else if chunks == "2" { options.source_chunks = 2; }
+            else if chunks == "4" { options.source_chunks = 4; }
+            else if chunks == "auto" { options.source_chunks = 0; }
+            else { valid = false; }
+        } else if cli_has_prefix(value, "--source-partitions=") {
+            text partitions = cli_remove_prefix(value, "--source-partitions=");
+            if partitions == "2" { options.source_partitions = 2; }
+            else if partitions == "4" { options.source_partitions = 4; }
+            else if partitions == "8" { options.source_partitions = 8; }
+            else if partitions == "16" { options.source_partitions = 16; }
+            else if partitions == "32" { options.source_partitions = 32; }
+            else { valid = false; }
         } else {
             valid = false;
         }
         argument = argument + 1;
     }
     options.kind = cli_artifact_kind(kind_name);
+    if !source_chunks_explicit &&
+        options.kind != native_artifact_executable() &&
+        options.kind != native_artifact_cached_executable() {
+        options.source_chunks = 1;
+    }
     if text.byte_length(project) == 0 ||
-        text.byte_length(output_path) == 0 || options.kind > 4 {
+        text.byte_length(output_path) == 0 || options.kind > 6 {
         valid = false;
     }
     if (options.kind == native_artifact_dll() ||
@@ -111,22 +156,72 @@ unsafe i32 cli_artifact_command() {
         valid = false;
     }
     if (options.kind == native_artifact_coff_object() ||
+            options.kind == native_artifact_module_coff_set() ||
             options.kind == native_artifact_static_library() ||
             options.kind == native_artifact_import_library()) &&
         (text.byte_length(options.manifest_path) != 0 ||
             text.byte_length(options.resource_path) != 0) {
         valid = false;
     }
+    if options.source_chunks != 1 &&
+        options.kind != native_artifact_executable() &&
+        options.kind != native_artifact_cached_executable() &&
+        !(options.kind == native_artifact_module_coff_set() &&
+            options.source_partitions != 0 &&
+            options.source_chunks == 4) { valid = false; }
+    if profile_type_queries && text.byte_length(timing_path) == 0 {
+        valid = false;
+    }
+    if options.stable_coff_symbols &&
+        options.kind != native_artifact_coff_object() { valid = false; }
+    if text.byte_length(options.linked_output_path) != 0 &&
+        options.kind != native_artifact_module_coff_set() { valid = false; }
+    if module_explicit &&
+        (text.byte_length(options.module_name) == 0 ||
+            text.byte_length(options.module_name) > 1024 ||
+            options.kind != native_artifact_module_coff_set() ||
+            text.byte_length(options.linked_output_path) != 0) {
+        valid = false;
+    }
+    if text.byte_length(options.cache_prefix) != 0 &&
+        ((options.kind != native_artifact_module_coff_set() &&
+            options.kind != native_artifact_cached_executable()) ||
+            (options.kind == native_artifact_module_coff_set() &&
+                text.byte_length(options.linked_output_path) == 0) ||
+            text.byte_length(options.cache_prefix) > 4096 || module_explicit ||
+            options.subsystem != pe32_subsystem_windows_console()) {
+        valid = false;
+    }
+    if options.source_partitions != 0 &&
+        ((options.kind != native_artifact_module_coff_set() &&
+            options.kind != native_artifact_cached_executable()) ||
+            (options.kind == native_artifact_module_coff_set() &&
+                text.byte_length(options.linked_output_path) == 0) ||
+            module_explicit) {
+        valid = false;
+    }
+    if options.kind == native_artifact_cached_executable() &&
+        (text.byte_length(options.cache_prefix) == 0 ||
+         text.byte_length(options.manifest_path) != 0 ||
+         text.byte_length(options.resource_path) != 0 ||
+         options.subsystem != pe32_subsystem_windows_console()) { valid = false; }
     if !valid {
-        io.error("usage: openc artifact --project=PROJECT --kind=(exe|coff-object|dll|static-library|import-library) --output=FILE [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json]\n");
+        io.error("usage: openc artifact --project=PROJECT --kind=(exe|cached-exe|coff-object|module-coff-set|dll|static-library|import-library) --output=FILE-OR-PREFIX [--module=MODULE (module-coff-set only, no linked-exe)] [--linked-exe=FILE (module-coff-set only)] [--cache-prefix=PREFIX (cached-exe or console module-coff-set with linked-exe)] [--source-partitions=(2|4|8|16|32) (cached-exe or linked module-coff-set)] [--subsystem=(console|windows)] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json] [--timings=TIMINGS.json] [--profile-type-queries] [--stable-coff-symbols] [--source-chunks=(1|2|4|auto)]\n");
         return 64;
     }
     BuildTimings timings = build_timings_empty();
     timings.emission_mode = 2;
+    timings.module_selection_enabled = module_explicit ||
+        text.byte_length(options.cache_prefix) != 0;
+    timings.profile_type_queries_enabled = profile_type_queries;
     i32 result = emit_bootstrap_d_mode_artifact(
         project, output_path, true, true, timings, options
     );
     bool passed = result == 0;
+    if !write_build_timings(timing_path, timings, passed) {
+        io.error("error: artifact timings could not be written\n");
+        return 1;
+    }
     if !cli_artifact_write_record(
         report_path, project, output_path, options, timings, passed
     ) {

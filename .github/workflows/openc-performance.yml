@@ -4,12 +4,38 @@ on:
   push:
     branches:
       - master
+      - codex/sh27-incremental-object-slice
+      - codex/sh27-local-throughput
+      - codex/sh27-native-object-default
+      - codex/sh27-release-preserve-20261102
     paths:
       - OpenC-1.0/benchmarks/sh27/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
+      - OpenC-1.0/VERSION
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_parity_enforcement.py
       - OpenC-1.0/compiler/selfhost/windows_process_measure.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_argument_snapshot.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_array_initializers.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_indexed_bindings.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_worker_pool.py
+      - OpenC-1.0/compiler/selfhost/test_verify_sh27_worker_pool.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_statement_handoff.py
+      - OpenC-1.0/compiler/selfhost/test_coff_hash_fallback.py
+      - OpenC-1.0/compiler/selfhost/test_coff_relocation_targets.py
+      - OpenC-1.0/compiler/selfhost/test_module_coff_set.py
+      - OpenC-1.0/compiler/selfhost/test_native_frontend_edges.py
+      - OpenC-1.0/compiler/selfhost/verify_sh27_hash_context.py
+      - OpenC-1.0/compiler/selfhost/test_cache_file_hash.py
+      - OpenC-1.0/compiler/selfhost/test_windows_process_measure.py
+      - OpenC-1.0/compiler/selfhost/test_native_process_peaks.py
+      - OpenC-1.0/compiler/selfhost/profile_sh27_owned_threads.py
+      - OpenC-1.0/compiler/selfhost/test_profile_sh27_owned_threads.py
+      - OpenC-1.0/tests/sh27_array_initializer_operands/**
+      - OpenC-1.0/tests/sh27_indexed_bindings/**
+      - OpenC-1.0/tests/sh27_statement_handoff/**
+      - OpenC-1.0/tests/python/test_sh27_production.py
       - .github/bootstrap/openc-stage0.exe
       - .github/workflows/openc-performance.yml
   workflow_dispatch:
@@ -17,12 +43,12 @@ on:
       runs:
         description: Samples per clean and one-source-edit lane
         required: true
-        default: '3'
+        default: '20'
         type: string
       enforce_parity:
         description: Fail if OpenC exceeds the checked-in 1.25x median ratio
         required: true
-        default: false
+        default: true
         type: boolean
 
 permissions:
@@ -36,7 +62,7 @@ jobs:
   compare:
     name: OpenC vs MSVC, Clang, DMD, and LDC
     runs-on: windows-2025
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Check out exact benchmark revision
@@ -60,7 +86,13 @@ jobs:
 
       - name: Validate SH-27 harness and runtime oracle
         shell: cmd
-        run: python -m unittest discover -s OpenC-1.0\tests\python -p test_sh27_production.py -v
+        run: >-
+          python -m unittest discover -s OpenC-1.0\tests\python -p test_sh27_production.py -v &&
+          python -m unittest discover -s OpenC-1.0/compiler/selfhost -p test_windows_process_measure.py -v
+
+      - name: Validate owned-thread diagnostic safety
+        shell: cmd
+        run: python -m unittest discover -s OpenC-1.0/compiler/selfhost -p test_profile_sh27_owned_threads.py -v
 
       - name: Run bounded production compiler corpus
         shell: cmd
@@ -68,25 +100,134 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_production.py
           --openc .github\bootstrap\openc-stage0.exe
           --bootstrap-current
-          --runs ${{ inputs.runs || '3' }}
+          --runs ${{ github.event_name == 'push' && '20' || inputs.runs || '20' }}
           --self-build-runs 3
           --parallel-projects 4
           --require-all
           --expected-msvc-version 19.44
           --expected-clang-version 20.1.8
-          --expected-dmd-version DMD64
+          --expected-dmd-version 2.112.0
           --expected-ldc-version 1.43.0
           --antivirus-state github-hosted-windows-2025-default-not-modified
-          ${{ inputs.enforce_parity && '--enforce-parity' || '' }}
+          ${{ (github.event_name == 'push' || inputs.enforce_parity) && '--enforce-parity' || '' }}
           --output artifacts\sh27-production-comparators.json
+
+      - name: Prove deliberate parity deficit fails the actual CLI
+        if: github.event_name == 'push' || inputs.enforce_parity
+        shell: cmd
+        run: >-
+          python OpenC-1.0/compiler/selfhost/verify_sh27_parity_enforcement.py
+          --reference artifacts/sh27-production-comparators.json
+          --output artifacts/sh27-parity-enforcement.json
+
+      - name: Compare additional function-size scaling on all five compilers
+        if: github.event_name == 'push' || inputs.enforce_parity
+        shell: cmd
+        run: >-
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py',
+          '--openc',str(compiler),'--corpus','OpenC-1.0/benchmarks/sh27/FUNCTION_SCALE.json',
+          '--runs','5','--self-build-runs','1','--require-all','--enforce-parity',
+          '--expected-msvc-version','19.44','--expected-clang-version','20.1.8',
+          '--expected-dmd-version','2.112.0','--expected-ldc-version','1.43.0',
+          '--output','artifacts/sh27-function-scale.json']))"
+
+      - name: Compare additional file-count scaling on all five compilers
+        if: github.event_name == 'push' || inputs.enforce_parity
+        shell: cmd
+        run: >-
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/benchmark_sh27_production.py',
+          '--openc',str(compiler),'--corpus','OpenC-1.0/benchmarks/sh27/FILE_SCALE.json',
+          '--runs','5','--self-build-runs','1','--require-all','--enforce-parity',
+          '--expected-msvc-version','19.44','--expected-clang-version','20.1.8',
+          '--expected-dmd-version','2.112.0','--expected-ldc-version','1.43.0',
+          '--output','artifacts/sh27-file-scale.json']))"
+
+      - name: Verify native argument snapshot and concurrent initialization
+        if: always()
+        shell: cmd
+        run: >-
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/verify_sh27_argument_snapshot.py','--compiler',str(compiler),'--output','artifacts/sh27-argument-snapshot.json']))"
+
+      - name: Verify array initializer operands, conversions, and diagnostics
+        if: always()
+        shell: cmd
+        run: >-
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/verify_sh27_array_initializers.py','--compiler',str(compiler),'--output','artifacts/sh27-array-initializers.json']))"
+
+      - name: Verify indexed scope and parameter bindings
+        if: always()
+        shell: cmd
+        run: >-
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/verify_sh27_indexed_bindings.py','--compiler',str(compiler),'--output','artifacts/sh27-indexed-bindings.json']))"
+
+      - name: Verify bounded worker setup and failure fallback
+        if: always()
+        shell: cmd
+        run: >-
+          python -m unittest discover -s OpenC-1.0/compiler/selfhost -p test_verify_sh27_worker_pool.py &&
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/verify_sh27_worker_pool.py','--compiler',str(compiler),'--output','artifacts/sh27-worker-pool.json']))"
+
+      - name: Verify statement ordering and function body handoff
+        if: always()
+        shell: cmd
+        run: >-
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/verify_sh27_statement_handoff.py','--compiler',str(compiler),'--output','artifacts/sh27-statement-handoff.json']))"
+
+      - name: Verify saved-object authentication and optional SHA fallback
+        if: always()
+        shell: cmd
+        run: >-
+          python -c "import json,pathlib,subprocess,sys;
+          report=json.loads(pathlib.Path('artifacts/sh27-production-comparators.json').read_text(encoding='utf-8'));
+          compiler=pathlib.Path(report['tools']['openc']['path']);
+          subprocess.check_call([sys.executable,'OpenC-1.0/compiler/selfhost/test_coff_relocation_targets.py',str(compiler)]);
+          sys.exit(subprocess.call([sys.executable,'OpenC-1.0/compiler/selfhost/test_coff_hash_fallback.py',str(compiler),'--report','artifacts/sh27-hash-fallback.json']))"
 
       - name: Retain raw performance evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: OpenC-SH27-production-performance-${{ github.run_id }}
+          name: OpenC-SH27-production-performance-${{ github.run_id }}-${{ github.run_attempt }}
           if-no-files-found: error
           retention-days: 90
           path: |
             artifacts/sh27-production-comparators.json
             artifacts/sh27-production-comparators-runs-*/**
+            artifacts/sh27-parity-enforcement*
+            artifacts/sh27-parity-enforcement-negative-runs-*/**
+            artifacts/sh27-function-scale*
+            artifacts/sh27-function-scale-runs-*/**
+            artifacts/sh27-file-scale*
+            artifacts/sh27-file-scale-runs-*/**
+            artifacts/sh27-argument-snapshot.json
+            artifacts/sh27-argument-snapshot-runs/**
+            artifacts/sh27-array-initializers.json
+            artifacts/sh27-array-initializers-runs/**
+            artifacts/sh27-indexed-bindings.json
+            artifacts/sh27-indexed-bindings-runs/**
+            artifacts/sh27-worker-pool.json
+            artifacts/sh27-worker-pool-runs/**
+            artifacts/sh27-statement-handoff.json
+            artifacts/sh27-statement-handoff-runs/**
+            artifacts/sh27-hash-fallback.json

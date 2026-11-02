@@ -9,12 +9,76 @@ struct BuildTimings {
     usize emission_mode;
     usize project_load_ms;
     usize declarations_ms;
+    usize declaration_parse_retained_ms;
+    usize declaration_reread_ms;
+    usize declaration_predeclare_ms;
+    usize declaration_read_ms;
+    usize declaration_lex_ms;
+    usize declaration_parse_ms;
+    usize declaration_compact_ms;
     usize resolution_ms;
     usize validation_ms;
     usize lowering_emit_ms;
+    usize parallel_source_chunks;
+    bool native_parallel_launch_completed;
+    usize native_workers_wall_ms;
+    usize native_merge_ms;
+    usize native_chunk_one_wall_ms;
+    usize native_chunk_two_wall_ms;
+    usize native_chunk_three_wall_ms;
+    usize native_chunk_four_wall_ms;
+    usize native_critical_chunk_ms;
+    usize native_critical_chunk_first;
+    usize native_critical_chunk_end;
+    usize native_critical_lex_parse_ms;
+    usize native_critical_index_ms;
+    usize native_critical_acceptance_ms;
+    usize native_critical_expression_ms;
+    usize native_critical_assignment_ms;
+    usize native_critical_calls_ms;
+    usize native_critical_ir_lower_ms;
+    usize native_critical_emit_ms;
+    usize native_critical_type_queries;
+    usize native_critical_type_cache_hits;
+    usize native_critical_type_uncached;
+    usize native_critical_type_failures;
+    usize native_critical_assignment_type_queries;
+    usize native_critical_assignment_type_cache_hits;
+    usize native_critical_assignment_type_uncached;
+    usize parallel_flow_workers;
+    bool flow_threads_launched;
+    bool auto_source_chunks;
     usize backend_ms;
     usize total_ms;
     usize source_files;
+    bool module_selection_enabled;
+    usize module_sources_lowered;
+    usize module_sources_validation_only;
+    bool object_cache_enabled;
+    usize object_cache_hits;
+    usize object_cache_misses;
+    usize object_cache_publish_failures;
+    usize object_cache_retries;
+    bool object_cache_prepare_parallel;
+    bool object_cache_publish_parallel;
+    bool frontend_cache_enabled;
+    usize frontend_predeclare_hits;
+    usize frontend_resolution_hits;
+    usize frontend_publish_failures;
+    bool frontend_prepare_parallel;
+    bool frontend_identity_parallel;
+    bool object_cache_validation_skipped;
+    usize object_cache_flow_sources_skipped;
+    usize object_cache_acceptance_sources_skipped;
+    usize coff_partition_total_ms;
+    usize coff_partition_identity_ms;
+    usize coff_partition_selection_ms;
+    usize coff_partition_object_ms;
+    usize coff_partition_digest_ms;
+    usize coff_partition_file_ms;
+    usize coff_partition_bundle_ms;
+    usize coff_partition_cache_ms;
+    usize coff_partition_link_ms;
     usize source_bytes;
     usize lex_parse_ms;
     usize index_ms;
@@ -94,6 +158,25 @@ struct BuildTimings {
     usize validation_acceptance_resources_ms;
     usize validation_acceptance_pointers_ms;
     usize validation_acceptance_errors;
+    bool profile_type_queries_enabled;
+    usize validation_type_queries;
+    usize validation_type_cache_hits;
+    usize validation_type_uncached;
+    usize validation_type_distinct_uncached;
+    usize validation_type_repeated_uncached;
+    usize validation_type_failures;
+    usize validation_type_name_uncached;
+    usize validation_type_literal_uncached;
+    usize validation_type_unary_uncached;
+    usize validation_type_binary_uncached;
+    usize validation_type_assignment_uncached;
+    usize validation_type_call_uncached;
+    usize validation_type_other_uncached;
+    usize validation_assignment_type_queries;
+    usize validation_assignment_type_cache_hits;
+    usize validation_assignment_type_uncached;
+    usize validation_assignment_type_distinct_uncached;
+    usize validation_assignment_type_repeated_uncached;
     usize validation_slowest_source_ms;
     usize validation_slowest_source_record;
     usize validation_second_source_ms;
@@ -112,12 +195,76 @@ BuildTimings build_timings_empty() {
         emission_mode = 0,
         project_load_ms = 0,
         declarations_ms = 0,
+        declaration_parse_retained_ms = 0,
+        declaration_reread_ms = 0,
+        declaration_predeclare_ms = 0,
+        declaration_read_ms = 0,
+        declaration_lex_ms = 0,
+        declaration_parse_ms = 0,
+        declaration_compact_ms = 0,
         resolution_ms = 0,
         validation_ms = 0,
         lowering_emit_ms = 0,
+        parallel_source_chunks = 0,
+        native_parallel_launch_completed = false,
+        native_workers_wall_ms = 0,
+        native_merge_ms = 0,
+        native_chunk_one_wall_ms = 0,
+        native_chunk_two_wall_ms = 0,
+        native_chunk_three_wall_ms = 0,
+        native_chunk_four_wall_ms = 0,
+        native_critical_chunk_ms = 0,
+        native_critical_chunk_first = 0,
+        native_critical_chunk_end = 0,
+        native_critical_lex_parse_ms = 0,
+        native_critical_index_ms = 0,
+        native_critical_acceptance_ms = 0,
+        native_critical_expression_ms = 0,
+        native_critical_assignment_ms = 0,
+        native_critical_calls_ms = 0,
+        native_critical_ir_lower_ms = 0,
+        native_critical_emit_ms = 0,
+        native_critical_type_queries = 0,
+        native_critical_type_cache_hits = 0,
+        native_critical_type_uncached = 0,
+        native_critical_type_failures = 0,
+        native_critical_assignment_type_queries = 0,
+        native_critical_assignment_type_cache_hits = 0,
+        native_critical_assignment_type_uncached = 0,
+        parallel_flow_workers = 0,
+        flow_threads_launched = false,
+        auto_source_chunks = false,
         backend_ms = 0,
         total_ms = 0,
         source_files = 0,
+        module_selection_enabled = false,
+        module_sources_lowered = 0,
+        module_sources_validation_only = 0,
+        object_cache_enabled = false,
+        object_cache_hits = 0,
+        object_cache_misses = 0,
+        object_cache_publish_failures = 0,
+        object_cache_retries = 0,
+        object_cache_prepare_parallel = false,
+        object_cache_publish_parallel = false,
+        frontend_cache_enabled = false,
+        frontend_predeclare_hits = 0,
+        frontend_resolution_hits = 0,
+        frontend_publish_failures = 0,
+        frontend_prepare_parallel = false,
+        frontend_identity_parallel = false,
+        object_cache_validation_skipped = false,
+        object_cache_flow_sources_skipped = 0,
+        object_cache_acceptance_sources_skipped = 0,
+        coff_partition_total_ms = 0,
+        coff_partition_identity_ms = 0,
+        coff_partition_selection_ms = 0,
+        coff_partition_object_ms = 0,
+        coff_partition_digest_ms = 0,
+        coff_partition_file_ms = 0,
+        coff_partition_bundle_ms = 0,
+        coff_partition_cache_ms = 0,
+        coff_partition_link_ms = 0,
         source_bytes = 0,
         lex_parse_ms = 0,
         index_ms = 0,
@@ -197,6 +344,25 @@ BuildTimings build_timings_empty() {
         validation_acceptance_resources_ms = 0,
         validation_acceptance_pointers_ms = 0,
         validation_acceptance_errors = 0,
+        profile_type_queries_enabled = false,
+        validation_type_queries = 0,
+        validation_type_cache_hits = 0,
+        validation_type_uncached = 0,
+        validation_type_distinct_uncached = 0,
+        validation_type_repeated_uncached = 0,
+        validation_type_failures = 0,
+        validation_type_name_uncached = 0,
+        validation_type_literal_uncached = 0,
+        validation_type_unary_uncached = 0,
+        validation_type_binary_uncached = 0,
+        validation_type_assignment_uncached = 0,
+        validation_type_call_uncached = 0,
+        validation_type_other_uncached = 0,
+        validation_assignment_type_queries = 0,
+        validation_assignment_type_cache_hits = 0,
+        validation_assignment_type_uncached = 0,
+        validation_assignment_type_distinct_uncached = 0,
+        validation_assignment_type_repeated_uncached = 0,
         validation_slowest_source_ms = 0,
         validation_slowest_source_record = 0,
         validation_second_source_ms = 0,

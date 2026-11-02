@@ -1,0 +1,9 @@
+{
+  "name": "sh27-indexed-bindings",
+  "version": "1.0.0",
+  "edition": "OpenC 1.0",
+  "profile": "standard",
+  "target": "windows-x86_64",
+  "modules": {"binding.indexes": ["source/main.p", "source/other.p"]},
+  "output_directory": "build"
+}

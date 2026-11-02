@@ -301,7 +301,7 @@ unsafe i32 cli_contract_audit_command() {
     cli_contract_simple(checks, counts, compiler, "cli_editor_audit_help", "help", 0, "openc editor-audit");
     cli_contract_simple(checks, counts, compiler, "cli_editor_package_help", "help", 0, "openc editor-package");
     cli_contract_simple(checks, counts, compiler, "cli_finalization_audit_help", "help", 0, "openc finalization-audit");
-    cli_contract_simple(checks, counts, compiler, "cli_version", "version", 0, "OpenC 1.0.0");
+    cli_contract_simple(checks, counts, compiler, "cli_version", "version", 0, "OpenC 1.0.1");
     cli_contract_simple(checks, counts, compiler, "cli_target", "target", 0, "backend: openc-x64-pe32");
     text hello = path.join(root, "demos/hello/openc.project.json");
     cli_contract_project_command(checks, counts, compiler, "cli_check_valid", "check", hello, "", 0, "OpenC check: PASS");

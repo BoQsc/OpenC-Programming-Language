@@ -84,7 +84,7 @@ unsafe bool cli_editor_package_build(
 
     DBuffer report = d_buffer_create(4096);
     d_put(report, "{\n  \"schema\": \"openc.vscode_package.v1\",\n");
-    d_put(report, "  \"version\": \"1.0.0\",\n");
+    d_put(report, "  \"version\": \"1.0.1\",\n");
     d_put(report, "  \"target\": \"windows-x86_64-hosted\",\n");
     d_put(report, "  \"extension_id\": \"openc-language.openc\",\n");
     d_put(report, "  \"entries\": "); d_put_usize(report, result.entries);
@@ -291,8 +291,8 @@ unsafe i32 cli_finalization_audit_command() {
     cli_lsp_audit_case(checks, counts, "audit_plan_readable", plan_read);
     cli_lsp_audit_case(checks, counts, "audit_plan_contract", plan_read && native_contains(plan, "openc.sh25_finalization_audit_plan.v1\t1\t44"));
     cli_lsp_audit_case(checks, counts, "vsix_content_types", content_types_read && native_contains(content_types, "application/octet-stream"));
-    cli_lsp_audit_case(checks, counts, "vsix_manifest", vsix_manifest_read && native_contains(vsix_manifest, "Id=\"openc\"") && native_contains(vsix_manifest, "Version=\"1.0.0\""));
-    cli_lsp_audit_case(checks, counts, "extension_version", package_read && native_contains(package, "\"version\": \"1.0.0\""));
+    cli_lsp_audit_case(checks, counts, "vsix_manifest", vsix_manifest_read && native_contains(vsix_manifest, "Id=\"openc\"") && native_contains(vsix_manifest, "Version=\"1.0.1\""));
+    cli_lsp_audit_case(checks, counts, "extension_version", package_read && native_contains(package, "\"version\": \"1.0.1\""));
     cli_lsp_audit_case(checks, counts, "openc_p_registration", package_read && native_contains(package, "\"extensions\": [\".p\"]"));
     cli_lsp_audit_case(checks, counts, "extension_zero_bsd", package_read && native_contains(package, "\"license\": \"0BSD\""));
     cli_lsp_audit_case(checks, counts, "extension_dependency_free", package_read && !native_contains(package, "\"dependencies\"") && !native_contains(package, "\"devDependencies\""));
@@ -309,7 +309,7 @@ unsafe i32 cli_finalization_audit_command() {
     cli_lsp_audit_case(checks, counts, "clean_profile_schema", clean_read && native_contains(clean_profile, "\"schema\": \"openc.sh25_clean_vscode_profile.v1\""));
     cli_lsp_audit_case(checks, counts, "clean_profile_windows_x64", clean_read && native_contains(clean_profile, "\"platform\": \"windows-x86_64\""));
     cli_lsp_audit_case(checks, counts, "clean_profile_started_empty", clean_read && native_contains(clean_profile, "\"preexisting_extensions\": []"));
-    cli_lsp_audit_case(checks, counts, "clean_profile_extension_installed", clean_read && native_contains(clean_profile, "openc-language.openc@1.0.0"));
+    cli_lsp_audit_case(checks, counts, "clean_profile_extension_installed", clean_read && native_contains(clean_profile, "openc-language.openc@1.0.1"));
     cli_lsp_audit_case(checks, counts, "clean_profile_extension_activated", clean_read && native_contains(clean_profile, "\"extension_activated\": true"));
     cli_lsp_audit_case(checks, counts, "clean_profile_server_ready", clean_read && native_contains(clean_profile, "\"language_server_ready\": true"));
     cli_lsp_audit_case(checks, counts, "clean_profile_diagnostics_roundtrip", clean_read && native_contains(clean_profile, "\"diagnostics_roundtrip\": true"));

@@ -6,6 +6,31 @@ unsafe bool backend_native_scalar_emit_operations(
     ref IrContext context, ref NativeFunction function, usize instruction,
     usize opcode, usize result, usize type_id, NativeLayout result_layout
 ) {
+    if opcode == ir_op_local_update_immediate() {
+        usize operation = read_record_field(context.instruction_detail, instruction, 1);
+        usize amount = read_record_field(context.instruction_detail, instruction, 2);
+        usize type_kind = read_record_field(context.type_data, type_id, 0);
+        if d_operand_count(context, instruction) != 1 || result == 0 ||
+            read_record_field(context.instruction_detail, instruction, 0) != 9 ||
+            (operation != 0 && operation != 5) || amount > 127 ||
+            (type_kind != 2 && type_kind != 3) { function.code.ok = false; return true; }
+        usize destination = d_operand_value(context, instruction, 0);
+        if native_value_read(function, function.value_types, destination) != type_id ||
+            native_value_read(function, function.address_values, destination) != 0 {
+            function.code.ok = false; return true;
+        }
+        native_load(function, destination, 0);
+        x64_alu_r64_imm8(function.code, operation, 0, amount);
+        usize no_overflow = 3;
+        if type_kind == 2 { no_overflow = 1; }
+        native_require(function.code, no_overflow);
+        native_check_result(context, function, type_id);
+        native_store(function, destination, 0);
+        if native_value_read(function, function.value_uses, result) != 0 {
+            native_store(function, result, 0);
+        }
+        return true;
+    }
     if opcode == ir_op_cast() || opcode == ir_op_reinterpret() || opcode == ir_op_unary() {
         native_load(function, d_operand_value(context, instruction, 0), 0);
         if opcode == ir_op_unary() {

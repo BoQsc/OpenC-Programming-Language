@@ -2,6 +2,7 @@ import system.file;
 import system.io;
 import system.memory;
 import system.path;
+import system.process;
 import system.text;
 
 unsafe usize resolution_pointer_encode(ptr byte value) {
@@ -28,16 +29,23 @@ unsafe void resolution_copy_records(
     );
 }
 
-unsafe ResolutionParsedSource resolution_parse_source_retained(
+unsafe ResolutionParsedSource resolution_parse_source_retained_profiled(
     text project_source,
     text project_root,
     ptr byte source_data,
-    usize source_record
+    usize source_record,
+    ref ResolutionParseProfile profile
 ) {
     text source;
+    usize part_started = 0;
+    if profile.enabled { part_started = process.monotonic_milliseconds(); }
     status source_status = project_read_source_record(
         project_source, project_root, source_data, source_record, out source
     );
+    if profile.enabled {
+        profile.read_ms = profile.read_ms +
+            process.monotonic_milliseconds() - part_started;
+    }
     if !source_status.ok {
         return ResolutionParsedSource{
             reusable = false,
@@ -48,6 +56,7 @@ unsafe ResolutionParsedSource resolution_parse_source_retained(
         };
     }
     usize source_length = text.byte_length(source);
+    if profile.enabled { part_started = process.monotonic_milliseconds(); }
     PackedBuffer tokens = PackedBuffer{
         length = 0, capacity = source_length + 2
     };
@@ -59,6 +68,11 @@ unsafe ResolutionParsedSource resolution_parse_source_retained(
         diagnostics.capacity * record_stride()
     );
     lex_source(source, token_data, tokens, diagnostic_data, diagnostics);
+    if profile.enabled {
+        profile.lex_ms = profile.lex_ms +
+            process.monotonic_milliseconds() - part_started;
+        part_started = process.monotonic_milliseconds();
+    }
     PackedBuffer syntax = PackedBuffer{
         length = 0, capacity = tokens.length * 6 + 8
     };
@@ -67,6 +81,11 @@ unsafe ResolutionParsedSource resolution_parse_source_retained(
         source, token_data, tokens, syntax_data, syntax,
         diagnostic_data, diagnostics
     );
+    if profile.enabled {
+        profile.parse_ms = profile.parse_ms +
+            process.monotonic_milliseconds() - part_started;
+        part_started = process.monotonic_milliseconds();
+    }
     ResolutionParsedSource retained = ResolutionParsedSource{
         reusable = false,
         token_data = null,
@@ -96,7 +115,23 @@ unsafe ResolutionParsedSource resolution_parse_source_retained(
     memory.free(syntax_data);
     memory.free(token_data);
     memory.free(diagnostic_data);
+    if profile.enabled {
+        profile.compact_ms = profile.compact_ms +
+            process.monotonic_milliseconds() - part_started;
+    }
     return retained;
+}
+
+unsafe ResolutionParsedSource resolution_parse_source_retained(
+    text project_source,
+    text project_root,
+    ptr byte source_data,
+    usize source_record
+) {
+    ResolutionParseProfile profile = resolution_parse_profile_empty();
+    return resolution_parse_source_retained_profiled(
+        project_source, project_root, source_data, source_record, profile
+    );
 }
 
 unsafe ResolutionParsedSource resolution_collect_source_symbols_retained(
@@ -202,6 +237,26 @@ unsafe ResolutionParsedSource resolution_cached_parsed_source(
     };
 }
 
+// Native emission consumes each retained source exactly once on the success
+// path. Release its parse records as soon as lowering is done rather than
+// keeping the entire project's token and syntax stores live until build exit.
+// A diagnostic replay can reparse an entry whose reusable flag was cleared.
+unsafe void resolution_release_cached_parsed_source(
+    ptr byte cache_data,
+    usize source_record
+) {
+    if cache_data == null || read_record_field(
+        cache_data, source_record, 4
+    ) == 0 { return; }
+    ResolutionParsedSource parsed = resolution_cached_parsed_source(
+        cache_data, source_record
+    );
+    resolution_release_parsed_source(parsed);
+    write_record_field(cache_data, source_record, 0, 0);
+    write_record_field(cache_data, source_record, 2, 0);
+    write_record_field(cache_data, source_record, 4, 0);
+}
+
 unsafe void resolution_release_parse_cache(
     ptr byte cache_data,
     usize source_count
@@ -209,10 +264,7 @@ unsafe void resolution_release_parse_cache(
     if cache_data == null { return; }
     usize source_record = 0;
     while source_record < source_count {
-        ResolutionParsedSource parsed = resolution_cached_parsed_source(
-            cache_data, source_record
-        );
-        resolution_release_parsed_source(parsed);
+        resolution_release_cached_parsed_source(cache_data, source_record);
         source_record = source_record + 1;
     }
     memory.free(cache_data);
@@ -279,6 +331,138 @@ unsafe bool resolution_module_name_equals(
         read_record_field(module_data, module_index, 0),
         read_record_field(module_data, module_index, 1)
     );
+}
+
+// Parsing is source-local. The following workers fill disjoint entries of
+// the retained parse cache; type predeclaration and symbol insertion stay in
+// deterministic source order in backend_emit.
+struct ResolutionParseChunk {
+    usize first;
+    usize end;
+    ResolutionParseProfile profile;
+    i32 result;
+}
+
+struct ResolutionParseState {
+    ResolutionParseChunk one;
+    ResolutionParseChunk two;
+    ResolutionParseChunk three;
+    ResolutionParseChunk four;
+    text project_source;
+    text project_root;
+    ptr byte source_data;
+    ptr byte parsed_source_cache;
+}
+
+unsafe i32 resolution_parse_chunk_run(
+    ref ResolutionParseChunk chunk,
+    ref ResolutionParseState state
+) {
+    usize source_record = chunk.first;
+    while source_record < chunk.end {
+        ResolutionParsedSource parsed =
+            resolution_parse_source_retained_profiled(
+                state.project_source, state.project_root,
+                state.source_data, source_record, chunk.profile
+            );
+        resolution_cache_parsed_source(
+            state.parsed_source_cache, source_record, parsed
+        );
+        if !parsed.reusable { resolution_release_parsed_source(parsed); }
+        source_record = source_record + 1;
+    }
+    chunk.result = 0;
+    return 0;
+}
+
+unsafe u32 resolution_parse_thread_entry_one(ref ResolutionParseState state) {
+    return cast(u32, resolution_parse_chunk_run(state.one, state));
+}
+unsafe u32 resolution_parse_thread_entry_two(ref ResolutionParseState state) {
+    return cast(u32, resolution_parse_chunk_run(state.two, state));
+}
+unsafe u32 resolution_parse_thread_entry_three(ref ResolutionParseState state) {
+    return cast(u32, resolution_parse_chunk_run(state.three, state));
+}
+unsafe u32 resolution_parse_thread_entry_four(ref ResolutionParseState state) {
+    return cast(u32, resolution_parse_chunk_run(state.four, state));
+}
+
+unsafe void resolution_parse_pool_one(ptr byte instance, ref ResolutionParseState state, ptr byte work) {
+    resolution_parse_thread_entry_one(state);
+}
+unsafe void resolution_parse_pool_two(ptr byte instance, ref ResolutionParseState state, ptr byte work) {
+    resolution_parse_thread_entry_two(state);
+}
+unsafe void resolution_parse_pool_three(ptr byte instance, ref ResolutionParseState state, ptr byte work) {
+    resolution_parse_thread_entry_three(state);
+}
+
+// The native backend replaces this with bounded Windows threadpool work,
+// sharing the native-source/flow setup-and-join contract. Older bootstrap seeds
+// return 3 and use the deterministic serial fallback below.
+unsafe i32 resolution_parse_parallel_jobs(ptr ResolutionParseState state) {
+    return 3;
+}
+
+unsafe bool resolution_parse_sources_parallel(
+    text project_source,
+    text project_root,
+    ptr byte source_data,
+    usize source_count,
+    ptr byte parsed_source_cache,
+    bool profile_enabled,
+    ref ResolutionParseProfile aggregate
+) {
+    if parsed_source_cache == null || source_count < 4 { return false; }
+    usize cut_one = source_count / 4;
+    usize cut_two = source_count * 2 / 4;
+    usize cut_three = source_count * 3 / 4;
+    ResolutionParseProfile initial = resolution_parse_profile_empty();
+    initial.enabled = profile_enabled;
+    ResolutionParseState state = ResolutionParseState{
+        one = ResolutionParseChunk{
+            first = 0, end = cut_one, profile = initial, result = -1
+        },
+        two = ResolutionParseChunk{
+            first = cut_one, end = cut_two, profile = initial, result = -1
+        },
+        three = ResolutionParseChunk{
+            first = cut_two, end = cut_three,
+            profile = initial, result = -1
+        },
+        four = ResolutionParseChunk{
+            first = cut_three, end = source_count,
+            profile = initial, result = -1
+        },
+        project_source = project_source,
+        project_root = project_root,
+        source_data = ir_pointer_alias(source_data),
+        parsed_source_cache = ir_pointer_alias(parsed_source_cache)
+    };
+    i32 launch = resolution_parse_parallel_jobs(&state);
+    if state.one.result == -1 { resolution_parse_chunk_run(state.one, state); }
+    if state.two.result == -1 { resolution_parse_chunk_run(state.two, state); }
+    if state.three.result == -1 { resolution_parse_chunk_run(state.three, state); }
+    if state.four.result == -1 { resolution_parse_chunk_run(state.four, state); }
+    bool passed = (launch == 0 || launch == 3) &&
+        state.one.result == 0 && state.two.result == 0 &&
+        state.three.result == 0 && state.four.result == 0;
+    if profile_enabled {
+        aggregate.read_ms = aggregate.read_ms + state.one.profile.read_ms +
+            state.two.profile.read_ms + state.three.profile.read_ms +
+            state.four.profile.read_ms;
+        aggregate.lex_ms = aggregate.lex_ms + state.one.profile.lex_ms +
+            state.two.profile.lex_ms + state.three.profile.lex_ms +
+            state.four.profile.lex_ms;
+        aggregate.parse_ms = aggregate.parse_ms + state.one.profile.parse_ms +
+            state.two.profile.parse_ms + state.three.profile.parse_ms +
+            state.four.profile.parse_ms;
+        aggregate.compact_ms = aggregate.compact_ms +
+            state.one.profile.compact_ms + state.two.profile.compact_ms +
+            state.three.profile.compact_ms + state.four.profile.compact_ms;
+    }
+    return passed;
 }
 
 unsafe usize resolution_function_for_node(

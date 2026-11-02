@@ -38,6 +38,9 @@ unsafe IrContext backend_base_context(
         source_record = 0,
         function_node = 0,
         function_symbol = 0,
+        function_alloc_probe_node = 0,
+        function_alloc_probe_state = 0,
+                native_compact_updates = false,
         function_result = 0,
         function_local_first = 0,
         function_local_end = 0,
@@ -121,6 +124,22 @@ unsafe IrContext backend_base_context(
         profile_parent_candidates = 0,
         profile_expression_positions = 0,
         profile_syntax_candidates = 0,
-        profile_symbol_candidates = 0
+        profile_symbol_candidates = 0,
+        profile_type_queries_enabled = false,
+        profile_type_seen = null,
+        profile_type_queries = 0,
+        profile_type_cache_hits = 0,
+        profile_type_uncached = 0,
+        profile_type_distinct_uncached = 0,
+        profile_type_repeated_uncached = 0,
+        profile_type_failures = 0,
+        profile_type_name_uncached = 0,
+        profile_type_literal_uncached = 0,
+        profile_type_unary_uncached = 0,
+        profile_type_binary_uncached = 0,
+        profile_type_assignment_uncached = 0,
+        profile_type_call_uncached = 0,
+        profile_type_other_uncached = 0,
+        suppress_acceptance_diagnostics = false
     };
 }

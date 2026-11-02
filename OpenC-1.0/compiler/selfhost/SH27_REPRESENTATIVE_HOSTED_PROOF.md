@@ -1,0 +1,95 @@
+# SH-27 pinned hosted representative medium-app proof
+
+Status: **PASS for this checked-in four-module audit fixture; not SH-27
+completion or broad C/D-class parity.**
+
+Current-source update (verified 2026-11-02):
+[run 40131377833](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40131377833)
+passes literal reviewed toolchain pins and three repetitions of cold/warm/edit
+runtime equivalence with exact fixed-point compiler
+`1859f47fa388d0de3f6003c028a5d3ed2bb6a70bd95dfe8091d46139237c1ed1`.
+Downloaded artifact `12574234018` has ZIP SHA-256
+`be19b4cf11a3dca40004b330998f315a030db134bcf3ad6905559c42fcfb4f1e`;
+`representative-medium.json` is
+`e1b2bb786d9e8d2d3ec51633dc4febf0c430e45eefb8b5b3a68fef3ca5f48d8b`.
+All nine OpenC cases obey the 256/64 MiB compiler limits. The separate
+normal-default compiler and 24-file economics gates now pass on this same
+source; see [native-default evidence](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md).
+Project breadth, independent final-source repeat and release audits remain
+open. The following entries retain their original historical source identity.
+
+On 2026-10-24 the candidate branch was added to the same push/manual workflow.
+Discovery run `40126437277`, artifact `12573347352`, identifies runner image
+`20261021.278.1`. Its downloaded ZIP verifies as
+`dbfc6ab85ff5bb72f3904ee9973f8810b83f9cd2042a0337c9f8984f6c8c3ba2`.
+The MSVC compiler/linker hashes exactly match the already reviewed
+`20260922.246.2` pair below; DMD also exactly matches its existing literal pin.
+The version outputs remain 19.44.35229 / 14.44.35229.0 / DMD 2.112.0.
+This image identity is now recorded with those same literal hashes, rather
+than consuming discovered hashes as proof expectations. That discovery run
+correctly failed on the previously unreviewed image and is not a representative
+proof. Fresh candidate-source proof remains required.
+
+The subsequent current-source run `40126914602` now passes discovery and the
+pinned medium-app proof on compiler
+`964a8e7193fb1ea8cf26d1b06edb0ef421722e3bb9aa2c1a6133684f931a8e32`.
+Its downloaded proof artifact `12572968074` verifies as ZIP SHA-256
+`2ebe7dfd9eb832bc5fc5737570d729b8a991abeaa337f5fb78deaae9f6d291b7`;
+the raw `representative-medium.json` verifies as
+`fefdf0c4f9db4e23fd6a45e01c78e4a689d7b445affca9000e9ae50c171ce57c`.
+The report retains the same literal MSVC/linker/DMD hashes and three
+repetitions of cold/warm/edit exact runtime equivalence. Its timing samples
+are descriptive; this does not establish broad project throughput parity or
+complete SH-27.
+
+The [Windows-2025 hosted run 35946485926](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35946485926)
+at commit `5739dfb` verified separately reviewed literal SHA-256 identities for
+MSVC `cl.exe`/`link.exe` and DMD 2.112.0, guardedly bootstrapped the checked-out
+OpenC source to an exact Stage 2/3 fixed point, then compiled and executed
+the checked-in `medium_audit` application in OpenC, C17/MSVC, and D/DMD.
+Its [raw artifact](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35946485926/artifacts/10787161624)
+contains every build/measurement record and the final
+`representative-medium.json` report. The compiler source matches the
+`1b58d5e` production-source parity certificate; documentation and CI pins
+changed, not compiler source. Stage 2 and 3 had the same SHA-256
+`d0c18a385d1589db21da0c9ec5684e442bf828124d46c489aed29c4dddb6d9e7`.
+The later [run 35947480567](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35947480567)
+also passed after the CI gate was revised to accept only two separately
+reviewed Windows-runner-image/MSVC hash pairs. Its checkout still used the
+same compiler source. An intervening docs-only run failed closed when the
+runner landed on the other previously observed image; neither discovery nor
+proof silently accepted an unknown binary.
+The repeat's cold/warm/edit medians were OpenC 0.087/0.088/0.087 s, MSVC
+0.423/0.414/0.411 s, and DMD 0.808/0.796/0.804 s, with exact output again.
+
+All three independent staged repetitions passed exact stdout/stderr/exit
+equivalence for cold, warm, and one-source edit, including runtime output
+equivalence across all three languages. Median **compiler-plus-link** wall
+seconds (three samples per cell) were:
+
+| Language/tool | Cold | Warm | Edit |
+| --- | ---: | ---: | ---: |
+| OpenC fixed-point compiler | 0.087 | 0.086 | 0.087 |
+| MSVC C17 | 0.408 | 0.401 | 0.409 |
+| DMD D | 0.782 | 0.788 | 0.798 |
+
+The first MSVC cold sample was 3.760 s and the first DMD cold sample was
+1.247 s; the table uses medians and the raw samples are preserved. OpenC's
+highest observed child working set was 11,546,624 bytes and private bytes
+21,237,760, within the suite's 64/256 MiB compiler limits. Comparator
+compiles use their separately declared 512/512 MiB limits; they are not
+misrepresented as meeting OpenC's gate.
+
+This is a small benchmark-authored file-processing program, not an
+independent retained user project. "Warm" repeats unchanged inputs after
+a build with OS cache present; OpenC has no module artifact cache here, so
+the warm/edit values prove **no incremental speedup**. MSVC and DMD standard
+libraries and DMD's selected linker are not separately hashed, though the
+runner image and compiler binaries are recorded. The generated large/control
+20-ratio gate is independent and is not replaced by this result. A later
+compiler-source change must rerun all final-source certificates.
+
+Next: retain larger third-party or user projects, execute repeated
+cross-language comparisons on them, build actual content-validated per-module
+COFF reuse and relink, then repeat the complete synthetic, strict-memory,
+conformance, editor, and release gates on one final source revision.

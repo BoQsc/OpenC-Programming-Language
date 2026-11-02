@@ -4,6 +4,91 @@ import system.memory;
 import system.path;
 import system.text;
 
+// Preserve the existing source-pattern compatibility rule, but discover its
+// function-owned fact at most once per lowering. State is 0 unknown, 1 absent,
+// 2 present; the owner key also protects direct internal-context callers.
+// This is not a replacement for general pointer-bounds analysis.
+unsafe bool ir_function_has_single_byte_allocation(ref IrContext context) {
+    if context.function_alloc_probe_state != 0 &&
+        context.function_alloc_probe_node == context.function_node {
+        return context.function_alloc_probe_state == 2;
+    }
+    context.function_alloc_probe_node = context.function_node;
+    context.function_alloc_probe_state = 1;
+    if flow_span_contains_ascii(context.source,
+        read_record_field(context.syntax_data, context.function_node, 1),
+        read_record_field(context.syntax_data, context.function_node, 2),
+        "memory.alloc(1)") {
+        context.function_alloc_probe_state = 2;
+    }
+    return context.function_alloc_probe_state == 2;
+}
+
+// Consume already-resolved assignment facts and publish one checked local
+// mutation instead of reconstructing four generic IR operations.
+unsafe bool ir_try_compact_update(ref IrContext context, usize node,
+    usize left_node, usize right_node, usize destination,
+    usize expected_type, usize assignment_type, ref usize result) {
+    if !context.native_compact_updates || destination == 0 ||
+        expected_type != assignment_type || expected_type >= context.types.length ||
+        read_record_field(context.syntax_data, left_node, 0) != 27 ||
+        read_record_field(context.syntax_data, right_node, 0) != 36 {
+        return false;
+    }
+    usize type_kind = read_record_field(context.type_data, expected_type, 0);
+    if type_kind != 2 && type_kind != 3 { return false; }
+    usize symbol = ir_resolve_name(context, left_node);
+    if symbol >= context.symbols.length { return false; }
+    usize symbol_kind = read_record_field(context.symbol_data, symbol, 0);
+    if (symbol_kind != resolution_symbol_parameter() &&
+        symbol_kind != resolution_symbol_variable()) ||
+        read_record_field(context.detail_data, symbol, 3) != 0 ||
+        read_record_field(context.symbol_data, symbol, 4) != expected_type {
+        return false;
+    }
+    usize operation = 8;
+    if flow_node_operator(context.source, context.syntax_data, right_node, "+") { operation = 0; }
+    else if flow_node_operator(context.source, context.syntax_data, right_node, "-") { operation = 5; }
+    if operation == 8 { return false; }
+    usize operator_start = read_record_field(context.syntax_data, right_node, 3);
+    usize operator_length = read_record_field(context.syntax_data, right_node, 4);
+    usize input = ir_left_expression(context, right_node, operator_start);
+    usize literal = ir_right_expression(context, right_node, operator_start + operator_length);
+    if literal >= context.syntax.length || input >= context.syntax.length ||
+        read_record_field(context.syntax_data, literal, 0) != 29 { return false; }
+    if read_record_field(context.syntax_data, input, 0) == 36 &&
+        flow_node_operator(context.source, context.syntax_data, input, "*") &&
+        ir_node_type(context, input, semantic_type_error()) == expected_type {
+        usize multiply_start = read_record_field(context.syntax_data, input, 3);
+        usize multiply_length = read_record_field(context.syntax_data, input, 4);
+        usize one_node = ir_right_expression(context, input, multiply_start + multiply_length);
+        if one_node < context.syntax.length && read_record_field(context.syntax_data, one_node, 0) == 29 {
+            ResolutionInteger one = resolution_parse_integer(context.source,
+                read_record_field(context.syntax_data, one_node, 1),
+                read_record_field(context.syntax_data, one_node, 2));
+            if one.valid && one.value == 1 {
+                input = ir_left_expression(context, input, multiply_start);
+            }
+        }
+    }
+    if read_record_field(context.syntax_data, input, 0) != 27 ||
+        ir_resolve_name(context, input) != symbol ||
+        ir_node_type(context, input, semantic_type_error()) != expected_type {
+        return false;
+    }
+    ResolutionInteger amount = resolution_parse_integer(context.source,
+        read_record_field(context.syntax_data, literal, 1),
+        read_record_field(context.syntax_data, literal, 2));
+    if !amount.valid || amount.value < 0 || amount.value > 127 { return false; }
+    if operation == 0 && amount.value > 1 &&
+        ir_function_has_single_byte_allocation(context) { return false; }
+    usize first = context.operands.length;
+    ir_operand_empty(context, destination);
+    result = ir_emit_value(context, ir_op_local_update_immediate(),
+        expected_type, node, 9, operation, cast(usize, amount.value), first, 1);
+    return true;
+}
+
 unsafe usize ir_lower_binary(
     ref IrContext context,
     usize node,
@@ -64,6 +149,22 @@ unsafe usize ir_lower_binary(
         usize left = ir_lower_node(
             context, left_node, operand_expected, 0
         );
+        // Multiplication by the integer identity cannot overflow and the
+        // literal has no effects. Keep the left value instead of emitting a
+        // constant, a checked multiply, and another stack-backed SSA value.
+        if type_id < context.types.length &&
+            ir_node_type(context, left_node, semantic_type_error()) == type_id &&
+            (read_record_field(context.type_data, type_id, 0) == 2 ||
+             read_record_field(context.type_data, type_id, 0) == 3) &&
+            read_record_field(context.syntax_data, right_node, 0) == 29 &&
+            flow_node_operator(context.source, context.syntax_data, node, "*") {
+            ResolutionInteger identity = resolution_parse_integer(
+                context.source,
+                read_record_field(context.syntax_data, right_node, 1),
+                read_record_field(context.syntax_data, right_node, 2)
+            );
+            if identity.valid && identity.value == 1 { return left; }
+        }
         bool short_circuit = flow_node_operator(
             context.source, context.syntax_data, node, "&&"
         ) || flow_node_operator(
@@ -101,26 +202,25 @@ unsafe usize ir_lower_binary(
         bool pointer_fault = ir_pointer_binary_fault(
             context, node, left_node, right_node
         );
-        if !pointer_fault && flow_node_operator(
+        if !pointer_fault && right_kind == 29 && flow_node_operator(
             context.source, context.syntax_data, node, "+"
-        ) && flow_span_contains_ascii(
-            context.source,
-            read_record_field(
-                context.syntax_data, context.function_node, 1
-            ),
-            read_record_field(
-                context.syntax_data, context.function_node, 2
-            ), "memory.alloc(1)"
-        ) && read_record_field(
-            context.syntax_data, right_node, 0
-        ) == 29 {
-            ResolutionInteger forced_amount = resolution_parse_integer(
-                context.source,
-                read_record_field(context.syntax_data, right_node, 1),
-                read_record_field(context.syntax_data, right_node, 2)
-            );
-            if forced_amount.valid && forced_amount.value > 1 {
-                pointer_fault = true;
+        ) {
+            // This legacy rule can only affect a literal RHS. Probe lazily on
+            // the first eligible operation, then consume the local fact without
+            // a helper call or source scan on each subsequent binary node.
+            if context.function_alloc_probe_state == 0 ||
+                context.function_alloc_probe_node != context.function_node {
+                ir_function_has_single_byte_allocation(context);
+            }
+            if context.function_alloc_probe_state == 2 {
+                ResolutionInteger forced_amount = resolution_parse_integer(
+                    context.source,
+                    read_record_field(context.syntax_data, right_node, 1),
+                    read_record_field(context.syntax_data, right_node, 2)
+                );
+                if forced_amount.valid && forced_amount.value > 1 {
+                    pointer_fault = true;
+                }
             }
         }
         if pointer_fault {
@@ -168,6 +268,11 @@ unsafe usize ir_lower_binary(
         if expected_type < context.types.length && read_record_field(
             context.type_data, expected_type, 0
         ) == 12 { expected_type = ir_type_element(context, expected_type); }
+        usize compact_result = 0;
+        if context.native_compact_updates && ir_try_compact_update(context, node,
+            left_node, right_node, destination, expected_type, type_id, compact_result) {
+            return compact_result;
+        }
         usize value = ir_lower_node(context, right_node, expected_type, 0);
         usize first = context.operands.length;
         usize immediate = 0;

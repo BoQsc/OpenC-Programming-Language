@@ -8,9 +8,42 @@ struct CParallelChunk {
     IrContext base;
     DBuffer output;
     BuildTimings timings;
+    ptr byte owned_type_data;
+    ptr byte owned_export_cache;
+    ptr byte owned_layout_sizes;
+    ptr byte owned_layout_alignments;
+    ptr byte owned_layout_states;
     usize first;
     usize end;
+    usize elapsed_ms;
     i32 result;
+}
+
+struct CNativeChunkState {
+    CParallelChunk chunk_one;
+    CParallelChunk chunk_two;
+    CParallelChunk chunk_three;
+    CParallelChunk chunk_four;
+    usize entry_module;
+    usize frozen_type_count;
+    ptr byte validation_source_ms;
+    ptr byte parsed_source_cache;
+    ptr byte cache_offsets;
+    usize source_partitions;
+    usize source_count;
+    bool semantic_cache_ready;
+    ptr byte cold_work;
+}
+
+struct NativeColdCacheWork {
+    ptr byte base;
+    ptr byte options;
+    ptr byte cache;
+    ptr byte timings;
+    ptr byte parsed_source_cache;
+    usize entry_module;
+    bool done;
+    bool parallel;
 }
 
 struct CParallelState {
@@ -45,6 +78,12 @@ unsafe i32 c_parallel_jobs(
 ) {
     return 3;
 }
+
+unsafe i32 c_native_parallel_jobs(ptr CNativeChunkState state) { return 3; }
+
+unsafe i32 c_native_parallel_jobs_two(ptr CNativeChunkState state) { return 3; }
+unsafe i32 c_native_parallel_jobs_cold(ptr CNativeChunkState state) { return 3; }
+unsafe i32 c_native_parallel_jobs_two_cold(ptr CNativeChunkState state) { return 3; }
 
 unsafe usize c_project_source_count(ref IrContext base) {
     usize source_count = 0;
@@ -147,6 +186,58 @@ unsafe i32 c_emit_source_range(
             ) {
             return 1;
         }
+        source_record = source_record + 1;
+    }
+    return 0;
+}
+
+unsafe i32 c_emit_source_range_validating(
+    ref IrContext base,
+    ref DBuffer output,
+    usize source_first,
+    usize source_end,
+    usize entry_module,
+    ref BuildTimings timings,
+    ptr byte validation_source_ms,
+    ptr byte parsed_source_cache,
+    ptr byte cache_offsets,
+    usize source_partitions,
+    usize source_count,
+    bool semantic_cache_ready
+) {
+    usize source_record = source_first;
+    while source_record < source_end {
+        if semantic_cache_ready && source_partition_cache_source_hit(
+            cache_offsets, source_partitions, source_count, source_record
+        ) {
+            timings.object_cache_acceptance_sources_skipped =
+                timings.object_cache_acceptance_sources_skipped + 1;
+            resolution_release_cached_parsed_source(
+                parsed_source_cache, source_record
+            );
+            source_record = source_record + 1;
+            continue;
+        }
+        usize module_index = c_source_module(base, source_record);
+        if module_index >= base.modules.length { return 1; }
+        bool lower_source = true;
+        if cache_offsets != null && source_partitions != 0 {
+            usize partition = source_partition_index(
+                source_record, source_count, source_partitions
+            );
+            if read_usize(cache_offsets, partition * size_of(usize)) != 0 {
+                lower_source = false;
+            }
+        }
+        bool emitted = c_emit_source_record_mode(
+            base, output, module_index, source_record,
+            entry_module, timings, true, validation_source_ms,
+            parsed_source_cache, lower_source
+        );
+        resolution_release_cached_parsed_source(
+            parsed_source_cache, source_record
+        );
+        if !emitted { return 1; }
         source_record = source_record + 1;
     }
     return 0;

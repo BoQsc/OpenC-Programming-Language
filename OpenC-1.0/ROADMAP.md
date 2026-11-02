@@ -11,6 +11,19 @@ optional future target work.
 
 ## Critical-path priority
 
+SH-27 checkpoint (2026-11-02): candidate `7c6f7bba...` combines compact checked
+native updates with early owned compiler-identity hashing. The cold-build
+architecture wins both planned hosted comparisons above noise. Full native
+workflow 19/19, strict 20-generation closure, 32 integer/fallback cases and
+fresh editor/finalization checks pass. Both restricted-host DMD series meet
+the 1.20x large-function target (1.087x/1.133x) using pinned DMD 2.112.0. Both
+five-tool hosted production certificates pass all 20 original ratios and both
+scaling suites. Both independent cache/package certificates also pass, including
+unchanged medium cold budgets and 11/11 warm/edit wins. Engineering is certified;
+SH-27 remains active until final candidate verification and owner-authorized
+1.0.1 publication finish. See the
+[current qualification](compiler/selfhost/SH27_1_0_1_QUALIFICATION.md).
+
 SH-14 closed the compiler-throughput gap: the five-run OpenC-native clean
 median is 4.137 seconds versus 12.731 seconds for the pinned same-host D
 reference, with small/incremental, proportional-scaling, bounded-memory,
@@ -26,6 +39,17 @@ have not occurred. SH-27 is the active post-release integrity and production
 performance milestone. Windows concepts remain outside Core, and
 Linux/freestanding remain nonblocking targets. The architecture is in
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
+
+The remaining SH-27 engineering work has an ordered implementation and
+closure checklist in
+[`compiler/selfhost/SH27_EXECUTION_PLAN.md`](compiler/selfhost/SH27_EXECUTION_PLAN.md),
+with measurement history and redesign rationale in
+[`compiler/selfhost/SH27_COMPLETION_ROADMAP.md`](compiler/selfhost/SH27_COMPLETION_ROADMAP.md).
+The broad candidate results and immediate next cuts are indexed in
+[`compiler/selfhost/SH27_CANDIDATE_PORTFOLIO.md`](compiler/selfhost/SH27_CANDIDATE_PORTFOLIO.md).
+The new branch-batch workflow enforces a gain on commit-triggered runs, but
+that screen is not the final 1.25x C/D target; the full clean comparator and
+release gates remain mandatory.
 
 ## Completed self-hosting path
 
@@ -516,6 +540,162 @@ IR reach closure. Exact evidence and reproduction commands are in
       Automatic five-compiler Windows run 35814722551 then passes its
       correctness, fixed-point, and memory gates at the accepted revision;
       the report remains `EVIDENCE_COMPLETE_DEFICIT`, so SH-27 remains active.
+      The isolated `codex/sh27-native-chunk-proof` branch first proved ordered
+      private source chunks, atomic native allocation accounting, and
+      right-sized per-chunk streams. A preliminary thread launch was discarded
+      after an access violation; investigation then found an invalid absolute
+      callback relocation and a temporary-copy at the launch boundary. The
+      corrected opt-in `artifact --source-chunks=4` path now runs three native
+      Windows worker threads plus the caller, then merges byte-identical
+      outputs. A semantic-error build replays diagnostics serially after
+      worker arenas are released; the two-source error fixture passes five
+      repetitions. The compiler reaches a byte-exact Stage 2/Stage 3 fixed
+      point and passes 278/278 conformance and 25/25 x64 substrate checks.
+      Eleven same-command local pairs each on control-flow, large-functions,
+      and the compiler self-build show 11/11 parallel wins and median times
+      of 0.931 to 0.548, 1.397 to 0.900, and 9.471 to 5.761 seconds,
+      respectively. The largest parallel Job private peak is 306.1 MiB,
+      below the 512 MiB guard but a material RAM cost. Clean Windows worker
+      workflow run 35823166323 passes all correctness, RAM, and majority-speed
+      gates at `e5a4daa`; `openc build` stays serial. Clean-runner C/D
+      comparisons, two-worker/adaptive scheduling,
+      expanded failure cases, incremental object reuse, and broader real-
+      project parity are still required before SH-27 can close. The detail
+      and commands are in `compiler/selfhost/SH27_NATIVE_CHUNK_PROOF.md`.
+      The opt-in production comparator harness also passes a local three-run
+      OpenC/DMD64 2.112.0 correctness, execution, and RAM pass, but four-chunk
+      OpenC still measures 2.421x DMD on large functions and 2.275x on control
+      flow. Clean pinned C/D comparator workflow run 35824022202 passes all
+      tool-presence, correctness, execution, output, and RAM checks and retains
+      JSON evidence as artifact 10734212162. Workflow success is not a parity
+      claim; the throughput deficit remains real and explicitly open.
+      An opt-in two-worker mode then passes byte-exact five-workload output,
+      repeated multi-error diagnostics, 278/278 conformance, 25/25 x64,
+      and a byte-exact compiler fixed point. Eleven local pairs win 11/11
+      control-flow, 10/11 large-functions, and 11/11 self-build comparisons,
+      while peak private memory is 97.4, 191.7, and 223.0 MiB. It is slower
+      than four workers and remains 2.917x/2.726x DMD on the local large and
+      control corpora. Clean Windows run 35826688929 passes both worker-count
+      proofs, speed gates, RAM trade-off, and pinned C/D corpus at `51bcb47`;
+      JSON artifact 10735084414 retains the evidence. Adaptive scheduling
+      and substantive semantic-pass reduction remain next.
+      Native artifact builds now expose an optional compiler-owned timing
+      record separate from artifact metadata. Parallel acceptance timings are
+      explicitly labeled summed worker elapsed and are no longer subtracted
+      from wall-clock phases. Local byte/diagnostic/RAM proofs pass for two
+      and four workers with the corrected accounting, and the phase evidence
+      still identifies serial self-build flow work and fused source processing
+      as material costs. This is measurement integrity, not throughput parity;
+      adaptive scheduling, semantic-pass reduction, incremental reuse, and
+      real-project parity remain SH-27 work.
+      Clean Windows run 35829019593 passes fixed-point, conformance,
+      substrate, both worker proofs, RAM and paired-speed gates, and pinned
+      C/D comparison with the timing correction at `9d37ca2`; artifact
+      10735889275 retains the JSON evidence. No C/D parity is inferred from
+      that workflow success.
+      An opt-in `--source-chunks=auto` prototype now chooses serial for tiny
+      inputs, two workers for mid-sized projects, and four for bounded larger
+      projects; the chosen mode is reported. Five byte-exact workload proofs,
+      repeated diagnostics, 278/278 conformance, 25/25 x64 substrate, and
+      three eleven-pair local speed gates pass under the 512 MiB Job guard.
+      A partial local DMD comparison still shows 2.263x large and 2.788x
+      control-flow deficits. The policy remains experimental until clean
+      pinned-comparator and broader real-project evidence is complete.
+      Clean Windows run 35831483331 passes the adaptive proof, all nine
+      eleven-pair worker-speed gates, and both pinned C/D comparator lanes
+      at `89eecff`; artifact 10737339417 retains the evidence. This closes
+      the clean-runner evidence gap, not C/D throughput parity, arbitrary-
+      project memory safety, or the incremental-reuse/real-project gates.
+      A same-compiler RAM trade-off gate now requires at least 32 MiB of
+      two-worker savings on control flow, large functions, and self-build;
+      local savings are 64.4, 114.4, and 60.3 MiB. The expanded commit/manual
+      workflow also passes this gate on a clean host.
+      An additional opt-in native flow-validation tranche divides
+      source-independent flow checks over private error buffers and merges
+      diagnostics in source order. The capped policy uses two flow workers
+      on the control-flow and large-function corpora and four on compiler
+      self-build. Its local byte-exact fixed point, five output/diagnostic/RAM
+      proofs, 278 conformance cases, 25 x64 checks, and a pre-flow-compiler
+      fallback proof pass. Eleven local revision-paired comparisons improve
+      control flow by 0.068 s and self-build by 2.601 s paired median;
+      large functions are effectively flat (6/11 wins), so the clean
+      workflow guards that workload against over 5% regression rather than
+      claiming a gain. Clean Windows run 35837859544 passes fixed-point,
+      conformance, substrate, fallback, revision-paired flow, RAM, and
+      pinned C/D comparator gates at `5038e34`; artifact 10740382922
+      retains the machine-readable evidence. This is a proof-gate pass,
+      not broad C/D throughput parity.
+      A partial DMD comparison still finds 2.657x large and 2.579x control
+      deficits. Full SH-27 remains open on broad C/D-class throughput,
+      arbitrary-project RAM behavior, representative project coverage,
+      and incremental reuse. A separate native aggregate defect was still
+      present at this point in the proof history.
+      The aggregate defect has since been minimized: a ref-to-value field
+      initializer copied the reference address instead of its pointee.
+      Aggregate IR now emits the explicit load, and a pinned pre-fix versus
+      corrected executable proof passes under the RAM guard. Local fixed
+      point, 278 conformance cases, 25 x64 checks, adaptive byte/diagnostic/
+      RAM proof, and structure validation pass. Eleven paired local runs
+      against the pre-fix flow compiler remain within 5% on control flow,
+      large functions, and self-build; self-build is close to the boundary
+      at +307 ms paired median. Clean Windows run 35841915276 passes the
+      aggregate executable regression, both pinned baseline rebuilds, all
+      three direct speed guards, correctness/RAM/fixed-point gates, and both
+      pinned C/D comparator lanes at `f068167`; artifact 10741544122 retains
+      the machine-readable evidence. SH-27 throughput parity remains open.
+
+      The current SH-27 execution contract is
+      `compiler/selfhost/SH27_EXECUTION_PLAN.md`: measured semantic-to-lowering
+      and, if needed, backend redesign precede real incremental COFF reuse,
+      representative projects, and two clean final-source parity runs. The
+      scalar-source flow cut at `738bea3` passes local fixed point, 278
+      conformance cases, strict 20-generation RAM, exact worker/diagnostic
+      checks, and eleven-pair local speed comparisons (-93 ms large functions,
+      -42 ms control flow, flat self-build). Its first clean Windows
+      [run 35928451776](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35928451776)
+      passes all pre-parity gates but fails normal-default DMD ratios on large
+      functions (0.451/0.315 s, 1.4317x) and control flow (0.272/0.211 s,
+      1.2891x); the other 18 pinned ratios pass. The same-run 1.25x deficits
+      are 57.25/8.25 ms. SH-27 is not complete, and neither a local gain nor
+      the earlier green run on a different compiler source changes that.
+
+      Later opt-in source-partition caching now has clean hosted fixed-point,
+      strict-memory, and exact no-op/edit proof. Its unchanged compiler build
+      skips semantic validation, but at that checkpoint cold and edited COFF
+      builds remained slower than the direct PE default. A further
+      shared-identity cut eliminates redundant full-project symbol
+      preparation from every COFF
+      partition: 11 guarded local pairs on identical 228-source input passed
+      exact object/PE output with 11 wins and cold 32-object medians of
+      31.382/16.794 s. See
+      [`SH27_SHARED_COFF_IDENTITY_EVIDENCE.md`](../SH27_SHARED_COFF_IDENTITY_EVIDENCE.md).
+      Clean hosted fixed-point/cache/representative/strict proof of that
+      source passed, but its strict working-set margin was only 425,984
+      bytes and the separate default-path speed batch found no gain above
+      noise. The clean hosted 11-pair COFF-speed repeat passed with exact
+      objects/PE, 11 wins, and 23.731/12.245 s median baseline/candidate
+      cold builds. Final normal-default C/D parity and stronger RAM headroom
+      are still open; no opt-in result closes SH-27.
+
+      A subsequent selective semantic cache cut authenticates partition hits
+      before flow and acceptance, then validates only changed source groups.
+      Eleven guarded, order-alternated real compiler body edits improved the
+      opt-in median from 4.952 to 2.872 s, 11/11 exact-output wins. Strict
+      20/20 self-build, 278 conformance fixtures, 2/8/32 COFF, exact worker
+      diagnostics, and three representative workloads passed locally. See
+      [`SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md`](../SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md).
+      Clean hosted module/COFF and identity proofs, a fresh clean-profile
+      editor/44-check audit, and public 15-asset integrity subsequently
+      passed. Cold/default economics, retained-project breadth, and two
+      final-source pinned C/D parity runs remain open.
+
+      The next [cold object policy batch](../SH27_COLD_OBJECT_POLICY_EVIDENCE.md)
+      locally replaces the stale two-worker full-miss fallback with four
+      bounded native workers (10/11 guarded paired cold wins; -1.502 s
+      paired median), and routes uncached COFF through the existing verified
+      accelerated digest path. The combined source has a local fixed point
+      and focused COFF proof; hosted RAM/representative certification and
+      the remaining post-worker cold gap still block default promotion.
 
 ARM64 begins only after the Windows x64 backend and independent release loop
 are stable. Linux, freestanding, Native, and Native-provider target records

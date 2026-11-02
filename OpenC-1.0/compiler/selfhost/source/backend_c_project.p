@@ -41,6 +41,7 @@ unsafe void c_release_source_context(
     memory.free(context.left_expression_cache);
     memory.free(context.resolved_type_ref_cache);
     memory.free(context.type_cache);
+    memory.free(context.profile_type_seen);
     memory.free(context.argument_next);
     memory.free(context.call_argument_last);
     memory.free(context.call_argument_first);
@@ -162,7 +163,9 @@ unsafe void c_lower_and_emit_function(
     context.profile_expression_positions = 0;
     context.profile_syntax_candidates = 0;
     context.profile_symbol_candidates = 0;
+    usize first_value = context.next_value;
     usize phase_started = process.monotonic_milliseconds();
+    context.native_compact_updates = timings.emission_mode == 2;
     ir_lower_function(context, node, owner - 1);
     usize function_ir_ms =
         process.monotonic_milliseconds() - phase_started;
@@ -174,7 +177,8 @@ unsafe void c_lower_and_emit_function(
     if timings.emission_mode == 1 {
         native_audit_function(context, output, owner - 1, timings.functions);
     } else if timings.emission_mode == 2 {
-        native_emit_function(context, output, timings, owner - 1, entry_module);
+        native_emit_function(context, output, timings, owner - 1, entry_module,
+            first_value);
     } else {
         c_emit_function(context, output, owner - 1, entry_module);
     }

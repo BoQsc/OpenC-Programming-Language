@@ -14,6 +14,7 @@ struct FlowFrontendObservation {
 struct FlowSourceFeatures {
     bool needs_flow;
     bool has_own;
+    bool has_destroy;
 }
 
 unsafe FlowSourceFeatures flow_source_features(
@@ -22,7 +23,8 @@ unsafe FlowSourceFeatures flow_source_features(
 ) {
     FlowSourceFeatures features = FlowSourceFeatures{
         needs_flow = false,
-        has_own = false
+        has_own = false,
+        has_destroy = false
     };
     usize length = text.byte_length(source);
     usize position = 0;
@@ -39,6 +41,10 @@ unsafe FlowSourceFeatures flow_source_features(
         ) {
             features.needs_flow = true;
             features.has_own = true;
+        } else if octet == 100 && starts_with_ascii(
+            source, position, "destroy"
+        ) {
+            features.has_destroy = true;
         } else if octet == 114 && starts_with_ascii(
             source, position, "ref"
         ) {
@@ -136,13 +142,28 @@ unsafe void flow_validate_source(
     ) == source_record {
         source_symbol_end = source_symbol_end + 1;
     }
+    ResolutionParsedSource parsed = resolution_cached_parsed_source(
+        parsed_source_cache, source_record
+    );
     // Flow diagnostics require stateful symbols or one of the constructs below.
     // Prove their absence before allocating another token/syntax tree for this
     // source.  Every uncertain case retains the complete validator.
     FlowSourceFeatures source_features = flow_source_features(
         source, project_has_pointer_symbol
     );
-    bool source_needs_flow = project_has_unsafe_function ||
+    bool has_possible_unsafe_call = project_has_unsafe_function;
+    if has_possible_unsafe_call && parsed.reusable {
+        has_possible_unsafe_call = false;
+        usize call_candidate = 0;
+        while call_candidate < parsed.syntax.length &&
+            !has_possible_unsafe_call {
+            has_possible_unsafe_call = read_record_field(
+                parsed.syntax_data, call_candidate, 0
+            ) == 38;
+            call_candidate = call_candidate + 1;
+        }
+    }
+    bool source_needs_flow = has_possible_unsafe_call ||
         source_features.needs_flow;
     usize flow_symbol = source_symbol_first;
     while flow_symbol < source_symbol_end && !source_needs_flow {
@@ -155,7 +176,34 @@ unsafe void flow_validate_source(
         usize flow_type_kind = read_record_field(type_data, flow_type, 0);
         if flow_kind == resolution_symbol_variable() &&
             read_record_field(detail_data, flow_symbol, 2) != 0 {
-            source_needs_flow = true;
+            // The initialization rule only examines locals with no '=' in
+            // their declaration. A retained error-free parse lets us prove
+            // a scalar local initialized without entering the full flow
+            // analysis. Resource, pointer, ref, and uncertain declarations
+            // keep the old path and diagnostic ordering.
+            bool safe_local = parsed.reusable &&
+                flow_type_kind != 12 && flow_type_kind != 13 &&
+                !flow_symbol_resource_type(
+                    type_data, symbol_data, flow_symbol
+                );
+            if safe_local {
+                usize declaration = read_record_field(
+                    detail_data, flow_symbol, 1
+                );
+                safe_local = declaration < parsed.syntax.length &&
+                    read_record_field(
+                        parsed.syntax_data, declaration, 0
+                    ) == 12 && flow_span_has_byte(
+                        source,
+                        read_record_field(
+                            parsed.syntax_data, declaration, 1
+                        ),
+                        read_record_field(
+                            parsed.syntax_data, declaration, 2
+                        ), 61
+                    );
+            }
+            if !safe_local { source_needs_flow = true; }
         }
         if flow_kind == resolution_symbol_parameter() && (
             read_record_field(detail_data, flow_symbol, 3) == 1 ||
@@ -165,9 +213,6 @@ unsafe void flow_validate_source(
         flow_symbol = flow_symbol + 1;
     }
     if !source_needs_flow { return; }
-    ResolutionParsedSource parsed = resolution_cached_parsed_source(
-        parsed_source_cache, source_record
-    );
     bool parsed_source_reused = parsed.reusable;
     PackedBuffer tokens = parsed.tokens;
     ptr byte token_data = parsed.token_data;
@@ -405,16 +450,30 @@ unsafe void flow_validate_source(
                         process.monotonic_milliseconds() - analysis_started;
                 }
                 analysis_started = process.monotonic_milliseconds();
-                flow_analyze_ownership(
-                    project_source, project_root,
-                    module_data, modules, source_data,
-                    type_data, symbol_data, detail_data, symbols,
-                    token_data, tokens, syntax_data, syntax,
-                    module_index, source_record, function_node,
-                    function_owner, source_symbol_first, source_symbol_end,
-                    ownership_relevant_data, source,
-                    error_data, errors
-                );
+                // Ownership analysis can only produce work for an owned or
+                // resource-typed symbol, or an explicit own/destroy construct.
+                // The source scan and symbol index already establish those
+                // facts once; avoid a second function-body word scan for
+                // every scalar function. Unknown function ownership retains
+                // the complete validator and its original diagnostics.
+                bool ownership_needed = function_owner == 0 ||
+                    source_features.has_own || source_features.has_destroy;
+                if !ownership_needed && read_usize(
+                    ownership_relevant_data,
+                    function_owner * size_of(usize)
+                ) != 0 { ownership_needed = true; }
+                if ownership_needed {
+                    flow_analyze_ownership(
+                        project_source, project_root,
+                        module_data, modules, source_data,
+                        type_data, symbol_data, detail_data, symbols,
+                        token_data, tokens, syntax_data, syntax,
+                        module_index, source_record, function_node,
+                        function_owner, source_symbol_first, source_symbol_end,
+                        ownership_relevant_data, source,
+                        error_data, errors
+                    );
+                }
                 timings.validation_flow_ownership_ms =
                     timings.validation_flow_ownership_ms +
                     process.monotonic_milliseconds() - analysis_started;

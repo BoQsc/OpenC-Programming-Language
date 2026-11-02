@@ -37,8 +37,10 @@ usize ir_op_scope_register() { return 30; }
 usize ir_op_object_construct() { return 31; }
 usize ir_op_object_destroy() { return 32; }
 usize ir_op_target_fault() { return 33; }
+usize ir_op_local_update_immediate() { return 34; }
 
 text ir_opcode_text(usize opcode) {
+    if opcode == ir_op_local_update_immediate() { return "local.update.immediate"; }
     if opcode == ir_op_nop() { return "nop"; }
     if opcode == ir_op_const_integer() { return "const.integer"; }
     if opcode == ir_op_const_float() { return "const.float"; }
@@ -108,7 +110,55 @@ text ir_static_text(usize code) {
     return "==";
 }
 
+unsafe ptr byte ir_grow_record_storage(
+    ptr byte previous,
+    usize used,
+    usize capacity
+) {
+    ptr byte enlarged = memory.alloc(capacity * record_stride());
+    usize words = used * record_stride() / size_of(usize);
+    usize word = 0;
+    while word < words {
+        usize offset = word * size_of(usize);
+        write_usize(enlarged, offset, read_usize(previous, offset));
+        word = word + 1;
+    }
+    memory.free(previous);
+    return ir_pointer_alias(enlarged);
+}
+
+unsafe void ir_reserve_block(ref IrContext context) {
+    if context.blocks.length < context.blocks.capacity { return; }
+    usize capacity = context.blocks.capacity * 2;
+    context.block_data = ir_grow_record_storage(
+        context.block_data, context.blocks.length, capacity
+    );
+    context.blocks.capacity = capacity;
+}
+
+unsafe void ir_reserve_operand(ref IrContext context) {
+    if context.operands.length < context.operands.capacity { return; }
+    usize capacity = context.operands.capacity * 2;
+    context.operand_data = ir_grow_record_storage(
+        context.operand_data, context.operands.length, capacity
+    );
+    context.operands.capacity = capacity;
+}
+
+unsafe void ir_reserve_instruction(ref IrContext context) {
+    if context.instructions.length < context.instructions.capacity { return; }
+    usize capacity = context.instructions.capacity * 2;
+    context.instruction_data = ir_grow_record_storage(
+        context.instruction_data, context.instructions.length, capacity
+    );
+    context.instruction_detail = ir_grow_record_storage(
+        context.instruction_detail, context.instructions.length, capacity
+    );
+    context.instructions.capacity = capacity;
+}
+
 unsafe usize ir_add_block(ref IrContext context, usize name_code) {
+    ir_reserve_block(context);
     usize block = context.blocks.length;
     write_record_field(context.block_data, block, 0, block);
     write_record_field(context.block_data, block, 1, name_code);
@@ -123,6 +173,7 @@ unsafe void ir_add_operand(
     usize immediate_one,
     usize immediate_two
 ) {
+    ir_reserve_operand(context);
     usize operand = context.operands.length;
     write_record_field(context.operand_data, operand, 0, value);
     write_record_field(context.operand_data, operand, 1, immediate_kind);
@@ -144,6 +195,7 @@ unsafe usize ir_emit_instruction(
     usize operand_count,
     bool has_result
 ) {
+    ir_reserve_instruction(context);
     usize result = 0;
     if has_result {
         result = context.next_value;

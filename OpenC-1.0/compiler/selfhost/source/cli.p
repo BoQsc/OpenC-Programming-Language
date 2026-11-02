@@ -89,7 +89,7 @@ text cli_version() {
         }
         return project_slice(version, 0, length);
     }
-    return "1.0.0";
+    return "1.0.1";
 }
 
 void cli_print_help() {
@@ -97,7 +97,7 @@ void cli_print_help() {
     io.println("");
     io.println("usage:");
     io.println("  openc check --project=PROJECT [--output=CHECK-RECORD.json]");
-    io.println("  openc build --project=PROJECT --output=OUTPUT.exe [--timings=TIMINGS.json]");
+    io.println("  openc build --project=PROJECT --output=OUTPUT.exe [--timings=TIMINGS.json] [--no-cache]");
     io.println("  openc run --project=PROJECT [-- PROGRAM-ARGUMENTS...]");
     io.println("  openc fmt (--check|--write) (--project=PROJECT|SOURCE.p) [--output=FORMAT-RECORD.json]");
     io.println("  openc info --project=PROJECT [--context|--sources|--modules|--limits|--dependencies|--target|--types] [--json] [--output=CONTEXT.json]");
@@ -112,6 +112,7 @@ void cli_print_help() {
     io.println("  openc contract-audit --root=ROOT --output=REPORT.json");
     io.println("  openc release --root=ROOT --output=DIR");
     io.println("  openc artifact --project=PROJECT --kind=KIND --output=FILE [--subsystem=console|windows] [--manifest=FILE] [--resource=FILE] [--dll-name=NAME] [--report=REPORT.json]");
+    io.println("  openc module-coff-link --entry=$openc$HASH --output=FILE --object=FILE --sha256=HASH [...]");
     io.println("  openc pe-coff-audit --root=ROOT --artifacts=DIR --output=REPORT.json");
     io.println("  openc com-winrt-audit --root=ROOT --artifacts=DIR --output=REPORT.json");
     io.println("  openc workflow --root=ROOT --output=REPORT.json [--mode=daily|full]");
@@ -122,6 +123,8 @@ void cli_print_help() {
     io.println("  openc target");
     io.println("  openc explain RULE-ID");
     io.println("  openc hash FILE");
+    io.println("  openc interface-fingerprint --project=PROJECT --output=REPORT.json");
+    io.println("  openc artifact --project=PROJECT --kind=module-coff-set --output=PREFIX");
     io.println("  openc --windows-x64-substrate REPORT.json");
     io.println("  openc --native-audit PROJECT REPORT.json");
     io.println("  openc --windows-pe32-runtime SOURCE.p OUTPUT.exe (console|windows) REPORT.json");

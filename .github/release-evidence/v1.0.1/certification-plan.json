@@ -1,0 +1,32 @@
+{
+  "schema": "openc.sh27.certification_plan.v1",
+  "status": "PASS",
+  "compiler_sha256": "7c6f7bbaa5b9ed737a23c5779c560e54e0954d51f8756c412aad7f5ab05d42f5",
+  "functional_source_anchor": "7faeee5635d5eaf2b4d2d5a6a7acfbfb36fd877f",
+  "matching_editor_evidence_commit": "4667fd77ea336bd0fbb760fa727db7ca67e56b39",
+  "production_run": 41502447060,
+  "production_attempts_required": [
+    1,
+    2
+  ],
+  "module_certificates_required": 2,
+  "module_certificate_policy": "Two independent clean hosted jobs on separate immutable commits with identical functional compiler, runtime, library, corpus and test inputs; the committed editor record must identify the exact compiler and VSIX.",
+  "representative_run": 41502447134,
+  "all_original_ratios_per_production_certificate": 20,
+  "samples_per_original_cell": 20,
+  "source_bridges_require_git_diff_verification": true,
+  "all_observations_and_failed_artifacts_retained": true,
+  "retry_until_green_permitted": false,
+  "threshold_changes_permitted": false,
+  "module_runs": [
+    41504201340,
+    41504570950
+  ],
+  "qualified_proof_artifacts": [
+    13170107137,
+    13171490218,
+    13170804572,
+    13172355968,
+    13169027658
+  ]
+}

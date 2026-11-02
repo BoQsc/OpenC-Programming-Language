@@ -18,12 +18,22 @@ void acceptance_report_count(
     io.println(count);
 }
 
+unsafe void acceptance_report_source_count(
+    ref IrContext context,
+    text category,
+    usize count
+) {
+    if context.suppress_acceptance_diagnostics { return; }
+    acceptance_report_count(category, context.source_record, count);
+}
+
 unsafe void acceptance_report_node(
     ref IrContext context,
     text category,
     text reason,
     usize node
 ) {
+    if context.suppress_acceptance_diagnostics { return; }
     io.print("ACCEPTANCE_DETAIL ");
     io.print(category);
     io.print(" ");

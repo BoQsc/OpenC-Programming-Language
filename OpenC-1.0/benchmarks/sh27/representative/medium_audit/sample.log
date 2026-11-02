@@ -1,0 +1,4 @@
+INFO boot 42
+WARN disk 7
+ERROR bad 13
+WARN queue 5

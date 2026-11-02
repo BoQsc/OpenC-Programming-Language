@@ -24,6 +24,9 @@ struct IrContext {
     usize source_record;
     usize function_node;
     usize function_symbol;
+    usize function_alloc_probe_node;
+    usize function_alloc_probe_state;
+    bool native_compact_updates;
     usize function_result;
     usize function_local_first;
     usize function_local_end;
@@ -108,6 +111,22 @@ struct IrContext {
     usize profile_expression_positions;
     usize profile_syntax_candidates;
     usize profile_symbol_candidates;
+    bool profile_type_queries_enabled;
+    ptr byte profile_type_seen;
+    usize profile_type_queries;
+    usize profile_type_cache_hits;
+    usize profile_type_uncached;
+    usize profile_type_distinct_uncached;
+    usize profile_type_repeated_uncached;
+    usize profile_type_failures;
+    usize profile_type_name_uncached;
+    usize profile_type_literal_uncached;
+    usize profile_type_unary_uncached;
+    usize profile_type_binary_uncached;
+    usize profile_type_assignment_uncached;
+    usize profile_type_call_uncached;
+    usize profile_type_other_uncached;
+    bool suppress_acceptance_diagnostics;
 }
 
 struct IrBounds {

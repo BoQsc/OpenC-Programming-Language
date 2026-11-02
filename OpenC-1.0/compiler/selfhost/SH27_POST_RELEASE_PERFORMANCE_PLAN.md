@@ -1,6 +1,17 @@
 # SH-27 post-release integrity and production-performance plan
 
-Status: **ACTIVE — PUBLIC INTEGRITY BASELINE PASS; PERFORMANCE EXPANSION OPEN**
+Status (2026-11-02): **ENGINEERING CERTIFIED; FINAL CANDIDATE AND OWNER PUBLICATION PENDING**.
+Compiler `7c6f7bba...` passes two independent hosted production certificates,
+two cache/package certificates, representative and four-project coverage,
+strict 20-generation closure and pinned local DMD 2.112.0 comparisons.
+The [current qualification](SH27_1_0_1_QUALIFICATION.md) indexes the exact raw
+artifacts and retained failures. Versioned 1.0.1 candidate verification and
+owner-authorized publication remain; the 1.0.0 release stays immutable.
+
+The dependency-ordered remaining work and explicit completion gates are in
+[`SH27_COMPLETION_ROADMAP.md`](SH27_COMPLETION_ROADMAP.md). This file retains
+the original scope and chronological evidence; quantified historical deficits
+are disclosure, not throughput-parity or SH-27 completion claims.
 
 SH-27 begins after the immutable Windows x86-64 Hosted 1.0.0 publication. It
 does not modify or relabel the released artifacts and does not add Linux or
@@ -43,9 +54,11 @@ percentiles, and individual samples are published; selectively favorable
 cases cannot be promoted as the overall result.
 
 SH-27 performance closes only when the representative corpus and harness are
-checked in, MSVC plus Clang and at least one D compiler have executed it on a
-clean Windows runner, OpenC has no correctness or memory regression, and every
-remaining material deficit has either been fixed or is explicitly quantified.
+checked in, the pinned MSVC, Clang, DMD, and LDC comparators pass the 1.25x
+normal-production-mode gate on clean Windows runners, OpenC has no correctness
+or memory regression, and the incremental and real-project gates in
+`SH27_COMPLETION_ROADMAP.md` pass. Quantifying a material deficit is necessary
+disclosure, not completion.
 The first deterministic corpus and bounded harness are now checked in at
 `benchmarks/sh27/CORPUS.json` and
 `compiler/selfhost/benchmark_sh27_production.py`. The automatic/manual
@@ -713,3 +726,83 @@ The accepted four-byte writer is therefore clean-runner verified as a safe
 incremental improvement; no cross-run absolute-time delta is attributed to
 it. A later local harness unit test also passes 10/10 and confirms failed
 paired bootstrap measurements remain available for diagnosis.
+
+An isolated native-source-worker branch,
+`codex/sh27-native-chunk-proof`, first established byte-identical, privately
+buffered source chunks, atomic allocator accounting, and right-sized output
+streams. The apparent no-thread call failure was traced to testing with a
+stale compiler; the actual threaded prototype exposed an unsupported
+absolute callback relocation and a by-reference temporary-copy. After fixing
+both, the opt-in `artifact --source-chunks=4` path runs three native Windows
+threads plus the caller without C-runtime thread support. Successful output
+merges in source order; semantic-error builds suppress worker diagnostics and
+replay them serially after releasing worker arenas. The corrected compiler
+reaches the byte-exact `f4008fc4...34a89231` fixed point, passes 278/278
+native conformance, 25/25 x64 substrate, 10/10 harness tests, byte-exact
+serial/parallel artifacts on four workloads, and both one-error and repeated
+two-error diagnostic comparisons. The largest proof process-tree private peak
+is 306.1 MiB, under the 512 MiB guard.
+
+Eleven order-alternated `artifact` pairs on the final corrected compiler show
+11/11 parallel wins each: control-flow median 0.931 to 0.548 seconds,
+large-functions 1.397 to 0.900 seconds, and compiler self-build 9.471 to
+5.761 seconds. This is meaningful local OpenC-on-OpenC speedup, not a clean-
+runner comparison with C or D. The ordinary `build` path remains serial and
+the release remains untouched. Clean Windows worker workflow run 35823166323
+passes every step at `e5a4daa` and retains JSON artifact `10733434100`.
+This independently confirms fixed-point, output, diagnostic, RAM, and
+majority-speed gates. Before promotion, broaden failure/diagnostic cases,
+test two-worker and adaptive RAM policies, and compare with pinned C/D
+compilers on the same runner. Incremental
+object reuse and representative real-project coverage remain open; SH-27
+cannot yet claim C/D-class throughput or completion. Detailed proof and
+commands are in `SH27_NATIVE_CHUNK_PROOF.md`.
+
+The production comparator harness now accepts opt-in
+`--openc-source-chunks 4` without changing its default serial lane. A
+three-run local partial OpenC/DMD64 2.112.0 pass preserves all compile,
+execution, output, and RAM checks but leaves large and control-flow ratios
+at 2.421x and 2.275x DMD. Clean worker workflow run 35824022202 at
+`fdd0e5a` passes the pinned MSVC, Clang, DMD, and LDC comparator step and
+retains JSON artifact `10734212162`. Job-level success certifies tool
+presence and all correctness, output, execution, and memory gates, not
+throughput parity: the comparator step is evidence-only while parity remains
+a separate explicit gate. The local DMD deficits keep throughput parity open.
+
+A second opt-in Windows x64 worker count now uses one native thread plus the
+caller and leaves the other two chunk slots without private caches. Its
+compiler reaches byte-exact Stage 2/Stage 3 closure at
+`638777db...ac26cb`, passes five-workload byte-equivalence proofs (including
+single-file fallback), both invalid-source diagnostic fixtures, 278/278
+conformance, and 25/25 x64 substrate. Eleven same-command local pairs show
+two-worker control-flow
+0.842 to 0.612 seconds (11/11 wins), large-functions 1.335 to 1.088 seconds
+(10/11), and compiler self-build 9.519 to 6.924 seconds (11/11). Peak
+two-worker Job private is 97.4, 191.7, and 223.0 MiB respectively; the
+large-function four-worker proof peak is 306.1 MiB. A partial three-run
+OpenC/DMD64 corpus still misses parity at 2.917x large and 2.726x control
+flow. Clean workflow run 35826688929 at `51bcb47` passes both worker-count
+proofs, the RAM-savings gate, both sets of paired-speed gates, and the pinned
+C/D comparator step; JSON artifact `10735084414` retains the evidence. The
+256 MiB disk-headroom guard stopped one local 11-pair attempt after ten
+successful pairs; reproducible generated executables were removed and a
+full retry passed. The paired harness now checkpoints each complete pair.
+This adds a lower-RAM choice, not an adaptive production default or a C/D
+throughput solution.
+The same-compiler trade-off verifier requires at least 32 MiB of two-worker
+Job-private savings on control flow, large functions, and self-build; the
+local comparison passes at 64.4, 114.4, and 60.3 MiB. The expanded workflow
+also enforces this gate and both worker-count correctness/speed proofs.
+
+The subsequent DMD-gap investigation and measured backend changes are in
+`SH27_NATIVE_CHUNK_PROOF.md` under “DMD throughput gap.” Clean pinned
+Windows run 35855850195 at `ad71baf` passes every correctness and memory
+step but reports adaptive OpenC/DMD ratios of 1.875x on large functions
+and 1.913x on control flow. Explicit four-chunk control flow is 1.630x;
+the adaptive threshold was therefore moved down to 192 KiB for four-file
+projects, subject to the unchanged 512 MiB process-tree guard. Local paired
+control-flow compilation improves 85 ms with 11/11 wins, while large
+functions and self-build pass non-regression. Clean confirmation of this
+policy change is pending. Next are block-local SSA/register reuse and
+parallel declaration parsing with deterministic merge. The 1.25x clean-host
+throughput gate remains open; code-size and local wins do not close it.

@@ -78,9 +78,17 @@ unsafe usize ir_lower_conversion(
             context, ir_type_ref_within(context, node)
         );
         usize queried_value = acceptance_type_size(context, queried_type);
-        if starts_with_ascii(context.source, start, "align_of") &&
+        bool alignment_query = starts_with_ascii(context.source, start, "align_of");
+        if alignment_query &&
             queried_value > cast(usize, 8) {
             queried_value = 8;
+        }
+        if context.native_layout_state_cache != null {
+            NativeLayout queried_layout = native_layout(context, queried_type, 0);
+            if queried_layout.valid {
+                queried_value = queried_layout.size;
+                if alignment_query { queried_value = queried_layout.alignment; }
+            }
         }
         return ir_emit_value(
             context, ir_op_const_integer(), type_id, node,

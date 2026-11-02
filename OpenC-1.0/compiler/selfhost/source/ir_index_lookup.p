@@ -76,8 +76,8 @@ unsafe usize ir_indexed_find_local(
             );
             if kind == resolution_symbol_parameter() ||
                 (declaration_start < use_start &&
-                 resolution_block_contains_use(
-                    context.syntax_data, context.syntax,
+                 ir_indexed_block_contains_use(
+                    context,
                     read_record_field(context.detail_data, symbol, 1),
                     use_start
                  )) {
@@ -94,6 +94,23 @@ unsafe usize ir_indexed_find_local(
         );
     }
     return selected;
+}
+
+// The parent-position index is already built before acceptance and remains
+// valid through lowering. Do not rediscover the declaration's lexical block
+// by scanning every syntax node for every first-visit name resolution.
+unsafe bool ir_indexed_block_contains_use(
+    ref IrContext context, usize declaration, usize use_start
+) {
+    if context.block_parent_cache == null {
+        return resolution_block_contains_use(context.syntax_data,
+            context.syntax, declaration, use_start);
+    }
+    usize block = ir_block_parent(context, declaration);
+    if block >= context.syntax.length { return true; }
+    usize start = read_record_field(context.syntax_data, block, 1);
+    usize length = read_record_field(context.syntax_data, block, 2);
+    return use_start >= start && use_start - start < length;
 }
 
 unsafe usize ir_indexed_find_member(

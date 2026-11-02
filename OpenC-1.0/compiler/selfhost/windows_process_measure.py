@@ -4,10 +4,15 @@ from __future__ import annotations
 
 import ctypes
 from ctypes import wintypes
+import math
 import os
 import subprocess
 import tempfile
 import time
+
+if os.name == "nt":
+    import _winapi
+    import msvcrt
 
 
 PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
@@ -16,6 +21,9 @@ JOB_OBJECT_EXTENDED_LIMIT_INFORMATION_CLASS = 9
 JOB_OBJECT_LIMIT_PROCESS_MEMORY = 0x00000100
 JOB_OBJECT_LIMIT_JOB_MEMORY = 0x00000200
 JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x00002000
+WAIT_OBJECT_0 = 0
+WAIT_TIMEOUT = 0x00000102
+CREATE_SUSPENDED = 0x00000004
 
 
 class ProcessMemoryCountersEx(ctypes.Structure):
@@ -89,6 +97,10 @@ def _job_api() -> ctypes.WinDLL:
     kernel32.TerminateJobObject.restype = wintypes.BOOL
     kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
     kernel32.CloseHandle.restype = wintypes.BOOL
+    kernel32.WaitForSingleObject.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+    kernel32.WaitForSingleObject.restype = wintypes.DWORD
+    kernel32.ResumeThread.argtypes = [wintypes.HANDLE]
+    kernel32.ResumeThread.restype = wintypes.DWORD
     return kernel32
 
 
@@ -174,11 +186,13 @@ def run_measured(
 ) -> dict[str, object]:
     if os.name != "nt":
         raise RuntimeError("Windows process measurement is Windows-only")
-    if sample_interval <= 0:
+    if not math.isfinite(sample_interval) or sample_interval <= 0:
         raise ValueError("sample interval must be positive")
     if max_captured_output_bytes <= 0:
         raise ValueError("captured output limit must be positive")
-    if timeout_seconds is not None and timeout_seconds <= 0:
+    if timeout_seconds is not None and (
+        not math.isfinite(timeout_seconds) or timeout_seconds <= 0
+    ):
         raise ValueError("timeout must be positive")
     kernel32 = _job_api()
     job = _create_job(kernel32, max_private_bytes)
@@ -196,6 +210,69 @@ def run_measured(
         kernel32.CloseHandle(job)
 
 
+class _JobProcess:
+    """Keep the primary thread stopped until its process is in the Job."""
+
+    def __init__(self, command, *, cwd, environment, stdout, stderr, kernel32, job):
+        self.returncode = None
+        self._handle = None
+        process = _winapi.GetCurrentProcess()
+        inherited = []
+        thread = None
+        with open(os.devnull, "rb") as stdin:
+            try:
+                for stream in (stdin, stdout, stderr):
+                    inherited.append(_winapi.DuplicateHandle(
+                        process, msvcrt.get_osfhandle(stream.fileno()), process,
+                        0, True, _winapi.DUPLICATE_SAME_ACCESS))
+                startup = subprocess.STARTUPINFO()
+                startup.dwFlags |= subprocess.STARTF_USESTDHANDLES
+                startup.hStdInput, startup.hStdOutput, startup.hStdError = inherited
+                # The explicit allowlist keeps concurrent launches from
+                # inheriting each other's temporary output handles.
+                startup.lpAttributeList = {"handle_list": inherited}
+                self._handle, thread, self.pid, _ = _winapi.CreateProcess(
+                    None, subprocess.list2cmdline([os.fsdecode(x) for x in command]),
+                    None, None, True, CREATE_SUSPENDED, environment,
+                    os.fsdecode(cwd), startup)
+                if not kernel32.AssignProcessToJobObject(job, self._handle):
+                    raise ctypes.WinError(ctypes.get_last_error())
+                previous = kernel32.ResumeThread(thread)
+                if previous != 1:
+                    if previous == 0xFFFFFFFF:
+                        raise ctypes.WinError(ctypes.get_last_error())
+                    raise RuntimeError(f"unexpected primary-thread suspend count: {previous}")
+            except BaseException:
+                if self._handle is not None:
+                    try:
+                        if _winapi.WaitForSingleObject(self._handle, 0) != WAIT_OBJECT_0:
+                            _winapi.TerminateProcess(self._handle, 1)
+                        _winapi.WaitForSingleObject(self._handle, _winapi.INFINITE)
+                    finally:
+                        self.close()
+                raise
+            finally:
+                if thread is not None:
+                    _winapi.CloseHandle(thread)
+                for handle in inherited:
+                    _winapi.CloseHandle(handle)
+
+    def poll(self):
+        if self.returncode is None and _winapi.WaitForSingleObject(self._handle, 0) == WAIT_OBJECT_0:
+            self.returncode = _winapi.GetExitCodeProcess(self._handle)
+        return self.returncode
+
+    def wait(self):
+        _winapi.WaitForSingleObject(self._handle, _winapi.INFINITE)
+        self.returncode = _winapi.GetExitCodeProcess(self._handle)
+        return self.returncode
+
+    def close(self):
+        if self._handle is not None:
+            _winapi.CloseHandle(self._handle)
+            self._handle = None
+
+
 def _run_measured_in_job(
     command: list[str],
     *,
@@ -211,21 +288,11 @@ def _run_measured_in_job(
 ) -> dict[str, object]:
     started = time.perf_counter()
     with tempfile.TemporaryFile() as stdout_file, tempfile.TemporaryFile() as stderr_file:
-        process = subprocess.Popen(
-            command,
-            cwd=cwd,
-            env=environment,
-            stdout=stdout_file,
-            stderr=stderr_file,
-        )
-        # Assignment follows process creation, so commits made before this
-        # call are not retroactively limited. Sample the whole-job peak too.
-        if not kernel32.AssignProcessToJobObject(job, process._handle):
-            error = ctypes.get_last_error()
-            process.kill()
-            process.wait()
-            raise ctypes.WinError(error)
-        handle = _open_process(process.pid)
+        process = _JobProcess(command, cwd=cwd, environment=environment,
+            stdout=stdout_file, stderr=stderr_file, kernel32=kernel32, job=job)
+        # Retain this handle through final peak accounting, even for an
+        # executable that finishes before the first observation.
+        handle = process._handle
         peak_working_set = 0
         peak_pagefile = 0
         peak_private = 0
@@ -284,16 +351,27 @@ def _run_measured_in_job(
                     break
                 if (
                     max_working_set_bytes is not None
-                    and counters.WorkingSetSize > max_working_set_bytes
+                    and peak_working_set > max_working_set_bytes
                 ):
                     memory_limit_exceeded = True
                     memory_limit_name = "working_set_bytes"
                     memory_limit_bytes = max_working_set_bytes
-                    memory_observed_bytes = counters.WorkingSetSize
+                    memory_observed_bytes = peak_working_set
                     kernel32.TerminateJobObject(job, 1)
                     break
-                time.sleep(sample_interval)
+                # A sampling sleep quantizes observed process exit by up to
+                # a full interval. Wait on the process instead: keep sampling
+                # RAM at the requested cadence, but wake immediately on exit.
+                wait_seconds = sample_interval
+                if timeout_seconds is not None:
+                    remaining = timeout_seconds - (time.perf_counter() - started)
+                    wait_seconds = min(wait_seconds, max(0.0, remaining))
+                wait_ms = min(0xFFFFFFFE, math.ceil(wait_seconds * 1000))
+                waited = kernel32.WaitForSingleObject(process._handle, wait_ms)
+                if waited not in (WAIT_OBJECT_0, WAIT_TIMEOUT):
+                    raise ctypes.WinError(ctypes.get_last_error())
             process.wait()
+            execution_finished = time.perf_counter()
             peak_job_private = max(
                 peak_job_private, _job_peak_private(kernel32, job)
             )
@@ -317,23 +395,31 @@ def _run_measured_in_job(
                 peak_private = max(peak_private, counters.PrivateUsage)
             except OSError:
                 pass
+            # Windows retains the high-water mark after a brief peak or exit;
+            # sampling only the live working set can miss an actual breach.
+            if (max_working_set_bytes is not None
+                    and peak_working_set > max_working_set_bytes
+                    and not memory_limit_exceeded):
+                memory_limit_exceeded = True
+                memory_limit_name = "working_set_bytes"
+                memory_limit_bytes = max_working_set_bytes
+                memory_observed_bytes = peak_working_set
+        except BaseException:
+            kernel32.TerminateJobObject(job, 1)
+            process.wait()
+            raise
         finally:
-            kernel32.CloseHandle(handle)
+            process.close()
 
-        def captured(file: object) -> tuple[str, bool]:
-            file.flush()
-            file.seek(0)
-            data = file.read(max_captured_output_bytes + 1)
-            truncated = len(data) > max_captured_output_bytes
-            return (
-                data[:max_captured_output_bytes].decode("utf-8", errors="replace"),
-                truncated,
-            )
-
-        stdout, stdout_truncated = captured(stdout_file)
-        stderr, stderr_truncated = captured(stderr_file)
+        stdout, stdout_truncated = _read_captured_output(
+            stdout_file, max_captured_output_bytes)
+        stderr, stderr_truncated = _read_captured_output(
+            stderr_file, max_captured_output_bytes)
     return {
-        "elapsed_seconds": round(time.perf_counter() - started, 3),
+        "elapsed_seconds": round(execution_finished - started, 6),
+        "timing_basis": "parent_perf_counter_suspended_launch_to_process_exit_v3",
+        "job_assigned_before_child_execution": True,
+        "measurement_wall_seconds": round(time.perf_counter() - started, 6),
         "sample_interval_seconds": sample_interval,
         "samples": samples,
         "peak_working_set_bytes": peak_working_set,
@@ -351,3 +437,10 @@ def _run_measured_in_job(
         "stdout_truncated": stdout_truncated,
         "stderr_truncated": stderr_truncated,
     }
+
+
+def _read_captured_output(file: object, limit: int) -> tuple[str, bool]:
+    file.flush()
+    file.seek(0)
+    data = file.read(limit + 1)
+    return data[:limit].decode("utf-8", errors="replace"), len(data) > limit

@@ -1,0 +1,638 @@
+# SH-27 execution plan: finish the compiler, then certify the release
+
+Current checkpoint (2026-11-02): **engineering certified; candidate verification and publication pending**.
+Compiler `7c6f7bba...` retains compact checked updates and starts an owned
+identity worker during declarations. Both planned hosted cold comparisons
+qualify above their null controls. Strict 20/20, 28 worker failures, 30 cache
+cases, full native workflow 19/19, 32 integer/fallback cases and fresh editor/
+finalization pass. Both restricted-host large DMD ratios meet 1.20x at
+1.087x/1.133x using pinned DMD 2.112.0. Both final-compiler hosted production
+certificates pass all 20 original ratios, the actual negative CLI and both
+scaling suites. Both independent cache/package certificates pass, including
+medium cold and every warm/edit pair. Freeze and verify the publication set, then obtain
+owner authorization for 1.0.1. Do not start another optimization round while
+this candidate's required gates pass. Current proof is indexed in the
+[qualification record](SH27_1_0_1_QUALIFICATION.md).
+
+Preceding checkpoint (2026-11-02): **final certification was still open**.
+Compiler `f97d4610...` replaces proven native local updates with a normalized
+checked IR operation. Original large-corpus IR falls from 105,229 to 31,501;
+the independent 31-pair target gain is above its null floor. Both planned
+four-CPU DMD runs now pass public ceilings and the 1.20x large engineering
+target (1.050x/1.120x). Full local correctness, strict-20, cache, ABI and 32
+integer-boundary/fallback cases pass on the exact canonical fixed point.
+The preceding `49f36bb` hosted production/module/representative/batch jobs
+pass, but those are not certificates for this new source. Worker, lexer,
+literal, scratch and dispatch portfolios remain unpromoted. Complete fresh
+editor/release proof, certify this final source twice on all five hosted tools,
+then complete owner-authorized publication. Fresh editor and native relocated
+release/manifest checks now pass on `f97d4610...`; the hosted repeats remain.
+See the
+[qualification record](SH27_1_0_1_QUALIFICATION.md) for hashes and findings.
+
+Latest checkpoint: `1859f47f...` prepares a frontend temporary on a second
+joined job while PE linking runs, and commits after PE success. Stable owner
+pointers clean up late-populated state. The retained audit app exposed an
+unsorted-module/source-order fallback; native v5 keys and frontend v3 identity
+now preserve those independent orders. Locked commits, failed PE cleanup,
+named layouts, selective edits and rehashed wrong-source-order records have
+detecting tests. Current local 27 worker faults, 30 cache cases, strict 20/20,
+278 conformance, 25 ABI, overflow-COFF and source-cache proofs pass. The prior
+hosted module run failed medium cold (+11.218 ms against 0.733 ms null).
+Current-source hosted production (20/20 ratios, 20 samples/cell), module/cache
+economics and strict 20/20 now pass with downloaded raw artifacts verified.
+The medium cold delta is +6.419 ms, inside the existing five-percent budget;
+warm/edit win 11/11. Two constrained DMD runs pass every available public
+ceiling; large remains 1.228x/1.233x against the 1.20x engineering target.
+The early-snapshot/fused-declaration portfolio does not beat measured null
+noise and remains isolated. Independent same-source hosted production and
+module/strict/cache repeats now pass with downloaded artifacts verified.
+Clean editor and relocated release proofs pass after correcting nine omitted
+compiler sources. Complete the project/requirement audit, deliberate CLI
+parity-failure proof and versioned publication; SH-27 is active. The zero-allocation
+batch failed its independent repeat and was removed.
+
+Status: **active, not complete**. This is the ordered engineering checklist for
+SH-27. `SH27_COMPLETION_ROADMAP.md` retains the detailed measurements and
+decision history; `SH27_TYPED_EXPRESSION_CUTOVER.md` is the semantic design
+contract. An isolated prototype, a green evidence-only workflow, or one lucky
+comparator run does not complete a step below.
+
+Latest checkpoint (2026-10-24): the [saved-object hash cut](SH27_SAVED_LINK_HASH_EVIDENCE.md)
+reduces project-free 32-object relink time from 1.232 to 0.073 seconds in
+11/11 exact-output pairs. Optional system SHA and forced-unavailable fallback,
+corruption/size tests, 278 conformance cases and strict 20/20 pass locally.
+Clean hosted module/COFF and strict 20/20 pass; independent saved-link pairs
+win 11/11 at 2.481/0.104 s. One artifact-verified 20-sample C/D run passes all
+20 ratios on the same `7f2f503a...` compiler. The independently downloaded
+repeat `40104834876` also passes all 20 ratios on that binary. This reader
+change does not speed ordinary source compilation.
+The compact-index and constant-materialization batches are unpromoted; the
+symbol-target, wide-store and single-buffer writer experiments also failed
+repeatable target gains and are removed. Continue normal-default incremental
+integration, representative cold/edit economics and final-source certification;
+the original constrained-host throughput requirement remains open.
+
+The [native-object default candidate](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md)
+now caches direct-link function records in one atomic bounded bundle and
+integrates reuse into ordinary `build`, with `--no-cache` and a full validating
+retry after late cache-read failure. Current-source fixed point, strict 20/20,
+278 conformance and corruption/edit/invalidation tests pass locally. Frontend
+contributions now replay unchanged files with exact incoming type/name/symbol
+binding; the SHA resolver initializes once per process. The earlier `5b29f1a...`
+now prepares cold identity/keys alongside native workers and hashes the full
+bounded compiler through an optional read-only mapping. Balanced v2 compiler
+and two medium matrices pass cold/warm/edit; medium repeat cold is +7.082 ms
+against 11.153 ms null. All 25 worker setup faults, 30 cache builds, strict
+20/20, 278 conformance, 25 ABI and unavailable mapping/SHA APIs pass. V1 cache
+and general candidate matrices had side-order bugs and cannot qualify speed
+promotion without balanced remeasurement. Its hosted medium cold gate still
+fails (+10.170 ms versus 2.689 ms null), and constrained DMD is inconsistent.
+Preceding `e0299413...` moves cold digest work into the bounded job, reuses
+exact-sized type scratch, releases rejected large snapshots immediately and
+corrects Python/native working-set peak enforcement, including post-exit
+accounting. Corrected-guard 30-case recovery, strict 20/20, conformance, ABI and
+controlled native peak probes pass. Measure remaining publication cost and
+obtain final-source hosted/constrained proof next. Its raw-artifact-verified
+hosted C/D run `40124695875` passes all 20 ratios, but module run `40124695871`
+fails the forced reread retry's 64 MiB cap and medium cold economics.
+The `eaa0017d...` ownership/publication candidate authenticates evicted hits
+before allocating merged streams, releases consumed snapshots, and joins
+native-cache publication concurrently with PE linking. Four diagnostic
+ablations isolate the remaining encoding/I/O cost. Same-size forced-serial
+controls give 9/11 medium and 8/11 compiler wins above their null floors;
+normal-default cold economics still needs independent hosted qualification.
+Local retry, 30-case recovery and all 26 worker setup faults pass. Complete
+remaining exact-source correctness/resource proof, then retain hosted and
+constrained repeats before promotion. Serial and oversized-source
+projects still use direct compilation; a compiler-only win cannot close Step 6.
+Current COFF-lifetime successor `964a8e71...` releases selected native records
+after serialization and the written COFF owner before authenticated readback.
+It fixes the separately reproduced serial fresh-COFF 64 MiB peak failure and
+passes overflow/cached/fresh/seeded closure and module-boundary tests locally.
+Source `e7a41d5` is running fresh hosted production, module and representative
+proof. Its representative runner pin adds a new image identity with exactly
+the already reviewed compiler/linker/DMD bytes. Certify this source, not its
+predecessor; representative breadth, repeated margin and release remain open.
+
+Previous checkpoint (2026-10-16, architecture batch): source `6ad7ba9` has one
+raw-artifact-verified hosted 20/20 C/D pass with exact compiler/source hashes;
+the independent local large-function DMD failure at 1.263x remains open.
+Four [parser operand/operator candidates](SH27_PARSER_OPERAND_BATCH_NO_GO.md)
+fail to qualify a target speed gain and all trial source is removed. Next
+replace the source-byte-sized successor index with compact occupancy and
+exact boundary queries; require a dense differential oracle and original
+protected lanes before promotion. No incremental/project/release gate is waived.
+
+Previous checkpoint (2026-10-16, function facts/small parent sets): compiler
+`27a1f830...` passes exact three-stage bootstrap, strict 20/20, 278 conformance,
+25 ABI checks, 96 differential parent cases and all chunk/failure regressions.
+The separately versioned 1,024-operation function case gains 70.632 ms,
+11/11 wins above 4.074 ms null. Production-v1 large's independent 31-pair
+gain is below null; local 20-sample DMD passes once at 1.070x, then fails at
+**1.263x** (2.843 ms public / 14.055 ms internal deficit). Control is 0.786x
+on the repeat. Keep the original throughput requirement open. Obtain clean
+exact-source proof and execute the [parser-owned fact handoff](SH27_FUNCTION_SOURCE_FACT_EVIDENCE.md)
+against the new profile; do not replace the five-workload gate with the added
+scaling test. Incremental/project/release closure still waits on cold speed.
+
+Previous checkpoint (2026-10-16): the integrated candidate's independent
+20-sample four-CPU repeat is **1.363x large / 0.740x control** against DMD.
+Large fails the unchanged 1.25x ceiling; the first 1.202x pass is not sustained
+parity. All available non-parity checks pass. Exact-source clean runs at
+`f6fa527` (`38909638831`, `38912021927`) now each pass all 20 comparator
+checks with 20 samples per cell and matching raw artifacts. Resolve cold
+throughput before advancing incremental/project/release closure.
+
+Previous checkpoint (2026-10-16, integrated native pipeline): the
+[combined preparation/control/worker cut](SH27_INTEGRATED_NATIVE_PIPELINE_EVIDENCE.md)
+wins 23/31 large-function pairs at -16.170 ms versus 12.099 ms null, while
+unrestricted/self-build lanes are flat and protected lanes pass. Strict 20/20,
+278 conformance, exact 2/4-chunk outputs/diagnostics, 25 ABI checks and 15
+worker-setup fault variants pass. Fresh four-CPU DMD is **1.202x large /
+0.697x control**: all five available public ceilings pass once; absent local
+C/LDC tools still prevent full certification, and the 1.20x margin is not
+closed. Obtain clean exact-source and independent constrained-host proof,
+then finish the original incremental/project/release gates. SH-27 is active.
+
+Previous checkpoint (2026-10-16): the [indexed scope/parameter handoff](SH27_INDEXED_BINDING_EVIDENCE.md)
+removes whole-syntax and whole-project symbol scans from consumers of already
+built indexes. Both four-CPU target lanes win 11/11 pairs above null noise
+(-32.5/-63.9 ms); unrestricted target lanes and real self-build also win
+11/11. Strict 20/20, 278 conformance and focused diagnostics/ABI checks pass.
+Fresh four-CPU DMD ratios are **1.272x large / 0.723x control**: large still
+needs 4 ms for the public ceiling or 13 ms internal headroom in that run.
+Keep SH-27 active. Close the remaining large margin, then complete Steps
+6-8; clean exact-source CI is still required for this batch.
+
+Previous checkpoint (2026-10-15, resource-profile audit): the corrected-basis
+hosted run 38693328802 passes all 20 ratios on retained compiler `91573ac5...`,
+but the separately pinned four-logical-CPU profile reproduces **1.459x large
+and 1.277x control**. The same-run internal-margin budgets are **47/8.5 ms**.
+See [`SH27_FOUR_CPU_PROFILE_EVIDENCE.md`](SH27_FOUR_CPU_PROFILE_EVIDENCE.md).
+The lowering-scratch batch was flat and removed. A separately reproduced
+array-root/operand/layout correctness defect now has a fixed-point candidate,
+278/278 conformance, a detecting regression, and strict 20/20 proof; see
+[`SH27_ARRAY_INITIALIZER_EVIDENCE.md`](SH27_ARRAY_INITIALIZER_EVIDENCE.md).
+Four-CPU/unrestricted paired non-regression and self-build checks now pass;
+final-source CI is still required. This is not a throughput fix.
+Candidate architecture selection must now include the failing four-CPU
+profile and preserve unrestricted and self-build lanes. Steps 2-4 remain
+ahead of default-cache promotion and new platforms.
+
+Previous checkpoint (2026-10-15): the retained compiler is unchanged at
+`91573ac5...`; its October 14 exact-source hosted five-compiler artifact is
+verified as one `PASS_PARITY`. The observer now wakes on process exit instead
+of sleeping to the next memory sample and excludes post-exit output reading.
+All 20 harness and nine matrix decision tests pass. A five-candidate batch
+and independent integration test failed to reproduce a qualifying target
+gain, so no compiler edit was promoted. See
+[`SH27_PROCESS_EXIT_TIMING_EVIDENCE.md`](SH27_PROCESS_EXIT_TIMING_EVIDENCE.md).
+A fresh corrected-basis 20-sample run of the unchanged compiler passes all
+five available DMD ratios (large 1.135x, control 0.922x), without certifying
+absent C/LDC tools or attributing the cross-run difference to a compiler edit.
+Obtain corrected-basis clean-host proof and continue the normalized
+semantic/lowering architecture. Remaining project,
+default incremental, repeated certification, and release gates are unchanged.
+
+Previous checkpoint (2026-10-14): the migrated host's pinned baseline reproduces
+a 1.301x DMD large-function deficit. The initial native argument snapshot
+candidate passed all five available DMD ratios; after a required short-CLI
+constant-budget fix, the fresh 20-sample run measures **1.263x** large, with
+the other four lanes passing. Strict 20/20 closure and correctness/runtime
+tests pass on the corrected binary. Its measured
+small/many-file gains are stronger than the noisy large/control changes;
+full self-build is flat. See
+[`SH27_ARGUMENT_SNAPSHOT_EVIDENCE.md`](SH27_ARGUMENT_SNAPSHOT_EVIDENCE.md).
+Hosted final-source C/D proof and the remaining incremental/project/release
+steps below are still required; the old four-CPU host's gap is not erased.
+
+Current 2026-09-27 checkpoint: the opt-in source-partition cache now skips
+authenticated unchanged-source flow and acceptance work. Its guarded
+11-pair compiler body-edit proof won 11/11 at 4.952/2.872 s medians, with
+exact objects/PE and local strict RAM, 20/20 self-build, and 278 conformance
+passes. See [`SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md`](../../../SH27_SELECTIVE_SEMANTIC_CACHE_EVIDENCE.md).
+The clean hosted module/COFF proof, fresh clean-profile VS Code check,
+matching native finalization 44/44, and immutable public 15/15 asset check
+also passed on this compiler binary.
+Step 6 is still open: this does not yet solve cold-build economics or promote
+the cache to the normal compiler path, and later steps require final-source
+hosted parity and release certification.
+The next cold-COFF cut now reuses retained resolution syntax for stable symbol
+identity, removing a redundant full-project reparse. Its 11-pair guarded
+matrix won 7/11 with byte-exact output and a -0.432 s median paired delta;
+local strict 20/20, cache/edit, COFF, and 278 conformance gates passed. Cold
+cache still trails direct PE by about 0.97 s on the same host. See
+[`SH27_COFF_IDENTITY_REUSE_EVIDENCE.md`](../../../SH27_COFF_IDENTITY_REUSE_EVIDENCE.md).
+Its exact-source clean hosted module/COFF and independent identity-pair
+workflows passed. They do not certify normal-default C/D parity.
+The 20-sample local DMD-only cross-host diagnostic in
+[`SH27_LOCAL_CROSS_HOST_DMD_EVIDENCE.md`](SH27_LOCAL_CROSS_HOST_DMD_EVIDENCE.md)
+fails the 1.25x ceiling for large functions, control flow, many files, and
+small single file on both the earlier hosted-green and latest executables.
+The latest source's large/control/many-file local deficits are about
+97/49/50 ms. This is not a new-source regression or a full five-compiler
+release gate, but it makes a broad C/D-class claim premature and puts
+first-visit/critical-worker throughput back ahead of cache policy work.
+
+## Definition of done
+
+The normal Windows x64 OpenC compiler, built to its byte-exact self-hosting
+fixed point without D, TinyCC, Python, a C compiler, or a Microsoft CRT in its
+normal compile path, must:
+
+1. Compile and link the five versioned SH-27 corpus workloads at no more than
+   **1.25x** each pinned MSVC, Clang, DMD, and LDC median on the same clean
+   runner (20/20 checks). Aim for **1.20x** internally so a borderline pass is
+   not mistaken for sustained parity. Require this on **two independent clean
+   normal-default runs** of the *same final compiler source*, at least five
+   samples per tool per workload. Compare within runs, never across runners.
+   Also investigate any repeatable failure on a separately pinned host;
+   two wins on one runner class are not evidence of cross-host parity.
+2. Preserve all current language, diagnostic, executable, x64 substrate,
+   self-host, deterministic-byte, and memory proofs. In particular, the
+   20-generation self-build must obey 64 MiB child working set and 256 MiB
+   child private bytes; the Windows Job/process tree stays within 512 MiB.
+   Do not weaken checked arithmetic or safety semantics to win benchmarks.
+3. Provide real, content-validated incremental object reuse and pass a
+   separately versioned representative project suite, including cold, warm,
+   no-op, implementation edit, public-interface edit, parallel batch, complete
+   self-build, execution, and process-tree RAM lanes.
+4. Preserve the immutable `v1.0.0` tag/assets, publish raw evidence and known
+   limitations, route any release-critical findings, and use the ordinary
+   owner-authorized process for a new release. Linux/freestanding/ARM64 and
+   unsolicited external review responses are **not** SH-27 prerequisites.
+
+The historical same-run deficit was not small. On the independent
+[parallel-declaration repeat](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35916904066),
+OpenC/DMD was 0.677/0.349 s on `large_functions` and 0.392/0.234 s on
+`control_flow`: approximately **241/100 ms** must leave the OpenC wall time
+to reach the public 1.25x ceilings on that runner, or **258/111 ms** for the
+1.20x engineering margin. These are historical design budgets, not an
+across-run speedup estimate. The unchanged current compiler source has now
+passed two independent clean 20-sample normal-default runs on the pinned
+hosted setup. See `SH27_NORMAL_DEFAULT_PARITY_REPEAT_EVIDENCE.md`. That
+replicates the synthetic parity gate, but cannot certify the final source
+until the incremental, representative-project, strict-memory, correctness,
+and release work below is complete and any source changes are retested.
+
+## Work order and stop/go decisions
+
+| ID | Deliverable | Must pass before advancing |
+| --- | --- | --- |
+| 0. Freeze proof | Pin source, corpus, comparators, runner, commands, current compiler binaries, and raw baseline. | Reproduce the remaining gap and keep an immutable baseline for same-host A/B. |
+| 1. Account for wall time | Instrument nonoverlapping critical-path phases and allocations; compare the relevant pinned DMD implementation. | Explain at least 80% of failing-lane wall time; give a falsifiable millisecond budget for the next architecture. |
+| 2. Replace first-visit semantics | One dependency-aware typed-expression/assignment path, not a new memo cache. | Correct `check` and native artifact behavior; material end-to-end gain under RAM and self-build guards. |
+| 3. Reuse semantic facts in lowering | Native lowerer consumes the same resolved symbols, children, values, and types. | Remove old duplicated scans/stores, prove exact behavior, rerun paired measurements. |
+| 4. Remove the next largest serial cost | Based on the new profile, execute the backend value-location/compact-IR cut or another *measured* front-end architecture. | Close the remaining large/control wall budget without moving it to self-build or memory. |
+| 5. Stabilize production policy | Recheck adaptive worker count, deterministic merging, fallback, and scratch ownership on small and large projects. | Normal default, not an opt-in mode, wins and stays within every declared memory cap. |
+| 6. Implement true incremental builds | Dependency/interface fingerprints, deterministic COFF reuse, atomic cache, correct invalidation and relink. | Warm/no-op/edit outputs and diagnostics equal clean builds; demonstrated object reuse and speed. |
+| 7. Validate real projects | Add versioned equivalent C/D/OpenC projects and compiler self-build scaling. | No hidden cold/warm/build/execution/RAM cliff; document any unavoidable semantic differences. |
+| 8. Certify final source | Run complete correctness, 20/20 pinned parity twice, and all production/release-integrity checks. | All gates pass on the *same* final source; publish artifacts and then close SH-27. |
+
+When a clean large/control deficit is open, Steps 2-4 take priority over
+incremental caching, new platforms, or tiny parser/cache/peephole changes.
+Two replicated current-source hosted parity passes now justify progressing
+Steps 6-7 in parallel with the remaining architecture/RAM audit. The pinned
+four-core local DMD failure reopens the broader throughput question even for
+that hosted-green source, so Steps 2-4 have priority again. Steps 6-7 are
+required for full SH-27 closure, not substitutes for throughput.
+The isolated PreparedSource boundary has exact-output proof, but function
+workers are still unsafe because first-visit caches and derived types are
+source-global mutable state; see `SH27_FUNCTION_WORK_OWNERSHIP_GATE.md`.
+
+## Broad candidate batch, not serial micro-optimizations
+
+The first throughput cycle started three **independent architectural cuts**
+from the same `6794d56` baseline. They are competing hypotheses, not three
+changes to merge blindly:
+
+| Candidate | Wall-time hypothesis | Decisive rejection test |
+| --- | --- | --- |
+| Normalized typed operations | Acceptance and native lowering repeat source-operator, child, symbol, and type discovery; one bounded handoff replaces both paths. | Exact fixed point/diagnostics/runtime/RAM, then paired large/control/self-build wall gain; mere cache-hit reduction is insufficient. |
+| Call-heavy critical path | The first large-function source owns the call-heavy entry path and was critical in 11/11 local runs; restructure call resolution/lowering as a coherent path. | First-chunk and whole-project wall must both fall without moving cost to control or self-build. |
+| Bounded function scheduling | Whole-source worker ownership leaves a measured critical tail; function work may be distributable after source-local semantic state is frozen. | If ownership, deterministic merge, or 64/256/512 MiB guards cannot be preserved, reject the split rather than adding another worker. |
+
+Develop and correctness-check these in isolated worktrees. Heavy compiler
+builds and timing runs stay **serial** on this host to avoid falsifying the
+RAM result. A common `benchmark_sh27_candidate_matrix.py` accepts fixed-point
+compiler executables, freezes one corpus, rotates candidate order, alternates
+adjacent baseline/candidate samples, runs a baseline-vs-baseline null control
+for host jitter, and writes raw guarded results for both failing workloads.
+With `--require-gain`, a result must exceed that null median absolute paired
+delta as well as win a majority of pairs. The matrix is a triage tool, not
+the final parity gate. Codegen candidates may opt out of cross-revision PE
+byte identity, but the matrix still requires each revision to be deterministic
+and every executed program's exit/stdout/stderr to match exactly:
+each surviving candidate also needs complete self-build, strict child/Job
+RAM, conformance, and the pinned clean five-compiler run. Integrate survivors
+one at a time and remeasure the combination; nonadditive wins or regressions
+are grounds to discard or redesign a cut. If none closes enough of the DMD
+gap, rerank architectural cuts against the measured critical path rather than
+assuming a compact backend or another cache experiment will help.
+
+The first broad batch is resolved in `SH27_CANDIDATE_PORTFOLIO.md`.
+Indexed calls, packed/eager typed records, direct value/slot cuts, and
+validator/lowering fusion were isolated, guarded, and compared; none survived
+the clean two-lane throughput gate. The fused cut passed 278/278 conformance
+and strict 20/20 self-build but saved only 2 ms on clean large functions and
+regressed control flow by 10 ms. A compact child/name sidecar was rejected at
+the design stage because existing node indexes/caches already serve the
+lowerer. This is evidence against these *particular mechanisms*, not typed
+semantic architecture as a whole. The next batch must change first-visit
+representation/ownership rather than repackage another validator sweep.
+
+The [DMD source map at `fb655c9`](https://github.com/dlang/dmd/blob/fb655c9ae95e7da8cc8ce8439b57f4e2c1ec2924/compiler/src/dmd/README.md)
+is a useful architectural comparator, not a license to copy code or a proven
+speed explanation: it distinguishes parser-produced AST, semantic expression
+work, an AST ready for code generation, and expression-to-IR conversion.
+OpenC currently keeps generic `syntax_data` records plus mutable side caches
+in `source/ir.p`; `ir_node_type` in `source/ir_part3.p` can lazily discover a
+type, and `source/ir_part3_uncached.p` repeatedly decodes source/operator
+spans on first visits. The falsifiable next design is to produce compact
+semantically resolved node facts *during required first visits* and let both
+diagnostics and native lowering consume them. DMD's structure motivates the
+comparison; only OpenC's guarded two-lane wall measurements can validate it.
+
+## Current checkpoint (2026-09-26)
+
+| Step | State | Next decisive evidence |
+| --- | --- | --- |
+| 0. Freeze proof | Partial | Keep the scalar-flow source `738bea3`, raw local pairs, and failed-parity clean run `35928451776` as one traceable candidate; do not compare its absolute times to a different runner. |
+| 1. Account for wall time | Partial | The clean `6794d56` first-visit probe attributes the critical worker: acceptance 157/141 ms, lowering 62/32 ms, native emission 32/0 ms at timer resolution, indexing 31/15 ms. The rejected scalar-flow branch would need its own profile if revived. Compare the pinned DMD source architecture, not merely its timings. |
+| 2-3. Fused semantics and lowering | Isolated Phase B2/B3 NO-GO; redesign open | The scalar-sweep fusion was correct but speed-flat/regressive. [Phase B2](https://github.com/BoQsc/OpenC-Programming-Language/blob/89dd8d4/OpenC-1.0/compiler/selfhost/SH27_FUNCTION_SEMANTIC_IR_B2_EVIDENCE.md) covered 8/8 large and 4/4 control generated sources, but large gained 16 ms while control lost 10 ms; self-build stayed 0/223 eligible. [Phase B3](https://github.com/BoQsc/OpenC-Programming-Language/blob/4c96ee0/OpenC-1.0/compiler/selfhost/SH27_SEMANTIC_IR_B3_REJECTION.md) moved acceptance time into IR lowering and left the critical control worker unchanged at 156 ms; neither lane cleared its same-run null and wins gate. Redesign first visits and self-build eligibility before promotion; no eager extra pass or duplicate generic-record arena. |
+| 4. Remaining architecture | Not implemented | After a first-visit cut, reprofile and attack the largest remaining serial phase. Native value cuts have so far changed code size more than compiler throughput. |
+| 5. Production policy/RAM | Current source passed strict 20/20; final source pending | Normal adaptive mode passed exact-output current-source 20-generation 64/256 MiB child and 512 MiB Job guards. Repeat after any accepted compiler source change. |
+| 6. Incremental objects | Isolated automatic native cache locally and hosted proved; normal-default speed/general scope open | [Automatic cache evidence](https://github.com/BoQsc/OpenC-Programming-Language/blob/2ca15c1/SH27_AUTO_MODULE_CACHE_EVIDENCE.md) proves real hits/missed-module lowering, body/declaration invalidation, atomic publication, authenticated snapshots, and corrupt/oversized/concurrent/storage recovery. Whole-project parsing/resolution/flow/acceptance still runs; interface changes safely invalidate all modules. A 24-file/1153-function exact COFF/PE/runtime proof fixes a linker scratch ceiling and stays within strict RAM. [Hosted run 36263328048](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36263328048) passed all cache/24-file checks and 13 strict checks with 20/20 exact rebuilds. Local no-op/normal medians 0.335/0.325 s and hosted 0.178/0.188 s do not prove a robust normal-build win; the cold speed batch failed its gain/noise gate. Add validated no-op front-end skipping, selective complete transitive keys, general shared-data/runtime support and real-project/default speed before promotion. Stage 2 bootstrap still exceeds strict 64/256 MiB. |
+| 7. Representative projects | Small hosted C/D/OpenC proof passed; broad project gate open | `benchmarks/sh27/representative/SUITE.json` covers a CLI, four-module file-audit app, and the 230-source compiler. The [pinned hosted medium-app proof](SH27_REPRESENTATIVE_HOSTED_PROOF.md) passed 3/3 cold/warm/edit repetitions with exact three-language output. Add a retained user project, a larger multi-module case, and repeated cross-language measurements before claiming representative parity. |
+| 8. Final-source certification | Partial, current-source parity/memory/conformance/editor only | Two independent clean 20/20 normal-default runs, strict 20/20 self-build, native 278/278 conformance, old-release asset integrity, fresh VS Code clean-profile, and direct finalization 44/44 passed on `1b58d5e`. Its daily aggregate was 13/14 because it hardcoded the historical profile path. The [isolated workflow input](https://github.com/BoQsc/OpenC-Programming-Language/blob/e233fee/OpenC-1.0/compiler/selfhost/SH27_WORKFLOW_CLEAN_PROFILE_INPUT.md) now routes an explicit report but correctly still fails two identity checks on its new compiler/VSIX; the final source needs a fresh matching profile and 14/14 rerun. Incremental, representative breadth, and other final checks remain. |
+
+The isolated bounded saved-object reader now also has an independent
+[clean hosted proof](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/36259781271)
+on compiler SHA-256 `b97e857caacdd9c41826ff7355bcf4c1a91baca42959936a5ef0a8a9249f3ef4`:
+all 13 strict stability checks and 20/20 exact chained self-builds passed.
+Its separate paired batch found 0 ms median large/control gain; it is a
+RAM/correctness prerequisite, not a speed promotion. Source and raw artifact
+identities are in the [updated reader evidence](https://github.com/BoQsc/OpenC-Programming-Language/blob/ca37261/SH27_PREALLOCATION_COFF_READER_EVIDENCE.md).
+
+The first broad batch rejected three partial source cuts and one scheduling
+proposal. The independent function queue is a no-go before immutable typed
+facts and bounded worker scratch; its zero-overhead local model is documented
+in `SH27_FUNCTION_SCHEDULING_DECISION.md`. The indexed call-summary candidate
+passed its fixed point and workload correctness/RAM checks, but not a speed
+signal above same-run null noise, and control flow regressed; see
+`SH27_CALL_PATH_BATCH_EVIDENCE.md`. The packed typed-record/validator-batch
+candidate moved assignment timing without removing first-visit work; see
+`SH27_TYPED_OPS_BATCH_CANDIDATE.md`. The direct native slot-layout cut reduced
+one subphase but did not improve whole-compiler wall above host noise and has
+an unproved strict working-set gate; see
+`SH27_BACKEND_VALUE_LOCATION_EVIDENCE.md`. None of those source patches
+belongs in the production branch. The next two source tracks must replace
+the complete typed semantic-to-lowering path and the function-level compact
+value path, respectively; a second narrow cache/slot cut is not an acceptable
+substitute. The clean CI batch runner is a third, independent track because
+this desktop's baseline-vs-baseline jitter often exceeds the remaining gap.
+The first direct-value checkpoint (`SH27_DIRECT_VALUE_PATH_EVIDENCE.md`)
+passed a local large-function timing threshold but removed only one stack
+store/reload pair on that corpus; therefore its observed 121 ms wall delta
+has no credible causal attribution. A successor must reach the immediate-
+arithmetic chain that dominates the corpus, expose the number of eliminated
+pairs there, and pass both target lanes before a clean CI parity claim.
+`SH27_BRANCH_BATCH_CI.md` describes the commit/manual clean-runner workflow,
+frozen branch-ref and source-hash checks, strict fixed-point bootstrap, and
+serial matrix artifact contract; it screens candidates but cannot certify SH-27.
+The full typed-operation prebuild subsequently specialized every generated
+large/control source and preserved exact artifacts, yet remained flat on the
+guarded 11-pair wall gate. `SH27_TYPED_PIPELINE_REJECTION.md` records that
+the new eager expression traversal repeated old first-visit checks and moved
+assignment/call time into a new counter. The next semantic cut must validate
+inside the *already required* lowering traversal with bounded fallback for
+invalid source; another eager operation arena is not the answer.
+`SH27_ACCEPTANCE_FIRST_VISIT_PROFILE_EVIDENCE.md` now pins an opt-in,
+correctness-preserving candidate-visit/allocation probe and the unprofiled
+critical-worker budget. It observes 255,235/44,867 child-candidate visits and
+58,391/13,009 name-candidate visits on large/control. An independent compact
+index candidate must replace those visits across acceptance and lowering
+without another full syntax arena; counters alone are not a speed result.
+
+`SH27_WORKER_BALANCE_EVIDENCE.md` now records four-worker wall times from
+eleven guarded local runs per large/control workload. The first chunk was
+critical in 11/11 large and 8/11 control runs; its large/control acceptance
+medians were 187/219 ms. The observed worker imbalance is not an available
+125/94 ms speedup: control already has one file per worker, and a different
+eight-file partition can create a three-file critical chunk. Step 1 still
+needs first-visit and allocation attribution; the next semantic/lowering cut
+must target **whole critical-path wall**, not only a summed rule counter.
+
+The next implementation decision is **not** another isolated cache or rule
+flag. Keep measured upper bounds on the remaining semantic, lowering, and
+backend wall time of `738bea3` while independent architectural candidates
+are built from the same baseline. If the semantic/lowering ceiling cannot
+cover the same-run DMD deficit, design Step 4 concurrently rather than
+waiting for a succession of small wins. A prototype advances only after
+11 same-host paired large/control/self-build measurements, byte-exact
+behavior, fixed point, and strict RAM; otherwise record and reject it.
+
+The clean comparator for `738bea3` has now finished: [run
+35928451776](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/35928451776)
+passed its pre-parity correctness, strict-memory, and historical speed
+steps, but the enforced normal-default matrix failed **large functions
+versus DMD** at 0.451/0.315 s (1.4317x) and **control flow versus DMD** at
+0.272/0.211 s (1.2891x). The other 18 ratios passed. On that same runner,
+the 1.25x public ceiling requires 57.25/8.25 ms less OpenC wall time;
+the 1.20x internal margin requires 73.0/18.8 ms. These replace the earlier
+parallel-declaration run's 241/100 ms as the **latest candidate's**
+same-run planning budget, not as a cross-run speedup attribution. The
+local 93/42 ms scalar-flow gain did not close clean parity.
+
+### 0. Establish the comparison contract
+
+- Preserve the current known-good parallel-declaration compiler and its
+  failing/green clean reports. Record exact source hashes, corpus version,
+  compiler versions/flags, selected chunk mode, CPU/runner image, OS cache
+  state, executable hashes, and parent/whole-Job memory.
+- Run 11 order-alternated same-host A/B pairs for `large_functions`,
+  `control_flow`, and complete compiler self-build. The candidate and
+  baseline must compile identical source and use identical checked semantics.
+  Store raw samples, median paired deltas, p95, outputs, and Job peaks.
+- Use the pinned five-compiler CI only for within-run parity. The comparator
+  loop rotates tool order; retain all per-sample observations. A failure after
+  a green run is a failure to reproduce, not a reason to discard the run.
+
+### 1. Produce a critical-path budget alongside isolated architecture work
+
+- Profile the normal default, explicit serial, and explicit worker modes on
+  the three guarded workloads. Separate top-level declarations/indexing,
+  resolution, flow/acceptance, worker launch/join, IR lowering, native emit,
+  link/write. Worker subphases are nested; do **not** sum them into top-level
+  wall time. Attribute the slowest worker, not summed CPU time.
+- Within first semantic visits, count and time symbol/function selection,
+  operand discovery, literal decoding, contextual typing, assignment and
+  binary rules, and temporary allocations. Validate counters with an external
+  profile. The existing zero-repeat uncached-type result means a larger type
+  memo table is not the design.
+- Compare pinned DMD's typed expression storage, bump allocation, and
+  semantic-to-codegen handoff against OpenC's actual call graph. State which
+  design difference applies to OpenC, what work it removes, and its maximum
+  plausible wall-time saving. A source analogy alone does not qualify.
+- Exit with an explicit budget: expected milliseconds removed by Steps 2-3,
+  remaining milliseconds assigned to Step 4, and a <=5% regression limit on
+  protected lanes. If the measured semantic ceiling is below the required
+  gap, begin Step 4's architectural design immediately; do not wait for
+  incremental tweaks to accumulate.
+
+### 2. Cut over semantic evaluation as one coherent architecture
+
+- Use the existing `IrContext` lifetime in `c_compile_project_source` to
+  carry a bounded, normalized typed-expression IR from acceptance into
+  native lowering. Each operation carries resolved child IDs, selected
+  symbol/operator, type and contextual/literal state. It must *replace*
+  syntax rediscovery and rule replay, not merely store their outputs in an
+  extra cache. Do not allocate the five old full arrays alongside a second
+  full per-syntax representation in production.
+- Build dependency-aware evaluation: binary/assignment operands precede
+  parents, but calls can precede their arguments. Use indexed call arguments
+  or an explicit bounded dependency stack; never assume syntax ID order is
+  globally topological. Freeze only expectation-independent success. Retry
+  failed lookup and preserve expected-type-sensitive literals/aggregates.
+- Reuse the repaired literal-value experiment only under exact return ABI
+  and contextual-typing tests for integer widths, comparison, overflow,
+  and null/aggregate expectations. Its later complete self-build regression
+  rejects it as a standalone change. Fuse the high-volume
+  assignment and binary rule families with the expression evaluation, while
+  buffering/ordering diagnostics to match the old passes exactly.
+- Preserve `check`, invalid inputs, error count/order/positions, source-order
+  duplicate/cycle handling, and serial/parallel deterministic output. Use
+  the old implementation only as a test comparator during cutover. Delete
+  unused caches and rescans when equivalence is proved.
+
+### 3. Make the lowerer consume the normalized typed operations
+
+- Change name, literal, unary, binary, assignment, and call lowering to use
+  accepted child/symbol/type/value facts. Keep explicit fallback for genuinely
+  contextual or unsupported forms; count fallback visits and require their
+  frequency to be explained on the failing lanes.
+- Retain precise checked arithmetic, conversions, ownership and cleanup,
+  calling convention, unwind data, and overflow traps. Compare generated
+  binary bytes and runtime behavior; a smaller number of internal type calls
+  without an end-to-end wall gain is not acceptance.
+- Run the fixed point, 278 fixtures, 25 x64 checks, integer/aggregate edge
+  cases, invalid diagnostic corpus, exact serial/parallel proof, strict RAM
+  chain, and 11-pair speed series. Promote Steps 2-3 together only if the
+  targeted lane removes at least 10% of its then-measured gap and no other
+  protected lane regresses more than 5%. Otherwise record the failure and
+  redesign this cut rather than merging a packed-cache micro-win.
+
+### 4. Execute the second throughput architecture from the new profile
+
+Parallel declaration parsing is already implemented and locally saved 108 ms
+large / 16 ms control in 11-pair tests, but its clean repeat still failed
+DMD parity. Reprofile *after* Steps 2-3. The default planned second cut is a
+per-function compact IR/value-location backend, because the semantic cut's
+locally measured assignment time alone cannot account for the 241 ms large
+deficit. Override that choice only if the new critical-path evidence names a
+larger serial front-end cost and shows the backend cannot close enough wall
+time.
+
+- Count per-function IR nodes, live ranges, spill/reload pairs, stack slots,
+  emitted bytes, and lower/emit wall time. Define register ownership,
+  liveness, call clobbers, flags, checked overflow, stack alignment, unwind,
+  and aggregate fallback before modifying emission.
+- Produce values in registers or final destinations for block-local chains;
+  spill only for liveness, calls, address taking, or pressure. If the
+  lowerer/emitter boundary remains dominant, replace repeated tree walks
+  with a bounded compact typed per-function IR and one lower/emit traversal.
+  Keep old emission as a test-only oracle until proof passes.
+- Measure the combined *wall* delta with Steps 2-3 on all three workloads.
+  If it is still short of the 1.20x margin, repeat Step 1 on the new source
+  and attack the largest **measured** remaining architecture. The loop ends
+  only at sustained comparator parity; it is not permission to ship a chain
+  of unbudgeted micro-optimizations.
+
+### 5. Lock default concurrency and RAM behavior
+
+- Re-tune adaptive source workers using measured launch/merge cost, source
+  size, available CPU, and predicted per-worker bytes. Preserve an explicit
+  serial diagnostic switch and deterministic serial fallback on worker or
+  allocation failure. Test invalid imports, duplicate declarations, cycles,
+  multiple errors, one-file projects, and different CPU counts.
+- Count temporary allocation calls, bytes, and lifetimes. Use bounded
+  per-worker scratch only when allocator cost is measured; prove no pointer
+  escapes a reset. The 256 MiB single-allocation, 512 MiB live-byte, strict
+  child-process, and 512 MiB Job limits remain active. The harness and child
+  tree must not retain unbounded Python/PowerShell memory.
+- Re-run all speed and memory proofs with the production *default* after any
+  policy or allocator change. A faster opt-in `--source-chunks` mode is not a
+  pass for this step.
+
+### 6. Build genuinely incremental native artifacts
+
+- Define module dependency and public-interface fingerprints, including
+  compiler revision, target ABI, flags, generated bindings, and cache schema.
+  Implementation-only changes invalidate the edited module; public API
+  changes invalidate dependent modules. Cycles and invalid inputs need
+  deterministic treatment.
+- Persist deterministic COFF objects and a manifest with atomic writes and
+  corruption/staleness detection. Relink using existing native facilities;
+  do not add an external linker or a Python normal-build dependency.
+- Prove no-op, leaf implementation edit, public API edit, corrupt cache,
+  cache-version change, and clean rebuild on 24-file and representative
+  projects. Require identical executable behavior and diagnostics, actual
+  object cache hits, bounded peak RAM, and measured warm-build advantage.
+
+### 7. Test representative work, not only generated arithmetic
+
+- Version a separate small CLI, medium multi-module app, and compiler
+  self-build suite. Where comparing languages, check in equivalent C/D/OpenC
+  inputs and verify output; list semantic differences explicitly. Keep
+  `benchmarks/sh27/CORPUS.json` v1 unchanged as the 20-ratio contract.
+- Test scaling by function size and file count, clean/warm/no-op/edit builds,
+  four-project batches, runtime, binary size, diagnostics, and whole-Job RAM.
+  A project cliff gets a named reproducer and a new measured work package;
+  it cannot be hidden by the synthetic median.
+
+### 8. Run the closure matrix on one final source revision
+
+- Run byte-exact Stage 2/3, all conformance and x64/ABI tests, diagnostics,
+  executable behavior, deterministic workers, strict 20-generation RAM,
+  incremental/project gates, and the pinned five-compiler normal-default
+  matrix. Then run the *same-source* clean matrix independently again.
+- Keep raw JSON and failure artifacts. Require all 20 ratios <=1.25x on both
+  runs; investigate any lane above the 1.20x engineering margin or a large
+  within-run swing. Do not label an evidence-only success `PASS_PARITY`.
+  Make commit-triggered parity blocking only after the final candidate passes.
+- Re-verify the immutable `v1.0.0` release assets and tag, route any received
+  critical review findings, publish a complete status and new-version assets
+  through the owner-authorized release path, and update `ROADMAP.md` only
+  from verified evidence. If any hard gate fails, SH-27 remains active.
+
+## Present decision
+
+The packed four-word typed-record prototype passed local correctness and
+RAM, but its 11-pair complete self-build median regressed by 136 ms and it
+does not fuse semantic evaluation. One clean branch workflow passed 20/20
+pinned ratios; no independent same-source repeat establishes parity. Its
+literal-value successor fixed an earlier self-bootstrap defect and passed
+local correctness and strict RAM, but regressed self-build by a 326 ms
+paired median against the packed source. Its clean workflow then failed
+the enforced large-function DMD ratio at 2.0801x. These are isolated enabling
+experiments, **not** the SH-27 solution. The next code cut must integrate
+semantic/rule/lowering reuse (or a profile-backed second architecture) and
+be judged by the whole-compiler gates above.
+
+The separate source-evidence ownership flow gate in
+`SH27_FLOW_FRONT_END_EVIDENCE.md` has a locally guarded -26 ms control-flow
+paired median and no self-build regression. One clean workflow passed all
+20 pinned ratios and the strict memory gate, but there is no independent
+same-source repeat;
+its -9 ms large-function paired median leaves most of that lane's gap open.
+It cannot replace Steps 2-4 or the two final same-source parity runs.
+
+The broader scalar-source proof at `738bea3` then removed the full flow
+stage for error-free sources with only initialized scalar locals and no
+applicable stateful rule. Eleven guarded local pairs saved 93 ms on large
+functions (10/11 wins) and 42 ms on control flow (11/11), with a flat
+self-build (-2 ms paired median). `SH27_SCALAR_FLOW_EVIDENCE.md` records the
+proof and fallback boundary. This is a material architectural reduction,
+but its first clean pinned comparator failed two DMD ratios; the remaining
+architecture and all later completion gates remain open.

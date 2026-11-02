@@ -42,6 +42,7 @@ unsafe bool cli_release_write_report(
     d_put(report, ",\"source_archives_byte_equal\":"); native_put_bool(report, result.source_equal);
     d_put(report, ",\"zip_structure_crc_and_paths\":"); native_put_bool(report, result.archives_verified);
     d_put(report, ",\"standalone_manifest\":"); native_put_bool(report, result.manifest_verified);
+    d_put(report, ",\"source_manifest\":"); native_put_bool(report, result.source_manifest_verified);
     d_put(report, ",\"relocated_stage2_stage3_exact\":"); native_put_bool(report, result.stage_closure);
     d_put(report, ",\"relocated_daily_workflow\":"); native_put_bool(report, result.daily_workflow);
     d_put(report, ",\"relocated_conformance_278\":"); native_put_bool(report, result.conformance);
@@ -143,9 +144,9 @@ unsafe i32 cli_release_command() {
         workflow_elapsed = 0, conformance_elapsed = 0,
         compiler_hash = d_buffer_text(compiler_hash), stage2_hash = "",
         stage3_hash = "", standalone_equal = false, source_equal = false,
-        archives_verified = false, manifest_verified = false,
+        archives_verified = false, manifest_verified = false, source_manifest_verified = false,
         stage_closure = false, daily_workflow = false, conformance = false,
-        historical_kit_absent = true, passed = false
+        historical_kit_absent = false, passed = false
     };
     usize plan_a = 0; usize entries_a = 0; usize bytes_a = 0; usize peak_a = 0;
     usize plan_b = 0; usize entries_b = 0; usize bytes_b = 0; usize peak_b = 0;
@@ -185,7 +186,9 @@ unsafe i32 cli_release_command() {
     result.source_equal = built && cli_release_files_equal(source_a, source_b);
     usize verify_bytes = 0; usize verify_entries = 0; usize verify_peak = 0;
     usize source_verify_bytes = 0; usize source_verify_entries = 0; usize source_verify_peak = 0;
-    result.archives_verified = result.standalone_equal && result.source_equal &&
+    text source_extraction = path.join(output_directory, "source-relocated");
+    bool source_directory = cli_release_ensure_directory(source_extraction);
+    result.archives_verified = source_directory && result.standalone_equal && result.source_equal &&
         plan_a == expected_plan && plan_b == expected_plan &&
         source_plan_a == expected_plan && source_plan_b == expected_plan &&
         entries_a == entries_b && source_entries_a == source_entries_b &&
@@ -193,10 +196,14 @@ unsafe i32 cli_release_command() {
             standalone_a, d_buffer_text(root_name), "", false, entries_a,
             verify_bytes, verify_entries, verify_peak
         ) && cli_zip_verify_extract(
-            source_a, d_buffer_text(root_name), "", false, source_entries_a,
+            source_a, d_buffer_text(root_name), source_extraction, true, source_entries_a,
             source_verify_bytes, source_verify_entries, source_verify_peak
         );
-    bool relocated = result.archives_verified && cli_release_relocated_verify(
+    usize source_manifest_entries = 0;
+    result.source_manifest_verified = result.archives_verified &&
+        cli_release_verify_manifest_mode(path.join(source_extraction, d_buffer_text(root_name)),
+            source_entries_a, source_manifest_entries, false);
+    bool relocated = result.source_manifest_verified && cli_release_relocated_verify(
         output_directory, d_buffer_text(root_name), d_buffer_text(compiler_hash),
         entries_a, result
     );

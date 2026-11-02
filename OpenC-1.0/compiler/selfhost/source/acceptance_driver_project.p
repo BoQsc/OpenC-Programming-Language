@@ -344,6 +344,9 @@ unsafe usize acceptance_validate_project(
                 source_record = source_record,
                 function_node = 0,
                 function_symbol = 0,
+                function_alloc_probe_node = 0,
+                function_alloc_probe_state = 0,
+                native_compact_updates = false,
                 function_result = semantic_type_void(),
                 function_local_first = 0,
                 function_local_end = 0,
@@ -473,7 +476,23 @@ unsafe usize acceptance_validate_project(
                 profile_parent_candidates = 0,
                 profile_expression_positions = 0,
                 profile_syntax_candidates = 0,
-                profile_symbol_candidates = 0
+                profile_symbol_candidates = 0,
+                profile_type_queries_enabled = timings.profile_type_queries_enabled,
+                profile_type_seen = null,
+                profile_type_queries = 0,
+                profile_type_cache_hits = 0,
+                profile_type_uncached = 0,
+                profile_type_distinct_uncached = 0,
+                profile_type_repeated_uncached = 0,
+                profile_type_failures = 0,
+                profile_type_name_uncached = 0,
+                profile_type_literal_uncached = 0,
+                profile_type_unary_uncached = 0,
+                profile_type_binary_uncached = 0,
+                profile_type_assignment_uncached = 0,
+                profile_type_call_uncached = 0,
+                profile_type_other_uncached = 0,
+                suppress_acceptance_diagnostics = false
             };
             ir_initialize_node_indexes(context);
             ir_initialize_parent_position_caches(context);
@@ -494,6 +513,38 @@ unsafe usize acceptance_validate_project(
                 checked_duplicates = true;
             }
             errors = errors + acceptance_validate_context(context, timings);
+            timings.validation_type_queries = timings.validation_type_queries +
+                context.profile_type_queries;
+            timings.validation_type_cache_hits =
+                timings.validation_type_cache_hits +
+                context.profile_type_cache_hits;
+            timings.validation_type_uncached =
+                timings.validation_type_uncached +
+                context.profile_type_uncached;
+            timings.validation_type_failures =
+                timings.validation_type_failures +
+                context.profile_type_failures;
+            timings.validation_type_name_uncached =
+                timings.validation_type_name_uncached +
+                context.profile_type_name_uncached;
+            timings.validation_type_literal_uncached =
+                timings.validation_type_literal_uncached +
+                context.profile_type_literal_uncached;
+            timings.validation_type_unary_uncached =
+                timings.validation_type_unary_uncached +
+                context.profile_type_unary_uncached;
+            timings.validation_type_binary_uncached =
+                timings.validation_type_binary_uncached +
+                context.profile_type_binary_uncached;
+            timings.validation_type_assignment_uncached =
+                timings.validation_type_assignment_uncached +
+                context.profile_type_assignment_uncached;
+            timings.validation_type_call_uncached =
+                timings.validation_type_call_uncached +
+                context.profile_type_call_uncached;
+            timings.validation_type_other_uncached =
+                timings.validation_type_other_uncached +
+                context.profile_type_other_uncached;
             write_usize(
                 validation_source_ms,
                 source_record * size_of(usize),

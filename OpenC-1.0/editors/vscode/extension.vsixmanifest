@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Language="en-US" Id="openc" Version="1.0.0" Publisher="openc-language" />
+    <Identity Language="en-US" Id="openc" Version="1.0.1" Publisher="openc-language" />
     <DisplayName>OpenC</DisplayName>
     <Description xml:space="preserve">First-party OpenC language support using the native OpenC language server.</Description>
     <Categories>Programming Languages</Categories>

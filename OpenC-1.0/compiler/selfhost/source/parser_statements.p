@@ -183,46 +183,42 @@ unsafe bool parser_is_assignment_operator(ref ParserContext context) {
     return parser_check(context, ">>=");
 }
 
-unsafe bool parser_binary_operator(
-    ref ParserContext context,
-    usize level
-) {
-    if level == 1 {
-        return parser_check(context, "*") || parser_check(context, "/") ||
-            parser_check(context, "%");
+unsafe usize parser_binary_precedence(ref ParserContext context) {
+    usize token = current_token(context);
+    if token_kind(context, token) != 6 { return 0; }
+    usize length = token_length(context, token);
+    if length == 0 || length > 2 { return 0; }
+    usize start = token_start(context, token);
+    u8 first = text.byte_at_unchecked(context.source, start);
+    if length == 1 {
+        if first == 42 || first == 47 || first == 37 { return 10; }
+        if first == 43 || first == 45 { return 9; }
+        if first == 60 || first == 62 { return 7; }
+        if first == 38 { return 5; }
+        if first == 94 { return 4; }
+        if first == 124 { return 3; }
+        return 0;
     }
-    if level == 2 {
-        return parser_check(context, "+") || parser_check(context, "-");
-    }
-    if level == 3 {
-        return parser_check(context, "<<") || parser_check(context, ">>");
-    }
-    if level == 4 {
-        return parser_check(context, "<") || parser_check(context, "<=") ||
-            parser_check(context, ">") || parser_check(context, ">=");
-    }
-    if level == 5 {
-        return parser_check(context, "==") || parser_check(context, "!=");
-    }
-    if level == 6 { return parser_check(context, "&"); }
-    if level == 7 { return parser_check(context, "^"); }
-    if level == 8 { return parser_check(context, "|"); }
-    if level == 9 { return parser_check(context, "&&"); }
-    return parser_check(context, "||");
+    u8 second = text.byte_at_unchecked(context.source, start + 1);
+    if (first == 60 && second == 60) ||
+        (first == 62 && second == 62) { return 8; }
+    if (first == 60 || first == 62) && second == 61 { return 7; }
+    if (first == 61 || first == 33) && second == 61 { return 6; }
+    if first == 38 && second == 38 { return 2; }
+    if first == 124 && second == 124 { return 1; }
+    return 0;
 }
 
-unsafe NodeResult parse_binary_level(
+unsafe NodeResult parse_binary_climbing(
     ref ParserContext context,
-    usize level
+    usize minimum_precedence
 ) {
-    NodeResult expression = no_node();
-    if level == 0 {
-        return parse_unary(context);
-    }
-    expression = parse_binary_level(context, level - 1);
-    while parser_binary_operator(context, level) {
+    NodeResult expression = parse_unary(context);
+    while true {
+        usize precedence = parser_binary_precedence(context);
+        if precedence < minimum_precedence || precedence == 0 { break; }
         usize operator = advance_token(context);
-        NodeResult right = parse_binary_level(context, level - 1);
+        NodeResult right = parse_binary_climbing(context, precedence + 1);
         NodeResult combined = make_node(
             context, 36, expression.start,
             combined_length(expression.start, right.start, right.length)
