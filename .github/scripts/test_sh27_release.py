@@ -7,6 +7,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+import zipfile
 from unittest.mock import patch
 
 import sh27_release as release
@@ -150,6 +151,30 @@ class PublicationSetTests(unittest.TestCase):
         self.assertEqual(release.verify_assets(first, self.intent, "a"*40),
                          release.verify_assets(second, self.intent, "a"*40))
         return first
+
+    def test_local_raw_report_digest_cannot_be_relabelled(self):
+        import hashlib
+        path = self.base / ".github/release-evidence/v1.0.1/local-verification.zip"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        payload = b'{"raw":"verified"}\n'
+        summary = {"schema": "openc.sh27.local_verification.v1", "status": "PASS_LOCAL_GATES",
+            "compiler_sha256": "b"*64, "checks": {key: True for key in release.LOCAL_CHECKS},
+            "files": {"raw.json": {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}}}
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("SUMMARY.json", json.dumps(summary))
+            archive.writestr("raw.json", payload)
+        qualification = {"compiler_sha256": "b"*64, "local_verification": {
+            "path": path.relative_to(self.base).as_posix(), "bytes": path.stat().st_size,
+            "sha256": release.sha256(path)}}
+        evidence = self.base / "verified"
+        evidence.mkdir()
+        release.retain_local_verification(self.root, qualification, evidence)
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("SUMMARY.json", json.dumps(summary))
+            archive.writestr("raw.json", b'x'*len(payload))
+        qualification["local_verification"].update(bytes=path.stat().st_size, sha256=release.sha256(path))
+        with self.assertRaisesRegex(ValueError, "report digest differs"):
+            release.retain_local_verification(self.root, qualification, evidence)
 
     def test_sixteen_deterministic_assets_and_nonrecursive_checksums(self):
         assets = self.assets()

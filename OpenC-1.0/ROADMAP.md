@@ -11,12 +11,18 @@ optional future target work.
 
 ## Critical-path priority
 
-SH-27 checkpoint (2026-11-02): the same `1859f47f...` compiler now has two
-artifact-verified clean hosted 20/20 C/D passes and two native-cache/strict
-20-generation passes. The clean-profile editor and relocated native release
-proof pass after correcting omitted release sources. The original constrained
-DMD ceiling passes twice, with limited headroom. SH-27 remains active for the
-remaining [closure audit and publication work](../SH27_RELEASE_CANDIDATE_EVIDENCE.md).
+SH-27 checkpoint (2026-11-02): candidate `7c6f7bba...` combines compact checked
+native updates with early owned compiler-identity hashing. The cold-build
+architecture wins both planned hosted comparisons above noise. Full native
+workflow 19/19, strict 20-generation closure, 32 integer/fallback cases and
+fresh editor/finalization checks pass. Both restricted-host DMD series meet
+the 1.20x large-function target (1.087x/1.133x) using pinned DMD 2.112.0. Both
+five-tool hosted production certificates pass all 20 original ratios and both
+scaling suites. Both independent cache/package certificates also pass, including
+unchanged medium cold budgets and 11/11 warm/edit wins. Engineering is certified;
+SH-27 remains active until final candidate verification and owner-authorized
+1.0.1 publication finish. See the
+[current qualification](compiler/selfhost/SH27_1_0_1_QUALIFICATION.md).
 
 SH-14 closed the compiler-throughput gap: the five-run OpenC-native clean
 median is 4.137 seconds versus 12.731 seconds for the pinned same-host D

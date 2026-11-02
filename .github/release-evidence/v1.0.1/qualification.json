@@ -1,0 +1,72 @@
+{
+  "compiler_sha256": "7c6f7bbaa5b9ed737a23c5779c560e54e0954d51f8756c412aad7f5ab05d42f5",
+  "compiler_source_commit": "7faeee5635d5eaf2b4d2d5a6a7acfbfb36fd877f",
+  "compiler_source_files": 230,
+  "corpus_sha256": "ac35a710344f247454efdd039c13e6a84809fc97e9dc96cd49cd70b42361ef61",
+  "file_scale_sha256": "bd782c04c290c7362961cd162b0c96fb55146e724ed5a60ec0f82c305e76bdae",
+  "function_scale_sha256": "2f547bc09c448fabd104c16277d33330a6c831d87e5cf7dc50bd06c45b4fcb7d",
+  "local_verification": {
+    "bytes": 861301,
+    "path": ".github/release-evidence/v1.0.1/local-verification.zip",
+    "sha256": "c5078cfa416a17dba249e0b84ff7807a6cbd193ae95ec2afd33ed014d1ae5155"
+  },
+  "project_coverage": [
+    "representative/small_cli",
+    "representative/medium_audit",
+    "compiler/selfhost",
+    "programs/A_COMPUTATION"
+  ],
+  "proofs": [
+    {
+      "artifact_id": 13170107137,
+      "artifact_sha256": "b1abb1e6e78a9b47f9c04cf9756f3d05a2fefa7efe472ceee82a412d86c82cd7",
+      "attempt": 1,
+      "kind": "production",
+      "run_id": 41502447060,
+      "source_commit": "7faeee5635d5eaf2b4d2d5a6a7acfbfb36fd877f"
+    },
+    {
+      "artifact_id": 13171490218,
+      "artifact_sha256": "222b6ca0524046a8a6d573204f34e133543012c173be46daeb70240774c0b721",
+      "attempt": 2,
+      "kind": "production",
+      "run_id": 41502447060,
+      "source_commit": "7faeee5635d5eaf2b4d2d5a6a7acfbfb36fd877f"
+    },
+    {
+      "artifact_id": 13170804572,
+      "artifact_sha256": "898cdd100817c319d10f8263724b51473a8a5b37c82df932db1427f5fe1cc161",
+      "attempt": 1,
+      "kind": "modules",
+      "run_id": 41504201340,
+      "source_commit": "a45db27a2306f268956c2413d393d2db6af92c32"
+    },
+    {
+      "artifact_id": 13172355968,
+      "artifact_sha256": "0918e546af026bbe9ac8339a9c049fb86f4a1d1d3cedd4160e5e36eb338e10bd",
+      "attempt": 1,
+      "kind": "modules",
+      "run_id": 41504570950,
+      "source_commit": "79b671e667532c5cbda5943e132de59916c4d944"
+    },
+    {
+      "artifact_id": 13169027658,
+      "artifact_sha256": "e878fe293e0bd8bdb297c3ba58f29da508914489e5db455c10b4fb65e73fc9cf",
+      "attempt": 1,
+      "kind": "representative",
+      "run_id": 41502447134,
+      "source_commit": "7faeee5635d5eaf2b4d2d5a6a7acfbfb36fd877f"
+    }
+  ],
+  "publication_authorized": false,
+  "reviews": {
+    "independent_certification_claimed": false,
+    "independent_received": 0,
+    "open_p0": 0,
+    "open_p1": 0
+  },
+  "schema": "openc.sh27.release_qualification.v1",
+  "scope": "windows_x86_64_hosted_original_and_representative_corpora",
+  "source_bridge_policy": "Functional compiler, runtime, library, corpus, tests and toolchain pins must be byte-identical; prose and matching editor records may differ.",
+  "status": "ENGINEERING_CERTIFIED"
+}

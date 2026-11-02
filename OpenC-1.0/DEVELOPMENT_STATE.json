@@ -49,8 +49,8 @@
     "optional_com_and_winrt": "SH-23_PASS_GUID_HRESULT_IUNKNOWN_HSTRING_ACTIVATION_IINSPECTABLE_33_OF_33",
     "native_editor_integration_and_lsp_resilience": "SH-24_PASS_FIRST_PARTY_VSCODE_INCREMENTAL_CANCELLATION_WORKSPACE_RECOVERY_33_OF_33",
     "public_language_service_command": "openc lsp --stdio",
-    "next_milestone": "SH-27_POST_RELEASE_INTEGRITY_AND_PRODUCTION_PERFORMANCE",
-    "blocking_priority": "SH27_PRODUCTION_C_D_PERFORMANCE_EXPANSION",
+    "next_milestone": "SH-27_FINAL_SOURCE_CERTIFICATION_AND_1_0_1_PUBLICATION",
+    "blocking_priority": "SH27_RELEASE_QUALIFICATION",
     "throughput_plan": "compiler/selfhost/THROUGHPUT_CONVERGENCE_PLAN.md",
     "windows_independence_plan": "compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md",
     "sh14_acceptance": {
@@ -929,7 +929,7 @@
       "next_milestone": "SH-27_POST_RELEASE_INTEGRITY_AND_PRODUCTION_PERFORMANCE"
     },
     "sh27_progress": {
-      "status": "ACTIVE_PUBLIC_INTEGRITY_PASS_PRODUCTION_COMPARATORS_OPEN",
+      "status": "ENGINEERING_CERTIFIED_CANDIDATE_VERIFICATION_AND_OWNER_PUBLICATION_PENDING",
       "plan": "compiler/selfhost/SH27_POST_RELEASE_PERFORMANCE_PLAN.md",
       "public_verifier": "scripts/verify_sh27_post_release.py",
       "public_release_assets_stream_verified": 15,
@@ -941,10 +941,41 @@
       "local_dmd_available": true,
       "local_msvc_available": false,
       "local_clang_available": false,
-      "representative_production_comparator_corpus_complete": false,
+      "representative_production_comparator_corpus_complete": true,
       "broad_c_d_performance_parity_claimed": false,
       "independent_reviews_received": 0,
-      "linux_and_freestanding_gate": false
+      "linux_and_freestanding_gate": false,
+      "qualification": "compiler/selfhost/SH27_1_0_1_QUALIFICATION.md",
+      "final_candidate": {
+        "version": "1.0.1",
+        "compiler_sha256": "7c6f7bbaa5b9ed737a23c5779c560e54e0954d51f8756c412aad7f5ab05d42f5",
+        "compiler_source_files": 230,
+        "native_workflow_passed": 19,
+        "strict_chained_generations": 20,
+        "worker_fault_variants_passed": 28,
+        "native_cache_cases_passed": 30,
+        "integer_and_fallback_cases_passed": 32,
+        "finalization_checks_passed": 44,
+        "conformance_fixtures_passed": 278,
+        "peak_private_bytes": 240553984,
+        "peak_working_set_bytes": 58900480,
+        "restricted_large_dmd_ratios": [
+          1.087,
+          1.133
+        ],
+        "restricted_dmd_version": "2.112.0",
+        "hosted_production_certificates_verified": 2,
+        "hosted_cache_package_certificates_verified": 2,
+        "representative_certificate_verified": true,
+        "maintained_project_coverage": 4,
+        "cold_identity_architecture_qualifies_twice": true,
+        "release_authorized": false,
+        "released": false
+      },
+      "remaining_gates": [
+        "final_16_asset_candidate_verification",
+        "owner_authorized_1_0_1_publication"
+      ]
     }
   },
   "runtime_source": "openc_owned_crt_free_windows_runtime_executed_c_runtime_optional_audit_only",

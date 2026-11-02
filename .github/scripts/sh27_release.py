@@ -32,6 +32,52 @@ LEGACY_COMMIT = "d0f77f6268154ac06f4206c01cd349b226b53c1b"
 LEGACY_RECORD = "0b7cdd6620bb9155651da8ab0e07f2eeae510295f7e7a40eed8f4a4f835a6467"
 BOOTSTRAP_SHA = "eadbef1f065261385c2c36d524624347f7e5cd3c021a4a1db9ccfcaf7c191087"
 MIB = 1024 * 1024
+LOCAL_CHECKS = {
+    "byte_exact_fixed_point", "full_native_workflow_19", "strict_twenty_generations",
+    "worker_faults_28", "ordinary_cache_cases_30", "integer_and_fallback_cases_32",
+    "matching_clean_editor_profile", "native_finalization_44", "native_release_nine",
+    "independent_archive_manifests", "independent_standalone_programs_and_conformance",
+    "restricted_host_available_dmd_ratios", "restricted_large_dmd_engineering_target",
+    "immutable_public_1_0_0_assets",
+}
+
+
+def retain_local_verification(root: Path, qualification: dict, evidence: Path) -> None:
+    local = qualification.get("local_verification", {})
+    check(local.get("path") == ".github/release-evidence/v1.0.1/local-verification.zip",
+          "local verification path differs")
+    source = root.parent / local["path"]
+    check(source.stat().st_size == local.get("bytes") and source.stat().st_size <= 16*MIB and
+          sha256(source) == local.get("sha256"), "local verification archive bytes differ")
+    with zipfile.ZipFile(source) as archive:
+        entries = archive.infolist()
+        check(len(entries) <= 256 and len({item.filename for item in entries}) == len(entries) and
+              sum(item.file_size for item in entries) <= 32*MIB, "local verification archive exceeds budget")
+        for entry in entries:
+            name = PurePosixPath(entry.filename.replace("\\", "/"))
+            check(not name.is_absolute() and ".." not in name.parts and
+                  not any(":" in part for part in name.parts) and
+                  ((entry.external_attr >> 16) & 0o170000) != 0o120000,
+                  "unsafe local verification member")
+        check(archive.getinfo("SUMMARY.json").file_size <= 64*1024, "local summary exceeds budget")
+        summary = json.loads(archive.read("SUMMARY.json"))
+        check(summary.get("schema") == "openc.sh27.local_verification.v1" and
+              summary.get("status") == "PASS_LOCAL_GATES" and
+              summary.get("compiler_sha256") == qualification["compiler_sha256"] and
+              set(summary.get("checks", {})) == LOCAL_CHECKS and
+              all(value is True for value in summary["checks"].values()), "local verification checks differ")
+        files = summary.get("files", {})
+        check(set(files) == {entry.filename for entry in entries} - {"SUMMARY.json"},
+              "local verification manifest coverage differs")
+        for name, record in files.items():
+            check(archive.getinfo(name).file_size == record.get("bytes"), "local report size differs")
+            digest = hashlib.sha256()
+            with archive.open(name) as member:
+                while block := member.read(MIB):
+                    digest.update(block)
+            check(digest.hexdigest() == record.get("sha256"), "local report digest differs")
+    shutil.copyfile(source, evidence / "local-verification.zip")
+    write_json(evidence / "local-verification-receipt.json", {**local, "status": "PASS"})
 
 
 def git(repo: Path, *arguments: str) -> str:
@@ -182,6 +228,7 @@ def candidate(args: argparse.Namespace) -> None:
     output.mkdir(parents=True, exist_ok=False)
     evidence = output / "evidence"
     collect(qualification, evidence, args.artifacts_dir.resolve() if args.artifacts_dir else None)
+    retain_local_verification(root, qualification, evidence)
     seed = root.parent / intent["bootstrap"]["path"]
     check(sha256(seed) == intent["bootstrap"]["sha256"], "bootstrap seed differs")
     compiler = seed

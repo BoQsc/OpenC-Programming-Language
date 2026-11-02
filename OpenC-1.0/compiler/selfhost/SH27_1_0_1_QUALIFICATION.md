@@ -1,6 +1,6 @@
 # SH-27 1.0.1 qualification
 
-Status: **SH-27 remains open pending final certification and publication**.
+Status: **engineering gates PASS; final publication-set verification and owner publication pending**.
 The current verification candidate adds early owned compiler-identity hashing:
 `7c6f7bbaa5b9ed737a23c5779c560e54e0954d51f8756c412aad7f5ab05d42f5`.
 The hash task starts while declarations are collected, touches only its separate
@@ -18,7 +18,50 @@ missing-API cases retain exact output, invalid diagnostics and serial fallback.
 Its fresh VS Code 1.144.0 profile and 44/44 finalization audit pass; VSIX hash
 is `fe156d1f1b3bb98f9901eb4198f234a990481ee3863af0dc09b5ae61652e63a5`.
 Editor/OpenC working-set peaks are 1,633,779,712/5,656,576 bytes.
-Hosted source `7faeee5635d5eaf2b4d2d5a6a7acfbfb36fd877f` is being certified.
+Hosted source `7faeee5635d5eaf2b4d2d5a6a7acfbfb36fd877f` and its metadata-only
+source bridges are certified by the five pinned artifact receipts in
+`.github/release-evidence/v1.0.1/qualification.json`.
+
+The identity architecture now qualifies in the planned hosted block comparison:
+[41502237666](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/41502237666).
+Its paired cold gains are 6.164/4.043 ms, above 1.271/2.482 ms null, with
+30/31 and 24/31 winning blocks. The same-source serial control fails the first
+repeat and passes the second; it does not qualify both. Raw artifact
+`13169402230` hashes to
+`bbe15368bf6c9eaf09cadf7688ba9e1bf4b331064540ad238944b0ef5266d2f9`.
+The native full workflow passes 19/19 and all 32 integer/fallback cases pass.
+The corrected restricted-host series verifies the exact DMD 2.112.0 binary
+`5ec3152d...`, at 20 observations per tool/cell and inherited mask 0xf. Large
+is 1.087x/1.133x and control 0.803x/0.771x. Every available ceiling and both
+1.20x large targets pass. Status remains `PARTIAL_COMPARATOR_SET` because
+MSVC/Clang/LDC are absent. Two preceding local records used the installed
+2.113.0 executable and fail the expected-version check; they remain raw
+rejected-pin evidence and do not certify the pinned target.
+
+Both final-compiler hosted production certificates pass all 20 original
+ratios (20 observations per cell), the actual negative CLI proof and both
+scaling suites on all five tools. Their ZIPs are
+`b1abb1e6e78a9b47f9c04cf9756f3d05a2fefa7efe472ceee82a412d86c82cd7`
+and `222b6ca0524046a8a6d573204f34e133543012c173be46daeb70240774c0b721`.
+The representative application certificate also passes on the exact compiler.
+The fresh editor record is committed after that source revision; the two
+module/package certificates include it and pass all required gates. Medium
+cold deltas are +2.835/+3.005 ms within unchanged budgets; warm/edit win 11/11
+in both. Their ZIPs are
+`898cdd100817c319d10f8263724b51473a8a5b37c82df932db1427f5fe1cc161`
+and `0918e546af026bbe9ac8339a9c049fb86f4a1d1d3cedd4160e5e36eb338e10bd`.
+Git-diff checks prohibit code, corpus,
+runtime, library or test changes across these metadata-only source bridges.
+
+The frozen-input native release passes all nine checks; independent manifests
+cover all 230 compiler sources and every archive payload. Its independent
+extracted-package audit passes 278 conformance fixtures, 153 exact diagnostics,
+35 runtime fixtures, all four maintained programs and CLI/project/LSP/semantic
+LSP gates from a foreign working directory without D/C/Python/TinyCC in the
+native build path. The earlier local archive attempt correctly rejects a
+qualification-note edit between its two source builds. Both attempts and all
+other local raw records are retained in the authenticated local-verification
+ZIP. The final hosted candidate rebuilds the exact final checkout.
 
 The predecessor's two hosted production attempts both pass all 20 original
 ratios and both scaling suites. Its module repeat fails medium cold:

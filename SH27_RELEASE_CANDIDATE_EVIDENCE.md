@@ -1,7 +1,22 @@
 # SH-27 current compiler and release qualification
 
-Current status: **SH-27 remains open; publication is not authorized**.
-The package-integrity compiler is `0feaf99c92f07b773b47a9436ae620940b3596a550c0f515787dee699ff8943b`.
+Current status (2026-11-02): **engineering certified; final candidate verification and owner publication pending**.
+The final compiler is `7c6f7bbaa5b9ed737a23c5779c560e54e0954d51f8756c412aad7f5ab05d42f5`.
+Two independent hosted C/D certificates, two cache/package certificates,
+representative/four-project coverage, strict 20-generation closure, native
+correctness and fresh editor checks pass. The exact pinned local DMD 2.112.0
+large-function ratios are 1.087x/1.133x, below the unchanged 1.20x target.
+The versioned release workflow builds and compares the final 16-asset set
+before owner authorization. All five proof artifact identities and the bounded
+local raw-evidence ZIP are pinned in
+[qualification.json](.github/release-evidence/v1.0.1/qualification.json).
+[Current qualification and findings](OpenC-1.0/compiler/selfhost/SH27_1_0_1_QUALIFICATION.md)
+retains every rejected experiment and failed certificate. No public 1.0.1
+release is authorized by this engineering checkpoint.
+
+## Historical package-integrity checkpoint
+
+The preceding package-integrity compiler is `0feaf99c92f07b773b47a9436ae620940b3596a550c0f515787dee699ff8943b`.
 Fixed-point, conformance/ABI, native regression and fresh editor checks pass.
 The `81787a12...` predecessor passes hosted original/scaling/negative-CLI,
 module/cache/strict-20 and retained-project proofs, but its v3 four-CPU

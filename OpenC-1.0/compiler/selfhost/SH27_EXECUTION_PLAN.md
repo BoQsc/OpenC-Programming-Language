@@ -1,6 +1,20 @@
 # SH-27 execution plan: finish the compiler, then certify the release
 
-Current checkpoint (2026-11-02): **SH-27 remains open pending final certification**.
+Current checkpoint (2026-11-02): **engineering certified; candidate verification and publication pending**.
+Compiler `7c6f7bba...` retains compact checked updates and starts an owned
+identity worker during declarations. Both planned hosted cold comparisons
+qualify above their null controls. Strict 20/20, 28 worker failures, 30 cache
+cases, full native workflow 19/19, 32 integer/fallback cases and fresh editor/
+finalization pass. Both restricted-host large DMD ratios meet 1.20x at
+1.087x/1.133x using pinned DMD 2.112.0. Both final-compiler hosted production
+certificates pass all 20 original ratios, the actual negative CLI and both
+scaling suites. Both independent cache/package certificates pass, including
+medium cold and every warm/edit pair. Freeze and verify the publication set, then obtain
+owner authorization for 1.0.1. Do not start another optimization round while
+this candidate's required gates pass. Current proof is indexed in the
+[qualification record](SH27_1_0_1_QUALIFICATION.md).
+
+Preceding checkpoint (2026-11-02): **final certification was still open**.
 Compiler `f97d4610...` replaces proven native local updates with a normalized
 checked IR operation. Original large-corpus IR falls from 105,229 to 31,501;
 the independent 31-pair target gain is above its null floor. Both planned

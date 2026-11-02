@@ -1,6 +1,12 @@
 # SH-27 post-release integrity and production-performance plan
 
-Status: **ACTIVE — PUBLIC INTEGRITY BASELINE PASS; PERFORMANCE EXPANSION OPEN**
+Status (2026-11-02): **ENGINEERING CERTIFIED; FINAL CANDIDATE AND OWNER PUBLICATION PENDING**.
+Compiler `7c6f7bba...` passes two independent hosted production certificates,
+two cache/package certificates, representative and four-project coverage,
+strict 20-generation closure and pinned local DMD 2.112.0 comparisons.
+The [current qualification](SH27_1_0_1_QUALIFICATION.md) indexes the exact raw
+artifacts and retained failures. Versioned 1.0.1 candidate verification and
+owner-authorized publication remain; the 1.0.0 release stays immutable.
 
 The dependency-ordered remaining work and explicit completion gates are in
 [`SH27_COMPLETION_ROADMAP.md`](SH27_COMPLETION_ROADMAP.md). This file retains
