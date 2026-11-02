@@ -27,6 +27,13 @@
       "link_sha256": "a364af801a8539e4324d9489313dbf001d959128451fc99a27b24676bbac058f",
       "discovery_run": 40126437277,
       "discovery_artifact": 12573347352
+    },
+    {
+      "runner_image_version": "20261030.294.1",
+      "cl_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "link_sha256": "a364af801a8539e4324d9489313dbf001d959128451fc99a27b24676bbac058f",
+      "discovery_run": 41450479818,
+      "discovery_artifact": 13144582274
     }
   ]
 }
