@@ -8,13 +8,17 @@ now preserve both. Named layouts, selective edits, authenticated wrong-order
 records, locked publication and failed PE cleanup pass, alongside 27 worker
 faults, 30 cache cases, strict 20/20, 278 conformance, 25 ABI, overflow-COFF
 and source-cache checks. The predecessor still failed hosted medium cold;
-current-source hosted/constrained, broader project and release gates remain
-open. The zero-initialization portfolio failed its 31-pair repeat and all
+current-source hosted production, module/cache economics and strict 20/20 now
+pass with downloaded raw evidence verified. Two four-CPU DMD runs pass public
+ceilings at 1.228x/1.233x large; 1.20x headroom remains unmet. Independent
+same-source hosted repeat, project breadth and release audits remain open.
+The early-snapshot/fused-declaration portfolio is isolated without an
+above-null gain. The zero-initialization portfolio failed its 31-pair repeat and all
 of its compiler changes were removed.
 
-Status: **ACTIVE; prior-source hosted synthetic parity replicated, but the
-latest source still lacks final C/D parity certification and SH-27 is not
-complete**. The ordered, falsifiable
+Status: **ACTIVE; current-source hosted synthetic parity and incremental
+economics pass once; independent repeat and project/release closure remain**.
+The ordered, falsifiable
 implementation checklist is `SH27_EXECUTION_PLAN.md`; this file retains the
 full measurement history and work-package rationale.
 `SH27_CANDIDATE_PORTFOLIO.md` is the concise current decision index for

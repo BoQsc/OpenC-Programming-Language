@@ -1,4 +1,4 @@
-name: OpenC isolated module COFF proof
+name: OpenC native cache, module COFF and strict self-host proof
 
 on:
   push:

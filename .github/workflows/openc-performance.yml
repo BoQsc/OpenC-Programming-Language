@@ -40,12 +40,12 @@ on:
       runs:
         description: Samples per clean and one-source-edit lane
         required: true
-        default: '3'
+        default: '20'
         type: string
       enforce_parity:
         description: Fail if OpenC exceeds the checked-in 1.25x median ratio
         required: true
-        default: false
+        default: true
         type: boolean
 
 permissions:
@@ -97,7 +97,7 @@ jobs:
           python OpenC-1.0\compiler\selfhost\benchmark_sh27_production.py
           --openc .github\bootstrap\openc-stage0.exe
           --bootstrap-current
-          --runs ${{ (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/codex/sh27-')) && '20' || inputs.runs || '3' }}
+          --runs ${{ github.event_name == 'push' && '20' || inputs.runs || '20' }}
           --self-build-runs 3
           --parallel-projects 4
           --require-all
@@ -106,7 +106,7 @@ jobs:
           --expected-dmd-version 2.112.0
           --expected-ldc-version 1.43.0
           --antivirus-state github-hosted-windows-2025-default-not-modified
-          ${{ ((github.event_name == 'push' && startsWith(github.ref, 'refs/heads/codex/sh27-')) || inputs.enforce_parity) && '--enforce-parity' || '' }}
+          ${{ (github.event_name == 'push' || inputs.enforce_parity) && '--enforce-parity' || '' }}
           --output artifacts\sh27-production-comparators.json
 
       - name: Verify native argument snapshot and concurrent initialization

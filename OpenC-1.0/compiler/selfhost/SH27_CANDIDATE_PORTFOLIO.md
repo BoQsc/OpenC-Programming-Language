@@ -5,8 +5,12 @@ commits after success and cleans up through stable owner pointers. The audit
 app exposed an unsorted-module cache fallback; native v5/source-group order
 and frontend v3/contribution order are now distinct. Detecting locked-file,
 failed-PE, named-layout and rehashed wrong-order probes pass, as do 27 pool
-faults and the full local correctness/strict-RAM gates. Hosted cold and final
-certification remain open. The separate [zero-initialization portfolio](SH27_ZERO_INITIALIZATION_BATCH_NO_GO.md)
+faults and the full local correctness/strict-RAM gates. Downloaded current-source
+hosted production/module/cache proofs pass, including medium cold. Four-CPU
+DMD passes public ceilings twice but misses internal large headroom.
+The [early-snapshot/fused-declaration batch](SH27_FRONTEND_BATCH_NO_GO.md) does
+not beat null noise and remains isolated. Final independent certification,
+project breadth and release audits remain open. The separate [zero-initialization portfolio](SH27_ZERO_INITIALIZATION_BATCH_NO_GO.md)
 failed its independent 31-pair repeat and was removed before this checkpoint.
 
 Status: **historical first-batch portfolio; SH-27 remains open**. The latest

@@ -9,9 +9,15 @@ named layouts, selective edits and rehashed wrong-source-order records have
 detecting tests. Current local 27 worker faults, 30 cache cases, strict 20/20,
 278 conformance, 25 ABI, overflow-COFF and source-cache proofs pass. The prior
 hosted module run failed medium cold (+11.218 ms against 0.733 ms null).
-Current-source hosted economics, repeated constrained margin, broader projects
-and release certification remain required. The zero-allocation batch failed
-its independent repeat and was removed.
+Current-source hosted production (20/20 ratios, 20 samples/cell), module/cache
+economics and strict 20/20 now pass with downloaded raw artifacts verified.
+The medium cold delta is +6.419 ms, inside the existing five-percent budget;
+warm/edit win 11/11. Two constrained DMD runs pass every available public
+ceiling; large remains 1.228x/1.233x against the 1.20x engineering target.
+The early-snapshot/fused-declaration portfolio does not beat measured null
+noise and remains isolated. Obtain an independent same-source hosted repeat
+and complete project/release audits; SH-27 is active. The zero-allocation
+batch failed its independent repeat and was removed.
 
 Status: **active, not complete**. This is the ordered engineering checklist for
 SH-27. `SH27_COMPLETION_ROADMAP.md` retains the detailed measurements and

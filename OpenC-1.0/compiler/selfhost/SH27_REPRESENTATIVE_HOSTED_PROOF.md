@@ -3,6 +3,21 @@
 Status: **PASS for this checked-in four-module audit fixture; not SH-27
 completion or broad C/D-class parity.**
 
+Current-source update (verified 2026-11-02):
+[run 40131377833](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40131377833)
+passes literal reviewed toolchain pins and three repetitions of cold/warm/edit
+runtime equivalence with exact fixed-point compiler
+`1859f47fa388d0de3f6003c028a5d3ed2bb6a70bd95dfe8091d46139237c1ed1`.
+Downloaded artifact `12574234018` has ZIP SHA-256
+`be19b4cf11a3dca40004b330998f315a030db134bcf3ad6905559c42fcfb4f1e`;
+`representative-medium.json` is
+`e1b2bb786d9e8d2d3ec51633dc4febf0c430e45eefb8b5b3a68fef3ca5f48d8b`.
+All nine OpenC cases obey the 256/64 MiB compiler limits. The separate
+normal-default compiler and 24-file economics gates now pass on this same
+source; see [native-default evidence](SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md).
+Project breadth, independent final-source repeat and release audits remain
+open. The following entries retain their original historical source identity.
+
 On 2026-10-24 the candidate branch was added to the same push/manual workflow.
 Discovery run `40126437277`, artifact `12573347352`, identifies runner image
 `20261021.278.1`. Its downloaded ZIP verifies as

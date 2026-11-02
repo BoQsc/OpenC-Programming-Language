@@ -1,12 +1,70 @@
 # SH 27 ordinary build native object and frontend cache candidate
 
-Status: **unpromoted; hosted cold economics and final-source proof remain open**.
+Status: **current-source hosted cold economics pass; independent final-source
+repeat and remaining project/release audits are open**.
 The isolated `codex/sh27-native-object-default` branch now overlaps cold
 compiler fingerprinting and object-key preparation with native compilation.
 The compiler matrix and two independent medium matrices pass their unchanged
 cold/warm/edit gates. Final-source hosted proof, constrained-host parity,
 representative breadth and release certification remain mandatory. The older
 frontend-only candidate's failed medium cold gate is retained below.
+
+## Verified hosted checkpoint (2026-11-02)
+
+Downloaded artifacts for source `aec36012a159885b98eee58eb82e6bd1b56b07ac`
+all identify fixed-point compiler
+`1859f47fa388d0de3f6003c028a5d3ed2bb6a70bd95dfe8091d46139237c1ed1`.
+The [production run](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40131377832)
+passes every one of the twenty pinned comparator ceilings, with 20 successful
+compile/execution samples in each of the 25 cells (500 total). Large/control
+DMD ratios are 0.413/0.202. Cold native/frontend cache state is recorded for
+each ordinary OpenC sample. This is one current-source hosted certificate.
+
+The [native cache/module run](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40131377877)
+passes all correctness and economics steps, including the previously failing
+medium cold gate. In 11 balanced pairs:
+
+| Project | Cold paired delta | Unchanged direct/cache | Edit direct/cache |
+| --- | ---: | ---: | ---: |
+| Compiler | -12.174 ms (6/11 wins; 47.904 ms null) | 3.274959/0.117362 s | 3.298274/0.501007 s |
+| 24-file medium | +6.419 ms (2/11 wins; 1.948 ms null) | 0.176465/0.052998 s | 0.176550/0.063523 s |
+
+Medium cold passes the unchanged five-percent budget on 0.180382 s direct;
+it is a measured overhead, not a cold speedup. Both warm/edit lanes win 11/11
+above null. The strict twenty-generation chain is exact on the same compiler,
+with 239,194,112 private and 62,676,992 peak working-set bytes. All 30 cache
+builds, 12 frontend-publication builds, 278 conformance and 25 ABI checks pass.
+Outer cache/COFF jobs retain their declared guards.
+
+The [pinned representative run](https://github.com/BoQsc/OpenC-Programming-Language/actions/runs/40131377833)
+also passes three repetitions of cold/warm/edit C/D/OpenC output equivalence
+on this compiler. That small authored app does not establish broad project
+performance parity.
+
+| Downloaded artifact | ZIP SHA-256 |
+| --- | --- |
+| Production `12574479414` | `65e3b2d982dfa4d76132d964da6805ecb23e534aa57cc1162ebd469a5ab31472` |
+| Module/cache `12575362560` | `9044c0ed435075725a320e7ad3f6df713c34d3d5ea79582a30f4ac368310fa90` |
+| Representative `12574234018` | `be19b4cf11a3dca40004b330998f315a030db134bcf3ad6905559c42fcfb4f1e` |
+
+Production JSON SHA-256 is
+`900981f857d8e04de328f89e8a9e96796e54880cc84d6332e579c59d3fcd67ab`;
+strict JSON is `fcfd57f49ab3b8cb15fc1c137346572f4d7ab53b3d671a1c355d9dc975561f47`.
+The raw local verification index is
+`build-output/sh27-native-cache/current-hosted-verification.json`.
+
+Two independent pinned-DMD, four-logical-CPU runs on this binary pass all five
+available public ceilings. Large is 0.288829/0.235262 = 1.227691x, then
+0.246561/0.199977 = 1.232947x; control is 0.772649x, then 0.716096x.
+The large internal 1.20x deficits are 6.515 and 6.589 ms. These remain a
+headroom limitation; absent local MSVC/Clang/LDC comparators are not certified.
+Their report hashes are
+`578936774f9ef09d881e66965d3dd57326ef6b8b65e3bc0a170d3c11089fca7e`
+and `a971ac5e098e6db1b85d26817b89c1c4d989da118e0d2eb5e3e9edfdf4f74962`.
+
+The [early-snapshot/fused-declaration batch](SH27_FRONTEND_BATCH_NO_GO.md)
+does not show an above-null target gain and remains isolated. Current compiler
+source stays frozen for the independent hosted repeat and closure audits.
 
 ## Current digest/scratch and peak-guard checkpoint
 
