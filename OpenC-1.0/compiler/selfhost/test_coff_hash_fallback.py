@@ -21,7 +21,8 @@ def main() -> int:
     args = parser.parse_args()
     compiler = args.compiler.resolve(strict=True)
     report = {"schema": "openc.sh27.coff_hash_fallback.v1", "status": "FAIL",
-              "compiler_sha256": sha256(compiler), "builds": [], "links": {}}
+              "compiler_sha256": sha256(compiler), "builds": [], "links": {},
+              "bootstrap_cache_policy": "disabled_for_isolated_fault_compiler_closure"}
     try:
         # A hosted checkout can live on D: while TEMP lives on C:. Keep the
         # isolated project on the source volume so relative source references
@@ -62,8 +63,12 @@ def main() -> int:
             hashes = []
             for generation in range(1, 4):
                 target = directory / f"fault-stage{generation}.exe"
+                # Bootstrap proves exact fault-compiler closure, independently
+                # of ordinary frontend/object-cache identity hashing. The
+                # saved-object links below still exercise the missing SHA API
+                # and retain the same 256/64 MiB process guards.
                 measurement = guarded([str(current), "build", f"--project={project_path}",
-                                       f"--output={target}"])
+                                       f"--output={target}", "--no-cache"])
                 digest = sha256(target)
                 hashes.append(digest)
                 report["builds"].append({"generation": generation,
