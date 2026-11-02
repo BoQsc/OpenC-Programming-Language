@@ -1,13 +1,21 @@
 # OpenC canonical mainline status
 
-The SH-27 candidate is 1.0.1, current compiler `0feaf99c...`. Package-integrity
-fixes, local fixed point, conformance/ABI, native regression and fresh editor
-audits pass. **SH-27 remains open:** large-function compilation still exceeds
-the 1.25x DMD ceiling on the separately pinned four-CPU host. Ten isolated
-optimization candidates did not qualify and remain unpromoted. Final-source
-hosted and package verification are recorded in the
+The SH-27 candidate is 1.0.1, compiler `7c6f7bba...`. **Engineering gates pass.**
+Two independent hosted production certificates pass all 20 original C/D
+ratios and both scaling suites; two cache/package certificates pass the
+unchanged cold/warm/edit budgets and strict 20-generation closure. Exact
+pinned DMD 2.112.0 local large-function ratios are 1.087x/1.133x, below the
+1.20x engineering target. Native workflow 19/19, 278 conformance fixtures,
+32 integer/fallback cases, representative/four-project coverage, fresh editor
+and deterministic relocated packaging checks pass. SH-27 remains open only
+for final candidate verification and owner-authorized publication. All exact
+identities, raw artifacts and rejected attempts are indexed in the
 [qualification record](compiler/selfhost/SH27_1_0_1_QUALIFICATION.md).
-Earlier measurements below retain their original compiler identity.
+
+## Historical checkpoints
+
+Measurements below retain their original compiler identity and are superseded
+by the current qualification above, including entries that then remained open.
 
 SH-27 working-branch checkpoint (2026-11-02): compiler `1859f47f...` passes
 two independent clean hosted 20/20 C/D comparisons, strict self-host/cache

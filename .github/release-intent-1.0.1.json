@@ -6,6 +6,7 @@
   "authorized_by": null,
   "authorized_utc": null,
   "publish_on_push": false,
+  "candidate_revision": 2,
   "release_scope": "windows_x86_64_hosted",
   "expected_compiler_sha256": "7c6f7bbaa5b9ed737a23c5779c560e54e0954d51f8756c412aad7f5ab05d42f5",
   "qualification": ".github/release-evidence/v1.0.1/qualification.json",
