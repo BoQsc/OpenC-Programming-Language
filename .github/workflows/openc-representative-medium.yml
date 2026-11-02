@@ -7,6 +7,7 @@ on:
       - codex/sh27-representative-work
       - codex/sh27-critical-worker-budget
       - codex/sh27-native-object-default
+      - codex/sh27-release-preserve-20261102
     paths:
       - .github/bootstrap/openc-stage0.exe
       - .github/representative-toolchain-pins.json

@@ -2,7 +2,7 @@ name: OpenC native cache, module COFF and strict self-host proof
 
 on:
   push:
-    branches: [master, codex/sh27-incremental-object-slice, codex/sh27-local-throughput, codex/sh27-native-object-default]
+    branches: [master, codex/sh27-incremental-object-slice, codex/sh27-local-throughput, codex/sh27-native-object-default, codex/sh27-release-preserve-20261102]
     paths:
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
