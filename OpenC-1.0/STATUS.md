@@ -1,5 +1,10 @@
 # OpenC canonical mainline status
 
+The SH-27 release candidate is now 1.0.1, compiler `81787a12...`. Local strict
+self-hosting, cache recovery, conformance, ABI, COFF and editor audits pass.
+Fresh final-source hosted certification uses guarded process-start timing v3;
+earlier v2 measurements below retain their original compiler identity.
+
 SH-27 working-branch checkpoint (2026-11-02): compiler `1859f47f...` passes
 two independent clean hosted 20/20 C/D comparisons, strict self-host/cache
 repeats, the clean editor profile and relocated native release checks.
@@ -8,7 +13,7 @@ SH-27 remains active; the SH-25/26 measurements below retain their historical
 release identity.
 
 ```text
-version:                            1.0.0
+version:                            1.0.1 CANDIDATE
 canonical development tree:         YES
 release scope:                      WINDOWS X86-64 HOSTED
 

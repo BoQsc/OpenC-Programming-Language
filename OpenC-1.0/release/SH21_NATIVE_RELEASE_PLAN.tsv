@@ -1,4 +1,4 @@
-openc.native_release_plan.v1	1	1899
+openc.native_release_plan.v1	1	1902
 compiler/selfhost/SH25_WINDOWS_1_0_FINALIZATION_PLAN.md
 compiler/selfhost/SH25_COMPLETION_EVIDENCE.md
 compiler/selfhost/SH26_COMPLETION_EVIDENCE.md
@@ -1898,3 +1898,6 @@ third_party/tinycc-win64/i386-win32-tcc.exe
 third_party/tinycc-win64/libtcc.dll
 third_party/tinycc-win64/tcc.exe
 compiler/selfhost/verify_sh27_parity_enforcement.py
+benchmarks/sh27/FILE_SCALE.json
+compiler/selfhost/SH27_1_0_1_QUALIFICATION.md
+compiler/selfhost/verify_sh27_project_batch.py

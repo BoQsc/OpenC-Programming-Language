@@ -550,7 +550,7 @@ class Sh27ProductionTests(unittest.TestCase):
         self.assertEqual(result["exit_code"], 0, result)
         self.assertEqual(result["stdout"].strip(), "timing oracle")
         self.assertEqual(result["timing_basis"],
-                         "parent_perf_counter_launch_to_process_exit_v2")
+                         "parent_perf_counter_suspended_launch_to_process_exit_v3")
         self.assertGreater(result["measurement_wall_seconds"] -
                            result["elapsed_seconds"], 0.35, result)
 

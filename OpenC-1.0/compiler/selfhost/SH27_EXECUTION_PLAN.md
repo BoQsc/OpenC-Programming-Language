@@ -1,5 +1,11 @@
 # SH-27 execution plan: finish the compiler, then certify the release
 
+Release candidate checkpoint: 1.0.1 compiler `81787a12...` passes the local
+fixed point, strict 20/20, cache/COFF, conformance/ABI and fresh editor audits.
+The harness assigns bounded Jobs before child execution and labels timing v3.
+[Final-source qualification](SH27_1_0_1_QUALIFICATION.md) now requires fresh
+hosted repeats, including added scaling and retained-project batch gates.
+
 Latest checkpoint: `1859f47f...` prepares a frontend temporary on a second
 joined job while PE linking runs, and commits after PE success. Stable owner
 pointers clean up late-populated state. The retained audit app exposed an

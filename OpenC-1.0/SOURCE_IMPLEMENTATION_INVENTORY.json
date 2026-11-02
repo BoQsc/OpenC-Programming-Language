@@ -187,12 +187,12 @@
       "sha256": "dabe59d7bee26e71c43febdcfc995f0ff90e8c83c3e43d4c4a83f81094a47c4b"
     },
     {
-      "bytes": 14257,
+      "bytes": 15078,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "build_release_source",
       "path": "scripts/sh25_clean_vscode_profile.py",
       "present": true,
-      "sha256": "94e067b6ddc7df0123adfc38522abd711029e605bcf824e40a61a04359d8f8b1"
+      "sha256": "c2b949ecd49a4ee572f22c616e92ef85be2069e67ae6b40a6f8810b4bd395047"
     },
     {
       "bytes": 2095,
@@ -843,12 +843,12 @@
       "sha256": "0c475d811c8372e2568e512e8fd9874f8501b1ab65e6968884e46ec894f6147b"
     },
     {
-      "bytes": 50197,
+      "bytes": 50608,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/benchmark_sh27_production.py",
       "present": true,
-      "sha256": "7b190862918edb418b696a5c1bd4a91f78fb5cdd9786fc8521d9caa0301550e2"
+      "sha256": "193eb530d3fdca084700357021115da68a2da305cc818d24905d4c0326b08082"
     },
     {
       "bytes": 7213,
@@ -1744,7 +1744,7 @@
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli.p",
       "present": true,
-      "sha256": "844cc52135a00d423788b4c6c9bc8e036c6f558626c2fdcc18badcf0ad546d1c"
+      "sha256": "18f1c6ffd1798e8913a247b17cd4034b91925135c196c247be03b13b714b5dcd"
     },
     {
       "bytes": 11661,
@@ -1784,7 +1784,7 @@
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_contract_audit.p",
       "present": true,
-      "sha256": "af2e8c52dac59fd044b9cb897d2b59c05b9350fcd3204a6741825397d8f3c2a1"
+      "sha256": "a9076ea78b1ac70b1364941a53f8db115bedbc65f277b11ff74046c1e12b767b"
     },
     {
       "bytes": 18698,
@@ -1800,7 +1800,7 @@
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_finalization.p",
       "present": true,
-      "sha256": "833d90eecc3c45b56d032082f6e76d8003943e481c6ef640a5ef0cba38f182e5"
+      "sha256": "d183e641f4ff6c2de13a02706d493aef2888a995981596969d1a61ccd0c33733"
     },
     {
       "bytes": 11432,
@@ -2032,7 +2032,7 @@
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_release_verify.p",
       "present": true,
-      "sha256": "633f9804debf483fded5c0beb27023937857b14f43856cd40dee9944e1a02fe7"
+      "sha256": "bd7b5dd62c7fb482c95fa5a5730ba885eac7e8537add4447ec8f252d25845aff"
     },
     {
       "bytes": 4739,
@@ -2072,7 +2072,7 @@
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/source/cli_workflow.p",
       "present": true,
-      "sha256": "ecfd8de49e5909dd7a8657e9ab4ef2ef6f439bc36c9eaaaaf7804500a297db09"
+      "sha256": "384837aaaeb4eae27467eb9b8880388e9248b2545b02155fe5330cfb0a19cf21"
     },
     {
       "bytes": 8120,
@@ -2835,12 +2835,20 @@
       "sha256": "3ac7032a7ff4e963b2951bda9ee468366357d658d82b526766636025376f0efc"
     },
     {
-      "bytes": 14861,
+      "bytes": 9929,
+      "evidence_state": "AUTHORED_PRESENT",
+      "group": "compiler_selfhost",
+      "path": "compiler/selfhost/verify_sh27_project_batch.py",
+      "present": true,
+      "sha256": "9a26b700a95474e1bf7dc569fb40c4feea19ea7b58271fe4a71c2507644c4f3d"
+    },
+    {
+      "bytes": 17940,
       "evidence_state": "AUTHORED_PRESENT",
       "group": "compiler_selfhost",
       "path": "compiler/selfhost/windows_process_measure.py",
       "present": true,
-      "sha256": "e35a86e1b92b509dd0eb0cb1d28322b723d346f431f4074e5ada7acb33b3a333"
+      "sha256": "0f4ea55d2ed830779c82b8e4518d44e9b7e31cf94c10e2b4fdcdba6db249ba8c"
     },
     {
       "bytes": 859,
@@ -3390,9 +3398,9 @@
   "missing": [],
   "schema": "openc.source_inventory.v2",
   "totals": {
-    "bytes": 3916854,
+    "bytes": 3931094,
     "empty": 0,
-    "files": 423,
+    "files": 424,
     "missing": 0
   },
   "version": "1.0.0"

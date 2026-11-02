@@ -661,6 +661,10 @@ def run_sample(
              or (isinstance(measured["compiler_timings"], dict)
                  and measured["compiler_timings"].get("status") == "PASS"))
     )
+    # Preserve every completed observation even if a later auxiliary lane
+    # fails before the aggregate report can be written.
+    (sample_root / (output_filename + ".measurement.json")).write_text(
+        json.dumps(measured, indent=2) + "\n", encoding="utf-8")
     return measured
 
 
@@ -952,7 +956,7 @@ def main() -> int:
         },
     }
 
-    edit_workload_id = "many_files"
+    edit_workload_id = "many_files" if "many_files" in generated else str(corpus["workloads"][-1]["id"])
     edit_lanes: dict[str, object] = {}
     for tool in available:
         path, environment = resolved[tool]
@@ -1002,7 +1006,7 @@ def main() -> int:
     }
 
     parallel_lanes: dict[str, object] = {}
-    parallel_input_id = "small_single_file"
+    parallel_input_id = "small_single_file" if "small_single_file" in generated else str(corpus["workloads"][0]["id"])
     for tool in available:
         path, environment = resolved[tool]
         started = time.perf_counter()

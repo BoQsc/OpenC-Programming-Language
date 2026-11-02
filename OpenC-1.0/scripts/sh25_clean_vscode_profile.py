@@ -14,6 +14,7 @@ import re
 import subprocess
 import sys
 import time
+import zipfile
 
 
 TH32CS_SNAPPROCESS = 0x00000002
@@ -183,6 +184,18 @@ def main() -> int:
     os.environ["ELECTRON_RUN_AS_NODE"] = "1"
     os.environ.pop("VSCODE_DEV", None)
     vsix = args.vsix.resolve(strict=True)
+    with zipfile.ZipFile(vsix) as package_archive:
+        info = package_archive.getinfo("extension/package.json")
+        if info.file_size > 65536:
+            raise SystemExit("extension metadata exceeds the probe budget")
+        package_metadata = json.loads(package_archive.read(info))
+    if package_metadata.get("publisher") != "openc-language" or package_metadata.get("name") != "openc":
+        raise SystemExit("the clean-profile probe requires the first-party OpenC extension")
+    extension_version = package_metadata.get("version", "")
+    if not isinstance(extension_version, str) or not re.fullmatch(r"\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?", extension_version):
+        raise SystemExit("invalid extension version")
+    expected_extension = f"openc-language.openc@{extension_version}"
+    expected_directory = f"openc-language.openc-{extension_version}"
     compiler = args.compiler.resolve(strict=True)
     output_root = args.output_root.resolve()
     if output_root.exists():
@@ -213,7 +226,6 @@ def main() -> int:
     install = run(base + ["--install-extension", str(vsix), "--force"])
     after = run(base + ["--list-extensions", "--show-versions"])
     installed = [line.strip() for line in after.stdout.splitlines() if line.strip()]
-    expected_extension = "openc-language.openc@1.0.0"
 
     launch_command = base + [
         "--new-window",
@@ -262,7 +274,7 @@ def main() -> int:
         )
         started_server = (
             "Starting " in combined_logs
-            and "openc-language.openc-1.0.0" in combined_logs
+            and expected_directory in combined_logs
             and "openc.exe lsp --stdio" in combined_logs
         )
         diagnostics_roundtrip = (
@@ -279,7 +291,7 @@ def main() -> int:
         normalized_logs = combined_logs.replace("/", "\\").lower()
         packaged_compiler_selected = (
             ("[openc] language server ready:" in normalized_logs or "starting " in normalized_logs)
-            and "openc-language.openc-1.0.0\\bin\\openc.exe" in normalized_logs
+            and expected_directory.lower() + "\\bin\\openc.exe" in normalized_logs
             and "lsp --stdio" in normalized_logs
         )
         if language_server_ready and diagnostics_roundtrip and packaged_compiler_selected:

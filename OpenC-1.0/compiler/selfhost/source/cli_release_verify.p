@@ -116,10 +116,10 @@ unsafe bool cli_release_package_workflow(
     }
     if passed {
         text vsix_a = path.join(
-            output_directory, "relocated-OpenC-vscode-1.0.0-a.vsix"
+            output_directory, "relocated-OpenC-vscode-1.0.1-a.vsix"
         );
         text vsix_b = path.join(
-            output_directory, "relocated-OpenC-vscode-1.0.0-b.vsix"
+            output_directory, "relocated-OpenC-vscode-1.0.1-b.vsix"
         );
         command = d_buffer_create(32768);
         cli_workflow_command_start(command, compiler, "editor-package");

@@ -2,10 +2,12 @@ name: OpenC native cache, module COFF and strict self-host proof
 
 on:
   push:
-    branches: [codex/sh27-incremental-object-slice, codex/sh27-local-throughput, codex/sh27-native-object-default]
+    branches: [master, codex/sh27-incremental-object-slice, codex/sh27-local-throughput, codex/sh27-native-object-default]
     paths:
       - OpenC-1.0/compiler/selfhost/source/**
       - OpenC-1.0/compiler/selfhost/openc.project.json
+      - OpenC-1.0/VERSION
+      - OpenC-1.0/compiler/selfhost/verify_sh27_project_batch.py
       - OpenC-1.0/release/SH21_NATIVE_RELEASE_PLAN.tsv
       - OpenC-1.0/SOURCE_COMPLETENESS_CONTRACT.json
       - OpenC-1.0/scripts/verify_native_release_plan.py
@@ -49,7 +51,7 @@ concurrency:
 jobs:
   proof:
     runs-on: windows-2025
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Check out isolated source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -248,6 +250,16 @@ jobs:
           --runs 3 --self-build-generations 3
           --output artifacts\module-coff\representative.json
 
+      - name: Prove cold, unchanged and edited four-project concurrency
+        shell: cmd
+        run: >-
+          python OpenC-1.0/compiler/selfhost/run_with_memory_guard.py
+          --max-private-mib 512 --max-working-set-mib 512
+          --record artifacts/module-coff/project-batch-guard.json
+          -- python OpenC-1.0/compiler/selfhost/verify_sh27_project_batch.py
+          --compiler artifacts/module-coff/bootstrap-current/stage3/openc.exe
+          --pairs 5 --output artifacts/module-coff/project-batch.json
+
       - name: Enforce strict 20-generation native self-build and small lanes
         shell: cmd
         run: >-
@@ -278,7 +290,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: OpenC-SH27-module-COFF-${{ github.run_id }}
+          name: OpenC-SH27-module-COFF-${{ github.run_id }}-${{ github.run_attempt }}
           if-no-files-found: warn
           retention-days: 90
           path: |

@@ -16,7 +16,7 @@ import tempfile
 from windows_process_measure import run_measured
 
 MIB = 1024 * 1024
-VERSION = "OpenC 1.0.0\ncompiler: OpenC self-hosted native\n"
+VERSION = "OpenC " + (Path(__file__).resolve().parents[2] / "VERSION").read_text().strip() + "\ncompiler: OpenC self-hosted native\n"
 
 
 def digest(path: Path) -> str:

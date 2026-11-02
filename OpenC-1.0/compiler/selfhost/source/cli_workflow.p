@@ -523,10 +523,10 @@ unsafe i32 cli_workflow_command() {
         output_directory, "openc-sh25-stage3.exe"
     );
     text editor_vsix_a = path.join(
-        output_directory, "OpenC-vscode-1.0.0-a.vsix"
+        output_directory, "OpenC-vscode-1.0.1-a.vsix"
     );
     text editor_vsix_b = path.join(
-        output_directory, "OpenC-vscode-1.0.0-b.vsix"
+        output_directory, "OpenC-vscode-1.0.1-b.vsix"
     );
     text finalization_report = path.join(
         output_directory, "sh25-native-finalization-audit.json"
@@ -553,7 +553,7 @@ unsafe i32 cli_workflow_command() {
     DBuffer command = d_buffer_create(32768);
     cli_workflow_command_start(command, compiler, "version");
     cli_workflow_execute(
-        report, counters, "version", command, "OpenC 1.0.0"
+        report, counters, "version", command, "OpenC 1.0.1"
     );
     d_buffer_destroy(command);
 

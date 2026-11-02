@@ -1,4 +1,4 @@
-"""Cold/warm/body/interface cache proof on the actual 228-source compiler.
+"""Cold/warm/body/interface cache proof on the actual self-host compiler.
 
 Usage: python test_source_partition_cache.py COMPILER --report REPORT.json
 """

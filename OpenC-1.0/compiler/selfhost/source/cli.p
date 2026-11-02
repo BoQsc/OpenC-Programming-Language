@@ -89,7 +89,7 @@ text cli_version() {
         }
         return project_slice(version, 0, length);
     }
-    return "1.0.0";
+    return "1.0.1";
 }
 
 void cli_print_help() {

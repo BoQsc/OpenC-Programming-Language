@@ -9,7 +9,7 @@ not invoke Python, TinyCC, D, an assembler, or an external linker.
 | --- | --- | --- |
 | `small_cli` | Existing one-file `programs/D_HOSTED_CLI` application | Lists two supplied arguments; edit changes its heading. |
 | `medium_audit` | Four benchmark-authored OpenC modules plus a checked-in log file | Reads a file and reports lines, digits, warning markers, and a rolling fingerprint; edit changes the fingerprint multiplier. |
-| `compiler_self_build` | Actual 228-source self-host compiler project | Compiled compiler prints its version; edit changes its version fallback; optional generations 2 and 3 must be byte-identical. |
+| `compiler_self_build` | Actual 230-source self-host compiler project | Compiled compiler prints its version; edit changes its version fallback; optional generations 2 and 3 must be byte-identical. |
 
 The manifest is [`SUITE.json`](SUITE.json), schema
 `openc.sh27.representative_projects.v1`. Expected stdout, stderr, exit code,
@@ -37,10 +37,19 @@ unchanged staged project after its files have been touched by the cold build.
 `edit` applies a specified semantic source change to that same staged tree
 and rebuilds. A new staging tree is created for every `--runs` repetition.
 The Windows OS file cache is **not** flushed; "cold" is not a machine-cold
-benchmark. Normal `openc build` does not expose an incremental compilation
-cache, so "warm" and "edit" are not incremental-build speed claims. A
-separate restricted, opt-in module-object cache has its own
+benchmark. Ordinary builds now enable content-validated native/frontend reuse
+for projects selected by the production policy. The compiler project exercises
+that path; the tiny CLI and four-file audit app retain serial compilation.
+Cache hits and cold/warm/edit economics are recorded by the
+[native-default proofs](../../../compiler/selfhost/SH27_NATIVE_OBJECT_DEFAULT_EVIDENCE.md).
+The explicit module-object boundary has its separate
 [real-application proof](../../../../SH27_REPRESENTATIVE_CACHE_EVIDENCE.md).
+
+`verify_sh27_project_batch.py` adds the maintained computation example as a
+fourth retained project. It compares serial and concurrent ordinary builds,
+with isolated cold/unchanged/edited inputs, adjacent serial null controls,
+exact executable hashes and runtime output, and bounded aggregate Job memory.
+The module/COFF workflow runs five pairs of all three categories.
 
 The medium file-audit workload also has checked-in C17/MSVC and D/DMD
 counterparts. To run those lanes, explicitly pin the three native tool
