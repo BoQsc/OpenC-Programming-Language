@@ -50,5 +50,7 @@ extracted-package audit pass. Memory limits remain unchanged.
 Rejected scheduling/projection candidates, the wrong local DMD-version
 observations and the detected mutable-source archive mismatch remain in the
 raw verification record. No known P0/P1 finding remains in this follow-up.
-Independent review remains unclaimed, and owner publication authorization is
-still required for the new version.
+Independent review remains unclaimed. The owner subsequently approved the
+exact verified candidate; 1.0.1 is published at `06cdba3e0e4ba5e2539e45bd7f7d142d532347b4`
+with all 16 public hashes verified and immutable 1.0.0 unchanged. Publication
+workflow `41521487125`, attempt 2, passes. SH-27 is complete.

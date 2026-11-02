@@ -1,14 +1,18 @@
 # OpenC canonical mainline status
 
-The SH-27 candidate is 1.0.1, compiler `7c6f7bba...`. **Engineering gates pass.**
+OpenC 1.0.1 is owner-authorized and published. **SH-27 is complete.**
+The released compiler is `7c6f7bba...`.
 Two independent hosted production certificates pass all 20 original C/D
 ratios and both scaling suites; two cache/package certificates pass the
 unchanged cold/warm/edit budgets and strict 20-generation closure. Exact
 pinned DMD 2.112.0 local large-function ratios are 1.087x/1.133x, below the
 1.20x engineering target. Native workflow 19/19, 278 conformance fixtures,
 32 integer/fallback cases, representative/four-project coverage, fresh editor
-and deterministic relocated packaging checks pass. SH-27 remains open only
-for final candidate verification and owner-authorized publication. All exact
+and deterministic relocated packaging checks pass. All 16 public assets are
+verified; all 15 payloads match the reviewed candidate, with its release record
+updated only for authorization. The immutable 1.0.0 tag and 15 assets are unchanged.
+Release commit is `06cdba3e0e4ba5e2539e45bd7f7d142d532347b4` and publication
+workflow `41521487125`, attempt 2, passes. All exact
 identities, raw artifacts and rejected attempts are indexed in the
 [qualification record](compiler/selfhost/SH27_1_0_1_QUALIFICATION.md).
 

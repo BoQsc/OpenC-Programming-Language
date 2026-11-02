@@ -1,0 +1,25 @@
+name: OpenC release integrity tests
+
+on:
+  push:
+    paths:
+      - .github/scripts/sh27_release.py
+      - .github/scripts/sh27_release_evidence.py
+      - .github/scripts/test_sh27_release.py
+      - OpenC-1.0/schemas/RELEASE_RECORD.schema.json
+      - .github/workflows/openc-release-integrity-tests.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release-tests:
+    runs-on: windows-2025
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verify publication, draft lookup, checksums and failure boundaries
+        run: python -m unittest discover -s .github/scripts -p test_sh27_release.py -v

@@ -1,7 +1,16 @@
 # SH-27 1.0.1 qualification
 
-Status: **engineering gates PASS; final publication-set verification and owner publication pending**.
-The current verification candidate adds early owned compiler-identity hashing:
+Status: **SH-27 COMPLETE; 1.0.1 OWNER AUTHORIZED, PUBLISHED AND REMOTELY VERIFIED**.
+The owner approved the exact candidate from run `41512757985`, artifact
+`13174846904`. All 16 public assets (121,829,675 bytes) match their approved
+digests; publication workflow `41521487125`, attempt 2, passes at release
+commit `06cdba3e0e4ba5e2539e45bd7f7d142d532347b4`. The release is
+[v1.0.1](https://github.com/BoQsc/OpenC-Programming-Language/releases/tag/v1.0.1).
+The immutable 1.0.0 tag and all 15 assets pass before and after publication.
+Repository evidence `.github/release-evidence/v1.0.1/publication.json` pins
+the durable publication-verification ZIP and both verification paths.
+
+The released compiler adds early owned compiler-identity hashing:
 `7c6f7bbaa5b9ed737a23c5779c560e54e0954d51f8756c412aad7f5ab05d42f5`.
 The hash task starts while declarations are collected, touches only its separate
 hash buffer, and is joined before identity use or destruction on every return.
@@ -61,7 +70,9 @@ LSP gates from a foreign working directory without D/C/Python/TinyCC in the
 native build path. The earlier local archive attempt correctly rejects a
 qualification-note edit between its two source builds. Both attempts and all
 other local raw records are retained in the authenticated local-verification
-ZIP. The final hosted candidate rebuilds the exact final checkout.
+ZIP. The final hosted candidate rebuilt the exact final checkout and passed
+all native gates and both identical 16-asset assemblies. Independent schema,
+archive and Git-blob verification also pass for the exact candidate commit.
 
 Independent JSON Schema validation of the first hosted 16-asset candidate
 found that the canonical release-record schema still restricted gate IDs to
@@ -95,7 +106,33 @@ same-source serial control. It keeps every observation; normal cold/warm/edit
 acceptance and the original 20-ratio contract are unchanged.
 
 The immutable 1.0.0 audit passes again: exact tag, all 15 streamed asset hashes
-and the mandatory checksum list. No new public tag or release is authorized.
+and the mandatory checksum list. The owner then explicitly authorized 1.0.1.
+The first publication job created its draft but the published-tag endpoint
+returned 404 for that draft. The owner-authorized release-ID API completion
+uploaded and verified the exact approved assets before making them public;
+every public download and old-release byte was checked again. The original
+publication workflow then passed its independent audit. The draft-lookup
+fix and detecting tests are recorded after publication; published payloads,
+tags and records are never rewritten.
+
+A subsequent master run passed all original ratios and both scaling suites,
+but its deliberately SHA-disabled compiler's third bootstrap transiently
+reached 67,256,320 working-set bytes, 147,456 above the unchanged 64 MiB cap.
+The same fallback-link check passed in the concurrent module workflow.
+The diagnostic bootstrap is now uncached, consistent with isolated closure
+proof; its actual saved-object SHA fallback links and 256/64 MiB guards remain
+unchanged. All three local generations pass, with Stage 2/3 byte-identical to
+the original altered compiler (`99340146...`) and peak working set 57,024,512
+bytes. Source commit `a1610ca` changes this test harness only. The original
+failure and corrected diagnostic are retained in the completion evidence;
+neither changes nor relabels the published compiler or the two release
+certificates.
+
+The corrected hosted run `41523868430` now passes all original ratios, both
+scaling suites and every fault check, including exact missing-SHA closure and
+both linked outputs. The concurrent release-commit cache/package run
+`41521488061` also passes all checks. The completion receipt pins the original
+and corrected raw reports in `post-publication-validation.zip`.
 
 The preceding compact-update compiler is
 `f97d4610573391cb4d8f5d4acd71b38a5a2337462e5992c2568413cb8a06a44d`.

@@ -1,14 +1,14 @@
 # SH-27 throughput candidate portfolio
 
-Current checkpoint (2026-11-02): candidate `7c6f7bba...` retains compact checked
+Completed checkpoint (2026-11-02): released compiler `7c6f7bba...` retains compact checked
 updates and qualifies early owned identity hashing. Its two hosted cold-block
 gains exceed null (6.164/4.043 ms; 30/31 and 24/31 wins). The serial control
 does not qualify both repeats. Six scheduling/projection alternatives remain
 unpromoted. Full native workflow, strict 20/20, 28 worker faults, 30 cache
 cases, 32 integer/fallback cases and fresh editor/finalization pass. Two final
 production and two cache/package certificates are verified. Pinned local DMD
-large ratios are 1.087x/1.133x. Complete final candidate verification and
-owner-authorized publication before further tuning.
+large ratios are 1.087x/1.133x. Final candidate verification and owner-authorized
+`v1.0.1` publication pass; all 16 public assets match. SH-27 is complete.
 See [current qualification](SH27_1_0_1_QUALIFICATION.md).
 
 Preceding checkpoint (2026-11-02): compiler `f97d4610...` retained the full compact

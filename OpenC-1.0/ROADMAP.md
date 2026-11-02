@@ -1,17 +1,19 @@
 # OpenC roadmap
 
-The Windows x86-64 Hosted `1.0.0` release is finalized, owner-authorized, and
+The Windows x86-64 Hosted `1.0.1` release is finalized, owner-authorized, and
 published. Its native compiler, deterministic VSIX, clean-profile editor run,
 conformance, throughput, memory, independence, relocated-release, tag, and
-15-asset remote-integrity gates pass. SH-27 is active: preserve public-release
-integrity, process external review honestly, and expand throughput measurement
-to representative production MSVC, Clang, and D toolchains. Linux,
+16-asset remote-integrity gates pass. SH-27 is complete: two independent
+production and cache/package certificates, representative/four-project
+coverage and owner-authorized publication pass. The 1.0.0 tag and all 15
+assets remain immutable. External-review intake continues without claiming
+reviews not received. Linux,
 freestanding, Native, and standalone Native-provider verification remain
 optional future target work.
 
 ## Critical-path priority
 
-SH-27 checkpoint (2026-11-02): candidate `7c6f7bba...` combines compact checked
+SH-27 completed (2026-11-02): released compiler `7c6f7bba...` combines compact checked
 native updates with early owned compiler-identity hashing. The cold-build
 architecture wins both planned hosted comparisons above noise. Full native
 workflow 19/19, strict 20-generation closure, 32 integer/fallback cases and
@@ -19,9 +21,10 @@ fresh editor/finalization checks pass. Both restricted-host DMD series meet
 the 1.20x large-function target (1.087x/1.133x) using pinned DMD 2.112.0. Both
 five-tool hosted production certificates pass all 20 original ratios and both
 scaling suites. Both independent cache/package certificates also pass, including
-unchanged medium cold budgets and 11/11 warm/edit wins. Engineering is certified;
-SH-27 remains active until final candidate verification and owner-authorized
-1.0.1 publication finish. See the
+unchanged medium cold budgets and 11/11 warm/edit wins. The final 16-asset
+candidate and all public downloads are verified. Owner-authorized `v1.0.1`
+is published at commit `06cdba3e0e4ba5e2539e45bd7f7d142d532347b4`;
+publication workflow `41521487125`, attempt 2, passes. See the
 [current qualification](compiler/selfhost/SH27_1_0_1_QUALIFICATION.md).
 
 SH-14 closed the compiler-throughput gap: the five-run OpenC-native clean
@@ -35,8 +38,8 @@ ABI lowering, PE32+/COFF emission, CRT-free runtime, Win32 metadata projection,
 friendly Windows modules, DLL/library/resource production, optional COM/WinRT,
 native workflows, and the packaged editor. SH-25 freezes the final Windows
 evidence and opens five external-review tracks without claiming reviews that
-have not occurred. SH-27 is the active post-release integrity and production
-performance milestone. Windows concepts remain outside Core, and
+have not occurred. SH-27 completes the declared post-release integrity and
+production-performance milestone. Windows concepts remain outside Core, and
 Linux/freestanding remain nonblocking targets. The architecture is in
 `compiler/design/WINDOWS_NATIVE_INDEPENDENCE.md`.
 
@@ -337,7 +340,12 @@ IR reach closure. Exact evidence and reproduction commands are in
     - the successful hash-locked workflow published and re-downloaded 15/15
       deterministic Windows, VSIX, standard, hash, and release-record assets;
     - D, TinyCC, generated C, an assembler, and an external linker were absent.
-20. **SH-27 post-release integrity and production performance — active**
+20. **SH-27 post-release integrity and production performance — complete**
+    - completed by owner-authorized `v1.0.1`, all 16 public asset hashes,
+      two production and two cache/package certificates, representative and
+      four-project coverage, strict closure and clean editor/package checks;
+    - the chronological checkpoints below retain their original results,
+      including earlier open deficits; current qualification supersedes them;
     - continuously stream-verify the final public asset set and immutable tag;
     - keep the five independent-review tracks open and route findings through
       the security or errata policies without claiming reviews not received;

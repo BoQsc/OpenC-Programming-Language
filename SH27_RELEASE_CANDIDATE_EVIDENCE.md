@@ -1,6 +1,6 @@
 # SH-27 current compiler and release qualification
 
-Current status (2026-11-02): **engineering certified; final candidate verification and owner publication pending**.
+Current status (2026-11-02): **SH-27 COMPLETE; 1.0.1 PUBLISHED AND VERIFIED**.
 The final compiler is `7c6f7bbaa5b9ed737a23c5779c560e54e0954d51f8756c412aad7f5ab05d42f5`.
 Two independent hosted C/D certificates, two cache/package certificates,
 representative/four-project coverage, strict 20-generation closure, native
@@ -11,8 +11,12 @@ before owner authorization. All five proof artifact identities and the bounded
 local raw-evidence ZIP are pinned in
 [qualification.json](.github/release-evidence/v1.0.1/qualification.json).
 [Current qualification and findings](OpenC-1.0/compiler/selfhost/SH27_1_0_1_QUALIFICATION.md)
-retains every rejected experiment and failed certificate. No public 1.0.1
-release is authorized by this engineering checkpoint.
+retains every rejected experiment and failed certificate. The owner authorized
+the exact candidate and [v1.0.1 is published](https://github.com/BoQsc/OpenC-Programming-Language/releases/tag/v1.0.1)
+at `06cdba3e0e4ba5e2539e45bd7f7d142d532347b4`. All 16 public assets match;
+publication workflow `41521487125`, attempt 2, passes and immutable 1.0.0
+remains unchanged. Durable receipts are pinned in
+[publication.json](.github/release-evidence/v1.0.1/publication.json).
 
 ## Historical package-integrity checkpoint
 

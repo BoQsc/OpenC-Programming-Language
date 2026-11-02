@@ -58,7 +58,7 @@
       "source_commit": "7faeee5635d5eaf2b4d2d5a6a7acfbfb36fd877f"
     }
   ],
-  "publication_authorized": false,
+  "publication_authorized": true,
   "reviews": {
     "independent_certification_claimed": false,
     "independent_received": 0,
@@ -68,5 +68,12 @@
   "schema": "openc.sh27.release_qualification.v1",
   "scope": "windows_x86_64_hosted_original_and_representative_corpora",
   "source_bridge_policy": "Functional compiler, runtime, library, corpus, tests and toolchain pins must be byte-identical; prose and matching editor records may differ.",
-  "status": "ENGINEERING_CERTIFIED"
+  "status": "COMPLETE_PUBLISHED",
+  "publication": {
+    "tag": "v1.0.1",
+    "release_commit": "06cdba3e0e4ba5e2539e45bd7f7d142d532347b4",
+    "release_url": "https://github.com/BoQsc/OpenC-Programming-Language/releases/tag/v1.0.1",
+    "assets_verified": 16,
+    "completion_receipt": ".github/release-evidence/v1.0.1/publication.json"
+  }
 }

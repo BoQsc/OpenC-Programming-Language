@@ -30,6 +30,28 @@ def parity_report() -> dict:
 
 
 class ReleaseProofTests(unittest.TestCase):
+    def test_published_release_uses_the_tag_lookup(self):
+        published = {"id": 4, "tag_name": release.TAG, "draft": False}
+        with patch.object(release, "api_json", return_value=published) as api:
+            self.assertEqual(release.find_release("test-token"), published)
+        api.assert_called_once_with(
+            f"https://api.github.com/repos/{release.REPOSITORY}/releases/tags/{release.TAG}",
+            "test-token", missing_ok=True)
+
+    def test_draft_release_is_found_when_tag_lookup_returns_404(self):
+        draft = {"id": 8, "tag_name": release.TAG, "draft": True}
+        with patch.object(release, "api_json", side_effect=[None, [
+                {"id": 3, "tag_name": "v1.0.0"}, draft]]) as api:
+            self.assertEqual(release.find_release("test-token"), draft)
+        self.assertEqual(api.call_args.args,
+            (f"https://api.github.com/repos/{release.REPOSITORY}/releases?per_page=100", "test-token"))
+
+    def test_ambiguous_draft_release_is_rejected(self):
+        with patch.object(release, "api_json", side_effect=[None, [
+                {"id": 8, "tag_name": release.TAG}, {"id": 9, "tag_name": release.TAG}]]):
+            with self.assertRaisesRegex(ValueError, "ambiguous draft"):
+                release.find_release("test-token")
+
     def test_metadata_only_source_bridge_rejects_changed_functional_inputs(self):
         with patch.object(evidence.subprocess, "check_output", return_value=""):
             evidence.verify_functional_source("a"*40, "b"*40)

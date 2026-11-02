@@ -394,6 +394,21 @@ def legacy_audit(output: Path) -> dict:
     return result
 
 
+def find_release(token: str) -> dict | None:
+    """Tag lookup excludes drafts; use the authenticated release list for them."""
+    base = f"https://api.github.com/repos/{REPOSITORY}/releases"
+    selected = api_json(f"{base}/tags/{TAG}", token, missing_ok=True)
+    if selected is None:
+        candidates = [item for item in api_json(f"{base}?per_page=100", token)
+                      if item.get("tag_name") == TAG]
+        check(len(candidates) <= 1, "ambiguous draft release tag")
+        selected = candidates[0] if candidates else None
+    if selected is not None:
+        check(selected.get("tag_name") == TAG and type(selected.get("id")) is int and selected["id"] > 0,
+              "release identity differs")
+    return selected
+
+
 def publish(args: argparse.Namespace) -> None:
     assets = approve_assets(args)
     intent = load_json(args.intent.resolve())
@@ -411,13 +426,14 @@ def publish(args: argparse.Namespace) -> None:
             "-m", f"OpenC {VERSION}"], cwd=repo, check=True)
         subprocess.run(["git", "push", "origin", f"refs/tags/{TAG}"], cwd=repo, check=True)
     token = os.environ["GH_TOKEN"]
-    url = f"https://api.github.com/repos/{REPOSITORY}/releases/tags/{TAG}"
-    release = api_json(url, token, missing_ok=True)
+    release = find_release(token)
     expected = verify_assets(assets, intent, commit, published=True)
     if release is None:
         subprocess.run(["gh", "release", "create", TAG, "--repo", REPOSITORY, "--verify-tag", "--draft",
             "--title", f"OpenC {VERSION}", "--notes-file", str(args.notes.resolve())], cwd=repo, check=True)
-        release = api_json(url, token)
+        release = find_release(token)
+        check(release is not None, "created draft release was not found")
+    url = f"https://api.github.com/repos/{REPOSITORY}/releases/{release['id']}"
     remote = {asset["name"]: asset for asset in release["assets"]}
     check(set(remote) <= set(expected), "release has unexpected immutable assets")
     before = args.output.resolve() / "remote-before"

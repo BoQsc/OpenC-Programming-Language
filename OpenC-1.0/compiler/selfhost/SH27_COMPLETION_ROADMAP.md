@@ -1,6 +1,6 @@
 # SH-27 completion roadmap
 
-Current checkpoint (2026-11-02): **engineering certified; candidate verification and publication pending**.
+Current checkpoint (2026-11-02): **SH-27 COMPLETE; 1.0.1 PUBLISHED AND VERIFIED**.
 Candidate `7c6f7bba...` qualifies early owned compiler-identity hashing in both
 planned hosted cold comparisons: 6.164/4.043 ms gain above 1.271/2.482 ms null,
 30/31 and 24/31 wins. It retains the compact checked-update architecture.
@@ -8,8 +8,9 @@ Strict 20/20, full native workflow 19/19, 28 worker failures, 30 cache cases,
 32 integer/fallback cases and fresh editor/finalization checks pass. The two
 restricted-host large DMD ratios are 1.087x/1.133x using pinned DMD 2.112.0.
 Both hosted five-tool certificates pass all 20 original ratios and both scaling
-suites. Both independent cache/package certificates pass. Remaining work is
-final candidate verification and owner-authorized 1.0.1 publication. The
+suites. Both independent cache/package certificates pass. The final candidate
+and owner-authorized 1.0.1 publication pass, including all 16 public asset
+downloads and unchanged 1.0.0 integrity. No required SH-27 work remains. The
 [qualification record](SH27_1_0_1_QUALIFICATION.md) retains exact identities,
 failures, rejected alternatives and raw evidence.
 

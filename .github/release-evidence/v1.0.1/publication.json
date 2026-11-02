@@ -1,0 +1,136 @@
+{
+  "schema": "openc.sh27.completion.v1",
+  "status": "COMPLETE",
+  "version": "1.0.1",
+  "scope": "windows_x86_64_hosted_original_and_representative_corpora",
+  "completed_utc": "2026-11-02T20:47:27Z",
+  "tag": "v1.0.1",
+  "release_commit": "06cdba3e0e4ba5e2539e45bd7f7d142d532347b4",
+  "release_url": "https://github.com/BoQsc/OpenC-Programming-Language/releases/tag/v1.0.1",
+  "published_utc": "2026-11-02T20:46:07Z",
+  "authorized_utc": "2026-11-02T20:41:04Z",
+  "compiler_sha256": "7c6f7bbaa5b9ed737a23c5779c560e54e0954d51f8756c412aad7f5ab05d42f5",
+  "approved_candidate": {
+    "id": 13174846904,
+    "run_id": 41512757985,
+    "attempt": 1,
+    "sha256": "defbfdf3558924707e78009c26cbe8b029e2de377e2e908afb9d9663df4a67d2",
+    "release_commit": "0fb9ee35dd46588eaca852887267a98df2d870ff",
+    "payload_manifest_sha256": "9c7405d6470a4f89c98ccd9ac8d94aa1b8ab39124be8808d3752d67534486d7b"
+  },
+  "public_assets_verified": 16,
+  "public_asset_bytes": 121829675,
+  "public_assets": {
+    "OpenC-1.0.1-SH27-evidence.zip": {
+      "bytes": 66452355,
+      "sha256": "823da75903dbfaadf05c5df65c8f224c4cffe93f2f519ebfae606df7952cdf66"
+    },
+    "OpenC-1.0.1-conformance-report.json": {
+      "bytes": 64388,
+      "sha256": "3dd7d80aeab7a152e4ba75ad2414e6e4cddef948b7b75b7f1cfc4d4577354c3b"
+    },
+    "OpenC-1.0.1-contract-audit.json": {
+      "bytes": 1556,
+      "sha256": "78e79558acfd9d47b8a672ddc601a1c810b3fa3f450f93cd0135bd84739ccc57"
+    },
+    "OpenC-1.0.1-finalization-audit.json": {
+      "bytes": 3175,
+      "sha256": "f42a8eb5507af6b7c4b53de110d353bf07d4cdb38efd27534882104d1edc1fb6"
+    },
+    "OpenC-1.0.1-native-release-result.json": {
+      "bytes": 1325,
+      "sha256": "afea08d8fbc91beeb25ab6ad49a06851a5e79e43594d61eaabfff32545ab32bb"
+    },
+    "OpenC-Core-1.0-SHA256SUMS.txt": {
+      "bytes": 1379,
+      "sha256": "8079bd4c8185da3bd125eb205a7cebe809936e7687b2676e3e20addba326c976"
+    },
+    "OpenC-Core-1.0-diagnostics.json": {
+      "bytes": 107439,
+      "sha256": "d7423ab263d96d8b1ad8d5637e1db829c2c656a40c4e7d35775d1ce9ec082439"
+    },
+    "OpenC-Core-1.0-grammar.ebnf": {
+      "bytes": 14814,
+      "sha256": "58a475bcb1006565488955064ab99c593dc20468fb3fdf0f07d1121ca3830dfc"
+    },
+    "OpenC-Core-1.0-rationale.md": {
+      "bytes": 10797,
+      "sha256": "33d22a35aa6c45de1893a5756cc642b26d002f7b05a3928487d01627d866f6bf"
+    },
+    "OpenC-Core-1.0-reference-source.zip": {
+      "bytes": 17461925,
+      "sha256": "15b0905884fd4e0da0060b814fa20b01e205d865320d1e0b244cd5bd80cc27f4"
+    },
+    "OpenC-Core-1.0-release-record.json": {
+      "bytes": 8129,
+      "sha256": "e6e0b1fbdd07941d3999080a09595e15acf9d62b968a6748f41bdd5474c1b4df"
+    },
+    "OpenC-Core-1.0-rule-index.json": {
+      "bytes": 158006,
+      "sha256": "80b3b31523121f0d806dc1f49832238cff42bc2da3baba5aec14949713a3455e"
+    },
+    "OpenC-Core-1.0-security.md": {
+      "bytes": 3699,
+      "sha256": "210724c7c1023470deed9d8f99cb7ba6493b281093549754d52b581a8e4aff83"
+    },
+    "OpenC-Core-1.0-standard.md": {
+      "bytes": 175409,
+      "sha256": "e74371560878e638c05486d601f271a4800d503bab852dd4eadd3089fe3189c7"
+    },
+    "OpenC-Hosted-1.0.1-windows-x86_64-standalone.zip": {
+      "bytes": 29151801,
+      "sha256": "7f4a786b5b9b84ab34f912f5df42d9aa246e31afad82f39be0afb2d9f8ab6d3f"
+    },
+    "OpenC-vscode-1.0.1.vsix": {
+      "bytes": 8213478,
+      "sha256": "fe156d1f1b3bb98f9901eb4198f234a990481ee3863af0dc09b5ae61652e63a5"
+    }
+  },
+  "publication_workflow": {
+    "run_id": 41521487125,
+    "attempt": 2,
+    "status": "success",
+    "artifact_id": 13177683291,
+    "artifact_sha256": "b7c3b8a8b0ff6430a6bf788690b8ae73e1ca989e6783ed119ced2d1e2bfb5c89"
+  },
+  "first_publication_failure_retained": {
+    "run_id": 41521487125,
+    "attempt": 1,
+    "artifact_id": 13177303023,
+    "artifact_sha256": "bd0b09942e13e153e8405d1b7b94f48a52692b0f9f054aa4818b81d693a87994",
+    "reason": "published-tag lookup does not return an unpublished draft"
+  },
+  "verification_bundle": {
+    "path": ".github/release-evidence/v1.0.1/publication-verification.zip",
+    "bytes": 93144,
+    "sha256": "7effaa27cd12ebd6fbd1e54951b45474c61717d0690c3195e548e5066457d6e1"
+  },
+  "immutable_1_0_0_assets_verified_before_and_after": 15,
+  "public_payload_overwrites": 0,
+  "independent_external_reviews_claimed": false,
+  "broad_language_or_ecosystem_parity_claimed": false,
+  "remaining_required_sh27_gates": [],
+  "post_publication_validation": {
+    "status": "PASS",
+    "harness_fix_commit": "a1610ca60f6430369af820465651d9f1ced41245",
+    "production_workflow": {
+      "run_id": 41523868430,
+      "attempt": 1,
+      "artifact_id": 13178548593,
+      "artifact_sha256": "e6575a07d66f141ac63b076329595d724a455f291855e1e7fc2f307cc462a064"
+    },
+    "original_failure": {
+      "run_id": 41521487237,
+      "artifact_id": 13177403798,
+      "artifact_sha256": "61328bff8a1187be88747bf39dd68d011b0d8d4eb4915efec5e54586bdabcd3b",
+      "reason": "144 KiB working-set overshoot in cached missing-SHA fault compiler bootstrap"
+    },
+    "fault_compiler_bytes_unchanged": "993401468528f92e90b419cf20557c81497518b1224cc3a2696a066e4faa78d2",
+    "resource_thresholds_changed": false,
+    "verification_bundle": {
+      "path": ".github/release-evidence/v1.0.1/post-publication-validation.zip",
+      "bytes": 448604,
+      "sha256": "eefaa67a5ca7d8905259f14cd4be7a59fdcacb4cbb5c119735c2b41a0c98e36b"
+    }
+  }
+}
