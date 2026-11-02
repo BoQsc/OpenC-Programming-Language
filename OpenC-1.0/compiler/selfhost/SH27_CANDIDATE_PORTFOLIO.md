@@ -1,12 +1,14 @@
 # SH-27 throughput candidate portfolio
 
-Current checkpoint (2026-11-02): the four native/parser worker combinations,
-three lexer dispatch variants and two literal/combined emitters do not beat
-their target null floors. They remain isolated. Compiler `17430ed2...` fixes
-the reproduced COFF selection peak and passes full local correctness/RAM and
-release/editor proofs, but fails both planned large DMD comparisons. See
-[current qualification](SH27_1_0_1_QUALIFICATION.md). A bounded per-source
-native-emission scratch owner is under investigation, without a promotion claim.
+Current checkpoint (2026-11-02): compiler `f97d4610...` retains the full compact
+local-update plan after its independent 31-pair target gain and two passing
+four-CPU DMD series (1.050x/1.120x large). Original generic IR falls 70%.
+Strict 20/20, conformance, ABI, cache/COFF and detecting integer/fallback tests
+pass; final-source hosted/editor/release certification remains open. The
+direct-only and always-store-result update variants are unpromoted. Four
+worker policies, three lexer variants, two literal emitters, scratch/output
+owners and four dispatch/layout variants also fail selection. See
+[current qualification](SH27_1_0_1_QUALIFICATION.md).
 
 Latest decision: `1859f47f...` overlaps frontend preparation with PE linking,
 commits after success and cleans up through stable owner pointers. The audit

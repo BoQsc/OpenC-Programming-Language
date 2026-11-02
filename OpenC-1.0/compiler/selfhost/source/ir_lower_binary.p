@@ -24,6 +24,71 @@ unsafe bool ir_function_has_single_byte_allocation(ref IrContext context) {
     return context.function_alloc_probe_state == 2;
 }
 
+// Consume already-resolved assignment facts and publish one checked local
+// mutation instead of reconstructing four generic IR operations.
+unsafe bool ir_try_compact_update(ref IrContext context, usize node,
+    usize left_node, usize right_node, usize destination,
+    usize expected_type, usize assignment_type, ref usize result) {
+    if !context.native_compact_updates || destination == 0 ||
+        expected_type != assignment_type || expected_type >= context.types.length ||
+        read_record_field(context.syntax_data, left_node, 0) != 27 ||
+        read_record_field(context.syntax_data, right_node, 0) != 36 {
+        return false;
+    }
+    usize type_kind = read_record_field(context.type_data, expected_type, 0);
+    if type_kind != 2 && type_kind != 3 { return false; }
+    usize symbol = ir_resolve_name(context, left_node);
+    if symbol >= context.symbols.length { return false; }
+    usize symbol_kind = read_record_field(context.symbol_data, symbol, 0);
+    if (symbol_kind != resolution_symbol_parameter() &&
+        symbol_kind != resolution_symbol_variable()) ||
+        read_record_field(context.detail_data, symbol, 3) != 0 ||
+        read_record_field(context.symbol_data, symbol, 4) != expected_type {
+        return false;
+    }
+    usize operation = 8;
+    if flow_node_operator(context.source, context.syntax_data, right_node, "+") { operation = 0; }
+    else if flow_node_operator(context.source, context.syntax_data, right_node, "-") { operation = 5; }
+    if operation == 8 { return false; }
+    usize operator_start = read_record_field(context.syntax_data, right_node, 3);
+    usize operator_length = read_record_field(context.syntax_data, right_node, 4);
+    usize input = ir_left_expression(context, right_node, operator_start);
+    usize literal = ir_right_expression(context, right_node, operator_start + operator_length);
+    if literal >= context.syntax.length || input >= context.syntax.length ||
+        read_record_field(context.syntax_data, literal, 0) != 29 { return false; }
+    if read_record_field(context.syntax_data, input, 0) == 36 &&
+        flow_node_operator(context.source, context.syntax_data, input, "*") &&
+        ir_node_type(context, input, semantic_type_error()) == expected_type {
+        usize multiply_start = read_record_field(context.syntax_data, input, 3);
+        usize multiply_length = read_record_field(context.syntax_data, input, 4);
+        usize one_node = ir_right_expression(context, input, multiply_start + multiply_length);
+        if one_node < context.syntax.length && read_record_field(context.syntax_data, one_node, 0) == 29 {
+            ResolutionInteger one = resolution_parse_integer(context.source,
+                read_record_field(context.syntax_data, one_node, 1),
+                read_record_field(context.syntax_data, one_node, 2));
+            if one.valid && one.value == 1 {
+                input = ir_left_expression(context, input, multiply_start);
+            }
+        }
+    }
+    if read_record_field(context.syntax_data, input, 0) != 27 ||
+        ir_resolve_name(context, input) != symbol ||
+        ir_node_type(context, input, semantic_type_error()) != expected_type {
+        return false;
+    }
+    ResolutionInteger amount = resolution_parse_integer(context.source,
+        read_record_field(context.syntax_data, literal, 1),
+        read_record_field(context.syntax_data, literal, 2));
+    if !amount.valid || amount.value < 0 || amount.value > 127 { return false; }
+    if operation == 0 && amount.value > 1 &&
+        ir_function_has_single_byte_allocation(context) { return false; }
+    usize first = context.operands.length;
+    ir_operand_empty(context, destination);
+    result = ir_emit_value(context, ir_op_local_update_immediate(),
+        expected_type, node, 9, operation, cast(usize, amount.value), first, 1);
+    return true;
+}
+
 unsafe usize ir_lower_binary(
     ref IrContext context,
     usize node,
@@ -203,6 +268,11 @@ unsafe usize ir_lower_binary(
         if expected_type < context.types.length && read_record_field(
             context.type_data, expected_type, 0
         ) == 12 { expected_type = ir_type_element(context, expected_type); }
+        usize compact_result = 0;
+        if context.native_compact_updates && ir_try_compact_update(context, node,
+            left_node, right_node, destination, expected_type, type_id, compact_result) {
+            return compact_result;
+        }
         usize value = ir_lower_node(context, right_node, expected_type, 0);
         usize first = context.operands.length;
         usize immediate = 0;

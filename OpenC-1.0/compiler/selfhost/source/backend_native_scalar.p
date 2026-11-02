@@ -9,6 +9,7 @@ struct NativeFunction {
     usize frame_size;
     bool indirect_return;
     ptr byte value_types;
+    ptr byte value_uses;
     ptr byte value_origins;
     ptr byte address_values;
     ptr byte value_slots;

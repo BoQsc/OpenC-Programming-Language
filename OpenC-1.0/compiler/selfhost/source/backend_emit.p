@@ -869,6 +869,7 @@ unsafe i32 emit_bootstrap_d_mode_artifact_once(
                 function_symbol = 0,
                 function_alloc_probe_node = 0,
                 function_alloc_probe_state = 0,
+                native_compact_updates = false,
                 function_result = 0,
                 function_local_first = 0,
                 function_local_end = 0,

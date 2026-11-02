@@ -37,8 +37,10 @@ usize ir_op_scope_register() { return 30; }
 usize ir_op_object_construct() { return 31; }
 usize ir_op_object_destroy() { return 32; }
 usize ir_op_target_fault() { return 33; }
+usize ir_op_local_update_immediate() { return 34; }
 
 text ir_opcode_text(usize opcode) {
+    if opcode == ir_op_local_update_immediate() { return "local.update.immediate"; }
     if opcode == ir_op_nop() { return "nop"; }
     if opcode == ir_op_const_integer() { return "const.integer"; }
     if opcode == ir_op_const_float() { return "const.float"; }

@@ -1,11 +1,14 @@
 # SH-27 completion roadmap
 
-Current checkpoint (2026-11-02): **OPEN**. Compiler `17430ed2...` passes full
-local correctness, strict 20/20, native-cache/COFF, editor and relocated release
-proofs. Validated whole-stream borrowing fixes the predecessor's hosted cold
-COFF RAM failure. The current large DMD ratios fail both planned four-CPU
-runs at 1.261x/1.382x. Same-source hosted repeats and sustained throughput
-remain required; no public release is authorized. Current hashes and failed
+Current checkpoint (2026-11-02): **OPEN pending final certification**. Compiler
+`f97d4610...` normalizes checked native local updates instead of reconstructing
+generic IR. Original large IR drops 70%; independent paired target selection
+passes. Both planned four-CPU DMD runs pass at 1.050x/1.120x large, meeting the
+1.20x engineering target. Full local correctness, strict 20/20, cache/COFF,
+ABI and 32 integer/fallback cases pass. The predecessor's hosted production
+and module jobs pass; fresh editor/release and two exact-source hosted
+certificates remain required. Fresh editor and native relocated release/manifest
+checks now pass on this compiler. No public release is authorized. Current hashes and failed
 candidate portfolios are in [the qualification record](SH27_1_0_1_QUALIFICATION.md).
 
 Latest checkpoint: `1859f47f...` overlaps frontend encoding/exclusive temporary

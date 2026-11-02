@@ -1,15 +1,18 @@
 # SH-27 execution plan: finish the compiler, then certify the release
 
-Current checkpoint (2026-11-02): **SH-27 remains open**. Compiler `17430ed2...`
-passes the complete local correctness/strict-20/ABI/cache and fresh editor
-suite. Validated COFF borrowing removes the hosted predecessor's 64 MiB
-cold-COFF peak failure; bounded word serialization/readback and entry-fact
-handoff put the retained 31-pair medium cold check inside budget. The hosted
-predecessor passed production but failed module RAM and medium cold; it is
-not a final certificate. Current four-CPU large DMD fails both predetermined
-20-sample runs at 1.261x/1.382x. Worker-policy, lexer and literal-comparison
-portfolios fail above-null target selection and remain isolated. Resolve H1,
-certify the same final source twice, then complete owner-authorized publication.
+Current checkpoint (2026-11-02): **SH-27 remains open pending final certification**.
+Compiler `f97d4610...` replaces proven native local updates with a normalized
+checked IR operation. Original large-corpus IR falls from 105,229 to 31,501;
+the independent 31-pair target gain is above its null floor. Both planned
+four-CPU DMD runs now pass public ceilings and the 1.20x large engineering
+target (1.050x/1.120x). Full local correctness, strict-20, cache, ABI and 32
+integer-boundary/fallback cases pass on the exact canonical fixed point.
+The preceding `49f36bb` hosted production/module/representative/batch jobs
+pass, but those are not certificates for this new source. Worker, lexer,
+literal, scratch and dispatch portfolios remain unpromoted. Complete fresh
+editor/release proof, certify this final source twice on all five hosted tools,
+then complete owner-authorized publication. Fresh editor and native relocated
+release/manifest checks now pass on `f97d4610...`; the hosted repeats remain.
 See the
 [qualification record](SH27_1_0_1_QUALIFICATION.md) for hashes and findings.
 

@@ -26,6 +26,7 @@ struct IrContext {
     usize function_symbol;
     usize function_alloc_probe_node;
     usize function_alloc_probe_state;
+    bool native_compact_updates;
     usize function_result;
     usize function_local_first;
     usize function_local_end;

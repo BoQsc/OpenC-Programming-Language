@@ -165,6 +165,7 @@ unsafe void c_lower_and_emit_function(
     context.profile_symbol_candidates = 0;
     usize first_value = context.next_value;
     usize phase_started = process.monotonic_milliseconds();
+    context.native_compact_updates = timings.emission_mode == 2;
     ir_lower_function(context, node, owner - 1);
     usize function_ir_ms =
         process.monotonic_milliseconds() - phase_started;

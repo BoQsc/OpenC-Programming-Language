@@ -263,7 +263,7 @@ unsafe void native_emit_function(
         first_value = first, frame_size = frame,
         indirect_return = native_indirect_aggregate(context,
             read_record_field(context.symbol_data, symbol, 4)),
-        value_types = ir_pointer_alias(value_types),
+        value_types = ir_pointer_alias(value_types), value_uses = ir_pointer_alias(references),
         value_origins = memory.alloc(value_capacity * size_of(usize)),
         address_values = memory.alloc(value_capacity * size_of(usize)),
         value_slots = ir_pointer_alias(value_slots),

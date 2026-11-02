@@ -1,7 +1,96 @@
 # SH-27 1.0.1 qualification
 
 Status: **SH-27 remains open; no release authorization or publication**.
-The current COFF/cache compiler is
+The current compact-update compiler is
+`f97d4610573391cb4d8f5d4acd71b38a5a2337462e5992c2568413cb8a06a44d`.
+Canonical-source Stage 2/3 reproduces the measured candidate byte for byte.
+Both predetermined four-CPU DMD runs now pass all available public ceilings:
+large is **1.050x/1.120x**, control **0.694x/0.684x**. Both large results also
+meet the unchanged 1.20x engineering target. Local C/Clang/LDC are absent,
+so these remain `PARTIAL_COMPARATOR_SET`, not five-tool certificates.
+Final-source hosted repeats and publication authorization remain outstanding.
+
+## Normalized checked local updates
+
+Native lowering now resolves a same-cell integer update into one typed IR
+operation. It replaces the generic load, constant, binary and store records
+for a local value parameter/variable updated by a nonnegative immediate at
+most 127. The already-supported pure multiplication-by-one identity can be
+normalized before this proof. Resolved symbol/type equality is mandatory;
+references, other cells, conversions, pointers, enums and larger/complex
+operands retain the old lowering. The compiler's historical allocation-pattern
+fault compatibility also retains its old path. C and audit lowering do not
+enable this private native operation.
+
+Emission uses the existing signed-overflow/unsigned-carry and narrow-width
+checks before committing the cell. An assignment expression still returns
+its value; the existing function use counts omit only an unused result's
+stack store. No new full-source arena, per-function analysis pass or retained
+scratch pool is introduced. Old cache entries cannot bypass the new compiler
+identity key.
+
+On the original large corpus, generic IR instructions fall from 105,229 to
+31,501, and native code from 1,281,299 to 888,083 bytes. The first balanced
+11-pair full candidate gains 52.448 ms in 10/11 pairs against 31.914 ms null.
+Its independent 31-pair repeat gains 25.611 ms in 21/31 against 25.151 ms null;
+that repeat margin above null is narrow and is not rounded into a larger gain.
+Control, many-file and small medians remain within the protected budget.
+The 11-pair compiler self-build check also passes: -147.849 ms paired median,
+7/11 wins, with exact per-compiler outputs and unchanged 256/64 MiB guards.
+The direct-only variant and the always-store-result variant do not qualify
+the independent target selection and remain outside production.
+
+All 27 worker faults, 30 native-cache cases, reread retry, frontend publication
+and edge cases, module/source caches, overflow COFF, 278 conformance fixtures,
+25 ABI checks and the extended internal handoff oracle pass. Strict 20/20
+closes exactly with 240,005,120-byte private and 60,207,104-byte working-set
+peaks. The maintained integer verifier adds 28 differential cases to its four
+existing cases, covering all ten integer widths, both arithmetic boundaries,
+assignment results, escaped locals, loops and exact fallback bytes. It builds
+a guarded same-source compiler with only the compact policy disabled, and
+asserts actual IR removal in eligible cases. Initial fixture mistakes (an
+unsupported reference arithmetic expression and the legacy fault's distinct
+stderr) remain retained; corrected fixtures compare supported reference
+assignment and require the original target-fault text.
+
+The preceding metadata/scratch, output-buffer reuse and four-way dispatch/layout
+portfolios failed target selection and remain isolated. A stale freed pointer
+in an early output-pool prototype caused heap corruption during its bootstrap;
+it was fixed before measurement, and none of that prototype entered production.
+Only the normalized update plan is retained from this round.
+
+The fresh VS Code 1.144.0 profile, finalization 44/44, editor 33/33 and contract
+38/38 audits pass. The deterministic VSIX is
+`1ea0365d710fcb5ce0bc2902270b9c75eb381b526857be2ff00631bd95863cc1`;
+profile SHA-256 is `04b29a9444e9202866ca82f153e562bfabcdf3557dc688ada9dd31b501700356`.
+VS Code/OpenC working-set peaks are 1,701,007,360/5,750,784 bytes. The native
+relocated release audit passes all nine checks. Independent manifests cover
+every standalone/source payload and all 230 compiler units. Frozen staged
+snapshot `release-input-compact` ZIP pairs hash to
+`2cd5dbeaec656e45876543355519d4cfadcdcfdc0a4dbfd579d46766f6060bd9`
+(standalone) and `af7b0c28c1fc75d7f921ca59d44392712a4a970e426046b1a660d852c890eb7a`
+(source). These precede this evidence paragraph; exact-checkout hosted packaging
+is required before release authorization. No public release/tag is published.
+
+| Current report under `build-output/z27/` | SHA-256 |
+| --- | --- |
+| `compact-repeat/matrix31.json` | `de1f5792be1e34608568b7106066489047ceed4b73ec6034b88769ad50e635dc` |
+| `compact-repeat/self-pairs.json` | `534c736b79909a20107253bd084d976867267b54243837c6aeecb55ef1a923be` |
+| `compact-dmd20-a.json` | `6fbfbc71c034476508f4e4ddc30787b42ea82c5c5fb2a23a1a7435d8940119ae` |
+| `compact-dmd20-b.json` | `5f24cbc9e731d06d1ecc9f1928e40ea41965adf325800d6303d51fbc0f31c56f` |
+| `compact-final-workers.json` | `fbd1157ecdb76e4e14505f26fc4db9ed7e88b1eb15db7e07e46297f538b4e876` |
+| `compact-final-cache.json` | `0ac1848566a88fc60031eae5b75d73d746bdce6b8a54d9e44e7e3792ec92d252` |
+| `compact-final-strict20.json` | `09f79f060b6cfafc2b69fa857c53d2a2962fa6af36f0d82a42a06248ac7cfcbd` |
+| `compact-final-coff.json` | `66b4ff71c78f3aabe8c10284a6c72e4fbc0127a311833fd863faa21e17042c69` |
+| `compact-final-handoff.json` | `44d2dc45b245b85c034e0d4db825594b6cf9c1a05d9dfbd4cd8f47d824c6bdf7` |
+| `compact-integer-final.json` | `153b98a7d7f174b75955a11a3ab50e6224105dba634603ef943a97e6ac9c98ce` |
+| `release-compact/native-release-result.json` | `e1b1239eb339d4ffa05e8b863babb2ce8a8a7c0c4c8cfd52f5355cd68bcf4327` |
+| `compact-final-archive-manifests.json` | `f1c440b02d0ba867d57ce8426c96f5e4e7ca8735c852aa3cc9c4da7726ffebfc` |
+| `native-scratch-portfolio3/matrix11.json` | `6f7e3c32457af1a62fbab4239b5003468905b0fef1d51524f476bcc21b7e3fca` |
+| `native-output-portfolio2/matrix11.json` | `b94d12ffd857136bfceb19ea9cd25fe50fa1cf5d906a7b53d2378ccd057f995d` |
+| `dispatch-portfolio/matrix11.json` | `9d1c52299a3cea4d1fa633ec7864221a882fe7bbad89788b4fbce98bf8ae43fb` |
+
+The preceding COFF/cache compiler is
 `17430ed22c0c79db0c52684604bedf4e715dc7ad1fa3a4caf49d426570e0ea39`.
 It passes exact Stage 2/3, all 13 strict stability checks (20 generations),
 27 worker faults, 30 ordinary-cache cases, retry/publication/edge recovery,
@@ -14,18 +103,19 @@ The preceding package-integrity compiler is
 `0feaf99c92f07b773b47a9436ae620940b3596a550c0f515787dee699ff8943b`.
 It passes guarded exact Stage 2/3, 278 conformance fixtures, 25 ABI checks,
 the extended native regression and the fresh editor profile. Final-source
-hosted certification and the constrained-host throughput deficit remain open.
+At that preceding checkpoint, hosted certification and constrained-host
+throughput remained open.
 
 Release audit findings routed to the project owner:
 
-- **H1 latest, open:** current compiler `17430ed2...` measures 1.261x/1.382x
+- **H1 preceding failure, retained:** compiler `17430ed2...` measures 1.261x/1.382x
   large and 0.753x/0.790x control against the same pinned DMD 2.112.0 in the
   two planned 20-observation runs. The original 1.25x ceiling and 1.20x
   engineering target are unchanged. Neither run closes large-function parity.
   Affinity remains 0xf. A topology audit shows those four logical processors
   occupy two physical cores; the worker-policy batch below does not establish
   a qualifying gain, so production policy is unchanged.
-- **H1, open:** the predecessor's current v3 four-CPU DMD run is 1.295x on
+- **H1 prior failure, retained:** the predecessor's v3 four-CPU DMD run is 1.295x on
   large functions, above the unchanged 1.25x ceiling. The first predetermined
   run of the integrity compiler is also above that ceiling at 1.274x; the
   predetermined second run is 1.195x. OpenC medians are 281.369/288.274 ms,
@@ -274,5 +364,5 @@ inputs and a nested D manifest with an otherwise valid checksum.
 | `standalone-integrity-verified/standalone-release-result.json` | `5f33cd31db29db2e5666682f2efa118824c541cf2495f5f9aae4b2d0b4351197` |
 | `integrity/archive-manifests.json` | `cb05baa1ff507b6cb24d17bd116269fab1cdf6d6d30f6a9a0210e10cc0fc22ce` |
 
-H1 remains open. Package integrity and hosted predecessor passes do not close
-the full SH-27 task or authorize a new public release.
+At this preceding checkpoint H1 remained open. Package integrity and hosted
+predecessor passes did not close SH-27 or authorize a new public release.
