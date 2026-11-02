@@ -47,8 +47,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: openc-module-coff-proof-${{ github.ref }}
-  cancel-in-progress: true
+  group: openc-module-coff-proof-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: false
 
 jobs:
   proof:
